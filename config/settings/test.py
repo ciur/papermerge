@@ -9,7 +9,7 @@ SITE_ID = 1
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': '',
         'USER': '',
         'PASSWORD': '',

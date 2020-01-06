@@ -1,3 +1,4 @@
+config/settings/development.py
 .venv
 *.pyc
 __pycache__
