@@ -42,22 +42,16 @@ DATABASE_ROUTERS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'papermerge.admin',
+    'papermerge.boss',
     'papermerge.core',
     'django_celery_results',
     'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.sites',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -69,8 +63,6 @@ INSTALLED_APPS = (
     'mptt',
     # we use postgres full text search
     'django.contrib.postgres',
-    # authorization rules app
-    'rules.apps.AutodiscoverRulesConfig',
     'anymail'
 )
 
