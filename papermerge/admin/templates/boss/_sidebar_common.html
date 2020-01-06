@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% if sidebar_items %}
+     <ul class="menu vertical">
+         {% for item in sidebar_items %}
+             <li class="">
+                 <a href="{{item.boss_url}}" class="reverse horizontal fl-i-center">
+                 <i class="icon {{item.icon_name}} margin-right-sm"></i> {{ item.name }}</a>
+             </li>
+         {% endfor %}
+     </ul>
+ {% else %}
+     <p>{% trans "You don't have permission to edit anything." %}</p>
+ {% endif %}

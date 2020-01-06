@@ -1,0 +1,16 @@
+{% load i18n admin_urls %}
+<ul class="horizontal margin-top-xl fl-i-center">
+    <li>
+        <div class="submit-row">
+            <input type="submit"  value="{% trans 'Save' %}" class="btn action large" name="_save" />
+        </div>
+    </li>
+    <li>
+        {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+        <p class="deletelink-box">
+            <a href="{% add_preserved_filters delete_url %}" class="btn btn-neuter hover-danger margin-left-xl">
+            {% trans "Delete" %}
+            </a>
+        </p>
+    </li>
+</ul>

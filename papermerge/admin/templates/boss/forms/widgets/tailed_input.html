@@ -1,0 +1,4 @@
+<div class="relative horizontal fl-i-center">
+    <input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{widget.value|stringformat:'s' }}"{% endif %} {% include "django/forms/widgets/attrs.html" %}>
+    <i class="right margin-right-sm absolute fail icon-cross" style=""></i>
+</div>

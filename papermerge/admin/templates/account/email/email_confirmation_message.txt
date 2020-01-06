@@ -1,0 +1,15 @@
+{% load account %}
+{% load i18n %}
+
+{% blocktrans %}
+Hi,
+
+Thanks for using Papermerge! Please confirm your email address by clicking on the link below.
+{% endblocktrans %}
+
+{{ activate_url }}
+
+{% blocktrans %}
+Regards,
+Papermerge Team
+{% endblocktrans %}

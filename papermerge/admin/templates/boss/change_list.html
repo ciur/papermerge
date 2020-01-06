@@ -1,0 +1,56 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% comment %}
+   This is a base template for boss changelist layout.
+   It differes greatly from django changelist layout.
+{% endcomment %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-list{% endblock %}
+
+{% block breadcrumbs %}
+    <div id="breadcrumbs" class="breadcrumbs desktop padding-left-sm">
+      {{ cl.opts.verbose_name_plural|capfirst }}
+    </div>
+{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}
+        <ul class="object-tools horizontal">
+          {% block object-tools-items %}
+            {% change_list_object_tools %}
+          {% endblock %}
+        </ul>
+    {% endblock %}
+
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+      {% block filters %}
+        {% if cl.has_filters %}
+          <div id="changelist-filter">
+            <h2>{% trans 'Filter' %}</h2>
+            {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+          </div>
+        {% endif %}
+      {% endblock %}
+
+      <form id="changelist-form" method="post"{% if cl.formset and cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} novalidate>{% csrf_token %}
+      {% if cl.formset %}
+        <div>{{ cl.formset.management_form }}</div>
+      {% endif %}
+
+      {% block result_list %}
+          {% result_list cl %}
+      {% endblock %}
+      </form>
+    </div>
+  </div> <!-- content-main -->
+{% endblock %}
+
+{% block pagination %}
+    {% pagination cl %}
+{% endblock %}
+
+

@@ -1,0 +1,23 @@
+<fieldset class="document module aligned {{ fieldset.classes }}">
+    {% for line in fieldset %}
+       {% if line.errors|length_is:'1' %} 
+            {{ line.fields }}
+            {{ line.errors }} 
+       {% endif %}
+    {% endfor %}
+    <div class="form-row field-number">
+        <div>
+            <input value="{{page_num}}" />
+        </div>
+    </div>
+    <div class="form-row field-image">
+        <div class="actual_page">
+            <div class="document page" 
+                data-page_num="{{page_num}}"
+                data-img_type="page"
+                data-doc_id="{{doc_id}}"
+                data-step="3"
+             />
+        </div>
+    </div>
+</fieldset>

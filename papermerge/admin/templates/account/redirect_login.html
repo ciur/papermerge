@@ -1,0 +1,49 @@
+{% extends "admin/base_site_one_col.html" %}
+
+{% load i18n boss_tags %}
+{% load account %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block topbar %}
+    {% include "_topbar.html" with current='login' %}
+{% endblock topbar %}
+
+{% block branding %}
+<h1 id="site-name"><a id="boss-brand" href="{% url 'core:index' %}">Papermerge</a></h1>
+{% endblock %}
+
+{% block title %}{% trans "Sign In Redirect | Papermerge"%}{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block head_title %}{% trans "Company name required" %}{% endblock %}
+
+
+{% block content %}
+
+<div class="continental-account bg-c-clean shadow-xs">
+    <h3>{% trans "Company Name" %}</h3>
+
+    <p class="padding-x-md">
+        {% register_tag as register_var %}
+        {% blocktrans trimmed %}
+            Your Sign In URL should be <strong>&lt;company&gt;.papermerge.com</strong>.
+            Please provide company name and we will redirect you. If you don't have an account, you need to {{ register_var }} first.
+        {% endblocktrans %}
+    </p>
+
+    <form method="post" class="vertical" action="{% url 'redirect-login' %}">
+        {% csrf_token %}
+        <p>
+            <label for="company">{% trans "Company" %}:</label>
+            <input type="text" name="company" required size="30" placeholder="{% trans 'Company Name' %}" />
+        </p>
+        <div class="form-row">
+            <input type="submit" class="btn action" value="{% trans 'Redirect' %}"/>
+        </div>
+    </form>
+    <p><a href="/forgot-company-name/">{% trans "Forgot company name?" %}</a></p>
+</div> <!-- continental -->
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% if result_hidden_fields %}
+<div class="hiddenfields">{# DIV for HTML validation #}
+{% for item in result_hidden_fields %}{{ item }}{% endfor %}
+</div>
+{% endif %}
+{% if results %}
+<div class="results">
+<!-- flex-table = ft -->
+<div class="flex-table " id="result_list">
+    <div class="ft-header">
+        <div class="ft-row">
+            {% for header in result_headers %}
+                {% if 'checkbox' in header.text %}
+                    <div class="ft-col border-left"{{ header.class_attrib }}>
+                        <div class="text"><span>{{ header.text|capfirst }}</span></div>
+                        <div class="clear"></div>
+                    </div>
+                {% else %}
+                    <div class="ft-col border-right width25"{{ header.class_attrib }}>
+                        <div class="text"><span>{{ header.text|capfirst }}</span></div>
+                        <div class="clear"></div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="ft-body">
+    {% for result in results %}
+
+    <div class="{% cycle 'row1' 'row2' %} ft-row">
+        {% for item in result %}
+            {% if 'checkbox' in item %}
+                <div class="ft-col border-left {% if forloop.parentloop.last %} border-bottom {% endif %}">
+                    {{ item }}
+                </div>
+            {% else %}
+                <div class="ft-col width25 border-right {% if forloop.parentloop.last %} border-bottom {% endif %}">
+                    {{ item }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+    </div> <!--ft-body  -->
+</div> <!-- flex-table -->
+</div> <!-- results -->
+{% endif %}

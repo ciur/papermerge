@@ -1,0 +1,88 @@
+{% extends "admin/base_site_one_col.html" %}
+{% load i18n static %}
+
+{% block branding %}
+<h1 id="site-name"><a id="boss-brand" href="{% url 'core:index' %}">Papermerge </a></h1>
+{% endblock %}
+
+{% block title %}{% trans "Sign In" %} | Papermerge{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login bg-light-gray {% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+
+{% block topbar %}
+    {%  include "_topbar.html" with current='login' %}
+{% endblock topbar %}
+
+
+{% block content %}
+
+  
+
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+    <div class="toasts bottom-center">
+        <!-- Then put toasts within -->
+        <div class="toast error" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="mr-auto">Info</strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            {{ error }}
+          </div>
+        </div>
+    </div>
+{% endfor %}
+{% endif %}
+
+<div class="continental-account bg-c-clean shadow-xs">
+
+  <h3>{% trans "Sign in" %}</h3>
+
+{% if user.is_authenticated %}
+<p class="errornote">
+{% blocktrans trimmed %}
+    You are authenticated as {{ username }}, but are not authorized to
+    access this page. Would you like to login to a different account?
+{% endblocktrans %}
+</p>
+{% endif %}
+
+<form action="{{ app_path }}" method="post" class="login labels-above" id="login-form">{% csrf_token %}
+  <div class="form-row">
+    {{ form.username.errors }}
+    {{ form.username.label_tag }} {{ form.username }}
+  </div>
+  <div class="form-row">
+    {{ form.password.errors }}
+    {{ form.password.label_tag }} {{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+  {% url 'password_reset' as password_reset_url %}
+  <div class="form-row">
+    <a href="{{ password_reset_url }}">{% trans 'Forgot your password?' %}</a>
+  </div>
+  <div class="form-row">
+    <input class="btn action huge btn-lock" type="submit" value="{% trans 'Sign in' %}" />
+  </div>
+</form>
+
+</div>
+{% endblock %}

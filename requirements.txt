@@ -1,0 +1,14 @@
+imapclient
+django
+pyyaml
+lxml
+psycopg2-binary
+celery
+boto3
+django-celery-results
+django-allauth
+django-dynamic-preferences
+django-polymorphic-tree
+gunicorn
+django-anymail
+django-redis

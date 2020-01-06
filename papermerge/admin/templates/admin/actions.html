@@ -1,0 +1,5 @@
+{% load i18n %}
+<div class="actions horizontal fl-i-center">
+    {% for field in action_form %}{% if field.label %}<label>{% endif %}{{ field }}{% if field.label %}</label>{% endif %}{% endfor %}
+    <button type="submit" class="btn btn-neuter margin-y-sm" title="{% trans "Run the selected action" %}" name="index" value="{{ action_index|default:0 }}">{% trans "Go" %}</button>
+</div>

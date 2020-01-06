@@ -1,0 +1,44 @@
+{% extends "admin/base_site_one_col.html" %}
+
+{% load i18n %}
+{% load account %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block topbar %}
+    {% include "_topbar.html" with current='login' %}
+{% endblock topbar %}
+
+{% block branding %}
+<h1 id="site-name"><a id="boss-brand" href="{% url 'core:index' %}">Papermerge</a></h1>
+{% endblock %}
+
+{% block title %}Reset Password | Papermerge{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block head_title %}{% trans "Reset Password" %}{% endblock %}
+
+
+{% block content %}
+
+<div class="continental-xs padding-xl bg-c-clean shadow-xs">
+    <h3>Password Reset</h3>
+
+    <p class="padding-x-md">In order to reset your password,
+        please provide your comany name first.
+    </p>
+    <form method="post" class="vertical" action="{% url 'redirect-reset' %}">
+        {% csrf_token %}
+        <p>
+            <label for="company">Company:</label>
+            <input type="text" name="company" required size="30" placeholder="Company Name" />
+        </p>
+        <div class="form-row">
+            <input type="submit" class="btn action" value="Next"/>
+        </div>
+    </form>
+    <p><a href="/forgot-company-name/">Forgot company name?</a></p>
+</div> <!-- continental -->
+
+{% endblock %}

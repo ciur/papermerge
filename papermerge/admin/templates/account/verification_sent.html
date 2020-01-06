@@ -1,0 +1,30 @@
+{% extends "admin/base_site_one_col.html" %}
+
+{% load i18n %}
+
+{% block branding %}
+<h1 id="site-name"><a id="boss-brand" href="{% url 'core:index' %}">Papermerge</a></h1>
+{% endblock %}
+
+{% block topbar %}
+    {% include "_topbar.html" with current='register' %}
+{% endblock topbar %}
+
+{% block title %}{% trans "Registration" %} | Papermerge{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+
+{% block content %}
+    <h3>{% trans "Almost There!" %}</h3>
+
+    <p>
+        {% blocktrans trimmed %}
+            You will receive a confirmation email soon. 
+	    {% endblocktrans %}
+    </p>
+
+{% endblock %}

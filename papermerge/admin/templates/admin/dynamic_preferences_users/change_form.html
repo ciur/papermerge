@@ -1,0 +1,39 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls boss_modify %}
+
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <div id="breadcrumbs" class="breadcrumbs horizontal-between padding-left-sm">
+      <div>
+        <a class="reverse" href="{% url 'boss:dynamic_preferences_users_userpreferencemodel_changelist' %}">Peferences</a>
+      </div>
+    </div>
+{% endblock breadcrumbs %}
+
+{% block submit_buttons_bottom %}{% preference_submit_row %}{% endblock %}
+
+{% block field_sets %}
+  {% for fieldset in adminform %}
+      <fieldset class="module aligned {{ fieldset.classes }}">
+        {% for line in fieldset %}
+          {% for field in line %}
+            {% if field.is_readonly %}
+              <span class="padding-right-md">{{ field.contents }}</span>
+            {% else %}
+              <span>{{ field.field }}</span>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </fieldset>
+  {% endfor %}
+{% endblock %}
+
+
+{% block admin_change_form_document_ready %}
+{% endblock %}
+
+
+{% block object-tools-items %}
+{% endblock %}

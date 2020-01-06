@@ -1,0 +1,36 @@
+{% extends "boss/change_list.html" %}
+{% load boss_list boss_urls admin_list %}
+
+{% block content_title %}{% endblock %}
+
+{% block object-tools-items %}
+{% endblock object-tools-items %}
+
+{% block changelist_tools_ex %}
+{% endblock changelist_tools_ex %}
+
+{% block result_list %}
+    <ul class='horizontal'>
+        <li>
+            <a id="add_group" class="btn btn-neuter" href="{% url 'boss:auth_group_add' %}">
+                <i class="icon plus"></i>
+                New Group
+            </a>
+        </li>
+        <li>
+            {% admin_actions %}
+        </li>
+    </ul>
+    {% block result_list_content %}
+            {% group_result_list cl %}
+    {% endblock %}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+    <div id="breadcrumbs" class="breadcrumbs horizontal-between padding-left-sm">
+      <div>
+        <a class="reverse" href="{% url 'boss:auth_group_changelist' %}">Groups</a>
+      </div>
+    </div>
+{% endblock breadcrumbs %}

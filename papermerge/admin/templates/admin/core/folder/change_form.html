@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+{% load admin_list mptt_admin boss_urls i18n  polymorphic_admin_tags boss_tags %}
+
+{% block content_title %} {% endblock %}
+
+{% block breadcrumbs %}
+    <div id="breadcrumbs" class="horizontal fl-i-center">
+        <div class="left">
+            {% breadcrumbs_tree_path object %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% load i18n static %}
+<div id="toolbar">
+    <form class="horizontal search_main" id="changelist-search" action="{% url 'boss:core_basetreenode_changelist' %}" method="get">
+        <input placeholder="{% trans 'search' %}" class="margin-right-xs expansive" type="text" size="40" name="q" value="" id="searchbar" autofocus />
+        <button class="btn btn-neuter" type="submit"><i class="icon-search"></i></button>
+    </form>
+</div>

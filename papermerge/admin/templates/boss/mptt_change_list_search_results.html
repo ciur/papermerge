@@ -1,0 +1,43 @@
+{% if results %}
+<div class="results">
+    <!-- flex-table = ft -->
+    <div class="flex-table search_results change_list" id="result_list">
+        <div class="ft-header">
+            <div class="ft-row">
+                <div class="ft-col">
+                    <div class="text"><span>Document/Folder</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="ft-body">
+        {% for item in results %}
+        <li class="{% cycle 'row1' 'row2' %} ft-row  dblclick">
+            <div class="ft-col">
+                 {% if item.model_ctype == 'document' %}
+                    <h2>{{ item.title }}</h2>
+                 {% else %}
+                    <ul class="horizontal fl-i-center">
+                        <li>{{ item.icon }}</li>
+                        <li>{{ item.dir_path }}</li>
+                        <li>{{ item.title }}</li>
+                    </ul>
+                 {% endif %}
+                
+                <div class="ft-col">
+                    {% if item.model_ctype == 'document' %}
+                        {{ item.dir_path }}
+                    {% endif %}
+                </div>
+                
+                <div class="page_highlight">
+                    {% if item.model_ctype == 'document' %}
+                        {{ item.page_highlight }}
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+        </div> <!--ft-body  -->
+    </div> <!-- flex-table -->
+</div> <!-- results -->
+{% endif %}

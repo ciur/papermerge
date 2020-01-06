@@ -1,0 +1,120 @@
+#: papermerge/core/admin.py:307
+msgid "Type"
+msgstr ""
+
+#: papermerge/core/admin.py:395
+#, python-format
+msgid "Successfully deleted %(count)d items."
+msgstr ""
+
+#: papermerge/core/admin.py:408
+#, python-format
+msgid "Delete selected %(verbose_name_plural)s"
+msgstr ""
+
+#: papermerge/core/forms.py:65
+msgid "Password"
+msgstr ""
+
+#: papermerge/core/forms.py:71
+msgid "Password (again)"
+msgstr ""
+
+#: papermerge/core/forms.py:74
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+#: papermerge/core/models.py:117
+msgid "parent"
+msgstr ""
+
+#: papermerge/core/models.py:120
+msgid "Title"
+msgstr "Title"
+
+#: papermerge/core/models.py:125
+msgid "Language"
+msgstr "Sprache"
+
+#: papermerge/core/models.py:144
+msgid "private folder"
+msgstr ""
+
+#: papermerge/core/models.py:147
+msgid "Designates that this folder will be visible only to the owner."
+msgstr ""
+
+#: papermerge/core/models.py:156 papermerge/core/models.py:203
+#: papermerge/core/models.py:855
+msgid "groups"
+msgstr ""
+
+#: papermerge/core/models.py:159
+msgid "The groups this folder belongs to."
+msgstr ""
+
+#: papermerge/core/models.py:165 papermerge/core/models.py:863
+msgid "Folder permissions"
+msgstr ""
+
+#: papermerge/core/models.py:167 papermerge/core/models.py:865
+msgid "Specific permissions for this Folder."
+msgstr ""
+
+#: papermerge/core/models.py:181 papermerge/core/models.py:182
+#: papermerge/core/models.py:273
+msgid "Documents"
+msgstr "Dokumente"
+
+#: papermerge/core/models.py:196
+msgid "Allow"
+msgstr ""
+
+#: papermerge/core/models.py:197
+msgid "Deny"
+msgstr ""
+
+#: papermerge/core/models.py:208
+msgid "users"
+msgstr ""
+
+#: papermerge/core/models.py:232
+msgid "Notes"
+msgstr "Notizen"
+
+#: papermerge/core/models.py:272
+msgid "Document"
+msgstr "Dokument"
+
+#: papermerge/core/models.py:787
+msgid "Folder"
+msgstr "Ordner"
+
+#: papermerge/core/models.py:788
+msgid "Folders"
+msgstr "Ordner"
+
+#: papermerge/core/models.py:846
+msgid "private task"
+msgstr ""
+
+#: papermerge/core/models.py:849
+msgid "Designates that this task will be visible only to the owner."
+msgstr ""
+
+#: papermerge/core/models.py:858
+msgid "The groups this task belongs to."
+msgstr ""
+
+#: papermerge/core/templates/_topbar.html:19
+msgctxt "top bar"
+msgid "Home"
+msgstr "Hauptseite"
+
+#: papermerge/core/templates/_topbar.html:24
+msgid "Sign In"
+msgstr "Anmelden"
+
+#: papermerge/core/templates/_topbar.html:28
+msgid "Register"
+msgstr "Registrieren"

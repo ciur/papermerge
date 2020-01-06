@@ -1,0 +1,215 @@
+{% load i18n  %}
+
+
+<form action="{% url 'core:delete_node' %}" method="POST" id="delete_form">
+    {% csrf_token %}
+    <input type="hidden" name="parent_id" value="{% if object %}{{ object.id }}{% else %}{% endif %}">
+</form>
+
+<form action="{% url 'core:cut_node' %}" method="POST" id="cut_form">
+    {% csrf_token %}
+</form>
+
+<form action="{% url 'core:paste_node' %}" method="POST" id="paste_form">
+    {% csrf_token %}
+    <input type="hidden" name="parent_id" value="{% if object %}{{ object.id }}{% else %}{% endif %}">
+</form>
+
+<form action="{% url 'core:clipboard' %}" method="GET" id="clipboard_form">
+    {% csrf_token %}
+</form>
+
+
+<div id="modals-container" class="fl-center">
+
+    {% url 'core:rename_node' 'list' as rename_url %}
+    {% include "boss/_rename.html" with id="rename_form" action_url=rename_url %}
+
+    <form id="new-folder-form" class="modal hidden" action="{% url 'core:create_folder' %}" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h1>{% trans "Create Folder" %}</h1>
+        </div>
+        <div class="modal-body vertical">
+            <label class="padding-x-xs">{% trans "Please enter a folder name" %}:</label>
+            <input name="title" type="text" >
+            <input name="parent_id" value="" type="hidden" >
+        </div>
+        <div class="modal-footer horizontal fl-end">
+            <input type="submit" class="btn action margin-xs" value="OK" />
+            <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+
+    <form id="access_form" class="modal hidden" action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h1>{% trans "Access" %}</h1>
+        </div>
+        <div class="modal-body vertical">
+            <ul id="permission_actions" class="horizontal menu">
+                <li>
+                    <input id="create_perm" class="btn btn-neuter" type="button" value="{% trans 'Create' %}" />
+                </li>
+                <li>
+                    <input id="edit_perm" class="btn btn-neuter" type="button" value="{% trans 'Edit' %}" />
+                </li>
+                <li>
+                    <input id="delete_perm" class="btn btn-neuter" type="button" value="{% trans 'Delete' %}" />
+                </li>
+                <li>
+                    <input id="readonly_view_perm" class="btn btn-neuter" type="button" value="{% trans 'View' %}" />
+                </li>
+            </ul>
+            <div class="flex-table">
+                <div class="ft-header">
+                    <div class="ft-row">
+                        <div class="ft-col width10">
+                        </div>
+                        <div class="ft-col width30">
+                            {% trans "User or Group" %}
+                        </div>
+                        <div class="ft-col width30">
+                            {% trans "Type" %}
+                        </div>
+                        <div class="ft-col width30">
+                            {% trans "Access" %}
+                        </div>
+                    </div>
+                </div> <!--- header -->
+                <div class="ft-body" id="access_items">
+                    <!--
+                    <div class="ft-row row1">
+                        <div class="ft-col width10">
+                        </div>
+                        <div class="ft-col width30">
+                           margaret
+                        </div>
+                        <div class="ft-col width30">
+                            Zulassen
+                        </div>
+                        <div class="ft-col width30">
+                            Lesen &amp; Schreiben
+                        </div>
+                    </div>
+                    -->
+                </div> <!-- end of body -->
+            </div>
+        </div>
+        <div class="modal-footer horizontal fl-end">
+            <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
+            <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+
+
+    <form id="permission_editor_form" class="modal hidden" action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h1>{% trans "Permission Editor" %}</h1>
+        </div>
+        <div class="modal-body vertical">
+            <label class="padding-x-xs">{% trans "User or Group" %}:</label>
+            <select id="perm_user_or_group" class="selectpicker" multiple title="{% trans 'Nothing selected' %}">
+            </select>
+            <label class="padding-x-xs">{% trans "Type" %}:</label>
+            <select name="access_type">
+                <option selected value="allow">{% trans "Allow" %}</option>
+                <option value="deny">{% trans "Deny" %}</option>
+            </select>
+            <formset class="vertical">
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox" 
+                    name="change_perm">{% trans 'Change Permissions' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox" 
+                    name="take_ownership">{% trans 'Take Ownership' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox"
+                    name="read"
+                    >{% trans 'Read' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox"
+                    name="write"
+                    >{% trans 'Write' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox"
+                    name="delete"
+                    >{% trans 'Delete' %}
+                </label>
+            </formset>
+        </div>
+        <div class="modal-footer horizontal fl-end">
+            <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
+            <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+
+    <form id="permission_readonly_view_form" class="modal hidden" action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h1>{% trans "Permission View" %}</h1>
+        </div>
+        <div class="modal-body vertical">
+            <label class="padding-x-xs">{% trans "User or Group" %}:</label>
+            <select id="perm_user_or_group" disabled class="selectpicker" multiple title="{% trans 'Nothing selected' %}">
+            </select>
+            <label class="padding-x-xs">{% trans "Type" %}:</label>
+            <select name="access_type" disabled>
+                <option selected value="allow">{% trans "Allow" %}</option>
+                <option value="deny">{% trans "Deny" %}</option>
+            </select>
+            <formset class="vertical">
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox" 
+                    disabled
+                    name="change_perm">{% trans 'Change Permissions' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox" 
+                    disabled
+                    name="take_ownership">{% trans 'Take Ownership' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox"
+                    disabled
+                    name="read"
+                    >{% trans 'Read' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox"
+                    disabled
+                    name="write"
+                    >{% trans 'Write' %}
+                </label>
+                <label class="padding-x-xs horizonal">
+                    <input class="margin-right-sm" 
+                    type="checkbox"
+                    disabled
+                    name="delete"
+                    >{% trans 'Delete' %}
+                </label>
+            </formset>
+        </div>
+        <div class="modal-footer horizontal fl-end">
+            <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
+            <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+</div>
+
+
+

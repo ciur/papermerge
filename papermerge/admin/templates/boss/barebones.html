@@ -1,0 +1,48 @@
+{% load i18n static %}<!DOCTYPE html>
+{% comment %}
+   Very basic template with header(which contains logo, menus for anonymous user), footer and white background with one column in middle.
+   It is used for pages like terms and conditions, privacy statements,
+   contact form.
+{% endcomment %}
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>{% block title %}{% endblock %}</title>
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+{% block extrahead %}{% endblock %}
+{% block responsive %}
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}" />
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}" />{% endif %}
+{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+    <header>
+        <a class="logo" href="{% url 'core:index' %}"></a>
+    </header>
+    <div id="container">
+        {% block messages %}
+            {% if messages %}
+            <ul class="messagelist">{% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+            {% endfor %}</ul>
+            {% endif %}
+        {% endblock messages %}
+
+        <!-- Content -->
+        <div id="content" class="">
+            {% block pretitle %}{% endblock %}
+            {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+            {% block content %}
+                {{ content }}
+            {% endblock %}
+            <br class="clear" />
+        </div>
+        <!-- END Content -->
+
+        {% block footer %}<div id="footer"></div>{% endblock %}
+    </div>
+    {% include "boss/_footer.html" %}
+</body>
+</html>

@@ -1,0 +1,162 @@
+{% extends "admin/base_site.html" %}
+{% load i18n boss_tags boss_urls static boss_modify admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+<script>
+    var VML_GLOBALS = {};
+
+    VML_GLOBALS['preview_urls'] = [
+        {% for item in preview_urls %}
+            {
+                'page':'{{item.0}}' ,
+                'step':'{{item.1}}',
+                'url': '{{item.2}}'
+            },
+        {% endfor %}
+    ]
+
+    VML_GLOBALS['default_step'] = 3;
+</script>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form edit-document {% endblock %}
+
+{% block document_change_form_spinner %}
+    <div id="preload-spinner"></div>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div id="breadcrumbs" class="breadcrumbs padding-left-sm desktop_small">
+        <div class="horizontal-between">
+            <div>
+                {% breadcrumbs_tree_path original %}
+            </div>
+            <div>
+                <form>
+                    <input name="local_search" placeholder="{% trans 'Search in document...' %}" class="search_secondary">
+                        <i class="icon-search-light"></i>
+                    </input>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block modals %}
+    <input type="hidden" name="document_id" value="{{original.pk}}" />
+    <input type="hidden" name="document_title" value="{{title}}" />
+
+    <div id="modals-container" class="fl-center">
+        {% url 'core:rename_node' 'change' as rename_url %}
+        {% include "boss/_rename.html" with id="rename_changeform" action_url=rename_url %}
+    </div>
+{% endblock modals %}
+
+{% block left_sidebar %}
+    <li>
+        <a class="horizontal fl-i-center reverse" id="rename" data-target-id="rename-form" href="#">
+          <i class="icon-edit reverse margin-right-xs"></i>{% trans "Rename" %}
+        </a>
+    </li>
+    <li>
+        <select class="zoom" select='width' class="reverse">
+            <option value='width'>{% trans "Fit Width" %}</option>
+            <option value='50'>50%</option>
+            <option value='75'>75%</option>
+            <option value='100'>100%</option>
+            <option value='125'>125%</option>
+            <option value='150'>150%</option>
+        </select>
+    </li>
+{% endblock left_sidebar %}
+
+{% block top_right_menu_item %}
+    <a href="#" class="3dots right-menu-trigger">
+       <i class="icon-3dots phone"></i>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <form class="vertical" {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>
+        <div id="viewer-ctrl" class="horizontal space-between padding-xs desktop">
+            <div class="horizontal">
+                <button id="sw-left-panel" data-target-id="page-thumbnails" class="btn btn-neuter">
+                    <i class="icon-sw-left-panel"></i>
+                </button>
+                <div class="dropdown bg-white margin-left-xs">
+                  <button class="btn btn-light btn-bordered dropdown-toggle" type="button" id="changeform_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% trans "Actions" %}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item horizontal fl-i-center disabled" id="rename" data-target-id="rename-form" disabled href="#">
+                      <i class="icon-edit margin-right-xs"></i>{% trans "Rename" %}
+                    </a>
+                  </div>
+                </div>
+            </div>
+
+            <div class="horizontal">
+                <select class="zoom" select='width'>
+                    <option value='width'>{% trans "Fit Width" %}</option>
+                    <option value='50'>50%</option>
+                    <option value='75'>75%</option>
+                    <option value='100'>100%</option>
+                    <option value='125'>125%</option>
+                    <option value='150'>150%</option>
+                </select>
+                <button id="sw-right-panel" data-target-id="document_details" class="btn btn-neuter">
+                    <i class="icon-sw-right-panel"></i>
+                </button>
+            </div>
+        </div> <!-- #viewer-ctrl -->
+        <div id="viewer" class="horizontal invisible"> 
+            {% csrf_token %}{% block form_top %}{% endblock %}
+
+             <div id="page-thumbnails" class="page-thumbnails hidden-on-phone">
+                {% for inline_admin_formset in inline_admin_formsets %}
+                    {% include 'boss/edit_inline/stacked_thumbnails.html' %}
+                {% endfor %}
+             </div>
+
+             <div class="actual-pages">
+                {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1" />{% endif %}
+                {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}" />{% endif %}
+                {% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+                {% if errors %}
+                    <p class="errornote">
+                    {% if errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+                    </p>
+                    {{ adminform.form.non_field_errors }}
+                {% endif %}
+                {% block inline_field_sets %}
+                    <div class="inline-field-sets">
+                        {% for inline_admin_formset in inline_admin_formsets %}
+                            {% include inline_admin_formset.opts.template %}
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+            </div>
+
+            <div id="document_details" class="document_details desktop">
+                {% document_submit_row %}
+                {% block field_sets %}
+                    {% for fieldset in adminform %}
+                          {% include "boss/includes/document_details_fieldset.html" %}
+                    {% endfor %}
+                {% endblock %}
+                <fieldset class="module aligned vertical-reverse">
+                    <div class="form-row">
+                        {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+                        <a href="{% add_preserved_filters delete_url %}" class="btn btn-neuter expansive hover-danger">
+                            {% trans "Delete" %}
+                        </a>
+                    </div>
+                </fieldset>
+            </div>
+        </div> <!-- #viewer -->
+    </form>
+</div>
+{% endblock %}

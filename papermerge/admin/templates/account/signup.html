@@ -1,0 +1,93 @@
+{% extends "admin/base_site_one_col.html" %}
+
+{% load i18n boss_tags %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block bodyclass %}{{ block.super }} register bg-light-gray {% endblock %}
+{% block breadcrumbs %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a id="boss-brand" href="{% url 'core:index' %}">Papermerge </a></h1>
+{% endblock %}
+
+{% block title %}Registration | Papermerge{% endblock %}
+
+{% block topbar %}
+    {% include "_topbar.html" with current='register' %}
+{% endblock topbar %}
+
+
+{% block content %}
+
+
+<div class="continental-account bg-c-clean shadow-xs">
+    <h3>{% trans "Registration" %}</h3>
+
+    <p>
+      {% login_tag as login_var %}
+
+      {% blocktrans trimmed %}Already have an account? Then please {{ login_var }}.{% endblocktrans %}
+    </p>
+
+    <form class="signup labels-above" id="register-form" method="post" action="{% url 'register' %}">
+      {% csrf_token %}
+        <div class="form-row">
+            {{ form.company.errors }}
+            {{ form.company.label_tag }} 
+             <span class="company hint input-feedback">Mininum 3 characters.</span>
+            {{ form.company }}
+            <span>
+              {% trans "Your sign in URL will be:" %} <a href="#" id="domain_hint"></a></span>
+        </div>
+        <div class="form-row">
+            {{ form.username.errors }}
+            {{ form.username.label_tag }} {{ form.username }}
+        </div>
+        <div class="form-row">
+            {{ form.email.errors }}
+            {{ form.email.label_tag }}
+            <span class="email hint input-feedback"></span>
+            {{ form.email }}
+        </div>
+        <div class="form-row">
+            {{ form.password1.errors }}
+            {{ form.password1.label_tag }}
+              <span class="password1 hint input-feedback">Mininum of 8 characters.</span>
+            {{ form.password1 }}
+        </div>
+        <div class="form-row">
+            {{ form.password2.errors }}
+            {{ form.password2.label_tag }}
+            <span class="password2 hint input-feedback"></span>
+            {{ form.password2 }}
+        </div>
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      <div class="form-row">
+        <div>
+          {{ form.terms }}
+          {% privacy_tag as privacy_var %}
+          {% cookies_tag as cookies_var %}
+          {% terms_tag as terms_var %}
+          {% blocktrans trimmed %}
+            I acknowledge that I have carefully read, and do hereby accept the terms and conditions contained in {{terms_var}}, {{privacy_var}} and {{cookies_var}}
+          {% endblocktrans %}
+        </div>
+      </div>
+
+      <div class="form-row">
+          <label>&nbsp;</label>
+          <input class="btn action huge" 
+            type="submit" 
+            value="{% trans 'Create my account' %}" />
+      </div>
+
+
+
+    </form>
+</div> <!-- #content-main -->
+
+{% endblock %}

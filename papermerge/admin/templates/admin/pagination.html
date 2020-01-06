@@ -1,0 +1,9 @@
+{% load admin_list %}
+{% load i18n %}
+<div class="paginator horizontal space-between">
+    <div class="pages">
+        {% for i in page_range %}
+            {% paginator_number cl i %}
+        {% endfor %}
+    </div>
+</div>

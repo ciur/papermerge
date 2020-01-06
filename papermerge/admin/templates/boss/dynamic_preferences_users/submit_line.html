@@ -1,0 +1,11 @@
+{% load i18n admin_urls %}
+<div class="horizontal margin-top-xl">
+    <div class="submit-row">
+        <input type="submit"  value="{% trans 'Save' %}" class="btn action large" name="_save" />
+    </div>
+    <div>
+        <a href="{% url 'boss:dynamic_preferences_users_userpreferencemodel_changelist' %}" class="btn btn-neuter margin-left-lg">
+            {% trans "Cancel" %}
+        </a>
+    </div>
+</div>

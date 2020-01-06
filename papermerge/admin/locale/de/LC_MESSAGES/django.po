@@ -1,0 +1,771 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-13 17:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Ciur Eugen\n"
+"Language-Team: Ciur Eugen\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: papermerge/boss/admin.py:15 papermerge/boss/admin.py:18
+msgid "papermerge"
+msgstr ""
+
+#: papermerge/boss/admin.py:21
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:14
+msgid "Dashboard"
+msgstr ""
+
+#: papermerge/boss/forms.py:13
+#, python-format
+msgid ""
+"Please enter the correct %(username)s and password for your account. Note "
+"that both fields may be case-sensitive."
+msgstr ""
+
+#: papermerge/boss/forms.py:19
+msgid "Password"
+msgstr ""
+
+#: papermerge/boss/options.py:93
+#, python-format
+msgid "Delete selected %(verbose_name_plural)s"
+msgstr ""
+
+#: papermerge/boss/options.py:131
+#, python-format
+msgid "Successfully deleted %(count)d %(items)s."
+msgstr ""
+
+#: papermerge/boss/options.py:139
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
+
+#: papermerge/boss/templates/account/email.html:5
+msgid "Account | Papermerge"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:13
+msgid "E-mail Addresses"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:15
+msgid "The following e-mail addresses are associated with your account:"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:29
+msgid "Verified"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:31
+msgid "Unverified"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:33
+msgid "Primary"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:39
+msgid "Make Primary"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:40
+msgid "Re-send Verification"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:41
+msgid "Remove"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:48
+msgid "Warning:"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:48
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:53
+msgid "Add E-mail Address"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:58
+msgid "Add E-mail"
+msgstr ""
+
+#: papermerge/boss/templates/account/email.html:68
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr ""
+
+#: papermerge/boss/templates/account/email/email_confirmation_message.txt:4
+msgid ""
+"\n"
+"Hi,\n"
+"\n"
+"Thanks for using Papermerge! Please confirm your email address by clicking "
+"on the link below.\n"
+msgstr ""
+"\n"
+"Hallo,\n"
+"\n"
+"Ihr Konto wurde erfolgreich erstellt! Zur Sicherheit und Aktivierung des "
+"Kontos bestätigen Sie bitte Ihre E-Mail Adresse über den folgenden Link: \n"
+
+#: papermerge/boss/templates/account/email/email_confirmation_message.txt:12
+#: papermerge/boss/templates/account/email/password_reset_key_message.txt:12
+msgid ""
+"\n"
+"Regards,\n"
+"Papermerge Team\n"
+msgstr ""
+"\n"
+"Vielen Dank,\n"
+"Ihr Papermerge Team\n"
+
+#: papermerge/boss/templates/account/email/email_confirmation_subject.txt:3
+msgid "Please confirm your Papermerge account"
+msgstr "Bitte bestätigen Sie Ihr Papermerge-Konto"
+
+#: papermerge/boss/templates/account/email/password_reset_key_message.txt:3
+msgid ""
+"\n"
+"Hi,\n"
+"\n"
+"You're receiving this e-mail because you have requested a password reset for "
+"your user account.\n"
+"It can be safely ignored if you did not request for it. Click the link below "
+"to reset your password.\n"
+msgstr ""
+"\n"
+"Hi,\n"
+"\n"
+"Sie erhalten diese EMail, weil Sie Ihr Passwort für Ihr Papermerge Konto "
+"zurücksetzen möchten.\n"
+"Es kann ignoriert werden, wenn Sie nicht danach gefragt haben.\n"
+"Klicken Sie auf den folgenden Link, um Ihr Passwort zurückzusetzen.\n"
+
+#: papermerge/boss/templates/account/email/password_reset_key_subject.txt:2
+#: papermerge/boss/templates/account/password_reset.html:6
+#: papermerge/boss/templates/account/password_reset_done.html:6
+#: papermerge/boss/templates/account/password_reset_from_key.html:6
+#: papermerge/boss/templates/account/password_reset_from_key_done.html:6
+msgid "Password Reset"
+msgstr ""
+
+#: papermerge/boss/templates/account/email_confirm.html:18
+#: papermerge/boss/templates/account/email_confirm.html:24
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: papermerge/boss/templates/account/email_confirm.html:20
+#: papermerge/boss/templates/account/signup.html:25
+#: papermerge/boss/templates/account/verification_sent.html:13
+msgid "Registration"
+msgstr "Registrierung"
+
+#: papermerge/boss/templates/account/email_confirm.html:30
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: papermerge/boss/templates/account/email_confirm.html:34
+msgid "Confirm"
+msgstr ""
+
+#: papermerge/boss/templates/account/email_confirm.html:41
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: papermerge/boss/templates/account/forgot_company_name.html:16
+#: papermerge/boss/templates/account/forgot_company_name.html:26
+#: papermerge/boss/templates/account/redirect_login.html:46
+msgid "Forgot company name?"
+msgstr "Unternehmensname vergessen?"
+
+#: papermerge/boss/templates/account/forgot_company_name.html:20
+#: papermerge/boss/templates/account/redirect_login.html:20
+msgid "Company name required"
+msgstr ""
+
+#: papermerge/boss/templates/account/forgot_company_name.html:29
+msgid ""
+"Don't worry, we will email it to you. Please provide your email address."
+msgstr ""
+"Keine Sorge, wir schicken es Ihnen per E-Mail. Bitte geben Sie Ihre EMail-"
+"Adresse an."
+
+#: papermerge/boss/templates/account/forgot_company_name.html:38
+msgid "Email address"
+msgstr "Email Adresse"
+
+#: papermerge/boss/templates/account/forgot_company_name.html:41
+msgid "Send"
+msgstr "Senden"
+
+#: papermerge/boss/templates/account/password_reset.html:15
+#: papermerge/boss/templates/account/password_reset_done.html:15
+#: papermerge/boss/templates/account/password_reset_from_key.html:15
+#: papermerge/boss/templates/account/password_reset_from_key_done.html:15
+msgid "Password recovery"
+msgstr "Passwort-Wiederherstellung"
+
+#: papermerge/boss/templates/account/password_reset.html:23
+#: papermerge/boss/templates/account/password_reset_done.html:23
+msgid "Change your password"
+msgstr "Passwort ändern"
+
+#: papermerge/boss/templates/account/password_reset.html:31
+msgid ""
+"Enter your e-mail address below, and we'll send you an e-mail allowing you "
+"to reset it."
+msgstr ""
+"Geben Sie unten Ihre E-Mail-Adresse ein, und wir senden Ihnen eine E-Mail "
+"mit weiteren Schritten"
+
+#: papermerge/boss/templates/account/password_reset.html:37
+msgid "Reset My Password"
+msgstr "Mein Passwort zurücksetzen"
+
+#: papermerge/boss/templates/account/password_reset_done.html:25
+msgid "We have sent you an e-mail. You should receive it within a few minutes."
+msgstr ""
+"Wir haben Ihnen eine E-Mail geschickt. Sie sollten es innerhalb weniger "
+"Minuten erhalten."
+
+#: papermerge/boss/templates/account/password_reset_from_key.html:23
+msgid "Bad Token"
+msgstr "Ungültiges Token"
+
+#: papermerge/boss/templates/account/password_reset_from_key.html:23
+#: papermerge/boss/templates/account/password_reset_from_key.html:55
+#: papermerge/boss/templates/boss/base_two_col.html:76
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: papermerge/boss/templates/account/password_reset_from_key.html:29
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+"Der Link zum Zurücksetzen war ungültig, möglicherweise, weil er verwendet "
+"wurde.Bitte fordern Sie ein <a href=\"%(passwd_reset_url)s\"> neues Passwort "
+"an </a>."
+
+#: papermerge/boss/templates/account/password_reset_from_key.html:59
+msgid "Your password is now changed."
+msgstr "Ihr Passwort ist jetzt geändert."
+
+#: papermerge/boss/templates/account/password_reset_from_key_done.html:23
+msgid "Password Changed"
+msgstr "Passwort geändert."
+
+#: papermerge/boss/templates/account/password_reset_from_key_done.html:26
+msgid ""
+"\n"
+"       Your password is now changed. You can sign in into your account \n"
+"       <a href=\"/login/\">here</a>.\n"
+"       "
+msgstr ""
+"\n"
+"Ihr Passwort ist jetzt geändert. \n"
+"<a href=\"/login/\">Hier</a> können Sie sich in Ihr Konto einloggen."
+
+#: papermerge/boss/templates/account/redirect_login.html:16
+msgid "Sign In Redirect | Papermerge"
+msgstr "Anmelden Umleitung | Papermerge"
+
+#: papermerge/boss/templates/account/redirect_login.html:26
+#: papermerge/boss/templates/account/redirect_login.html:40
+msgid "Company Name"
+msgstr "Unternehmensname"
+
+#: papermerge/boss/templates/account/redirect_login.html:30
+#, python-format
+msgid ""
+"Your Sign In URL should be <strong>&lt;company&gt;.papermerge.com</strong>. "
+"Please provide company name and we will redirect you. If you don't have an "
+"account, you need to %(register_var)s first."
+msgstr ""
+" Ihre Anmelde-URL sollte lauten <strong>&lt;unternehmensname&gt;.papermerge."
+"de</strong>. Bitte geben Sie den Unternehmenname an und wir leiten Sie "
+"weiter. Wenn Sie kein Konto haben, müssen Sie sich zuerst %(register_var)s."
+
+#: papermerge/boss/templates/account/redirect_login.html:39
+msgid "Company"
+msgstr "Unternehmen"
+
+#: papermerge/boss/templates/account/redirect_login.html:43
+msgid "Redirect"
+msgstr "Umleiten"
+
+#: papermerge/boss/templates/account/redirect_reset.html:20
+msgid "Reset Password"
+msgstr ""
+
+#: papermerge/boss/templates/account/signup.html:5
+msgid "Signup"
+msgstr ""
+
+#: papermerge/boss/templates/account/signup.html:30
+#, python-format
+msgid "Already have an account? Then please %(login_var)s."
+msgstr "Haben Sie bereits ein Konto? %(login_var)s"
+
+#: papermerge/boss/templates/account/signup.html:41
+msgid "Your sign in URL will be:"
+msgstr "Ihre Anmelde-URL lautet:"
+
+#: papermerge/boss/templates/account/signup.html:75
+#, python-format
+msgid ""
+"I acknowledge that I have carefully read, and do hereby accept the terms and "
+"conditions contained in %(terms_var)s, %(privacy_var)s and %(cookies_var)s"
+msgstr ""
+" Ich habe die %(terms_var)s und %(privacy_var)s sowie die %(cookies_var)s "
+"zur Kenntnis genommen."
+
+#: papermerge/boss/templates/account/signup.html:85
+msgid "Create my account"
+msgstr "Mein Konto erstellen"
+
+#: papermerge/boss/templates/account/verification_sent.html:19
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: papermerge/boss/templates/account/verification_sent.html:22
+msgid "Almost There!"
+msgstr "Fast geschafft!"
+
+#: papermerge/boss/templates/account/verification_sent.html:25
+msgid "You will receive a confirmation email soon."
+msgstr "Sie erhalten in Kürze eine Bestätigungs-E-Mail."
+
+#: papermerge/boss/templates/admin/actions.html:4
+msgid "Run the selected action"
+msgstr ""
+
+#: papermerge/boss/templates/admin/actions.html:4
+msgid "Go"
+msgstr ""
+
+#: papermerge/boss/templates/admin/auth/group/change_form.html:35
+#: papermerge/boss/templates/admin/auth/user/change_form.html:35
+#: papermerge/boss/templates/admin/auth/user/change_password.html:38
+#: papermerge/boss/templates/admin/core/document/change_form.html:130
+#: papermerge/boss/templates/admin/dynamic_preferences_users/change_list.html:52
+#: papermerge/boss/templates/admin/login.html:32
+msgid "Please correct the error below."
+msgstr ""
+
+#: papermerge/boss/templates/admin/auth/group/change_form.html:35
+#: papermerge/boss/templates/admin/auth/user/change_form.html:35
+#: papermerge/boss/templates/admin/auth/user/change_password.html:38
+#: papermerge/boss/templates/admin/core/document/change_form.html:130
+#: papermerge/boss/templates/admin/dynamic_preferences_users/change_list.html:52
+#: papermerge/boss/templates/admin/login.html:32
+msgid "Please correct the errors below."
+msgstr ""
+
+#: papermerge/boss/templates/admin/auth/user/add_form.html:18
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+
+#: papermerge/boss/templates/admin/auth/user/add_form.html:20
+msgid "Enter a username and password."
+msgstr ""
+
+#: papermerge/boss/templates/admin/auth/user/change_password.html:25
+#: papermerge/boss/templates/admin/auth/user/change_password.html:59
+msgid "Change password"
+msgstr ""
+
+#: papermerge/boss/templates/admin/auth/user/change_password.html:42
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr ""
+
+#: papermerge/boss/templates/admin/base_site.html:3
+#: papermerge/boss/templates/admin/base_site_one_col.html:3
+msgid "Django site admin"
+msgstr ""
+
+#: papermerge/boss/templates/admin/base_site.html:5
+#: papermerge/boss/templates/admin/base_site_one_col.html:5
+#, fuzzy
+#| msgid "Registration"
+msgid "Django administration"
+msgstr "Registrierung"
+
+#: papermerge/boss/templates/admin/core/document/change_form.html:36
+msgid "Search in document..."
+msgstr "Suchen im Dokument..."
+
+#: papermerge/boss/templates/admin/core/document/change_form.html:60
+#: papermerge/boss/templates/admin/core/document/change_form.html:95
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:69
+#: papermerge/boss/templates/boss/_rename.html:10
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: papermerge/boss/templates/admin/core/document/change_form.html:65
+#: papermerge/boss/templates/admin/core/document/change_form.html:103
+msgid "Fit Width"
+msgstr "Breite anpassen"
+
+#: papermerge/boss/templates/admin/core/document/change_form.html:91
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:61
+msgid "Actions"
+msgstr "Aktion"
+
+#: papermerge/boss/templates/admin/core/document/change_form.html:154
+#: papermerge/boss/templates/admin/delete_confirmation.html:20
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:75
+#: papermerge/boss/templates/admin/submit_line.html:12
+#: papermerge/boss/templates/boss/_forms.js.html:58
+#: papermerge/boss/templates/boss/_forms.js.html:147
+#: papermerge/boss/templates/boss/task/submit_line.html:7
+msgid "Delete"
+msgstr "Löschen"
+
+#: papermerge/boss/templates/admin/core/task/change_form.html:12
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:64
+#: papermerge/boss/templates/boss/document/submit_line.html:5
+msgid "Download"
+msgstr "Herunterladen"
+
+#: papermerge/boss/templates/admin/delete_confirmation.html:27
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_confirmation.html:34
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_confirmation.html:41
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"?"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_confirmation.html:48
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:45
+msgid "Yes, I'm sure"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_confirmation.html:49
+#: papermerge/boss/templates/boss/_forms.js.html:40
+#: papermerge/boss/templates/boss/_forms.js.html:96
+#: papermerge/boss/templates/boss/_forms.js.html:153
+#: papermerge/boss/templates/boss/_rename.html:18
+#: papermerge/boss/templates/boss/dynamic_preferences_users/submit_line.html:8
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:16
+msgid "Delete multiple objects"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:23
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:30
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:37
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted."
+msgstr ""
+
+#: papermerge/boss/templates/admin/delete_selected_confirmation.html:46
+msgid "No, take me back"
+msgstr ""
+
+#: papermerge/boss/templates/admin/index.html:21
+#, fuzzy
+#| msgid "Registration"
+msgid "Recent actions"
+msgstr "Registrierung"
+
+#: papermerge/boss/templates/admin/index.html:22
+msgid "My actions"
+msgstr ""
+
+#: papermerge/boss/templates/admin/index.html:26
+msgid "None available"
+msgstr ""
+
+#: papermerge/boss/templates/admin/index.html:40
+msgid "Unknown content"
+msgstr ""
+
+#: papermerge/boss/templates/admin/login.html:8
+#, fuzzy
+#| msgid "Sign in"
+msgid "Sign In"
+msgstr "Anmelden"
+
+#: papermerge/boss/templates/admin/login.html:57
+#: papermerge/boss/templates/admin/login.html:83
+msgid "Sign in"
+msgstr "Anmelden"
+
+#: papermerge/boss/templates/admin/login.html:61
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: papermerge/boss/templates/admin/login.html:80
+msgid "Forgot your password?"
+msgstr "Passwort vergessen?"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:48
+#: papermerge/boss/templates/boss/base_two_col.html:114
+msgid "Upload"
+msgstr "Hochladen"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:53
+#: papermerge/boss/templates/boss/base_two_col.html:120
+msgid "New Folder"
+msgstr "Ordner erstellen"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:66
+msgid "Cut"
+msgstr "Ausschneiden"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:67
+msgid "Paste"
+msgstr "Einfügen"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:72
+#: papermerge/boss/templates/boss/_forms.js.html:47
+#: papermerge/boss/templates/boss/_forms.js.html:73
+msgid "Access"
+msgstr "Genehmigung"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:89
+msgid "Search results"
+msgstr "Suchergebnisse"
+
+#: papermerge/boss/templates/admin/polymorphic_tree/change_list.html:97
+msgid "Search within folder..."
+msgstr "Suchen im Ordner..."
+
+#: papermerge/boss/templates/admin/submit_line.html:5
+#: papermerge/boss/templates/boss/document/submit_line.html:7
+#: papermerge/boss/templates/boss/dynamic_preferences_users/submit_line.html:4
+#: papermerge/boss/templates/boss/task/submit_line.html:4
+msgid "Save"
+msgstr "Speichern"
+
+#: papermerge/boss/templates/admin/widgets/related_widget_wrapper.html:10
+#, python-format
+msgid "Change selected %(model)s"
+msgstr ""
+
+#: papermerge/boss/templates/admin/widgets/related_widget_wrapper.html:16
+#, python-format
+msgid "Add another %(model)s"
+msgstr ""
+
+#: papermerge/boss/templates/admin/widgets/related_widget_wrapper.html:22
+#, python-format
+msgid "Delete selected %(model)s"
+msgstr ""
+
+#: papermerge/boss/templates/boss/_forms.js.html:31
+msgid "Create Folder"
+msgstr "Ordner erstellen"
+
+#: papermerge/boss/templates/boss/_forms.js.html:34
+msgid "Please enter a folder name"
+msgstr "Geben Sie bitte einen Ordnernamen ein"
+
+#: papermerge/boss/templates/boss/_forms.js.html:52
+msgid "Create"
+msgstr "Erstellen"
+
+#: papermerge/boss/templates/boss/_forms.js.html:55
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: papermerge/boss/templates/boss/_forms.js.html:67
+#: papermerge/boss/templates/boss/_forms.js.html:107
+msgid "User or Group"
+msgstr "Benutzer oder Gruppe"
+
+#: papermerge/boss/templates/boss/_forms.js.html:70
+#: papermerge/boss/templates/boss/_forms.js.html:115
+#: papermerge/boss/templates/boss/_tools_ex.html:48
+msgid "Type"
+msgstr "Typ"
+
+#: papermerge/boss/templates/boss/_forms.js.html:95
+#: papermerge/boss/templates/boss/_forms.js.html:152
+msgid "OK"
+msgstr "OK"
+
+#: papermerge/boss/templates/boss/_forms.js.html:104
+msgid "Permission Editor"
+msgstr "Genehmigungsbearbeitung"
+
+#: papermerge/boss/templates/boss/_forms.js.html:108
+msgid "Nothing selected"
+msgstr "Nichts ausgewählt"
+
+#: papermerge/boss/templates/boss/_forms.js.html:117
+msgid "Allow"
+msgstr "Zulassen"
+
+#: papermerge/boss/templates/boss/_forms.js.html:118
+msgid "Deny"
+msgstr "Verweigern"
+
+#: papermerge/boss/templates/boss/_forms.js.html:124
+msgid "Change Permissions"
+msgstr "Berechtigungen ändern"
+
+#: papermerge/boss/templates/boss/_forms.js.html:129
+msgid "Take Ownership"
+msgstr "Eigentümerschaft übernehmen"
+
+#: papermerge/boss/templates/boss/_forms.js.html:135
+msgid "Read"
+msgstr "Lesen"
+
+#: papermerge/boss/templates/boss/_forms.js.html:141
+msgid "Write"
+msgstr "Schreiben"
+
+#: papermerge/boss/templates/boss/_header_search_form.html:4
+msgid "search"
+msgstr "suche"
+
+#: papermerge/boss/templates/boss/_rename.html:13
+msgid "Please enter a new name"
+msgstr "Geben Sie bitte einen neuen Namen ein"
+
+#: papermerge/boss/templates/boss/_sidebar_common.html:13
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: papermerge/boss/templates/boss/_tools_ex.html:12
+msgid "List"
+msgstr "Listenansicht"
+
+#: papermerge/boss/templates/boss/_tools_ex.html:14
+msgid "Grid"
+msgstr "Symbolenansicht"
+
+#: papermerge/boss/templates/boss/_tools_ex.html:25
+msgid "Title"
+msgstr "Title"
+
+#: papermerge/boss/templates/boss/_tools_ex.html:28
+#: papermerge/boss/templates/boss/_tools_ex.html:40
+#: papermerge/boss/templates/boss/_tools_ex.html:52
+msgid "Asc"
+msgstr "Aufsteigend"
+
+#: papermerge/boss/templates/boss/_tools_ex.html:31
+#: papermerge/boss/templates/boss/_tools_ex.html:43
+#: papermerge/boss/templates/boss/_tools_ex.html:55
+msgid "Desc"
+msgstr "Absteigend"
+
+#: papermerge/boss/templates/boss/_tools_ex.html:36
+msgid "Date"
+msgstr "Datum"
+
+#: papermerge/boss/templates/boss/base_two_col.html:80
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: papermerge/boss/templates/boss/base_two_col.html:92
+msgid "Log out"
+msgstr "Abmelden"
+
+#: papermerge/boss/templates/boss/change_list.html:33
+msgid "Filter"
+msgstr ""
+
+#: papermerge/boss/templates/boss/document/submit_line.html:9
+#: papermerge/boss/templates/boss/task/submit_line.html:9
+msgid "Save as new"
+msgstr ""
+
+#: papermerge/boss/templatetags/boss_tags.py:406
+msgid "Sign In here"
+msgstr "Melden Sie sich here an!"
+
+#: papermerge/boss/templatetags/boss_tags.py:418
+msgid "please register"
+msgstr "registrieren"
+
+#: papermerge/boss/templatetags/boss_tags.py:430
+msgid "/en/terms"
+msgstr "/de/agb"
+
+#: papermerge/boss/templatetags/boss_tags.py:431
+msgid "Terms and Conditions"
+msgstr "AGB"
+
+#: papermerge/boss/templatetags/boss_tags.py:442
+msgid "/en/privacy"
+msgstr "/de/datenschutz"
+
+#: papermerge/boss/templatetags/boss_tags.py:443
+msgid "Privacy Policy"
+msgstr "Datenschutz"
+
+#: papermerge/boss/templatetags/boss_tags.py:453
+msgid "/en/cookies"
+msgstr "/de/cookies"
+
+#: papermerge/boss/templatetags/boss_tags.py:454
+msgid "Cookies Policy"
+msgstr "Cookies Rechtlinie"
+
+#~ msgid "Properties"
+#~ msgstr "Eigenschaften"
+
+#~ msgid "Document"
+#~ msgstr "Dokument"
+
+#~ msgid "Documents"
+#~ msgstr "Dokumente"

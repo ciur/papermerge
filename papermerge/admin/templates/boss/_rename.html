@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<form 
+    id="{{ id }}" 
+    class="modal hidden" 
+    action="{{action_url}}" 
+    method="post">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h1>{% trans "Rename" %}</h1>
+    </div>
+    <div class="modal-body vertical">
+        <label class="padding-x-xs">{% trans "Please enter a new name" %}:</label>
+        <input name="title" type="text" >
+    </div>
+    <div class="modal-footer horizontal fl-end">
+        <input type="submit" class="btn action margin-xs" value="OK" />
+        <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
+    </div>
+</form>

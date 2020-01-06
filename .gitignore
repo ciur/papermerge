@@ -1,0 +1,14 @@
+*.pyc
+__pycache__
+*.swp
+*.swn
+*.swo
+*.log
+.ropeproject
+*.sqlite3
+*.sublime-project
+*.map
+*.png~
+*.kra~
+papermerge.egg-info
+dist

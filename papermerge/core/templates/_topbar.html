@@ -1,0 +1,35 @@
+{% load i18n  %}
+
+<header class="topmenu padding-sm">
+    <div class="wrap">
+        <ul class="header-2-cols">
+          <li>
+            <a href="/" id="logo" class="margin-x-xs">
+                 <img alt="papermerge" src="/papermerge-assets/static/img/logo-bw.svg" /> 
+            </a>
+          </li>
+          <li>
+            <div id="topnav-wrapper">
+                <a href="#" class="hamburger">
+                  <i id="topnav-wrapper-icon" class="icon-hamburger"></i>
+                </a>
+                   <ul id="topnav">
+                    <li class="margin-md">
+                      <a href="/">
+                      {% trans "Home" context "top bar" %}
+                      </a>
+                   </li>
+                   <li class="margin-md">
+                      <a class="{% if current == 'login' %} current {% endif %}" href="/login/">
+                        {% trans "Sign In" %}
+                      </a></li>
+                   <li class="margin-md">
+                      <a class="{% if current == 'register' %} current {% endif %}" href="/register/">
+                        {% trans "Register" %}
+                      </a>
+                    </li>
+                </ul>
+            </nav>
+        </ul>
+    </div> <!-- wrap -->
+</header>
