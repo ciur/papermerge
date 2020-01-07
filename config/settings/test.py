@@ -27,7 +27,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'papermerge.admin',
+    'papermerge.boss',
     'papermerge.core',
     'django_celery_results',
     'django.contrib.admin',

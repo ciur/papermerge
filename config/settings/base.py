@@ -86,7 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'papermerge.admin.context_processors.static_bundle_url',
+                'papermerge.boss.context_processors.static_bundle_url',
                 'dynamic_preferences.processors.global_preferences',
             ],
         },
@@ -135,7 +135,6 @@ ALLOWED_HOSTS = [
 
 AUTHENTICATION_BACKENDS = (
     'papermerge.core.auth.NodeAuthBackend',
-    'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
@@ -210,17 +209,3 @@ CELERY_TASK_DEFAULT_ROUTING_KEY = 'briolette'
 CELERY_INCLUDE = 'briolette.tasks'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TASK_RESULT_EXPIRES = 86400
-
-# Redis
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
