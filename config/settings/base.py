@@ -20,7 +20,7 @@ PAPERMERGE_ASSETS_VER = ""
 
 STORAGE_ROOT = ''
 
-WSGI_APPLICATION = 'config.settings.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
 
 DATABASES = {
@@ -36,10 +36,6 @@ DATABASES = {
 
 DEBUG = False
 BASE_DIR = Path(__file__).parent.parent.parent.parent
-
-DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

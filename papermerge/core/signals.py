@@ -5,7 +5,6 @@ from django.db.models.signals import (
     post_delete,
     post_save,
 )
-from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import (User, Permission)
 from allauth.account.signals import (
@@ -30,7 +29,6 @@ from papermerge.core.storage import remove_file
 from papermerge.core.utils import get_tenant_name
 
 from pmworker.endpoint import Endpoint
-from customers.tasks import update_sftp_user
 
 
 logger = logging.getLogger(__name__)
@@ -110,21 +108,6 @@ def email_confirmed_(request, email_address, **kwargs):
         f" username={user.username}"
         f" email={email_address.email}"
     )
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-    else:
-        # update password of sftp_user
-        if not settings.UNIT_TESTS:
-            update_sftp_user.apply_async(kwargs={
-                'username': instance.username,
-                'company': get_tenant_name(),
-                'pw': instance.userprofile.sftp_password1},
-                queue='customers'
-            )
 
 
 def node_post_save(sender, node, created, *kwargs):

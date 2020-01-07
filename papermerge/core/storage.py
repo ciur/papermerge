@@ -8,7 +8,7 @@ from django.core.files import File
 from django.conf import settings
 from django.utils._os import safe_join
 from django.utils.encoding import filepath_to_uri
-from django.utils.six.moves.urllib.parse import urljoin
+from six.moves.urllib.parse import urljoin
 
 from papermerge.core import models
 
