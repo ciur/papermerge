@@ -18,7 +18,6 @@ from allauth.account.signals import (
 from papermerge.core.models import (
     Document,
     Folder,
-    UserProfile,
     Access,
     AccessDiff
 )
@@ -37,15 +36,15 @@ logger = logging.getLogger(__name__)
 @receiver(post_delete, sender=Document)
 def update_user_storage(sender, instance, **kwargs):
     # update user storage size
-    profile = UserProfile.objects.get(user=instance.user)
-    profile.update_current_storage()
+    user = User.objects.get(id=instance.user.id)
+    user.update_current_storage()
 
 
 @receiver(post_save, sender=Document)
 def update_user_storage_after_doc_creation(sender, instance, **kwargs):
     # update user storage size
-    profile = UserProfile.objects.get(user=instance.user)
-    profile.update_current_storage()
+    user = User.objects.get(id=instance.user.id)
+    user.update_current_storage()
 
 
 @receiver(pre_delete, sender=Document)

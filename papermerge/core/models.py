@@ -6,11 +6,10 @@ import kombu
 from django.conf import settings
 from django.db import models
 from django.contrib.postgres.search import SearchVectorField
+from django.contrib.auth.models import AbstractUser
 
 from django.utils import timezone
-from django.contrib.auth.models import (
-    User, Group, Permission
-)
+from django.contrib.auth.models import (Group, Permission)
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 
@@ -63,31 +62,12 @@ def get_storage_root():
     return endpoint.Endpoint(settings.STORAGE_ROOT)
 
 
-class UserProfile(models.Model):
-    """
-    User Profile
-
-    this model is updated through signals. See core.signals
-    """
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE,
-    )
+class User(AbstractUser):
     # increases with every imported document
     # decreases with every deleted document
     # when reaches settings.USER_PROFILE_USER_STORAGE_SIZE
     # no more documents can be imported
     current_storage_size = models.BigIntegerField(default=0)
-
-    sftp_password1 = models.CharField(
-        max_length=1024,
-        blank=True,
-        null=True
-    )
-    sftp_password2 = models.CharField(
-        max_length=1024,
-        blank=True,
-        null=True
-    )
 
     def update_current_storage(self):
         user_docs = Document.objects.filter(user=self.user)
@@ -109,7 +89,7 @@ class BaseTreeNode(PolymorphicMPTTModel):
         max_length=200
     )
 
-    language = models.CharField(
+    lang = models.CharField(
         _('Language'),
         max_length=8,
         blank=False,
@@ -126,34 +106,6 @@ class BaseTreeNode(PolymorphicMPTTModel):
         auto_now=True,
     )
 
-    tasks = models.ManyToManyField('Task', blank=True)
-
-    is_private = models.BooleanField(
-        _('private folder'),
-        default=True,
-        help_text=_(
-            'Designates that this folder will be visible only to '
-            'the owner.'
-        ),
-    )
-
-    # groups and node_permissions are depricated in favour of
-    # access model
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name=_('groups'),
-        blank=True,
-        help_text=_(
-            'The groups this folder belongs to.'
-        ),
-    )
-    # depricated in favour of access model
-    node_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name=_('Folder permissions'),
-        blank=True,
-        help_text=_('Specific permissions for this Folder.'),
-    )
     # these columns are updated by update_index commands
     # and are used only for FTS
     ancestors_deu = SearchVectorField(null=True)
@@ -1061,7 +1013,7 @@ class Page(models.Model):
 
     text = models.TextField(default='')
 
-    language = models.CharField(
+    lang = models.CharField(
         max_length=8,
         blank=False,
         null=False,
@@ -1163,128 +1115,3 @@ class Folder(mixins.ExtractIds, BaseTreeNode):
 
     def __str__(self):
         return self.title
-
-
-class Task(models.Model):
-    """
-    A task is a something user has to do or is working at.
-    Please don't confuse it with "do your groceries" or
-    "kiss wife at 19:30" tasks.
-    Also, don't confuse this with celery tasks (core.tasks module)
-    which is completely different thing!
-    The main idea of a task, is that
-    *  it/task has associated documents to it
-        (documents from within application)
-    * task usually takes places over certain period of time, like
-        weeks, months or even years.
-    * Task has many steps (called activity).
-
-    Here is a perfect example of a task:
-     My insurance company X overcharged 300 euros. So I need to fix the issue.
-     I call X and they tell me, well, we need to contact your previous company
-     Y and asks for ABC info. X told me it will take 3 weeks.
-     In order to remember state of this issue in 3 weeks and have documents
-     at hand - I created a task. After task is created I add first
-     step/activity with specific date and associated documents.
-     Also added some notes.
-
-     In 3 weeks I call the company - and there is another issue - so, the
-     result is that I need to call them in a week or so. So I added
-     another step/activity to the task.
-
-     When I called my insurance company 10th time and told them all details
-     about ongoing process - they were shocked - "How do u Herr Ciur keep
-     track of all that?" - well, I have my own secrets :)
-    """
-
-    STATE = (
-       ('pending', 'Pending'),
-       ('active', 'Active'),
-       ('finished', 'Finished')
-    )
-
-    title = models.CharField(
-        max_length=512,
-        blank=False,
-        null=False
-    )
-    state = models.CharField(
-        max_length=512,
-        choices=STATE,
-        default='pending'
-    )
-    notes = models.TextField(default='')
-    user = models.ForeignKey(User, models.CASCADE)
-
-    is_private = models.BooleanField(
-        _('private task'),
-        default=True,
-        help_text=_(
-            'Designates that this task will be visible only to '
-            'the owner.'
-        ),
-    )
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name=_('groups'),
-        blank=True,
-        help_text=_(
-            'The groups this task belongs to.'
-        ),
-    )
-    task_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name=_('Folder permissions'),
-        blank=True,
-        help_text=_('Specific permissions for this Folder.'),
-    )
-
-    def __str__(self):
-        return self.title
-
-
-class Activity(models.Model):
-    """
-    Activity is a step within a task. An activity which
-    is at specific datetime is described by notes field.
-    Both task and activity can have associated multiple documents.
-    Think attachments.
-    """
-    # datetime is important because activities will be ordered according to
-    # the datetime.
-    date = models.DateTimeField(
-        default=timezone.now,
-        blank=False,
-        null=False
-    )
-    notes = models.TextField(default='')
-    task = models.ForeignKey(Task, models.CASCADE)
-
-
-class Subscription(models.Model):
-    """
-    Model for newsletter.
-    So, newsletter = subscription.
-    """
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.email
-
-    class Meta:
-        # These are custom permissions created for whole vml web app.
-        # Its hacky why to create them. Before this Meta thing, I created
-        # them in a migration, however this broke whole migration because
-        # of "failed due to pending trigger" DB error:
-        #
-        # django.db.utils.OperationalError: cannot DROP TABLE
-        # "auth_permission" because it has pending trigger events
-        permissions = (
-            ('vml_documents', "Documents", ),
-            ('vml_tasks', "Tasks", ),
-            ('vml_groups', "Groups", ),
-            ('vml_users', "Users", ),
-            ('vml_root', "Root", ),
-            ('vml_access', "Access", ),
-            ('vml_change', "Change", ),
-        )

@@ -20,6 +20,8 @@ PAPERMERGE_ASSETS_VER = ""
 
 STORAGE_ROOT = ''
 
+AUTH_USER_MODEL = "core.User"
+
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
 

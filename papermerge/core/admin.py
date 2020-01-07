@@ -735,110 +735,8 @@ class PerInstancePreferenceAdmin(DynamicPreferenceAdmin):
     changelist_form = UserSinglePreferenceForm
 
 
-class ActivityInline(
-    admin.StackedInline
-):
-    model = models.Activity
-
-    def get_extra(self, request, obj=None, **kwargs):
-        """Hook for customizing the number of extra inline forms."""
-
-        # When displaying document pages , there is no need to
-        # add extra forms. User cannot add/change them anyway
-        return 0
-
-    def has_module_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
-    def has_add_permission(self, request, obj=None):
-        return True
-
-
-class TaskAdmin(
-    bs_options.BaseModelBoss, admin.ModelAdmin
-):
-
-    list_display = (
-        'title',
-        'state',
-        'notes'
-    )
-
-    exclude = ('user', 'groups', 'is_private', 'task_permissions')
-
-    search_fields = ['name']
-
-    # list_filter = ('state ', )
-
-    inlines = [
-        ActivityInline,
-    ]
-
-    def change_view(
-            self,
-            request,
-            object_id,
-            form_url='',
-            extra_context=None
-    ):
-        extra_context = extra_context or {}
-        # add to context list of all documents associated with current task
-        extra_context['attachments'] = models.Document.objects.filter(
-            tasks__id=object_id
-        )
-        return super().change_view(
-            request, object_id, form_url, extra_context=extra_context,
-        )
-
-    def has_module_permission(self, request, obj=None):
-        return request.user.has_perm("vml_tasks")
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return request.user.has_perm('tasks.delete')
-
-    def has_add_permission(self, request, obj=None):
-        return request.user.has_perm('vml_tasks')
-
-
-class UserProfileInline(admin.StackedInline):
-    model = models.UserProfile
-    max_num = 1
-    can_delete = False
-    form = forms.UserProfileForm
-
-    fieldsets = (
-        ('SFTP Account', {
-            'fields': ('sftp_password1', 'sftp_password2'),
-            'classes': ('vertical', ),
-            'description': 'Password for SFTP account.'
-        }),
-    )
-
-    def has_module_permission(self, request):
-        return True
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
-    def has_add_permission(self, request, obj=None):
-        return True
-
-
 class UserAdminEx(UserAdmin):
 
-    inlines = [UserProfileInline]
     change_password_form = forms.DgPasswordChangeForm
 
     list_display = (
@@ -886,7 +784,6 @@ class UserAdminEx(UserAdmin):
         return super(UserAdmin, self).add_view(*args, **kwargs)
 
     def change_view(self, *args, **kwargs):
-        self.inlines = [UserProfileInline]
         return super(UserAdmin, self).change_view(*args, **kwargs)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):

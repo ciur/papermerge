@@ -11,9 +11,7 @@ from django.contrib.auth import (
 
 from papermerge.core.models import (
     Document,
-    Folder,
-    Subscription,
-    UserProfile
+    Folder
 )
 
 
@@ -67,7 +65,7 @@ class DocumentForm(forms.ModelForm):
 
         fields = [
             'title',
-            'language',
+            'lang',
             'notes',
         ]
 
@@ -84,7 +82,7 @@ class PageForm(forms.ModelForm):
     class Meta:
         exclude = [
             'user', 'height', 'text_deu', 'text_eng', 'text',
-            'language', 'page_count'
+            'lang', 'page_count'
         ]
 
 
@@ -96,27 +94,3 @@ class FolderForm(forms.ModelForm):
             'title',
         ]
         exclude = ['user', 'keywords', 'color']
-
-
-class UserProfileForm(forms.ModelForm):
-
-    class Meta:
-        model = UserProfile
-        fields = [
-            'sftp_password1',
-            'sftp_password2'
-        ]
-        widgets = {
-            'sftp_password1': PasswordInput(),
-            'sftp_password2': PasswordInput(),
-        }
-        labels = {
-            'sftp_password1': 'Password',
-            'sftp_password2': 'Password (again)'
-        }
-
-
-class NewsletterForm(forms.ModelForm):
-    class Meta:
-        model = Subscription
-        fields = ('email', )
