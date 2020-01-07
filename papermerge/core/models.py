@@ -20,13 +20,13 @@ from polymorphic_tree.models import (
     PolymorphicTreeForeignKey
 )
 
-from briolette import (endpoint, storage, step)
-from briolette.pdfinfo import get_pagecount
-from briolette.storage import (
+from pmworker import (endpoint, storage, step)
+from pmworker.pdfinfo import get_pagecount
+from pmworker.storage import (
     upload_document,
     copy2doc_url
 )
-from briolette.tasks import ocr_page as briolette_worker
+from pmworker.tasks import ocr_page as pm_worker
 
 from papermerge.core import mixins
 from papermerge.core.utils import get_tenant_name
@@ -847,18 +847,18 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             document_id = document.id
             file_name = document.file_name
             for page_num in range(1, page_count + 1):
-                complete = briolette_worker.apply_async(kwargs={
+                complete = pm_worker.apply_async(kwargs={
                     'tenant_name': tenant_name,
                     'user_id': user_id,
                     'document_id': document_id,
                     'file_name': file_name,
                     'page_num': page_num,
                     'lang': lang},
-                    queue='briolette'
+                    queue='pmworker'
                 )
                 if complete and not isinstance(complete, str):
                     # In testing env, there is no celery,
-                    # thus, briolette_worker returns immediately
+                    # thus, pmworker returns immediately
                     # and its return value is a string
                     document.celery_task_id = complete.id
                 document.save()

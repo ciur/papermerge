@@ -7,7 +7,7 @@ from dynamic_preferences.preferences import Section
 from dynamic_preferences.users.registries import user_preferences_registry
 from dynamic_preferences.registries import global_preferences_registry
 
-from briolette import lang_human_name
+from pmworker import lang_human_name
 
 ocr = Section('ocr')
 system_settings = Section('system_settings')

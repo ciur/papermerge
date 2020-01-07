@@ -12,7 +12,7 @@ from django.utils.six.moves.urllib.parse import urljoin
 
 from papermerge.core import models
 
-from briolette.endpoint import (
+from pmworker.endpoint import (
     get_bucketname,
     get_keyname
 )

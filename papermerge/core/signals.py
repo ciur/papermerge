@@ -29,7 +29,7 @@ from papermerge.core.auth import (
 from papermerge.core.storage import remove_file
 from papermerge.core.utils import get_tenant_name
 
-from briolette.endpoint import Endpoint
+from pmworker.endpoint import Endpoint
 from customers.tasks import update_sftp_user
 
 

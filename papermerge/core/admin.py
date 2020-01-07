@@ -51,7 +51,7 @@ from papermerge.core.preview import PreviewUrlsHandover
 
 from papermerge.core.db import search as search_sql
 
-from briolette import lang_human_name
+from pmworker import lang_human_name
 
 VML_PERMISSIONS = [
     'vml_documents',

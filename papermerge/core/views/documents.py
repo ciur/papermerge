@@ -15,17 +15,17 @@ from django import views
 from django.contrib.auth.decorators import login_required
 
 
-from briolette.storage import (
+from pmworker.storage import (
     upload_document,
     download,
     download_hocr,
     copy2doc_url
 )
 
-from briolette.pdfinfo import get_pagecount
-from briolette.endpoint import Endpoint
-from briolette.step import Step
-from briolette.shortcuts import extract_img
+from pmworker.pdfinfo import get_pagecount
+from pmworker.endpoint import Endpoint
+from pmworker.step import Step
+from pmworker.shortcuts import extract_img
 
 from papermerge.core.lib.hocr import Hocr
 

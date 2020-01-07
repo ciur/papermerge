@@ -5,10 +5,10 @@ from django.urls import reverse
 
 from papermerge.core.models import (Page, Document, Folder)
 from papermerge.testing import create_root_user
-from briolette import ENG
-from briolette.storage import copy2doc_url
-from briolette.endpoint import PageEp
-from briolette.step import Step
+from pmworker import ENG
+from pmworker.storage import copy2doc_url
+from pmworker.endpoint import PageEp
+from pmworker.step import Step
 
 BASE_DIR = os.path.dirname(__file__)
 
