@@ -36,8 +36,8 @@ DATABASES = {
     }
 }
 
-DEBUG = False
-BASE_DIR = Path(__file__).parent.parent.parent.parent
+# 1. settings 2. config 3. papermerge-proj - parent 3x
+BASE_DIR = Path(__file__).parent.parent.parent
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -78,7 +78,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / Path('config') / Path('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
