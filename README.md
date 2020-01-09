@@ -9,14 +9,14 @@ software. If you want to use it's via web browser i.e. with front-end user inter
 
 
 Requirements
-============
+-------------
 
     python >= 3.8
     django >= 3.0
     PostgreSQL >= 11.0
 
 Start Application in Development Environment 
-============================================
+---------------------------------------------
 
 To be able to run it in development you will need:
     
