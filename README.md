@@ -13,7 +13,7 @@ software. If you want to use it's via web browser i.e. with front-end user inter
 
 ## Screenshots
 
-![Login Page](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/login-page.png|width=480)
+![Login Page](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/login-page.jpg)
 
 
 ### Requirements
