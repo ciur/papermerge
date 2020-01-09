@@ -9,12 +9,12 @@ def static_bundle_url(request):
     In production static resources are also versioned.
     """
     if settings.DEBUG:
-        path_js = "/assets/static/js/all.js"
-        path_css = "/assets/static/css/all.css"
+        path_js = "/assets/js/papermerge.js"
+        path_css = "/assets/css/papermerge.css"
     else:
         ver = settings.ASSETS_VER or ""
-        path_js = f"/assets/static/js/all.{ver}.js"
-        path_css = f"/assets/static/css/all.{ver}.css"
+        path_js = f"/assets/js/papermerge.{ver}.js"
+        path_css = f"/assets/css/papermerge.{ver}.css"
 
     return {
         'JS_URL': path_js,
