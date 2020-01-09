@@ -1,8 +1,9 @@
 # Papermerge Document Management System
 
-Papermerge is a document management system primarily designed for archiving
-and retrieving your digital documents. Instead of having piles of paper documents
-all over your desk, office or drawers - you can quickly scan them and configure your scanner to directly upload to Papermerge DMS.
+Papermerge is a document management system (DMS) primarily designed for
+archiving and retrieving your digital documents. Instead of having piles of
+paper documents all over your desk, office or drawers - you can quickly scan
+them and configure your scanner to directly upload to Papermerge DMS.
 
 Papermerge DMS on its turn will [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition) the document and index it. You will be able to quickly find any (scanned!) documenet using full text search capabilities.
 
@@ -53,6 +54,17 @@ where papermerge-js assets are located. Example from my local environment:
         STATIC_ROOT = Path('/home/eugen/ciur/papermerge-js/static/')
 
 where /home/eugen/ciur/papermerge-js is a local clone of [papermerge-js](https://github.com/ciur/papermerge-js)
+
+Run:
+
+    ./manage.py migrate
+    ./manage.py createsuperuser
+    ./manage.py startetc
+    cd ~/.config/systemd/user
+    ln -s /papermerge-proj/run/etc/systemd/nginx.service pm_nginx.service
+    ln -s /papermerge-proj/run/etc/systemd/gunicorn.service
+    systemctl start --user pm_nginx
+    systemctl start --user gunicorn
 
 
 
