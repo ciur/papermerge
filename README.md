@@ -18,13 +18,13 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ## Features
     
-    * Documents of pdf, jpg, png, tiff formats are supported
-    * Per page OCR of the documents
-    * Full Text Search of the scanned documents
-    * Files and Folders - users can organized documents in folders
-    * Multi-User
-    * User permissions management
-    * Document permissions management 
+* Documents of pdf, jpg, png, tiff formats are supported
+* Per page OCR of the documents
+* Full Text Search of the scanned documents
+* Files and Folders - users can organized documents in folders
+* Multi-User
+* User permissions management
+* Document permissions management 
 
 
 ## Screenshots
