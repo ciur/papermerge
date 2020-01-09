@@ -103,6 +103,7 @@ class Command(BaseCommand):
 
         for file in [
             'etc/nginx.conf',
+            'etc/papermerge.env',
             'etc/gunicorn.conf.py',
             'etc/systemd/nginx.service',
             'etc/systemd/papermerge.service'
