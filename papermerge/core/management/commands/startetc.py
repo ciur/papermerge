@@ -1,3 +1,4 @@
+import sys
 import os
 from pathlib import Path
 import logging
@@ -79,7 +80,8 @@ class Command(BaseCommand):
         context = {
             'proj_root': settings.PROJ_ROOT,
             'static_root': settings.STATIC_ROOT,
-            'notice': NOTICE
+            'notice': NOTICE,
+            'virt_env': sys.prefix
         }
         return context
 
@@ -96,7 +98,6 @@ class Command(BaseCommand):
         context = self.get_context()
 
         rundir = Rundir(proj_root=settings.PROJ_ROOT)
-
         if not rundir.exists():
             rundir.create()
 

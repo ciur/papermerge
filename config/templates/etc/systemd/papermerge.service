@@ -1,9 +1,9 @@
+{{notice}}
+
 [Unit]
-Description=MySite Service
+Description=Papermerge Service
 
 [Service]
-User={{USER}}
-Group={{USER}}
-WorkingDirectory={{PROJ_ROOT_DIR}}
-EnvironmentFile={{PROJ_ROOT_DIR}}/etc/papermerge.env
-ExecStart={{VIRT_ENV_DIR}}/bin/gunicorn config.wsgi:app --config /{{PROJ_ROOT_DIR}}/etc/gunicorn.conf.py
+WorkingDirectory={{proj_root}}
+EnvironmentFile={{proj_root}}/run/etc/papermerge.env
+ExecStart={{virt_env}}/bin/gunicorn config.wsgi:app --config {{proj_root}}/run/etc/gunicorn.conf.py

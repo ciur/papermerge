@@ -4,7 +4,5 @@ Description=NinX Web Server running for papermerge
 
 [Service]
 Type=forking
-User={{user}}
-Group={{user}}
-ExecStart=/usr/bin/nginx -c {{proj_root}}/etc/nginx.conf
+ExecStart=/usr/bin/nginx -c {{proj_root}}/run/etc/nginx.conf
 ExecReload=/usr/bin/nginx -s reload
