@@ -24,22 +24,33 @@ To be able to run it in development you will need:
     * nginx >= 1.16.1 
     * PostgreSQL >= 12.1
 
-Although it is django project - it does not django's built in web server.    
+Although it is django project - it does not use django's builtin web server.
 
 
-1. Create and activate python virtual environment
+Create and activate python virtual environment
     
     * python -m venv .venv
     * source ./.venv/bin/activate
 
-2. Install dependencies:
+Install dependencies:
 
     * pip install -r requirements.txt
 
-3. Create config/settings/development.py settings (use dev.py as example).
- config.settings.development is default DJANGO_SETTINGS_MODULE value.
+Create config/settings/development.py settings (use dev.py as example).
+config.settings.development is default DJANGO_SETTINGS_MODULE value.
+By config/settings/development.py is ignored by git.
 
-4. In config/settings/development.py define following variables:
+In config/settings/development.py define following variables:
 
     * STATIC_ROOT
     * DATABASES
+
+STATIC_ROOT is a pathlib.Path(...) instance of path pointing to
+where papermerge-js assets are located. Example from my local environment:
+    
+        STATIC_ROOT = Path('/home/eugen/ciur/papermerge-js/static/')
+
+where /home/eugen/ciur/papermerge-js is a local clone of [papermerge-js](https://github.com/ciur/papermerge-js)
+
+
+
