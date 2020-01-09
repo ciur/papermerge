@@ -1,22 +1,24 @@
-What it is?
-===========
+# Papermerge Document Management System
 
 Papermerge is a document management system primarily designed for archiving
-and retrieving your digital documents.
+and retrieving your digital documents. Instead of having piles of paper documents
+all over your desk, office or drawers - you can quickly scan them and configure your scanner to directly upload to Papermerge DMS.
+
+Papermerge DMS on its turn will [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition) the document and index it. You will be able to quickly find any (scanned!) documenet using full text search capabilities.
 
 This project is a django application i.e. backend part of the whole papermerge
 software. If you want to use it's via web browser i.e. with front-end user interface you will need to clone [Papermerge Frontend](https://github.com/ciur/papermerge-js)
 
 
-Requirements
--------------
+### Requirements
+
 
     python >= 3.8
     django >= 3.0
     PostgreSQL >= 11.0
 
-Start Application in Development Environment 
----------------------------------------------
+### Start Application in Development Environment 
+
 
 To be able to run it in development you will need:
     
