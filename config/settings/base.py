@@ -36,8 +36,10 @@ DATABASES = {
     }
 }
 
+# project root directory
 # 1. settings 2. config 3. papermerge-proj - parent 3x
-BASE_DIR = Path(__file__).parent.parent.parent
+PROJ_ROOT = Path(__file__).parent.parent.parent
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -78,7 +80,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / Path('config') / Path('templates')],
+        'DIRS': [PROJ_ROOT / Path('config') / Path('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,7 +114,7 @@ USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = (
-    BASE_DIR / Path('papermerge'),
+    PROJ_ROOT / Path('papermerge'),
 )
 
 DATE_FORMAT = '%d/%m/%Y'
