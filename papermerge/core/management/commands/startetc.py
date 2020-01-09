@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import logging
 from django.template.loader import render_to_string
@@ -8,36 +9,77 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+NOTICE = """# This file was generated using ./manage.py startetc command.
+# if you add changes here manually, your changes might be overwritten.
+#
+# To adjust generated file, have a look at config/templates/etc files.
+"""
+
+
 class Rundir:
     """
     Sort of context directory
     """
+
     def __init__(self, proj_root):
         self.proj_root = proj_root
+        self.proj_run = self.proj_root / Path("run")
+        self.proj_etc = self.proj_root / Path("run") / Path("etc")
+        self.proj_log = self.proj_root / Path("run") / Path("log")
+        self.proj_systemd = self.proj_etc / Path("systemd")
 
     def exists(self):
-        pass
+        all_run_dirs = [
+            self.proj_root.exists(),
+            self.proj_run.exists(),
+            self.proj_etc.exists(),
+            self.proj_log.exists(),
+            self.proj_systemd.exists(),
+        ]
+        return all(all_run_dirs)
 
     def create(self):
-        pass
+        os.makedirs(
+            self.proj_systemd,
+            exist_ok=True
+        )
+        os.makedirs(
+            self.proj_log,
+            exist_ok=True
+        )
 
     def filepath(self, filename=None):
-        pass
+        """
+        filename given relative to project's run folder.
+        E.g. rundir.filepath(etc/nginx.conf) => proj_dir/run/etc/nginx.conf
+        """
+        return self.proj_run / Path(filename)
 
 
 def string_to_file(string, filepath, force=False):
-    pass
+    """
+    filepath - is an instance of Pathlib.Path()
+    """
+    if filepath.exists() and not force:
+        logger.error(
+            f"file {filepath} already exists, to overwrite use -f"
+        )
+        return False
+
+    with open(filepath, "w") as handle:
+        handle.write(string)
 
 
 class Command(BaseCommand):
 
-    help = """Generates project etc folder
+    help = """Generates project's run/etc, run/log  folders
 """
 
     def get_context(self):
         context = {
             'proj_root': settings.PROJ_ROOT,
-            'static_root': settings.STATIC_ROOT
+            'static_root': settings.STATIC_ROOT,
+            'notice': NOTICE
         }
         return context
 
