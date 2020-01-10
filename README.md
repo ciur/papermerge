@@ -31,6 +31,7 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ![Login Page](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/login-page.jpg)
 ![Folder Structure](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/folder-structure.jpg)
+![Manage Permissions](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/manage-perms.jpg)
 
 
 ### Requirements
