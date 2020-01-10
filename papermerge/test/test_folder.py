@@ -5,7 +5,7 @@ from papermerge.core.models import (
     Folder,
 )
 
-from papermerge.testing import create_root_user
+from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
 BASE_DIR = Path(__file__).parent

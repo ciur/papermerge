@@ -1,8 +1,7 @@
-import unittest
 from django.test import TestCase
 from django.contrib.auth.models import (Permission, Group)
 
-from papermerge.testing import (
+from papermerge.test.utils import (
     create_margaret_user,
     create_uploader_user
 )

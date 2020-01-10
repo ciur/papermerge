@@ -5,7 +5,7 @@ from django.test import Client
 from django.urls import reverse
 
 from papermerge.core.models import (Access, Folder)
-from papermerge.testing import (
+from papermerge.test.utils import (
     create_uploader_user,
     create_margaret_user
 )

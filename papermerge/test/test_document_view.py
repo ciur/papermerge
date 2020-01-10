@@ -4,7 +4,7 @@ from django.test import Client
 from django.urls import reverse
 
 from papermerge.core.models import (Page, Document, Folder)
-from papermerge.testing import create_root_user
+from papermerge.test.utils import create_root_user
 from pmworker import ENG
 from pmworker.storage import copy2doc_url
 from pmworker.endpoint import PageEp

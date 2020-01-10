@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 from django.test import TestCase
-from papermerge.testing import create_root_user
+from papermerge.test.utils import create_root_user
 
 from papermerge.core.models import (
     Document,
