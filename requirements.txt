@@ -1,5 +1,6 @@
 imapclient
 django
+django-extensions
 pyyaml
 lxml
 psycopg2-binary

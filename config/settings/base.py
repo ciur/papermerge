@@ -63,7 +63,8 @@ INSTALLED_APPS = (
     'mptt',
     # we use postgres full text search
     'django.contrib.postgres',
-    'anymail'
+    'anymail',
+    'django_extensions',
 )
 
 MIDDLEWARE = [
