@@ -1,12 +1,12 @@
 from pathlib import Path
 
 from django.test import TestCase
-from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
 from papermerge.core.models import (
     Document,
-    Page
 )
+
+User = get_user_model()
 
 # points to papermerge.testing folder
 BASE_DIR = Path(__file__).parent
