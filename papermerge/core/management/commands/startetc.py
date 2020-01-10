@@ -27,6 +27,7 @@ class Rundir:
         self.proj_run = self.proj_root / Path("run")
         self.proj_etc = self.proj_root / Path("run") / Path("etc")
         self.proj_log = self.proj_root / Path("run") / Path("log")
+        self.proj_tmp = self.proj_root / Path("run") / Path("tmp")
         self.proj_systemd = self.proj_etc / Path("systemd")
 
     def exists(self):
@@ -35,6 +36,7 @@ class Rundir:
             self.proj_run.exists(),
             self.proj_etc.exists(),
             self.proj_log.exists(),
+            self.proj_tmp.exists(),
             self.proj_systemd.exists(),
         ]
         return all(all_run_dirs)
@@ -46,6 +48,10 @@ class Rundir:
         )
         os.makedirs(
             self.proj_log,
+            exist_ok=True
+        )
+        os.makedirs(
+            self.proj_tmp,
             exist_ok=True
         )
 
