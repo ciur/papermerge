@@ -1,13 +1,16 @@
 from django.contrib.auth.models import (
-    User,
     Permission,
     Group
 )
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from papermerge.core.models import (
     Access,
     AccessDiff
 )
+
+# custom user is used - papermerge.core.models.User
+User = get_user_model()
 
 
 def delete_access_perms(node, access_list):

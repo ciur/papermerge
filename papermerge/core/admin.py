@@ -11,7 +11,8 @@ from django.contrib.admin.utils import quote
 from django.contrib.admin.actions import delete_selected
 from django.utils.html import format_html
 from django.contrib.admin import SimpleListFilter
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 
 
@@ -52,6 +53,10 @@ from papermerge.core.preview import PreviewUrlsHandover
 from papermerge.core.db import search as search_sql
 
 from pmworker import lang_human_name
+
+
+User = get_user_model()
+
 
 VML_PERMISSIONS = [
     'vml_documents',
