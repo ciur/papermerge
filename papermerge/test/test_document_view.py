@@ -296,7 +296,6 @@ class TestDocumentView(TestCase):
                 '_save': 'Save'
             },
         )
-
         self.assertEqual(
             ret.status_code,
             302,

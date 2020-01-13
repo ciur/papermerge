@@ -822,6 +822,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         size,
         page_count,
         file_name,
+        notes=None,
         parent_id=None,
     ):
         """
@@ -842,6 +843,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             lang=lang,
             user=user,
             parent=parent,
+            notes=notes,
             file_name=file_name,
             page_count=page_count,
         )

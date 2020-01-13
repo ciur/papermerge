@@ -340,6 +340,7 @@ class DocumentsUpload(views.View):
             parent_id = None
 
         lang = request.POST.get('language')
+        notes = request.POST.get('notes')
         page_count = get_pagecount(f.temporary_file_path())
         logger.info("creating document {}".format(f.name))
 
@@ -350,6 +351,7 @@ class DocumentsUpload(views.View):
             lang=lang,
             file_name=f.name,
             parent_id=parent_id,
+            notes=notes,
             page_count=page_count
         )
         logger.debug("uploading to {}".format(doc.doc_ep.url()))

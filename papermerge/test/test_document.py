@@ -85,11 +85,9 @@ class TestDocument(TestCase):
             size=1222,
             page_count=3
         )
-
         doc.parent = folder
         doc.save()
         folder.save()
-
         count = folder.get_children().count()
         self.assertEqual(
             count,
