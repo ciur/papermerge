@@ -42,11 +42,11 @@ class TestPage(TestCase):
             3
         )
 
-        languages = [
-            page.language for page in doc.page_set.all()
+        langs = [
+            page.lang for page in doc.page_set.all()
         ]
 
         self.assertEqual(
             ['ENG', 'ENG', 'ENG'],
-            languages
+            langs
         )

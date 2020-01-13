@@ -13,6 +13,7 @@ DBPASSWORD = ""
 CELERY_BROKER_URL = ""
 VIRTUAL_MAILBOX_PASS = ""
 S3 = False
+OCR = False
 
 APP_USER = ""
 APP_GROUP = ""

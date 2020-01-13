@@ -741,8 +741,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             lang=lang,
             file_name=file_title,
             parent_id=inbox.id,
-            groups=[],
-            node_permissions=[],
             page_count=page_count
         )
         logger.debug(
@@ -1026,6 +1024,9 @@ class Page(models.Model):
         Returns non-empty text string value if .txt file was found.
         If file was not found - will return an empty string.
         """
+        if not settings.OCR:
+            return ''
+
         text = ''
         logger.debug(f"Checking {self.txt_url}")
 

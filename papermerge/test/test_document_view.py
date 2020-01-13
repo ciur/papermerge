@@ -64,7 +64,7 @@ class TestDocumentView(TestCase):
         doc = Document.create_document(
             title="andromeda.pdf",
             user=self.testcase_user,
-            language="ENG",
+            lang="ENG",
             file_name="andromeda.pdf",
             size=1222,
             page_count=3

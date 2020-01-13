@@ -154,7 +154,7 @@ class TestDocument(TestCase):
         )
 
         ret = Document.import_file(
-            username="root",
+            username="admin",
             filepath=src_file_path,
             start_ocr_async=False,
             file_title="X1.pdf",
