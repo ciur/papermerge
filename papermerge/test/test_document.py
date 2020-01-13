@@ -90,9 +90,11 @@ class TestDocument(TestCase):
         doc.save()
         folder.save()
 
+        count = folder.get_children().count()
         self.assertEqual(
-            folder.get_children().count(),
-            1
+            count,
+            1,
+            f"Folder {folder.title} has {count} children"
         )
         self.assertEqual(
             doc.page_set.count(),
@@ -103,7 +105,7 @@ class TestDocument(TestCase):
 
         self.assertEqual(
             folder.get_children().count(),
-            0
+            0,
         )
 
         with self.assertRaises(Document.DoesNotExist):
