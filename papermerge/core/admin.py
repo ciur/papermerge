@@ -111,7 +111,7 @@ class BaseChildAdmin(
 class FolderNodeAdmin(BaseChildAdmin):
     list_display = ('title',)
     exclude = ('user',)
-    fields = ('title', 'parent', 'is_private', 'groups', 'node_permissions')
+    fields = ('title', 'parent')
 
     def get_changeform_initial_data(self, request):
         initial = super().get_changeform_initial_data(request)
