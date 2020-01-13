@@ -18,6 +18,9 @@ APP_GROUP = ""
 
 ASSETS_VER = None
 
+# One of:
+#   "s3://bucket/path/to/storage"
+#   "local://path/to/media/root"
 STORAGE_ROOT = ''
 
 AUTH_USER_MODEL = "core.User"

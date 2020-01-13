@@ -1,11 +1,11 @@
 from .base import *
+from pathlib import Path
 
 DEBUG = True
 
-MEDIA_ROOT = ""
-STORAGE_ROOT = ""
-
 SITE_ID = 1
+MEDIA_ROOT = PROJ_ROOT / Path("run") / Path("test") / Path("media")
+STORAGE_ROOT = PROJ_ROOT / Path("run") / Path("test") / Path("media")
 
 DATABASES = {
     'default': {
