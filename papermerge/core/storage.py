@@ -56,25 +56,8 @@ class DocumentStorage(FileSystemStorage):
 
 
 def is_storage_left(filepath, user=False):
+    """To be implemented
     """
-        Storage space is associated per tenant. However,
-        it is computed as per user profile.
-        If user=False, then user considered is root user.
-
-        This user profile thingy is there because in future versions
-        there will be space quote allocation per user; and per user
-        quoate will be derived from tenant quota (i.e root user).
-    """
-    max_storage = settings.MAX_STORAGE_SIZE
-    file_size = os.path.getsize(filepath)
-    if not user:
-        user = models.get_root_user()
-    profile = user.userprofile
-    new_storage_size = file_size + profile.current_storage_size
-
-    if new_storage_size > max_storage * 1024:
-        return False
-
     return True
 
 

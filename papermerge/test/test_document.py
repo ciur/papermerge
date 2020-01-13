@@ -185,7 +185,6 @@ class TestDocument(TestCase):
             user=self.user,
             parent_id=None,
             page_count=5,
-            is_private=True,
         )
         doc.save()
 

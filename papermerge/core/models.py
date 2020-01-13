@@ -46,7 +46,7 @@ def get_file_size(filepath):
 
 def get_root_user():
     user = User.objects.get(
-        user_permissions__codename='vml_root'
+        is_staff=True
     )
 
     return user
@@ -70,7 +70,7 @@ class User(AbstractUser):
     current_storage_size = models.BigIntegerField(default=0)
 
     def update_current_storage(self):
-        user_docs = Document.objects.filter(user=self.user)
+        user_docs = Document.objects.filter(user=self)
         self.current_storage_size = sum(int(doc.size) for doc in user_docs)
         self.save()
 
@@ -853,9 +853,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         )
 
         doc.save()
-        doc.groups.set(groups)
-        doc.node_permissions.set(node_permissions)
-
         doc.create_pages()
 
         return doc

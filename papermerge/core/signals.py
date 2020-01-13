@@ -6,7 +6,8 @@ from django.db.models.signals import (
     post_save,
 )
 from django.dispatch import receiver
-from django.contrib.auth.models import (User, Permission)
+from django.contrib.auth.models import Permission
+from django.contrib.auth import get_user_model
 from allauth.account.signals import (
     email_confirmed,
     user_logged_in,
@@ -30,6 +31,7 @@ from papermerge.core.utils import get_tenant_name
 from pmworker.endpoint import Endpoint
 
 
+User = get_user_model()
 logger = logging.getLogger(__name__)
 
 

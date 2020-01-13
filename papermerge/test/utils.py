@@ -1,4 +1,3 @@
-from django.contrib.auth.models import Permission
 from django.contrib.auth import get_user_model
 
 
@@ -11,6 +10,7 @@ def create_root_user():
         'admin@mail.com',
         'xxxyyy123',
         is_active=True,
+        is_staff=True
     )
     user.save()
 
