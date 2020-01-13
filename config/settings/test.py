@@ -61,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = (
+    'papermerge.test.auth_backends.TestcaseUserBackend',
     'papermerge.core.auth.NodeAuthBackend',
 )
 
