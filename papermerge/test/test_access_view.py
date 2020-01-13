@@ -339,7 +339,13 @@ class TestAccessView(TestCase):
         post_data['add'] = []
         post_data['add'].append(access_entry)
 
-        self.client.login(testcase_user=self.uploader_user)
+        logged_in = self.client.login(
+            testcase_user=self.uploader_user
+        )
+        self.assertTrue(
+            logged_in,
+            f"Auth failed for {self.uploader_user}"
+        )
         resp = self.client.post(
             reverse('core:access', args=(F1.id, )),
             post_data,
