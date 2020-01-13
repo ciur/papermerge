@@ -443,7 +443,7 @@ def hocr(request, id, step=None, page="1"):
 
         if not page_ep.hocr_exists():
             # check if HOCR data exists on S3
-            if page_ep.hocr_exists(ep=Endpoint.S3):
+            if settings.S3 and page_ep.hocr_exists(ep=Endpoint.S3):
                 # ok, it should be able to download it.
                 download_hocr(page_ep)
             else:
