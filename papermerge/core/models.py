@@ -825,8 +825,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         page_count,
         file_name,
         parent_id=None,
-        groups=[],
-        node_permissions=[],
     ):
         """
         Arguments:
@@ -1038,7 +1036,6 @@ class Page(models.Model):
             if not storage.download(self.page_ep):
                 logger.info(
                     f"document_log "
-                    f" tenant_name={get_tenant_name()}"
                     f" username={self.user.username}"
                     f" doc_id={self.document.id}"
                     f" page_num={self.number}"
@@ -1057,7 +1054,6 @@ class Page(models.Model):
             text = self.text
             logger.info(
                 f"document_log "
-                f" tenant_name={get_tenant_name()}"
                 f" username={self.user.username}"
                 f" doc_id={self.document.id}"
                 f" page_num={self.number}"

@@ -171,11 +171,7 @@ class TestDocument(TestCase):
 
     def test_update_text_field(self):
         """
-        after renaming doc_url, page_url to
-        doc_ep, page_ep on cu machine, code was failing
-        because I missed update_text_field code changes.
-        So... it is a good idea to have at least a basic
-        test for doc.update_text_field()
+        basic test for doc.update_text_field()
         """
         doc = Document.create_document(
             title="document_c",
@@ -187,5 +183,4 @@ class TestDocument(TestCase):
             page_count=5,
         )
         doc.save()
-
         doc.update_text_field()
