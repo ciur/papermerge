@@ -43,11 +43,10 @@ class TestDocument(TestCase):
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
-            language='DEU',
+            lang='DEU',
             user=self.user,
             parent_id=folder_b.id,
             page_count=5,
-            is_private=True,
         )
         doc.save()
         ancestors = [
@@ -81,7 +80,7 @@ class TestDocument(TestCase):
         doc = Document.create_document(
             title="kyuss.pdf",
             user=self.user,
-            language="ENG",
+            lang="ENG",
             file_name="kyuss.pdf",
             size=1222,
             page_count=3
@@ -182,7 +181,7 @@ class TestDocument(TestCase):
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
-            language='DEU',
+            lang='DEU',
             user=self.user,
             parent_id=None,
             page_count=5,

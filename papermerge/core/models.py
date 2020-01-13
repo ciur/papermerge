@@ -631,7 +631,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 user=self.user,
                 number=page_index,
                 image=preview,
-                language=self.language,
+                lang=self.lang,
                 page_count=page_count
             )
 
@@ -740,10 +740,9 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             user=user,
             title=file_title,
             size=get_file_size(filepath),
-            language=lang,
+            lang=lang,
             file_name=file_title,
             parent_id=inbox.id,
-            is_private=False,
             groups=[],
             node_permissions=[],
             page_count=page_count
@@ -823,12 +822,11 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     def create_document(
         user,
         title,
-        language,
+        lang,
         size,
         page_count,
         file_name,
         parent_id=None,
-        is_private=True,
         groups=[],
         node_permissions=[],
     ):
@@ -847,12 +845,11 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         doc = Document(
             title=title,
             size=size,
-            language=language,
+            lang=lang,
             user=user,
             parent=parent,
             file_name=file_name,
             page_count=page_count,
-            is_private=is_private == 'on',
         )
 
         doc.save()

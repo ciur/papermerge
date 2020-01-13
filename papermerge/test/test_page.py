@@ -29,7 +29,7 @@ class TestPage(TestCase):
         doc = Document.create_document(
             title="kyuss.pdf",
             user=self.user,
-            language="ENG",
+            lang="ENG",
             file_name="kyuss.pdf",
             size=1222,
             page_count=3
