@@ -53,12 +53,10 @@ def get_root_user():
 
 
 def get_media_root():
-
     return endpoint.Endpoint(f"local:{settings.MEDIA_ROOT}")
 
 
 def get_storage_root():
-
     return endpoint.Endpoint(settings.STORAGE_ROOT)
 
 

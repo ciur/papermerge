@@ -1,4 +1,6 @@
 config/settings/development.py
+env_dev.sh
+env_test.sh
 run/
 .venv
 *.pyc

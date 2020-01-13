@@ -1,20 +1,25 @@
+import os
 from .base import *
 from pathlib import Path
 
 DEBUG = True
 
 SITE_ID = 1
-MEDIA_ROOT = PROJ_ROOT / Path("run") / Path("test") / Path("media")
-STORAGE_ROOT = PROJ_ROOT / Path("run") / Path("test") / Path("media")
+
+SECRET_KEY = os.environ['SECRET_KEY']
+MEDIA_ROOT = os.environ['MEDIA_ROOT']
+STORAGE_ROOT = os.environ['STORAGE_ROOT']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASS'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
+    },
+    'maildb': {
     }
 }
 
@@ -42,8 +47,6 @@ INSTALLED_APPS = (
     'mptt',
     # we use postgres full text search
     'django.contrib.postgres',
-    # authorization rules app
-    'rules.apps.AutodiscoverRulesConfig',
     'anymail'
 )
 
