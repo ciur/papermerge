@@ -18,19 +18,3 @@
     </div>
 {% endblock breadcrumbs %}
 
-{% block result_list %}
-    <ul class="horizontal">
-        <li>
-            <a class="btn  btn-neuter" id="add_user" href="{% url 'boss:auth_user_add' %}">
-                <i class="icon plus"></i>
-                New User
-            </a>
-        </li>
-        <li> 
-            {% admin_actions %}
-        </li>
-    </ul>
-    {% block result_list_content %}
-            {% user_result_list cl %}
-    {% endblock %}
-{% endblock %}

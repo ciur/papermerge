@@ -57,17 +57,6 @@ from pmworker import lang_human_name
 
 User = get_user_model()
 
-
-VML_PERMISSIONS = [
-    'vml_documents',
-    'vml_tasks',
-    'vml_groups',
-    'vml_users',
-    'vml_root',
-    'vml_access',
-    'vml_change'
-]
-
 logger = logging.getLogger(__name__)
 
 
@@ -749,10 +738,7 @@ class UserAdminEx(UserAdmin):
         'email',
         'first_name',
         'last_name',
-        # displaying this fields implicitely references
-        # an admin static asset /admin/blah.../img/icon-yes.svg
-        # which throws a weird exception...
-        # 'is_root'
+        'is_staff'
     )
 
     list_filter = ()
@@ -772,62 +758,6 @@ class UserAdminEx(UserAdmin):
         }),
     )
 
-    def is_root(self, obj):
-        return obj.has_perm('vml_root')
-
-    is_root.short_description = 'Is root'
-    is_root.boolean = True
-
-    # Without this change (add_view + change_view) to UserAdmin,
-    # the custom UserProfileInline section
-    # will show up on the "add user" screen, which is just supposed to ask
-    # for the username and password. And if you change any of the profile
-    # data on that screen (away from the defaults) before you save, you'll
-    # get a "duplicate key" database error.
-    def add_view(self, *args, **kwargs):
-        self.inlines = []
-        return super(UserAdmin, self).add_view(*args, **kwargs)
-
-    def change_view(self, *args, **kwargs):
-        return super(UserAdmin, self).change_view(*args, **kwargs)
-
-    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
-        if db_field.name == 'user_permissions':
-            qs = kwargs.get('queryset', db_field.remote_field.model.objects)
-            # Avoid a major performance hit resolving permission names which
-            # triggers a content_type load:
-            kwargs['queryset'] = qs.select_related('content_type')
-
-            kwargs['queryset'] = kwargs['queryset'].filter(
-                codename__in=VML_PERMISSIONS
-            )
-
-        form_field = super().formfield_for_manytomany(
-            db_field,
-            request=request,
-            **kwargs
-        )
-
-        if db_field.name == 'user_permissions':
-            form_field.widget = boss_widgets.PermissionsSelectMultiple(
-                db_field.verbose_name,
-                db_field.name in self.filter_vertical
-            )
-
-        return form_field
-
-    def has_module_permission(self, request):
-        return request.user.has_perm('vml_root')
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_delete_permission(self, request, obj=None):
-        return True
-
-    def has_add_permission(self, request, obj=None):
-        return True
-
 
 class GroupAdminEx(GroupAdmin):
 
@@ -837,31 +767,6 @@ class GroupAdminEx(GroupAdmin):
             'classes': ('vertical', )
         }),
     )
-
-    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
-
-        if db_field.name == 'permissions':
-            qs = kwargs.get('queryset', db_field.remote_field.model.objects)
-            # Avoid a major performance hit resolving permission names which
-            # triggers a content_type load:
-            kwargs['queryset'] = qs.select_related('content_type')
-
-        kwargs['queryset'] = kwargs['queryset'].filter(
-            codename__in=VML_PERMISSIONS
-        )
-        form_field = super().formfield_for_manytomany(
-            db_field,
-            request=request,
-            **kwargs
-        )
-
-        if db_field.name == 'permissions':
-            form_field.widget = boss_widgets.PermissionsSelectMultiple(
-                db_field.verbose_name,
-                db_field.name in self.filter_vertical
-            )
-
-        return form_field
 
     def has_module_permission(self, request):
         return request.user.has_perm('vml_root')

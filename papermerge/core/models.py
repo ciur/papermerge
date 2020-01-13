@@ -22,7 +22,7 @@ from polymorphic_tree.models import (
 from pmworker import (endpoint, storage, step)
 from pmworker.pdfinfo import get_pagecount
 from pmworker.storage import (
-    upload_document,
+    upload_document_to_s3,
     copy2doc_url
 )
 from pmworker.tasks import ocr_page as pm_worker
@@ -761,12 +761,12 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             group=settings.APP_GROUP
         )
 
-        if upload:
-            upload_document(
+        if upload and settings.S3:
+            upload_document_to_s3(
                 doc.doc_ep
             )
 
-        if start_ocr_async:
+        if start_ocr_async and settings.OCR:
             Document.ocr_async(
                 document=doc,
                 page_count=page_count,

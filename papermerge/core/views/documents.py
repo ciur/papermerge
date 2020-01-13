@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from pmworker.storage import (
-    upload_document,
+    upload_document_to_s3,
     download,
     download_hocr,
     copy2doc_url
@@ -339,7 +339,7 @@ class DocumentsUpload(views.View):
         if parent_id and "-1" in parent_id:
             parent_id = None
 
-        language = request.POST.get('language')
+        lang = request.POST.get('language')
         page_count = get_pagecount(f.temporary_file_path())
         logger.info("creating document {}".format(f.name))
 
@@ -347,12 +347,9 @@ class DocumentsUpload(views.View):
             user=user,
             title=f.name,
             size=size,
-            language=language,
+            lang=lang,
             file_name=f.name,
             parent_id=parent_id,
-            is_private=request.POST.get('is_private', False),
-            groups=request.POST.get('groups', []),
-            node_permissions=request.POST.get('node_permissions', []),
             page_count=page_count
         )
         logger.debug("uploading to {}".format(doc.doc_ep.url()))
@@ -362,15 +359,16 @@ class DocumentsUpload(views.View):
             doc_url=doc.doc_ep.url()
         )
 
-        if not settings.UNIT_TESTS:
-            upload_document(
+        if settings.S3:
+            upload_document_to_s3(
                 doc.doc_ep
             )
 
+        if settings.OCR:
             Document.ocr_async(
                 document=doc,
                 page_count=page_count,
-                lang=language
+                lang=lang
             )
 
         # upload only one file at time.

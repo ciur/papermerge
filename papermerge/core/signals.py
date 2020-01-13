@@ -1,4 +1,5 @@
 import logging
+from django.conf import settings
 
 from django.db.models.signals import (
     pre_delete,
@@ -67,9 +68,10 @@ def deleteFiles(sender, instance, **kwargs):
     ))
 
     doc_ep = instance.doc_ep
-    remove_file(
-        doc_url=doc_ep.url(ep=Endpoint.S3)
-    )
+    if settings.S3:
+        remove_file(
+            doc_url=doc_ep.url(ep=Endpoint.S3)
+        )
 
 
 @receiver(user_logged_in)
