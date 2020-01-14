@@ -1,22 +1,15 @@
-# Let’s break down what happens in the first module, first we import absolute
-# imports from the future, so that our celery.py module won’t clash with the
-# library
-from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 
-# set the default Django settings module for the 'celery' program. You don’t
-# need this line, but it saves you from always passing in the settings module
-# to the celery program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
 
-app = Celery('papermerge')
+app = Celery('pm_celery')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object('django.conf:config.settings.dev', namespace='CELERY')
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
@@ -31,10 +24,3 @@ app.conf.broker_transport_options = {
     'interval_step': 0.2,
     'interval_max': 0.2,
 }
-
-# Finally, the debug_task example is a task that dumps its own request
-# information. This is using the new bind=True task option introduced in
-# Celery 3.1 to easily refer to the current task instance.
-@app.task(bind=True)
-def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
