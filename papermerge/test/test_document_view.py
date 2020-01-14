@@ -282,8 +282,12 @@ class TestDocumentView(TestCase):
 
         page = Page.objects.get(document_id=doc.id)
 
+        ret = self.client.login(testcase_user=self.testcase_user)
+        self.assertTrue(ret)
+
+        post_url = reverse('boss:core_basetreenode_change', args=(doc.id, ))
         ret = self.client.post(
-            reverse('boss:core_basetreenode_change', args=(doc.id, )),
+            post_url,
             {
                 'page_set-TOTAL_FORMS': 1,
                 'page_set-INITIAL_FORMS': 1,

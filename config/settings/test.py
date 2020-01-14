@@ -34,7 +34,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'papermerge.boss',
     'papermerge.core',
-    'django_celery_results',
     'django.contrib.admin',
     'allauth',
     'allauth.account',
@@ -65,16 +64,6 @@ AUTHENTICATION_BACKENDS = (
     'papermerge.core.auth.NodeAuthBackend',
 )
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-    },
-    'loggers': {
-    },
-}
-
-
 CELERY_BROKER_URL = "filesystem://"
 CELERY_BROKER_TRANSPORT_OPTIONS = {
     'data_folder_in': '',
@@ -86,4 +75,20 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
+}
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        '_merge': {
+            'class': 'logging.FileHandler',
+            'filename': PROJ_ROOT / Path('run/log/papermerge_test.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['_merge'],
+            'level': 'DEBUG'
+        },
+    },
 }

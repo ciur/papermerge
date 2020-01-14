@@ -54,7 +54,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'papermerge.boss',
     'papermerge.core',
-    'django_celery_results',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'allauth',
