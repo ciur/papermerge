@@ -1,0 +1,10 @@
+[Unit]
+Description=PMWorker Celery Instance Service
+
+[Service]
+Type=forking
+EnvironmentFile={{proj_root}}/run/etc/pmworker.env
+WorkingDirectory={{proj_root}}
+ExecStart={{virt_env}}/bin/celery multi start
+ExecReload={{virt_env}}/bin/celery multi restart
+ExecStop={{virt_env}}//bin/celery multi stopwait
