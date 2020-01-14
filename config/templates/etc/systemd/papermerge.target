@@ -1,3 +1,5 @@
+{{notice}}
+
 [Unit]
 Description=Papermerge Targets
-Requires=papermerge.service pm_nginx.service celery.service
+Requires=papermerge.service pm_nginx.service pmworker.service
