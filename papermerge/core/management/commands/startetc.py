@@ -105,7 +105,8 @@ class Command(BaseCommand):
             'proj_root': settings.PROJ_ROOT,
             'static_root': settings.STATIC_ROOT,
             'notice': NOTICE,
-            'virt_env': sys.prefix
+            'virt_env': sys.prefix,
+            'media_root': settings.MEDIA_ROOT
         }
         return context
 
