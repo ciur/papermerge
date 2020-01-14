@@ -46,22 +46,22 @@ INSTALLED_APPS = (
     'mptt',
     # we use postgres full text search
     'django.contrib.postgres',
-    'anymail'
+    'anymail',
+    'django_extensions',
 )
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = (
     'papermerge.test.auth_backends.TestcaseUserBackend',
     'papermerge.core.auth.NodeAuthBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
 )
 
 CELERY_BROKER_URL = "filesystem://"
