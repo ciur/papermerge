@@ -7,14 +7,14 @@ EnvironmentFile={{proj_root}}/run/etc/pmworker.env
 WorkingDirectory={{proj_root}}
 ExecStart={{virt_env}}/bin/celery multi start w1 \
      -A celery_apps.pmworker \
-     --pidfile={{proj_root}}/run/w1.pid \
+     --pidfile={{proj_root}}/run/w%n.pid \
      --loglevel=DEBUG \
-     --logfile={{proj_root}}/run/log/w1.log
+     --logfile={{proj_root}}/run/log/w%n.log
 ExecReload={{virt_env}}/bin/celery multi restart w1 \
     -A celery_apps.pmworker \
-    --pidfile={{proj_root}}/run/w1.pid \
+    --pidfile={{proj_root}}/run/w%n.pid \
     --loglevel=DEBUG \
-    --logfile={{proj_root}}/run/log/w1.log
+    --logfile={{proj_root}}/run/log/w%n.log
 ExecStop={{virt_env}}//bin/celery multi stopwait w1 \
     -A celery_apps.pmwroker \
     --pidfile={{proj_root}}/run/w1.pid
