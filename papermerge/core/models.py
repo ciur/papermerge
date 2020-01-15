@@ -8,7 +8,6 @@ from django.db import models
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.auth.models import AbstractUser
 
-from django.utils import timezone
 from django.contrib.auth.models import (Group, Permission)
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
@@ -28,7 +27,6 @@ from pmworker.storage import (
 from pmworker.tasks import ocr_page as pm_worker
 
 from papermerge.core import mixins
-from papermerge.core.utils import get_tenant_name
 from papermerge.core.storage import is_storage_left
 
 logger = logging.getLogger(__name__)
@@ -655,7 +653,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             else:
                 logger.info(
                     f"document_log "
-                    f" tenant_name={get_tenant_name()}"
                     f" username={page.user.username}"
                     f" doc_id={page.document.id}"
                     f" page_num={page.number}"
@@ -698,8 +695,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         """
         logger.debug(f"Importing file {filepath}")
 
-        tenant_name = get_tenant_name()
-
         if username is None:
             user = get_root_user()
         else:
@@ -713,7 +708,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             user=user
         ):
             logger.error(
-                f"Tenant {tenant_name} reached his disk quota"
+                f"user.username reached his disk quota"
             )
             return False
 
@@ -783,19 +778,13 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         lang
     ):
 
-        if not settings.CELERY_BROKER_URL:
-            logger.warning("Celery disabled")
-            return
-
         logger.debug("apply async begin...")
         try:
-            tenant_name = get_tenant_name()
             user_id = document.user.id
             document_id = document.id
             file_name = document.file_name
             for page_num in range(1, page_count + 1):
-                complete = pm_worker.apply_async(kwargs={
-                    'tenant_name': tenant_name,
+                pm_worker.apply_async(kwargs={
                     'user_id': user_id,
                     'document_id': document_id,
                     'file_name': file_name,
@@ -803,11 +792,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                     'lang': lang},
                     queue='pmworker'
                 )
-                if complete and not isinstance(complete, str):
-                    # In testing env, there is no celery,
-                    # thus, pmworker returns immediately
-                    # and its return value is a string
-                    document.celery_task_id = complete.id
                 document.save()
         except kombu.exceptions.OperationalError:
             logger.warning("Broker is down, skipping OCR")
@@ -890,7 +874,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     @property
     def doc_ep(self):
         result = endpoint.DocumentEp(
-            tenant_name=get_tenant_name(),
             user_id=self.user.id,
             document_id=self.id,
             file_name=self.file_name,
