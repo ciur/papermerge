@@ -24,7 +24,7 @@ from pmworker.storage import (
     upload_document_to_s3,
     copy2doc_url
 )
-from pmworker.tasks import ocr_page as pm_worker
+from pmworker.tasks import ocr_page
 
 from papermerge.core import mixins
 from papermerge.core.storage import is_storage_left
@@ -44,7 +44,8 @@ def get_file_size(filepath):
 
 def get_root_user():
     user = User.objects.get(
-        is_staff=True
+        is_staff=True,
+        is_superuser=True
     )
 
     return user
@@ -784,7 +785,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             document_id = document.id
             file_name = document.file_name
             for page_num in range(1, page_count + 1):
-                pm_worker.apply_async(kwargs={
+                ocr_page.apply_async(kwargs={
                     'user_id': user_id,
                     'document_id': document_id,
                     'file_name': file_name,
