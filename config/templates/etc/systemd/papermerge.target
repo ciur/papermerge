@@ -3,7 +3,7 @@
 [Unit]
 Description=Papermerge Targets
 Requires=papermerge.service \
-     pm_nginx \
-     pmworker \
-     txt2db \
-     update_fts
+     pm_nginx.service \
+     pmworker.service \
+     txt2db.timer \
+     update_fts.timer
