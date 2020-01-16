@@ -1,3 +1,5 @@
+{{notice}}
+
 [Unit]
 Description=PMWorker Celery Instance Service
 

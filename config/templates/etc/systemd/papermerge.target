@@ -2,4 +2,8 @@
 
 [Unit]
 Description=Papermerge Targets
-Requires=papermerge.service pm_nginx.service pmworker.service
+Requires=papermerge.service \
+     pm_nginx \
+     pmworker \
+     txt2db \
+     update_fts

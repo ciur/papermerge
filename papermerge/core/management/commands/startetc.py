@@ -132,10 +132,14 @@ class Command(BaseCommand):
             'etc/pmworker.env',
             'etc/gunicorn.conf.py',
             'etc/pmworker.py',
-            'etc/systemd/nginx.service',
+            'etc/systemd/pm_nginx.service',
             'etc/systemd/papermerge.service',
             'etc/systemd/pmworker.service',
-            'etc/systemd/papermerge.target'  # tracks deps
+            'etc/systemd/papermerge.target',  # tracks deps
+            'etc/systemd/txt2db.timer',  # onces in every 2 minutes
+            'etc/systemd/txt2db.service',  # copies OCRed txt files to DB
+            'etc/systemd/update_fts.timer',  # onces in every 2 minutes
+            'etc/systemd/update_fts.service',  # prepares FTS columns
         ]:
             rendered = render_to_string(file, context)
             string_to_file(

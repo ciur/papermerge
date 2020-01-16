@@ -1,3 +1,5 @@
+{{notice}}
+
 [Unit]
 Description=txt2db service
 

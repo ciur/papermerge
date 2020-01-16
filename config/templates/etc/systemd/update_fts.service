@@ -1,3 +1,5 @@
+{{notice}}
+
 [Unit]
 Description=update_fts service
 
