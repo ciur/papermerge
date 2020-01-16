@@ -1,7 +1,42 @@
+import logging
 import re
 import subprocess
 import os
+
 from django.conf import settings
+from django.apps import apps
+
+logger = logging.getLogger(__name__)
+
+
+def get_sql_content(file_name):
+    """
+    Returns SQL statements from
+    papermerge/core/pgsql/*.sql files
+
+    Used in :
+        1. data migration 0002_auto from core app.
+        2. update_fts core command
+    """
+    core_path = apps.get_app_config('core').path
+    full_sql_file_path = os.path.join(
+        core_path,
+        "pgsql",
+        file_name
+    )
+    if not os.path.exists(full_sql_file_path):
+        logger.debug(f"file {full_sql_file_path} not found")
+        return
+
+    sql_content = None
+    with open(full_sql_file_path, 'rt') as f:
+        sql_content = f.read()
+        logger.debug(sql_content)
+        return sql_content
+
+    if not sql_content:
+        logger.debug(f"No SQL content available. Aborting.")
+        return
 
 
 def escape(text, replace_with=' '):

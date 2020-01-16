@@ -7,7 +7,8 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
 
-    help = """Update text field of all documents.
+    help = """Read .txt files and insert its content
+    into associated DB column.
 
     It will update text field of all associated pages first
     (from .txt files) and then concatinate all text field into
