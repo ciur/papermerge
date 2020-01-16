@@ -1024,6 +1024,12 @@ class Page(models.Model):
             logger.debug(
                 f"Missing page txt {self.txt_url}."
             )
+            # skip download to local media storage if S3
+            # is disabled.
+            if not settings.S3:
+                logger.info(f"S3 disabled")
+                return ''
+
             if not storage.download(self.page_ep):
                 logger.info(
                     f"document_log "
