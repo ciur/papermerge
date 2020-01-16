@@ -3,14 +3,14 @@ SET text_deu=setweight(
     to_tsvector('pg_catalog.german', coalesce(text,'')),
     'C'
 )
-WHERE language = 'deu';
+WHERE lang = 'deu';
 
 UPDATE core_page 
 SET text_eng=setweight(
     to_tsvector('pg_catalog.english', coalesce(text,'')),
     'C'
 )
-WHERE language = 'eng';
+WHERE lang = 'eng';
 
 UPDATE core_basetreenode 
 SET title_deu=setweight(
@@ -23,7 +23,7 @@ SET title_deu=setweight(
     ),
     'A'
 )
-WHERE language = 'eng';
+WHERE lang = 'eng';
 
 UPDATE core_basetreenode 
 SET title_eng=setweight(
@@ -36,18 +36,18 @@ SET title_eng=setweight(
     ),
     'A'
 )
-WHERE language = 'eng';
+WHERE lang = 'eng';
 
 UPDATE core_basetreenode as node
 SET ancestors_deu = ancestors_to_tsvector(
         'german',
         get_ancestors(node.id)
     )
-WHERE language = 'deu';
+WHERE lang = 'deu';
 
 UPDATE core_basetreenode as node
 SET ancestors_eng = ancestors_to_tsvector(
         'english',
         get_ancestors(node.id)
     )
-WHERE language = 'eng';
+WHERE lang = 'eng';

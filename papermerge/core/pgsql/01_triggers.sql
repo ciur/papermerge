@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION core_page_trigger() RETURNS trigger AS $$
 begin
-    IF new.language = 'deu'
+    IF new.lang = 'deu'
     THEN
         new.text_deu :=
          setweight(
@@ -26,7 +26,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION core_basetreenode_trigger() RETURNS trigger AS $$
 begin
-    IF new.language = 'deu'
+    IF new.lang = 'deu'
     THEN
         new.title_deu :=
          setweight(
