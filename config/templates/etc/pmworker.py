@@ -1,9 +1,9 @@
 worker_concurrency = 1
 broker_url = "filesystem://"
 broker_transport_options = {
-    'data_folder_in': '{{proj_root}}/run/broker/data_in',
-    'data_folder_out': '{{proj_root}}/run/broker/data_in',
-    'data_folder_processed': '{{proj_root}}/run/broker/data_out',
+    'data_folder_in': '{{proj_root}}/run/broker/data_out',
+    'data_folder_out': '{{proj_root}}/run/broker/data_out',
+    'data_folder_processed': '{{proj_root}}/run/broker/data_processed',
 }
 worker_hijack_root_logger = True
 task_default_exchange = 'papermerge'

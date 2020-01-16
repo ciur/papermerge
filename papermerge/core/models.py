@@ -791,7 +791,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                     'file_name': file_name,
                     'page_num': page_num,
                     'lang': lang},
-                    queue='pmworker'
+                    queue='papermerge'
                 )
                 document.save()
         except kombu.exceptions.OperationalError:
