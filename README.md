@@ -88,6 +88,10 @@ Run:
     ln -s /papermerge-proj/run/etc/systemd/gunicorn.service
     systemctl start --user pm_nginx
     systemctl start --user gunicorn
+    ./manage.py run_pgsql -f 01_triggers.sql
+    ./manage.py run_pgsql -f 02_basetreenode.sql
+    ./manage.py run_pgsql -f 03_update_lang_cols.sql
+    ./manage.py run_pgsql -f 04_views.sql
 
 ### Contact 
 
