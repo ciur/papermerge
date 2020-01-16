@@ -43,7 +43,7 @@ SELECT
     perm.id as perm_id
 FROM core_basetreenode n
 LEFT JOIN core_access acc ON n.id = acc.node_id
-LEFT JOIN auth_user u ON u.id = n.user_id
+LEFT JOIN core_user u ON u.id = n.user_id
 LEFT JOIN core_access_permissions acc_perm ON acc_perm.access_id = acc.id
 LEFT JOIN auth_permission perm ON perm.id = acc_perm.permission_id
 ORDER BY u.username, n.title;
