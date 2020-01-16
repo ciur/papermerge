@@ -764,7 +764,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             Document.ocr_async(
                 document=doc,
                 page_count=page_count,
-                lang=lang
+                lang=lang,
+                s3_enabled=settings.S3
             )
 
         if delete_after_import:
@@ -776,7 +777,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     def ocr_async(
         document,
         page_count,
-        lang
+        lang,
+        s3_enabled=False
     ):
 
         logger.debug("apply async begin...")
@@ -790,6 +792,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                     'document_id': document_id,
                     'file_name': file_name,
                     'page_num': page_num,
+                    's3_upload': s3_enabled,
+                    's3_download': s3_enabled,
                     'lang': lang},
                     queue='papermerge'
                 )
