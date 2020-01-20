@@ -29,9 +29,9 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ## Screenshots
 
-![Login Page](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/login-page.jpg)
-![Folder Structure](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/folder-structure.jpg)
-![Manage Permissions](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/manage-perms.jpg)
+![Screenshot 01](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/screenshot01.png)
+![Screenshot 02](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/screenshot02.png)
+![Screenshot 03](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/screenshot03.png)
 
 
 ### Requirements
