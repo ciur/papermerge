@@ -26,6 +26,10 @@ Frontend](https://github.com/ciur/papermerge-js)
 * User permissions management
 * Document permissions management 
 
+## Resources
+
+ * [English Website](https://www.papermerge.com)
+ * [German Website](https://www.papermerge.de)
 
 ## Screenshots
 
