@@ -17,3 +17,5 @@ __pycache__
 *.kra~
 papermerge.egg-info
 dist
+# Sphinx documentation
+docs/build/
