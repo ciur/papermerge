@@ -9,11 +9,4 @@ You need a computer with following software installed:
 * `Poppler <https://poppler.freedesktop.org/>`_ - PDF operations
 * `PostgreSQL <https://www.postgresql.org/>`_ - because of Full Text Search
 
-Papermerge has two parts:
- 
-    * `Web App <https://github.com/ciur/papermerge>`_
-    * `Worker <https://github.com/ciur/papermerge-worker>`_ - which is used for OCR operation
 
-Depending on your needs both Worker and Web App can run on same machine (not
-recommened) - or you can setup a fully distributed application with as many
-workers (each on separate machine) you need.
