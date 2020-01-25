@@ -13,3 +13,4 @@ django-polymorphic-tree
 gunicorn
 django-anymail
 django-redis
+pmworker
