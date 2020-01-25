@@ -9,6 +9,21 @@ Papermerge depends on following software:
 * `Poppler <https://poppler.freedesktop.org/>`_ - PDF operations
 * `PostgreSQL <https://www.postgresql.org/>`_ - because of Full Text Search
 
+Python
+#######
+
+Papermerge is a Python 3 application.
+
+Imagemagick
+###########
+
+Papermerge uses Imagemagick to convert between images format
+
+Poppler
+#########
+
+More exactly poppler utils are used. For exampple pdfinfo command line
+utility is used to find out number of page in PDF document.
 
 Tesseract
 #########
@@ -20,11 +35,8 @@ source `Optical Character Recognition
 extracts text from images. It works fantastically well for wide range of
 languages.
 
-
 Database
 #########
-
-Why PostgreSQL? Why there is no SQLite support?
 
 One of Papermerge's core philosophies is "Find Any Document". PostgreSQL
 database comes with Full Text Search Support (FTS) out of the box.
@@ -32,4 +44,4 @@ database comes with Full Text Search Support (FTS) out of the box.
 With FTS - full text search - you can search documents in similar way people
 are used to search web pages in google (bing, yandex, duckduckgo) search
 engine - you just type some words - and search result will display only
-documents with those words sorted by their relevancy.  
+documents with those words sorted by their relevancy.
