@@ -3,11 +3,12 @@
 Languages Support
 ===================
 
-Theorethically all languages supported by tesseract (over 130) can be supported.
+Theorethically all languages supported by tesseract (over 130) can be used.
 
 But for my own needs only two were needed:
 
     * German 
     * English
 
-Thus, support for these two languages is provided. 
+Thus, only support for these two languages is provided. Both localization (of user interface)
+and OCRing documents in german and english are basically hardcoded into the project.
