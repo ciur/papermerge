@@ -5,7 +5,7 @@ Languages Support
 
 Theorethically all languages supported by tesseract (over 130) can be used.
 
-But for my own needs only two were needed:
+But for my own needs only two were required:
 
     * German 
     * English
