@@ -28,9 +28,10 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ## Resources
 
+ * [Documentation](https://papermerge.readthedocs.io/)
  * [English Website](https://www.papermerge.com)
  * [German Website](https://www.papermerge.de)
- * [Documentation](https://papermerge.readthedocs.io/)
+
 
 ## Screenshots
 
