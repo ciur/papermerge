@@ -35,5 +35,30 @@ Install required ubuntu packages::
         tesseract-ocr-deu \
         tesseract-ocr-eng
 
-Notice that for tesseract :ref:`only english and german <languages>` (Deutsch) language packages are needed.
+Notice that for tesseract :ref:`only english and german <languages>` (Deutsch)
+language packages are needed.
+
+Install PostgreSQL::
+
+    sudo apt install postgresql postgresql-contrib
+
+This will install PostgreSQL version 10. Check that it is up and running::
+
+    sudo systemctl status postgresql@10-main.service
+
+Create new role for postgres database::
+
+    sudo -u postgres createuser --interactive
+
+When asked *Shall the new role be allowed to create databases?* please answer yes 
+(when running tests, django creates a temporary database) 
+
+Create new database owned by previously created user::
+
+    sudo -u postgres createdb -O <user-created-in-prev-step> <dbname>
+
+
+
+
+
 
