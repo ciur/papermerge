@@ -39,7 +39,8 @@ Database
 #########
 
 One of Papermerge's core philosophies is "Find Any Document". PostgreSQL
-database comes with Full Text Search Support (FTS) out of the box.
+database comes with `Full Text Search Support (FTS) <https://www.postgresql.org/docs/current/textsearch.html>`_ 
+out of the box.
 
 With FTS - full text search - you can search documents in similar way people
 are used to search web pages in google (bing, yandex, duckduckgo) search
