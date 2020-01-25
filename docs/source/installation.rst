@@ -14,13 +14,26 @@ I developed, tested and deployed only on Linux machines, just because I am linux
 Theorethically installation should be easy to adopt for MacOS machines.  
 
 
-Development
-############
+Development Environment
+############################
 
-It takes some effort to setup a development environment. But each and every installation step is
-documented very well, there shoudn't be any doubt left.
+In this setup, Web App and Workers run on single machine. 
 
+***************************
+Ubuntu Bionic 18.04 (LTS)
+***************************
 
-Production 
-############
+Install required ubuntu packages::
+
+    sudo apt-get update
+    sudo apt-get install python3 python3-pip python3-venv \
+        poppler-utils \
+        imagemagick \
+        build-essential \
+        poppler-utils \
+        tesseract-ocr \
+        tesseract-ocr-deu \
+        tesseract-ocr-eng
+
+Notice that for tesseract :ref:`only english and german <languages>` (Deutsch) language packages are needed.
 

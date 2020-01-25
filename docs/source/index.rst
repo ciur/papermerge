@@ -17,6 +17,7 @@ or Google Drive.
    :maxdepth: 2
    
    requirements
+   languages
    installation
    changelog
 
