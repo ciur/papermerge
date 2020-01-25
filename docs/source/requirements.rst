@@ -9,6 +9,10 @@ Papermerge depends on following software:
 * `Poppler <https://poppler.freedesktop.org/>`_ - PDF operations
 * `PostgreSQL <https://www.postgresql.org/>`_ - because of Full Text Search
 
+
+Tesseract
+#########
+
 If you never heard of `Tesseract software
 <https://en.wikipedia.org/wiki/Tesseract_(software)>`_ - it is google's open
 source `Optical Character Recognition
@@ -16,4 +20,16 @@ source `Optical Character Recognition
 extracts text from images. It works fantastically well for wide range of
 languages.
 
-You may wonder why isn't it database agnostic? Or maybe why for installtion ease 
+
+Database
+#########
+
+Why PostgreSQL? Why there is no SQLite support?
+
+One of Papermerge's core philosophies is "Find Any Document". PostgreSQL
+database comes with Full Text Search Support (FTS) out of the box.
+
+With FTS - full text search - you can search documents in similar way people
+are used to search web pages in google (bing, yandex, duckduckgo) search
+engine - you just type some words - and search result will display only
+documents with those words sorted by their relevancy.  
