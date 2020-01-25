@@ -17,10 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'papermerge'
+project = 'Papermerge'
 copyright = '2020, Eugen Ciur'
 author = 'Eugen Ciur <eugen@papermerge.com>'
-
 
 # -- General configuration ---------------------------------------------------
 
