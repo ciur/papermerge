@@ -8,7 +8,8 @@ find any document in fraction of second by just typing a few keywords.
 
 
 Papermerge is document management system designed to work with scanned
-documents.
+documents. It provides look and feel of major modern file browsers with
+hierarchical structure of files and folders.
 
 .. toctree::
    :maxdepth: 2
