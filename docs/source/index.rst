@@ -8,7 +8,8 @@ Welcome to papermerge's documentation!
 
 I have nothing against paper. Paper is brilliant humanity invention. But in
 21th centry I find it more appropiate for paper based documents to be
-digitized (scanned). 
+digitized (scanned). Digitized documents are easier to work with, we live in
+world of computers and Internet afterall.
 
 .. toctree::
    :maxdepth: 2
