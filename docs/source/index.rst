@@ -6,11 +6,15 @@
 Welcome to papermerge's documentation!
 ======================================
 
+I have nothing against paper. Paper is brilliant humanity invention. But in
+21th centry I find it more appropiate for paper based documents to be
+digitized (scanned). 
+
 .. toctree::
    :maxdepth: 2
    
    requirements
-   setup
+   installation
    changelog
 
 
