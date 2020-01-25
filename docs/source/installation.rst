@@ -57,8 +57,34 @@ Create new database owned by previously created user::
 
     sudo -u postgres createdb -O <user-created-in-prev-step> <dbname>
 
+Clone main papermerge project::
 
+    git clone https://github.com/ciur/papermerge papermerge-proj
 
+Clone papermerge-js project (this is the frontend part)::
+
+    git clone https://github.com/ciur/papermerge-js
+
+Create python's virtual environment .env::
+
+    cd papermerge-proj
+    python3 -m venv .venv
+
+Activate python's virtual environment::    
+    
+    source .venv/bin/activate
+
+Install required python packages (now you are in papermerge-proj directory)::
+    
+    # while in <papermerge-proj> folder
+    pip install -r requirements.txt
+
+**********************
+Configure Papermerge
+**********************
+
+Create file *config/settings/development.py*. This file is default for
+DJANGO_SETTINGS_MODULE and it is included in .gitignore.
 
 
 
