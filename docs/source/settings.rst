@@ -63,3 +63,21 @@ OCR
  * ``True|False``
 
   Enables or disables OCR features. With ``OCR=False`` no workers needs to be configured;
+
+.. _databases:
+
+DATABASES
+~~~~~~~~~
+
+ This is Django specific configuration settings. Papermerge uses PostgreSQL as database, which
+ means that ENGINE options must be set to ``django.db.backends.postgresql``.
+ Example::
+
+     DATABASES = {
+         'default': {
+             'NAME': 'db_name',
+             'ENGINE': 'django.db.backends.postgresql',
+             'USER': 'db_user',
+             'PASSWORD': 'db_password'
+         },
+     }
