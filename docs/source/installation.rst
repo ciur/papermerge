@@ -57,6 +57,11 @@ Create new database owned by previously created user::
 
     sudo -u postgres createdb -O <user-created-in-prev-step> <dbname>
 
+Set a password for user::
+    
+    sudo -u postgres psql
+    ALTER USER <username> WITH PASSWORD '<password>';
+
 Clone main papermerge project::
 
     git clone https://github.com/ciur/papermerge papermerge-proj
