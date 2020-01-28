@@ -19,6 +19,7 @@ or Google Drive.
    requirements
    languages
    installation
+   settings
    changelog
 
 

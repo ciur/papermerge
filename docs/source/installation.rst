@@ -99,5 +99,10 @@ Adjust following settings in *config/settings/development.py*::
 * MEDIA_ROOT - absolute path to media folder
 * STORAGE_ROOT - absolute path to same media root, but with a "local:/" prefix
 
+Then, as in any django based project, run migrations, create super user and run build in webserver::
+
+     ./manage.py migrate
+     ./manage.py createsuperuser
+     ./manage.py runserver
 
 
