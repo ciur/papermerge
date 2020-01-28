@@ -66,11 +66,13 @@ a S3 bucket.
     to the workers. First method, which is very simple, but wrong: backend
     will just transfer entire document byte by byte to the worker. Without
     diving deep into technical details, this method is not scalable
-    because it deplets all backend's memory very quickly.
+    because it deplets backend's memory very quickly.
 
     Backend instead passes documents by reference - as URL (address). Basically
     it tells workers something like: 
     Hey, guys, please OCR page 1 of document found at ``s3:/bucket/docs/1/user/doc_23.pdf``
 
 
-.. image:: img/design2.png
+.. figure:: img/design2.png
+
+   Backend passes documents to workers by reference. 
