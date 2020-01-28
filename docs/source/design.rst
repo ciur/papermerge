@@ -65,8 +65,8 @@ a S3 bucket.
     There are at least two distinct methods of passing documents from backend
     to the workers. First method, which is very simple, but wrong: backend
     will just transfer entire document byte by byte to the worker. Without
-    diving deep into technical details, this method, for backend means to load
-    entire document in memory which is not a scalable approach.
+    diving deep into technical details, this method is not scalable
+    because it deplets all backend's memory very quickly.
 
     Backend instead passes documents by reference - as URL (address). Basically
     it tells workers something like: 
