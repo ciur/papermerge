@@ -19,8 +19,6 @@ If you want to reuse ``papermerge.config.settings.base``, create python file, fo
 Example above assumes that ``staging.py`` was created in same folder with ``base.py``.
 Don't forget to point `DJANGO_SETTINGS_MODULE <https://docs.djangoproject.com/en/3.0/topics/settings/#envvar-DJANGO_SETTINGS_MODULE>`_ environment variable to your settings module.
 
-Storage Root
--------------
 
 .. _STORAGE_ROOT:
 
