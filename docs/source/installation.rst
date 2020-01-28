@@ -93,8 +93,8 @@ This file is default for DJANGO_SETTINGS_MODULE and it is included in .gitignore
 
 Adjust following settings in *config/settings/development.py*:
 
-* :ref:`DATABASES` -   name, username and password of database you created in PostgreSQL
-* STATIC_ROOT - this settings must point to the <full_dir_path_of_papermerge_js_clone>/static
+* :ref:`DATABASES <databases>` -  name, username and password of database you created in PostgreSQL
+* :ref:`STATICFILES_DIRS <staticfilesdirs>` - include path to <absolute_path_to_papermerge_js_clone>/static
 * MEDIA_ROOT - absolute path to media folder
 * :ref:`STORAGE_ROOT`- absolute path to same media root, but with a "local:/" prefix
 

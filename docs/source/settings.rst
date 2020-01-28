@@ -81,3 +81,19 @@ DATABASES
              'PASSWORD': 'db_password'
          },
      }
+
+
+.. _staticfilesdirs:
+
+STATICFILES_DIRS
+~~~~~~~~~~~~~~~~
+
+  Include absolute path where papermege-js static files are.
+
+  Example::
+
+        STATICFILES_DIRS = [
+            '/home/vagrant/papermerge-js/static'
+        ]
+
+

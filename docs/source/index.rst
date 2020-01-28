@@ -20,6 +20,7 @@ or Google Drive.
    languages
    installation
    settings
+   design
    changelog
 
 
