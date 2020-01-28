@@ -27,12 +27,20 @@ Same is for css.
 To deal with codebase complexity, I decided to split frontend as completely separate 
 project. This project is a `Webpack project <https://webpack.js.org/>`_. In practice this
 makes it little bit easier to deal with growing javascript code complexity.
+The outcome of this project, among others, are two important files:: 
+        
+        <papermerge-js>/static/js/papermerge.js
+        <papermerge-js>/static/css/papermerge.css
 
+There are static files as well, like images and fonts. However images and fonts, are just
+placed in ``<papermerge-js>/static`` and nothing really interesting happens with them.
 
 2. Backend
 **********
 
 `Papermerge-proj Repository <https://github.com/ciur/papermerge>`_
+
+Backend is a `Django <https://djangoproject.com>`_ application.
 
 
 3. Wrokers
