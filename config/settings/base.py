@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.utils.translation import gettext_lazy as _
-from pathlib import Path
+
 
 SECRET_KEY = ""
 SITE_ID = 1
@@ -216,20 +216,3 @@ CELERY_TASK_DEFAULT_ROUTING_KEY = 'papermerge'
 CELERY_INCLUDE = 'pmworker.tasks'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TASK_RESULT_EXPIRES = 86400
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        '_merge': {
-            'class': 'logging.FileHandler',
-            'filename': PROJ_ROOT / Path('run/log/papermerge.log'),
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['_merge'],
-            'level': 'DEBUG'
-        },
-    },
-}
