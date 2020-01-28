@@ -63,7 +63,7 @@ a S3 bucket.
 .. note::
 
     There are at least two distinct methods of passing documents from backend
-    to the workers. First method, which is very simple, but it wrong: backend
+    to the workers. First method, which is very simple, but wrong: backend
     will just transfer entire document byte by byte to the worker. Without
     diving deep into technical details, this method, for backend means to load
     entire document in memory which is not a scalable approach.
@@ -71,3 +71,6 @@ a S3 bucket.
     Backend instead passes documents by reference - as URL (address). Basically
     it tells workers something like: 
     Hey, guys, please OCR page 1 of document found at ``s3:/bucket/docs/1/user/doc_23.pdf``
+
+
+.. image:: img/design2.png
