@@ -1,4 +1,5 @@
 # coding: utf-8
+from pathlib import Path
 from .base import *
 
 DEBUG = True
@@ -37,3 +38,19 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        '_merge': {
+            'class': 'logging.FileHandler',
+            'filename': PROJ_ROOT / Path('run/log/papermerge.log'),
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['_merge'],
+            'level': 'DEBUG'
+        },
+    },
+}

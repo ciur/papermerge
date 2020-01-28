@@ -86,14 +86,13 @@ Configure Papermerge
 Rename file *config/settings/development.example.py* to *config/settings/development.py*.
 This file is default for DJANGO_SETTINGS_MODULE and it is included in .gitignore.
 
-Adjust following settings::
+Adjust following settings in *config/settings/development.py*::
 
-    # in config/settings/development.py
-    * DATABASES['NAME'] - name of database you created in PostgreSQL
-    * DATABASE['USER'] - name of user for PostgreSQL database
-    * STATIC_ROOT - this settings must point to the <full_dir_path_of_papermerge_js_clone>/static
-    * MEDIA_ROOT - absolute path to media folder
-    * STORAGE_ROOT - absolute path to same media root, but with a "local:/" prefix
+* DATABASES['NAME'] - name of database you created in PostgreSQL
+* DATABASE['USER'] - name of user for PostgreSQL database
+* STATIC_ROOT - this settings must point to the <full_dir_path_of_papermerge_js_clone>/static
+* MEDIA_ROOT - absolute path to media folder
+* STORAGE_ROOT - absolute path to same media root, but with a "local:/" prefix
 
 
 
