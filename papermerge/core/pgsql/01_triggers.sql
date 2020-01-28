@@ -58,10 +58,10 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS tsvector_update_core_page ON core_page;
 CREATE TRIGGER tsvector_update_core_page BEFORE INSERT OR UPDATE
-    ON core_page FOR EACH ROW EXECUTE FUNCTION core_page_trigger();
+    ON core_page FOR EACH ROW EXECUTE PROCEDURE core_page_trigger();
 
 DROP TRIGGER IF EXISTS tsvector_update_core_basetreenode ON core_page;
 CREATE TRIGGER tsvector_update_core_basetreenode BEFORE INSERT OR UPDATE
-    ON core_page FOR EACH ROW EXECUTE FUNCTION core_page_trigger();
+    ON core_page FOR EACH ROW EXECUTE PROCEDURE core_page_trigger();
 
 
