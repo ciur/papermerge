@@ -12,6 +12,8 @@ there are 3 separate repositories that are part of one whole.
 
 .. image:: img/design1.png
 
+.. _frontend:
+
 1. Frontend
 ***********
 `Papermerge-js Repository <https://github.com/ciur/papermerge-js>`_
@@ -35,14 +37,37 @@ The outcome of this project, among others, are two important files::
 There are static files as well, like images and fonts. However images and fonts, are just
 placed in ``<papermerge-js>/static`` and nothing really interesting happens with them.
 
+.. _backend:
+
 2. Backend
 **********
 
 `Papermerge-proj Repository <https://github.com/ciur/papermerge>`_
 
-Backend is a `Django <https://djangoproject.com>`_ application.
+Backend is a standard `Django <https://djangoproject.com>`_ application. It uses static files
+from frontend part. Throughout documentation it is refered as *backend* because term webapp is more
+general (webapp = backend + frontend).
 
+.. _worker:
 
 3. Wrokers
 ***********
 `Papermerge-worker Repository <https://github.com/ciur/papermerge-worker>`_
+
+Workers perform OCR on the documents. Documents are passed as reference (see
+note below) from backend via a shared location. In simplest setup  when
+everything runs on same machine, shared location is just a folder on local
+machie accessible by worker and by backend. In production, shared location is
+a S3 bucket.
+
+.. note::
+
+    There are at least two distinct methods of passing documents from backend
+    to the workers. First method, which is very simple, but it wrong: backend
+    will just transfer entire document byte by byte to the worker. Without
+    diving deep into technical details, this method, for backend means to load
+    entire document in memory which is not a scalable approach.
+
+    Backend instead passes documents by reference - as URL (address). Basically
+    it tells workers something like: 
+    Hey, guys, please OCR page 1 of document found at ``s3:/bucket/docs/1/user/doc_23.pdf``
