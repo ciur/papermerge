@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.utils.translation import gettext_lazy as _
-
+from pathlib import Path
 
 SECRET_KEY = ""
 SITE_ID = 1
