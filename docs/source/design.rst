@@ -10,7 +10,10 @@ design decisions were taken. Papermerge project has 2 parts:
 Web application is further devided into Frontend and Backend. As result
 there are 3 separate repositories that are part of one whole.
 
-.. image:: img/design1.png
+.. figure:: img/design1.png
+
+   High level design. Backend and frontend are separate. 
+
 
 .. _frontend:
 
