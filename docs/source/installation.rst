@@ -106,8 +106,12 @@ Adjust following settings in *config/settings/development.py*:
 
 Then, as in any django based project, run migrations, create super user and run build in webserver::
 
+      cd <papermerge-proj>
      ./manage.py migrate
      ./manage.py createsuperuser
      ./manage.py runserver
 
 
+At this point, you should be able to see (styled) login page.  You should be
+able as well to login with administrative user you created before with
+``./manage.py createsuperuser`` command.
