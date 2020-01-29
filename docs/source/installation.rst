@@ -121,6 +121,18 @@ At this point, you should be able to see (styled) login page.  You should be
 able as well to login with administrative user you created before with
 ``./manage.py createsuperuser`` command.
 
+At this step, must be able to access login screen and it should look like in
+screenshot below.
+
+    .. figure:: img/login.png
+
+Also, you can upload some document and see their preview.
+
+    .. figure:: img/uploaded_docs.png
+
+But because there is no worker configured yet, documents are basically plain images.
+Let's configure worker!
+
 Worker
 =======
 
@@ -166,4 +178,12 @@ Now, while in <papermerge-worker> folder, run command::
 
     CELERY_CONFIG_MODULE=config  celery worker -A pmworker.celery -Q papermerge -l info
 
+At this stage, if you keep both built in webserver (./manage.py runserver
+command above) and worker running in foreground and upload a couple of PDF
+documents, and obvisouly give worker few minutes time to OCR the document,
+document becomes more than an image - you can now select text in it!
 
+
+.. figure:: img/select_text.png
+
+   Now you should be able to select text
