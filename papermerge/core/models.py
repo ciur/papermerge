@@ -786,6 +786,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             user_id = document.user.id
             document_id = document.id
             file_name = document.file_name
+            logger.debug(f"Document {document_id} has {page_count} pages")
             for page_num in range(1, page_count + 1):
                 ocr_page.apply_async(kwargs={
                     'user_id': user_id,

@@ -147,7 +147,7 @@ Create a file <papermerge-worker>/config.py with following configuration::
     s3 = False
     local_storage = "local:/home/vagrant/papermerge-proj/run/media/"
 
-Now, while in <papermerge-worker> run command::
+Now, while in <papermerge-worker> folder, run command::
 
     CELERY_CONFIG_MODULE=config  celery worker -A pmworker.celery -Q papermerge -l info
 
