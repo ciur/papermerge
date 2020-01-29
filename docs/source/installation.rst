@@ -104,6 +104,11 @@ Adjust following settings in *config/settings/development.py*:
 * MEDIA_ROOT - absolute path to media folder
 * :ref:`STORAGE_ROOT`- absolute path to same media root, but with a "local:/" prefix
 
+.. note::
+
+    1. Make sure that ``data_folder_in`` and ``data_folder_out`` point to the same location.
+    2. Make sure that folder pointed by ``data_folder_in`` and ``data_folder_out`` exists.
+
 Then, as in any django based project, run migrations, create super user and run build in webserver::
 
       cd <papermerge-proj>
@@ -122,7 +127,7 @@ Worker
 Let's add a worker *on the same machine* with Web Application we configured above.
 We will use the same python's virtual environment as for Web Application.
 
-.. important::
+.. note::
     
     Workers are the ones who depend on (and use) tesseract not Web App.
 
@@ -153,7 +158,8 @@ Create a file <papermerge-worker>/config.py with following configuration::
 
 .. important::
 
-    Folder ``/home/vagrant/papermerge-proj/run/broker/data_in/`` must exists.
+    Folder pointed by ``data_folder_in`` and ``data_folder_out`` must exists and be
+    the same one as in configuration for Web Application.
 
 
 Now, while in <papermerge-worker> folder, run command::
