@@ -25,6 +25,12 @@ In this setup, Web App and Workers run on single machine.
 Ubuntu Bionic 18.04 (LTS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. important::
+
+    While writing this document, I realized that papermerge uses
+    a PostgreSQL 11's `websearch_to_tsquery <https://www.postgresql.org/docs/current/textsearch-controls.html>`_
+    for full text search.
+
 Install required ubuntu packages::
 
     sudo apt-get update
@@ -187,3 +193,34 @@ document becomes more than an image - you can now select text in it!
 .. figure:: img/select_text.png
 
    Now you should be able to select text
+
+Recurring Commands
+====================
+
+
+
+At this point, if you will try to search a document - nothing will show up in search
+results. It is because, workers OCR a document and place results into a .txt file.
+
+A special django command ``txt2db`` will read .txt file and insert it
+in associated document's (document's page) database entry.
+
+And yet another command ``update_fts`` will prepare a special a database column
+with correct information about document (more precicely - page).
+
+You either run commands manually::
+    
+    cd <papermerge-proj>
+    ./manage.py txt2db
+    ./manage.py update_ts
+
+.. important::
+
+    While writing this document, I realized that ``txt2db`` command uses
+    a PostgreSQL 11's `websearch_to_tsquery <https://www.postgresql.org/docs/current/textsearch-controls.html>`_
+    for full text search.
+    
+
+
+Or create systemd timers for it (or classical cron jobs).
+
