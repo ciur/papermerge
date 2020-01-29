@@ -10,7 +10,7 @@ def create_root_user():
         'admin@mail.com',
         'xxxyyy123',
         is_active=True,
-        is_staff=True,
+        is_superuser=True,
     )
     user.save()
 
@@ -23,7 +23,6 @@ def create_margaret_user():
         'margaret@mail.com',
         'xxxyyy123',
         is_active=True,
-        is_staff=True
     )
     user.save()
 
@@ -36,7 +35,6 @@ def create_uploader_user():
         'uploader@mail.com',
         'xxxyyy123',
         is_active=True,
-        is_staff=True
     )
     user.save()
 

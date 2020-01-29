@@ -43,10 +43,9 @@ def get_file_size(filepath):
 
 
 def get_root_user():
-    user = User.objects.get(
-        is_staff=True,
+    user = User.objects.filter(
         is_superuser=True
-    )
+    ).first()
 
     return user
 
