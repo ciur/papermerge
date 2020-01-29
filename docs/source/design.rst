@@ -73,10 +73,9 @@ a S3 bucket.
     diving deep into technical details, this method is not scalable
     because it deplets backend's memory very quickly.
 
-    Backend instead passes documents by reference - as URL (address). Basically
-    it tells workers something like: 
-    Hey, guys, please OCR page 1 of document found at ``s3:/bucket/docs/1/user/doc_23.pdf``
-
+    Backend instead instructs workers which documents they need to OCR by telling workers
+    document id (it passes user id and language name as well). 
+    
 
 .. figure:: img/design2.png
 
