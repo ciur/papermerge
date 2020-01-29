@@ -7,7 +7,7 @@ Papermerge depends on following software:
 * `Tesseract <https://github.com/tesseract-ocr/tesseract>`_ - because of OCR
 * `Imagemagick <https://imagemagick.org/script/index.php>`_ - Image operations
 * `Poppler <https://poppler.freedesktop.org/>`_ - PDF operations
-* `PostgreSQL <https://www.postgresql.org/>`_ - because of Full Text Search
+* `PostgreSQL <https://www.postgresql.org/>`_  >= 11.0 because of Full Text Search
 
 Python
 #######
@@ -41,6 +41,8 @@ Database
 One of Papermerge's core philosophies is "Find Any Document". PostgreSQL
 database comes with `Full Text Search Support (FTS) <https://www.postgresql.org/docs/current/textsearch.html>`_ 
 out of the box.
+Papermerge uses ``websearch_to_tsquery`` PostgreSQL function which was
+introduced in PostgreSQL version 11.0.
 
 With FTS - full text search - you can search documents in similar way people
 are used to search web pages in google (bing, yandex, duckduckgo) search

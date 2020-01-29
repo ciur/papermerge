@@ -60,10 +60,10 @@ general (webapp = backend + frontend).
 `Papermerge-worker Repository <https://github.com/ciur/papermerge-worker>`_
 
 Workers perform OCR on the documents. Documents are passed as reference (see
-note below) from backend via a shared location. In simplest setup  when
-everything runs on same machine, shared location is just a folder on local
-machie accessible by worker and by backend. In production, shared location is
-a S3 bucket.
+note below) from backend to the workers via a shared location.  In simplest
+setup  when everything runs on same machine, shared location is just a folder
+on local machine accessible by worker and by backend. In production, shared
+location is a S3 bucket.
 
 .. note::
 
