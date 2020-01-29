@@ -1,3 +1,4 @@
+=============
 Installation
 =============
 
@@ -6,22 +7,23 @@ Papermerge has two parts:
     * :ref:`Web application <design>`
     * :ref:`Worker <worker>` - which is used for OCR operation
 
-Depending on your needs both Worker and Web App can run on same machine  or
+Depending on your needs both Worker and Web Application can run on same machine  or
 you can setup a fully distributed application with as many workers (each on
 separate machine) you need.
 
-I developed, tested and deployed only on Linux machines, just because I am linux user.
-Theorethically installation should be easy to adopt for MacOS machines.  
+If you follow along in this document and still have trouble, please open an
+`issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
+the gaps.
 
 
-Development Environment
-############################
+Package Dependencies
+====================
 
 In this setup, Web App and Workers run on single machine. 
 
-***************************
+
 Ubuntu Bionic 18.04 (LTS)
-***************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Install required ubuntu packages::
 
@@ -62,6 +64,13 @@ Set a password for user::
     sudo -u postgres psql
     ALTER USER <username> WITH PASSWORD '<password>';
 
+
+Web App
+========
+
+Once we have prepared database, tesseract and other dependencies, let's start
+with paperpermerge itself.
+
 Clone main papermerge project::
 
     git clone https://github.com/ciur/papermerge papermerge-proj
@@ -84,9 +93,6 @@ Install required python packages (now you are in papermerge-proj directory)::
     # while in <papermerge-proj> folder
     pip install -r requirements.txt
 
-**********************
-Configure Papermerge
-**********************
 
 Rename file *config/settings/development.example.py* to *config/settings/development.py*.
 This file is default for DJANGO_SETTINGS_MODULE and it is included in .gitignore.
