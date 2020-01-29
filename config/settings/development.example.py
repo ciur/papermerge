@@ -15,7 +15,11 @@ STORAGE_ROOT = "local:/home/vagrant/papermerge-proj/run/media"
 S3 = False
 OCR = True
 
-CELERY_BROKER_URL = "memory://"
+CELERY_BROKER_URL = "filesystem://"
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'data_folder_in': '/home/vagrant/papermerge-proj/run/broker/data_in',
+    'data_folder_out': '/home/vagrant/papermerge-proj/run/broker/data_in',
+}
 
 STATIC_ROOT = '/home/vagrant/papermerge-js/static/'
 

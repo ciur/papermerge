@@ -136,7 +136,11 @@ required packages::
 Create a file <papermerge-worker>/config.py with following configuration::
 
     worker_concurrency = 1
-    broker_url = "memory://"
+    broker_url = "filesystem://"
+    broker_transport_options = {
+        'data_folder_in': '/home/vagrant/papermerge-proj/run/broker/data_in',
+        'data_folder_out': '/home/vagrant/papermerge-proj/run/broker/data_in',
+    }
     worker_hijack_root_logger = True
     task_default_exchange = 'papermerge'
     task_ignore_result = False
@@ -144,10 +148,16 @@ Create a file <papermerge-worker>/config.py with following configuration::
     result_backend = 'rpc://'
     include = 'pmworker.tasks'
     accept_content = ['pickle', 'json']
-    s3 = False
+    s3_storage = 's3:/<not_used>'
     local_storage = "local:/home/vagrant/papermerge-proj/run/media/"
+
+.. important::
+
+    Folder ``/home/vagrant/papermerge-proj/run/broker/data_in/`` must exists.
+
 
 Now, while in <papermerge-worker> folder, run command::
 
     CELERY_CONFIG_MODULE=config  celery worker -A pmworker.celery -Q papermerge -l info
+
 
