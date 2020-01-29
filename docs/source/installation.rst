@@ -115,3 +115,39 @@ Then, as in any django based project, run migrations, create super user and run 
 At this point, you should be able to see (styled) login page.  You should be
 able as well to login with administrative user you created before with
 ``./manage.py createsuperuser`` command.
+
+Worker
+=======
+
+Let's add a worker *on the same machine* with Web Application we configured above.
+We will use the same python's virtual environment as for Web Application.
+
+.. important::
+    
+    Workers are the ones who depend on (and use) tesseract not Web App.
+
+Clone repo and install (in same python's virtual environment as Web App)
+required packages::
+
+    git clone https://github.com/ciur/papermerge-worker
+    cd papermerge-worker
+    pip install -r requirements.txt
+
+Create a file <papermerge-worker>/config.py with following configuration::
+
+    worker_concurrency = 1
+    broker_url = "memory://"
+    worker_hijack_root_logger = True
+    task_default_exchange = 'papermerge'
+    task_ignore_result = False
+    result_expires = 86400
+    result_backend = 'rpc://'
+    include = 'pmworker.tasks'
+    accept_content = ['pickle', 'json']
+    s3 = False
+    local_storage = "local:/home/vagrant/papermerge-proj/run/media/"
+
+Now, while in <papermerge-worker> run command::
+
+    CELERY_CONFIG_MODULE=config  celery worker -A pmworker.celery -Q papermerge -l info
+
