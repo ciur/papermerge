@@ -25,12 +25,6 @@ In this setup, Web App and Workers run on single machine.
 Ubuntu Bionic 18.04 (LTS)
 --------------------------
 
-.. important::
-
-    While writing this document, I realized that papermerge uses
-    a PostgreSQL 11's `websearch_to_tsquery <https://www.postgresql.org/docs/current/textsearch-controls.html>`_
-    for full text search.
-
 Install required ubuntu packages::
 
     sudo apt-get update
@@ -46,13 +40,26 @@ Install required ubuntu packages::
 Notice that for tesseract :ref:`only english and german <languages>` (Deutsch)
 language packages are needed.
 
-Install PostgreSQL::
+Ubuntu Bionic 18.04 comes with postgres 10 package. Papermerge on the other hand
+requires at least version 11 of Postgres. 
 
-    sudo apt install postgresql postgresql-contrib
+Install Postgres version 11::
 
-This will install PostgreSQL version 10. Check that it is up and running::
+    # add the repository
+    sudo tee /etc/apt/sources.list.d/pgdg.list <<END
+    deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+    END
 
-    sudo systemctl status postgresql@10-main.service
+    # get the signing key and import it
+    wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    sudo apt-key add ACCC4CF8.asc
+
+    # fetch the metadata from the new repo
+    sudo apt-get update
+
+This will install PostgreSQL version 11. Check that it is up and running::
+
+    sudo systemctl status postgresql@11-main.service
 
 Create new role for postgres database::
 
