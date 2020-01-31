@@ -173,27 +173,26 @@ Recurring Commands
 ====================
 
 At this point, if you will try to search a document - nothing will show up in search
-results. It is because, workers OCR a document and place results into a .txt file.
+results. It is because, workers OCR a document and place results into a .txt file, thus
+extracted text is not yet in database.
 
-A special django command ``txt2db`` will read .txt file and insert it
-in associated document's (document's page) database entry.
+A special Papermerge command ``txt2db`` will read .txt files and insert them
+in associated documents' (documents' pages) database entries.
 
-And yet another command ``update_fts`` will prepare a special a database column
+Afterwards another command ``update_fts`` will prepare a special a database column
 with correct information about document (more precicely - page).
 
-You either run commands manually::
-    
+Run commands manually::
+
     cd <papermerge-proj>
     ./manage.py txt2db
-    ./manage.py update_ts
-
-.. important::
-
-    While writing this document, I realized that ``txt2db`` command uses
-    a PostgreSQL 11's `websearch_to_tsquery <https://www.postgresql.org/docs/current/textsearch-controls.html>`_
-    for full text search.
-    
+    ./manage.py update_fts
 
 
-Or create systemd timers for it (or classical cron jobs).
+.. note::
+
+    In manual setup (i.e. without any Papermerge's background services running),
+    if you want a document to be available for search, you need to run ``./manage.py txt2db``
+    and ``./manage.py update_fts`` commands everytime after document is OCRed.
+
 
