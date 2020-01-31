@@ -8,7 +8,7 @@ by amount of effort required and purpose.
    :maxdepth: 4
    
    os_specific
-   hard_way
+   manual_way
    start_etc
    docker
    ansible

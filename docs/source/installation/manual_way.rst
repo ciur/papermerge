@@ -1,5 +1,5 @@
-Hard Way (No Automation)
-************************
+Manual Way
+************
 
 Papermerge has two parts:
  
