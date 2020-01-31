@@ -1,4 +1,4 @@
-Start Etc Method
-*****************
+Start Etc (Fun Way)
+*******************
 
 Coming soon...

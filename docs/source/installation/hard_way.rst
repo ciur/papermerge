@@ -1,14 +1,15 @@
-From Sources (No Automation)
-*******************************
+Hard Way (No Automation)
+************************
 
 Papermerge has two parts:
  
     * :ref:`Web application <design>`
     * :ref:`Worker <worker>` - which is used for OCR operation
 
+With this installation method both parts will run on the same computer.
 This installation method is suitable for developers. In this method
-no configuration is automated, so it is a perfect if you want to
-understand the internals of the project.
+no configuration is automated, so it is a **perfect method if you want to
+understand the mechanics** of the project.
 
 If you follow along in this document and still have trouble, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in

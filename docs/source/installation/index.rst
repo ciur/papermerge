@@ -7,7 +7,7 @@ by amount of effort required and purpose.
 .. toctree::
    :maxdepth: 4
    
-   no_automation
+   hard_way
    start_etc
    docker
    ansible
