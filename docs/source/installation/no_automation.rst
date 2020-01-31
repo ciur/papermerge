@@ -1,14 +1,14 @@
-From Sources
-**************
+From Sources (No Automation)
+*******************************
 
 Papermerge has two parts:
  
     * :ref:`Web application <design>`
     * :ref:`Worker <worker>` - which is used for OCR operation
 
-Depending on your needs both Worker and Web Application can run on same machine  or
-you can setup a fully distributed application with as many workers (each on
-separate machine) you need.
+This installation method is suitable for developers. In this method
+no configuration is automated, so it is a perfect if you want to
+understand the internals of the project.
 
 If you follow along in this document and still have trouble, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
@@ -193,10 +193,10 @@ document becomes more than an image - you can now select text in it!
 
    Now you should be able to select text
 
+
+
 Recurring Commands
 ====================
-
-
 
 At this point, if you will try to search a document - nothing will show up in search
 results. It is because, workers OCR a document and place results into a .txt file.
