@@ -1,5 +1,5 @@
 Start Etc 
 **********
 
-Start etc is django command that comes with papermerge. It generates
+Startetc is papermerge command that generates
 configuration files for you.
