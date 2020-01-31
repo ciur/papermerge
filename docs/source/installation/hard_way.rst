@@ -19,45 +19,11 @@ the gaps.
 Package Dependencies
 ======================
 
-In this setup, Web App and Workers run on single machine. 
+In this setup, Web App and Workers run on the same machine. 
 
+Install :ref:`operating system specific packages <osspecific1>` 
 
-Ubuntu Bionic 18.04 (LTS)
---------------------------
-
-Install required ubuntu packages::
-
-    sudo apt-get update
-    sudo apt-get install python3 python3-pip python3-venv \
-        poppler-utils \
-        imagemagick \
-        build-essential \
-        poppler-utils \
-        tesseract-ocr \
-        tesseract-ocr-deu \
-        tesseract-ocr-eng
-
-Notice that for tesseract :ref:`only english and german <languages>` (Deutsch)
-language packages are needed.
-
-Ubuntu Bionic 18.04 comes with postgres 10 package. Papermerge on the other hand
-requires at least version 11 of Postgres. 
-
-Install Postgres version 11::
-
-    # add the repository
-    sudo tee /etc/apt/sources.list.d/pgdg.list <<END
-    deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
-    END
-
-    # get the signing key and import it
-    wget https://www.postgresql.org/media/keys/ACCC4CF8.asc
-    sudo apt-key add ACCC4CF8.asc
-
-    # fetch the metadata from the new repo
-    sudo apt-get update
-
-This will install PostgreSQL version 11. Check that it is up and running::
+Check that Postgres version 11 is is up and running::
 
     sudo systemctl status postgresql@11-main.service
 

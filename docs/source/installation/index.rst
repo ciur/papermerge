@@ -7,6 +7,7 @@ by amount of effort required and purpose.
 .. toctree::
    :maxdepth: 4
    
+   os_specific
    hard_way
    start_etc
    docker
