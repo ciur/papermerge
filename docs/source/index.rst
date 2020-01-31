@@ -14,11 +14,11 @@ so that you can organize your documents in a similar way to Dropbox (via web)
 or Google Drive.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    
    requirements
+   installation/index
    languages
-   installation
    settings
    design
    changelog

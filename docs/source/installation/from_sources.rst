@@ -1,6 +1,5 @@
-=============
-Installation
-=============
+From Sources
+**************
 
 Papermerge has two parts:
  
@@ -17,13 +16,13 @@ the gaps.
 
 
 Package Dependencies
-====================
+======================
 
 In this setup, Web App and Workers run on single machine. 
 
 
 Ubuntu Bionic 18.04 (LTS)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 .. important::
 
@@ -130,11 +129,11 @@ able as well to login with administrative user you created before with
 At this step, must be able to access login screen and it should look like in
 screenshot below.
 
-    .. figure:: img/login.png
+    .. figure:: ../img/login.png
 
 Also, you can upload some document and see their preview.
 
-    .. figure:: img/uploaded_docs.png
+    .. figure:: ../img/uploaded_docs.png
 
 But because there is no worker configured yet, documents are basically plain images.
 Let's configure worker!
@@ -190,7 +189,7 @@ documents, and obvisouly give worker few minutes time to OCR the document,
 document becomes more than an image - you can now select text in it!
 
 
-.. figure:: img/select_text.png
+.. figure:: ../img/select_text.png
 
    Now you should be able to select text
 
