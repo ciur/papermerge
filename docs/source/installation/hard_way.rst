@@ -21,7 +21,7 @@ Package Dependencies
 
 In this setup, Web App and Workers run on the same machine. 
 
-Install :ref:`operating system specific packages <osspecific1>` 
+Install :ref:`os specific pacakges for webapp + worker <osspecific1>` 
 
 Check that Postgres version 11 is is up and running::
 

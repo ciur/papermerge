@@ -18,7 +18,9 @@ CELERY_BROKER_TRANSPORT_OPTIONS = {
     'data_folder_out': '/home/vagrant/papermerge-proj/run/broker/data_in',
 }
 
-STATIC_ROOT = '/home/vagrant/papermerge-js/static/'
+STATICFILES_DIRS = [
+    '/home/vagrant/papermerge-js/static'
+]
 
 # write email messages in development mode to email spec by
 # EMAIL_FILE_PATH

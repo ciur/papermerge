@@ -10,7 +10,8 @@ are three cases.
     2. Web app machine
     3. Worker machine
 
-.. _osspecific1
+.. _osspecific1:
+
 1. Web App + Workers Machine
 ------------------------------
 
@@ -49,11 +50,30 @@ Install Postgres version 11::
     # fetch the metadata from the new repo
     sudo apt-get update
 
-.. _osspecific2
+.. _osspecific2:
+
 2. Web App Machine
 --------------------
 
+Tesseract should not run on Web App only computer.
 
-.. _osspecific3
+Ubuntu Bionic 18.04 (LTS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install required ubuntu packages::
+
+    sudo apt-get update
+    sudo apt-get install python3 python3-pip python3-venv \
+        poppler-utils \
+        imagemagick \
+        build-essential \
+        poppler-utils
+
+
+.. _osspecific3:
+
 3. Worker Machine
 --------------------
+
+Worker is the one performing heavy task of extracting text from images. So it must
+have tesseract packages installed.
