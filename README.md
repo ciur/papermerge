@@ -30,8 +30,8 @@ Frontend](https://github.com/ciur/papermerge-js)
 
  * [Video Demo](https://www.youtube.com/watch?v=U_x8fOhuMTI)
  * [Documentation](https://papermerge.readthedocs.io/)
- * [English Website](https://www.papermerge.com)
- * [German Website](https://www.papermerge.de)
+ * [English Website](https://papermerge.com)
+ * [German Website](https://papermerge.de)
 
 
 ## Screenshots
