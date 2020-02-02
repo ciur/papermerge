@@ -75,10 +75,10 @@ is ignored by git.
 
 In config/settings/development.py define following variables:
 
-    * [STATICFILES_DIRS](https://papermerge.readthedocs.io/en/latest/settings.html#staticfiles-dirs)
-    * DATABASES
-    * MEDIA_ROOT
-    * [STORAGE_ROOT](https://papermerge.readthedocs.io/en/latest/settings.html#storage-root)
+ * [STATICFILES_DIRS](https://papermerge.readthedocs.io/en/latest/settings.html#staticfiles-dirs)
+ * [DATABASES](https://papermerge.readthedocs.io/en/latest/settings.html#databasess)
+ * MEDIA_ROOT
+ * [STORAGE_ROOT](https://papermerge.readthedocs.io/en/latest/settings.html#storage-root)
 
 STATIC_ROOT is an absolute path to location where papermerge-js assets are. Example from my local environment:
     
