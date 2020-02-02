@@ -68,9 +68,10 @@ Install dependencies:
 
     * pip install -r requirements.txt
 
-Create config/settings/development.py settings (use dev.py as example).
+Create config/settings/development.py settings (use development.example.py file as example).
 config.settings.development is default DJANGO_SETTINGS_MODULE value.
-By config/settings/development.py is ignored by git.
+File config/settings/development.py is listed in .gitignore and thus
+is ignored by git.
 
 In config/settings/development.py define following variables:
 
