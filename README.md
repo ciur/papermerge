@@ -48,7 +48,7 @@ Frontend](https://github.com/ciur/papermerge-js)
     PostgreSQL >= 11.0
     Tesseract >= 4.1.0
 
-### Start Application in Development Environment 
+### Start Application in Development Environment
 
 To be able to run it in development you will need:
     
@@ -75,11 +75,12 @@ is ignored by git.
 
 In config/settings/development.py define following variables:
 
-    * STATIC_ROOT
+    * [STATICFILES_DIRS](https://papermerge.readthedocs.io/en/latest/settings.html#staticfiles-dirs)
     * DATABASES
+    * MEDIA_ROOT
+    * [STORAGE_ROOT](https://papermerge.readthedocs.io/en/latest/settings.html#storage-root)
 
-STATIC_ROOT is a pathlib.Path(...) instance of path pointing to
-where papermerge-js assets are located. Example from my local environment:
+STATIC_ROOT is an absolute path to location where papermerge-js assets are. Example from my local environment:
     
         STATIC_ROOT = Path('/home/eugen/ciur/papermerge-js/static/')
 
