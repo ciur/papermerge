@@ -15,6 +15,7 @@ If you follow along in this document and still have trouble, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
 the gaps.
 
+.. _packages-and-db:
 
 Package Dependencies
 ======================
