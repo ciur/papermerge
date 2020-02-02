@@ -100,3 +100,20 @@ Folder ``<papermerge-proj>`` should have following structure::
     ├── log
     └── tmp
 
+Systemd can be used to manage user services. For that --user flag is used.
+User services must be referenced in ``~/.config/systemd/user`` folder. By the way,
+`I made a video about systemd --user feature <https://www.django-lessons.com/lesson/lesson-12-system-for-python-developers>`_.
+
+Create ``~/.config/systemd/user`` if you don't have it. Then reference (create symbolic links)
+``<papermerge-proj>/run/etc/systemd/`` units in ``~/.config/systemd/user`` folder::
+
+    cd ~/.config/systemd/user
+    ln -s <papermerge-proj>/run/etc/systemd/* .
+
+.. important::
+    
+    Path <papermerge-proj>/run/etc/systemd/* must be absolute.
+
+Start papermerge::
+
+    systemctl --user start papermerge.target
