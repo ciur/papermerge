@@ -9,7 +9,7 @@ by amount of effort required and purpose.
    
    os_specific
    manual_way
-   start_etc
+   startetc
    docker
    ansible
    jenkins_and_ansible
