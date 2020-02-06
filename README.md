@@ -36,9 +36,9 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ## Screenshots
 
-![Screenshot 01](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/screenshot01.png)
-![Screenshot 02](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/screenshot02.png)
-![Screenshot 03](https://raw.githubusercontent.com/ciur/papermerge/master/screenshots/screenshot03.png)
+![Screenshot 01](./screenshots/screenshot01.png)
+![Screenshot 02](./screenshots/screenshot02.png)
+![Screenshot 03](./screenshots/screenshot03.png)
 
 
 ### Requirements
