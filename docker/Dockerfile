@@ -26,4 +26,5 @@ RUN cd /opt/papermerge && \
     . /opt/papermerge/.venv/bin/activate && \
     pip install -r requirements.freeze
 
+COPY settings.py /opt/papermerge/config/settings/stage.py
 
