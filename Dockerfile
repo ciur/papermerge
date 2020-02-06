@@ -20,3 +20,10 @@ RUN cd /opt && \
     git clone https://github.com/ciur/papermerge && \
     git clone https://github.com/ciur/papermerge-worker && \
     git clone https://github.com/ciur/papermerge-js
+
+RUN cd /opt/papermerge && \
+    python3 -m venv .venv && \
+    . /opt/papermerge/.venv/bin/activate && \
+    pip install -r requirements.freeze
+
+
