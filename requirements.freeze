@@ -41,7 +41,7 @@ oauthlib==3.1.0
 packaging==20.1
 persisting-theory==0.2.1
 pkginfo==1.5.0.1
--e git+git@github.com:ciur/papermerge-worker.git@70f3fc5b867640f1d9a0d45312e6ecf54d334a00#egg=pmworker
+pmworker==1.0.0.post2
 psycopg2-binary==2.8.4
 pycparser==2.19
 Pygments==2.5.2
