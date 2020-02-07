@@ -8,15 +8,15 @@ INTERNAL_IPS = ['127.0.0.1', ]
 
 SITE_ID = 1
 SECRET_KEY = "VeryVeryVerySecretToken"
-MEDIA_ROOT = "/opt/papermerge/run/media"
-STORAGE_ROOT = "local:/opt/papermerge/run/media"
+MEDIA_ROOT = "/opt/media"
+STORAGE_ROOT = "local:/opt/media"
 S3 = False
 OCR = True
 
 CELERY_BROKER_URL = "filesystem://"
 CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'data_folder_in': '/opt/papermerge/run/broker/data_in',
-    'data_folder_out': '/opt/papermerge/run/broker/data_in',
+    'data_folder_in': '/opt/broker/queue',
+    'data_folder_out': '/opt/broker/queue',
 }
 
 STATICFILES_DIRS = [

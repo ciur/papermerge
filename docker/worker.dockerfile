@@ -17,7 +17,9 @@ RUN apt-get install -y python3 python3-pip python3-venv \
     tesseract-ocr-eng && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/
+RUN mkdir -p /opt/media
+RUN mkdir -p /opt/broker/queue
+
 RUN cd /opt && \
     git clone https://github.com/ciur/papermerge-worker
 
