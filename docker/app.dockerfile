@@ -31,9 +31,9 @@ RUN pip3 install --upgrade pip
 RUN cd /opt/papermerge && \
     pip3 install -r requirements.freeze
 
-COPY settings.py /opt/papermerge/config/settings/stage.py
+COPY app/settings.py /opt/papermerge/config/settings/stage.py
 
-COPY init_web.sh /opt/entrypoint.sh
-COPY create_user.py /opt/papermerge/create_user.py
+COPY app/entrypoint.sh /opt/entrypoint.sh
+COPY app/create_user.py /opt/papermerge/create_user.py
 
 ENTRYPOINT ["/opt/entrypoint.sh"]

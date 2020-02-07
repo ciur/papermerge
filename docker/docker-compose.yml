@@ -1,10 +1,10 @@
 version: '3'
 services:
-  web:
+  app:
     build:
       context: .
-      dockerfile: papermerge.dockerfile
-    container_name: "papermerge_service"
+      dockerfile: app.dockerfile
+    container_name: papermerge_service
     command: python3 /opt/papermerge/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
@@ -15,7 +15,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: postgres.dockerfile
+      dockerfile: db.dockerfile
     container_name: "postgres_db"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -23,5 +23,13 @@ services:
       - PMG_DB_USER=dbuser
       - PMG_DB_PASS=dbpass
       - PMG_DB_NAME=dbname
+  worker:
+    build:
+        context: .
+        dockerfile: worker.dockerfile
+    container_name: papermerge_worker
+    command: celery worker -A pmworker.celery -Q papermerge -l info
+    environment:
+      - CELERY_CONFIG_MODULE=config
 volumes:
   postgres_data:
