@@ -2,7 +2,7 @@ FROM ubuntu:19.10
 
 LABEL maintainer="Eugen Ciur <eugen@papermerge.com>"
 
-ENV DJANGO_SETTINGS_MODULE config.settings.stage
+ENV CELERY_CONFIG_MODULE=config
 
 RUN apt-get update
 RUN apt-get install -y python3 python3-pip python3-venv \
