@@ -10,6 +10,9 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - media_root: /opt/media
+      - broker_queue: /opt/broker/queue
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.stage
   db:
@@ -29,7 +32,12 @@ services:
         dockerfile: worker.dockerfile
     container_name: papermerge_worker
     command: celery worker -A pmworker.celery -Q papermerge -l info
+    volumes:
+      - media_root: /opt/media
+      - broker_queue: /opt/broker/queue
     environment:
       - CELERY_CONFIG_MODULE=config
 volumes:
   postgres_data:
+  broker_queue:
+  media_root:
