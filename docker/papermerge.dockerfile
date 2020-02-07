@@ -29,8 +29,5 @@ RUN cd /opt/papermerge && \
 
 COPY settings.py /opt/papermerge/config/settings/stage.py
 
-RUN cd /opt/papermerge && \
-    python3 manage.py migrate
-
-
-WORKDIR /opt/papermerge
+CMD ["cd", "/opt/papermerge"]
+CMD ["python3", "manage.py", "migrate"]

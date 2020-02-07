@@ -34,7 +34,7 @@ DATABASES = {
         'NAME': 'dbname',
         'USER': 'dbuser',
         'PASSWORD': 'dbpass',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': 5432,
     },
 }
