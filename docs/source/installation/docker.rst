@@ -15,7 +15,8 @@ Docker
 This will create and start the necessary containers. 
 Papermerge Web Service is available at **http://localhost:8000**
 For initial sign in use::
-
+    
+    URL: http://localhost:8000
     username: admin
     password: admin
 
