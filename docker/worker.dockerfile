@@ -31,5 +31,3 @@ RUN cd /opt/papermerge-worker && \
     pip3 install -r requirements.freeze
 
 COPY worker/config.py /opt/papermerge-worker/config.py
-
-ENTRYPOINT ["/opt/entrypoint.sh"]
