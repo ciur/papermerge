@@ -5,20 +5,21 @@ services:
       context: .
       dockerfile: papermerge.dockerfile
     container_name: "papermerge_service"
+    command: python3 manage.py runserver 0.0.0.0:8000
     ports:
       - "9000:9000"
     environment:
-      - PMG_DB_USER=dbuser
-      - PMG_DB_PASS=dbpass
-      - PMG_DB_NAME=dbname
+      - DJANGO_SETTINGS_MODULE=config.settings.stage
   db:
     build:
       context: .
       dockerfile: postgres.dockerfile
     container_name: "postgres_db"
-    ports:
-      - "54320:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     environment:
       - PMG_DB_USER=dbuser
       - PMG_DB_PASS=dbpass
       - PMG_DB_NAME=dbname
+volumes:
+  postgres_data:

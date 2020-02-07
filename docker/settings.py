@@ -31,10 +31,10 @@ EMAIL_BACKEND = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['PMG_DB_NAME'],
-        'USER': os.environ['PMG_DB_USER'],
-        'PASSWORD': os.environ['PMG_DB_PASS'],
+        'NAME': 'dbname',
+        'USER': 'dbuser',
+        'PASSWORD': 'dbpass',
         'HOST': 'localhost',
-        'PORT': 54320,  # docker compose maps 5432 -> 54320
+        'PORT': 5432,
     },
 }
