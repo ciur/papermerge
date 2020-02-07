@@ -9,7 +9,7 @@ by amount of effort required and purpose.
    
    os_specific
    manual_way
-   startetc
+   systemd
    docker
    ansible
    jenkins_and_ansible

@@ -1,4 +1,4 @@
-Startetc 
+Systemd 
 **********
 
 In this installation method you use a special papermerge command ``startetc``

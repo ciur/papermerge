@@ -28,8 +28,6 @@ For initial sign in use::
     username: admin
     password: admin
 
-
-
 You can check logs of each service with::
 
     docker-compose logs worker
