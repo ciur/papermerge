@@ -37,6 +37,7 @@ services:
       - broker_queue:/opt/broker/queue
     environment:
       - CELERY_CONFIG_MODULE=config
+      - C_FORCE_ROOT=True
 volumes:
   postgres_data:
   broker_queue:
