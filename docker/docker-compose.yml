@@ -1,14 +1,24 @@
 version: '3'
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: papermerge.dockerfile
+    container_name: "papermerge_service"
     ports:
       - "9000:9000"
+    environment:
+      - PMG_DB_USER=dbuser
+      - PMG_DB_PASS=dbpass
+      - PMG_DB_NAME=dbname
   db:
-    image: "postgres:11.6"
+    build:
+      context: .
+      dockerfile: postgres.dockerfile
+    container_name: "postgres_db"
     ports:
       - "54320:5432"
     environment:
-      - DB_USER=dbuser
-      - DB_PASS=dbpass
-      - DB_NAME=dbname
+      - PMG_DB_USER=dbuser
+      - PMG_DB_PASS=dbpass
+      - PMG_DB_NAME=dbname

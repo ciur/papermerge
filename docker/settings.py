@@ -1,3 +1,4 @@
+import os
 from .base import *
 
 DEBUG = True
@@ -30,9 +31,9 @@ EMAIL_BACKEND = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbname',
-        'USER': 'dbuser',
-        'PASSWORD': 'dbpass',
+        'NAME': os.environ['PMG_DB_NAME'],
+        'USER': os.environ['PMG_DB_USER'],
+        'PASSWORD': os.environ['PMG_DB_PASS'],
         'HOST': 'localhost',
         'PORT': 54320,  # docker compose maps 5432 -> 54320
     },
