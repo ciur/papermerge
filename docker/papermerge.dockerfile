@@ -33,5 +33,7 @@ RUN cd /opt/papermerge && \
 
 COPY settings.py /opt/papermerge/config/settings/stage.py
 
-CMD ["cd", "/opt/papermerge"]
-CMD ["python3", "manage.py", "migrate"]
+COPY init_web.sh /opt/entrypoint.sh
+COPY create_user.py /opt/papermerge/create_user.py
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
