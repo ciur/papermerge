@@ -5,9 +5,11 @@ services:
       context: .
       dockerfile: papermerge.dockerfile
     container_name: "papermerge_service"
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: python3 /opt/papermerge/manage.py runserver 0.0.0.0:8000
     ports:
-      - "9000:9000"
+      - "8000:8000"
+    depends_on:
+      - db
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.stage
   db:

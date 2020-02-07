@@ -23,6 +23,10 @@ RUN cd /opt && \
     git clone https://github.com/ciur/papermerge-worker && \
     git clone https://github.com/ciur/papermerge-js
 
+# ensures our console output looks familiar and is not buffered by Docker 
+ENV PYTHONUNBUFFERED 1
+
+
 RUN pip3 install --upgrade pip
 RUN cd /opt/papermerge && \
     pip3 install -r requirements.freeze
