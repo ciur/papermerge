@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "9000:9000"
+  db:
+    image: "postgres:11.6"
+    ports:
+      - "54320:5432"
+    environment:
+      - DB_USER=dbuser
+      - DB_PASS=dbpass
+      - DB_NAME=dbname

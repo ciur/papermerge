@@ -34,6 +34,6 @@ DATABASES = {
         'USER': 'dbuser',
         'PASSWORD': 'dbpass',
         'HOST': 'localhost',
-        'PORT': 5432,
+        'PORT': 54320,  # docker compose maps 5432 -> 54320
     },
 }
