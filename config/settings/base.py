@@ -47,6 +47,7 @@ PROJ_ROOT = Path(__file__).parent.parent.parent
 
 
 INSTALLED_APPS = (
+    'rest_framework',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.sessions',

@@ -1,5 +1,6 @@
 imapclient
 django
+djangorestframework
 django-extensions
 pyyaml
 lxml
