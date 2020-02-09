@@ -84,12 +84,12 @@ urlpatterns = [
     ),
     path(
         'api/documents',
-        api_views.documents,
+        api_views.DocumentsView.as_view(),
         name='api_documents'
     ),
     path(
         'api/document/<int:pk>/',
-        api_views.document,
+        api_views.DocumentView.as_view(),
         name='api_document'
     ),
 ]
