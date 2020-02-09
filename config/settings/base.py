@@ -48,6 +48,7 @@ PROJ_ROOT = Path(__file__).parent.parent.parent
 
 INSTALLED_APPS = (
     'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.sessions',
@@ -217,3 +218,9 @@ CELERY_TASK_DEFAULT_ROUTING_KEY = 'papermerge'
 CELERY_INCLUDE = 'pmworker.tasks'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TASK_RESULT_EXPIRES = 86400
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}

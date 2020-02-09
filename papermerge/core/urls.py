@@ -91,5 +91,5 @@ urlpatterns = [
         'api/document/<int:pk>/',
         api_views.document,
         name='api_document'
-    )
+    ),
 ]
