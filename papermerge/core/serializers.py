@@ -13,6 +13,7 @@ class DocumentSerializer(serializers.Serializer):
     notes = serializers.CharField(
         required=False,
         allow_blank=True,
+        null=True,
         max_length=100
     )
     page_count = serializers.IntegerField(

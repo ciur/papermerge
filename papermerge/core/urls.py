@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 
 from papermerge.core.views import documents as doc_views
 from papermerge.core.views import access as access_views
+from papermerge.core.views import api as api_views
+
 
 document_patterns = [
     path(
@@ -79,5 +81,15 @@ urlpatterns = [
         'clipboard/',
         doc_views.clipboard,
         name='clipboard'
+    ),
+    path(
+        'api/documents',
+        api_views.documents,
+        name='api_documents'
+    ),
+    path(
+        'api/document/<int:pk>/',
+        api_views.document,
+        name='api_document'
     )
 ]
