@@ -48,7 +48,7 @@ PROJ_ROOT = Path(__file__).parent.parent.parent
 
 INSTALLED_APPS = (
     'rest_framework',
-    'rest_framework.authtoken',
+    'knox',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.sessions',
@@ -221,6 +221,6 @@ CELERY_TASK_RESULT_EXPIRES = 86400
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'knox.auth.TokenAuthentication',
     ]
 }
