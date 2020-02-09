@@ -1,21 +1,25 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import (api_view, permission_classes)
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
 
 from papermerge.core.models import Document
 from papermerge.core.serializers import DocumentSerializer
 
 
 # REST API
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def documents(request):
     documents = Document.objects.all()
     serializer = DocumentSerializer(documents, many=True)
 
-    return Response(serializer.data, safe=False)
+    return Response(serializer.data)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def document(request, pk):
     """
     Retrieve, update or delete a document.
