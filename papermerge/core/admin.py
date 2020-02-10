@@ -785,11 +785,23 @@ class GroupAdminEx(GroupAdmin):
 
 class AuthTokenAdmin(admin.ModelAdmin):
     list_display = ('token_key', 'created', 'expiry')
-    fields = ()
+    fields = ('expiry', )
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.filter(user=request.user)
+
+    def save_model(self, request, obj, form, change):
+        new_object, token = AuthToken.objects.create(
+            request.user
+        )
+        obj.user = request.user
+        obj.token_key = new_object.token_key
+        obj.digest = new_object.digest
+        obj.expiry = new_object.expiry
+        obj.salt = new_object.salt
+        obj.created = new_object.created
+        super().save_model(request, obj, form, change)
 
 
 bs_admin.site.register(UserPreferenceModel, PerInstancePreferenceAdmin)
