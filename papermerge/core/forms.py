@@ -94,3 +94,16 @@ class FolderForm(forms.ModelForm):
             'title',
         ]
         exclude = ['user', 'keywords', 'color']
+
+
+class AuthTokenForm(forms.ModelForm):
+    """
+    Let user choose number of hours until token expires
+    """
+    hours = forms.IntegerField(
+        required=True,
+        initial=4464  # ~ 6 months
+    )
+
+    class Meta:
+        fields = ('hours',)

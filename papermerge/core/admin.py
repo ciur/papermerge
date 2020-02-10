@@ -1,4 +1,5 @@
 import logging
+from datetime import timedelta
 
 from django.contrib import admin
 from django.contrib import messages
@@ -786,7 +787,9 @@ class GroupAdminEx(GroupAdmin):
 
 class AuthTokenAdmin(admin.ModelAdmin):
     list_display = ('token_key', 'created', 'expiry')
-    fields = ('expiry', )
+    fields = ('hours', )
+    form = forms.AuthTokenForm
+    raw_id_fields = ('user',)
 
     def get_queryset(self, request):
         """ Manage only tokens current user"""
@@ -800,7 +803,8 @@ class AuthTokenAdmin(admin.ModelAdmin):
         """
         if not change:  # i.e. create new token only on "Add" action.
             new_object, token = AuthToken.objects.create(
-                request.user
+                request.user,
+                expiry=timedelta(hours=form.cleaned_data['hours'])
             )
             obj.user = request.user
 
@@ -813,7 +817,7 @@ class AuthTokenAdmin(admin.ModelAdmin):
             # Display (only once) unencrypted token
             message = format_html(_(
                 "Remember the token: %(token)s. It won't be displayed again."
-            ) % {'token': self.token})
+            ) % {'token': token})
 
             messages.add_message(
                 request,
