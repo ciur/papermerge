@@ -803,8 +803,6 @@ class AuthTokenAdmin(admin.ModelAdmin):
                 request.user
             )
             obj.user = request.user
-            # Pass token to self.message_user(...) method
-            self.token = token  # ! important
 
             obj.token_key = new_object.token_key
             obj.digest = new_object.digest
@@ -812,6 +810,7 @@ class AuthTokenAdmin(admin.ModelAdmin):
             obj.salt = new_object.salt
             obj.created = new_object.created
 
+            # Display (only once) unencrypted token
             message = format_html(_(
                 "Remember the token: %(token)s. It won't be displayed again."
             ) % {'token': self.token})
