@@ -74,6 +74,9 @@
                                 <a class="dropdown-item" href="{% url 'boss:auth_user_password_change' user.id %}">{% trans 'Change Password' %}</a>
                             </li>
                             <li>
+                                <a class="dropdown-item" href="{% url 'boss:knox_authtoken_changelist' %}">{% trans 'API Tokens' %}</a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" href="{% url 'boss:dynamic_preferences_users_userpreferencemodel_changelist' %}">
                                 {% trans 'Preferences' %}
                                 </a>

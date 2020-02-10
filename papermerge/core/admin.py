@@ -26,6 +26,8 @@ from django.contrib.postgres.search import (
     Func
 )
 
+from knox.models import AuthToken
+
 from papermerge.boss import admin as bs_admin
 from papermerge.boss import widgets as boss_widgets
 from papermerge.boss.views.main import ChangeListBoss
@@ -781,11 +783,20 @@ class GroupAdminEx(GroupAdmin):
         return True
 
 
+class AuthTokenAdmin(admin.ModelAdmin):
+    list_display = ('digest', 'user', 'created',)
+    fields = ()
+    raw_id_fields = ('user',)
+
+
 bs_admin.site.register(UserPreferenceModel, PerInstancePreferenceAdmin)
 bs_admin.site.register(models.BaseTreeNode, TreeNodeParentAdmin)
 bs_admin.site.register(models.Document, DocumentNodeAdmin)
 bs_admin.site.register(models.Folder, FolderNodeAdmin)
+bs_admin.site.register(AuthToken, AuthTokenAdmin)
 # also register admin wrappers of user and groups to bs_admin the
 # same way admin app does automatically, just reuse admin code
 bs_admin.site.register(User, UserAdminEx)
 bs_admin.site.register(Group, GroupAdminEx)
+
+
