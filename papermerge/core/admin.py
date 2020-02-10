@@ -789,6 +789,7 @@ class AuthTokenAdmin(admin.ModelAdmin):
     fields = ('expiry', )
 
     def get_queryset(self, request):
+        """ Manage only tokens current user"""
         qs = super().get_queryset(request)
         return qs.filter(user=request.user)
 
@@ -800,25 +801,39 @@ class AuthTokenAdmin(admin.ModelAdmin):
         extra_tags='',
         fail_silently=False
     ):
+        """
+        After token is saved, if self.token object is present, display token
+        to user only once. Token will be discarded afterwards
+        """
+        if self.token:
+            message = format_html(_(
+                "Remember the token: %(token)s. It won't be displayed again."
+            ) % {'token': self.token})
 
         messages.add_message(
             request, level,
-            request.token,
+            message,
             extra_tags=extra_tags,
             fail_silently=fail_silently
         )
 
     def save_model(self, request, obj, form, change):
+        """
+        Create token using Knox API
+        """
         new_object, token = AuthToken.objects.create(
             request.user
         )
         obj.user = request.user
-        request.token = token
+        # Pass token to self.message_user(...) method
+        self.token = token  # ! important
+
         obj.token_key = new_object.token_key
         obj.digest = new_object.digest
         obj.expiry = new_object.expiry
         obj.salt = new_object.salt
         obj.created = new_object.created
+
         super().save_model(request, obj, form, change)
 
 
