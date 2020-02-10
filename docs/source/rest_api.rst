@@ -13,4 +13,18 @@ import attached documents from a given email account.
 How It Works?
 **************
 
-Basically, instead of
+Instead of usual Sign In, with username and password, via Web Browser,
+you will *sign in* with a token (a fancy name for sequence of numbers and letters)
+from practically any software which supports http protocol.
+
+Thus, working with REST API is two step process:
+    
+    1. get the token
+    2. use token from 3rd party REST API client
+
+
+Get The Token
+~~~~~~~~~~~~~~~
+
+1. Click User Menu (top right corner) -> API Tokens
+2. Click New Token
