@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib import admin
+from django.contrib import messages
 from django.db.models import Q, F
 from django.db import models as django_models
 from django.contrib.admin import options
@@ -791,11 +792,28 @@ class AuthTokenAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.filter(user=request.user)
 
+    def message_user(
+        self,
+        request,
+        message,
+        level=messages.INFO,
+        extra_tags='',
+        fail_silently=False
+    ):
+
+        messages.add_message(
+            request, level,
+            request.token,
+            extra_tags=extra_tags,
+            fail_silently=fail_silently
+        )
+
     def save_model(self, request, obj, form, change):
         new_object, token = AuthToken.objects.create(
             request.user
         )
         obj.user = request.user
+        request.token = token
         obj.token_key = new_object.token_key
         obj.digest = new_object.digest
         obj.expiry = new_object.expiry
