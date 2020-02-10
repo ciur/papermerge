@@ -784,9 +784,12 @@ class GroupAdminEx(GroupAdmin):
 
 
 class AuthTokenAdmin(admin.ModelAdmin):
-    list_display = ('digest', 'user', 'created',)
+    list_display = ('token_key', 'created', 'expiry')
     fields = ()
-    raw_id_fields = ('user',)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(user=request.user)
 
 
 bs_admin.site.register(UserPreferenceModel, PerInstancePreferenceAdmin)
