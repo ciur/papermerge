@@ -224,3 +224,8 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication',
     ]
 }
+
+REST_KNOX = {
+    'AUTH_TOKEN_CHARACTER_LENGTH': 32,
+    'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+}

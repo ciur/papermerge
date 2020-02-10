@@ -786,10 +786,16 @@ class GroupAdminEx(GroupAdmin):
 
 
 class AuthTokenAdmin(admin.ModelAdmin):
-    list_display = ('token_key', 'created', 'expiry')
+    list_display = ('shorter_digest', 'created', 'expiry')
     fields = ('hours', )
     form = forms.AuthTokenForm
     raw_id_fields = ('user',)
+
+    def shorter_digest(self, obj):
+        return f"{obj.digest[:16]}..."
+
+    shorter_digest.short_description = 'Digest'
+    shorter_digest.admin_order_field = 'digest'
 
     def get_queryset(self, request):
         """ Manage only tokens current user"""
