@@ -793,46 +793,34 @@ class AuthTokenAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.filter(user=request.user)
 
-    def message_user(
-        self,
-        request,
-        message,
-        level=messages.INFO,
-        extra_tags='',
-        fail_silently=False
-    ):
+    def save_model(self, request, obj, form, change):
         """
-        After token is saved, if self.token object is present, display token
-        to user only once. Token will be discarded afterwards
+        Create token using Knox API. Tokens are created only
+        on Add action.
         """
-        if self.token:
+        if not change:  # i.e. create new token only on "Add" action.
+            new_object, token = AuthToken.objects.create(
+                request.user
+            )
+            obj.user = request.user
+            # Pass token to self.message_user(...) method
+            self.token = token  # ! important
+
+            obj.token_key = new_object.token_key
+            obj.digest = new_object.digest
+            obj.expiry = new_object.expiry
+            obj.salt = new_object.salt
+            obj.created = new_object.created
+
             message = format_html(_(
                 "Remember the token: %(token)s. It won't be displayed again."
             ) % {'token': self.token})
 
-        messages.add_message(
-            request, level,
-            message,
-            extra_tags=extra_tags,
-            fail_silently=fail_silently
-        )
-
-    def save_model(self, request, obj, form, change):
-        """
-        Create token using Knox API
-        """
-        new_object, token = AuthToken.objects.create(
-            request.user
-        )
-        obj.user = request.user
-        # Pass token to self.message_user(...) method
-        self.token = token  # ! important
-
-        obj.token_key = new_object.token_key
-        obj.digest = new_object.digest
-        obj.expiry = new_object.expiry
-        obj.salt = new_object.salt
-        obj.created = new_object.created
+            messages.add_message(
+                request,
+                messages.INFO,
+                message,
+            )
 
         super().save_model(request, obj, form, change)
 
