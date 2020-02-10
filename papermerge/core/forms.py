@@ -102,7 +102,10 @@ class AuthTokenForm(forms.ModelForm):
     """
     hours = forms.IntegerField(
         required=True,
-        initial=4464  # ~ 6 months
+        initial=4464,  # ~ 6 months
+        help_text=_(
+            "Number of hours this token will be valid (since its creation)"
+        ),
     )
 
     class Meta:
