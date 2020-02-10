@@ -38,10 +38,22 @@ Get a Token
 
    "New token" button (step 2)
 
+.. important::
+
+    Write down your token. For security reasons, it is will be displayed only once. In picture below, it is the one marked in red.
+
+.. important::
+
+    Tokens are saved in database **encrypted**. Token's encrypted version is called **digest**. In tokens tables 
+    (by the way, you can have as many token you like) first column displays first 16 characters of the digest.
+    It is a way to identify the token. In picture below, token's digest is marked with green.
+
 .. figure:: img/03_displayed_token.png
 
-    In green color is your token (step 4)
+    In red color is your (example) token (step 4)
 
 
 Use the Token
 ~~~~~~~~~~~~~~~
+
+Work in progress...
