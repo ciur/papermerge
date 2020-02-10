@@ -19,6 +19,7 @@ or Google Drive.
    requirements
    installation/index
    languages
+   rest_api
    settings
    design
    changelog
