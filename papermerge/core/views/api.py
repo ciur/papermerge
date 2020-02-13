@@ -21,15 +21,19 @@ class DocumentsView(APIView):
 
 
 class DocumentUploadView(APIView):
+    """
+    REST API for uploading a file.
+    """
     permission_classes = [IsAuthenticated]
     parser_classes = [FileUploadParser]
 
-    def post(self, request):
+    def put(self, request, filename):
         file_obj = request.data['file']
 
         Document.import_file(
             file_obj.temporary_file_path(),
-            username=request.user.username
+            username=request.user.username,
+            file_title=filename
         )
 
         return Response(status=204)
