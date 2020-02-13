@@ -61,6 +61,12 @@ Once you have your REST API token, you can use Papermerge with any HTTP client, 
     Authorization: Token <you token here>
 
 Let's see some examples with `curl <https://curl.haxx.se/>`_.
+The simpliest REST API call is::
+
+    curl -H "Authorization: Token 7502db85f8d40bc7f4f5ab0a4e4fee4a"  \
+        <HOST>/api/documents
+
+If get 2XX response, it means your ``Authorization`` header and token are correct. 
 
 Upload local file to remote host specified with ``<HOST>``::
 
@@ -88,4 +94,20 @@ Your (REST API) uploaded files will end up in Inbox.
 
     Files uploaded with REST API end up in Inbox.
 
+
+
+REST API Reference
+~~~~~~~~~~~~~~~~~~~
+
++---------------------------------+------------+--------------+
+| URL                             | Method     | Description  |
++=================================+============+==============+
+| /api/documents                  | GET        | column 3     |
++---------------------------------+------------+--------------+
+| /api/document/<id>              | GET        | column 3     |
++---------------------------------+------------+--------------+
+| /api/document/upload/           | PUT        | column 3     |
++---------------------------------+------------+--------------+
+| /api/document/upload/<filename> | PUT        | column 3     |
++---------------------------------+------------+--------------+
 
