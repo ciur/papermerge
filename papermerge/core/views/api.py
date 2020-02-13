@@ -3,7 +3,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import (JSONParser, FileUploadParser)
 from rest_framework.permissions import IsAuthenticated
 
 from papermerge.core.models import Document
@@ -11,12 +11,28 @@ from papermerge.core.serializers import DocumentSerializer
 
 
 class DocumentsView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         documents = Document.objects.all()
         serializer = DocumentSerializer(documents, many=True)
 
         return Response(serializer.data)
+
+
+class DocumentUploadView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [FileUploadParser]
+
+    def post(self, request):
+        file_obj = request.data['file']
+
+        Document.import_file(
+            file_obj.temporary_file_path(),
+            username=request.user.username
+        )
+
+        return Response(status=204)
 
 
 class DocumentView(APIView):

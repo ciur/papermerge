@@ -88,6 +88,11 @@ urlpatterns = [
         name='api_documents'
     ),
     path(
+        'api/document/upload',
+        api_views.DocumentUploadView.as_view(),
+        name='api_document_upload'
+    ),
+    path(
         'api/document/<int:pk>/',
         api_views.DocumentView.as_view(),
         name='api_document'
