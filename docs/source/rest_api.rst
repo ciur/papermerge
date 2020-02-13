@@ -56,4 +56,32 @@ Get a Token
 Use the Token
 ~~~~~~~~~~~~~~~
 
-Work in progress...
+Once you have your REST API token, you can use Papermerge with any HTTP client, just remember to include REST API token as header using following format::
+
+    Authorization: Token <you token here>
+
+Let's see some examples with `curl <https://curl.haxx.se/>`_.
+
+Upload local file to remote host specified with ``<HOST>``::
+
+    curl -H "Authorization: Token 7502db85f8d40bc7f4f5ab0a4e4fee4a"  \
+    -T /home/eugen/documents/demo/2019/berlin1.pdf  \
+    <HOST>/api/document/upload/berlin_x1.pdf
+
+
+Notice that local file name is berlin1.pdf while it features in url as berlin_x1.pdf. This way I can rename local file.
+
+You can upload files without specifying their remote name, in that case remote file will have same name as local file::
+
+    curl -H "Authorization: Token 7502db85f8d40bc7f4f5ab0a4e4fee4a"  \
+    -T /home/eugen/documents/demo/2019/berlin1.pdf  \
+    <HOST>/api/document/upload/
+
+
+.. note::
+
+    Notice the trailing ``/`` character. When uploading file without specifing its name URL must end with ``/``.
+
+
+
+
