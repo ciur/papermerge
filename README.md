@@ -26,7 +26,8 @@ Frontend](https://github.com/ciur/papermerge-js)
 * Files and Folders - users can organize documents in folders
 * Multi-User
 * User permissions management
-* Document permissions management 
+* Document permissions management
+* REST API
 
 ## Resources
 
