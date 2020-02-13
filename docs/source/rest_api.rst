@@ -80,8 +80,12 @@ You can upload files without specifying their remote name, in that case remote f
 
 .. note::
 
-    Notice the trailing ``/`` character. When uploading file without specifing its name URL must end with ``/``.
+    Notice the trailing ``/`` character. When uploading file with ``curl`` without specifing file name URL must end with ``/``. This is a way to notify curl that we don't want to rename files.
 
+Your (REST API) uploaded files will end up in Inbox.
 
+.. figure:: img/04_inbox.png
+
+    Files uploaded with REST API end up in Inbox.
 
 
