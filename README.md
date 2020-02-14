@@ -56,7 +56,8 @@ There are couple options:
 
 ### Contact 
 
-If you have questions, suggestions or feedback, please, [contact me via
-email](mailto:eugen@papermerge.com).
+[Twitter Account](https://twitter.com/papermerge)
+[YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg)
+[EMail](mailto:eugen@papermerge.com).
 
 
