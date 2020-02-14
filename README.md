@@ -48,10 +48,10 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 There are couple options:
     
-    * [From docker container](https://papermerge.readthedocs.io/en/latest/installation/docker.html)
-    * [Using systemd](https://papermerge.readthedocs.io/en/latest/installation/systemd.html)
-    * [Manual way - detailed step by step instructions](https://papermerge.readthedocs.io/en/latest/installation/manual_way.html)
-    * Deploy it with ansible... coming soon !
+* [From docker container](https://papermerge.readthedocs.io/en/latest/installation/docker.html)
+* [Using systemd](https://papermerge.readthedocs.io/en/latest/installation/systemd.html)
+* [Manual way - detailed step by step instructions](https://papermerge.readthedocs.io/en/latest/installation/manual_way.html)
+* Deploy it with ansible... coming soon !
 
 
 ### Contact 
