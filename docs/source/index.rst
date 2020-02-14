@@ -22,7 +22,6 @@ or Google Drive.
    rest_api
    settings
    design
-   changelog
 
 
 
