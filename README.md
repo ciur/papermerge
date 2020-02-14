@@ -27,7 +27,7 @@ Frontend](https://github.com/ciur/papermerge-js)
 * Multi-User
 * User permissions management
 * Document permissions management
-* REST API
+* REST API ([screencast demo](https://vimeo.com/391436134))
 
 ## Resources
 
