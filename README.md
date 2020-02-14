@@ -58,6 +58,6 @@ There are couple options:
 
 * [Twitter Account](https://twitter.com/papermerge)
 * [YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg)
-* [EMail](mailto:eugen@papermerge.com).
+* [EMail](mailto:eugen@papermerge.com)
 
 
