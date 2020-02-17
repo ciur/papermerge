@@ -10,6 +10,13 @@ from papermerge.core.models import Document
 from papermerge.core.serializers import DocumentSerializer
 
 
+class PagesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, doc_id):
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class DocumentsView(APIView):
     permission_classes = [IsAuthenticated]
 

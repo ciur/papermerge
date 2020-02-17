@@ -97,4 +97,9 @@ urlpatterns = [
         api_views.DocumentView.as_view(),
         name='api_document'
     ),
+    path(
+        'api/document/<int:doc_id>/pages',
+        api_views.PagesView.as_view(),
+        name='api_pages'
+    ),
 ]

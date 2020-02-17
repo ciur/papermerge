@@ -222,6 +222,7 @@ CELERY_TASK_RESULT_EXPIRES = 86400
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'knox.auth.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ]
 }
 
