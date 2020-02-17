@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<form 
+    id="{{ id }}" 
+    class="modal hidden" 
+    action="{{action_url}}" 
+    method="post">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h1>{% trans "Delete Page?" %}</h1>
+    </div>
+    <div class="modal-body vertical">
+        <p class="padding-x-xs">{% trans "Really delete the page?" %}</p>
+    </div>
+    <div class="modal-footer horizontal fl-end">
+        <input type="submit" class="btn action margin-xs" value="{% trans 'Yes' %}" />
+        <a class="btn btn-neuter margin-xs cancel">{% trans "No" %}</a>
+    </div>
+</form>

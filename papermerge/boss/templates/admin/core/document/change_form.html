@@ -51,6 +51,7 @@
     <div id="modals-container" class="fl-center">
         {% url 'core:rename_node' 'change' as rename_url %}
         {% include "boss/_rename.html" with id="rename_changeform" action_url=rename_url %}
+        {% include "boss/_delete_page.html" with id="delete_pageform" action_url=rename_url %}
     </div>
 {% endblock modals %}
 
@@ -93,6 +94,15 @@
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item horizontal fl-i-center disabled" id="rename" data-target-id="rename-form" disabled href="#">
                       <i class="icon-edit margin-right-xs"></i>{% trans "Rename" %}
+                    </a>
+                    <a class="dropdown-item horizontal fl-i-center" id="delete-page" data-target-id="delete_pageform" href="#">
+                      <i class="icon-trash margin-right-xs"></i>{% trans "Page Delete" %}
+                    </a>
+                    <a class="dropdown-item horizontal fl-i-center" id="cut-page" data-target-id="cut_pageform" href="#">
+                      <i class="icon-scissors margin-right-xs"></i>{% trans "Page Cut" %}
+                    </a>
+                    <a class="dropdown-item horizontal fl-i-center" id="paste-page" data-target-id="page_pageform" href="#">
+                      <i class="icon-paste margin-right-xs"></i>{% trans "Page Paste" %}
                     </a>
                   </div>
                 </div>
