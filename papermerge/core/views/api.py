@@ -15,11 +15,12 @@ class PagesView(APIView):
 
     def delete(self, request, doc_id):
         try:
-            doc = Document.objects.get(id=id)
+            doc = Document.objects.get(id=doc_id)
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
         page_nums = request.GET.getlist('pages[]')
+        page_nums = [int(number) for number in page_nums]
 
         doc.delete_pages(page_numbers=page_nums)
 
