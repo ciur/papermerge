@@ -578,6 +578,21 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         default=1
     )
 
+    # Document's version start with 0 (0 = default value)
+    # Document's version is incremented everytime pdftk operation
+    # is applied to it (page delete, page rotate, page reorder).
+    # Versioning is on file level. Means - there is no such thing as model
+    # level versioning. I think this will complicate everthing just too much.
+    # At any point in time, user sees/works with/searches only last version.
+    version = models.IntegerField(
+        blank=True,
+        null=True,
+        default=0
+    )
+    # Q: If there is no model versions, why version is introduced at all?
+    # A: pdftk on every operation creates a new file... well, that new
+    # file is the next version of the document.
+
     text = models.TextField()
 
     celery_task_id = models.UUIDField(blank=True, null=True, default=None)
