@@ -637,7 +637,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 'user_id': self.user.id,
                 'document_id': self.document.id,
                 'file_name': self.file_name,
-                'lang': self.lang,
+                'page_numbers': page_numbers,
                 's3_upload': s3_enabled,
                 's3_download': s3_enabled},
                 queue='papermerge'
