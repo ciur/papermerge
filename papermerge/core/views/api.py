@@ -21,7 +21,7 @@ class PagesView(APIView):
 
         page_nums = request.GET.getlist('pages[]')
 
-        doc.delete_pages(page_nums=page_nums)
+        doc.delete_pages(page_numbers=page_nums)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
