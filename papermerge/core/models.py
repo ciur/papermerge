@@ -609,6 +609,17 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         _, ext = os.path.splitext(self.file_name)
         return ext
 
+    def delete_pages(self, page_numbers):
+        """
+        Deletes pages with given order numbers from
+        the documents:
+
+        * locally - syncronious
+        * remotely - async.
+        """
+        if not isinstance(page_numbers, list):
+            raise ValueError("Expecting list argument")
+
     def create_pages(self):
         # Q: why doc.page_count is a valid value and yet there
         #  are no pages assigned to document model ?
