@@ -24,7 +24,9 @@ from pmworker.storage import (
     upload_document_to_s3,
     copy2doc_url
 )
+from pmworker import pdftk
 from pmworker.tasks import ocr_page
+from pmworker.tasks import delete_pages as delete_pages_task
 
 from papermerge.core import mixins
 from papermerge.core.storage import is_storage_left
@@ -619,6 +621,31 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         """
         if not isinstance(page_numbers, list):
             raise ValueError("Expecting list argument")
+
+        s3_enabled = settings.S3
+        ocr_enabled = settings.OCR
+
+        # delete pages locally
+        pdftk.delete_pages(
+            self.doc_ep,
+            page_numbers
+        )
+
+        if s3_enabled:
+            # will apply delete on document in S3
+            delete_pages_task.apply_async(kwargs={
+                'user_id': self.user.id,
+                'document_id': self.document.id,
+                'file_name': self.file_name,
+                'lang': self.lang,
+                's3_upload': s3_enabled,
+                's3_download': s3_enabled},
+                queue='papermerge'
+            )
+
+        if ocr_enabled:
+            # reOCR the new version of the document
+            pass
 
     def create_pages(self):
         # Q: why doc.page_count is a valid value and yet there
