@@ -477,7 +477,6 @@ def preview(request, id, step=None, page="1"):
         raise Http404("Document does not exists")
 
     if request.user.has_perm(Access.PERM_READ, doc):
-
         doc_ep = doc.doc_ep
 
         if not doc_ep.exists():

@@ -184,3 +184,44 @@ class TestDocument(TestCase):
         )
         doc.save()
         doc.update_text_field()
+
+    def test_delete_pages(self):
+        # Create a document with two pages
+        src_file_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.import_file(
+            filepath=src_file_path,
+            start_ocr_async=False,
+            file_title="berlin.pdf",
+            upload=False
+        )
+
+        self.assertEqual(
+            doc.page_count,
+            2
+        )
+        # initial version of any document is 0
+        self.assertEqual(
+            doc.version,
+            0
+        )
+
+        doc.delete_pages(page_numbers=[1])
+
+        self.assertEqual(
+            doc.page_count,
+            1
+        )
+
+        self.assertEqual(
+            doc.page_set.count(),
+            1
+        )
+
+        # version should have been incremented
+        self.assertEqual(
+            doc.version,
+            1
+        )

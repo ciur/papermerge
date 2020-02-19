@@ -50,3 +50,26 @@ class TestPage(TestCase):
             ['ENG', 'ENG', 'ENG'],
             langs
         )
+
+    def test_recreate_page_models(self):
+        doc = Document.create_document(
+            title="kyuss.pdf",
+            user=self.user,
+            lang="ENG",
+            file_name="kyuss.pdf",
+            size=1222,
+            page_count=3
+        )
+
+        doc.save()
+
+        self.assertEqual(
+            doc.page_set.count(),
+            3
+        )
+        doc.page_set.all().delete()
+        self.assertEqual(
+            doc.page_set.count(),
+            0
+        )
+

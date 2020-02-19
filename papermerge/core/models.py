@@ -641,7 +641,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         ocr_enabled = settings.OCR
 
         # delete pages locally
-        pdftk.delete_pages(
+        new_version = pdftk.delete_pages(
             self.doc_ep,
             page_numbers
         )
@@ -661,6 +661,22 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         if ocr_enabled:
             # reOCR the new version of the document
             pass
+
+        self.version = new_version
+        self.save()
+        # update pages model
+        self.recreate_pages()
+
+    def recreate_pages(self):
+        """
+        Recreate page models
+        """
+        self.page_set.all().delete()
+        self.page_count = get_pagecount(
+            self.doc_ep.url()
+        )
+        self.save()
+        self.create_pages()
 
     def create_pages(self):
         # Q: why doc.page_count is a valid value and yet there
@@ -823,7 +839,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         if delete_after_import:
             os.remove(filepath)
 
-        return True
+        return doc
 
     @staticmethod
     def ocr_async(
@@ -931,9 +947,14 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
     @property
     def doc_ep(self):
+        version = self.version
+        if not isinstance(version, int):
+            version = 0
+
         result = endpoint.DocumentEp(
             user_id=self.user.id,
             document_id=self.id,
+            version=version,
             file_name=self.file_name,
             local_endpoint=get_media_root(),
             remote_endpoint=get_storage_root()
