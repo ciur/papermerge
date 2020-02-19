@@ -26,6 +26,8 @@ DATABASES = {
 DATABASE_ROUTERS = []
 
 INSTALLED_APPS = (
+    'rest_framework',
+    'knox',
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -63,6 +65,19 @@ AUTHENTICATION_BACKENDS = (
     'papermerge.core.auth.NodeAuthBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'knox.auth.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
+REST_KNOX = {
+    'AUTH_TOKEN_CHARACTER_LENGTH': 32,
+    'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+}
+
 
 CELERY_BROKER_URL = "filesystem://"
 CELERY_BROKER_TRANSPORT_OPTIONS = {
