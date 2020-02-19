@@ -7,10 +7,8 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden
 )
-from django.contrib.auth.models import (
-    User,
-    Group
-)
+from django.contrib.auth.models import Group
+
 
 from papermerge.core.auth import (
     delete_access_perms,
@@ -20,7 +18,8 @@ from papermerge.core.auth import (
 
 from papermerge.core.models import (
     BaseTreeNode,
-    Access
+    Access,
+    User
 )
 
 
