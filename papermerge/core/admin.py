@@ -256,17 +256,16 @@ class DocumentNodeAdmin(BaseChildAdmin):
             form_url='',
             extra_context=None
     ):
+        # Changeform view
+        # where are document viewer, with page thumbnails list,
+        # left/right sidebars
         extra_context = extra_context or {}
         doc = models.Document.objects.get(id=object_id)
         extra_context['parent_url'] = self.get_parent_url(object_id)
         extra_context['title'] = doc.title
         extra_context['preview_urls'] = self.get_preview_urls(object_id)
         extra_context['default_height'] = self.get_default_height()
-
-        logger.info(
-            f"tenant_log doc_view"
-            f" tenant_name={get_tenant_name()}"
-        )
+        extra_context['pages'] = doc.page_set.order_by('number')
 
         return super().change_view(
             request, object_id, form_url, extra_context=extra_context,
@@ -605,10 +604,6 @@ class TreeNodeParentAdmin(
         )
 
         context['object'] = obj
-        logger.info(
-            f"tenant_log folder_view"
-            f" tenant_name={get_tenant_name()}"
-        )
         return super().changelist_view(
             request,
             extra_context=context

@@ -124,7 +124,6 @@
         </div> <!-- #viewer-ctrl -->
         <div id="viewer" class="horizontal invisible"> 
             {% csrf_token %}{% block form_top %}{% endblock %}
-
              <div id="page-thumbnails" class="page-thumbnails hidden-on-phone">
                 {% for inline_admin_formset in inline_admin_formsets %}
                     {% include 'boss/edit_inline/stacked_thumbnails.html' %}
