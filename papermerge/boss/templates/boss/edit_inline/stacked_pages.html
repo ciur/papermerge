@@ -13,11 +13,6 @@
     {{ inline_admin_formset.formset.non_form_errors }}
     {% for page in pages %}
      <fieldset class="document module aligned">
-        <div class="form-row field-number">
-            <div>
-                <input value="{{page.number}}" />
-            </div>
-        </div>
         <div class="form-row field-image">
             <div class="actual_page">
                 <div class="document page" 
@@ -26,6 +21,9 @@
                     data-page_id="{{page.id}}"
                     data-doc_id="{{original.pk}}"
                     data-step="3">
+                </div>
+                <div class="page_number">
+                    <input value="{{page.number}}" />
                 </div>
             </div>
         </div>
