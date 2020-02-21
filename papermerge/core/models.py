@@ -25,6 +25,7 @@ from pmworker.storage import (
     copy2doc_url
 )
 from pmworker import pdftk
+from pmworker import ocrmigrate
 from pmworker.tasks import ocr_page
 from pmworker.tasks import delete_pages as delete_pages_task
 
@@ -637,35 +638,28 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         if not isinstance(page_numbers, list):
             raise ValueError("Expecting list argument")
 
-        s3_enabled = settings.S3
-        ocr_enabled = settings.OCR
+        src_ep = self.doc_ep
 
-        # delete pages locally
+        # delete pages
         new_version = pdftk.delete_pages(
             self.doc_ep,
             page_numbers
         )
 
-        if s3_enabled:
-            # will apply delete on document in S3
-            delete_pages_task.apply_async(kwargs={
-                'user_id': self.user.id,
-                'document_id': self.document.id,
-                'file_name': self.file_name,
-                'page_numbers': page_numbers,
-                's3_upload': s3_enabled,
-                's3_download': s3_enabled},
-                queue='papermerge'
-            )
-
-        if ocr_enabled:
-            # reOCR the new version of the document
-            pass
-
         self.version = new_version
         self.save()
         # update pages model
         self.recreate_pages()
+
+        # Move OCR related text files to newer version
+        # (.txt + .hocr files)
+        migr = ocrmigrate.OcrMigrate(
+            src_ep=src_ep,
+            dst_ep=self.doc_ep  # endpoint with already incremented version
+        )
+        migr.migrate_delete(
+            deleted_pages=page_numbers
+        )
 
     def recreate_pages(self):
         """
