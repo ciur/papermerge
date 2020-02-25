@@ -1065,6 +1065,14 @@ class Page(models.Model):
     text_eng = SearchVectorField(null=True)
 
     @property
+    def is_last(self):
+        return self.number == self.page_count
+
+    @property
+    def is_first(self):
+        return self.number == 1
+
+    @property
     def page_ep(self):
         return endpoint.PageEp(
             document_ep=self.document.doc_ep,

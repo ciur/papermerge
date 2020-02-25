@@ -12,7 +12,7 @@
     {% for page in pages %}
         <fieldset class="document module aligned">
             <div class="form-row field-image">
-                <div class="page_thumbnail">
+                <div class="page_thumbnail {% if page.is_first %} first {% endif %} {% if page.is_last %} last {% endif %}">
                     <div class="arrow-up-control">
                         <a  href="#"
                             class="icon icon-arrow-up"
