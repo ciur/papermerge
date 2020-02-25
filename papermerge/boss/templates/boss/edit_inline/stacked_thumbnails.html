@@ -13,6 +13,16 @@
         <fieldset class="document module aligned">
             <div class="form-row field-image">
                 <div class="page_thumbnail">
+                    <div class="arrow-up-control">
+                        <a  href="#"
+                            class="icon icon-arrow-up"
+                            data-page_num="{{page.number}}"
+                            data-action="down"
+                            data-page_id="{{page.id}}"
+                            data-doc_id="{{original.pk}}"
+                        >
+                        </a>
+                    </div>
                     <div class="document page" 
                         data-page_num="{{page.number}}"
                         data-img_type="thumbnail"
@@ -21,6 +31,15 @@
                         data-step="4">
                         <input type="checkbox" name="_selected_action" value="{{ page.number }}" />
                      </div>
+                    <div class="arrow-down-control">
+                        <a 
+                            href="#"
+                            class="icon icon-arrow-down"
+                            data-action="down"
+                            data-page_num="{{page.number}}"
+                            data-page_id="{{page.id}}"
+                            data-doc_id="{{original.pk}}"
+                        ></a></div>
                      <div class="page_number">
                          <input value="{{page.number}}" />
                      </div>
