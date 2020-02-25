@@ -218,7 +218,7 @@ class DocumentNodeAdmin(BaseChildAdmin):
         'text_eng', 'text_deu',
         'digest', 'file_orig', 'file_name',
         'node_permissions',
-        'page_count', 'groups', 'is_private', 'tasks', 'version'
+        'page_count', 'groups', 'version'
     )
 
     search_fields = ('title', 'text')
