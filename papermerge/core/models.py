@@ -595,8 +595,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
     text = models.TextField()
 
-    celery_task_id = models.UUIDField(blank=True, null=True, default=None)
-
     # columns used only for FTS (updated by update_index)
     text_deu = SearchVectorField(null=True)
     text_eng = SearchVectorField(null=True)

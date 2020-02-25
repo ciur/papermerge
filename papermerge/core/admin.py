@@ -208,8 +208,6 @@ class DocumentNodeAdmin(BaseChildAdmin):
     # child models are automatically added to the admin form.
     base_form = forms.DocumentForm
 
-    #fields = ('title', 'parent', 'groups')
-
     inlines = (
         PageInline,
     )
@@ -219,7 +217,7 @@ class DocumentNodeAdmin(BaseChildAdmin):
         'title_deu', 'title_eng', 'ancestors_deu', 'ancestors_eng',
         'text_eng', 'text_deu',
         'digest', 'file_orig', 'file_name',
-        'celery_task_id', 'node_permissions',
+        'node_permissions',
         'page_count', 'groups', 'is_private', 'tasks', 'version'
     )
 
