@@ -27,7 +27,6 @@ from pmworker.storage import (
 from pmworker import pdftk
 from pmworker import ocrmigrate
 from pmworker.tasks import ocr_page
-from pmworker.tasks import delete_pages as delete_pages_task
 
 from papermerge.core import mixins
 from papermerge.core.storage import is_storage_left
