@@ -638,7 +638,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             raise ValueError("Expecting list argument")
 
         src_ep = self.doc_ep
-
         # delete pages
         new_version = pdftk.delete_pages(
             self.doc_ep,

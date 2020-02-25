@@ -220,7 +220,7 @@ class DocumentNodeAdmin(BaseChildAdmin):
         'text_eng', 'text_deu',
         'digest', 'file_orig', 'file_name',
         'celery_task_id', 'node_permissions',
-        'page_count', 'groups', 'is_private', 'tasks',
+        'page_count', 'groups', 'is_private', 'tasks', 'version'
     )
 
     search_fields = ('title', 'text')
