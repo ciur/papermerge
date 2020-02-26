@@ -20,6 +20,7 @@
                             data-action="down"
                             data-page_id="{{page.id}}"
                             data-doc_id="{{original.pk}}"
+                            data-page_order="{{page.number}}"
                         >
                         </a>
                     </div>
@@ -28,6 +29,7 @@
                         data-img_type="thumbnail"
                         data-page_id="{{page.id}}"
                         data-doc_id="{{original.pk}}"
+                        data-page_order="{{page.number}}"
                         data-step="4">
                         <input type="checkbox" name="_selected_action" value="{{ page.number }}" />
                      </div>
@@ -39,6 +41,7 @@
                             data-page_num="{{page.number}}"
                             data-page_id="{{page.id}}"
                             data-doc_id="{{original.pk}}"
+                            data-page_order="{{page_number}}"
                         ></a></div>
                      <div class="page_number">
                          <input value="{{page.number}}" />
