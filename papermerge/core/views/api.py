@@ -4,18 +4,12 @@ from django.http import Http404
 
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.parsers import (JSONParser, FileUploadParser)
 from rest_framework.permissions import IsAuthenticated
 
 from papermerge.core.models import Document
 from papermerge.core.serializers import DocumentSerializer
-
-
-class ReorderedPage(serializers.Serializer):
-    page_num = serializers.IntegerField()
-    page_order = serializers.IntegerField()
 
 
 class PagesView(APIView):
