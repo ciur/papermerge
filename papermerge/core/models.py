@@ -624,6 +624,9 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         _, ext = os.path.splitext(self.file_name)
         return ext
 
+    def reorder_pages(self, new_order_map):
+        pass
+
     def delete_pages(self, page_numbers):
         """
         Deletes pages with given order numbers from

@@ -1,13 +1,21 @@
+import json
+
 from django.http import Http404
 
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.parsers import (JSONParser, FileUploadParser)
 from rest_framework.permissions import IsAuthenticated
 
 from papermerge.core.models import Document
 from papermerge.core.serializers import DocumentSerializer
+
+
+class ReorderedPage(serializers.Serializer):
+    page_num = serializers.IntegerField()
+    page_order = serializers.IntegerField()
 
 
 class PagesView(APIView):
@@ -23,6 +31,16 @@ class PagesView(APIView):
         page_nums = [int(number) for number in page_nums]
 
         doc.delete_pages(page_numbers=page_nums)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def post(self, request, doc_id):
+        try:
+            doc = Document.objects.get(id=doc_id)
+        except Document.DoesNotExist:
+            raise Http404("Document does not exists")
+
+        doc.reorder_pages(request.data)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
