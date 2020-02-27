@@ -22,6 +22,9 @@ class PagesView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, doc_id):
+        """
+        Deletes Pages from doc_id document
+        """
         try:
             doc = Document.objects.get(id=doc_id)
         except Document.DoesNotExist:
@@ -35,6 +38,9 @@ class PagesView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def post(self, request, doc_id):
+        """
+        Reorders pages from doc_id document
+        """
         try:
             doc = Document.objects.get(id=doc_id)
         except Document.DoesNotExist:
