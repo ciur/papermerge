@@ -55,7 +55,7 @@ general (webapp = backend + frontend).
 
 .. _worker:
 
-3. Wrokers
+3. Workers
 ***********
 `Papermerge-worker Repository <https://github.com/ciur/papermerge-worker>`_
 
