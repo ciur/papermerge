@@ -23,6 +23,9 @@ django-mptt==0.10.0
 django-polymorphic==2.1.2
 django-polymorphic-tree==1.5.1
 django-redis==4.11.0
+django-rest-framework==0.1.0
+django-rest-knox==4.1.0
+djangorestframework==3.11.0
 django-tag-parser==3.2
 docutils==0.15.2
 future==0.18.2
