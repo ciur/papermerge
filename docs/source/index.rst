@@ -21,7 +21,7 @@ or Google Drive.
    languages
    rest_api
    settings
-   design
+   developers_guide/index
 
 
 

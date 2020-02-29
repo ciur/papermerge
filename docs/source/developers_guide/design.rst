@@ -12,7 +12,7 @@ design decisions were taken. Papermerge project has 2 parts:
 Web application is further devided into Frontend and Backend. As result
 there are 3 separate repositories that are part of one whole.
 
-.. figure:: img/design1.png
+.. figure:: ../img/design1.png
 
    High level design. Backend and frontend are separate. 
 
@@ -77,6 +77,6 @@ location is a S3 bucket.
     document id (it passes user id and language name as well). 
     
 
-.. figure:: img/design2.png
+.. figure:: ../img/design2.png
 
    Backend passes documents to workers by reference. 
