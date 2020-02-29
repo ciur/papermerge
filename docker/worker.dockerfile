@@ -21,7 +21,7 @@ RUN mkdir -p /opt/media
 RUN mkdir -p /opt/broker/queue
 
 RUN cd /opt && \
-    git clone https://github.com/ciur/papermerge-worker
+    git clone https://github.com/ciur/papermerge-worker --branch v1.1.0
 
 # ensures our console output looks familiar and is not buffered by Docker 
 ENV PYTHONUNBUFFERED 1
