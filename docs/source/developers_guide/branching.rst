@@ -25,3 +25,15 @@ Well, both `worker <https://github.com/ciur/papermerge-worker>`_ and `papermerge
     I started above described branching model somewhere around 14th February 2020 and I applied only on main project - unfortunatelly at that moment I forgot about other two parts.
 
 As temporary workaround I tagged both worker and papermerge-js with v1.1.0 tags to mark their compatility with `main project <https://github.com/ciur/papermerge-js>`_.
+
+
+Git Branching/Tagging Blitz Introduction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To checkout a branch stable/1.1.x, use command::
+
+    $ git checkout stable/1.1.x
+
+To checkout a tagged commit, say a commit tagged v1.1.0, you use same command as checking out a branch::
+
+    $ git checkout v1.1.0
