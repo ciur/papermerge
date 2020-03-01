@@ -19,12 +19,18 @@ Papermerge to allow user to fix out of order pages in application.
 Delete Page(s)
 **************
 
+Delete those blank pages. Although my scanner has automatic "remove blank
+pages" feature, it misses some blank page. So I find it very practical to
+allow user to remove blank pages by himself/herself.
 
 Reorder Pages
 ***************
 
+Out of order pages occur very often during scanning process. Papermerge allows users
+to change pages order within the document.
 
 
 Cut & Paste
 *************
 
+ work in progress...
