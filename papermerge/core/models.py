@@ -661,7 +661,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             src_ep=src_ep,
             dst_ep=self.doc_ep  # endpoint with inc version
         )
-        migr.migrate_reoder(
+        migr.migrate_reorder(
             new_order=new_order
         )
 
