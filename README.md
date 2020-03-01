@@ -28,7 +28,7 @@ Frontend](https://github.com/ciur/papermerge-js)
 * User permissions management
 * Document permissions management
 * REST API ([screencast demo](https://vimeo.com/391436134))
-* Page Management - delete, reorder, cut, paste & pages ([this feature is work in progress](https://papermerge.readthedocs.io/en/latest/page_management.html))
+* Page Management - delete, reorder, cut & paste pages ([this feature is work in progress](https://papermerge.readthedocs.io/en/latest/page_management.html))
 
 ## Resources
 
