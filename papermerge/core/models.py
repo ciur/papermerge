@@ -684,6 +684,9 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             page_numbers
         )
 
+        if new_version == self.version:
+            raise Exception("Expecting version to be incremented")
+
         self.version = new_version
         self.save()
         # update pages model
