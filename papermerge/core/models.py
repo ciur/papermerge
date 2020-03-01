@@ -645,6 +645,26 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             logger.error("Expecting list argument")
             return
 
+        src_ep = self.doc_ep
+        # reorder pages
+        new_version = pdftk.reorder_pages(
+            self.doc_ep,
+            new_order
+        )
+
+        self.version = new_version
+        self.save()
+        self.recreate_pages()
+        # Move OCR related text to newer versio
+        # so that we can skip OCRing of the document
+        migr = ocrmigrate.OcrMigrate(
+            src_ep=src_ep,
+            dst_ep=self.doc_ep  # endpoint with inc version
+        )
+        migr.migrate_reoder(
+            new_order=new_order
+        )
+
     def delete_pages(self, page_numbers):
         """
         Deletes pages with given order numbers from
