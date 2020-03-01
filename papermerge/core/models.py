@@ -624,8 +624,26 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         _, ext = os.path.splitext(self.file_name)
         return ext
 
-    def reorder_pages(self, new_order_map):
-        pass
+    def reorder_pages(self, new_order):
+        """
+        new_order is a list of following format:
+
+            [
+                {'page_num': 2, page_order: 1},
+                {'page_num': 1, page_order: 2},
+                {'page_num': 3, page_order: 3},
+                {'page_num': 4, page_order: 4},
+            ]
+        Example above means that in current document of 4 pages,
+        first page was swapped with second one.
+        page_num    = older page order
+        page_order  = current page order
+        So in human language, each hash is read:
+            <page_num> now should be <page_order>
+        """
+        if not isinstance(new_order, list):
+            logger.error("Expecting list argument")
+            return
 
     def delete_pages(self, page_numbers):
         """
@@ -636,7 +654,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         * remotely - async.
         """
         if not isinstance(page_numbers, list):
-            raise ValueError("Expecting list argument")
+            logger.error("Expecting list argument")
+            return
 
         src_ep = self.doc_ep
         # delete pages
