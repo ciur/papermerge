@@ -20,6 +20,7 @@ or Google Drive.
    installation/index
    languages
    rest_api
+   page_management
    settings
    developers_guide/index
 
