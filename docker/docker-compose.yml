@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   app:
+    image: papermerge:app
     build:
       context: .
       dockerfile: app.dockerfile
@@ -16,17 +17,16 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.stage
   db:
-    build:
-      context: .
-      dockerfile: db.dockerfile
-    container_name: "postgres_db"
+    image: postgres:11.7
+    container_name: postgres_db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - PMG_DB_USER=dbuser
-      - PMG_DB_PASS=dbpass
-      - PMG_DB_NAME=dbname
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+      - POSTGRES_DB=dbname
   worker:
+    image: papermerge:worker
     build:
         context: .
         dockerfile: worker.dockerfile
