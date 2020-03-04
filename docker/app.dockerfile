@@ -2,34 +2,35 @@ FROM ubuntu:19.10
 
 LABEL maintainer="Eugen Ciur <eugen@papermerge.com>"
 
-ENV DJANGO_SETTINGS_MODULE config.settings.stage
+RUN apt-get update \
+ && apt-get install -y \
+                    python3 \
+                    python3-pip \
+                    python3-venv \
+                    poppler-utils \
+                    git \
+                    nginx \
+                    imagemagick \
+                    build-essential \
+                    poppler-utils \
+                    tesseract-ocr \
+                    tesseract-ocr-deu \
+                    tesseract-ocr-eng \
+ && rm -rf /var/lib/apt/lists/* \
+ && pip3 install --upgrade pip \
+ && mkdir -p /opt/media /opt/broker/queue
 
-RUN apt-get update
-RUN apt-get install -y python3 python3-pip python3-venv \
-    poppler-utils \
-    git \
-    nginx \
-    imagemagick \
-    build-essential \
-    poppler-utils \
-    tesseract-ocr \
-    tesseract-ocr-deu \
-    tesseract-ocr-eng && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /opt/media
-RUN mkdir -p /opt/broker/queue
-RUN cd /opt && \
-    git clone https://github.com/ciur/papermerge --branch stable/1.1.x && \
-    git clone https://github.com/ciur/papermerge-js --branch v1.1.0
-
-# ensures our console output looks familiar and is not buffered by Docker 
+# ensures our console output looks familiar and is not buffered by Docker
 ENV PYTHONUNBUFFERED 1
 
+ENV DJANGO_SETTINGS_MODULE config.settings.stage
 
-RUN pip3 install --upgrade pip
-RUN cd /opt/papermerge && \
-    pip3 install -r requirements.freeze
+WORKDIR /opt
+RUN git clone https://github.com/ciur/papermerge -q --depth 1 --branch stable/1.1.x /opt/papermerge \
+ && git clone https://github.com/ciur/papermerge-js --depth 1 --branch v1.1.0 /opt/papermerge-js
+
+WORKDIR /opt/papermerge
+RUN pip3 install -r requirements.freeze
 
 COPY app/settings.py /opt/papermerge/config/settings/stage.py
 
