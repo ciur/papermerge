@@ -33,7 +33,7 @@ class PagesClipboard:
         user = self.request.user.id
         clipboard_id = f"{user}.clipboard.pages"
 
-        if not self.request.session[clipboard_id]:
+        if not self.request.session.get(clipboard_id, False):
             self.request.session[clipboard_id] = {}
             self.request.session[clipboard_id][doc_id] = page_nums
         else:
