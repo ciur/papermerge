@@ -35,7 +35,7 @@
 
 {% block object-tools %}
       <div class="navbar">
-        <div class="navbar-inner">
+        <div class="navbar-inner w-100 d-flex justify-content-between align-items-center">
             <ul id="changelist-tools" class="nav nav-pills">
                 {% if has_add_permission %}
                     <li>
@@ -68,10 +68,13 @@
                     <li class="dropdown-item fl fl-i-center disabled" id="cut">
                         <i class="icon-scissors margin-right-xs"></i>{% trans "Cut" %}
                     </li>
-                    <li class="dropdown-submenu fl fl-i-center">
-                      <a class="dropdown-item dropdown-toggle" href="#">
-                        <i class="icon-paste margin-right-xs"></i>{% trans "Paste" %}</a>
-                      <ul class="dropdown-menu">
+                    <!-- PASTE -->
+                    <li class="nav-item dropdown-submenu dropdown fl fl-i-center">
+                        <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
+                            <i class="icon-paste margin-right-xs"></i>
+                            {% trans "Paste" %}
+                        </a>
+                      <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
                         <li class="dropdown-item" id="paste">
                           {% trans "Documents & Folders" %}
                         </li>
@@ -80,6 +83,7 @@
                         </li>
                       </ul>
                     </li>
+                    <!-- PASTE -->
                     <li class="dropdown-item fl fl-i-center disabled" id="rename" data-target-id="rename-form" disabled>
                         <i class="icon-edit margin-right-xs"></i>{% trans "Rename" %}
                     </li>
