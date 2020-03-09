@@ -10,24 +10,27 @@ from papermerge.core.models import Document
 from papermerge.core.serializers import DocumentSerializer
 
 
-class Clipboard:
-    def __init__(self, clipboard_name):
+class PagesClipboard:
+    def __init__(self, request, clipboard_name):
+        self.request = request
         self.clipboard_name = clipboard_name
 
-    def put(self, request, doc_id, page_ids):
+    def put(self, doc_id, page_nums):
+        user = self.request.user.id
+        cname = self.clipboard_name
+        clipboard_id = f"{user}.clipboard.{cname}"
+        self.request.session[clipboard_id] = {
+        }
+
+    def get(self, doc_id):
+        user = self.request.user.id
+        cname = self.clipboard_name
+        clipboard_id = f"{user}.clipboard.{cname}.{doc_id}"
+
+        return self.request.session[clipboard_id]
+
+    def reset(self, doc_id=None):
         pass
-
-    def get(self, request, doc_id):
-        pass
-
-    def reset(self, request, doc_id=None):
-        pass
-
-
-class PagesClipboard(Clipboard):
-
-    def __init__(self):
-        super().__init__(self, clipboard_name="pages")
 
 
 class PagesView(APIView):
@@ -73,16 +76,41 @@ class PagesCutView(APIView):
         which where cut.
         """
         try:
-            doc = Document.objects.get(id=doc_id)
+            Document.objects.get(id=doc_id)
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
         page_nums = request.POST.getlist('pages[]')
         page_nums = [int(number) for number in page_nums]
 
-        doc.delete_pages(page_numbers=page_nums)
+        clipboard = PagesClipboard(request)
+        clipboard.put(doc_id=doc_id, page_nums=page_nums)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PagesPasteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """
+        Paste pages.
+        Pages can be pasted into a document or into a Folder.
+        When pasted into a folder - a new document containing those
+        pages is created. When pasted into a document - those pages will
+        added to the respective document.
+
+        """
+        node_id = request.POST.get('node_id', False)
+        node = BaseTreeNode.objects.filter(id=node_id).first()
+
+        page_nums = request.POST.getlist('pages[]')
+        page_nums = [int(number) for number in page_nums]
+
+        clipboard = PagesClipboard(request)
+        clipboard.get(doc_id=doc_id, page_nums=page_nums)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)        
 
 
 class DocumentsView(APIView):
