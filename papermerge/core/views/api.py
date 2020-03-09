@@ -120,15 +120,25 @@ class PagesPasteView(APIView):
 
         """
         node_id = request.POST.get('node_id', False)
+        pivot_type = request.POST.get('pivot_type', 'before')
+        pivot_page_num = request.POST.get('pivot_page_num', '1')
         node = BaseTreeNode.objects.filter(id=node_id).first()
 
-        page_nums = request.POST.getlist('pages[]')
-        page_nums = [int(number) for number in page_nums]
-
         clipboard = PagesClipboard(request)
-        clipboard.get(doc_id=doc_id, page_nums=page_nums)
+        clipboard.get()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)        
+        # if node is Folder:
+        #   Document.create_new_merged_document(
+        #       clipboard.get(), parent_id=node_id
+        #   )
+        # else:
+        #   pivot_type = before | after
+        #   node.paste(
+        #       clipboard.get(),
+        #       pivot={type: pivot_type, page_num: pivot_page_num}
+        #   )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class DocumentsView(APIView):
