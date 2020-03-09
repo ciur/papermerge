@@ -21,7 +21,7 @@
             <i class="icon-order"></i>
           </button>
     <ul class="dropdown-menu dropdown-menu-right sort" aria-labelledby="navbarDropdownMenuLink">
-          <li class="dropdown-submenu">
+          <li class="dropdown-submenu-left dropdown-submenu">
             <a class="dropdown-item dropdown-toggle" href="#">{% trans "Title" %}</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% boss_order_items object %}?o=1">
@@ -32,7 +32,7 @@
               </a></li>
             </ul>
           </li>
-          <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">
+          <li class="dropdown-submenu dropdown-submenu-left"><a class="dropdown-item dropdown-toggle" href="#">
             {% trans "Date" %}
           </a>
             <ul class="dropdown-menu">
@@ -44,7 +44,7 @@
             </a></li>
             </ul>
           </li>
-          <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">
+          <li class="dropdown-submenu-left dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">
             {% trans "Type" %}
           </a>
             <ul class="dropdown-menu">
