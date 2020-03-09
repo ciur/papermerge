@@ -38,16 +38,16 @@
         <div class="navbar-inner w-100 d-flex justify-content-between align-items-center">
             <ul id="changelist-tools" class="nav nav-pills">
                 {% if has_add_permission %}
-                    <li>
+                    <li class="mx-1">
                         <select name="lang" id="lang" class="">
                             <option value="eng"  {% if request.user.preferences.ocr__OCR_Language == 'eng' %} selected {% endif %}>English</option>
                             <option value="deu"  {% if request.user.preferences.ocr__OCR_Language == 'deu' %} selected {% endif %}>Deutsch</option>
                         </select>
                     </li>
-                    <li>
+                    <li class="mx-1">
                         <button id="id_btn_upload1" class="btn btn-neuter">{% trans "Upload" %}</button>
                     </li>
-                    <li>
+                    <li class="mx-1">
                         <!--parent_id=object.id -->
                         <button id="new-folder" data-target-id="new-folder-form" class="btn btn-neuter">
                             {% trans "New Folder" %}
@@ -55,7 +55,7 @@
 
                     </li>
                 {% endif %}
-              <li>
+              <li class="mx-1">
                 <div class="dropdown actions">
                   <button class="btn btn-light btn-neuter btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% trans "Actions" %}
