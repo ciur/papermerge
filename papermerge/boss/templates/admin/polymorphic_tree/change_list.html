@@ -34,67 +34,69 @@
 
 
 {% block object-tools %}
-  <div class="tools horizontal space-between fl-wrap desktop">
-    <ul id="changelist-tools" class="horizontal fl-i-center fl-wrap">
-        {% if has_add_permission %}
-            <li>
-                <select name="lang" id="lang" class="">
-                    <option value="eng"  {% if request.user.preferences.ocr__OCR_Language == 'eng' %} selected {% endif %}>English</option>
-                    <option value="deu"  {% if request.user.preferences.ocr__OCR_Language == 'deu' %} selected {% endif %}>Deutsch</option>
-                </select>
-            </li>
-            <li>
-                <button id="id_btn_upload1" class="btn btn-neuter">{% trans "Upload" %}</button>
-            </li>
-            <li>
-                <!--parent_id=object.id -->
-                <button id="new-folder" data-target-id="new-folder-form" class="btn btn-neuter">
-                    {% trans "New Folder" %}
-                </button>
+      <div class="navbar">
+        <div class="navbar-inner">
+            <ul id="changelist-tools" class="nav nav-pills">
+                {% if has_add_permission %}
+                    <li>
+                        <select name="lang" id="lang" class="">
+                            <option value="eng"  {% if request.user.preferences.ocr__OCR_Language == 'eng' %} selected {% endif %}>English</option>
+                            <option value="deu"  {% if request.user.preferences.ocr__OCR_Language == 'deu' %} selected {% endif %}>Deutsch</option>
+                        </select>
+                    </li>
+                    <li>
+                        <button id="id_btn_upload1" class="btn btn-neuter">{% trans "Upload" %}</button>
+                    </li>
+                    <li>
+                        <!--parent_id=object.id -->
+                        <button id="new-folder" data-target-id="new-folder-form" class="btn btn-neuter">
+                            {% trans "New Folder" %}
+                        </button>
 
-            </li>
-        {% endif %}
-      <li>
-        <div class="dropdown">
-          <button class="btn btn-light btn-neuter btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {% trans "Actions" %}
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li class="dropdown-item fl fl-i-center" id="download" class="dropdown-item fl fl-i-center disabled">
-                <i class="icon-download margin-right-xs"></i>{% trans "Download" %}
-            </li>
-            <li class="dropdown-divider"></li>
-            <li class="dropdown-item fl fl-i-center disabled" id="cut">
-                <i class="icon-scissors margin-right-xs"></i>{% trans "Cut" %}
-            </li>
-            <li class="dropdown-submenu fl fl-i-center">
-              <a class="dropdown-item dropdown-toggle" href="#">
-                <i class="icon-paste margin-right-xs"></i>{% trans "Paste" %}</a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-item" id="paste">
-                  {% trans "Documents & Folders" %}
-                </li>
-                <li class="dropdown-item" id="paste_pages">
-                  {% trans "Pages" %}
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown-item fl fl-i-center disabled" id="rename" data-target-id="rename-form" disabled>
-                <i class="icon-edit margin-right-xs"></i>{% trans "Rename" %}
-            </li>
-            <li class="dropdown-item fl fl-i-center disabled" id="access" data-target-id="access-form" disabled>
-                <i class="icon group-black margin-right-xs"></i>{% trans "Access" %}
-            </li>
-            <li class="dropdown-divider"></li>
-            <li id="delete" class="dropdown-item fl fl-i-center disabled">
-                <i class="icon-trash margin-right-xs"></i>{% trans "Delete" %}
-            </li>
-          </ul>
-        </div>
-      </li>
-   </ul>
-   {% include 'boss/_tools_ex.html' %}
- </div>
+                    </li>
+                {% endif %}
+              <li>
+                <div class="dropdown actions">
+                  <button class="btn btn-light btn-neuter btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% trans "Actions" %}
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li class="dropdown-item fl fl-i-center" id="download" class="dropdown-item fl fl-i-center disabled">
+                        <i class="icon-download margin-right-xs"></i>{% trans "Download" %}
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item fl fl-i-center disabled" id="cut">
+                        <i class="icon-scissors margin-right-xs"></i>{% trans "Cut" %}
+                    </li>
+                    <li class="dropdown-submenu fl fl-i-center">
+                      <a class="dropdown-item dropdown-toggle" href="#">
+                        <i class="icon-paste margin-right-xs"></i>{% trans "Paste" %}</a>
+                      <ul class="dropdown-menu">
+                        <li class="dropdown-item" id="paste">
+                          {% trans "Documents & Folders" %}
+                        </li>
+                        <li class="dropdown-item" id="paste_pages">
+                          {% trans "Pages" %}
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown-item fl fl-i-center disabled" id="rename" data-target-id="rename-form" disabled>
+                        <i class="icon-edit margin-right-xs"></i>{% trans "Rename" %}
+                    </li>
+                    <li class="dropdown-item fl fl-i-center disabled" id="access" data-target-id="access-form" disabled>
+                        <i class="icon group-black margin-right-xs"></i>{% trans "Access" %}
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li id="delete" class="dropdown-item fl fl-i-center disabled">
+                        <i class="icon-trash margin-right-xs"></i>{% trans "Delete" %}
+                    </li>
+                  </ul>
+                </div>
+              </li>
+           </ul>
+           {% include 'boss/_tools_ex.html' %}
+        </div> <!--  navbar-inner -->
+     </div> <!--  navbar -->
 {% endblock %}
 
 {% block breadcrumbs %}
