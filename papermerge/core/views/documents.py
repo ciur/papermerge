@@ -51,27 +51,21 @@ def copy_to_clipboard(request, node_ids):
     this implementation will be post poned for later.
     """
 
-    tenant_name = get_tenant_name()
-    clipboard_id = "{}.{}.clipboard.node_ids".format(
-        tenant_name,
+    clipboard_id = "{}.clipboard.node_ids".format(
         request.user.id
     )
     request.session[clipboard_id] = node_ids
 
 
 def reset_clipboard(request):
-    tenant_name = get_tenant_name()
-    clipboard_id = "{}.{}.clipboard.node_ids".format(
-        tenant_name,
+    clipboard_id = "{}.clipboard.node_ids".format(
         request.user.id
     )
     request.session[clipboard_id] = []
 
 
 def get_clipboard(request):
-    tenant_name = get_tenant_name()
-    clipboard_id = "{}.{}.clipboard.node_ids".format(
-        tenant_name,
+    clipboard_id = "{}.clipboard.node_ids".format(
         request.user.id
     )
     if request.session.get(clipboard_id, False):
@@ -87,9 +81,7 @@ def get_from_clipboard(request):
     this implementation will be post poned for later.
     """
 
-    tenant_name = get_tenant_name()
-    clipboard_id = "{}.{}.clipboard.node_ids".format(
-        tenant_name,
+    clipboard_id = "{}.clipboard.node_ids".format(
         request.user.id
     )
     return request.session.get(clipboard_id, [])

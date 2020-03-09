@@ -10,6 +10,26 @@ from papermerge.core.models import Document
 from papermerge.core.serializers import DocumentSerializer
 
 
+class Clipboard:
+    def __init__(self, clipboard_name):
+        self.clipboard_name = clipboard_name
+
+    def put(self, request, doc_id, page_ids):
+        pass
+
+    def get(self, request, doc_id):
+        pass
+
+    def reset(self, request, doc_id=None):
+        pass
+
+
+class PagesClipboard(Clipboard):
+
+    def __init__(self):
+        super().__init__(self, clipboard_name="pages")
+
+
 class PagesView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -39,6 +59,28 @@ class PagesView(APIView):
             raise Http404("Document does not exists")
 
         doc.reorder_pages(request.data)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PagesCutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, doc_id):
+        """
+        Cut Pages from doc_id document.
+        It adds pages to clipboard designated for pages
+        which where cut.
+        """
+        try:
+            doc = Document.objects.get(id=doc_id)
+        except Document.DoesNotExist:
+            raise Http404("Document does not exists")
+
+        page_nums = request.POST.getlist('pages[]')
+        page_nums = [int(number) for number in page_nums]
+
+        doc.delete_pages(page_numbers=page_nums)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
