@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import (JSONParser, FileUploadParser)
 from rest_framework.permissions import IsAuthenticated
 
-from papermerge.core.models import Document
+from papermerge.core.models import (Document, BaseTreeNode)
 from papermerge.core.serializers import DocumentSerializer
 
 
@@ -127,16 +127,18 @@ class PagesPasteView(APIView):
         clipboard = PagesClipboard(request)
         clipboard.get()
 
-        # if node is Folder:
-        #   Document.create_new_merged_document(
-        #       clipboard.get(), parent_id=node_id
-        #   )
-        # else:
-        #   pivot_type = before | after
-        #   node.paste(
-        #       clipboard.get(),
-        #       pivot={type: pivot_type, page_num: pivot_page_num}
-        #   )
+        if node.polymorphic_ctype.name == 'Folder':
+            # paste in folder
+            Document.create_new_merged_document(
+                clipboard.get(), parent_id=node_id
+            )
+        else:
+            # paste in document
+            # pivot_type = before | after
+            node.paste(
+                clipboard.get(),
+                pivot={'pivot_type': pivot_type, 'page_num': pivot_page_num}
+            )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
