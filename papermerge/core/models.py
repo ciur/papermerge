@@ -833,9 +833,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
             )
 
-        # it does not increment dest document version!
-        # dest document was creaetd, but it has no file associated
-        # so, paste_pages creates that file.
+        # returns new document version
         pdftk.paste_pages(
             dest_doc=document.doc_ep,
             src_docs=doc_ep_list
