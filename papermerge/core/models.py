@@ -834,13 +834,33 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             )
 
         # returns new document version
-        pdftk.paste_pages(
+        new_version = pdftk.paste_pages(
             dest_doc_ep=document.doc_ep,
             src_doc_ep_list=doc_ep_list,
             dest_doc_is_new=True,
             after_page_number=-1,
             before_page_number=-1
         )
+
+        if new_version == document.version:
+            raise Exception("Expecting version to be incremented")
+
+        document.version = new_version
+        document.save()
+        # update pages model
+        document.recreate_pages()
+
+        ocrmigrate.migrate_cutted_pages(
+            dest_ep=document.doc_ep,
+            src_doc_ep_list=doc_ep_list
+        )
+
+        # delete pages of source document (which where
+        # cutted and pasted into new doc)
+        for item in doc_list:
+            item['doc'].delete_pages(
+                page_numbers=item['page_nums']
+            )
 
     @staticmethod
     def import_file(
