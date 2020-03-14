@@ -828,15 +828,18 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 logger.warning(
                     f"While pasting, doc_id={doc_id} was not found"
                 )
-            doc_list.push({'doc': doc, 'page_nums': doc_pages[doc_id]})
-            doc_ep_list.push(
+            doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
+            doc_ep_list.append(
                 {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
             )
 
         # returns new document version
         pdftk.paste_pages(
             dest_doc_ep=document.doc_ep,
-            src_doc_ep_list=doc_ep_list
+            src_doc_ep_list=doc_ep_list,
+            dest_doc_is_new=True,
+            after_page_number=-1,
+            before_page_number=-1
         )
 
     @staticmethod
