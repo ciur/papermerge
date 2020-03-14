@@ -778,7 +778,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
     @staticmethod
     def paste_pages(
-        parent_node,
+        user,
+        parent_id,
         doc_pages
     ):
         # parent_node is an instance of BaseTreeNode
@@ -794,8 +795,51 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # 3. for each document with ids in doc_pages.keys() (DOC):
         #     a. copy pages data from DOC to NEWDOC
         #     b. deletes pages from DOC (pages mentioned in doc_page[key] list)
-        pass
 
+        new_page_count = sum(
+            [
+                len(pages) for pages in doc_pages.values()
+            ]
+        )
+
+        if new_page_count == 0:
+            logger.warning("No pages to paste. Exiting.")
+            return
+
+        # 1. Create new document
+        # 2. Build new pages for newly created document
+        document = Document.create_document(
+            user=user,
+            parent_id=parent_id,
+            lang=user.preferences['ocr__OCR_Language'],
+            title="pasted.pdf",
+            size=0,  # will be updated later, after pdftk will create new doc
+            file_name="pasted.pdf",
+            page_count=new_page_count
+        )
+
+        # for each document where are pages to paste
+        doc_list = []
+        doc_ep_list = []
+        for doc_id in doc_pages.keys():
+            try:
+                doc = Document.objects.get(id=doc_id)
+            except Document.DoesNotExist:
+                logger.warning(
+                    f"While pasting, doc_id={doc_id} was not found"
+                )
+            doc_list.push({'doc': doc, 'page_nums': doc_pages[doc_id]})
+            doc_ep_list.push(
+                {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
+            )
+
+        # it does not increment dest document version!
+        # dest document was creaetd, but it has no file associated
+        # so, paste_pages creates that file.
+        pdftk.paste_pages(
+            dest_doc=document.doc_ep,
+            src_docs=doc_ep_list
+        )
 
     @staticmethod
     def import_file(

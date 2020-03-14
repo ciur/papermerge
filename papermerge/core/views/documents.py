@@ -138,15 +138,15 @@ def paste_pages(request):
         return redirect('boss:core_basetreenode_changelist')
 
     parent_id = request.POST.get('parent_id', False)
-    if parent_id:
-        parent = BaseTreeNode.objects.filter(id=parent_id).first()
-    else:
-        parent = None
 
     clipboard = PagesClipboard(request)
     doc_pages = clipboard.get()
 
-    Document.paste_pages(parent, doc_pages)
+    Document.paste_pages(
+        user=request.user,
+        parent_id=parent_id,
+        doc_pages=doc_pages
+    )
 
     clipboard.reset()
 
