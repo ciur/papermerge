@@ -788,7 +788,14 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         #    doc_id_2: [page_num_1b, page_num_2b, ...],
         #    doc_id_3: [page_num_1c, page_num_2c, ...]
         # }
+        # 1. Create a new document NEWDOC
+        # 2. Build new pages for the newly created document
+        # num_pages = len(doc_pages[doc_id_1]) + len(doc_pages[doc_id_2]) + ...
+        # 3. for each document with ids in doc_pages.keys() (DOC):
+        #     a. copy pages data from DOC to NEWDOC
+        #     b. deletes pages from DOC (pages mentioned in doc_page[key] list)
         pass
+
 
     @staticmethod
     def import_file(
