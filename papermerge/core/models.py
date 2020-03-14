@@ -777,6 +777,20 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return lang
 
     @staticmethod
+    def paste_pages(
+        parent_node,
+        doc_pages
+    ):
+        # parent_node is an instance of BaseTreeNode
+        # doc_pages is a dictionary of format:
+        # {
+        #    doc_id_1: [page_num_1a, page_num_2a, ...],
+        #    doc_id_2: [page_num_1b, page_num_2b, ...],
+        #    doc_id_3: [page_num_1c, page_num_2c, ...]
+        # }
+        pass
+
+    @staticmethod
     def import_file(
         filepath,
         username=None,

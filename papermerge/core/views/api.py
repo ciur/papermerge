@@ -48,7 +48,9 @@ class PagesClipboard:
         return self.request.session[clipboard_id]
 
     def reset(self, doc_id=None):
-        pass
+        user = self.request.user.id
+        clipboard_id = f"{user}.clipboard.pages"
+        self.request.session[clipboard_id] = {}
 
 
 class PagesView(APIView):
@@ -98,7 +100,7 @@ class PagesCutView(APIView):
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        page_nums = request.POST.getlist('pages[]')
+        page_nums = request.data
         page_nums = [int(number) for number in page_nums]
 
         clipboard = PagesClipboard(request)

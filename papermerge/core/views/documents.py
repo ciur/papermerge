@@ -41,6 +41,10 @@ from papermerge.core.storage import (
     is_storage_left
 )
 
+from papermerge.core.views.api import (
+    PagesClipboard
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -126,6 +130,34 @@ def clipboard(request):
         json.dumps({'clipboard': []}),
         content_type="application/json",
     )
+
+
+@login_required
+def paste_pages(request):
+    if request.method == 'GET':
+        return redirect('boss:core_basetreenode_changelist')
+
+    parent_id = request.POST.get('parent_id', False)
+    if parent_id:
+        parent = BaseTreeNode.objects.filter(id=parent_id).first()
+    else:
+        parent = None
+
+    clipboard = PagesClipboard(request)
+    doc_pages = clipboard.get()
+
+    Document.paste_pages(parent, doc_pages)
+
+    clipboard.reset()
+
+    if parent_id:
+        return redirect(
+            reverse(
+                'boss:core_basetreenode_changelist_obj', args=(parent_id,)
+            )
+        )
+
+    return redirect('boss:core_basetreenode_changelist')
 
 
 @login_required

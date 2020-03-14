@@ -78,6 +78,11 @@ urlpatterns = [
         name='paste_node'
     ),
     path(
+        'paste-pages/',
+        doc_views.paste_pages,
+        name='paste_pages'
+    ),
+    path(
         'clipboard/',
         doc_views.clipboard,
         name='clipboard'
