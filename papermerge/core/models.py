@@ -835,8 +835,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         # returns new document version
         pdftk.paste_pages(
-            dest_doc=document.doc_ep,
-            src_docs=doc_ep_list
+            dest_doc_ep=document.doc_ep,
+            src_doc_ep_list=doc_ep_list
         )
 
     @staticmethod
