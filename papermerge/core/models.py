@@ -862,6 +862,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 page_numbers=item['page_nums']
             )
 
+        # TODO: update size of the new document (changed doc)
+
     @staticmethod
     def import_file(
         filepath,
