@@ -112,35 +112,32 @@ class PagesCutView(APIView):
 class PagesPasteView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, doc_id):
         """
-        Paste pages.
-        Pages can be pasted into a document or into a Folder.
-        When pasted into a folder - a new document containing those
-        pages is created. When pasted into a document - those pages will
-        added to the respective document.
+        Paste pages (within document view).
+        NO new document is created.
+        Code for pasting document in changelist view (i.e. when
+        a NEW document is created) is in
+        papermerge.core.views.documents.paste_pages
+        """
+        before = request.POST.get('before', False)
+        after = request.POST.get('after', False)
 
-        """
-        node_id = request.POST.get('node_id', False)
-        pivot_type = request.POST.get('pivot_type', 'before')
-        pivot_page_num = request.POST.get('pivot_page_num', '1')
-        node = BaseTreeNode.objects.filter(id=node_id).first()
+        try:
+            document = Document.objects.get(id=doc_id)
+        except Document.DoesNotExist:
+            raise Http404("Document does not exists")
 
         clipboard = PagesClipboard(request)
-        clipboard.get()
+        doc_pages = clipboard.get()
 
-        if node.polymorphic_ctype.name == 'Folder':
-            # paste in folder
-            Document.create_new_merged_document(
-                clipboard.get(), parent_id=node_id
-            )
-        else:
-            # paste in document
-            # pivot_type = before | after
-            node.paste(
-                clipboard.get(),
-                pivot={'pivot_type': pivot_type, 'page_num': pivot_page_num}
-            )
+        document.paste(
+            doc_pages=doc_pages,
+            before=before,
+            after=after
+        )
+
+        clipboard.reset()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 

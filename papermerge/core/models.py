@@ -776,6 +776,71 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         lang = user.preferences['ocr__OCR_Language']
         return lang
 
+    def paste(
+        self,
+        doc_pages,
+        after=False,
+        before=False
+    ):
+        """
+        Paste pages in current document.
+        """
+        new_page_count = sum(
+            [
+                len(pages) for pages in doc_pages.values()
+            ]
+        )
+
+        if new_page_count == 0:
+            logger.warning("No pages to paste. Exiting.")
+            return
+
+        # for each document where are pages to paste
+        doc_list = []
+        doc_ep_list = []
+        for doc_id in doc_pages.keys():
+            try:
+                doc = Document.objects.get(id=doc_id)
+            except Document.DoesNotExist:
+                logger.warning(
+                    f"While pasting, doc_id={doc_id} was not found"
+                )
+            doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
+            doc_ep_list.append(
+                {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
+            )
+
+        # returns new document version
+        new_version = pdftk.paste_pages(
+            dest_doc_ep=self.doc_ep,
+            src_doc_ep_list=doc_ep_list,
+            dest_doc_is_new=False,
+            after_page_number=after,
+            before_page_number=before
+        )
+
+        if new_version == self.version:
+            raise Exception("Expecting version to be incremented")
+
+        self.version = new_version
+        self.save()
+        # update pages model
+        self.recreate_pages()
+
+        ocrmigrate.migrate_cutted_pages(
+            dest_ep=self.doc_ep,
+            src_doc_ep_list=doc_ep_list
+        )
+
+        # delete pages of source document (which where
+        # cutted and pasted into new doc)
+        for item in doc_list:
+            item['doc'].delete_pages(
+                page_numbers=item['page_nums']
+            )
+
+        # TODO: update size of the new document (changed doc)
+
     @staticmethod
     def paste_pages(
         user,

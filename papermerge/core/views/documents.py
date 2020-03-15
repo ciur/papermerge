@@ -134,6 +134,11 @@ def clipboard(request):
 
 @login_required
 def paste_pages(request):
+    """
+    Paste pages in a changelist view.
+    This means a new document instance
+    is created.
+    """
     if request.method == 'GET':
         return redirect('boss:core_basetreenode_changelist')
 

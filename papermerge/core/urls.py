@@ -112,4 +112,9 @@ urlpatterns = [
         api_views.PagesCutView.as_view(),
         name='api_pages_cut'
     ),
+    path(
+        'api/document/<int:doc_id>/pages/paste',
+        api_views.PagesPasteView.as_view(),
+        name='api_pages_paste'
+    ),
 ]
