@@ -162,13 +162,17 @@ class DocumentUploadView(APIView):
     def put(self, request, filename):
         file_obj = request.data['file']
 
-        Document.import_file(
+        doc = Document.import_file(
             file_obj.temporary_file_path(),
             username=request.user.username,
             file_title=filename
         )
 
-        return Response(status=204)
+        if isinstance(doc, Document):
+            serializer = DocumentSerializer(doc)
+            return Response(serializer.data)
+
+        return Response(status=200)
 
 
 class DocumentView(APIView):
