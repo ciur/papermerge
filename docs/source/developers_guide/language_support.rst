@@ -29,7 +29,14 @@ There are two parts to consider:
 User Interface Language
 ========================
 
-User Interface language, is text you user sees and interacts with. Say labels for username in German will be Benutzername, or text for Log out in German is Abmelden. To localize user interface (UI) in your own language you need be familiar with  `Django way <https://docs.djangoproject.com/en/3.0/topics/i18n/>`_. It is because main web application is Django project. 
+User Interface language is text you user sees and interacts with. Say labels
+for username in German will be Benutzername, or text for Log out in German is
+Abmelden. To localize user interface (UI) in your own language you need be
+familiar with  `Django way
+<https://docs.djangoproject.com/en/3.0/topics/i18n/>`_. It is because main web
+application is Django project. 
+
+Contributing to the project in this sense means basically creating/updating file papermerge/<langcode>/LC_MESSAGES/django.po file.
 
 
 Document Content Language
