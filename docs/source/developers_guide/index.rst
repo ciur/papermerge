@@ -6,6 +6,7 @@ Documentation, notes and general info for developers (myself included).
 .. toctree::
    :maxdepth: 4
    
+   contributing
    design
    branching
    language_support
