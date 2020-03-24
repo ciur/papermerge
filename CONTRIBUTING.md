@@ -1,6 +1,7 @@
 # Contributing to Papermerge
 
 Here you will find general description about how you can contribute to papermerge project.
+A more detailed version of this document you can find in online [documentation](https://papermerge.readthedocs.io/en/latest/developers_guide/contributing.html).
 
 ## Fix a Typo
 
