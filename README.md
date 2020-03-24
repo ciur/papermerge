@@ -44,6 +44,17 @@ Frontend](https://github.com/ciur/papermerge-js)
 ![Screenshot 02](./screenshots/screenshot02.png)
 ![Screenshot 03](./screenshots/screenshot03.png)
 
+### Try it!
+
+With docker (you need to have installed git and docker compose) you can try papermerge in 3 minutes::
+
+    git clone git@github.com:ciur/papermerge.git
+    cd docker
+    docker-compose up -d
+
+Docker compose command will pull all necessary docker images and start
+papermerge (stable 1.1 version) on http://localhost:8000. Access it with
+default username/password: admin/admin.
 
 ### Installation
 
