@@ -10,12 +10,12 @@ With this method you will need ``git``, ``docker`` and ``docker-compose`` instal
 
     git clone https://github.com/ciur/papermerge papermerge-proj
 
-4. Run docker compose command::
+4. Run docker compose command (which will pull images from `DockerHub <https://hub.docker.com/r/eugenci/papermerge>`_)::
 
     cd papermerge-proj/docker
-    docker-compose up --build -d
+    docker-compose up -d
 
-This will create and start the necessary containers. 
+This will pull and start the necessary containers. If you wish, you can use ``docker-compose up --build -f docker-compose-dev.yml -d`` command instead to build local images.
 
 Check if services are up and running::
 
@@ -33,3 +33,4 @@ You can check logs of each service with::
     docker-compose logs worker
     docker-compose logs app
     docker-compose logs db
+
