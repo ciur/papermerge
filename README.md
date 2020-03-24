@@ -46,7 +46,7 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ### Try it!
 
-You can try it with just 3 simple commands (you need git and docker-compose)::
+You can try it with just 3 simple commands (you need git and docker-compose):
 
     git clone git@github.com:ciur/papermerge.git
     cd docker
