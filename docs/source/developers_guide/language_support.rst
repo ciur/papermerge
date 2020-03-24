@@ -41,3 +41,19 @@ Contributing to the project in this sense means basically creating/updating file
 
 Document Content Language
 ==========================
+
+Every document upload to papermerge will be OCRed by `tesseract <https://github.com/tesseract-ocr/tesseract>`_ command line utility. Tesseract command requires -l <lang> argument - to indicate the language of the document. This is the heart of *document language support*. Have a look a worker's shortcuts module `extract_hocr and extract_txt <https://github.com/ciur/papermerge-worker/blob/master/pmworker/shortcuts.py#L42>`_ functions. Both functions built tesseract command with language as first argument.
+
+
+To check what languages you have installed for tesseract, use command::
+
+    $ tesseract --list-langs
+
+In my case, it lists `deu` and `eng` - which are codes for German and English languages.
+
+OCRing of the documents (tesseract -l deu path/to/doc) happens on worker side.
+I explained this because it is important to know, but for adding language
+support - you **don't need to change anything in the worker**, because worker only takes orders and blindly executes them.
+
+The entry point, for the worker part is task module with it's `ocr_page function <https://github.com/ciur/papermerge-worker/blob/378477d3f6769bea49e1145e8fc4a6b799fa464b/pmworker/tasks.py#L79>`_. Again, no need to change anything here, I mention this only because it is important to know.   
+
