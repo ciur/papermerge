@@ -46,7 +46,7 @@ Frontend](https://github.com/ciur/papermerge-js)
 
 ### Try it!
 
-With docker (you need to have installed git and docker compose) you can try papermerge in 3 minutes::
+You can try it with just 3 simple commands (you will need git and docker-compose)::
 
     git clone git@github.com:ciur/papermerge.git
     cd docker
