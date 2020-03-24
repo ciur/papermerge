@@ -23,5 +23,5 @@ Another way to contribute is open issues. Obviously this means you need to at le
 Add Your Language Support
 ==========================
 
-Adding language support is not so trivial as fixing a typo or open an issue, but it is not that difficult either.
+Adding language support is not as trivial as fixing a typo or opening an issue, but it is not that difficult either.
 In any case, there is a separate :ref:`page in developer guide <dev_lang_support>` for it.
