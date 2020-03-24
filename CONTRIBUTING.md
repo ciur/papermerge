@@ -13,4 +13,10 @@ this rule).
 
 ## Open an Issue.
 
-Another way to contribute is open issues.
+Another way to contribute is open issues. Obviously this means you need to at
+least run once application and test it.
+
+
+## Add Your Language Support
+
+Find detailed description on how to add language support in [documentation](https://papermerge.readthedocs.io/en/latest/developers_guide/language_support.html)
