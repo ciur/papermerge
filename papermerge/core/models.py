@@ -798,6 +798,9 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # for each document where are pages to paste
         doc_list = []
         doc_ep_list = []
+        old_version = self.version
+
+
         for doc_id in doc_pages.keys():
             try:
                 doc = Document.objects.get(id=doc_id)
@@ -822,14 +825,14 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         if new_version == self.version:
             raise Exception("Expecting version to be incremented")
 
-        old_version = self.version
         self.version = new_version
         self.save()
 
         # migrate document's own pages from previous
         # version (this differs from pasting into newly
         # created docs)
-        doc_ep_list.append(
+        doc_ep_list.insert(
+            0,
             {
                 'doc_ep': endpoint.DocumentEp(
                     user_id=self.user.id,
