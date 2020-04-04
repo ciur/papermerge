@@ -822,10 +822,25 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         if new_version == self.version:
             raise Exception("Expecting version to be incremented")
 
+        old_version = self.version
         self.version = new_version
         self.save()
-        # update pages model
-        self.recreate_pages()
+
+        # migrate document's own pages from previous
+        # version (this differs from pasting into newly
+        # created docs)
+        doc_ep_list.append(
+            {
+                'doc_ep': endpoint.DocumentEp(
+                    user_id=self.user.id,
+                    document_id=self.id,
+                    version=old_version,
+                    file_name=self.file_name,
+                    local_endpoint=get_media_root(),
+                    remote_endpoint=get_storage_root()),
+                'page_nums': list(range(1, self.page_count + 1))
+            }
+        )
 
         ocrmigrate.migrate_cutted_pages(
             dest_ep=self.doc_ep,
@@ -839,7 +854,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 page_numbers=item['page_nums']
             )
 
-        # TODO: update size of the new document (changed doc)
+        # must be at the end
+        self.recreate_pages()
 
     @staticmethod
     def paste_pages(
