@@ -1112,6 +1112,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         doc.save()
         doc.create_pages()
+        # https://github.com/django-mptt/django-mptt/issues/568
+        doc._tree_manager.rebuild()
 
         return doc
 
