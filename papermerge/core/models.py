@@ -800,7 +800,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         doc_ep_list = []
         old_version = self.version
 
-
         for doc_id in doc_pages.keys():
             try:
                 doc = Document.objects.get(id=doc_id)
