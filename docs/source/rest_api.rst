@@ -1,6 +1,8 @@
 REST API
 =========
 
+`Screencast demo <https://www.youtube.com/watch?v=OePTvPcnoMw>`_
+
 REST API is a way to interact with Papermerge far beyond Web Browser realm.
 It gives you power to extend Papermerge in many interesting ways.
 For example it allows you to write a simple bash script to automate uploading

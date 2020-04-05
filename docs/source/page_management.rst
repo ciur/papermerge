@@ -1,6 +1,8 @@
 Page Management
 =================
 
+`Screencast demo <https://www.youtube.com/watch?v=CRhUpPqCI64>`_
+
 .. important::
 
     This feature is work in progress. Page management feature will be part of
