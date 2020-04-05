@@ -808,6 +808,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 logger.warning(
                     f"While pasting, doc_id={doc_id} was not found"
                 )
+                return
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
             doc_ep_list.append(
                 {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
@@ -912,6 +913,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 logger.warning(
                     f"While pasting, doc_id={doc_id} was not found"
                 )
+                return
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
             doc_ep_list.append(
                 {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
@@ -1350,14 +1352,9 @@ class Page(models.Model):
 
         return text
 
-    def image_preview_missing():
-        from django.contrib.staticfiles.templatetags.staticfiles import static
-
-        return static("supervisor/img/missing_page.png")
-
     image = models.CharField(
         max_length=1024,
-        default=image_preview_missing
+        default=''
     )
 
     @property
