@@ -36,6 +36,6 @@ Project open sourced (also with lots of refactoring)
 
 ## 0.0.1 - 10 Sept 2017
 
-    Initial commit. Project started as proof of concept.
-    It was named vermilion, digilette and only later papermerge.
+Initial commit. Project started as proof of concept.
+It was named vermilion, digilette and only later papermerge.
 
