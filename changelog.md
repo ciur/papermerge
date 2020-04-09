@@ -28,5 +28,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 7 Feb 2020
 
-### First stable version
+Open sourced version is more or less stable.
+
+## [0.5.0] - 6 Jan 2020
+
+Project open sourced (also with lots of refactoring)
+
+## 0.0.1 - 10 Sept 2017
+
+    Initial commit. Project started as proof of concept.
+    It was named vermilion, digilette and only later papermerge.
 
