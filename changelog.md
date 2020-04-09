@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Delete pages
 - Reorder pages within the document 
+- Cut/Paste document from one document into another
+- Paste pages into new document instance
 
 
 ## [1.1.0] - 14 Feb 2020
