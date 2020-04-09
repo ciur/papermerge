@@ -134,7 +134,7 @@ class Migration(migrations.Migration):
                 ('lang', models.CharField(default='deu', max_length=8)),
                 ('text_deu', django.contrib.postgres.search.SearchVectorField(null=True)),
                 ('text_eng', django.contrib.postgres.search.SearchVectorField(null=True)),
-                ('image', models.CharField(default=papermerge.core.models.Page.image_preview_missing, max_length=1024)),
+                ('image', models.CharField(default='', max_length=1024)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Document')),
             ],
