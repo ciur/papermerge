@@ -1,0 +1,1 @@
+Cut pages and paste them as new document.
