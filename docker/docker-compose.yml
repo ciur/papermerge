@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   app:
-    image: eugenci/papermerge:1.1
+    image: eugenci/papermerge:1.2
     container_name: papermerge_service
     command: python3 /opt/papermerge/manage.py runserver 0.0.0.0:8000
     ports:
@@ -23,7 +23,7 @@ services:
       - POSTGRES_PASSWORD=dbpass
       - POSTGRES_DB=dbname
   worker:
-    image: eugenci/papermerge-worker:1.1
+    image: eugenci/papermerge-worker:1.2
     container_name: papermerge_worker
     command: bash -c "cd /opt/papermerge-worker && celery worker -A pmworker.celery -Q papermerge -l info"
     volumes:
