@@ -35,4 +35,7 @@ to change pages order within the document.
 Cut & Paste
 *************
 
- work in progress...
+You can move document pages around from one document to another. Once you cut
+one or several pages from a document, you can paste them either inside another
+document - pages will become part of new document or you can paste pages in
+file browser, this will create entirely new document from cut pages.
