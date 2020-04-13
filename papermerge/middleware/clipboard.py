@@ -20,12 +20,12 @@ class ClipboardPages:
 class ClipboardNodes:
 
     def __init__(self, session, user_id):
-        self._list = []
+        self._set = set()
         self._session = session
         self._user_id = user_id
 
     def clear(self):
-        self._list = []
+        self._set.clear()
         self.clear_session()
 
     @property
@@ -33,23 +33,23 @@ class ClipboardNodes:
         return f"{self._user_id}.clipboard.nodes"
 
     def update_session(self):
-        self._session[self.clipboard_id] = self._list
+        self._session[self.clipboard_id] = self._set
 
     def clear_session(self):
-        self._session[self.clipboard_id] = []
+        self._session[self.clipboard_id] = set()
 
     def add(self, *args):
 
         if isinstance(args, list):
-            self._list.extend(args)
+            self._set.update(args)
         else:
             for item in args:
-                self._list.append(item)
+                self._set.add(item)
 
         self.update_session()
 
     def all(self):
-        return self._list
+        return self._set
 
 
 class Clipboard:
