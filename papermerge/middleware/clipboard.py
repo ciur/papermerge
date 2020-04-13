@@ -102,14 +102,23 @@ class Clipboard:
 
 class ClipboardMiddleware:
     """
-    Manages clipboard of document and pages.
+    papermerge.middleware.clipboard.ClipboardMiddleware
+
+    must be declared AFTER
+
+    * django.contrib.sessions.middleware.SessionMiddleware
+    * django.contrib.auth.middleware.AuthenticationMiddleware
+
+    ClipboardMiddleware manages clipboard for nodes
+    (documents or folders) and pages.
+
     Clipboard operates only with IDs (or page order numbers).
 
     Adds a clipboard attribute to request object.
 
     * Resets/Delets everything (for current user) from clipboard:
 
-        request.clipboard.reset()
+        request.clipboard.clear()
 
     * Get cliboard object for currently logged in user:
 
@@ -130,6 +139,7 @@ class ClipboardMiddleware:
     * Get current nodes in clipboard:
 
         request.clipboard.nodes.all()
+        request.nodes.all()
 
     returns and array/list of node ids currently in clipboard
 
@@ -169,14 +179,22 @@ class ClipboardMiddleware:
     """
 
     def __init__(self, get_response):
-
         self.get_response = get_response
 
     def __call__(self, request):
 
+        # clipboard is per user. It makes sense only
+        # when there is an authenticated user.
         if request.user:
-            # clipboard is per user. It makes sense only
-            # when there is a logged in
+
+            # extend request object with
+            #
+            # * request.clipboard
+            # * request.pages
+            # * request.nodes
+            #
+            # last two are shortcuts. request.pages = request.clipboard.pages
+            # and request.nodes = request.clipboard.nodes
             request.clipboard = Clipboard(
                 session=request.session,
                 user_id=request.user.id
@@ -184,6 +202,7 @@ class ClipboardMiddleware:
             # shortcuts
             request.nodes = request.clipboard.nodes
             request.pages = request.clipboard.pages
+
         response = self.get_response(request)
 
         return response
