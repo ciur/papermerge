@@ -3,6 +3,7 @@
 class Clipboard:
     """
     Manages a clipboard of document and pages.
+    Clipboard operates only with IDs (or page order numbers).
 
     Adds a clipboard attribute to request object.
 
@@ -12,18 +13,58 @@ class Clipboard:
 
     * Get cliboard object for currently logged in user:
 
-        request.clipboard
+        request.clipboard.all()
 
-    * Puts node ids into the clipboard. Node might be a folder or a document
+    returns:
 
-        request.clipboard.put(node_ids=[1, 2, 3, 4])
+        {
+            'nodes': ['node1', 'node2', 'node3'], # <- whole nodes to be pasted
+            'pages': { # <- pages to be pasted (with their docs)
+                'doc_id1': [page1, page2]
+                'doc_id2': [page1]
+            }
+        }
 
-    * Puts page ids and their document id into the clipboard:
+    page1, page2, ... ARE PAGE ORDERs (page1 = 1 => first page)
 
-        request.clipboard.put(document_id=1, page_nums=[1, 2, 3])
+    * Get current nodes in clipboard:
 
-    Achtung! page_nums are actual page order numbers (not their IDs), e.g.
-    page_nums = [1, 2] are first and second pages of the associated document
+        request.clipboard.nodes.all()
+
+    returns and array/list of node ids currently in clipboard
+
+        ['node1', 'node2', ...]
+
+    * Adds node ids into the clipboard. Node is a folder or a document's id:
+
+        request.clipboard.nodes.add(1, 2, 3, 4)
+        request.clipboard.nodes.add([1, 2, 3, 4])
+
+    * Get pages currently in clipboard (for current user):
+
+        request.cliboard.pages.all()
+
+    returns:
+        {
+            'doc_id1': [page1, page2, page3],
+            'doc_id2': [page1, page2, page3]
+        }
+
+        again, page1, page2 etc are page order numbers
+
+
+    * Adds pages and their documents into the clipboard:
+
+        request.clipboard.pages.add(1, [1, 2, 3])
+        request.clipboard.pages.add(1, 1, 2, 3)
+
+    first agrument is the document id. Rest of the arguments are
+    page order numbers.
+
+    Can be written as:
+
+        request.clipboard.pages.add(doc=1, pages=[1, 2, 3])
+        request.clipboard.pages.add(doc=1, page=2)
 
     """
 
