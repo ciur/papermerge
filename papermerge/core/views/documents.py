@@ -104,6 +104,7 @@ def cut_node(request):
     parent_id = request.POST.get('parent_id', False)
 
     copy_to_clipboard(request, node_ids)
+    request.clipboard.nodes.add(node_ids)
 
     if parent_id:
         return redirect(

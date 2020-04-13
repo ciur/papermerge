@@ -1,6 +1,71 @@
 
 
+class ClipboardPages:
+
+    def __init__(self, session, user_id):
+        self._dict = {}
+        self._session = session
+        self._user_id = user_id
+
+    def clear(self):
+        self._dict = {}
+
+    def add(self):
+        pass
+
+    def all(self):
+        pass
+
+
+class ClipboardNodes:
+
+    def __init__(self, session, user_id):
+        self._list = []
+        self._session = session
+        self._user_id = user_id
+
+    def clear(self):
+        self._list = []
+        self.clear_session()
+
+    @property
+    def clipboard_id(self):
+        return f"{self._user_id}.clipboard.nodes"
+
+    def update_session(self):
+        self._session[self.clipboard_id] = self._list
+
+    def clear_session(self):
+        self._session[self.clipboard_id] = []
+
+    def add(self, *args):
+
+        if isinstance(args, list):
+            self._list.extend(args)
+        else:
+            for item in args:
+                self._list.append(item)
+
+        self.update_session()
+
+    def all(self):
+        return self._list
+
+
 class Clipboard:
+
+    def __init__(self, session, user_id):
+        self.pages = ClipboardPages(session, user_id)
+        self.nodes = ClipboardNodes(session, user_id)
+        self.session = session
+        self.user_id = user_id
+
+    def clear(self):
+        self.pages.clear()
+        self.nodes.clear()
+
+
+class ClipboardMiddleware:
     """
     Manages clipboard of document and pages.
     Clipboard operates only with IDs (or page order numbers).
@@ -74,6 +139,13 @@ class Clipboard:
 
     def __call__(self, request):
 
+        if request.user:
+            # clipboard is per user. It makes sense only
+            # when there is a logged in
+            request.clipboard = Clipboard(
+                session=request.session,
+                user_id=request.user.id
+            )
         response = self.get_response(request)
 
         return response
