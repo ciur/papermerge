@@ -1,3 +1,7 @@
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class ClipboardPages:
@@ -25,8 +29,10 @@ class ClipboardNodes:
         self._user_id = user_id
 
     def clear(self):
+
         self._set.clear()
         self.clear_session()
+        logger.debug("ClipboardNodes cleared.")
 
     @property
     def clipboard_id(self):
@@ -40,12 +46,19 @@ class ClipboardNodes:
 
     def add(self, items):
 
+        logger.debug(f"Add items={items} to {self}")
+
         self._set.update(items)
+
+        logger.debug(self)
 
         self.update_session()
 
     def all(self):
         return self._session[self.clipboard_id]
+
+    def __str__(self):
+        return f"ClipboardNodes({self.clipboard_id}, {self._set})"
 
 
 class Clipboard:
@@ -142,6 +155,9 @@ class ClipboardMiddleware:
                 session=request.session,
                 user_id=request.user.id
             )
+            # shortcuts
+            request.nodes = request.clipboard.nodes
+            request.pages = request.clipboard.pages
         response = self.get_response(request)
 
         return response

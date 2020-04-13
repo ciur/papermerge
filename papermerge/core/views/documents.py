@@ -60,7 +60,8 @@ def cut_node(request):
     node_ids = request.POST.getlist('node_ids[]', False)
     parent_id = request.POST.get('parent_id', False)
 
-    request.clipboard.nodes.add(node_ids)
+    # request.clipboard.nodes = request.nodes
+    request.nodes.add(node_ids)
 
     if parent_id:
         return redirect(
@@ -77,7 +78,8 @@ def clipboard(request):
     if request.method == 'GET':
 
         return HttpResponse(
-            json.dumps({'clipboard': request.clipboard.nodes.all()}),
+            # request.nodes = request.clipboard.nodes
+            json.dumps({'clipboard': request.nodes.all()}),
             content_type="application/json",
         )
 
@@ -132,7 +134,8 @@ def paste_node(request):
     else:
         parent = None
 
-    node_ids = request.clipboard.nodes.all()
+    # request.clipboard.nodes = request.nodes
+    node_ids = request.nodes.all()
 
     # iterate through all node ids and change their
     # parent to new one (parent_id)
@@ -142,7 +145,8 @@ def paste_node(request):
             parent.refresh_from_db()
         Document.objects.move_node(node, parent)
 
-    request.clipboard.nodes.clear()
+    # request.clipboard.nodes = request.nodes
+    request.nodes.clear()
 
     if parent_id:
         return redirect(
