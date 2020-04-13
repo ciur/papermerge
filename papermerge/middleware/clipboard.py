@@ -2,7 +2,7 @@
 
 class Clipboard:
     """
-    Manages a clipboard of document and pages.
+    Manages clipboard of document and pages.
     Clipboard operates only with IDs (or page order numbers).
 
     Adds a clipboard attribute to request object.
