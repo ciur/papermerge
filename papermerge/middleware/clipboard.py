@@ -11,11 +11,25 @@ class ClipboardPages:
         self._session = session
         self._user_id = user_id
 
+    @property
+    def clipboard_id(self):
+        return f"{self._user_id}.clipboard.nodes"
+
+    def update_session(self):
+        pass
+
     def clear(self):
         self._dict = {}
+        self.clear_session()
+        logger.debug("ClipboardPages cleared.")
 
-    def add(self):
-        pass
+    def add(self, doc_id, page_nums):
+        if not self._dict.get(doc_id, False):
+            self._dict[doc_id] = set()
+
+        self._dict[doc_id].update(page_nums)
+
+        self.update_session()
 
     def all(self):
         pass
