@@ -48,49 +48,6 @@ from papermerge.core.views.api import (
 logger = logging.getLogger(__name__)
 
 
-def copy_to_clipboard(request, node_ids):
-    """
-    It would be nice to have something like
-    request.clipboard.add(node_ids) though... but
-    this implementation will be post poned for later.
-    """
-
-    clipboard_id = "{}.clipboard.node_ids".format(
-        request.user.id
-    )
-    request.session[clipboard_id] = node_ids
-
-
-def reset_clipboard(request):
-    clipboard_id = "{}.clipboard.node_ids".format(
-        request.user.id
-    )
-    request.session[clipboard_id] = []
-
-
-def get_clipboard(request):
-    clipboard_id = "{}.clipboard.node_ids".format(
-        request.user.id
-    )
-    if request.session.get(clipboard_id, False):
-        return request.session[clipboard_id]
-
-    return []
-
-
-def get_from_clipboard(request):
-    """
-    It would be nice to have something like
-    request.clipboard though... but
-    this implementation will be post poned for later.
-    """
-
-    clipboard_id = "{}.clipboard.node_ids".format(
-        request.user.id
-    )
-    return request.session.get(clipboard_id, [])
-
-
 def index(request):
     return redirect('boss:core_basetreenode_changelist')
 
@@ -103,7 +60,6 @@ def cut_node(request):
     node_ids = request.POST.getlist('node_ids[]', False)
     parent_id = request.POST.get('parent_id', False)
 
-    copy_to_clipboard(request, node_ids)
     request.clipboard.nodes.add(node_ids)
 
     if parent_id:
@@ -120,10 +76,8 @@ def cut_node(request):
 def clipboard(request):
     if request.method == 'GET':
 
-        clipboard = get_clipboard(request)
-
         return HttpResponse(
-            json.dumps({'clipboard': clipboard}),
+            json.dumps({'clipboard': request.clipboard.nodes.all()}),
             content_type="application/json",
         )
 
@@ -178,7 +132,7 @@ def paste_node(request):
     else:
         parent = None
 
-    node_ids = get_from_clipboard(request)
+    node_ids = request.clipboard.nodes.all()
 
     # iterate through all node ids and change their
     # parent to new one (parent_id)
@@ -188,7 +142,7 @@ def paste_node(request):
             parent.refresh_from_db()
         Document.objects.move_node(node, parent)
 
-    reset_clipboard(request)
+    request.clipboard.nodes.clear()
 
     if parent_id:
         return redirect(

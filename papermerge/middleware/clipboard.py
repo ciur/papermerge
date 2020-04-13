@@ -33,23 +33,19 @@ class ClipboardNodes:
         return f"{self._user_id}.clipboard.nodes"
 
     def update_session(self):
-        self._session[self.clipboard_id] = self._set
+        self._session[self.clipboard_id] = list(self._set)
 
     def clear_session(self):
-        self._session[self.clipboard_id] = set()
+        self._session[self.clipboard_id] = []
 
-    def add(self, *args):
+    def add(self, items):
 
-        if isinstance(args, list):
-            self._set.update(args)
-        else:
-            for item in args:
-                self._set.add(item)
+        self._set.update(items)
 
         self.update_session()
 
     def all(self):
-        return self._set
+        return self._session[self.clipboard_id]
 
 
 class Clipboard:
