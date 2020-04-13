@@ -103,7 +103,7 @@ class Command(BaseCommand):
     def get_context(self):
         context = {
             'proj_root': settings.PROJ_ROOT,
-            'static_root': settings.STATIC_ROOT,
+            'static_root': settings.STATICFILES_DIRS[0],
             'notice': NOTICE,
             'virt_env': sys.prefix,
             'media_root': settings.MEDIA_ROOT
