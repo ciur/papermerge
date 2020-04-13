@@ -15,36 +15,46 @@ class ClipboardPages:
     def clipboard_id(self):
         return f"{self._user_id}.clipboard.nodes"
 
+    @property
+    def pages(self):
+        return self._session[self.clipboard_id]
+
     def update_session(self):
         _id = self.clipboard_id
         if not self._session.get(_id, False):
             self._session[_id] = {}
 
         for key, value in self._dict.items():
-            self._session[_id][key] = list(value)
+            self._session[_id][key] = value
+
+    def clear_session(self):
+        self._session[self.clipboard_id] = {}
 
     def clear(self):
+        logger.debug(f"Clearing {self}")
+
         self._dict = {}
         self.clear_session()
         logger.debug("ClipboardPages cleared.")
 
     def add(self, doc_id, page_nums):
         if not self._dict.get(doc_id, False):
-            self._dict[doc_id] = set()
+            self._dict[doc_id] = {}
 
         logger.debug(f"Add doc_id={doc_id} page_nums={page_nums} to {self}")
 
-        self._dict[doc_id].update(page_nums)
+        self._dict[doc_id] = page_nums
 
         self.update_session()
 
         logger.debug(self)
 
     def all(self):
-        return self._session[self.clipboard_id]
+        logger.debug(self)
+        return self.pages
 
     def __str__(self):
-        return f"ClipboardPages({self.clipboard_id}, {self._dict})"
+        return f"ClipboardPages({self.clipboard_id}, {self.pages})"
 
 
 class ClipboardNodes:
@@ -55,6 +65,7 @@ class ClipboardNodes:
         self._user_id = user_id
 
     def clear(self):
+        logger.debug(f"Clearing {self}")
 
         self._set.clear()
         self.clear_session()
@@ -64,8 +75,14 @@ class ClipboardNodes:
     def clipboard_id(self):
         return f"{self._user_id}.clipboard.nodes"
 
+    @property
+    def nodes(self):
+        return self._session[self.clipboard_id]
+
     def update_session(self):
         self._session[self.clipboard_id] = list(self._set)
+        # otherwise session won't be saved
+        self._session.modified = True
 
     def clear_session(self):
         self._session[self.clipboard_id] = []
@@ -81,10 +98,11 @@ class ClipboardNodes:
         self.update_session()
 
     def all(self):
-        return self._session[self.clipboard_id]
+        logger.debug(self)
+        return self.nodes
 
     def __str__(self):
-        return f"ClipboardNodes({self.clipboard_id}, {self._set})"
+        return f"ClipboardNodes({self.clipboard_id}, {self.nodes})"
 
 
 class Clipboard:

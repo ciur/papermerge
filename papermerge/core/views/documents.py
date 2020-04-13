@@ -33,16 +33,8 @@ from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 
-from papermerge.core.utils import (
-    get_tenant_name
-)
-
 from papermerge.core.storage import (
     is_storage_left
-)
-
-from papermerge.core.views.api import (
-    PagesClipboard
 )
 
 logger = logging.getLogger(__name__)
@@ -101,13 +93,10 @@ def paste_pages(request):
 
     parent_id = request.POST.get('parent_id', False)
 
-    clipboard = PagesClipboard(request)
-    doc_pages = clipboard.get()
-
     Document.paste_pages(
         user=request.user,
         parent_id=parent_id,
-        doc_pages=doc_pages
+        doc_pages=request.pages.all()
     )
 
     clipboard.reset()

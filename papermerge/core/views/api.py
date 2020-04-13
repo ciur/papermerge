@@ -103,8 +103,8 @@ class PagesCutView(APIView):
         page_nums = request.data
         page_nums = [int(number) for number in page_nums]
 
-        clipboard = PagesClipboard(request)
-        clipboard.put(doc_id=doc_id, page_nums=page_nums)
+        # request.clipboard.pages.add(...)
+        request.pages.add(doc_id=doc_id, page_nums=page_nums)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -128,16 +128,13 @@ class PagesPasteView(APIView):
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        clipboard = PagesClipboard(request)
-        doc_pages = clipboard.get()
-
         document.paste(
-            doc_pages=doc_pages,
+            doc_pages=request.pages.all(),
             before=before,
             after=after
         )
 
-        clipboard.reset()
+        request.pages.clear()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
