@@ -16,7 +16,12 @@ class ClipboardPages:
         return f"{self._user_id}.clipboard.nodes"
 
     def update_session(self):
-        pass
+        _id = self.clipboard_id
+        if not self._session.get(_id, False):
+            self._session[_id] = {}
+
+        for key, value in self._dict.items():
+            self._session[_id][key] = list(value)
 
     def clear(self):
         self._dict = {}
@@ -27,12 +32,19 @@ class ClipboardPages:
         if not self._dict.get(doc_id, False):
             self._dict[doc_id] = set()
 
+        logger.debug(f"Add doc_id={doc_id} page_nums={page_nums} to {self}")
+
         self._dict[doc_id].update(page_nums)
 
         self.update_session()
 
+        logger.debug(self)
+
     def all(self):
-        pass
+        return self._session[self.clipboard_id]
+
+    def __str__(self):
+        return f"ClipboardPages({self.clipboard_id}, {self._dict})"
 
 
 class ClipboardNodes:
