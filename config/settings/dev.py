@@ -46,16 +46,8 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': PROJ_ROOT / Path('run/log/papermerge.log'),
         },
-        '_worker': {
-            'class': 'logging.FileHandler',
-            'filename': PROJ_ROOT / Path('run/log/papermerge-worker.log'),
-        }
     },
     'loggers': {
-        'pmworker': {
-            'handlers': ['_worker'],
-            'level': 'DEBUG'
-        },
         '': {
             'handlers': ['_merge'],
             'level': 'DEBUG'

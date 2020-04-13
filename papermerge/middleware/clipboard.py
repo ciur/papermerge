@@ -17,6 +17,9 @@ class ClipboardPages:
 
     @property
     def pages(self):
+        if not self._session.get(self.clipboard_id, False):
+            self._session[self.clipboard_id] = {}
+
         return self._session[self.clipboard_id]
 
     def update_session(self):
@@ -77,6 +80,9 @@ class ClipboardNodes:
 
     @property
     def nodes(self):
+        if not self._session.get(self.clipboard_id, False):
+            self._session[self.clipboard_id] = []
+
         return self._session[self.clipboard_id]
 
     def update_session(self):

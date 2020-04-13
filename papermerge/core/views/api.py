@@ -10,49 +10,6 @@ from papermerge.core.models import (Document, BaseTreeNode)
 from papermerge.core.serializers import DocumentSerializer
 
 
-class PagesClipboard:
-    """
-    Stores in current session information about cuted pages and their
-    documents.
-    Pages information is stored into the session in following
-    format:
-
-        {
-            doc_id_1: [page_num_1a, page_num_2a, ...],
-            doc_id_2: [page_num_1b, page_num_2b, ...],
-            doc_id_3: [page_num_1c, page_num_2c, ...]
-        }
-    Which means user cutted page_num_1a, page_num_2a from doc_id_1,
-    page_num_1b, page_num_2b from doc_id_2 etc
-    """
-
-    def __init__(self, request):
-        self.request = request
-
-    def put(self, doc_id, page_nums):
-        user = self.request.user.id
-        clipboard_id = f"{user}.clipboard.pages"
-
-        if not self.request.session.get(clipboard_id, False):
-            self.request.session[clipboard_id] = {}
-            self.request.session[clipboard_id][doc_id] = page_nums
-        else:
-            self.request.session[clipboard_id][doc_id] = page_nums
-
-        self.request.session.modified = True
-
-    def get(self):
-        user = self.request.user.id
-        clipboard_id = f"{user}.clipboard.pages"
-
-        return self.request.session[clipboard_id]
-
-    def reset(self, doc_id=None):
-        user = self.request.user.id
-        clipboard_id = f"{user}.clipboard.pages"
-        self.request.session[clipboard_id] = {}
-
-
 class PagesView(APIView):
     permission_classes = [IsAuthenticated]
 
