@@ -16,4 +16,4 @@ gunicorn
 django-anymail
 django-redis
 pmworker
-mgclipboard
+mgclipboard >= 0.2.0

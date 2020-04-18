@@ -76,3 +76,4 @@ twine==3.1.1
 urllib3==1.25.7
 vine==1.3.0
 webencodings==0.5.1
+mgclipboard==0.2.0
