@@ -1,6 +1,6 @@
 {{notice}}
 
-workers = 2
+workers = 4
 errorlog = "{{proj_root}}/run/log/gunicorn.error"
 accesslog = "{{proj_root}}/run/log/gunicorn.access"
 loglevel = "debug"

@@ -16,3 +16,4 @@ gunicorn
 django-anymail
 django-redis
 pmworker
+mgclipboard

@@ -71,16 +71,17 @@ INSTALLED_APPS = (
     'django.contrib.postgres',
     'anymail',
     'django_extensions',
+    'mgclipboard'
 )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # papermerge.middleware.clipboard must be AFTER
+    # mgclipboard.middleware.ClipboardMiddleware must be AFTER
     # * django.contrib.sessions.middleware
     # * django.contrib.auth.middleware
-    'papermerge.middleware.clipboard.ClipboardMiddleware',
+    'mgclipboard.middleware.ClipboardMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
