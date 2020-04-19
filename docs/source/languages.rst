@@ -43,3 +43,14 @@ If you want to use other languages, you need to do 3 things:
     * include them in :ref:`MG_OCR_LANGUAGES` dictionary
     * install tesseract data for new languages (on worker machines)
     * install postgres dictionary for new languages
+
+Install Tesseract Data
+***********************
+
+work in progress...
+
+
+Install PostgreSQL Language Dictionary
+***************************************
+
+work in progress...
