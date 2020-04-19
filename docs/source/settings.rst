@@ -96,4 +96,18 @@ STATICFILES_DIRS
             '/home/vagrant/papermerge-js/static'
         ]
 
+.. _mg_ocr_languages:        
 
+MG_OCR_LANGUAGES
+~~~~~~~~~~~~~~~~~
+
+  Addinational languages for text OCR. A dictionary where key is `ISO 639-2/T code <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_ and value is name of postgresql language dictionary.
+
+  Example::
+
+    MG_OCR_LANGUAGES = {
+        'heb': 'hebrew',
+        'jpn': 'japanese'
+    }
+
+Note that both `hebrew` and `japanes` must be listed in Name column of `\\dF` command in psql (which basically means that postgres dictionaries `hebrew` and `japanes` are installed).

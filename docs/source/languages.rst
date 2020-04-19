@@ -33,9 +33,9 @@ By default, Papermerge comes with a preset of following 21 languages:
     * Tamil
     * Turkish
 
-If you want to use other languages, you need to add them to MG_OCR_LANGUAGES list.
+If you want to use other languages, you need to include them in :ref:`MG_OCR_LANGUAGES` dictionary.
 
 .. note::
 
     How those 21 languages were chosen ? Well, by default, PostgreSQL 12.0 database comes with
-    a preset of 21 dictionaries. You can see installed dictionaries in psql with `\dFd` command.
+    a preset of 21 dictionaries. You can see installed dictionaries in psql with `\\dFd` command.
