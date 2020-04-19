@@ -29,6 +29,7 @@ from django.urls import reverse
 from django.contrib.admin.utils import quote
 
 from papermerge.core.models import Access
+from papermerge.core.lib.lang import LANG_DICT
 
 MPTT_ADMIN_LEVEL_INDENT = getattr(settings, 'MPTT_ADMIN_LEVEL_INDENT', 10)
 
@@ -461,3 +462,21 @@ def cookies_tag():
         link,
         title
     )
+
+
+@register.inclusion_tag('boss/ocr_language_select.html')
+def ocr_language_select(user):
+    languages = []
+    for key, value in LANG_DICT.items():
+
+        lang = {}
+        lang['tst_code'] = key
+        lang['human'] = value.capitalize()
+        if user.preferences['ocr__OCR_Language'] == key:
+            lang['selected'] = 'selected'
+        else:
+            lang['selected'] = ''
+
+        languages.append(lang)
+
+    return {'languages': languages}

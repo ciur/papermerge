@@ -1,4 +1,4 @@
-from papermerge.code.lib.lang import get_lang_choices
+from papermerge.core.lib.lang import get_lang_choices
 
 from dynamic_preferences.types import (
     IntegerPreference,

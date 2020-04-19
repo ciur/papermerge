@@ -39,10 +39,7 @@
             <ul id="changelist-tools" class="nav nav-pills">
                 {% if has_add_permission %}
                     <li class="mx-1">
-                        <select name="lang" id="lang" class="">
-                            <option value="eng"  {% if request.user.preferences.ocr__OCR_Language == 'eng' %} selected {% endif %}>English</option>
-                            <option value="deu"  {% if request.user.preferences.ocr__OCR_Language == 'deu' %} selected {% endif %}>Deutsch</option>
-                        </select>
+                        {% ocr_language_select user %}
                     </li>
                     <li class="mx-1">
                         <button id="id_btn_upload1" class="btn btn-neuter">{% trans "Upload" %}</button>

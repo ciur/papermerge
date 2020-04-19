@@ -41,5 +41,5 @@ def get_lang_choices(capitalize=True):
     """
     return [
         (key, value.capitalize())
-        for key, value in LANG_DICT
+        for key, value in LANG_DICT.items()
     ]
