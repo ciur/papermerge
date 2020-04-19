@@ -470,7 +470,7 @@ def ocr_language_select(user):
     for key, value in LANG_DICT.items():
 
         lang = {}
-        lang['tst_code'] = key
+        lang['tsr_code'] = key
         lang['human'] = value.capitalize()
         if user.preferences['ocr__OCR_Language'] == key:
             lang['selected'] = 'selected'

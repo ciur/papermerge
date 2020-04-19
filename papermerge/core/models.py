@@ -1063,7 +1063,10 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         s3_enabled=False
     ):
 
-        logger.debug("apply async begin...")
+        logger.debug(
+            f"document.ocr_async lang={lang}"
+            f" document={document.id} page_count={page_count}"
+        )
         try:
             user_id = document.user.id
             document_id = document.id
