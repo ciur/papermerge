@@ -1,27 +1,22 @@
 CREATE OR REPLACE FUNCTION core_page_trigger() RETURNS trigger AS $$
-begin
-    IF new.lang = 'deu'
-    THEN
-        new.text_deu :=
-         setweight(
-            to_tsvector(
-                'pg_catalog.german', coalesce(new.text,'')
-            ),
-            'C'
-        );
-      
-    ELSE
-        new.text_eng :=
-            setweight(
-                to_tsvector(
-                    'pg_catalog.english', coalesce(new.text,'')
-                ),
-                'C'
-            );
-    END IF;
+DECLARE
+    pg_catalog_name varchar(64);
+BEGIN
+    SELECT core_languagemap.pg_catalog
+    INTO pg_catalog_name
+    FROM core_languagemap
+    WHERE core_languagemap.tsr_code = new.lang;
+
+    new.text_fts := 
+     setweight(
+        to_tsvector(
+            pg_catalog_name, coalesce(new.text,'')
+        ),
+        'C'
+    );
 
     RETURN new;
-end
+END
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION core_basetreenode_trigger() RETURNS trigger AS $$
