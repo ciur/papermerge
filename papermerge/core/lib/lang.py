@@ -32,3 +32,14 @@ LANG_DICT = {
     'tam': 'tamil',
     'tur': 'turkish',
 }
+
+
+def get_lang_choices(capitalize=True):
+    """
+    returns a list of tuples as required by
+    Django's choices ((key, value),(key, value), ...)
+    """
+    return [
+        (key, value.capitalize())
+        for key, value in LANG_DICT
+    ]

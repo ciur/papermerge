@@ -1,3 +1,5 @@
+from papermerge.code.lib.lang import get_lang_choices
+
 from dynamic_preferences.types import (
     IntegerPreference,
     ChoicePreference
@@ -6,8 +8,6 @@ from dynamic_preferences.types import (
 from dynamic_preferences.preferences import Section
 from dynamic_preferences.users.registries import user_preferences_registry
 from dynamic_preferences.registries import global_preferences_registry
-
-from pmworker import lang_human_name
 
 ocr = Section('ocr')
 system_settings = Section('system_settings')
@@ -45,8 +45,5 @@ class OcrLanguage(ChoicePreference):
     """
         section = ocr
         name = 'OCR_Language'
-        choices = (
-            ('deu', lang_human_name('deu')),
-            ('eng', lang_human_name('eng')),
-        )
+        choices = get_lang_choices()
         default = 'deu'
