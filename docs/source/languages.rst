@@ -3,12 +3,39 @@
 Languages Support
 ===================
 
+ .. DANGER::
+   This feature is still work in progress. It will be available since version
+   1.3.0. Up until version 1.2.0 (which is now current stable) support for
+   German and English languages was included.
+
 Theorethically all languages supported by tesseract (over 130) can be used.
+By default, Papermerge comes with a preset of following 21 languages:
 
-But for my own needs only two were required:
-
-    * German 
+    * Arabic
+    * Danish
+    * Dutch
     * English
+    * Finnish
+    * French
+    * German
+    * Hungarian
+    * Indonesian
+    * Irish
+    * Italian
+    * Lithuanian
+    * Nepali
+    * Norwegian
+    * Portuguese
+    * Romanian
+    * Russian
+    * Spanish
+    * Swedish
+    * Tamil
+    * Turkish
 
-Thus, only support for these two languages is provided. Both localization (of user interface)
-and OCRing documents in german and english are basically hardcoded into the project.
+If you want to use other languages, you need to add them to MG_OCR_LANGUAGES list.
+
+.. note::
+
+    How those 21 languages were chosen ? Well, by default, PostgreSQL 12.0 database comes with
+    a preset of 21 dictionaries. You can see installed dictionaries in psql with `\dFd` command.
