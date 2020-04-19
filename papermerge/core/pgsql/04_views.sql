@@ -15,14 +15,14 @@ SELECT
     node.id AS id,
     node.title AS title,
     node.user_id AS user_id,
-    doc.text_deu AS text_deu,
+    doc.text_fts AS text_fts,
     doc.notes AS notes,
     doc.file_name AS file_name,
     page.id AS page_id, 
     page.number AS page_number,
     doc.page_count AS page_count_from_doc,
     page.page_count AS page_count,
-    page.text_deu AS page_text_deu
+    page.text_fts AS page_text_fts
 FROM core_basetreenode node
 LEFT OUTER JOIN core_document doc ON (doc.basetreenode_ptr_id = node.id)
 LEFT OUTER JOIN core_page page ON (doc.basetreenode_ptr_id = page.document_id)

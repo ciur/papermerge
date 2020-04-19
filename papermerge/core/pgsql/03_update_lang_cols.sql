@@ -1,21 +1,16 @@
 UPDATE core_page 
-SET text_deu=setweight(
-    to_tsvector('pg_catalog.german', coalesce(text,'')),
+SET text_fts=setweight(
+    to_tsvector(core_languagemap.pg_catalog, coalesce(text,'')),
     'C'
 )
-WHERE lang = 'deu';
+FROM core_languagemap
+WHERE core_languagemap.tsr_code = core_page.lang;
 
-UPDATE core_page 
-SET text_eng=setweight(
-    to_tsvector('pg_catalog.english', coalesce(text,'')),
-    'C'
-)
-WHERE lang = 'eng';
 
 UPDATE core_basetreenode 
-SET title_deu=setweight(
+SET title_fts=setweight( 
     to_tsvector(
-        'pg_catalog.german',
+        core_languagemap.pg_catalog,
         coalesce(
             regexp_replace(title, '[^[:alnum:]]', ' ', 'g'),
             ''
@@ -23,31 +18,14 @@ SET title_deu=setweight(
     ),
     'A'
 )
-WHERE lang = 'eng';
+FROM core_languagemap
+WHERE core_languagemap.tsr_code = core_page.lang;
 
-UPDATE core_basetreenode 
-SET title_eng=setweight(
-    to_tsvector(
-        'pg_catalog.english',
-        coalesce(
-            regexp_replace(title, '[^[:alnum:]]', ' ', 'g'),
-            ''
-        )
-    ),
-    'A'
-)
-WHERE lang = 'eng';
 
 UPDATE core_basetreenode as node
-SET ancestors_deu = ancestors_to_tsvector(
-        'german',
+SET ancestors_fts = ancestors_to_tsvector(
+        core_languagemap.pg_short,
         get_ancestors(node.id)
     )
-WHERE lang = 'deu';
-
-UPDATE core_basetreenode as node
-SET ancestors_eng = ancestors_to_tsvector(
-        'english',
-        get_ancestors(node.id)
-    )
-WHERE lang = 'eng';
+FROM core_languagemap
+WHERE core_languagemap.tsr_code = core_page.lang;
