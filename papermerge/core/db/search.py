@@ -1,4 +1,4 @@
-
+from papermerge.core.lib.lang import LANG_DICT
 
 """
     WITH summary AS (
@@ -62,39 +62,26 @@
 
 
 def get_search_sql(lang, desc_filter=[]):
-    title = {
-        'deu': 'title_deu',
-        'eng': 'title_eng'
-    }
-    ancestors = {
-        'deu': 'ancestors_deu',
-        'eng': 'ancestors_eng'
-    }
-    text = {
-        'deu': 'text_deu',
-        'eng': 'text_eng',
-    }
-    language = {
-        'deu': 'german',
-        'eng': 'english'
-    }
+    """
+    Lang is e.g. deu, eng
+    """
     ts_rank_cd = f"""
         (
-            COALESCE(node.{title[lang]}, '') ||
-            COALESCE(node.{ancestors[lang]}, '') ||
-            COALESCE(page.{text[lang]}, '')
+            COALESCE(node.title_fts, '') ||
+            COALESCE(node.ancestors_fts, '') ||
+            COALESCE(page.text_fts, '')
         ),
         websearch_to_tsquery(
-            '{language[lang]}'::regconfig,
+            '{LANG_DICT[lang]}'::regconfig,
             %(search_term)s
         ),
         32
     """
     ts_headline = f"""
-        '{language[lang]}',
+        '{LANG_DICT[lang]}',
         page.text,
         plainto_tsquery(
-            '{language[lang]}'::regconfig,
+            '{LANG_DICT[lang]}'::regconfig,
             %(search_term)s
         ),
        'MaxWords = 20, MinWords = 15, MaxFragments = 2'

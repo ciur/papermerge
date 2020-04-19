@@ -1419,6 +1419,8 @@ class LanguageMap(models.Model):
     Postgres text search configurations are listed with
 
         psql> \dF  # noqa
+
+    See papermerge.code.lib.lang.LANG_DICT
     """
     tsr_code = models.CharField(
         max_length=16,
