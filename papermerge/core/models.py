@@ -104,12 +104,16 @@ class BaseTreeNode(PolymorphicMPTTModel):
         auto_now=True,
     )
 
-    # these columns are updated by update_index commands
-    # and are used only for FTS
+    # Obsolete columns. Replaced by ancestors_fts
     ancestors_deu = SearchVectorField(null=True)
     ancestors_eng = SearchVectorField(null=True)
+    # Obsolete columns. Replaced by title_fts
     title_deu = SearchVectorField(null=True)
     title_eng = SearchVectorField(null=True)
+
+    # this column is updated by update_fts command
+    ancestors_fts = SearchVectorField(null=True)
+    title_fts = SearchVectorField(null=True)
 
     def _get_access_diff_updated(self, new_access_list=[]):
         """
@@ -595,9 +599,11 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
     text = models.TextField()
 
-    # columns used only for FTS (updated by update_index)
+    # Obsolete column, replaced by text_fts column.
     text_deu = SearchVectorField(null=True)
     text_eng = SearchVectorField(null=True)
+
+    text_fts = SearchVectorField(null=True)
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 
@@ -1281,8 +1287,12 @@ class Page(models.Model):
         null=False,
         default='deu'
     )
+    # Obsolete columns. Replaced by text_fts.
     text_deu = SearchVectorField(null=True)
     text_eng = SearchVectorField(null=True)
+
+    # Replaced text_deu and text_eng
+    text_fts = SearchVectorField(null=True)
 
     @property
     def is_last(self):
