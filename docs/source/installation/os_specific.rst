@@ -27,14 +27,33 @@ Install required ubuntu packages::
         build-essential \
         poppler-utils \
         tesseract-ocr \
+        tesseract-ocr-ara \
+        tesseract-ocr-dan \
+        tesseract-ocr-nld \
+        tesseract-ocr-eng \
+        tesseract-ocr-fin \
+        tesseract-ocr-fra \
         tesseract-ocr-deu \
-        tesseract-ocr-eng
+        tesseract-ocr-hun \
+        tesseract-ocr-ind \
+        tesseract-ocr-gle \
+        tesseract-ocr-ita \
+        tesseract-ocr-lit \
+        tesseract-ocr-nep \
+        tesseract-ocr-nor \
+        tesseract-ocr-por \
+        tesseract-ocr-ron \
+        tesseract-ocr-rus \
+        tesseract-ocr-spa \
+        tesseract-ocr-swe \
+        tesseract-ocr-tam \
+        tesseract-ocr-tur
 
-Notice that for tesseract :ref:`only english and german <languages>` (Deutsch)
-language packages are needed.
+By default Papermerge comes with a preset of :ref:`21 languages <languages>`. Thus tesseract
+needs to have installed associated language packages.
 
 Ubuntu Bionic 18.04 comes with postgres 10 package. Papermerge on the other hand
-requires at least version 11 of Postgres. 
+requires at least version 11 of Postgres.
 
 Install Postgres version 11::
 
