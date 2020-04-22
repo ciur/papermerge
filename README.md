@@ -71,7 +71,7 @@ There are couple options:
     
 * [MgClipboard](https://github.com/papermerge/mg-clipboard) - Django Middleware used in Papermerge DMS to power cut/paste of the document/folder/page (IDs) into user's session
 
- 
+* [Django Lessons](https://django-lessons.com) - All knowledge I gain during development of Papermerge nicely presented as screencasts. Screencasts are short and to the point lessons about Django ecosystem
 
 
 ### Contact 
