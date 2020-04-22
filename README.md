@@ -67,9 +67,9 @@ There are couple options:
 
 ### Related Projects
 
-    [MgMail](https://github.com/papermerge/mg-mail) - Imports document attachments from SMTP account/email into Papermerge DMS via REST API key
+* [MgMail](https://github.com/papermerge/mg-mail) - Imports document attachments from SMTP account/email into Papermerge DMS via REST API key
     
-    [MgClipboard](https://github.com/papermerge/mg-clipboard) - Django Middleware used in Papermerge DMS to power cut/paste of the document/folder/page (IDs) into user's session
+* [MgClipboard](https://github.com/papermerge/mg-clipboard) - Django Middleware used in Papermerge DMS to power cut/paste of the document/folder/page (IDs) into user's session
 
  
 
