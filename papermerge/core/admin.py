@@ -214,11 +214,12 @@ class DocumentNodeAdmin(BaseChildAdmin):
 
     exclude = (
         'size', 'text', 'user',
-        'title_deu', 'title_eng', 'ancestors_deu', 'ancestors_eng',
-        'text_eng', 'text_deu',
+        'title_deu', 'title_eng', 'title_fts',
+        'ancestors_deu', 'ancestors_eng', 'ancestors_fts',
+        'text_eng', 'text_deu', 'text_fts',
         'digest', 'file_orig', 'file_name',
         'node_permissions',
-        'page_count', 'groups', 'version'
+        'page_count', 'groups', 'version',
     )
 
     search_fields = ('title', 'text')
