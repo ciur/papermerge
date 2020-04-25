@@ -6,7 +6,7 @@ Besides, I find
 clean and elegant.
 
 Long story short, I decided to refactor Papermerge to be similar in setup and
-usage experience as Paperless.
+usage experience as Paperless. This change will apply since Papermerge version 1.3.0 (now work in progress).
 
 Codebase of the two projects is absolutely different, but configuration file
 (the /etc/papermerge.conf) is the same. You may find that a great deal of
