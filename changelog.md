@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-    * Support for OCR on all languages
-    * [Refactoring] Webpack's outputs moved into boss/static directory
-    * Make Papermerge compatible with [paperless](https://github.com/the-paperless-project/paperless/). Compatible in this sense means - similar. The thing is I checked paperless project and I fell in love with its simplicity in setup and usage. 
+- Support for OCR on all languages
+- [Refactoring] Webpack's outputs moved into boss/static directory
+- Make Papermerge similar to [paperless](https://github.com/the-paperless-project/paperless/). I checked paperless project and I fell in love with its simplicity in setup and usage. 
 
 
 ## [1.2.0] - 10 Apr 2020
