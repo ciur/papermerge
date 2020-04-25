@@ -1,3 +1,4 @@
+mglib
 python-dotenv
 imapclient
 django

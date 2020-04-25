@@ -4,13 +4,23 @@ from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 from dotenv import load_dotenv
 
+from mglib.utils import get_bool
+
 if os.path.exists("/etc/papermerge.conf"):
     load_dotenv("/etc/papermerge.conf")
 
 # At this point, parsed key/value from the .env file is now present as system
 # environment variable and they can be conveniently accessed via os.getenv()
 
-SECRET_KEY = ""
+# project root directory
+# 1. settings 2. config 3. papermerge-proj - parent 3x
+PROJ_ROOT = Path(__file__).parent.parent.parent
+
+DEBUG = get_bool("PAPERMERGE_DEBUG", "YES")
+SECRET_KEY = os.getenv(
+    "PAPERMERGE_SECRET_KEY",
+    "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
+)
 SITE_ID = 1
 
 MEDIA_ROOT = ""
@@ -38,20 +48,6 @@ AUTH_USER_MODEL = "core.User"
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-
-# project root directory
-# 1. settings 2. config 3. papermerge-proj - parent 3x
-PROJ_ROOT = Path(__file__).parent.parent.parent
 
 
 INSTALLED_APPS = (
@@ -113,6 +109,33 @@ TEMPLATES = [
         },
     },
 ]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(
+            os.getenv(
+                "PAPERMERGE_DBDIR",
+                PROJ_ROOT / Path("..") / Path("data")
+            ),
+            "db.sqlite3"
+        )
+    }
+}
+
+if os.getenv("PAPERMERGE_DBUSER"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("PAPERMERGE_DBNAME", "papermerge"),
+        "USER": os.getenv("PAPERMERGE_DBUSER"),
+    }
+    if os.getenv("PAPERMERGE_DBPASS"):
+        DATABASES["default"]["PASSWORD"] = os.getenv("PAPERMERGE_DBPASS")
+    if os.getenv("PAPERMERGE_DBHOST"):
+        DATABASES["default"]["HOST"] = os.getenv("PAPERMERGE_DBHOST")
+    if os.getenv("PAPERMERGE_DBPORT"):
+        DATABASES["default"]["PORT"] = os.getenv("PAPERMERGE_DBPORT")
+
 
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.TemporaryFileUploadHandler'
