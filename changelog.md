@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
     * Support for OCR on all languages
+    * [Refactoring] Webpack's outputs moved into boss/static directory
 
 
 ## [1.2.0] - 10 Apr 2020

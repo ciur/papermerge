@@ -6,10 +6,10 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ CSS_URL }}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'boss/css/papermerge.css' %}" />
 
     {% block extrahead %}
-        <script src="{{ JS_URL }}"></script>
+        <script src="{% static 'boss/js/papermerge.js' %}"></script>
     {% endblock %}
 
     {% block responsive %}
@@ -49,7 +49,7 @@
             <li id="top-left-logo">
                 <div class="horizontal">
                     <i class="icon-hamburger"></i>
-                    <img class="logo" src="{% static 'img/logo-black.svg' %}" />
+                    <img class="logo" src="{% static 'boss/img/logo-black.svg' %}" />
                 </div>
             </li>
             <li>{% block search %} {% include 'boss/_header_search_form.html' %} {% endblock %}</li>
