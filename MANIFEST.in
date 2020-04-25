@@ -7,9 +7,14 @@ include papermerge/boss/locale/de/LC_MESSAGES/django.mo
 include papermerge/boss/locale/de/LC_MESSAGES/django.po
 include papermerge/core/locale/de/LC_MESSAGES/django.mo
 include papermerge/core/locale/de/LC_MESSAGES/django.po
+exclude config/settings/development.py
+exclude config/settings/dev.py
 
 recursive-include papermerge/core/pgsql/ *
 recursive-include papermerge/boss/management/commands/thumbify/ *
 recursive-include papermerge/boss/templates/	*
 recursive-include papermerge/boss/static/boss/    *
 recursive-include papermerge/core/templates/	*
+
+recursive-exclude docs/     *
+recursive-exclude screenshots/      *
