@@ -13,5 +13,5 @@ Codebase of the two projects is absolutely different, but configuration file
 documenation will overlap. It is because Papermerge projects follows the good
 practice of paperless and document everything in great detail.
 
-Thank you, Daniel Quinn!
+Thank you, [Daniel Quinn](https://github.com/danielquinn)!
 Here is URL to [(GPLv3) license of Paperless](https://github.com/the-paperless-project/paperless/blob/master/LICENSE)
