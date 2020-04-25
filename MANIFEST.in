@@ -1,11 +1,8 @@
-include README.rst
-include MANIFEST.in.cloud
+include README.md
+include MANIFEST.in
 include manage.py
-include manage.sh
 include LICENSE
-include changelog.rst
-include tenant_shell_startup.py
-include vermilion/cloud/requirements.prod.freeze
+include changelog.md
 include papermerge/boss/locale/de/LC_MESSAGES/django.mo
 include papermerge/boss/locale/de/LC_MESSAGES/django.po
 include papermerge/core/locale/de/LC_MESSAGES/django.mo
@@ -14,6 +11,5 @@ include papermerge/core/locale/de/LC_MESSAGES/django.po
 recursive-include papermerge/core/pgsql/ *
 recursive-include papermerge/boss/management/commands/thumbify/ *
 recursive-include papermerge/boss/templates/	*
-recursive-include papermerge/common/templates/	*
+recursive-include papermerge/boss/static/boss/    *
 recursive-include papermerge/core/templates/	*
-recursive-include papermerge/onprem/templates/	*
