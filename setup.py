@@ -1,16 +1,13 @@
 import os
 from setuptools import setup, find_packages
 
-with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
+with open("README.md", "r") as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-short_description = """
-Papermerge is an open source document management system (DMS) primarily
-designed for archiving and retrieving your digital documents
-"""
+short_description = "Open source document management system (DMS)"
 
 setup(
     name='papermerge',
