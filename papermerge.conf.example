@@ -1,0 +1,37 @@
+# Example of papermerge.conf
+# Copy this file to /etc/papermerge.conf and modify it to suit your needs.
+# As this file contains passwords it should only be readable by the user
+# running Papermerge.
+# Add extra configurations (plugin configs) to /etc/papermerge.d/* folder
+
+###############################################################################
+####                         Paths & Folders                               ####
+###############################################################################
+
+# This where your documents should go to be consumed.  Make sure that it exists
+# and that the user running the papermerge service can read/write its contents
+# before you start Papermerge.
+#PAPERMERGE_CONSUMPTION_DIR=""
+
+# You can specify where you want the SQLite database to be stored instead of
+# the default location of /data/ within the install directory.
+#PAPERMERGE_DBDIR=/path/to/database/file
+
+
+# Override the default MEDIA_ROOT here.  This is where all files are stored.
+# The default location is /media/documents/ within the install folder.
+#PAPERMERGE_MEDIADIR=/path/to/media
+
+
+# Override the default STATIC_ROOT here.  This is where all static files
+# created using "collectstatic" manager command are stored.
+#PAPERMERGE_STATICDIR=""
+
+
+# Override the MEDIA_URL here.  Unless you're hosting Paperless off a subdomain
+# like /paperless/, you probably don't need to change this.
+#PAPERMERGE_MEDIA_URL="/media/"
+
+# Override the STATIC_URL here.  Unless you're hosting Paperless off a
+# subdomain like /paperless/, you probably don't need to change this.
+#PAPERMERGE_STATIC_URL="/static/"
