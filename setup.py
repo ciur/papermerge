@@ -20,6 +20,7 @@ setup(
     license='Apache 2.0 License',
     description=short_description,
     long_description=README,
+    long_description_content_type="text/markdown",
     url='https://papermerge.com/',
     author='Eugen Ciur',
     author_email='eugen@papermerge.com',
