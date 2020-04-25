@@ -2,21 +2,32 @@ import os
 from setuptools import setup, find_packages
 from setuptools.command.egg_info import manifest_maker
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+short_description = """
+Papermerge is an open source document management system (DMS) primarily
+designed for archiving and retrieving your digital documents
+"""
+
 setup(
     name='papermerge',
-    version="1.0.0",
+    version="1.2.0",
     packages=find_packages(),
     include_package_data=True,
-    license='Proprietary License',  # example license
-    description='Papermerge',
-    long_description="Document Management System designed for scanned documents",
-    url='https://www.papermerge.com/',
+    license='Apache 2.0 License',
+    description=short_description,
+    long_description=README,
+    url='https://papermerge.com/',
     author='Eugen Ciur',
     author_email='eugen@papermerge.com',
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
 )
