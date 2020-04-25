@@ -6,10 +6,10 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ CSS_URL }}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'boss/css/papermerge.css' %}" />
 
     {% block extrahead %}
-        <script src="{{ JS_URL }}"></script>
+        <script src="{% static 'boss/js/papermerge.js' %}"></script>
     {% endblock %}
 
     {% block responsive %}
