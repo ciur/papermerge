@@ -1,3 +1,4 @@
+python-dotenv
 imapclient
 django
 djangorestframework  # DRF stores tokens clear text in DB
