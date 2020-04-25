@@ -13,11 +13,6 @@ Papermerge DMS on its turn will
 document and index it. You will be able to quickly find any (scanned!)
 document using full text search capabilities.
 
-This project is a django application i.e. backend part of the whole papermerge
-software. If you want to use it's via web browser i.e. with front-end user
-interface you will need to clone [Papermerge
-Frontend](https://github.com/ciur/papermerge-js)
-
 ## Features
     
 * Documents of pdf, jpg, png, tiff formats are supported
