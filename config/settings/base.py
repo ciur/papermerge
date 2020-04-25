@@ -1,6 +1,14 @@
 # coding: utf-8
+import os
 from django.utils.translation import gettext_lazy as _
 from pathlib import Path
+from dotenv import load_dotenv
+
+if os.path.exists("/etc/papermerge.conf"):
+    load_dotenv("/etc/papermerge.conf")
+
+# At this point, parsed key/value from the .env file is now present as system
+# environment variable and they can be conveniently accessed via os.getenv()
 
 SECRET_KEY = ""
 SITE_ID = 1
