@@ -8,8 +8,10 @@ clean and elegant.
 Long story short, I decided to refactor Papermerge to be similar in setup and
 usage experience as Paperless.
 
-Codebase of the two projects is absolutely different, but configuration file (the /etc/papermerge.conf) is the same.
-You may find that a great deal of documenation will overlap. It is because Papermerge projects follows the good practive of paperless and document everything in great detail.
+Codebase of the two projects is absolutely different, but configuration file
+(the /etc/papermerge.conf) is the same. You may find that a great deal of
+documenation will overlap. It is because Papermerge projects follows the good
+practice of paperless and document everything in great detail.
 
 Thank you, Daniel Quinn!
 Here is URL to [(GPLv3) license of Paperless](https://github.com/the-paperless-project/paperless/blob/master/LICENSE)
