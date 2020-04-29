@@ -36,8 +36,6 @@ OCR = False
 APP_USER = ""
 APP_GROUP = ""
 
-ASSETS_VER = None
-
 # One of:
 #   "s3://bucket/path/to/storage"
 #   "local://path/to/media/root"
@@ -47,7 +45,6 @@ AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
-
 
 
 INSTALLED_APPS = (
@@ -116,7 +113,7 @@ DATABASES = {
         "NAME": os.path.join(
             os.getenv(
                 "PAPERMERGE_DBDIR",
-                PROJ_ROOT / Path("..") / Path("data")
+                PROJ_ROOT
             ),
             "db.sqlite3"
         )
