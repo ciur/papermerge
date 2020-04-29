@@ -35,6 +35,14 @@ STATIC_URL = os.getenv("PAPERMERGE_STATIC_URL", "/static/")
 
 MEDIA_URL = os.getenv("PAPERMERGE_MEDIA_URL", "/media/")
 
+# This is where Papermerge will look for PDFs to index
+PAPERMERGE_IMPORTER_DIR = os.getenv("PAPERMERGE_IMPORTER_DIR")
+
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = os.getenv(
+    "PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION"
+)
+
+
 S3 = False
 OCR = False
 

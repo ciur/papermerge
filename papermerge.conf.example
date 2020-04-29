@@ -45,4 +45,4 @@ PAPERMERGE_STATIC_URL="/static/"
 
 # Files are considered ready for import if they have been unmodified
 # for this duration (in seconds)
-PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION=0.5
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION=1
