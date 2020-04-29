@@ -17,24 +17,26 @@ if os.path.exists("/etc/papermerge.conf"):
 PROJ_ROOT = Path(__file__).parent.parent.parent
 
 DEBUG = get_bool("PAPERMERGE_DEBUG", "YES")
+
 SECRET_KEY = os.getenv(
     "PAPERMERGE_SECRET_KEY",
     "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
 )
+
 SITE_ID = 1
 
-MEDIA_ROOT = ""
-STATIC_ROOT = ""
-DBNAME = ""
-DBUSER = ""
-DBPASSWORD = ""
-CELERY_BROKER_URL = ""
-VIRTUAL_MAILBOX_PASS = ""
+STATIC_ROOT = os.getenv(
+    "PAPERMERGE_STATICDIR", os.path.join(PROJ_ROOT, "..", "static"))
+
+MEDIA_ROOT = os.getenv(
+    "PAPERMERGE_MEDIADIR", os.path.join(PROJ_ROOT, "..", "media"))
+
+STATIC_URL = os.getenv("PAPERMERGE_STATIC_URL", "/static/")
+
+MEDIA_URL = os.getenv("PAPERMERGE_MEDIA_URL", "/media/")
+
 S3 = False
 OCR = False
-
-APP_USER = ""
-APP_GROUP = ""
 
 # One of:
 #   "s3://bucket/path/to/storage"
