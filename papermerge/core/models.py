@@ -34,24 +34,6 @@ from papermerge.core.storage import is_storage_left
 logger = logging.getLogger(__name__)
 
 
-def get_file_title(filepath):
-
-    return os.path.basename(filepath)
-
-
-def get_file_size(filepath):
-
-    return os.path.getsize(filepath)
-
-
-def get_root_user():
-    user = User.objects.filter(
-        is_superuser=True
-    ).first()
-
-    return user
-
-
 def get_media_root():
     return endpoint.Endpoint(f"local:{settings.MEDIA_ROOT}")
 
@@ -776,12 +758,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         return len(text.strip()) != 0
 
-    @staticmethod
-    def get_default_language():
-        user = get_root_user()
-        lang = user.preferences['ocr__OCR_Language']
-        return lang
-
     def paste(
         self,
         doc_pages,
@@ -954,106 +930,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             )
 
         # TODO: update size of the new document (changed doc)
-
-    @staticmethod
-    def import_file(
-        filepath,
-        username=None,
-        file_title=None,
-        inbox_title="Inbox",
-        delete_after_import=False,
-        start_ocr_async=True,
-        upload=True
-    ):
-        """
-        Gets as input a path to a file on a local file system and:
-            1. creates a document instance (if there is a available space).
-            2. Copies file to doc_instance.url()
-            3. (optionally) uploads the document to S3 storage.
-            4. (optionally) starts ocr_async task.
-
-        Is used on customers instance by:
-            * import_file command - to import files from SFTP directory
-            * import_attachment command - to import attachments from mailbox
-        """
-        logger.debug(f"Importing file {filepath}")
-
-        if username is None:
-            user = get_root_user()
-        else:
-            user = User.objects.get(username=username)
-
-        if file_title is None:
-            file_title = get_file_title(filepath)
-
-        if not is_storage_left(
-            filepath,
-            user=user
-        ):
-            logger.error(
-                f"user.username reached his disk quota"
-            )
-            return False
-
-        lang = Document.get_default_language()
-        # get_pagecount() might raise an exception in case
-        # file is either wrong (not a PDF) or not yet
-        # completed to upload
-        try:
-            page_count = get_pagecount(filepath)
-        except Exception:
-            # which means that document is not yet fully
-            # uploaded by SFTP client.
-            logger.error(f"File {filepath} not yet ready for importing.")
-            return False
-
-        inbox, _ = Folder.objects.get_or_create(
-            title=inbox_title,
-            parent=None,
-            user=user
-        )
-        doc = Document.create_document(
-            user=user,
-            title=file_title,
-            size=get_file_size(filepath),
-            lang=lang,
-            file_name=file_title,
-            parent_id=inbox.id,
-            page_count=page_count
-        )
-        logger.debug(
-            f"Uploading file {filepath} to {doc.doc_ep.url()}"
-        )
-        # Import file is executed as root (import-file.service)
-        # (because import-file need to access/delete sftp files, folder
-        # as of another system user)
-        # Thus, after copying file into (newly created) folders,
-        # it need to change permissions (of newly created files and folders)
-        # to the app_user/app_group.
-        copy2doc_url(
-            src_file_path=filepath,
-            doc_url=doc.doc_ep.url(),
-            user=settings.APP_USER,
-            group=settings.APP_GROUP
-        )
-
-        if upload and settings.S3:
-            upload_document_to_s3(
-                doc.doc_ep
-            )
-
-        if start_ocr_async and settings.OCR:
-            Document.ocr_async(
-                document=doc,
-                page_count=page_count,
-                lang=lang,
-                s3_enabled=settings.S3
-            )
-
-        if delete_after_import:
-            os.remove(filepath)
-
-        return doc
 
     @staticmethod
     def ocr_async(

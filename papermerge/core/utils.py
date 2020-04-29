@@ -5,8 +5,31 @@ import os
 
 from django.conf import settings
 from django.apps import apps
+from papermerge.core.models import User
 
 logger = logging.getLogger(__name__)
+
+
+def get_file_size(filepath):
+    return os.path.getsize(filepath)
+
+
+def get_file_title(filepath):
+    return os.path.basename(filepath)
+
+
+def get_root_user():
+    user = User.objects.filter(
+        is_superuser=True
+    ).first()
+
+    return user
+
+
+def get_default_language():
+    user = get_root_user()
+    lang = user.preferences['ocr__OCR_Language']
+    return lang
 
 
 def get_sql_content(file_name):
