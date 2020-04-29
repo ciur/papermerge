@@ -1,17 +1,18 @@
 import ssl
 import email
 import tempfile
+import logging
 from django.conf import settings
 from imapclient import IMAPClient
 from papermerge.core.document_importer import DocumentImporter
+
+logger = logging.getLogger(__name__)
 
 
 def read_email_message(message):
     """
     message is an instance of python's module email.message
     """
-    imported_count = 0
-
     for part in message.walk():
         # search for payload
         maintype = part.get_content_maintype()
@@ -21,34 +22,31 @@ def read_email_message(message):
             with tempfile.NamedTemporaryFile() as temp:
                 temp.write(part.get_payload(decode=True))
                 temp.flush()
-                DocumentImporter(temp.name, filename=part.get_filename)
-
-    return imported_count
+                imp = DocumentImporter(temp.name)
+                imp.import_file(file_title=part.get_filename)
 
 
 def import_attachment():
-
-    imported_count = 0
 
     ssl_context = ssl.create_default_context()
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
-    IMAP_SERVER = 
-    USERNAME = 
-    PASSWORD = 
+    imap_server = settings.PAPERMERGE_IMPORT_MAIL_HOST
+    username = settings.PAPERMERGE_IMPORT_MAIL_USER
+    password = settings.PAPERMERGE_IMPORT_MAIL_PASS
 
     with IMAPClient(
-        config['imap_server'],
+        imap_server,
         ssl_context=ssl_context
     ) as server:
-        server.login(config['username'], config['password'])
+        server.login(username, password)
         server.select_folder('INBOX')
         messages = server.search(['UNSEEN'])
 
         logger.debug(
             f"IMAP UNSEEN messages {len(messages)}"
-            f" for {config['username']}"
+            f" for {username}"
         )
 
         for uid, message_data in server.fetch(
@@ -57,4 +55,5 @@ def import_attachment():
             email_message = email.message_from_bytes(
                 message_data[b'RFC822']
             )
-            imported_count = read_email_message(email_message)
+            read_email_message(email_message)
+
