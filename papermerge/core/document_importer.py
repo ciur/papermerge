@@ -31,18 +31,16 @@ class DocumentImporter:
         self,
         file_title=None,
         inbox_title="Inbox",
-        delete_after_import=False,
     ):
         """
         Gets as input a path to a file on a local file system and:
-            1. creates a document instance (if there is a available space).
+            1. creates a document instance
             2. Copies file to doc_instance.url()
-            3. (optionally) uploads the document to S3 storage.
-            4. (optionally) starts ocr_async task.
+            4. OCR the doc
 
-        Is used on customers instance by:
-            * import_file command - to import files from SFTP directory
-            * import_attachment command - to import attachments from mailbox
+        Used with
+            ./manage.py document_importer
+        command
         """
         logger.info(f"Importing file {self.filepath}")
 
@@ -52,7 +50,7 @@ class DocumentImporter:
         try:
             page_count = get_pagecount(self.filepath)
         except Exception:
-            logger.error(f"File {self.filepath} not yet ready for importing.")
+            logger.error(f"Error while getting page count of {self.filepath}.")
             return False
 
         inbox, _ = Folder.objects.get_or_create(
@@ -89,8 +87,8 @@ class DocumentImporter:
             lang=self.user_ocr_language,
         )
 
-        if delete_after_import:
-            os.remove(self.filepath)
+        os.remove(self.filepath)
+        logger.debug("Import complete.")
 
         return doc
 
@@ -100,11 +98,6 @@ class DocumentImporter:
         page_count,
         lang,
     ):
-
-        logger.debug(
-            f"document.ocr_async lang={lang}"
-            f" document={document.id} page_count={page_count}"
-        )
         user_id = document.user.id
         document_id = document.id
         file_name = document.file_name
@@ -118,5 +111,3 @@ class DocumentImporter:
                 lang=lang
             )
             document.save()
-
-        logger.debug("apply async end...")
