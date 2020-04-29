@@ -11,7 +11,9 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
 
-    help = """Import documents from importer directory
+    help = """Import documents from importer directory.
+    Importer directory is defined by PAPERMERGE_IMPORTER_DIR configuration
+    setting.
 """
 
     def add_arguments(self, parser):
@@ -21,8 +23,15 @@ class Command(BaseCommand):
             nargs="?",
             help="The importer directory."
         )
+        parser.add_argument(
+            "--loop-time",
+            "-t",
+            default=settings.PAPERMERGE_IMPORTER_LOOP_TIME,
+            type=int,
+            help="Wait time between each loop (in seconds)."
+        )
 
-    def main_loop(self, directory):
+    def import_documents(self, directory):
         files = []
         for entry in os.scandir(directory):
             if entry.is_file():
@@ -46,7 +55,20 @@ class Command(BaseCommand):
                 # File has not been modified and can be consumed
                 DocumentImporter(file)
 
+    def main_loop(self, directory, loop_time):
+        while True:
+            start_time = time.time()
+            self.import_documents(directory)
+            # Sleep until the start of the next loop step
+            time.sleep(
+                max(0, start_time + loop_time - time.time())
+            )
+
     def handle(self, *args, **options):
         directory = options.get('directory')
-
-        self.main_loop(directory)
+        loop_time = options.get('loop_time')
+        import pdb; pdb.set_trace()
+        try:
+            self.main_loop(directory, loop_time)
+        except KeyboardInterrupt:
+            logger.info("Exiting")
