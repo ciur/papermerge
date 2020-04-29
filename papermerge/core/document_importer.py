@@ -31,6 +31,7 @@ class DocumentImporter:
         self,
         file_title=None,
         inbox_title="Inbox",
+        delete_after_import=True
     ):
         """
         Gets as input a path to a file on a local file system and:
@@ -70,12 +71,6 @@ class DocumentImporter:
         logger.debug(
             f"Uploading file {self.filepath} to {doc.doc_ep.url()}"
         )
-        # Import file is executed as root (import-file.service)
-        # (because import-file need to access/delete sftp files, folder
-        # as of another system user)
-        # Thus, after copying file into (newly created) folders,
-        # it need to change permissions (of newly created files and folders)
-        # to the app_user/app_group.
         copy2doc_url(
             src_file_path=self.filepath,
             doc_url=doc.doc_ep.url(),
@@ -87,7 +82,13 @@ class DocumentImporter:
             lang=self.user_ocr_language,
         )
 
-        os.remove(self.filepath)
+        if delete_after_import:
+            # Usually we want to delete files when importing
+            # them from local directory
+            # When importing from Email attachment - deleting
+            # files does not apply
+            os.remove(self.filepath)
+
         logger.debug("Import complete.")
 
         return doc

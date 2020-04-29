@@ -23,7 +23,9 @@ def read_email_message(message):
                 temp.write(part.get_payload(decode=True))
                 temp.flush()
                 imp = DocumentImporter(temp.name)
-                imp.import_file(file_title=part.get_filename)
+                imp.import_file(
+                    delete_after_import=False
+                )
 
 
 def import_attachment():
