@@ -40,7 +40,8 @@ class DocumentImporter:
             4. OCR the doc
 
         Used with
-            ./manage.py document_importer
+            ./manage.py local_importer
+            ./manage.py imap_importer
         command
         """
         logger.info(f"Importing file {self.filepath}")
