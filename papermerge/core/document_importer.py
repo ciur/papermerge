@@ -2,7 +2,7 @@ import os
 import logging
 
 from pmworker.pdfinfo import get_pagecount
-from papermege.core.models import (User, Document, Folder)
+from papermerge.core.models import (User, Document, Folder)
 from papermerge.core.utils import get_superuser
 from papermerge.core.ocr import ocr_page
 from pmworker.storage import copy2doc_url
@@ -32,8 +32,6 @@ class DocumentImporter:
         file_title=None,
         inbox_title="Inbox",
         delete_after_import=False,
-        start_ocr_async=True,
-        upload=True
     ):
         """
         Gets as input a path to a file on a local file system and:
@@ -96,28 +94,29 @@ class DocumentImporter:
 
         return doc
 
-        def ocr_document(
-            document,
-            page_count,
-            lang,
-        ):
+    def ocr_document(
+        self,
+        document,
+        page_count,
+        lang,
+    ):
 
-            logger.debug(
-                f"document.ocr_async lang={lang}"
-                f" document={document.id} page_count={page_count}"
+        logger.debug(
+            f"document.ocr_async lang={lang}"
+            f" document={document.id} page_count={page_count}"
+        )
+        user_id = document.user.id
+        document_id = document.id
+        file_name = document.file_name
+        logger.debug(f"Document {document_id} has {page_count} pages")
+        for page_num in range(1, page_count + 1):
+            ocr_page(
+                user_id=user_id,
+                document_id=document_id,
+                file_name=file_name,
+                page_num=page_num,
+                lang=lang
             )
-            user_id = document.user.id
-            document_id = document.id
-            file_name = document.file_name
-            logger.debug(f"Document {document_id} has {page_count} pages")
-            for page_num in range(1, page_count + 1):
-                ocr_page(
-                    user_id=user_id,
-                    document_id=document_id,
-                    file_name=file_name,
-                    page_num=page_num,
-                    lang=lang
-                )
-                document.save()
+            document.save()
 
-            logger.debug("apply async end...")
+        logger.debug("apply async end...")

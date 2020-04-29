@@ -53,7 +53,8 @@ class Command(BaseCommand):
         for file, mtime in files_old_to_new:
             if mtime == os.path.getmtime(file):
                 # File has not been modified and can be consumed
-                DocumentImporter(file)
+                imp = DocumentImporter(file)
+                imp.import_file()
 
     def main_loop(self, directory, loop_time):
         while True:

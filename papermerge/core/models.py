@@ -39,7 +39,7 @@ def get_media_root():
 
 
 def get_storage_root():
-    return endpoint.Endpoint(settings.STORAGE_ROOT)
+    return None
 
 
 class User(AbstractUser):
