@@ -1,12 +1,10 @@
+import os
 import logging
 
 from pmworker.pdfinfo import get_pagecount
 from papermege.core.models import (User, Document, Folder)
-from papermerge.core.utils import (
-    get_root_user,
-    get_file_title,
-    get_default_language
-)
+from papermerge.core.utils import get_superuser
+from pmworker.storage import copy2doc_url
 
 logger = logging.getLogger(__name__)
 
@@ -17,12 +15,16 @@ class DocumentImporter:
         self.filepath = file
 
         if username is None:
-            self.user = get_root_user()
+            self.user = get_superuser()
         else:
             self.user = User.objects.first(username=self.username)
 
         if self.user is None:
             raise Exception("Papermerge has no users defined")
+
+    @property
+    def user_ocr_language(self):
+        return self.user.preferences['ocr__OCR_Language']
 
     def import_file(
         self,
@@ -46,9 +48,8 @@ class DocumentImporter:
         logger.info(f"Importing file {self.filepath}")
 
         if file_title is None:
-            file_title = get_file_title(self.filepath)
+            file_title = os.path.basename(self.filepath)
 
-        lang = get_default_language()
         try:
             page_count = get_pagecount(self.filepath)
         except Exception:
@@ -63,8 +64,8 @@ class DocumentImporter:
         doc = Document.create_document(
             user=self.user,
             title=file_title,
-            size=get_file_size(self.filepath),
-            lang=lang,
+            size=os.path.getsize(self.filepath),
+            lang=self.user_ocr_language,
             file_name=file_title,
             parent_id=inbox.id,
             page_count=page_count
@@ -79,18 +80,43 @@ class DocumentImporter:
         # it need to change permissions (of newly created files and folders)
         # to the app_user/app_group.
         copy2doc_url(
-            src_file_path=filepath,
+            src_file_path=self.filepath,
             doc_url=doc.doc_ep.url(),
         )
 
-        Document.ocr_async(
+        self.ocr_document(
             document=doc,
             page_count=page_count,
-            lang=lang,
-            s3_enabled=settings.S3
+            lang=self.user_ocr_language,
         )
 
         if delete_after_import:
-            os.remove(filepath)
+            os.remove(self.filepath)
 
         return doc
+
+        def ocr_document(
+            document,
+            page_count,
+            lang,
+        ):
+
+            logger.debug(
+                f"document.ocr_async lang={lang}"
+                f" document={document.id} page_count={page_count}"
+            )
+            user_id = document.user.id
+            document_id = document.id
+            file_name = document.file_name
+            logger.debug(f"Document {document_id} has {page_count} pages")
+            for page_num in range(1, page_count + 1):
+                ocr_page(
+                    user_id=user_id,
+                    document_id=document_id,
+                    file_name=file_name,
+                    page_num=page_num,
+                    lang=lang
+                )
+                document.save()
+
+            logger.debug("apply async end...")
