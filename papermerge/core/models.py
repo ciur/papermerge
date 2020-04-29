@@ -932,40 +932,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # TODO: update size of the new document (changed doc)
 
     @staticmethod
-    def ocr_async(
-        document,
-        page_count,
-        lang,
-        s3_enabled=False
-    ):
-
-        logger.debug(
-            f"document.ocr_async lang={lang}"
-            f" document={document.id} page_count={page_count}"
-        )
-        try:
-            user_id = document.user.id
-            document_id = document.id
-            file_name = document.file_name
-            logger.debug(f"Document {document_id} has {page_count} pages")
-            for page_num in range(1, page_count + 1):
-                ocr_page.apply_async(kwargs={
-                    'user_id': user_id,
-                    'document_id': document_id,
-                    'file_name': file_name,
-                    'page_num': page_num,
-                    's3_upload': s3_enabled,
-                    's3_download': s3_enabled,
-                    'lang': lang},
-                    queue='papermerge'
-                )
-                document.save()
-        except kombu.exceptions.OperationalError:
-            logger.warning("Broker is down, skipping OCR")
-
-        logger.debug("apply async end...")
-
-    @staticmethod
     def create_document(
         user,
         title,
