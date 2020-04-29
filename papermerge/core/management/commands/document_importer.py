@@ -67,7 +67,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         directory = options.get('directory')
         loop_time = options.get('loop_time')
-        import pdb; pdb.set_trace()
         try:
             self.main_loop(directory, loop_time)
         except KeyboardInterrupt:
