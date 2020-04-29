@@ -45,14 +45,21 @@ PAPERMERGE_IMPORTER_LOOP_TIME = os.getenv(
     "PAPERMERGE_IMPORTER_LOOP_TIME"
 )
 
-
-S3 = False
-OCR = False
-
-# One of:
-#   "s3://bucket/path/to/storage"
-#   "local://path/to/media/root"
-STORAGE_ROOT = ''
+PAPERMERGE_IMPORT_MAIL_HOST = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_HOST", ""
+)
+PAPERMERGE_IMPORT_MAIL_USER = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_USER", ""
+)
+PAPERMERGE_IMPORT_MAIL_PASS = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_PASS", ""
+)
+PAPERMERGE_IMPORT_MAIL_INBOX = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_INBOX", "INBOX"
+)
+PAPERMERGE_EMAIL_SECRET = os.getenv(
+    "PAPERMERGE_EMAIL_SECRET", ""
+)
 
 AUTH_USER_MODEL = "core.User"
 

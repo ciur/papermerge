@@ -66,6 +66,5 @@ PAPERMERGE_IMPORT_MAIL_PASS=""
 # "INBOX".
 #PAPERMERGE_IMPORT_MAIL_INBOX="INBOX"
 
-# Any email sent to the target account that does not contain this text will be
-# ignored.
+# Any email sent to the target account that does not contain this text will be ignored.
 PAPERMERGE_EMAIL_SECRET=""
