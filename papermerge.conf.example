@@ -8,10 +8,10 @@
 ####                         Paths & Folders                               ####
 ###############################################################################
 
-# This where your documents should go to be consumed.  Make sure that it exists
+# This where your documents should go to be imported. Make sure that it exists
 # and that the user running the papermerge service can read/write its contents
 # before you start Papermerge.
-#PAPERMERGE_CONSUMPTION_DIR=""
+#PAPERMERGE_IMPORTER_DIR=""
 
 # You can specify where you want the SQLite database to be stored instead of
 # the default location of /data/ within the install directory.
