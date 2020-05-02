@@ -16,6 +16,7 @@ RUN apt-get update \
                     tesseract-ocr \
                     tesseract-ocr-deu \
                     tesseract-ocr-eng \
+                    cron \
  && rm -rf /var/lib/apt/lists/* \
  && pip3 install --upgrade pip \
  && mkdir -p /opt/media /opt/broker/queue
@@ -37,6 +38,7 @@ COPY app/settings.py /opt/papermerge/config/settings/stage.py
 COPY app/entrypoint.sh /opt/entrypoint.sh
 COPY app/create_user.py /opt/papermerge/create_user.py
 
-COPY etc/* /etc/system/systemd/
+# Add crontab file in the cron directory
+COPY etc/crontab /etc/cron.d/papermerge
 
 ENTRYPOINT ["/opt/entrypoint.sh"]

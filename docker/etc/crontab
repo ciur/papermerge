@@ -1,0 +1,2 @@
+1 * * * * python /opt/papermerge/manage.py txt2db
+1 * * * * python /opt/papermerge/manage.py update_fts 

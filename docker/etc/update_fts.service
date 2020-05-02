@@ -1,7 +1,0 @@
-[Unit]
-Description=update_fts service
-
-[Service]
-Type=oneshot
-WorkingDirectory=/opt/papermerge/
-ExecStart=python /opt/papermerge/manage.py update_fts 
