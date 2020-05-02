@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   app:
-    image: papermerge:app
+    image: eugenci/papermerge:latest
     build:
       context: .
       dockerfile: app.dockerfile
