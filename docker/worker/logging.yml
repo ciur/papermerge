@@ -1,0 +1,17 @@
+version: 1
+handlers:
+  syslog:
+    class: logging.StreamHandler
+loggers:
+  pmworker:
+    level: INFO
+    handlers: [syslog]
+    propagate: yes
+  celery:
+    level: INFO
+    handlers: [syslog]
+    propagate: yes
+root:
+  level: INFO
+  handlers: [syslog]
+  propagate: yes

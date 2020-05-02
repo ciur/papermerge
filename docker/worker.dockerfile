@@ -31,3 +31,4 @@ WORKDIR /opt/papermerge-worker
 RUN pip3 install -r requirements.freeze
 
 COPY worker/config.py /opt/papermerge-worker/config.py
+COPY worker/logging.yml /opt/papermerge-worker/logging.yml
