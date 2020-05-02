@@ -1,2 +1,2 @@
-1 * * * * python /opt/papermerge/manage.py txt2db
-1 * * * * python /opt/papermerge/manage.py update_fts 
+1 * * * * /usr/bin/python3 /opt/papermerge/manage.py txt2db  >> /var/log/cron.log 2>&1
+1 * * * * /usr/bin/python3  /opt/papermerge/manage.py update_fts  >> /var/log/cron.log 2>&1

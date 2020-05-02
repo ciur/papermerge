@@ -38,7 +38,10 @@ COPY app/settings.py /opt/papermerge/config/settings/stage.py
 COPY app/entrypoint.sh /opt/entrypoint.sh
 COPY app/create_user.py /opt/papermerge/create_user.py
 
-# Add crontab file in the cron directory
-COPY etc/crontab /etc/cron.d/papermerge
+COPY app/crontab /etc/cron.d/papermerge
+RUN chmod 0644 /etc/cron.d/papermerge
+RUN crontab /etc/cron.d/papermerge
+RUN touch /var/log/cron.log
+CMD cron
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
