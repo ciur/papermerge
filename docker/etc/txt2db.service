@@ -1,0 +1,7 @@
+[Unit]
+Description=txt2db service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/papermerge/
+ExecStart=python /opt/papermerge/manage.py txt2db 

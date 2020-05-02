@@ -1,0 +1,8 @@
+[Unit]
+Description=Run update_fts service every 2 minutes
+
+[Timer]
+OnCalendar=*:0/2
+
+[Install]
+WantedBy=timers.target

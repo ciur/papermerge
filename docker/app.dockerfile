@@ -37,4 +37,6 @@ COPY app/settings.py /opt/papermerge/config/settings/stage.py
 COPY app/entrypoint.sh /opt/entrypoint.sh
 COPY app/create_user.py /opt/papermerge/create_user.py
 
+COPY etc/* /etc/system/systemd/
+
 ENTRYPOINT ["/opt/entrypoint.sh"]
