@@ -8,30 +8,63 @@
 ####                         Paths & Folders                               ####
 ###############################################################################
 
-# This where your documents should go to be consumed.  Make sure that it exists
+# This where your documents should go to be imported. Make sure that it exists
 # and that the user running the papermerge service can read/write its contents
 # before you start Papermerge.
-#PAPERMERGE_CONSUMPTION_DIR=""
+PAPERMERGE_IMPORTER_DIR=/home/eugen/tmp/papermerge/import
 
 # You can specify where you want the SQLite database to be stored instead of
 # the default location of /data/ within the install directory.
-#PAPERMERGE_DBDIR=/path/to/database/file
+PAPERMERGE_DBDIR=/home/eugen/tmp/papermerge/db
 
 
 # Override the default MEDIA_ROOT here.  This is where all files are stored.
 # The default location is /media/documents/ within the install folder.
-#PAPERMERGE_MEDIADIR=/path/to/media
+PAPERMERGE_MEDIADIR=/home/eugen/tmp/papermerge/media
 
 
 # Override the default STATIC_ROOT here.  This is where all static files
 # created using "collectstatic" manager command are stored.
-#PAPERMERGE_STATICDIR=""
+PAPERMERGE_STATICDIR=/home/eugen/tmp/papermerge/static
 
 
 # Override the MEDIA_URL here.  Unless you're hosting Paperless off a subdomain
 # like /paperless/, you probably don't need to change this.
-#PAPERMERGE_MEDIA_URL="/media/"
+PAPERMERGE_MEDIA_URL="/media/"
 
 # Override the STATIC_URL here.  Unless you're hosting Paperless off a
 # subdomain like /paperless/, you probably don't need to change this.
-#PAPERMERGE_STATIC_URL="/static/"
+PAPERMERGE_STATIC_URL="/static/"
+
+
+###############################################################################
+####                         Document Importer                             ####
+###############################################################################
+
+# Configuration for ./manage.py document_importer command
+
+# Files are considered ready for import if they have been unmodified
+# for this duration (in seconds)
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION=1
+
+# This setting is ignored on Linux where inotify is used instead of a
+# polling loop.
+# The number of seconds that Papermerge will wait between checking
+# PAPERMERGE_IMPORTER_DIR. If you tend to write documents to this directory
+# rarely, you may want to use a higher value than the default (5).
+PAPERMERGE_IMPORTER_LOOP_TIME=5
+
+
+# These values are required if you want papermerge to import email attachments
+# from specific email account.
+# If you don't define a HOST, mail checking will just be disabled.
+PAPERMERGE_IMPORT_MAIL_HOST=""
+PAPERMERGE_IMPORT_MAIL_USER=""
+PAPERMERGE_IMPORT_MAIL_PASS=""
+
+# Override the default IMAP inbox here. If not set Papermerge defaults to
+# "INBOX".
+#PAPERMERGE_IMPORT_MAIL_INBOX="INBOX"
+
+# Any email sent to the target account that does not contain this text will be ignored.
+PAPERMERGE_EMAIL_SECRET=""

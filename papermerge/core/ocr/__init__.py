@@ -1,0 +1,1 @@
+from papermerge.core.ocr.page import ocr_page  # noqa

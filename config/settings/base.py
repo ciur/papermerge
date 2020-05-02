@@ -17,37 +17,54 @@ if os.path.exists("/etc/papermerge.conf"):
 PROJ_ROOT = Path(__file__).parent.parent.parent
 
 DEBUG = get_bool("PAPERMERGE_DEBUG", "YES")
+
 SECRET_KEY = os.getenv(
     "PAPERMERGE_SECRET_KEY",
     "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
 )
+
 SITE_ID = 1
 
-MEDIA_ROOT = ""
-STATIC_ROOT = ""
-DBNAME = ""
-DBUSER = ""
-DBPASSWORD = ""
-CELERY_BROKER_URL = ""
-VIRTUAL_MAILBOX_PASS = ""
-S3 = False
-OCR = False
+STATIC_ROOT = os.getenv(
+    "PAPERMERGE_STATICDIR", os.path.join(PROJ_ROOT, "..", "static"))
 
-APP_USER = ""
-APP_GROUP = ""
+MEDIA_ROOT = os.getenv(
+    "PAPERMERGE_MEDIADIR", os.path.join(PROJ_ROOT, "..", "media"))
 
-ASSETS_VER = None
+STATIC_URL = os.getenv("PAPERMERGE_STATIC_URL", "/static/")
 
-# One of:
-#   "s3://bucket/path/to/storage"
-#   "local://path/to/media/root"
-STORAGE_ROOT = ''
+MEDIA_URL = os.getenv("PAPERMERGE_MEDIA_URL", "/media/")
+
+# This is where Papermerge will look for PDFs to index
+PAPERMERGE_IMPORTER_DIR = os.getenv("PAPERMERGE_IMPORTER_DIR")
+
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = os.getenv(
+    "PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION"
+)
+PAPERMERGE_IMPORTER_LOOP_TIME = os.getenv(
+    "PAPERMERGE_IMPORTER_LOOP_TIME"
+)
+
+PAPERMERGE_IMPORT_MAIL_HOST = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_HOST", ""
+)
+PAPERMERGE_IMPORT_MAIL_USER = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_USER", ""
+)
+PAPERMERGE_IMPORT_MAIL_PASS = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_PASS", ""
+)
+PAPERMERGE_IMPORT_MAIL_INBOX = os.getenv(
+    "PAPERMERGE_IMPORT_MAIL_INBOX", "INBOX"
+)
+PAPERMERGE_EMAIL_SECRET = os.getenv(
+    "PAPERMERGE_EMAIL_SECRET", ""
+)
 
 AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
-
 
 
 INSTALLED_APPS = (
@@ -116,7 +133,7 @@ DATABASES = {
         "NAME": os.path.join(
             os.getenv(
                 "PAPERMERGE_DBDIR",
-                PROJ_ROOT / Path("..") / Path("data")
+                PROJ_ROOT
             ),
             "db.sqlite3"
         )

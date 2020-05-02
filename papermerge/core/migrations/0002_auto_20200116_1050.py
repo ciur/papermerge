@@ -8,18 +8,18 @@ class Migration(migrations.Migration):
     dependencies = [
         ('core', '0001_initial'),
     ]
-
+    # DB dependent oprations moved out as plugin
     operations = [
-        migrations.RunSQL(
-            get_sql_content('01_triggers.sql')
-        ),
-        migrations.RunSQL(
-            get_sql_content('02_basetreenode.sql')
-        ),
-        migrations.RunSQL(
-            get_sql_content('03_update_lang_cols.sql')
-        ),
-        migrations.RunSQL(
-            get_sql_content('04_views.sql')
-        ),
+#       migrations.RunSQL(
+#           get_sql_content('01_triggers.sql')
+#       ),
+#       migrations.RunSQL(
+#           get_sql_content('02_basetreenode.sql')
+#       ),
+#       migrations.RunSQL(
+#           get_sql_content('03_update_lang_cols.sql')
+#       ),
+#       migrations.RunSQL(
+#           get_sql_content('04_views.sql')
+#       ),
     ]

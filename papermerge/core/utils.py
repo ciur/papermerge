@@ -5,8 +5,17 @@ import os
 
 from django.conf import settings
 from django.apps import apps
+from papermerge.core.models import User
 
 logger = logging.getLogger(__name__)
+
+
+def get_superuser():
+    user = User.objects.filter(
+        is_superuser=True
+    ).first()
+
+    return user
 
 
 def get_sql_content(file_name):
