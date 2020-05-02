@@ -38,3 +38,19 @@ DATABASES = {
         'PORT': 5432,
     },
 }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'papermerge': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'papermerge': {
+            'handlers': ['papermerge'],
+            'level': 'DEBUG'
+        },
+    },
+}

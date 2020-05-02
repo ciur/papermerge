@@ -39,6 +39,13 @@ COPY app/entrypoint.sh /opt/entrypoint.sh
 COPY app/create_user.py /opt/papermerge/create_user.py
 
 COPY app/crontab /etc/cron.d/papermerge
+COPY app/txt2db.sh /opt/txt2db.sh
+RUN chmod 0744 /opt/txt2db.sh
+COPY app/update_fts.sh /opt/update_fts.sh
+RUN chmod 0744 /opt/update_fts.sh
+COPY app/hello.sh /opt/hello.sh
+RUN chmod 0744 /opt/hello.sh
+
 RUN chmod 0644 /etc/cron.d/papermerge
 RUN crontab /etc/cron.d/papermerge
 RUN touch /var/log/cron.log
