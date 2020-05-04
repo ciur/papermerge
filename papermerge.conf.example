@@ -4,9 +4,9 @@
 # running Papermerge.
 # Add extra configurations (plugin configs) to /etc/papermerge.d/* folder
 
-###############################################################################
-####                         Paths & Folders                               ####
-###############################################################################
+
+####    Paths & Folders
+#######################
 
 # This where your documents should go to be imported. Make sure that it exists
 # and that the user running the papermerge service can read/write its contents
@@ -37,9 +37,9 @@ PAPERMERGE_MEDIA_URL="/media/"
 PAPERMERGE_STATIC_URL="/static/"
 
 
-###############################################################################
-####                         Document Importer                             ####
-###############################################################################
+
+####    Document Importer
+#########################
 
 # Configuration for ./manage.py document_importer command
 
@@ -68,3 +68,8 @@ PAPERMERGE_IMPORT_MAIL_PASS=""
 
 # Any email sent to the target account that does not contain this text will be ignored.
 PAPERMERGE_EMAIL_SECRET=""
+
+####    Storage
+###############
+
+PAPERMERGE_DEFAULT_FILE_STORAGE = "mglib.storage.FileSystemStorage"

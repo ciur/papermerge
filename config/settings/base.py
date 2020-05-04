@@ -61,6 +61,11 @@ PAPERMERGE_EMAIL_SECRET = os.getenv(
     "PAPERMERGE_EMAIL_SECRET", ""
 )
 
+PAPERMERGE_DEFAULT_FILE_STORAGE = os.getenv(
+    "PAPERMERGE_DEFAULT_FILE_STORAGE",
+    "mglib.storage.FileSystemStorage"
+)
+
 AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
