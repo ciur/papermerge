@@ -26,7 +26,7 @@ from papermerge.core.models import (
 from papermerge.core.auth import (
     create_access
 )
-from papermerge.core.storage import remove_file
+from papermerge.core.storage import default_storage
 from papermerge.core.utils import get_tenant_name
 
 
@@ -65,9 +65,8 @@ def deleteFiles(sender, instance, **kwargs):
         instance.user.id
     ))
 
-    doc_ep = instance.doc_ep
-    remove_file(
-        doc_url=doc_ep.url()
+    default_storage.delete_document(
+        instance.path
     )
 
 

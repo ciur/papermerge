@@ -19,6 +19,7 @@ from polymorphic_tree.models import (
 )
 
 from pmworker import (endpoint, storage, step)
+from mglib.path import (DocumentPath, PagePath)
 from pmworker.pdfinfo import get_pagecount
 from pmworker.storage import (
     upload_document_to_s3,
@@ -32,14 +33,6 @@ from papermerge.core import mixins
 from papermerge.core.storage import is_storage_left
 
 logger = logging.getLogger(__name__)
-
-
-def get_media_root():
-    return endpoint.Endpoint(f"local:{settings.MEDIA_ROOT}")
-
-
-def get_storage_root():
-    return None
 
 
 class User(AbstractUser):
@@ -816,13 +809,12 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         doc_ep_list.insert(
             0,
             {
-                'doc_ep': endpoint.DocumentEp(
+                'doc_ep': DocumentPath(
                     user_id=self.user.id,
                     document_id=self.id,
                     version=old_version,
-                    file_name=self.file_name,
-                    local_endpoint=get_media_root(),
-                    remote_endpoint=get_storage_root()),
+                    file_name=self.file_name
+                ),
                 'page_nums': list(range(1, self.page_count + 1))
             }
         )
@@ -1007,18 +999,16 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return False
 
     @property
-    def doc_ep(self):
+    def path(self):
         version = self.version
         if not isinstance(version, int):
             version = 0
 
-        result = endpoint.DocumentEp(
+        result = DocumentPath(
             user_id=self.user.id,
             document_id=self.id,
             version=version,
             file_name=self.file_name,
-            local_endpoint=get_media_root(),
-            remote_endpoint=get_storage_root()
         )
 
         return result
@@ -1148,8 +1138,8 @@ class Page(models.Model):
         return self.number == 1
 
     @property
-    def page_ep(self):
-        return endpoint.PageEp(
+    def path(self):
+        return PagePath(
             document_ep=self.document.doc_ep,
             page_num=self.number,
             page_count=self.page_count
@@ -1161,9 +1151,6 @@ class Page(models.Model):
         Returns non-empty text string value if .txt file was found.
         If file was not found - will return an empty string.
         """
-        if not settings.OCR:
-            return ''
-
         text = ''
         logger.debug(f"Checking {self.txt_url}")
 
@@ -1171,21 +1158,7 @@ class Page(models.Model):
             logger.debug(
                 f"Missing page txt {self.txt_url}."
             )
-            # skip download to local media storage if S3
-            # is disabled.
-            if not settings.S3:
-                logger.info(f"S3 disabled")
-                return ''
-
-            if not storage.download(self.page_ep):
-                logger.info(
-                    f"document_log "
-                    f" username={self.user.username}"
-                    f" doc_id={self.document.id}"
-                    f" page_num={self.number}"
-                    f" text_len={len(text.strip())}"
-                )
-                return ''
+            return
         else:
             logger.debug(f"Page txt {self.txt_url} exists.")
 
@@ -1214,8 +1187,8 @@ class Page(models.Model):
     @property
     def txt_url(self):
 
-        result = endpoint.PageEp(
-            document_ep=self.document.doc_ep,
+        result = PagePath(
+            document_ep=self.document.path,
             page_num=self.number,
             page_count=self.page_count
         )
@@ -1225,7 +1198,7 @@ class Page(models.Model):
     @property
     def txt_exists(self):
 
-        result = endpoint.PageEp(
+        result = PagePath(
             document_ep=self.document.doc_ep,
             page_num=self.number,
             page_count=self.page_count
