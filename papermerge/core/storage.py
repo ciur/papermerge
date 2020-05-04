@@ -12,11 +12,6 @@ from six.moves.urllib.parse import urljoin
 
 from papermerge.core import models
 
-from pmworker.endpoint import (
-    get_bucketname,
-    get_keyname
-)
-
 
 @deconstructible
 class DocumentStorage(FileSystemStorage):
@@ -65,9 +60,9 @@ def remove_file(doc_url):
     """
     Will remove actually the directory associated with that user
     """
-    s3 = boto3.resource('s3')
-    bucketname = get_bucketname(doc_url)
-    keyname = get_keyname(doc_url)
+    #s3 = boto3.resource('s3')
+    #bucketname = get_bucketname(doc_url)
+    #keyname = get_keyname(doc_url)
 
-    bucket = s3.Bucket(bucketname)
-    bucket.Object(keyname).delete()
+    #bucket = s3.Bucket(bucketname)
+    #bucket.Object(keyname).delete()

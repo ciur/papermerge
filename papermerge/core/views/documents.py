@@ -23,7 +23,7 @@ from pmworker.storage import (
 )
 
 from pmworker.pdfinfo import get_pagecount
-from pmworker.endpoint import Endpoint
+from mglib.endpoint import Endpoint
 from pmworker.step import Step
 from pmworker.shortcuts import extract_img
 

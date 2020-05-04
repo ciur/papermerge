@@ -4,7 +4,7 @@ import time
 from django.conf import settings
 from pmworker import mime
 from pmworker.pdfinfo import get_pagecount
-from pmworker.endpoint import (
+from mglib.endpoint import (
     DocumentEp,
     PageEp,
     Endpoint

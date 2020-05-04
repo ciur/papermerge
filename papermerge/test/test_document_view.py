@@ -8,7 +8,7 @@ from papermerge.core.models import (Page, Document, Folder)
 from papermerge.test.utils import create_root_user
 from pmworker import ENG
 from pmworker.storage import copy2doc_url
-from pmworker.endpoint import PageEp
+from mglib.endpoint import PageEp
 from pmworker.step import Step
 
 BASE_DIR = os.path.dirname(__file__)

@@ -29,8 +29,6 @@ from papermerge.core.auth import (
 from papermerge.core.storage import remove_file
 from papermerge.core.utils import get_tenant_name
 
-from pmworker.endpoint import Endpoint
-
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
@@ -68,10 +66,9 @@ def deleteFiles(sender, instance, **kwargs):
     ))
 
     doc_ep = instance.doc_ep
-    if settings.S3:
-        remove_file(
-            doc_url=doc_ep.url(ep=Endpoint.S3)
-        )
+    remove_file(
+        doc_url=doc_ep.url()
+    )
 
 
 @receiver(user_logged_in)
