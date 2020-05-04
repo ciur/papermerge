@@ -72,4 +72,4 @@ PAPERMERGE_EMAIL_SECRET=""
 ####    Storage
 ###############
 
-PAPERMERGE_DEFAULT_FILE_STORAGE = "mglib.storage.FileSystemStorage"
+PAPERMERGE_DEFAULT_FILE_STORAGE="mglib.storage.FileSystemStorage"
