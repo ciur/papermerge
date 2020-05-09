@@ -18,10 +18,8 @@ from pmworker import pdftk
 from pmworker import ocrmigrate
 
 from papermerge.core import mixins
-from papermerge.core.models import (
-    BaseTreeNode,
-    Folder
-)
+from papermerge.core.models.node import BaseTreeNode
+from papermerge.core.models.folder import Folder
 
 logger = logging.getLogger(__name__)
 

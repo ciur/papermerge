@@ -1,5 +1,4 @@
 import logging
-from django.conf import settings
 
 from django.db.models.signals import (
     pre_delete,
@@ -17,12 +16,10 @@ from allauth.account.signals import (
     password_reset
 )
 
-from papermerge.core.models import (
-    Document,
-    Folder,
-    Access,
-    AccessDiff
-)
+from papermerge.core.models.folder import Folder
+from papermerge.core.models.document import Document
+from papermerge.core.models.access import Access
+from papermerge.core.models.access_diff import AccessDiff
 from papermerge.core.auth import (
     create_access
 )

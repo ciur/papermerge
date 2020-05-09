@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.postgres.search import SearchVectorField
 
-from papermerge.core.models import (Document, User)
+from papermerge.core.models import Document
 
 
 class Page(models.Model):
     document = models.ForeignKey(
         Document, on_delete=models.CASCADE
     )
-    user = models.ForeignKey(User, models.CASCADE)
+    user = models.ForeignKey('User', models.CASCADE)
 
     number = models.IntegerField(default=1)
     page_count = models.IntegerField(default=1)

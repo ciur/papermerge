@@ -9,10 +9,7 @@ from django.contrib.auth import (
     password_validation
 )
 
-from papermerge.core.models import (
-    Document,
-    Folder
-)
+from papermerge.core.models import (Document, Folder)
 
 
 class TailedInput(widgets.Input):

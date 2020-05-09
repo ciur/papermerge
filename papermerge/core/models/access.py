@@ -2,10 +2,6 @@ from django.db import models
 from django.contrib.auth.models import (Group, Permission)
 from django.contrib.contenttypes.models import ContentType
 
-from papermerge.core.models import (
-    BaseTreeNode,
-    User
-)
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -39,7 +35,7 @@ class Access(models.Model):
     }
 
     node = models.ForeignKey(
-        BaseTreeNode,
+        'BaseTreeNode',
         models.CASCADE,
     )
     access_type = models.CharField(
@@ -62,7 +58,7 @@ class Access(models.Model):
         on_delete=models.CASCADE
     )
     user = models.ForeignKey(
-        User,
+        'User',
         verbose_name=_('user'),
         blank=True,
         null=True,

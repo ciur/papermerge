@@ -7,7 +7,8 @@ from polymorphic_tree.models import (
     PolymorphicTreeForeignKey
 )
 
-from papermerge.core.models import (Access, AccessDiff)
+from papermerge.core.models.access import Access
+from papermerge.core.models.access_diff import AccessDiff
 
 
 class BaseTreeNode(PolymorphicMPTTModel):

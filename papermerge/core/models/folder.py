@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 from papermerge.core import mixins
-from papermerge.code.models import BaseTreeNode
+from papermerge.core.models.node import BaseTreeNode
 
 
 class Folder(mixins.ExtractIds, BaseTreeNode):

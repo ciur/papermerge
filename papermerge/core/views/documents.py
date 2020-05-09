@@ -29,8 +29,9 @@ from pmworker.shortcuts import extract_img
 from papermerge.core.lib.hocr import Hocr
 
 from papermerge.core.models import (
-    Folder, Document, BaseTreeNode, Access
+    Folder, Document, BaseTreeNode
 )
+from papermerge.core.models.access import Access
 
 logger = logging.getLogger(__name__)
 
