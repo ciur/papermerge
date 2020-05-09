@@ -4,8 +4,7 @@ from django.contrib.auth.models import (
 )
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from papermerge.core.models.access import Access
-from papermerge.core.models.access_diff import AccessDiff
+from papermerge.core.models import (Access, AccessDiff)
 
 
 # custom user is used - papermerge.core.models.User

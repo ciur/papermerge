@@ -16,10 +16,12 @@ from allauth.account.signals import (
     password_reset
 )
 
-from papermerge.core.models.folder import Folder
-from papermerge.core.models.document import Document
-from papermerge.core.models.access import Access
-from papermerge.core.models.access_diff import AccessDiff
+from papermerge.core.models import (
+    Folder,
+    Document,
+    Access,
+    AccessDiff
+)
 from papermerge.core.auth import (
     create_access
 )
