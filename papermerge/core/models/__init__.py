@@ -5,6 +5,8 @@ from papermerge.core.models.document import Document
 from papermerge.core.models.folder import Folder
 from papermerge.core.models.page import Page
 from papermerge.core.models.node import BaseTreeNode
+from papermerge.core.models.access import Access
+from papermerge.core.models.access_diff import AccessDiff
 
 
 class User(AbstractUser):
@@ -25,5 +27,7 @@ __all__ = [
     'Folder',
     'Document',
     'Page',
-    'BaseTreeNode'
+    'BaseTreeNode',
+    'Access',
+    'AccessDiff'
 ]
