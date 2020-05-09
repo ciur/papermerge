@@ -26,5 +26,5 @@ class TestBasicUpload(TestCase):
         ret = self.client.post(
             reverse('core:upload')
         )
-
-        self.assertEqual(ret.status_code, 200)
+        # missing input file
+        self.assertEqual(ret.status_code, 400)

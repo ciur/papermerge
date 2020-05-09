@@ -7,12 +7,14 @@ from django.urls import reverse
 from django.http import (
     HttpResponse,
     HttpResponseRedirect,
+    HttpResponseBadRequest,
     HttpResponseForbidden,
     Http404
 )
 from django.conf import settings
 from django import views
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 
 from pmworker.storage import (
     upload_document_to_s3,
@@ -278,6 +280,9 @@ class DocumentsUpload(views.View):
         if not files:
             logger.warning(
                 "POST request.FILES is empty. Forgot adding file?"
+            )
+            return HttpResponseBadRequest(
+                _("Missing input file")
             )
 
         if len(files) > 1:
