@@ -31,16 +31,22 @@ class TestBasicUpload(TestCase):
             password='test'
         )
 
-    def test_basic_upload(self):
+    def test_basic_upload_invalid_input(self):
         ret = self.client.post(
             reverse('core:upload')
         )
         # missing input file
         self.assertEqual(ret.status_code, 400)
 
-        with open(src_file_path, "rb") as f:
-            fin = f.read()
+    def test_basic_upload(self):
+
+        with open(src_file_path, "rb") as fp:
             self.client.post(
                 reverse('core:upload'),
-                {'file': fin},
+                {
+                    'file': fp,
+                    'parent_id': -1,
+                    'name': "andromeda.pdf",
+                    'language': "eng"
+                },
             )
