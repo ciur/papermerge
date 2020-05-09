@@ -318,7 +318,9 @@ class DocumentsUpload(views.View):
             notes=notes,
             page_count=page_count
         )
-        logger.debug("uploading to {}".format(doc.doc_ep.url()))
+        logger.debug(
+            "uploading to {}".format(doc.doc_path.url())
+        )
 
         copy2doc_url(
             src_file_path=f.temporary_file_path(),
