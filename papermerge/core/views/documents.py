@@ -14,7 +14,6 @@ from django.conf import settings
 from django import views
 from django.contrib.auth.decorators import login_required
 
-
 from pmworker.storage import (
     upload_document_to_s3,
     download,
@@ -23,7 +22,6 @@ from pmworker.storage import (
 )
 
 from pmworker.pdfinfo import get_pagecount
-from mglib.endpoint import Endpoint
 from pmworker.step import Step
 from pmworker.shortcuts import extract_img
 
@@ -31,10 +29,6 @@ from papermerge.core.lib.hocr import Hocr
 
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
-)
-
-from papermerge.core.storage import (
-    is_storage_left
 )
 
 logger = logging.getLogger(__name__)
@@ -299,16 +293,6 @@ class DocumentsUpload(views.View):
         f = files[0]
 
         logger.debug("upload for f=%s user=%s", f, request.user)
-
-        if not is_storage_left(f.temporary_file_path()):
-            logger.warning("Storage is full for user=%s.", request.user)
-            msg = "Cannot upload file {}. Storage is full.".format(f.name)
-
-            return HttpResponse(
-                json.dumps({'error': msg}),
-                status=400,
-                content_type="application/json"
-            )
 
         user = request.user
         size = os.path.getsize(f.temporary_file_path())

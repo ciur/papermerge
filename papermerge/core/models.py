@@ -18,7 +18,6 @@ from polymorphic_tree.models import (
     PolymorphicTreeForeignKey
 )
 
-from pmworker import (endpoint, storage, step)
 from mglib.path import (DocumentPath, PagePath)
 from pmworker.pdfinfo import get_pagecount
 from pmworker.storage import (
@@ -30,7 +29,6 @@ from pmworker import ocrmigrate
 from pmworker.tasks import ocr_page
 
 from papermerge.core import mixins
-from papermerge.core.storage import is_storage_left
 
 logger = logging.getLogger(__name__)
 
