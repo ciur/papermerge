@@ -4,10 +4,9 @@ import time
 from django.conf import settings
 from pmworker import mime
 from pmworker.pdfinfo import get_pagecount
-from mglib.endpoint import (
-    DocumentEp,
-    PageEp,
-    Endpoint
+from mglib.path import (
+    DocumentPath,
+    PagePath,
 )
 from pmworker.step import (Step, Steps)
 from pmworker.shortcuts import (
@@ -20,14 +19,17 @@ logger = logging.getLogger(__name__)
 
 
 def ocr_page_pdf(
-    doc_ep,
+    doc_path,
     page_num,
     lang
 ):
-    page_count = get_pagecount(doc_ep.url())
+    """
+    doc_path is an mglib.path.DocumentPath instance
+    """
+    page_count = get_pagecount(doc_path.url())
     if page_num <= page_count:
-        page_url = PageEp(
-            document_ep=doc_ep,
+        page_url = PagePath(
+            document_path=doc_path,
             page_num=page_num,
             step=Step(1),
             page_count=page_count
@@ -65,20 +67,18 @@ def ocr_page(
     t1 = time.time()
     lang = lang.lower()
 
-    doc_ep = DocumentEp(
+    doc_path = DocumentPath(
         user_id=user_id,
         document_id=document_id,
         file_name=file_name,
-        local_endpoint=Endpoint(f"local:/{settings.MEDIA_ROOT}"),
-        remote_endpoint=Endpoint("s3:/")
     )
 
-    mime_type = mime.Mime(doc_ep.url())
+    mime_type = mime.Mime(doc_path.url())
 
     page_type = ''
     if mime_type.is_pdf():
         ocr_page_pdf(
-            doc_ep=doc_ep,
+            doc_path=doc_path,
             page_num=page_num,
             lang=lang
         )

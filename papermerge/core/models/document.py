@@ -10,10 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from mglib.path import (DocumentPath, PagePath)
 from pmworker.pdfinfo import get_pagecount
-from pmworker.storage import (
-    upload_document_to_s3,
-    copy2doc_url
-)
+
 from pmworker import pdftk
 from pmworker import ocrmigrate
 

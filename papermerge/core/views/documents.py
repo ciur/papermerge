@@ -29,9 +29,9 @@ from pmworker.shortcuts import extract_img
 from papermerge.core.lib.hocr import Hocr
 
 from papermerge.core.models import (
-    Folder, Document, BaseTreeNode
+    Folder, Document, BaseTreeNode, Access
 )
-from papermerge.core.models.access import Access
+from papermerge.core.document_importer import DocumentImporter
 
 logger = logging.getLogger(__name__)
 
@@ -320,25 +320,19 @@ class DocumentsUpload(views.View):
             page_count=page_count
         )
         logger.debug(
-            "uploading to {}".format(doc.doc_path.url())
+            "uploading to {}".format(doc.path.url())
         )
 
         copy2doc_url(
             src_file_path=f.temporary_file_path(),
-            doc_url=doc.doc_ep.url()
+            doc_url=doc.path.url()
         )
 
-        if settings.S3:
-            upload_document_to_s3(
-                doc.doc_ep
-            )
-
-        if settings.OCR:
-            Document.ocr_async(
-                document=doc,
-                page_count=page_count,
-                lang=lang
-            )
+        DocumentImporter.ocr_document(
+            document=doc,
+            page_count=page_count,
+            lang=lang
+        )
 
         # upload only one file at time.
         # after each upload return a json object with

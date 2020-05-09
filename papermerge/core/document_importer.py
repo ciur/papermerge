@@ -77,7 +77,7 @@ class DocumentImporter:
             doc_url=doc.doc_ep.url(),
         )
 
-        self.ocr_document(
+        DocumentImporter.ocr_document(
             document=doc,
             page_count=page_count,
             lang=self.user_ocr_language,
@@ -94,8 +94,9 @@ class DocumentImporter:
 
         return doc
 
+    @classmethod
     def ocr_document(
-        self,
+        cls,
         document,
         page_count,
         lang,
