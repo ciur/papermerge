@@ -14,7 +14,6 @@ from django.http import (
 from django.conf import settings
 from django import views
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import gettext as _
 
 from pmworker.storage import (
     upload_document_to_s3,
@@ -275,14 +274,13 @@ def create_folder(request):
 
 class DocumentsUpload(views.View):
     def post(self, request):
-
         files = request.FILES.getlist('file')
         if not files:
             logger.warning(
                 "POST request.FILES is empty. Forgot adding file?"
             )
             return HttpResponseBadRequest(
-                _("Missing input file")
+                "Missing input file"
             )
 
         if len(files) > 1:
