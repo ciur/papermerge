@@ -30,5 +30,6 @@ def import_documents(directory):
     for file, mtime in files_old_to_new:
         if mtime == os.path.getmtime(file):
             # File has not been modified and can be consumed
+            logger.info(f"Importing file {file}...")
             imp = DocumentImporter(file)
             imp.import_file()

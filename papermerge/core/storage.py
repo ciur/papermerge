@@ -1,6 +1,4 @@
 import os
-import pwd
-import grp
 import logging
 import shutil
 from django.conf import settings

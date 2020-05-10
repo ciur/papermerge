@@ -70,13 +70,12 @@ class DocumentImporter:
             page_count=page_count
         )
         logger.debug(
-            f"Uploading file {self.filepath} to {doc.doc_ep.url()}"
+            f"Uploading file {self.filepath} to {doc.path.url()}"
         )
         copy2doc_url(
             src_file_path=self.filepath,
-            doc_url=doc.doc_ep.url(),
+            dst_file_path=doc.path.url(),
         )
-
         DocumentImporter.ocr_document(
             document=doc,
             page_count=page_count,
