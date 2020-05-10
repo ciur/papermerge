@@ -11,7 +11,6 @@ from django.http import (
     HttpResponseForbidden,
     Http404
 )
-from django.conf import settings
 from django import views
 from django.contrib.auth.decorators import login_required
 
@@ -19,7 +18,7 @@ from pmworker.pdfinfo import get_pagecount
 from pmworker.step import Step
 from pmworker.shortcuts import extract_img
 
-from papermerge.core.storage import copy2doc_url
+from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
 
 from papermerge.core.models import (
@@ -317,9 +316,9 @@ class DocumentsUpload(views.View):
             "uploading to {}".format(doc.path.url())
         )
 
-        copy2doc_url(
-            src_file_path=f.temporary_file_path(),
-            dst_file_path=doc.path.url()
+        default_storage.copy_doc(
+            src=f.temporary_file_path(),
+            dst=doc.path.url()
         )
 
         for page_num in range(1, page_count + 1):

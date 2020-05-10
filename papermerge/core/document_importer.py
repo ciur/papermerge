@@ -4,7 +4,7 @@ import logging
 from pmworker.pdfinfo import get_pagecount
 from papermerge.core.models import (User, Document, Folder)
 from papermerge.core.utils import get_superuser
-from papermerge.core.storage import copy2doc_url
+from papermerge.core.storage import default_storage
 from papermerge.core.ocr.page import ocr_page
 
 logger = logging.getLogger(__name__)
@@ -72,9 +72,9 @@ class DocumentImporter:
         logger.debug(
             f"Uploading file {self.filepath} to {doc.path.url()}"
         )
-        copy2doc_url(
-            src_file_path=self.filepath,
-            dst_file_path=doc.path.url(),
+        default_storage.copy_doc(
+            src=self.filepath,
+            dst=doc.path.url(),
         )
         DocumentImporter.ocr_document(
             document=doc,
