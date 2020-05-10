@@ -390,23 +390,28 @@ def hocr(request, id, step=None, page="1"):
     doc_path = doc.path
 
     if request.user.has_perm(Access.PERM_READ, doc):
-        if not os.path.exists(doc_path.url()):
+        # document absolute path
+        doc_abs_path = default_storage.abspath(doc_path.url())
+        if not os.path.exists(
+            doc_abs_path
+        ):
             raise Http404("HOCR data not yet ready.")
 
-        page_count = get_pagecount(doc_path.url())
+        page_count = get_pagecount(doc_abs_path)
         if page > page_count or page < 0:
             raise Http404("Page does not exists")
 
         page_path = doc.page_paths[page]
+        hocr_abs_path = default_storage.abspath(page_path.hocr_url())
 
-        logger.debug(f"Extract words from {page_path.hocr_url()}")
+        logger.debug(f"Extract words from {hocr_abs_path}")
 
-        if not os.path.exists(page_path.hocr_url()):
+        if not os.path.exists(hocr_abs_path):
             raise Http404("HOCR data not yet ready.")
 
         # At this point local HOCR data should be available.
         hocr = Hocr(
-            hocr_file_path=page_path.hocr_url()
+            hocr_file_path=hocr_abs_path
         )
 
         return HttpResponse(
@@ -433,10 +438,10 @@ def preview(request, id, step=None, page="1"):
             page_num=page,
             step=Step(step),
         )
-        img_abs_path = os.path.join(
-            settings.MEDIA_ROOT,
+        img_abs_path = default_storage.abspath(
             page_path.img_url()
         )
+
         if not os.path.exists(img_abs_path):
             logger.debug(
                 f"Preview image {img_abs_path} does not exists. Generating..."

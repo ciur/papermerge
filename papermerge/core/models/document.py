@@ -18,6 +18,8 @@ from pmworker import pdftk
 from papermerge.core import mixins
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.models.folder import Folder
+from papermerge.core.storage import default_storage
+
 
 logger = logging.getLogger(__name__)
 
@@ -508,6 +510,12 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return False
 
     @property
+    def absfilepath(self):
+        return default_storage.abspath(
+            self.path.url()
+        )
+
+    @property
     def path(self):
         version = self.version
         if not isinstance(version, int):
@@ -539,7 +547,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # doc.page_count might be wrong because per
         # page logic was added just recently. So, let's use
         # this opportunity and correct it!
-        page_count = get_pagecount(self.path.url())
+        page_count = get_pagecount(self.absfilepath)
 
         if page_count != self.page_count:
             self.page_count = page_count
@@ -565,13 +573,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
             page_num=page_num,
             step=step,
             page_count=self.page_count
-        )
-
-    @property
-    def file_path(self):
-        return os.path.join(
-            self.dir_path,
-            self.file_name
         )
 
     def preview_path(self, page, size=None):
