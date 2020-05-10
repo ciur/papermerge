@@ -25,7 +25,7 @@ from papermerge.core.lib.hocr import Hocr
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
-from papermerge.core.document_importer import DocumentImporter
+from papermerge.core.tasks import ocr_page
 
 logger = logging.getLogger(__name__)
 
@@ -322,11 +322,14 @@ class DocumentsUpload(views.View):
             dst_file_path=doc.path.url()
         )
 
-        DocumentImporter.ocr_document(
-            document=doc,
-            page_count=page_count,
-            lang=lang
-        )
+        for page_num in range(1, page_count + 1):
+            ocr_page.apply_async(kwargs={
+                'user_id': user.id,
+                'document_id': doc.id,
+                'file_name': f.name,
+                'page_num': page_num,
+                'lang': lang}
+            )
 
         # upload only one file at time.
         # after each upload return a json object with

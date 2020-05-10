@@ -1,8 +1,8 @@
 import logging
 from celery import shared_task
 
-from papermerge.core.ocr.page import ocr_page as main_ocr_page
 
+from papermerge.core.ocr.page import ocr_page as main_ocr_page
 
 logger = logging.getLogger(__name__)
 
@@ -30,3 +30,4 @@ def ocr_page(
     )
 
     return True
+

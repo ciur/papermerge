@@ -20,5 +20,9 @@ LOGGING = {
             'handlers': ['mg-handler'],
             'level': 'DEBUG'
         },
+        'celery': {
+            'handlers': ['mg-handler'],
+            'level': 'INFO'
+        },
     },
 }
