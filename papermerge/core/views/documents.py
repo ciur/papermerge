@@ -4,6 +4,7 @@ import logging
 
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.conf import settings
 from django.http import (
     HttpResponse,
     HttpResponseRedirect,
@@ -15,8 +16,8 @@ from django import views
 from django.contrib.auth.decorators import login_required
 
 from pmworker.pdfinfo import get_pagecount
-from pmworker.step import Step
-from pmworker.shortcuts import extract_img
+from mglib.step import Step
+from mglib.shortcuts import extract_img
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
@@ -432,11 +433,20 @@ def preview(request, id, step=None, page="1"):
             page_num=page,
             step=Step(step),
         )
-        if not os.path.exists(page_path.img_url()):
-            extract_img(page_path)
+        img_abs_path = os.path.join(
+            settings.MEDIA_ROOT,
+            page_path.img_url()
+        )
+        if not os.path.exists(img_abs_path):
+            logger.debug(
+                f"Preview image {img_abs_path} does not exists. Generating..."
+            )
+            extract_img(
+                page_path, media_root=settings.MEDIA_ROOT
+            )
 
         try:
-            with open(page_path.img_url(), "rb") as f:
+            with open(img_abs_path, "rb") as f:
                 return HttpResponse(f.read(), content_type="image/jpeg")
         except IOError:
             raise

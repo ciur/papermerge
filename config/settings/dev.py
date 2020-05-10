@@ -20,5 +20,9 @@ LOGGING = {
             'handlers': ['mg-handler'],
             'level': 'DEBUG'
         },
+        'mglib': {
+            'handlers': ['mg-handler'],
+            'level': 'DEBUG'
+        },
     },
 }
