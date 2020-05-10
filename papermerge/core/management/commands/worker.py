@@ -1,6 +1,6 @@
 import logging
 from django.core.management.base import BaseCommand
-from celery.apps.worker import Worker
+from celery.apps.worker import Worker as CeleryWorker
 from celery import Celery
 
 logger = logging.getLogger(__name__)
@@ -22,9 +22,9 @@ class Command(BaseCommand):
         # Load task modules from all registered Django app configs.
         celery_app.autodiscover_tasks()
 
-        worker = Worker(
+        celery_worker = CeleryWorker(
             hostname="localhost",
             app=celery_app,
         )
-        worker.start()
+        celery_worker.start()
 
