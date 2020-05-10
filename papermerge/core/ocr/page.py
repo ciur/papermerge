@@ -1,6 +1,7 @@
 import logging
 import time
 
+from django.conf import settings
 from papermerge.core.storage import default_storage
 from pmworker import mime
 from pmworker.pdfinfo import get_pagecount
@@ -8,8 +9,8 @@ from mglib.path import (
     DocumentPath,
     PagePath,
 )
-from pmworker.step import (Step, Steps)
-from pmworker.shortcuts import (
+from mglib.step import (Step, Steps)
+from mglib.shortcuts import (
     extract_img,
     extract_hocr,
     extract_txt
@@ -37,21 +38,27 @@ def ocr_page_pdf(
             page_count=page_count
         )
         extract_img(
-            default_storage.abspath(page_url)
+            page_url,
+            media_root=settings.MEDIA_ROOT
         )
         extract_txt(
-            default_storage.abspath(page_url),
-            lang=lang
+            page_url,
+            lang=lang,
+            media_root=settings.MEDIA_ROOT
         )
 
         for step in Steps():
             page_url.step = step
-            extract_img(default_storage.abspath(page_url))
+            extract_img(
+                page_url,
+                media_root=settings.MEDIA_ROOT
+            )
             # tesseract unterhalt-1.jpg page-1 -l deu hocr
             if not step.is_thumbnail:
                 extract_hocr(
-                    default_storage.abspath(page_url),
-                    lang=lang
+                    page_url,
+                    lang=lang,
+                    media_root=settings.MEDIA_ROOT
                 )
 
     return page_url
