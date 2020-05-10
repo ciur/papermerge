@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        celery_app = Celery()
+        celery_app = Celery('papermerge')
         celery_app.config_from_object(
             'django.conf:settings', namespace='CELERY'
         )
@@ -25,6 +25,7 @@ class Command(BaseCommand):
 
         worker = Worker(
             hostname="localhost",
-            app=celery_app
+            app=celery_app,
+            queues=['papermerge']
         )
         worker.start()
