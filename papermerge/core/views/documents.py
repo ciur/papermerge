@@ -384,32 +384,26 @@ def hocr(request, id, step=None, page="1"):
     except Document.DoesNotExist:
         raise Http404("Document does not exists")
 
-    doc_ep = doc.doc_ep
+    doc_path = doc.path
 
     if request.user.has_perm(Access.PERM_READ, doc):
-        if not doc_ep.exists():
-            download(doc_ep)
+        if not os.path.exists(doc_path.url()):
+            raise Http404("HOCR data not yet ready.")
 
-        page_count = get_pagecount(doc_ep.url())
+        page_count = get_pagecount(doc_path.url())
         if page > page_count or page < 0:
             raise Http404("Page does not exists")
 
-        page_ep = doc.page_eps[page]
+        page_path = doc.page_paths[page]
 
-        logger.debug(f"Extract words from {page_ep.hocr_url()}")
+        logger.debug(f"Extract words from {page_path.hocr_url()}")
 
-        if not page_ep.hocr_exists():
-            # check if HOCR data exists on S3
-            if settings.S3 and page_ep.hocr_exists(ep=Endpoint.S3):
-                # ok, it should be able to download it.
-                download_hocr(page_ep)
-            else:
-                # normal scenario, HOCR is not yet ready
-                raise Http404("HOCR data not yet ready.")
+        if not os.path.exists(page_path.hocr_url()):
+            raise Http404("HOCR data not yet ready.")
 
         # At this point local HOCR data should be available.
         hocr = Hocr(
-            hocr_file_path=page_ep.hocr_url()
+            hocr_file_path=page_path.hocr_url()
         )
 
         return HttpResponse(

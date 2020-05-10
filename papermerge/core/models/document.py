@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from mglib.path import (DocumentPath, PagePath)
+from mglib import step
 from mglib import ocrmigrate
 from pmworker.pdfinfo import get_pagecount
 from pmworker import pdftk
@@ -522,7 +523,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return result
 
     @property
-    def page_eps(self):
+    def page_paths(self):
         """
         Enables document instance to get quickly page
         endpoints:
@@ -538,20 +539,20 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # doc.page_count might be wrong because per
         # page logic was added just recently. So, let's use
         # this opportunity and correct it!
-        page_count = get_pagecount(self.doc_ep.url())
+        page_count = get_pagecount(self.path.url())
 
         if page_count != self.page_count:
             self.page_count = page_count
             self.save()
 
         for page_num in range(1, page_count + 1):
-            ep = endpoint.PageEp(
-                document_ep=self.doc_ep,
+            page_path = PagePath(
+                document_path=self.path,
                 page_num=page_num,
                 step=step.Step(1),
                 page_count=self.page_count
             )
-            results.append(ep)
+            results.append(page_path)
 
         return results
 
