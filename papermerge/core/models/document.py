@@ -8,11 +8,11 @@ from django.urls import reverse
 
 from django.utils.translation import ugettext_lazy as _
 
-from mglib.path import (DocumentPath, PagePath)
+from mglib.path import DocumentPath
+from mglib import ocrmigrate
 from pmworker.pdfinfo import get_pagecount
-
 from pmworker import pdftk
-from pmworker import ocrmigrate
+
 
 from papermerge.core import mixins
 from papermerge.core.models.node import BaseTreeNode

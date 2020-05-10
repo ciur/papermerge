@@ -15,17 +15,11 @@ from django.conf import settings
 from django import views
 from django.contrib.auth.decorators import login_required
 
-from pmworker.storage import (
-    upload_document_to_s3,
-    download,
-    download_hocr,
-    copy2doc_url
-)
-
 from pmworker.pdfinfo import get_pagecount
 from pmworker.step import Step
 from pmworker.shortcuts import extract_img
 
+from papermerge.core.storage import copy2doc_url
 from papermerge.core.lib.hocr import Hocr
 
 from papermerge.core.models import (
@@ -325,7 +319,7 @@ class DocumentsUpload(views.View):
 
         copy2doc_url(
             src_file_path=f.temporary_file_path(),
-            doc_url=doc.path.url()
+            dst_file_path=doc.path.url()
         )
 
         DocumentImporter.ocr_document(

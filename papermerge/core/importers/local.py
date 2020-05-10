@@ -8,7 +8,7 @@ from papermerge.core.document_importer import DocumentImporter
 logger = logging.getLogger(__name__)
 
 
-def import_documents(self, directory):
+def import_documents(directory):
     files = []
     for entry in os.scandir(directory):
         if entry.is_file():

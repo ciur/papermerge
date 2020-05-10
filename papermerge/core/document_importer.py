@@ -5,7 +5,7 @@ from pmworker.pdfinfo import get_pagecount
 from papermerge.core.models import (User, Document, Folder)
 from papermerge.core.utils import get_superuser
 from papermerge.core.ocr import ocr_page
-from pmworker.storage import copy2doc_url
+from papermerge.core.storage import copy2doc_url
 
 logger = logging.getLogger(__name__)
 
