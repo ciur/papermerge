@@ -11,6 +11,12 @@ def copy2doc_url(
     src_file_path,
     dst_file_path
 ):
+    if not os.path.isabs(dst_file_path):
+        dst_file_path = os.path.join(
+            settings.MEDIA_ROOT,
+            dst_file_path
+        )
+
     dirname = os.path.dirname(dst_file_path)
 
     if not os.path.exists(
