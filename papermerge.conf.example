@@ -76,7 +76,6 @@ PAPERMERGE_EMAIL_SECRET=""
 # By default, celery will use local directory as message broker.
 # This directory will be created automatically when you start papermerge.
 PAPERMERGE_TASK_QUEUE_DIR="/var/tmp/papermerge/queue"
-PAPERMERGE_TASK_QUEUE_NAME="papermerge"
 
 
 #   Storage
