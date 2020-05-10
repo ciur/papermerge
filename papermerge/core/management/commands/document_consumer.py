@@ -1,5 +1,6 @@
 import logging
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from celery.apps.worker import Worker
 from celery import Celery
 
@@ -26,6 +27,6 @@ class Command(BaseCommand):
         worker = Worker(
             hostname="localhost",
             app=celery_app,
-            queues=['papermerge']
+            queues=[settings.PAPERMERGE_TASK_QUEUE_NAME]
         )
         worker.start()

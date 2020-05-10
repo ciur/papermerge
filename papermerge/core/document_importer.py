@@ -1,6 +1,8 @@
 import os
 import logging
 
+from django.conf import settings
+
 from pmworker.pdfinfo import get_pagecount
 from papermerge.core.models import (User, Document, Folder)
 from papermerge.core.utils import get_superuser
@@ -113,6 +115,6 @@ class DocumentImporter:
                 'file_name': file_name,
                 'page_num': page_num,
                 'lang': lang},
-                queue='papermerge'
+                queue=settings.PAPERMERGE_TASK_QUEUE_NAME
             )
             document.save()

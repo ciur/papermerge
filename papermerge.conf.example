@@ -72,10 +72,11 @@ PAPERMERGE_EMAIL_SECRET=""
 #   Worker
 ########################
 
-# These settings are used by built-in asyncronious task (celery)
-# By default, celery will use local directory as message broker
-# This directory will be created automatically when you start papermerge
+# These settings are used by built-in asyncronious task (celery).
+# By default, celery will use local directory as message broker.
+# This directory will be created automatically when you start papermerge.
 PAPERMERGE_TASK_QUEUE_DIR="/var/tmp/papermerge/queue"
+PAPERMERGE_TASK_QUEUE_NAME="papermerge"
 
 
 #   Storage
