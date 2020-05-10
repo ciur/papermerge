@@ -432,20 +432,15 @@ def preview(request, id, step=None, page="1"):
         raise Http404("Document does not exists")
 
     if request.user.has_perm(Access.PERM_READ, doc):
-        doc_ep = doc.doc_ep
-
-        if not doc_ep.exists():
-            download(doc_ep)
-
-        page_ep = doc.get_page_ep(
+        page_path = doc.get_page_path(
             page_num=page,
             step=Step(step),
         )
-        if not page_ep.img_exists():
-            extract_img(page_ep)
+        if not os.path.exists(page_path.img_url()):
+            extract_img(page_path)
 
         try:
-            with open(page_ep.img_url(), "rb") as f:
+            with open(page_path.img_url(), "rb") as f:
                 return HttpResponse(f.read(), content_type="image/jpeg")
         except IOError:
             raise

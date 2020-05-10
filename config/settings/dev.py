@@ -16,5 +16,9 @@ LOGGING = {
             'handlers': ['mg-handler'],
             'level': 'DEBUG'
         },
+        'pmworker': {
+            'handlers': ['mg-handler'],
+            'level': 'DEBUG'
+        },
     },
 }

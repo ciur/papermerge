@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from django.utils.translation import ugettext_lazy as _
 
-from mglib.path import DocumentPath
+from mglib.path import (DocumentPath, PagePath)
 from mglib import ocrmigrate
 from pmworker.pdfinfo import get_pagecount
 from pmworker import pdftk
@@ -555,12 +555,12 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         return results
 
-    def get_page_ep(self, page_num, step):
+    def get_page_path(self, page_num, step):
         """
         For Step(1) shortcut, use doc_instance.page_eps property.
         """
-        return endpoint.PageEp(
-            document_ep=self.doc_ep,
+        return PagePath(
+            document_path=self.path,
             page_num=page_num,
             step=step,
             page_count=self.page_count
