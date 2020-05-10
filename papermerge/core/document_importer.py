@@ -4,7 +4,7 @@ import logging
 from pmworker.pdfinfo import get_pagecount
 from papermerge.core.models import (User, Document, Folder)
 from papermerge.core.utils import get_superuser
-from papermerge.core.ocr import ocr_page
+from papermerge.core.tasks import ocr_page
 from papermerge.core.storage import copy2doc_url
 
 logger = logging.getLogger(__name__)
@@ -105,12 +105,14 @@ class DocumentImporter:
         document_id = document.id
         file_name = document.file_name
         logger.debug(f"Document {document_id} has {page_count} pages")
+
         for page_num in range(1, page_count + 1):
-            ocr_page(
-                user_id=user_id,
-                document_id=document_id,
-                file_name=file_name,
-                page_num=page_num,
-                lang=lang
+            ocr_page.apply_async(kwargs={
+                'user_id': user_id,
+                'document_id': document_id,
+                'file_name': file_name,
+                'page_num': page_num,
+                'lang': lang},
+                queue='papermerge'
             )
             document.save()

@@ -262,8 +262,21 @@ UPLOAD_FILE_SIZE_MAX = 12 * 1024 * 1024
 UPLOAD_FILE_SIZE_MIN = 1
 UPLOAD_ALLOWED_MIMETYPES = ['application/pdf']
 
+PAPERMERGE_TASK_QUEUE_DIR = os.getenv("PAPERMERGE_TASK_QUEUE_DIR")
 
-# Tell celery to use your new serializer:
+if not os.path.exists(
+    PAPERMERGE_TASK_QUEUE_DIR
+):
+    os.makedirs(
+        PAPERMERGE_TASK_QUEUE_DIR, exist_ok=True
+    )
+
+CELERY_BROKER_URL = "filesystem://"
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'data_folder_in': PAPERMERGE_TASK_QUEUE_DIR,
+    'data_folder_out': PAPERMERGE_TASK_QUEUE_DIR,
+}
+
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -272,7 +285,7 @@ CELERY_TASK_DEFAULT_EXCHANGE = 'papermerge'
 CELERY_TASK_DEFAULT_EXCHANGE_TYPE = 'direct'
 CELERY_TASK_DEFAULT_ROUTING_KEY = 'papermerge'
 
-CELERY_INCLUDE = 'pmworker.tasks'
+CELERY_INCLUDE = 'papermerge.core.tasks'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TASK_RESULT_EXPIRES = 86400
 

@@ -42,6 +42,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         directory = options.get('directory')
         loop_time = options.get('loop_time')
+
+        logger.info(f"Watching for files in {directory}...")
+
         try:
             self.main_loop(directory, loop_time)
         except KeyboardInterrupt:

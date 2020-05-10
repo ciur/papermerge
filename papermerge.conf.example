@@ -5,7 +5,7 @@
 # Add extra configurations (plugin configs) to /etc/papermerge.d/* folder
 
 
-####    Paths & Folders
+#   Paths & Folders
 #######################
 
 # This where your documents should go to be imported. Make sure that it exists
@@ -38,7 +38,7 @@ PAPERMERGE_STATIC_URL="/static/"
 
 
 
-####    Document Importer
+#   Document Importer
 #########################
 
 # Configuration for ./manage.py document_importer command
@@ -69,7 +69,16 @@ PAPERMERGE_IMPORT_MAIL_PASS=""
 # Any email sent to the target account that does not contain this text will be ignored.
 PAPERMERGE_EMAIL_SECRET=""
 
-####    Storage
+#   Worker
+########################
+
+# These settings are used by built-in asyncronious task (celery)
+# By default, celery will use local directory as message broker
+# This directory will be created automatically when you start papermerge
+PAPERMERGE_TASK_QUEUE_DIR="/var/tmp/papermerge/queue"
+
+
+#   Storage
 ###############
 
 PAPERMERGE_DEFAULT_FILE_STORAGE="mglib.storage.FileSystemStorage"
