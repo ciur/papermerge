@@ -475,32 +475,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         return doc
 
-    def convert_to_pdf(self):
-        """
-        If attached file is tiff, then convert it to PDF
-        """
-        if self.is_tiff:
-            path_base, ext = os.path.splitext(self.file_path)
-            name_base, ext = os.path.splitext(self.file_name)
-            new_file_name = "{}.pdf".format(name_base)
-            new_file_path = "{}.pdf".format(path_base)
-            try:
-                subprocess.run(
-                    [
-                        "/usr/bin/convert",
-                        self.file_path,
-                        new_file_path,
-                    ],
-                    check=True
-                )
-            except Exception as e:
-                print(e.stderr)
-                raise
-
-        self.file_name = new_file_name
-        self.title = new_file_name
-        self.save()
-
     @property
     def is_tiff(self):
         base, ext = os.path.splitext(self.file_path)
