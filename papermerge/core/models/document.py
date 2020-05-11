@@ -1,4 +1,3 @@
-import subprocess
 import os
 import logging
 
@@ -17,7 +16,6 @@ from pmworker import pdftk
 
 from papermerge.core import mixins
 from papermerge.core.models.node import BaseTreeNode
-from papermerge.core.models.folder import Folder
 from papermerge.core.storage import default_storage
 
 

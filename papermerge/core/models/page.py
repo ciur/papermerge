@@ -1,7 +1,11 @@
+import logging
 from django.db import models
 from django.contrib.postgres.search import SearchVectorField
 
 from papermerge.core.models import Document
+from mglib.path import PagePath
+
+logger = logging.getLogger(__name__)
 
 
 class Page(models.Model):
