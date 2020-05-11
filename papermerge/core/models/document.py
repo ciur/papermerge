@@ -476,14 +476,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return doc
 
     @property
-    def is_tiff(self):
-        base, ext = os.path.splitext(self.file_path)
-        if ext and ext.lower() in (".tiff",):
-            return True
-
-        return False
-
-    @property
     def absfilepath(self):
         return default_storage.abspath(
             self.path.url()
@@ -580,10 +572,3 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     def name(self):
         root, ext = os.path.splitext(self.file_name)
         return root
-
-    def move_to(self, folder_id):
-
-        folder = Folder.objects.get(id=folder_id)
-        self.folder = folder
-        self.pinned = True
-        self.save()
