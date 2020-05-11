@@ -1,6 +1,7 @@
 Requirements
 ============
 
+
 Papermerge depends on following software:
 
 * `Python <https://www.python.org/>`_ >= 3.8.0
@@ -37,6 +38,12 @@ languages.
 
 Database
 #########
+
+
+.. warning::
+
+    Starting with version 1.3.0 (which is now in development), PostgreSQL
+    won't be a strict requirement. Instead, the full text search part via PostgreSQL will be available as optional plugin.
 
 One of Papermerge's core philosophies is "Find Any Document". PostgreSQL
 database comes with `Full Text Search Support (FTS) <https://www.postgresql.org/docs/current/textsearch.html>`_ 
