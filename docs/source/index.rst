@@ -23,6 +23,7 @@ or Google Drive.
    page_management
    settings
    developers_guide/index
+   changelog
 
 
 
