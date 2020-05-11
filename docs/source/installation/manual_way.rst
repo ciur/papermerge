@@ -1,6 +1,12 @@
 Manual Way
 ************
 
+.. warning::
+
+    Starting with version 1.3.0 (which is now in development), manual installation will be simplified a lot. The installation process be as easy as 1. pip install papermerge 2. ./manage.py migrate 3. ./manage.py createsuperuser 4. ./manage.py runserver
+    Also, in version 1.3.0 the PostgreSQL part will be optional i.e. you will be able to use Papermerge with other databases we well e.g. sqlite.
+
+
 Papermerge has two parts:
  
     * :ref:`Web application <design>`

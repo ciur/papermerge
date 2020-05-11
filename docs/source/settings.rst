@@ -1,6 +1,11 @@
 Settings
 =========
 
+.. warning::
+
+    Starting with version 1.3.0 configuration process will be simplified
+    and parts of this documentation page will become absolete.
+
 These are configurations settings for Papermerge - Web App. Configuration
 settings are used in same manner as `for any Django based project
 <https://docs.djangoproject.com/en/3.0/topics/settings/>`_.
