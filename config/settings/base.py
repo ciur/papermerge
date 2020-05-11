@@ -6,8 +6,18 @@ from dotenv import load_dotenv
 
 from mglib.utils import get_bool
 
-if os.path.exists("/etc/papermerge.conf"):
-    load_dotenv("/etc/papermerge.conf")
+DEFAULT_CONFIG_PLACES = [
+    "/etc/papermerge.conf",
+    "papermerge.conf"
+]
+
+for config_file in DEFAULT_CONFIG_PLACES:
+    if os.path.exists(config_file):
+        # if one configuration file was found
+        # load it
+        load_dotenv(config_file)
+        # and stop looking for ther configs.
+        break
 
 # At this point, parsed key/value from the .env file is now present as system
 # environment variable and they can be conveniently accessed via os.getenv()

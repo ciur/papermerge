@@ -1,4 +1,5 @@
 config/settings/development.py
+papermerge.conf
 env_dev.sh
 env_test.sh
 run/
