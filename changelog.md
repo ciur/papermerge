@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for OCR on all languages
 - Refactoring. Webpack's outputs moved into boss/static directory. This change simplifies initial project setup (no need to clone yet another repo)
-- Refactoring. Make Papermerge similar to [paperless](https://github.com/the-paperless-project/paperless/). I checked paperless project and I fell in love with its simplicity in setup and usage. 
+- Refactoring. Make Papermerge similar to [paperless](https://github.com/the-paperless-project/paperless/). I checked paperless project and I fell in love with its simplicity in setup and usage.
+- Read configurations from /etc/papermerge.conf or ./papermerge.conf
 - Endpoint moved from pmworker to mglib
 
 
