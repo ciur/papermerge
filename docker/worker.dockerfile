@@ -25,7 +25,7 @@ ENV PYTHONUNBUFFERED 1
 
 ENV CELERY_CONFIG_MODULE=config
 
-RUN git clone --depth=1 https://github.com/ciur/papermerge-worker --branch v1.1.0 /opt/papermerge-worker
+RUN git clone --depth=1 https://github.com/ciur/papermerge-worker --branch v1.2.0 /opt/papermerge-worker
 
 WORKDIR /opt/papermerge-worker
 RUN pip3 install -r requirements.freeze

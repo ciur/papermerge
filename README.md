@@ -53,7 +53,7 @@ You can try it with just 3 simple commands (you need git and docker-compose):
     docker-compose up -d
 
 Docker compose command will pull all necessary docker images and start
-papermerge (stable 1.1 version) on http://localhost:8000. Access it with
+papermerge (stable 1.2 version) on http://localhost:8000. Access it with
 default username/password: admin/admin.
 
 ### Installation
