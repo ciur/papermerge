@@ -170,7 +170,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         """
         self.page_set.all().delete()
         self.page_count = get_pagecount(
-            self.doc_ep.url()
+            default_storage.abspath(self.path.url())
         )
         self.save()
         self.create_pages()
