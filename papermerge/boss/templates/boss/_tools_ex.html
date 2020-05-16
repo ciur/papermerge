@@ -24,10 +24,10 @@
           <li class="dropdown-submenu-left dropdown-submenu">
             <a class="dropdown-item dropdown-toggle" href="#">{% trans "Title" %}</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% boss_order_items object %}?o=1">
+              <li><a class="dropdown-item sort asc title" href="{% boss_order_items object %}?o=1">
                 {% trans "Asc" %}
               </a></li>
-              <li><a class="dropdown-item" href="{% boss_order_items object %}?o=-1">
+              <li><a class="dropdown-item sort desc title" href="{% boss_order_items object %}?o=-1">
                 {% trans "Desc" %}
               </a></li>
             </ul>
@@ -36,10 +36,10 @@
             {% trans "Date" %}
           </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% boss_order_items object %}?o=2">
+              <li><a class="dropdown-item sort asc date" href="{% boss_order_items object %}?o=2">
                 {% trans "Asc" %}
               </a></li>
-              <li><a class="dropdown-item" href="{% boss_order_items object %}?o=-2">
+              <li><a class="dropdown-item sort desc date" href="{% boss_order_items object %}?o=-2">
                 {% trans "Desc" %}
             </a></li>
             </ul>
@@ -48,10 +48,10 @@
             {% trans "Type" %}
           </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% boss_order_items object %}?o=3">
+              <li><a class="dropdown-item sort asc type" href="{% boss_order_items object %}?o=3">
                 {% trans "Asc" %}
               </a></li>
-              <li><a class="dropdown-item" href="{% boss_order_items object %}?o=-3">
+              <li><a class="dropdown-item sort desc type" href="{% boss_order_items object %}?o=-3">
                 {% trans "Desc" %}
               </a></li>
             </ul>

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactoring. Make Papermerge similar to [paperless](https://github.com/the-paperless-project/paperless/). I checked paperless project and I fell in love with its simplicity in setup and usage.
 - Read configurations from /etc/papermerge.conf or ./papermerge.conf
 - Endpoint moved from pmworker to mglib
+- Save last sorting mode in file browser - via save_last_sort cookie
 
 
 ## [1.2.0] - 10 Apr 2020

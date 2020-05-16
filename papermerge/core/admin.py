@@ -3,8 +3,7 @@ from datetime import timedelta
 
 from django.contrib import admin
 from django.contrib import messages
-from django.db.models import Q, F
-from django.db import models as django_models
+from django.db.models import Q
 from django.contrib.admin import options
 from django.forms import inlineformset_factory
 from django.utils.encoding import force_text
@@ -16,17 +15,10 @@ from django.contrib.admin import SimpleListFilter
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
-
+from django.contrib.admin.views.main import ORDER_VAR
 
 from django.urls import reverse
 from django.conf import settings
-
-from django.contrib.postgres.search import (
-    SearchVector,
-    SearchQuery,
-    SearchRank,
-    Func
-)
 
 from knox.models import AuthToken
 
@@ -35,7 +27,6 @@ from papermerge.boss import widgets as boss_widgets
 from papermerge.boss.views.main import ChangeListBoss
 
 from papermerge.boss import options as bs_options
-from papermerge.core.utils import get_tenant_name
 # from django.contrib import admin
 
 from polymorphic_tree.admin import (
@@ -354,6 +345,35 @@ class TreeNodeParentAdmin(
         'document__title',
         'document__text'
     ]
+
+    def get_ordering(self, request):
+        """
+        if ordering param is not present, read last_saved_order
+        cookie and return fields accordingly.
+        """
+        local_map = {
+            "1": "title",
+            "-1": "-title",
+            "2": "created_at",
+            "-2": "-created_at",
+            "3": "polymorphic_ctype",
+            "-3": "-polymorphic_ctype",
+        }
+        if request.method != 'GET':
+            return self.ordering
+
+        if request.GET.get(ORDER_VAR, False):
+            return self.ordering
+
+        last_sort = request.COOKIES.get('save_last_sort', False)
+
+        if last_sort in local_map.keys():
+            # ordering must be a list
+            return ('-polymorphic_ctype', local_map[last_sort],)
+
+        return self.ordering
+
+
 
     def delete_selected_tree(self, modeladmin, request, queryset):
         """
