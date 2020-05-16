@@ -27,8 +27,8 @@ ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE config.settings.stage
 
 WORKDIR /opt
-RUN git clone https://github.com/ciur/papermerge -q --depth 1 --branch v1.2.1 /opt/papermerge \
- && git clone https://github.com/ciur/papermerge-js --depth 1 --branch v1.2.0 /opt/papermerge-js
+RUN git clone https://github.com/ciur/papermerge -q --depth 1 --branch v1.2.2 /opt/papermerge \
+ && git clone https://github.com/ciur/papermerge-js --depth 1 --branch v1.2.2 /opt/papermerge-js
 
 WORKDIR /opt/papermerge
 RUN pip3 install -r requirements.freeze

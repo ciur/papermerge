@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   app:
-    image: eugenci/papermerge:1.2.x
+    image: eugenci/papermerge:1.2.2
     container_name: papermerge_service
     command: python3 /opt/papermerge/manage.py runserver 0.0.0.0:8000
     ports:
