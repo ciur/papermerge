@@ -9,9 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from mglib.path import (DocumentPath, PagePath)
 from mglib import step
-from mglib import ocrmigrate
-from pmworker.pdfinfo import get_pagecount
-from pmworker import pdftk
+from mglib.pdfinfo import get_pagecount
+from mglib import pdftk
 
 
 from papermerge.core import mixins
@@ -115,45 +114,18 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return ext
 
     def reorder_pages(self, new_order):
-        """
-        new_order is a list of following format:
 
-            [
-                {'page_num': 2, page_order: 1},
-                {'page_num': 1, page_order: 2},
-                {'page_num': 3, page_order: 3},
-                {'page_num': 4, page_order: 4},
-            ]
-        Example above means that in current document of 4 pages,
-        first page was swapped with second one.
-        page_num    = older page order
-        page_order  = current page order
-        So in human language, each hash is read:
-            <page_num> now should be <page_order>
-        """
         if not isinstance(new_order, list):
             logger.error("Expecting list argument")
             return
 
-        src_ep = self.doc_ep
-        # reorder pages
-        new_version = pdftk.reorder_pages(
-            self.doc_ep,
-            new_order
+        new_version = default_storage.reorder_pages(
+            doc_path=self.path,
+            new_order=new_order
         )
-
         self.version = new_version
         self.save()
         self.recreate_pages()
-        # Move OCR related text to newer versio
-        # so that we can skip OCRing of the document
-        migr = ocrmigrate.OcrMigrate(
-            src_ep=src_ep,
-            dst_ep=self.doc_ep  # endpoint with inc version
-        )
-        migr.migrate_reorder(
-            new_order=new_order
-        )
 
     def delete_pages(self, page_numbers):
         """
