@@ -279,7 +279,11 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 return
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
             data_list.append(
-                {'doc_path': doc.path, 'page_nums': doc_pages[doc_id]}
+                {
+                    'src': default_storage.abspath(doc.path),
+                    'doc_path': doc.path,
+                    'page_nums': doc_pages[doc_id]
+                }
             )
 
         # returns new document version

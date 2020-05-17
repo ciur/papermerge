@@ -89,7 +89,7 @@ def paste_pages(request):
         doc_pages=request.pages.all()
     )
 
-    clipboard.reset()
+    request.pages.clear()
 
     if parent_id:
         return redirect(
