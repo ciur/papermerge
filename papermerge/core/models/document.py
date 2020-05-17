@@ -240,7 +240,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # 3. for each document with ids in doc_pages.keys() (DOC):
         #     a. copy pages data from DOC to NEWDOC
         #     b. deletes pages from DOC (pages mentioned in doc_page[key] list)
-
         new_page_count = sum(
             [
                 len(pages) for pages in doc_pages.values()
