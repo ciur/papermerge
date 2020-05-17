@@ -85,7 +85,10 @@ class PagesPasteView(APIView):
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        document.paste(
+        Document.paste_pages(
+            user=request.user,
+            parent_id=document.parent,
+            dst_document=document,
             doc_pages=request.pages.all(),
             before=before,
             after=after

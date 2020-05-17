@@ -218,94 +218,14 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         return len(text.strip()) != 0
 
-    def paste(
-        self,
-        doc_pages,
-        after=False,
-        before=False
-    ):
-        """
-        Paste pages in current document.
-        """
-        new_page_count = sum(
-            [
-                len(pages) for pages in doc_pages.values()
-            ]
-        )
-
-        if new_page_count == 0:
-            logger.warning("No pages to paste. Exiting.")
-            return
-
-        # for each document where are pages to paste
-        doc_list = []
-        doc_ep_list = []
-        old_version = self.version
-
-        for doc_id in doc_pages.keys():
-            try:
-                doc = Document.objects.get(id=doc_id)
-            except Document.DoesNotExist:
-                logger.warning(
-                    f"While pasting, doc_id={doc_id} was not found"
-                )
-                return
-            doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
-            doc_ep_list.append(
-                {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
-            )
-
-        # returns new document version
-        new_version = pdftk.paste_pages(
-            dest_doc_ep=self.doc_ep,
-            src_doc_ep_list=doc_ep_list,
-            dest_doc_is_new=False,
-            after_page_number=after,
-            before_page_number=before
-        )
-
-        if new_version == self.version:
-            raise Exception("Expecting version to be incremented")
-
-        self.version = new_version
-        self.save()
-
-        # migrate document's own pages from previous
-        # version (this differs from pasting into newly
-        # created docs)
-        doc_ep_list.insert(
-            0,
-            {
-                'doc_ep': DocumentPath(
-                    user_id=self.user.id,
-                    document_id=self.id,
-                    version=old_version,
-                    file_name=self.file_name
-                ),
-                'page_nums': list(range(1, self.page_count + 1))
-            }
-        )
-
-        ocrmigrate.migrate_cutted_pages(
-            dest_ep=self.doc_ep,
-            src_doc_ep_list=doc_ep_list
-        )
-
-        # delete pages of source document (which where
-        # cutted and pasted into new doc)
-        for item in doc_list:
-            item['doc'].delete_pages(
-                page_numbers=item['page_nums']
-            )
-
-        # must be at the end
-        self.recreate_pages()
-
     @staticmethod
     def paste_pages(
         user,
         parent_id,
-        doc_pages
+        doc_pages,
+        dst_document=None,
+        after=False,
+        before=False
     ):
         # parent_node is an instance of BaseTreeNode
         # doc_pages is a dictionary of format:
@@ -333,19 +253,22 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
         # 1. Create new document
         # 2. Build new pages for newly created document
-        document = Document.create_document(
-            user=user,
-            parent_id=parent_id,
-            lang=user.preferences['ocr__OCR_Language'],
-            title="pasted.pdf",
-            size=0,  # will be updated later, after pdftk will create new doc
-            file_name="pasted.pdf",
-            page_count=new_page_count
-        )
+        dst_doc_is_new = False
+        if not dst_document:
+            dst_document = Document.create_document(
+                user=user,
+                parent_id=parent_id,
+                lang=user.preferences['ocr__OCR_Language'],
+                title="pasted.pdf",
+                size=0,  # updated later, after pdftk will create new doc
+                file_name="pasted.pdf",
+                page_count=new_page_count
+            )
+            dst_doc_is_new = True
 
         # for each document where are pages to paste
         doc_list = []
-        doc_ep_list = []
+        data_list = []
         for doc_id in doc_pages.keys():
             try:
                 doc = Document.objects.get(id=doc_id)
@@ -355,31 +278,26 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 )
                 return
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
-            doc_ep_list.append(
-                {'doc_ep': doc.doc_ep, 'page_nums': doc_pages[doc_id]}
+            data_list.append(
+                {'doc_path': doc.path, 'page_nums': doc_pages[doc_id]}
             )
 
         # returns new document version
-        new_version = pdftk.paste_pages(
-            dest_doc_ep=document.doc_ep,
-            src_doc_ep_list=doc_ep_list,
-            dest_doc_is_new=True,
-            after_page_number=-1,
-            before_page_number=-1
+        new_version = default_storage.paste_pages(
+            dest_doc_path=dst_document.path,
+            data_list=data_list,
+            dest_doc_is_new=dst_doc_is_new,
+            after_page_number=after,
+            before_page_number=before
         )
 
-        if new_version == document.version:
+        if new_version == dst_document.version:
             raise Exception("Expecting version to be incremented")
 
-        document.version = new_version
-        document.save()
+        dst_document.version = new_version
+        dst_document.save()
         # update pages model
-        document.recreate_pages()
-
-        ocrmigrate.migrate_cutted_pages(
-            dest_ep=document.doc_ep,
-            src_doc_ep_list=doc_ep_list
-        )
+        dst_document.recreate_pages()
 
         # delete pages of source document (which where
         # cutted and pasted into new doc)
