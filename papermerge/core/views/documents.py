@@ -469,10 +469,12 @@ def document_download(request, id):
 
     if doc.user.username == request.user.username:
         try:
-            file_handle = open(doc.doc_ep.url(), "rb")
+            file_handle = open(default_storage.abspath(
+                doc.path.url()
+            ), "rb")
         except OSError:
             logger.error(
-                "Cannot open local version of %s" % doc.doc_ep.url()
+                "Cannot open local version of %s" % doc.path.url()
             )
             return redirect(
                 'boss:core_basetreenode_changelist_obj', args=(id,)
