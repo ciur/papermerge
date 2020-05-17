@@ -130,20 +130,16 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     def delete_pages(self, page_numbers):
         """
         Deletes pages with given order numbers from
-        the documents:
-
-        * locally - syncronious
-        * remotely - async.
+        the documents.
         """
         if not isinstance(page_numbers, list):
             logger.error("Expecting list argument")
             return
 
-        src_ep = self.doc_ep
         # delete pages
-        new_version = pdftk.delete_pages(
-            self.doc_ep,
-            page_numbers
+        new_version = default_storage.delete_pages(
+            doc_path=self.path,
+            page_numbers=page_numbers
         )
 
         if new_version == self.version:
@@ -153,16 +149,6 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         self.save()
         # update pages model
         self.recreate_pages()
-
-        # Move OCR related text files to newer version
-        # (.txt + .hocr files)
-        migr = ocrmigrate.OcrMigrate(
-            src_ep=src_ep,
-            dst_ep=self.doc_ep  # endpoint with already incremented version
-        )
-        migr.migrate_delete(
-            deleted_pages=page_numbers
-        )
 
     def recreate_pages(self):
         """
