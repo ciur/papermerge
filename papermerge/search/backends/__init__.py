@@ -5,11 +5,8 @@ from django.conf import settings
 
 
 def import_backend(dotted_path):
-    try:
-        backend_module = import_module(dotted_path)
-        return backend_module.SearchBackend
-    except ImportError as e:
-        raise ImportError from e
+    backend_module = import_module(dotted_path)
+    return backend_module.SearchBackend
 
 
 def get_search_backend():

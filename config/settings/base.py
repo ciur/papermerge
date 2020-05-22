@@ -76,6 +76,11 @@ PAPERMERGE_DEFAULT_FILE_STORAGE = os.getenv(
     "mglib.storage.FileSystemStorage"
 )
 
+PAPERMERGE_SEARCH_BACKEND = os.getenv(
+    "PAPERMERGE_SEARCH_BACKEND",
+    "papermerge.search.backends.db.SearchBackend"
+)
+
 AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
