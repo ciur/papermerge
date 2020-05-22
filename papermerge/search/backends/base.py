@@ -181,7 +181,10 @@ class BaseSearchBackend:
         query_compiler_class,
         query,
         model_or_queryset,
-        **kwargs
+        fields,
+        operator,
+        order_by_relevance,
+        partial_match,
     ):
         # Find model/queryset
         if isinstance(model_or_queryset, QuerySet):
@@ -201,7 +204,12 @@ class BaseSearchBackend:
 
         # Search
         search_query = query_compiler_class(
-            queryset, query, **kwargs
+            queryset,
+            query,
+            fields,
+            operator,
+            order_by_relevance,
+            partial_match
         )
 
         # Check the query
@@ -218,6 +226,10 @@ class BaseSearchBackend:
         order_by_relevance=True,
         partial_match=True
     ):
+        """
+        * query - is a string. It is term is searched for.
+            E.g. query=invoices 2020
+        """
         return self._search(
             self.query_compiler_class,
             query,
