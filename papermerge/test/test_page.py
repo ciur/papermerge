@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from papermerge.core.models import (
     Document,
+    Page
 )
 
 User = get_user_model()
@@ -15,15 +16,21 @@ BASE_DIR = Path(__file__).parent
 class TestPage(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'admin',
-            'admin@admin.com',
-            'ohmyshell',
+        self.user = User.objects.create_user('admin')
+
+    def get_whatever_doc(self):
+        return Document.create_document(
+            title="kyuss.pdf",
+            user=self.user,
+            lang="ENG",
+            file_name="kyuss.pdf",
+            size=1222,
+            page_count=3
         )
 
     def test_language_is_inherited(self):
         """
-        Whatever document model has in doc.language field
+        Whatever document model has in doc.lang field
         will be inherited by the related page models.
         """
         doc = Document.create_document(
@@ -73,3 +80,32 @@ class TestPage(TestCase):
             0
         )
 
+    def test_page_matching_search(self):
+        doc = self.get_whatever_doc()
+        page = Page(
+            text="Some cool content in page model",
+            user=self.user,
+            document=doc
+        )
+        page.save()
+        result = Page.objects.search("cool")
+
+        self.assertEquals(
+            result.count(),
+            1
+        )
+
+    def test_page_not_matching_search(self):
+        doc = self.get_whatever_doc()
+        page = Page(
+            text="Some cool content in page model",
+            user=self.user,
+            document=doc
+        )
+        page.save()
+        result = Page.objects.search("andromeda")
+
+        self.assertEquals(
+            result.count(),
+            0
+        )

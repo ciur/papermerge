@@ -5,8 +5,13 @@ from django.contrib.postgres.search import SearchVectorField
 from papermerge.core.models import Document
 from mglib.path import PagePath
 from papermerge.search import index
+from papermerge.search.queryset import SearchableQuerySetMixin
 
 logger = logging.getLogger(__name__)
+
+
+class PageQuerySet(SearchableQuerySetMixin, models.QuerySet):
+    pass
 
 
 class Page(models.Model, index.Indexed):
@@ -37,6 +42,8 @@ class Page(models.Model, index.Indexed):
         index.SearchField('text', partial_match=True, boost=2),
         index.FilterField('lang')
     ]
+
+    objects = PageQuerySet.as_manager()
 
     @property
     def is_last(self):
