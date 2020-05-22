@@ -140,9 +140,7 @@ class NullIndex:
 
 class BaseSearchBackend:
     query_compiler_class = None
-    autocomplete_query_compiler_class = None
     results_class = None
-    rebuilder_class = None
 
     def __init__(self, params):
         pass
