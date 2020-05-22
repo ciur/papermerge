@@ -1,19 +1,13 @@
-from importlib import import_module
+from django.utils.module_loading import import_string
 
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
 
-def import_backend(dotted_path):
-    backend_module = import_module(dotted_path)
-    return backend_module.SearchBackend
-
-
-def get_search_backend():
-    backend = getattr(settings, 'PAPERMERGE_SEARCH_BACKEND')
-    # Try to import the backend
+def get_search_backend(import_path=None):
+    backend = import_path or settings.PAPERMERGE_SEARCH_BACKEND
     try:
-        backend_cls = import_backend(backend)
+        backend_cls = import_string(backend)
     except ImportError as e:
         raise ImproperlyConfigured("Could not find backend '%s': %s" % (
             backend, e))

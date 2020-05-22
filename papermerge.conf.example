@@ -80,4 +80,4 @@ PAPERMERGE_DEFAULT_FILE_STORAGE=mglib.storage.FileSystemStorage
 #  Search Backend
 ###################
 
-PAPERMERGE_SEARCH_BACKEND=papermerge.search.backends.db
+PAPERMERGE_SEARCH_BACKEND=papermerge.search.backends.db.SearchBackend
