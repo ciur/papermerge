@@ -74,4 +74,10 @@ PAPERMERGE_TASK_QUEUE_DIR="/var/tmp/papermerge/queue"
 #   Storage
 ###############
 
-PAPERMERGE_DEFAULT_FILE_STORAGE="mglib.storage.FileSystemStorage"
+PAPERMERGE_DEFAULT_FILE_STORAGE=mglib.storage.FileSystemStorage
+
+
+#  Search Backend
+###################
+
+PAPERMERGE_SEARCH_BACKEND=papermerge.search.backends.db.SearchBackend
