@@ -1,5 +1,179 @@
+from warnings import warn
+
+from django.db.models.lookups import Lookup
 from django.db.models.query import QuerySet
+from django.db.models.sql.where import SubqueryConstraint, WhereNode
+
 from papermerge.search.index import class_is_indexed, get_indexed_models
+from papermerge.search.query import MATCH_ALL, PlainText
+
+
+class FilterError(Exception):
+    pass
+
+
+class FieldError(Exception):
+    def __init__(self, *args, field_name=None, **kwargs):
+        self.field_name = field_name
+        super(FieldError, self).__init__(*args, **kwargs)
+
+
+class SearchFieldError(FieldError):
+    pass
+
+
+class FilterFieldError(FieldError):
+    pass
+
+
+class OrderByFieldError(FieldError):
+    pass
+
+
+class BaseSearchQueryCompiler:
+    DEFAULT_OPERATOR = 'or'
+
+    def __init__(
+        self,
+        queryset,
+        query,
+        fields=None,
+        operator=None,
+        order_by_relevance=True,
+        partial_match=True
+    ):
+        self.queryset = queryset
+        if query is None:
+            warn('Querying `None` is deprecated, use `MATCH_ALL` instead.',
+                 DeprecationWarning)
+            query = MATCH_ALL
+        elif isinstance(query, str):
+            query = PlainText(query,
+                              operator=operator or self.DEFAULT_OPERATOR)
+        self.query = query
+        self.fields = fields
+        self.order_by_relevance = order_by_relevance
+        self.partial_match = partial_match
+
+    def _get_filterable_field(self, field_attname):
+        # Get field
+        field = dict(
+            (field.get_attname(self.queryset.model), field)
+            for field in self.queryset.model.get_filterable_search_fields()
+        ).get(field_attname, None)
+
+        return field
+
+    def _process_lookup(self, field, lookup, value):
+        raise NotImplementedError
+
+    def _connect_filters(self, filters, connector, negated):
+        raise NotImplementedError
+
+    def _process_filter(self, field_attname, lookup, value, check_only=False):
+        # Get the field
+        field = self._get_filterable_field(field_attname)
+
+        if field is None:
+            raise FilterFieldError(
+                'Cannot filter search results with field "' + field_attname + '". Please add index.FilterField(\''
+                + field_attname + '\') to ' + self.queryset.model.__name__ + '.search_fields.',
+                field_name=field_attname
+            )
+
+        # Process the lookup
+        if not check_only:
+            result = self._process_lookup(field, lookup, value)
+
+        if result is None:
+            raise FilterError(
+                'Could not apply filter on search results: "' + field_attname + '__'
+                + lookup + ' = ' + str(value) + '". Lookup "' + lookup + '"" not recognised.'
+            )
+
+        return result
+
+    def _get_filters_from_where_node(self, where_node, check_only=False):
+        # Check if this is a leaf node
+        if isinstance(where_node, Lookup):
+            field_attname = where_node.lhs.target.attname
+            lookup = where_node.lookup_name
+            value = where_node.rhs
+
+            # Ignore pointer fields that show up in specific page type queries
+            if field_attname.endswith('_ptr_id'):
+                return
+
+            # Process the filter
+            return self._process_filter(
+                field_attname,
+                lookup,
+                value,
+                check_only=check_only
+            )
+
+        elif isinstance(where_node, SubqueryConstraint):
+            raise FilterError(
+                'Could not apply filter on search results: Subqueries are not allowed.'
+            )
+
+        elif isinstance(where_node, WhereNode):
+            # Get child filters
+            connector = where_node.connector
+            child_filters = [self._get_filters_from_where_node(child) for child in where_node.children]
+
+            if not check_only:
+                child_filters = [child_filter for child_filter in child_filters if child_filter]
+                return self._connect_filters(child_filters, connector, where_node.negated)
+
+        else:
+            raise FilterError('Could not apply filter on search results: Unknown where node: ' + str(type(where_node)))
+
+    def _get_filters_from_queryset(self):
+        return self._get_filters_from_where_node(self.queryset.query.where)
+
+    def _get_order_by(self):
+        if self.order_by_relevance:
+            return
+
+        for field_name in self.queryset.query.order_by:
+            reverse = False
+
+            if field_name.startswith('-'):
+                reverse = True
+                field_name = field_name[1:]
+
+            field = self._get_filterable_field(field_name)
+
+            if field is None:
+                raise OrderByFieldError(
+                    'Cannot sort search results with field "' + field_name + '". Please add index.FilterField(\''
+                    + field_name + '\') to ' + self.queryset.model.__name__ + '.search_fields.',
+                    field_name=field_name
+                )
+
+            yield reverse, field
+
+    def check(self):
+        # Check search fields
+        if self.fields:
+            allowed_fields = {field.field_name for field in self.queryset.model.get_searchable_search_fields()}
+
+            for field_name in self.fields:
+                if field_name not in allowed_fields:
+                    raise SearchFieldError(
+                        'Cannot search with field "' + field_name + '". Please add index.SearchField(\''
+                        + field_name + '\') to ' + self.queryset.model.__name__ + '.search_fields.',
+                        field_name=field_name
+                    )
+
+        # Check where clause
+        # Raises FilterFieldError if an unindexed field is being filtered on
+        self._get_filters_from_where_node(self.queryset.query.where, check_only=True)
+
+        # Check order by
+        # Raises OrderByFieldError if an unindexed field is being used to order by
+        list(self._get_order_by())
 
 
 class BaseSearchResults:
@@ -142,7 +316,7 @@ class BaseSearchBackend:
     query_compiler_class = None
     results_class = None
 
-    def __init__(self, params):
+    def __init__(self):
         pass
 
     def get_index_for_model(self, model):
