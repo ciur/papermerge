@@ -15,7 +15,7 @@ With this method you will need ``git``, ``docker`` and ``docker-compose`` instal
     cd papermerge-proj/docker
     docker-compose up -d
 
-This will pull and start the necessary containers. If you wish, you can use ``docker-compose up --build -f docker-compose-dev.yml -d`` command instead to build local images.
+This will pull and start the necessary containers. If you wish, you can use ``docker-compose -f docker-compose-dev.yml up --build -d`` command instead to build local images.
 
 Check if services are up and running::
 
