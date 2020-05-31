@@ -11,6 +11,9 @@ celery_app = Celery('papermerge')
 
 @celery_app.task
 def txt2db():
+    """
+    Move OCRed text from txt files into database
+    """
     ocred_count = 0
     logger.debug("Celery beat: txt2db")
 
@@ -21,7 +24,7 @@ def txt2db():
 
 @celery_app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    # Calls test('hello') every 10 seconds.
+    # Calls every 30 seconds txt2db
     sender.add_periodic_task(
         30.0, txt2db.s(), name='txt2db'
     )
