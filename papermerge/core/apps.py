@@ -6,4 +6,3 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         from papermerge.core import signals
-

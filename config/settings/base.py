@@ -1,9 +1,9 @@
 # coding: utf-8
 import os
-from django.utils.translation import gettext_lazy as _
 from pathlib import Path
-from dotenv import load_dotenv
 
+from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
 from mglib.utils import get_bool
 
 DEFAULT_CONFIG_PLACES = [
@@ -79,6 +79,11 @@ PAPERMERGE_DEFAULT_FILE_STORAGE = os.getenv(
 PAPERMERGE_SEARCH_BACKEND = os.getenv(
     "PAPERMERGE_SEARCH_BACKEND",
     "papermerge.search.backends.db.SearchBackend"
+)
+
+PAPERMERGE_OCR_LANGUAGE = os.getenv(
+    "PAPERMERGE_OCR_LANGUAGE",
+    "deu"  # if not defined, defaults to German a.k.a Deutsch
 )
 
 AUTH_USER_MODEL = "core.User"

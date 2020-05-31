@@ -1,54 +1,37 @@
 import logging
 from datetime import timedelta
 
-from django.contrib import admin
-from django.contrib import messages
-from django.db.models import Q
-from django.contrib.admin import options
-from django.forms import inlineformset_factory
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.admin.utils import quote
-from django.contrib.admin.actions import delete_selected
-from django.utils.html import format_html
-from django.contrib.admin import SimpleListFilter
-from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import UserAdmin, GroupAdmin
-from django.contrib.admin.views.main import ORDER_VAR
-
-from django.urls import reverse
 from django.conf import settings
-
+from django.contrib import admin, messages
+from django.contrib.admin import SimpleListFilter, options
+from django.contrib.admin.actions import delete_selected
+from django.contrib.admin.utils import quote
+from django.contrib.admin.views.main import ORDER_VAR
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import GroupAdmin, UserAdmin
+from django.contrib.auth.models import Group
+from django.db.models import Q
+from django.forms import inlineformset_factory
+from django.urls import reverse
+from django.utils.encoding import force_text
+from django.utils.html import format_html
+from django.utils.translation import ugettext_lazy as _
+from dynamic_preferences.admin import SectionFilter
+from dynamic_preferences.settings import preferences_settings
+from dynamic_preferences.users.forms import UserSinglePreferenceForm
+from dynamic_preferences.users.models import UserPreferenceModel
 from knox.models import AuthToken
-
 from papermerge.boss import admin as bs_admin
+from papermerge.boss import options as bs_options
 from papermerge.boss import widgets as boss_widgets
 from papermerge.boss.views.main import ChangeListBoss
-
-from papermerge.boss import options as bs_options
-# from django.contrib import admin
-
-from polymorphic_tree.admin import (
-    PolymorphicMPTTParentModelAdmin,
-    PolymorphicMPTTChildModelAdmin
-)
-
-from dynamic_preferences.settings import preferences_settings
-from dynamic_preferences.users.models import (
-    UserPreferenceModel,
-
-)
-from dynamic_preferences.users.forms import UserSinglePreferenceForm
-from dynamic_preferences.admin import SectionFilter
-
-from papermerge.core import (models, forms)
+from papermerge.core import forms, models
 from papermerge.core.preview import PreviewUrlsHandover
-
-from papermerge.core.db import search as search_sql
-
 from pmworker import lang_human_name
+from polymorphic_tree.admin import (PolymorphicMPTTChildModelAdmin,
+                                    PolymorphicMPTTParentModelAdmin)
 
+# from django.contrib import admin
 
 User = get_user_model()
 
@@ -430,7 +413,7 @@ class TreeNodeParentAdmin(
         else:
             descendent_ids = []
 
-        sql = search_sql.get_search_sql(ocr_lang, descendent_ids)
+        sql = ""#search_sql.get_search_sql(ocr_lang, descendent_ids)
 
         qs = models.BaseTreeNode.objects.raw(
             sql, {
@@ -857,5 +840,3 @@ bs_admin.site.register(AuthToken, AuthTokenAdmin)
 # same way admin app does automatically, just reuse admin code
 bs_admin.site.register(User, UserAdminEx)
 bs_admin.site.register(Group, GroupAdminEx)
-
-
