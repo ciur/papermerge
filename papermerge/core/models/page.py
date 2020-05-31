@@ -71,15 +71,12 @@ class Page(models.Model, index.Indexed):
         """
         text = ''
         url = default_storage.abspath(self.txt_url)
-        logger.debug(f"Checking {url}")
 
         if not os.path.exists(url):
             logger.debug(
                 f"Missing page txt {url}."
             )
             return
-        else:
-            logger.debug(f"Page txt {url} exists.")
 
         with open(url) as file_handle:
             self.text = file_handle.read()
@@ -88,13 +85,6 @@ class Page(models.Model, index.Indexed):
                 f"text saved. len(page.text)=={len(self.text)}"
             )
             text = self.text
-            logger.info(
-                f"document_log "
-                f" username={self.user.username}"
-                f" doc_id={self.document.id}"
-                f" page_num={self.number}"
-                f" text_len={len(self.text.strip())}"
-            )
 
         return text
 
