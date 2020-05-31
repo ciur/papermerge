@@ -14,12 +14,10 @@ def txt2db():
     """
     Move OCRed text from txt files into database
     """
-    ocred_count = 0
     logger.debug("Celery beat: txt2db")
 
     for doc in Document.objects.all():
-        if doc.update_text_field():
-            ocred_count += 1
+        doc.update_text_field()
 
 
 @celery_app.on_after_configure.connect
