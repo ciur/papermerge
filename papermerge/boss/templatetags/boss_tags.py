@@ -1,19 +1,26 @@
 # coding: utf-8
 
 from __future__ import unicode_literals
+
 import datetime
 import warnings
 
-from django.template import Library
-from django.contrib.admin.templatetags.admin_list import result_headers
-
 from django.conf import settings
+from django.contrib.admin.templatetags.admin_list import result_headers
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
-from django.utils.translation import gettext
-from django.contrib.admin.utils import (
-    display_for_field, display_for_value, lookup_field)
+from django.contrib.admin.utils import (display_for_field, display_for_value,
+                                        lookup_field, quote)
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.template import Library
+from django.urls import reverse
+from django.utils.encoding import force_text
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext
+from papermerge.core.lib.lang import LANG_DICT
+from papermerge.core.models import Access
+
 try:
     from django.urls import NoReverseMatch
 except ImportError:  # Django < 1.10 pragma: no cover
@@ -22,14 +29,7 @@ try:
     from django.utils.deprecation import RemovedInDjango20Warning
 except ImportError:
     RemovedInDjango20Warning = RuntimeWarning
-from django.utils.encoding import force_text
-from django.utils.html import format_html
-from django.utils.safestring import mark_safe
-from django.urls import reverse
-from django.contrib.admin.utils import quote
 
-from papermerge.core.models import Access
-from papermerge.core.lib.lang import LANG_DICT
 
 MPTT_ADMIN_LEVEL_INDENT = getattr(settings, 'MPTT_ADMIN_LEVEL_INDENT', 10)
 
@@ -353,8 +353,7 @@ def mptt_search_results(cl, user):
                 'icon': get_icon_html(node),
                 'dir_path': build_tree_path(node),
                 'title': build_url_for_node(node),
-                'page_highlight': mark_safe(node.page_highlight),
-                'model_ctype': node.model_ctype
+                'model_ctype': node.polymorphic_ctype_id
             })
 
     return results

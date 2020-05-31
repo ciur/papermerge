@@ -27,11 +27,10 @@ from papermerge.boss import widgets as boss_widgets
 from papermerge.boss.views.main import ChangeListBoss
 from papermerge.core import forms, models
 from papermerge.core.preview import PreviewUrlsHandover
+from papermerge.search.backends import get_search_backend
 from pmworker import lang_human_name
 from polymorphic_tree.admin import (PolymorphicMPTTChildModelAdmin,
                                     PolymorphicMPTTParentModelAdmin)
-
-# from django.contrib import admin
 
 User = get_user_model()
 
@@ -393,15 +392,12 @@ class TreeNodeParentAdmin(
         return actions
 
     def get_qs_from_raw_sql(self, request, search_term):
-        """
-        God, forgive me for this heresy...
-        """
+        backend = get_search_backend()
+
         parent_id = request.GET.get('parent_id', False)
 
         ocr_lang = request.user.preferences['ocr__OCR_Language']
         ocr_lang = ocr_lang.lower()
-
-        sql = ""
 
         if parent_id:
             descendent_ids = [
@@ -413,12 +409,9 @@ class TreeNodeParentAdmin(
         else:
             descendent_ids = []
 
-        sql = ""#search_sql.get_search_sql(ocr_lang, descendent_ids)
-
-        qs = models.BaseTreeNode.objects.raw(
-            sql, {
-                'search_term': search_term
-            }
+        results = backend.search(search_term, models.Page)
+        qs = models.BaseTreeNode.objects.filter(
+            id__in=[p.document.basetreenode_ptr_id for p in results]
         )
 
         return qs

@@ -1,9 +1,11 @@
 import logging
-from django.db import models
-from django.contrib.postgres.search import SearchVectorField
+import os
 
-from papermerge.core.models import Document
+from django.contrib.postgres.search import SearchVectorField
+from django.db import models
 from mglib.path import PagePath
+from papermerge.core.models import Document
+from papermerge.core.storage import default_storage
 from papermerge.search import index
 from papermerge.search.queryset import SearchableQuerySetMixin
 
@@ -68,17 +70,18 @@ class Page(models.Model, index.Indexed):
         If file was not found - will return an empty string.
         """
         text = ''
-        logger.debug(f"Checking {self.txt_url}")
+        url = default_storage.abspath(self.txt_url)
+        logger.debug(f"Checking {url}")
 
-        if not self.txt_exists:
+        if not os.path.exists(url):
             logger.debug(
-                f"Missing page txt {self.txt_url}."
+                f"Missing page txt {url}."
             )
             return
         else:
-            logger.debug(f"Page txt {self.txt_url} exists.")
+            logger.debug(f"Page txt {url} exists.")
 
-        with open(self.txt_url) as file_handle:
+        with open(url) as file_handle:
             self.text = file_handle.read()
             self.save()
             logger.debug(
@@ -104,7 +107,7 @@ class Page(models.Model, index.Indexed):
     def txt_url(self):
 
         result = PagePath(
-            document_ep=self.document.path,
+            document_path=self.document.path,
             page_num=self.number,
             page_count=self.page_count
         )
@@ -115,7 +118,7 @@ class Page(models.Model, index.Indexed):
     def txt_exists(self):
 
         result = PagePath(
-            document_ep=self.document.doc_ep,
+            document_path=self.document.path,
             page_num=self.number,
             page_count=self.page_count
         )
