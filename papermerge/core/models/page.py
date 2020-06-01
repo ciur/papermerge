@@ -123,16 +123,3 @@ class Page(models.Model):
         )
 
         return result.txt_exists()
-
-
-class NormPageAngestor:
-    """
-    Page folders ancestors.
-    """
-    page = models.ForeignKey(
-        'Page',
-        related_name='ancestores',
-        on_delete=models.CASCADE
-    )
-
-    folder_id = models.IntegerField()
