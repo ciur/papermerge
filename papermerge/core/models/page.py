@@ -1,12 +1,10 @@
 import logging
 import os
 
-from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from mglib.path import PagePath
 from papermerge.core.models import Document
 from papermerge.core.storage import default_storage
-from papermerge.search import index
 from papermerge.search.queryset import SearchableQuerySetMixin
 
 logger = logging.getLogger(__name__)
@@ -16,7 +14,7 @@ class PageQuerySet(SearchableQuerySetMixin, models.QuerySet):
     pass
 
 
-class Page(models.Model, index.Indexed):
+class Page(models.Model):
     document = models.ForeignKey(
         Document, on_delete=models.CASCADE
     )
@@ -27,23 +25,34 @@ class Page(models.Model, index.Indexed):
 
     text = models.TextField(default='')
 
+    # inherited/normalized title from parent document
+    norm_doc_title = models.CharField(
+        max_length=200,
+        default=''
+    )
+
+    # inherited/normalized title of immediate parent folder
+    norm_folder_title = models.CharField(
+        max_length=200,
+        default=''
+    )
+
+    # normalized space delimited path (by folder title) of parent folder
+    norm_breadcrump = models.CharField(
+        max_length=1024,
+        default=''
+    )
+
+    # text from all pages of the document
+    norm_text = models.TextField(default='')
+
+    # hm, this one should be norm_lang as well
     lang = models.CharField(
         max_length=8,
         blank=False,
         null=False,
         default='deu'
     )
-    # Obsolete columns. Replaced by text_fts.
-    text_deu = SearchVectorField(null=True)
-    text_eng = SearchVectorField(null=True)
-
-    # Replaced text_deu and text_eng
-    text_fts = SearchVectorField(null=True)
-
-    search_fields = [
-        index.SearchField('text', partial_match=True, boost=2),
-        index.FilterField('lang')
-    ]
 
     objects = PageQuerySet.as_manager()
 
@@ -114,3 +123,16 @@ class Page(models.Model, index.Indexed):
         )
 
         return result.txt_exists()
+
+
+class NormPageAngestor:
+    """
+    Page folders ancestors.
+    """
+    page = models.ForeignKey(
+        'Page',
+        related_name='ancestores',
+        on_delete=models.CASCADE
+    )
+
+    folder_id = models.IntegerField()
