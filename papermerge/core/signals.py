@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 @receiver(propagate_kv, sender=Folder)
-def propagate_kv_to_descendents(sender, **kwargs):
-    logger.info("propagate_kv")
+def propagate_kv_to_descendents(sender, instance, **kwargs):
+    pass
 
 
 @receiver(post_delete, sender=Document)

@@ -32,6 +32,7 @@ class Folder(mixins.ExtractIds, BaseTreeNode):
         )
         propagate_kv.send(
             sender=self.__class__,
+            instance=self,
             key=key,
             namespace=self.kv_namespace,
             operation=ADD
@@ -47,6 +48,7 @@ class Folder(mixins.ExtractIds, BaseTreeNode):
         )
         propagate_kv.send(
             sender=self.__class__,
+            instance=self,
             key=key,
             namespace=self.kv_namespace,
             operation=DEL
