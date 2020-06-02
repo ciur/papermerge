@@ -5,6 +5,7 @@ from django.db import models
 from mglib.path import PagePath
 from papermerge.core.models import Document
 from papermerge.core.storage import default_storage
+from papermerge.search import index
 from papermerge.search.queryset import SearchableQuerySetMixin
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ class PageQuerySet(SearchableQuerySetMixin, models.QuerySet):
     pass
 
 
-class Page(models.Model):
+class Page(models.Model, index.Indexed):
     document = models.ForeignKey(
         Document, on_delete=models.CASCADE
     )
@@ -53,6 +54,15 @@ class Page(models.Model):
         null=False,
         default='deu'
     )
+
+    search_fields = [
+        index.SearchField('norm_doc_title', partial_match=True, boost=3),
+        index.SearchField('norm_folder_title', partial_match=True),
+        index.SearchField('norm_breadcrump', partial_match=True),
+        index.SearchField('norm_text', partial_match=True, boost=1),
+        index.SearchField('text', partial_match=True, boost=2),
+        index.FilterField('lang')
+    ]
 
     objects = PageQuerySet.as_manager()
 

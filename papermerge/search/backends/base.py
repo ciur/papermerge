@@ -3,7 +3,6 @@ from warnings import warn
 from django.db.models.lookups import Lookup
 from django.db.models.query import QuerySet
 from django.db.models.sql.where import SubqueryConstraint, WhereNode
-
 from papermerge.search.index import class_is_indexed, get_indexed_models
 from papermerge.search.query import MATCH_ALL, PlainText
 

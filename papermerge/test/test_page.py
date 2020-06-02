@@ -1,11 +1,8 @@
 from pathlib import Path
 
-from django.test import TestCase
 from django.contrib.auth import get_user_model
-from papermerge.core.models import (
-    Document,
-    Page
-)
+from django.test import TestCase
+from papermerge.core.models import Document, Page
 
 User = get_user_model()
 
