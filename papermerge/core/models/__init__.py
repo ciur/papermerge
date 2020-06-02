@@ -1,12 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-from papermerge.core.models.document import Document
-from papermerge.core.models.folder import Folder
-from papermerge.core.models.page import Page
-from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.models.access import Access
 from papermerge.core.models.access_diff import AccessDiff
+from papermerge.core.models.document import Document
+from papermerge.core.models.folder import Folder
+from papermerge.core.models.kvstore import KVStoreNode, KVStorePage
+from papermerge.core.models.node import BaseTreeNode
+from papermerge.core.models.page import Page
 
 
 class User(AbstractUser):
@@ -29,5 +29,7 @@ __all__ = [
     'Page',
     'BaseTreeNode',
     'Access',
-    'AccessDiff'
+    'AccessDiff',
+    'KVStoreNode',
+    'KVStorePage'
 ]
