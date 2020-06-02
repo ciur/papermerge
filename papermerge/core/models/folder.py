@@ -1,11 +1,12 @@
 from django.utils.translation import ugettext_lazy as _
 from papermerge.core import mixins
-from papermerge.core.models import kvstore, node
-from papermerge.core.signals import propagate_kv
+from papermerge.core.custom_signals import propagate_kv
+from papermerge.core.models.kvstore import ADD, DEL
+from papermerge.core.models.node import BaseTreeNode
 from papermerge.search import index
 
 
-class Folder(mixins.ExtractIds, node.BaseTreeNode):
+class Folder(mixins.ExtractIds, BaseTreeNode):
 
     search_fields = [
         index.SearchField('title'),
@@ -26,14 +27,14 @@ class Folder(mixins.ExtractIds, node.BaseTreeNode):
         sends event signal for descendents to update themselves
         """
         self.kvstore.create(
-            namepace=self.kv_namespace,
+            namespace=self.kv_namespace,
             key=key
         )
         propagate_kv.send(
-            sender=self,
+            sender=self.__class__,
             key=key,
             namespace=self.kv_namespace,
-            operation=kvstore.ADD
+            operation=ADD
         )
 
     def kv_del(self, key):
@@ -45,10 +46,10 @@ class Folder(mixins.ExtractIds, node.BaseTreeNode):
             key=key
         )
         propagate_kv.send(
-            sender=self,
+            sender=self.__class__,
             key=key,
             namespace=self.kv_namespace,
-            operation=kvstore.DEL
+            operation=DEL
         )
 
     class Meta:

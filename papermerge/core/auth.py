@@ -1,11 +1,7 @@
-from django.contrib.auth.models import (
-    Permission,
-    Group
-)
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from papermerge.core.models import (Access, AccessDiff)
-
+from papermerge.core.models import Access, AccessDiff
 
 # custom user is used - papermerge.core.models.User
 User = get_user_model()
@@ -341,4 +337,3 @@ class NodeAuthBackend:
             *self._get_user_permissions(user_obj, obj, Access.DENY),
             *self._get_group_permissions(user_obj, obj, Access.DENY),
         }
-

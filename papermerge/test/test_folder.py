@@ -74,9 +74,9 @@ class TestFolder(TestCase):
             title="P",
             user=self.user
         )
-        p.kvstore.create(key="shop")
-        p.kvstore.create(key="price")
-        p.kvstore.create(key="date")
+        p.kv_add(key="shop")
+        p.kv_add(key="price")
+        p.kv_add(key="date")
 
         self.assertEqual(
             3,

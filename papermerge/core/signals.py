@@ -1,36 +1,32 @@
 import logging
 
-from allauth.account.signals import (email_confirmed, password_changed,
-                                     password_reset, user_logged_in,
-                                     user_logged_out)
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
 from django.db.models.signals import post_delete, post_save, pre_delete
-from django.dispatch import Signal, receiver
+from django.dispatch import receiver
 from papermerge.core.auth import create_access
+from papermerge.core.custom_signals import propagate_kv
 from papermerge.core.models import Access, AccessDiff, Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
-from papermerge.core.utils import get_tenant_name
 
-User = get_user_model()
 logger = logging.getLogger(__name__)
 
-# signal sent when either Folder or Document add/removes/changes its KVS
-propagate_kv = Signal()
+
+@receiver(propagate_kv, sender=Folder)
+def propagate_kv_to_descendents(sender, **kwargs):
+    logger.info("propagate_kv")
 
 
 @receiver(post_delete, sender=Document)
 def update_user_storage(sender, instance, **kwargs):
     # update user storage size
-    user = User.objects.get(id=instance.user.id)
+    user = instance.user
     user.update_current_storage()
 
 
 @receiver(post_save, sender=Document)
 def update_user_storage_after_doc_creation(sender, instance, **kwargs):
     # update user storage size
-    user = User.objects.get(id=instance.user.id)
+    user = instance.user
     user.update_current_storage()
 
 
@@ -53,45 +49,6 @@ def deleteFiles(sender, instance, **kwargs):
 
     default_storage.delete_doc(
         instance.path
-    )
-
-
-@receiver(user_logged_in)
-def user_logged_in_handler(sender, request, user, **kwargs):
-    logger.debug(f"user_logged_in {user.username}")
-
-
-@receiver(user_logged_out)
-def user_logged_out_handler(sender, request, user, **kwargs):
-    logger.debug(f"user_logged_out {user.username}")
-
-
-@receiver(password_changed)
-def password_changed_handler(sender, request, user, **kwargs):
-    logger.info(f"password_changed {user.username}")
-
-
-@receiver(password_reset)
-def password_reset_handler(sender, request, user, **kwargs):
-    logger.info(f"password_reset {user.username}")
-
-
-@receiver(email_confirmed)
-def email_confirmed_(request, email_address, **kwargs):
-
-    user = User.objects.get(email=email_address.email)
-    vml_access = Permission.objects.get(codename='vml_access')
-    vml_root = Permission.objects.get(codename='vml_root')
-    user.user_permissions.add(vml_access)
-    user.user_permissions.add(vml_root)
-    user.is_active = True
-    user.save()
-
-    logger.info(
-        f"registration_log mail confirmed"
-        f" company={get_tenant_name()}"
-        f" username={user.username}"
-        f" email={email_address.email}"
     )
 
 
