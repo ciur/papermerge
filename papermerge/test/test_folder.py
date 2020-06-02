@@ -92,3 +92,38 @@ class TestFolder(TestCase):
             2,
             p.kvstore.count()
         )
+
+    def test_folders_kvstore_propagates_to_subfolders(self):
+        """
+        Folder's kvstore propagates to all its descendent folders,
+        documents, pages
+        """
+        top = Folder.objects.create(
+            title="top",
+            user=self.user
+        )
+        top.save()
+        sub = Folder.objects.create(
+            title="sub",
+            parent=top,
+            user=self.user
+        )
+        sub.save()
+        self.assertEqual(
+            0,
+            top.kvstore.count()
+        )
+        self.assertEqual(
+            0,
+            sub.kvstore.count()
+        )
+        top.kv.add(key="shop")
+        self.assertEqual(
+            1,
+            top.kvstore.count()
+        )
+        # kvstore propagated from parent folder to descendents
+        self.assertEqual(
+            1,
+            sub.kvstore.count()
+        )
