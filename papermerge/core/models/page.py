@@ -139,10 +139,10 @@ class Page(models.Model, index.Indexed):
         self.normalize_doc_title()
         self.normalize_folder_title()
         self.normalize_breadcrump()
-        self.normlize_text()
+        self.normalize_text()
         self.normalize_lang()
 
-    def nomalize_doc_title(self):
+    def normalize_doc_title(self):
         self.norm_doc_title = self.document.title
         self.save()
 
