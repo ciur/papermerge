@@ -9,6 +9,7 @@ from mglib import step
 from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
 from papermerge.core import mixins
+from papermerge.core.models.kvstore import KVNode
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.storage import default_storage
 from papermerge.search import index
@@ -94,6 +95,10 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         index.SearchField('text', partial_match=True, boost=2),
         index.SearchField('notes')
     ]
+
+    @property
+    def kv(self):
+        return KVNode(instance=self)
 
     class Meta:
         verbose_name = _("Document")

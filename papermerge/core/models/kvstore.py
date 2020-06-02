@@ -1,8 +1,68 @@
 from django.db import models
+from papermerge.core.custom_signals import propagate_kv
 
 ADD = 'add'
 DEL = 'del'
 UPDATE = 'update'
+
+
+class KV:
+    """
+    utility class that will operates (adds, deletes, updates, sends propagate)
+    on KVStoreNode of Node (Folder or Document)
+    or on KVStorePage of the Page
+    """
+
+    def __init__(self, instance):
+        self.instance = instance
+
+    @property
+    def namespace(self):
+        """
+        returns namepace for added keys
+        """
+        pass
+
+    def add(self, key):
+        """
+        adds a namespaced key,
+        sends event signal for descendents to update themselves
+        """
+        self.instance.kvstore.create(
+            namespace=self.namespace,
+            key=key
+        )
+        propagate_kv.send(
+            sender=self.instance.__class__,
+            instance=self.instance,
+            key=key,
+            namespace=self.namespace,
+            operation=ADD
+        )
+
+    def delete(self, key):
+        """
+        adds a namespaced key,
+        sends event signal for descendents to update themselves
+        """
+        self.instance.kvstore.remove(
+            key=key
+        )
+        propagate_kv.send(
+            sender=self.instance.__class__,
+            instance=self.instance,
+            key=key,
+            namespace=self.namespace,
+            operation=DEL
+        )
+
+
+class KVNode(KV):
+    pass
+
+
+class KVPage(KV):
+    pass
 
 
 class KVStore(models.Model):
