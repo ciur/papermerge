@@ -160,11 +160,12 @@ def save_node_doc(sender, instance, created, **kwargs):
 def normalize_pages_from_doc_handler(sender, instance, created, **kwargs):
     """Update async this document pages' attributes page.norm_*
     """
-    normalize_pages.s(origin=instance)
+    logger.debug("Post save doc => normalize_pages")
+    normalize_pages(origin=instance)
 
 
 @receiver(post_save, sender=Folder)
 def normalize_pages_from_folder_handler(sender, instance, created, **kwargs):
     """Update async folder pages attributes page.norm_*
     """
-    normalize_pages.s(origin=instance)
+    normalize_pages(origin=instance)

@@ -34,6 +34,7 @@ def ocr_page(
 
 
 def norm_pages_from_doc(document):
+    logger.debug(f"Normalizing document {document.id}")
     for page in Page.objects.filter(document=document):
         page.norm()
 
