@@ -1,33 +1,18 @@
 import logging
 
-from django.db.models.signals import (
-    pre_delete,
-    post_delete,
-    post_save,
-)
-from django.dispatch import receiver
-from django.contrib.auth.models import Permission
+from allauth.account.signals import (email_confirmed, password_changed,
+                                     password_reset, user_logged_in,
+                                     user_logged_out)
 from django.contrib.auth import get_user_model
-from allauth.account.signals import (
-    email_confirmed,
-    user_logged_in,
-    user_logged_out,
-    password_changed,
-    password_reset
-)
-
-from papermerge.core.models import (
-    Folder,
-    Document,
-    Access,
-    AccessDiff
-)
-from papermerge.core.auth import (
-    create_access
-)
+from django.contrib.auth.models import Permission
+from django.db.models.signals import post_delete, post_save, pre_delete
+from django.dispatch import receiver
+from papermerge.core.auth import create_access
+from papermerge.core.models import Access, AccessDiff, Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.utils import get_tenant_name
 
+from .tasks import normalize_pages
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
@@ -171,3 +156,16 @@ def save_node_folder(sender, instance, created, **kwargs):
 def save_node_doc(sender, instance, created, **kwargs):
     node_post_save(sender, instance, created, kwargs)
 
+
+@receiver(post_save, sender=Document)
+def normalize_pages_from_doc_handler(sender, instance, created, **kwargs):
+    """Update async this document pages' attributes page.norm_*
+    """
+    normalize_pages.s(origin=instance)
+
+
+@receiver(post_save, sender=Folder)
+def normalize_pages_from_folder_handler(sender, instance, created, **kwargs):
+    """Update async folder pages attributes page.norm_*
+    """
+    normalize_pages.s(origin=instance)

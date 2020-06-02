@@ -123,3 +123,7 @@ class Page(models.Model):
         )
 
         return result.txt_exists()
+
+    def norm(self):
+        """normalization method"""
+        pass
