@@ -69,6 +69,9 @@ class TestFolder(TestCase):
     def test_basic_kvstore_for_folder(self):
         """
         kvstore is per node: i.e. per folder and per document
+        f = Folder()
+        f.kv = instance of KVNode, which operates on f.kvstore
+        f.kvstore = QuerySet of KVStoreNodes stores key values for nodes
         """
         p = Folder.objects.create(
             title="P",

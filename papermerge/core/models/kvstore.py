@@ -8,9 +8,9 @@ UPDATE = 'update'
 
 class KV:
     """
-    utility class that will operates (adds, deletes, updates, sends propagate)
-    on KVStoreNode of Node (Folder or Document)
-    or on KVStorePage of the Page
+    Utility class that operates - adds, deletes, updates,
+    sends propagate signals - on KVStoreNode of Node (Folder or Document)
+    and on KVStorePage of the Page
     """
 
     def __init__(self, instance):
