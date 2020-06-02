@@ -66,7 +66,7 @@ class TestFolder(TestCase):
                 " deletion only was intended"
             )
 
-    def test_kvstore_for_folder(self):
+    def test_basic_kvstore_for_folder(self):
         """
         kvstore is per node: i.e. per folder and per document
         """
@@ -80,5 +80,12 @@ class TestFolder(TestCase):
 
         self.assertEqual(
             3,
+            p.kvstore.count()
+        )
+
+        p.kv.remove(key="shop")
+
+        self.assertEqual(
+            2,
             p.kvstore.count()
         )

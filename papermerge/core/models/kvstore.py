@@ -2,7 +2,7 @@ from django.db import models
 from papermerge.core.custom_signals import propagate_kv
 
 ADD = 'add'
-DEL = 'del'
+REMOVE = 'remove'
 UPDATE = 'update'
 
 
@@ -40,28 +40,32 @@ class KV:
             operation=ADD
         )
 
-    def delete(self, key):
+    def remove(self, key):
         """
         adds a namespaced key,
         sends event signal for descendents to update themselves
         """
-        self.instance.kvstore.remove(
-            key=key
-        )
+        self.instance.kvstore.filter(key=key).delete()
         propagate_kv.send(
             sender=self.instance.__class__,
             instance=self.instance,
             key=key,
             namespace=self.namespace,
-            operation=DEL
+            operation=REMOVE
         )
 
 
 class KVNode(KV):
+    """
+    KV specific to Node (Folder or Document)
+    """
     pass
 
 
 class KVPage(KV):
+    """
+    KV specific to Page
+    """
     pass
 
 
@@ -101,7 +105,8 @@ class KVStoreNode(KVStore):
     node = models.ForeignKey(
         'BaseTreeNode',
         on_delete=models.CASCADE,
-        related_name='kvstore'
+        related_name='kvstore',
+        null=True
     )
 
     def __str__(self):
