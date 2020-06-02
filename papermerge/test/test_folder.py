@@ -1,10 +1,7 @@
 from pathlib import Path
 
 from django.test import TestCase
-from papermerge.core.models import (
-    Folder,
-)
-
+from papermerge.core.models import Folder, KVStoreNode
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
@@ -68,3 +65,20 @@ class TestFolder(TestCase):
                 "Parent folder was deleted when child"
                 " deletion only was intended"
             )
+
+    def test_kvstore_for_folder(self):
+        """
+        kvstore is per node: i.e. per folder and per document
+        """
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        p.kvstore.create(key="shop")
+        p.kvstore.create(key="price")
+        p.kvstore.create(key="date")
+
+        self.assertEqual(
+            3,
+            p.kvstore.count()
+        )

@@ -40,8 +40,8 @@ def norm_pages_from_doc(document):
 
 
 def norm_pages_from_folder(folder):
-    for child in folder.children():
-        norm_pages_from_doc(child)
+    for descendent in folder.get_descendants():
+        norm_pages_from_doc(descendent)
 
 
 @shared_task

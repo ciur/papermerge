@@ -6,7 +6,7 @@ from allauth.account.signals import (email_confirmed, password_changed,
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.db.models.signals import post_delete, post_save, pre_delete
-from django.dispatch import receiver
+from django.dispatch import Signal, receiver
 from papermerge.core.auth import create_access
 from papermerge.core.models import Access, AccessDiff, Document, Folder
 from papermerge.core.storage import default_storage
@@ -15,6 +15,9 @@ from papermerge.core.utils import get_tenant_name
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
+
+# signal sent when either Folder or Document add/removes/changes its KVS
+propagate_kv = Signal()
 
 
 @receiver(post_delete, sender=Document)

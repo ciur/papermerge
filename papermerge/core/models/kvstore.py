@@ -1,5 +1,9 @@
 from django.db import models
 
+ADD = 'add'
+DEL = 'del'
+UPDATE = 'update'
+
 
 class KVStore(models.Model):
     # e.g. shop, price, date
@@ -32,19 +36,23 @@ class KVStore(models.Model):
         blank=True
     )
 
-    # human readable key
-    human_key = models.CharField(
-        max_length=200,
-        null=True,
-        blank=True
-    )
-
 
 class KVStoreNode(KVStore):
-    node_id = models.ForeignKey(
+    node = models.ForeignKey(
         'BaseTreeNode',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='kvstore'
     )
+
+    def __str__(self):
+        k = self.key
+        v = self.v
+        n = self.node.id
+        s = self.namespace
+        return f"KVStoreNode(namespace={s}, key={k}, value={v}, node={n})"
+
+    def __repre__(self):
+        return str(self)
 
 
 class KVStorePage(KVStore):
