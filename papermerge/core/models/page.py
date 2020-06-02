@@ -143,11 +143,19 @@ class Page(models.Model, index.Indexed):
         self.normalize_lang()
 
     def normalize_doc_title(self):
+        """
+        Save containing document's title
+        """
         self.norm_doc_title = self.document.title
         self.save()
 
     def normalize_folder_title(self):
-        pass
+        """
+        Save direct parent folder (containing folder) title
+        """
+        if self.document.parent:
+            self.norm_folder_title = self.document.parent.title
+            self.save()
 
     def normalize_breadcrump(self):
         pass

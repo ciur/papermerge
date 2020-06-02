@@ -127,3 +127,11 @@ class TestPage(TestCase):
             first_page.norm_doc_title,
             "kyuss.pdf"
         )
+
+        result = Page.objects.search("kyuss")
+        # doc has 3 pages, thus keyword kyuss will
+        # match 3 pages (because of normalized page.norm_doc_title).
+        self.assertEqual(
+            result.count(),
+            3
+        )
