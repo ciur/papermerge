@@ -3,7 +3,7 @@ import logging
 from celery import shared_task
 from papermerge.core.ocr.page import ocr_page as main_ocr_page
 
-from .core import models
+from .models import Document, Folder
 
 logger = logging.getLogger(__name__)
 
