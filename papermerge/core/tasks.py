@@ -3,7 +3,7 @@ import logging
 from celery import shared_task
 from papermerge.core.ocr.page import ocr_page as main_ocr_page
 
-from .models import Document, Folder
+from .models import Document, Folder, Page
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ def ocr_page(
 
 
 def norm_pages_from_doc(document):
-    for page in models.Page.objects.filter(document=document):
+    for page in Page.objects.filter(document=document):
         page.norm()
 
 
@@ -43,14 +43,13 @@ def norm_pages_from_folder(folder):
         norm_pages_from_doc(child)
 
 
-@shared_task(bind=True)
+@shared_task
 def normalize_pages(origin):
     """
     Normalize Pages. The normalization was triggered model origin.
     origin can be either a Folder or a Document
     """
-
-    if isinstance(origin, models.Document):
+    if isinstance(origin, Document):
         norm_pages_from_doc(origin)
-    elif isinstance(origin, models.Folder):
+    elif isinstance(origin, Folder):
         norm_pages_from_folder(origin)

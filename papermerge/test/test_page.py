@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from papermerge.core.models import Document, Page
 
 User = get_user_model()
@@ -105,4 +105,23 @@ class TestPage(TestCase):
         self.assertEquals(
             result.count(),
             0
+        )
+
+    @override_settings(CELERY_ALWAYS_EAGER=True)
+    def test_normalize_doc_title(self):
+        doc = Document.create_document(
+            title="kyuss.pdf",
+            user=self.user,
+            lang="ENG",
+            file_name="kyuss.pdf",
+            size=1222,
+            page_count=3
+        )
+
+        doc.save()
+
+        first_page = doc.page_set.first()
+        self.assertEqual(
+            first_page.norm_doc_title,
+            "kyuss.pdf"
         )

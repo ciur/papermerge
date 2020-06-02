@@ -10,9 +10,8 @@ from django.dispatch import receiver
 from papermerge.core.auth import create_access
 from papermerge.core.models import Access, AccessDiff, Document, Folder
 from papermerge.core.storage import default_storage
+from papermerge.core.tasks import normalize_pages
 from papermerge.core.utils import get_tenant_name
-
-from .tasks import normalize_pages
 
 User = get_user_model()
 logger = logging.getLogger(__name__)

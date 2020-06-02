@@ -135,5 +135,25 @@ class Page(models.Model, index.Indexed):
         return result.txt_exists()
 
     def norm(self):
-        """normalization method"""
+        """shortcut normalization method"""
+        self.normalize_doc_title()
+        self.normalize_folder_title()
+        self.normalize_breadcrump()
+        self.normlize_text()
+        self.normalize_lang()
+
+    def nomalize_doc_title(self):
+        self.norm_doc_title = self.document.title
+        self.save()
+
+    def normalize_folder_title(self):
+        pass
+
+    def normalize_breadcrump(self):
+        pass
+
+    def normalize_text(self):
+        pass
+
+    def normalize_lang(self):
         pass
