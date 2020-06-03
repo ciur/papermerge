@@ -63,7 +63,9 @@ parts (keys):
 With compkey1 create for folder Bank, all folder's documents (and resp. pages)
 will have associated multiple instances of compkey1.
 
-KVComp describe tables.
+There can be ONLY ONE composite key per Entity (E=Page, Node=Folder/Document)
+
+KVComp describe tables. Only one table (compkey) per document is supported.
 """
 
 
@@ -76,8 +78,25 @@ class KVComp:
     def __init__(self, instance):
         self.instance = instance
 
-    def add(self, key):
+    @property
+    def namespace(self):
         pass
+
+    def add(self, key):
+        if not isinstance(key, (tuple, list)):
+            raise ValueError(
+                "KVComp key must be a list or a tuple"
+            )
+
+        # creates one row in the table
+        self.instance.kvstorecomp.create()
+        storecomp = self.instance.kvstorecomp.first()
+        # add columns to the table
+        for k in key:
+            storecomp.kvstore.create(
+                namespace=self.namespace,
+                key=k
+            )
 
 
 class KVCompNode(KVComp):
@@ -211,12 +230,13 @@ class KVStorePage(KVStore):
     )
 
 
-class KVStoreCompItem(models.Model):
+class KVStoreCompItem(KVStore):
     comp_item = models.ForeignKey(
-        'KVStore',
+        'KVStoreCompNode',
         on_delete=models.CASCADE,
         related_name='kvstore',
-        null=True
+        null=True,
+        blank=True
     )
 
 
@@ -225,5 +245,6 @@ class KVStoreCompNode(models.Model):
         'BaseTreeNode',
         on_delete=models.CASCADE,
         related_name='kvstorecomp',
-        null=True
+        null=True,
+        blank=True
     )
