@@ -27,13 +27,52 @@ on folder Groceries could be:
     * key3 = price
 
 This way, each and every document in Groceries folder (and respective pages)
-will have associated those 3 keys. Other part of application code will
-populate the values those keys
+will have associated those 3 keys. Other parts of application code will
+populate the values for those keys.
+As result, two page document (say D1) in folder Groceries will have:
 
+ D1 content:
+   page1 = key=date   value=03 June 2020
+           key=shop   value=lidl
+           key=price  value=34.02
+
+   page2 = key=date   value=01 June 2020
+           key=shop   value=aldi
+           key=price  value=19.00
+
+ Which means D1 is one batch scan of two receipts. Other parts of application
+ code might split page1 and page2 from D1 into two recepts documents with one
+ page each.
+
+ Groceries receitps are good example of simple KV instances.
+ There are other type of KV instances - KVComp, or Key Value Composite.
+ Consider a list of bank transactions. A content of document which contains
+ bank transctions DX can be described as:
+
+ DX content:
+
+  page1 = key=(date, description, amount)  value=(01 June 2020, aldi, 19.00)
+          key=(date, description, amount)  value=(03 June 2020, lidl, 34.02)
+
+Basically DX document's metadata is one composite key. Thus, it would make
+sense to create a folder titled say, Bank, create one composite key with 3
+parts (keys):
+
+  * compkey1 = (date, description, amount)
+
+With compkey1 create for folder Bank, all folder's documents (and resp. pages)
+will have associated multiple instances of compkey1.
+
+KVComp describe tables.
 """
 
 
 class KVComp:
+    """
+    Utility class that operates - adds, deletes, updates,
+    values KVComp entries
+    """
+
     def __init__(self, instance):
         self.instance = instance
 
@@ -52,7 +91,7 @@ class KVCompPage(KVComp):
 class KV:
     """
     Utility class that operates - adds, deletes, updates,
-    sends propagate signals - on KVStoreNode of Node (Folder or Document)
+    values KV entries on KVStoreNode of Node (Folder or Document)
     and on KVStorePage of the Page
     """
 
