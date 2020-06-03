@@ -93,6 +93,18 @@ class TestFolder(TestCase):
             p.kvstore.count()
         )
 
+    def test_basic_kvstorecomp_for_folder(self):
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        p.kvcomp.add(key=("date", "amount", "desc"))
+
+        self.assertEqual(
+            1,
+            p.kvstorecomp.count()
+        )
+
     def test_folders_kvstore_propagates_to_subfolders(self):
         """
         Folder's kvstore propagates to all its descendent folders,

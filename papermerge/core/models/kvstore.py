@@ -5,6 +5,22 @@ REMOVE = 'remove'
 UPDATE = 'update'
 
 
+class KVComp:
+    def __init__(self, instance):
+        self.instance = instance
+
+    def add(self, key):
+        pass
+
+
+class KVCompNode(KVComp):
+    pass
+
+
+class KVCompPage(KVComp):
+    pass
+
+
 class KV:
     """
     Utility class that operates - adds, deletes, updates,
@@ -41,8 +57,11 @@ class KV:
         self.instance.kvstore.filter(key=key).delete()
         self.propagate(key=key, operation=ADD)
 
-    def propagate(self):
-        pass
+    def propagate(self, key, operation):
+        self.instance.propagate_kv(
+            key=key,
+            operation=operation
+        )
 
 
 class KVNode(KV):
@@ -90,6 +109,11 @@ class KVStore(models.Model):
         blank=True
     )
 
+    # inherited kv is read only
+    kv_inherited = models.BooleanField(
+        default=False
+    )
+
 
 class KVStoreNode(KVStore):
     node = models.ForeignKey(
@@ -117,4 +141,22 @@ class KVStorePage(KVStore):
     page_id = models.ForeignKey(
         'Page',
         on_delete=models.CASCADE
+    )
+
+
+class KVStoreCompItem(models.Model):
+    comp_item = models.ForeignKey(
+        'KVStore',
+        on_delete=models.CASCADE,
+        related_name='kvstore',
+        null=True
+    )
+
+
+class KVStoreCompNode(models.Model):
+    node = models.ForeignKey(
+        'BaseTreeNode',
+        on_delete=models.CASCADE,
+        related_name='kvstorecomp',
+        null=True
     )

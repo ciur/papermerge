@@ -1,14 +1,10 @@
-from django.db import models
 from django.contrib.postgres.search import SearchVectorField
-
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from polymorphic_tree.models import (
-    PolymorphicMPTTModel,
-    PolymorphicTreeForeignKey
-)
-
 from papermerge.core.models.access import Access
 from papermerge.core.models.access_diff import AccessDiff
+from polymorphic_tree.models import (PolymorphicMPTTModel,
+                                     PolymorphicTreeForeignKey)
 
 
 class BaseTreeNode(PolymorphicMPTTModel):
@@ -179,6 +175,21 @@ class BaseTreeNode(PolymorphicMPTTModel):
             elif x.is_replace():
                 self.replace_access_diff(x)
 
+    def update_kv(self, key, operation):
+        pass
+
+    def propagate_kv(
+        self,
+        key,
+        operation,
+        apply_to_self=False
+    ):
+        if apply_to_self:
+            self.update_kv(key, operation)
+
+        for node in self.get_descendants():
+            node.update_kv(key, operation)
+
     def propagate_access_changes(
         self,
         access_diffs,
@@ -188,7 +199,7 @@ class BaseTreeNode(PolymorphicMPTTModel):
         Adds new_access permission to self AND all children.
         """
 
-        if (apply_to_self):
+        if apply_to_self:
             self.apply_access_diffs(access_diffs)
 
         children = self.get_children()

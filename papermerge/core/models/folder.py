@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from papermerge.core import mixins
-from papermerge.core.models.kvstore import KVNode
+from papermerge.core.models.kvstore import KVCompNode, KVNode
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.search import index
 
@@ -16,6 +16,10 @@ class Folder(mixins.ExtractIds, BaseTreeNode):
     @property
     def kv(self):
         return KVNode(instance=self)
+
+    @property
+    def kvcomp(self):
+        return KVCompNode(instance=self)
 
     class Meta:
         verbose_name = _("Folder")
