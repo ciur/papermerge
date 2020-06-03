@@ -69,6 +69,14 @@ KVComp describe tables. Only one table (compkey) per document is supported.
 """
 
 
+class KVCompKeyLengthMismatch(Exception):
+    pass
+
+
+class KVCompValidation(Exception):
+    pass
+
+
 class KVComp:
     """
     Utility class that operates - adds, deletes, updates,
@@ -82,21 +90,68 @@ class KVComp:
     def namespace(self):
         pass
 
-    def add(self, key):
+    def _validate(self, key, value):
+        """
+        Following validations are performed on the kvcomp:
+            1. Both key and values must be instanced of either list of tuple
+            2. len(key) > 0
+            3. All rows (keys/values) must have same number of components.
+            4. Column (key parts) names must match.
+        """
         if not isinstance(key, (tuple, list)):
-            raise ValueError(
+            raise KVCompValidation(
                 "KVComp key must be a list or a tuple"
             )
 
-        # creates one row in the table
-        self.instance.kvstorecomp.create()
-        storecomp = self.instance.kvstorecomp.first()
-        # add columns to the table
-        for k in key:
-            storecomp.kvstore.create(
-                namespace=self.namespace,
-                key=k
+        if not isinstance(value, (tuple, list)):
+            raise KVCompValidation(
+                "KVComp value must be a list or a tuple"
             )
+
+        if len(key) == 0:
+            raise KVCompValidation(
+                "KVComp key must have more then 0 columns"
+            )
+
+        if self.instance.kvstorecomp.count() > 0:
+            # there are other rows
+            # compare agains first one
+            row = self.instance.kvstorecomp.first()
+            if row.kvstore.count() != len(key):
+                raise KVCompKeyLengthMismatch(
+                    "Existing column count does not match with new key length"
+                )
+
+            for kvstore in self.instance.kvstorecomp.all():
+                if kvstore.key not in key:
+                    k = kvstore.key
+                    raise KVCompValidation(
+                        f"Existing column name does not match for {k}"
+                    )
+
+    def add(self, key, value=()):
+
+        self._validate(key, value)
+
+        # creates one row in the table
+        new_row = self.instance.kvstorecomp.create()
+
+        # add columns to the table
+        for index, k in enumerate(key):
+            if len(value) == len(key):
+                new_row.kvstore.create(
+                    namespace=self.namespace,
+                    key=k,
+                    value=value[index]
+                )
+            else:  # means value is empty, but key not
+                new_row.kvstore.create(
+                    namespace=self.namespace,
+                    key=k,
+                )
+
+        new_row.save()
+
 
 
 class KVCompNode(KVComp):

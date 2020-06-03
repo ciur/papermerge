@@ -2,6 +2,7 @@ from pathlib import Path
 
 from django.test import TestCase
 from papermerge.core.models import Folder
+from papermerge.core.models.kvstore import KVCompKeyLengthMismatch
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
@@ -92,6 +93,15 @@ class TestFolder(TestCase):
             2,
             p.kvstore.count()
         )
+
+    def test_basic_kvstorecomp_validations(self):
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        p.kvcomp.add(key=("date", "amount", "desc"))
+        with self.assertRaises(KVCompKeyLengthMismatch):
+            p.kvcomp.add(key=("date",))
 
     def test_basic_kvstorecomp_for_folder(self):
         p = Folder.objects.create(
