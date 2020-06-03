@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.test import TestCase
-from papermerge.core.models import Folder, KVStoreNode
+from papermerge.core.models import Folder
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder

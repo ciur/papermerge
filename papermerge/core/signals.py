@@ -3,17 +3,11 @@ import logging
 from django.db.models.signals import post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from papermerge.core.auth import create_access
-from papermerge.core.custom_signals import propagate_kv
 from papermerge.core.models import Access, AccessDiff, Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
 
 logger = logging.getLogger(__name__)
-
-
-@receiver(propagate_kv, sender=Folder)
-def propagate_kv_to_descendents(sender, instance, **kwargs):
-    pass
 
 
 @receiver(post_delete, sender=Document)

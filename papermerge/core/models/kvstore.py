@@ -1,5 +1,4 @@
 from django.db import models
-from papermerge.core.custom_signals import propagate_kv
 
 ADD = 'add'
 REMOVE = 'remove'
@@ -32,13 +31,7 @@ class KV:
             namespace=self.namespace,
             key=key
         )
-        propagate_kv.send(
-            sender=self.instance.__class__,
-            instance=self.instance,
-            key=key,
-            namespace=self.namespace,
-            operation=ADD
-        )
+        self.propagate(key=key, operation=ADD)
 
     def remove(self, key):
         """
@@ -46,13 +39,10 @@ class KV:
         sends event signal for descendents to update themselves
         """
         self.instance.kvstore.filter(key=key).delete()
-        propagate_kv.send(
-            sender=self.instance.__class__,
-            instance=self.instance,
-            key=key,
-            namespace=self.namespace,
-            operation=REMOVE
-        )
+        self.propagate(key=key, operation=ADD)
+
+    def propagate(self):
+        pass
 
 
 class KVNode(KV):
