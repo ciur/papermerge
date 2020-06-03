@@ -4,6 +4,34 @@ ADD = 'add'
 REMOVE = 'remove'
 UPDATE = 'update'
 
+"""
+# KVStore / Key Value Store
+####
+
+ Implementation of metadata associated with Folders, Documents
+ and Pages. Metadata can be defined at 3 levels:
+
+    * Page
+    * Document
+    * Folder
+
+If metadata is defined at Folder level - it will be inherited by all
+descending nodes (subfolders and documents) and pages of respective
+folders. Think of metadata definition as flowing down as a river.
+
+Metadata is a set of key values. For example, metadata defined
+on folder Groceries could be:
+
+    * key1 = date
+    * key2 = shop
+    * key3 = price
+
+This way, each and every document in Groceries folder (and respective pages)
+will have associated those 3 keys. Other part of application code will
+populate the values those keys
+
+"""
+
 
 class KVComp:
     def __init__(self, instance):
