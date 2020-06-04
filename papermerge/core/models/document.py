@@ -133,7 +133,11 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         self.save()
         self.recreate_pages()
 
-    def delete_pages(self, page_numbers):
+    def delete_pages(
+        self,
+        page_numbers,
+        skip_migration=False
+    ):
         """
         Deletes pages with given order numbers from
         the documents.
@@ -145,7 +149,8 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         # delete pages
         new_version = default_storage.delete_pages(
             doc_path=self.path,
-            page_numbers=page_numbers
+            page_numbers=page_numbers,
+            skip_migration=skip_migration
         )
 
         if new_version == self.version:

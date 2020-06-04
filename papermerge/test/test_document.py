@@ -2,12 +2,9 @@ import os
 from pathlib import Path
 
 from django.test import TestCase
+from papermerge.core.document_importer import DocumentImporter
+from papermerge.core.models import Document, Folder
 from papermerge.test.utils import create_root_user
-
-from papermerge.core.models import (
-    Document,
-    Folder
-)
 
 # points to papermerge.testing folder
 BASE_DIR = Path(__file__).parent
@@ -111,57 +108,35 @@ class TestDocument(TestCase):
 
     def test_import_file(self):
         src_file_path = os.path.join(
-            BASE_DIR, "data", "andromeda.pdf"
+            BASE_DIR, "data", "berlin.pdf"
         )
 
-        ret = Document.import_file(
-            filepath=src_file_path,
-            start_ocr_async=False,
-            upload=False
-        )
-
-        self.assertTrue(ret, "Storage Quota reached for the user.")
+        imp = DocumentImporter(src_file_path)
+        if not imp.import_file(
+            file_title="berlin.pdf",
+            delete_after_import=False,
+            skip_ocr=True
+        ):
+            self.assertTrue(False, "Error while importing file")
 
         self.assertEqual(
-            Document.objects.filter(title="andromeda.pdf").count(),
+            Document.objects.filter(title="berlin.pdf").count(),
             1,
-            "Document andromeda.pdf was not created."
+            "Document berlin.pdf was not created."
         )
 
     def test_import_file_with_title_arg(self):
         src_file_path = os.path.join(
-            BASE_DIR, "data", "andromeda.pdf"
+            BASE_DIR, "data", "berlin.pdf"
         )
 
-        ret = Document.import_file(
-            filepath=src_file_path,
-            start_ocr_async=False,
+        imp = DocumentImporter(src_file_path)
+        if not imp.import_file(
             file_title="X1.pdf",
-            upload=False
-        )
-
-        self.assertTrue(ret, "Storage Quota reached for the user.")
-
-        self.assertEqual(
-            Document.objects.filter(title="X1.pdf").count(),
-            1,
-            "Document X1.pdf was not created."
-        )
-
-    def test_import_file_with_username_arg(self):
-        src_file_path = os.path.join(
-            BASE_DIR, "data", "andromeda.pdf"
-        )
-
-        ret = Document.import_file(
-            username="admin",
-            filepath=src_file_path,
-            start_ocr_async=False,
-            file_title="X1.pdf",
-            upload=False
-        )
-
-        self.assertTrue(ret, "Storage Quota reached for the user.")
+            delete_after_import=False,
+            skip_ocr=True
+        ):
+            self.assertTrue(False, "Error while importing file")
 
         self.assertEqual(
             Document.objects.filter(title="X1.pdf").count(),
@@ -191,13 +166,15 @@ class TestDocument(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.import_file(
-            filepath=src_file_path,
-            start_ocr_async=False,
+        imp = DocumentImporter(src_file_path)
+        if not imp.import_file(
             file_title="berlin.pdf",
-            upload=False
-        )
+            delete_after_import=False,
+            skip_ocr=True
+        ):
+            self.assertTrue(False, "Error while importing file")
 
+        doc = Document.objects.get(title="berlin.pdf")
         self.assertEqual(
             doc.page_count,
             2
@@ -208,7 +185,10 @@ class TestDocument(TestCase):
             0
         )
 
-        doc.delete_pages(page_numbers=[1])
+        doc.delete_pages(
+            page_numbers=[1],
+            skip_migration=True
+        )
 
         self.assertEqual(
             doc.page_count,

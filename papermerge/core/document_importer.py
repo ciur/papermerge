@@ -1,11 +1,11 @@
-import os
 import logging
+import os
 
-from pmworker.pdfinfo import get_pagecount
-from papermerge.core.models import (User, Document, Folder)
-from papermerge.core.utils import get_superuser
-from papermerge.core.storage import default_storage
+from papermerge.core.models import Document, Folder, User
 from papermerge.core.ocr.page import ocr_page
+from papermerge.core.storage import default_storage
+from papermerge.core.utils import get_superuser
+from pmworker.pdfinfo import get_pagecount
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,8 @@ class DocumentImporter:
         self,
         file_title=None,
         inbox_title="Inbox",
-        delete_after_import=True
+        delete_after_import=True,
+        skip_ocr=False
     ):
         """
         Gets as input a path to a file on a local file system and:
@@ -76,11 +77,12 @@ class DocumentImporter:
             src=self.filepath,
             dst=doc.path.url(),
         )
-        DocumentImporter.ocr_document(
-            document=doc,
-            page_count=page_count,
-            lang=self.user_ocr_language,
-        )
+        if not skip_ocr:
+            DocumentImporter.ocr_document(
+                document=doc,
+                page_count=page_count,
+                lang=self.user_ocr_language,
+            )
 
         if delete_after_import:
             # Usually we want to delete files when importing
