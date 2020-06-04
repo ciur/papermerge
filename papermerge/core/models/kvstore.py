@@ -129,6 +129,13 @@ class KVComp:
                         f"Existing column name does not match for {k}"
                     )
 
+    def all(self):
+        result = []
+        for row in self.instance.kvstorecomp.all():
+            result.append(row.kvstore.all())
+
+        return result
+
     def add(self, key, value=()):
 
         self._validate(key, value)
@@ -178,6 +185,9 @@ class KV:
         returns namepace for added keys
         """
         pass
+
+    def all(self):
+        return self.instance.kvstore.all()
 
     def add(self, key):
         """
@@ -293,6 +303,15 @@ class KVStoreCompItem(KVStore):
         null=True,
         blank=True
     )
+
+    def __str__(self):
+        k = self.key
+        v = self.value
+        s = self.namespace
+        return f"KVStoreCompItem(namespace={s}, key={k}, value={v})"
+
+    def __repre__(self):
+        return str(self)
 
 
 class KVStoreCompNode(models.Model):

@@ -103,6 +103,48 @@ class TestFolder(TestCase):
         with self.assertRaises(KVCompKeyLengthMismatch):
             p.kvcomp.add(key=("date",))
 
+    def test_kv_all_for_folder(self):
+        """
+        Get information about kv schema (kv key fields)
+        """
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        # no kv schema defined yet
+        self.assertFalse(p.kv.all())
+        p.kv.add(key="shop")
+        self.assertTrue(p.kv.all())
+        self.assertEqual(
+            ['shop', ],
+            [item.key for item in p.kv.all()]
+        )
+
+    def test_kvcomp_all_for_folder(self):
+        """
+        Get information about kvcomp
+        """
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        # no kvcomp defined yet
+        self.assertFalse(p.kvcomp.all())
+        p.kvcomp.add(key=("date", "amount", "desc"))
+        self.assertTrue(p.kvcomp.all())
+
+        # p.kvcomp returns a list of rows, each
+        # column of the row can be accessed with [0], [1]...
+        row1 = p.kvcomp.all()[0]
+        self.assertEqual(
+            row1[0].key,
+            "date"
+        )
+        self.assertEqual(
+            row1[1].key,
+            "amount"
+        )
+
     def test_basic_kvstorecomp_for_folder(self):
         p = Folder.objects.create(
             title="P",
