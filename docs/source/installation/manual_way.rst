@@ -59,11 +59,11 @@ with paperpermerge itself.
 
 Clone main papermerge project::
 
-    git clone https://github.com/ciur/papermerge papermerge-proj
+    git clone --branch v1.2.2 https://github.com/ciur/papermerge papermerge-proj
 
 Clone papermerge-js project (this is the frontend part)::
 
-    git clone https://github.com/ciur/papermerge-js
+    git clone --branch v1.2.2 https://github.com/ciur/papermerge-js
 
 Create python's virtual environment .env::
 
