@@ -41,7 +41,12 @@ def norm_pages_from_doc(document):
 
 def norm_pages_from_folder(folder):
     for descendent in folder.get_descendants():
-        norm_pages_from_doc(descendent)
+        if isinstance(descendent, Document):
+            norm_pages_from_doc(descendent)
+        elif isinstance(descendent, Folder):
+            norm_pages_from_folder(descendent)
+        else:
+            raise ValueError("Unexpected value for descendent instance")
 
 
 @shared_task
