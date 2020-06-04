@@ -1,13 +1,9 @@
-import os
 import json
+import os
 from pathlib import Path
-from django.test import TestCase
-from papermerge.core.lib.hocr import (
-    extract_size,
-    Hocr,
-    OcrxWord
-)
 
+from django.test import TestCase
+from papermerge.core.lib.hocr import Hocr, OcrxWord, extract_size
 
 BASE_DIR = Path(__file__).parent
 
@@ -86,4 +82,3 @@ class TestHocr(TestCase):
             word.wconf,
             38
         )
-

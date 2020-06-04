@@ -7,22 +7,18 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'mg-handler': {
+        'console': {
             'class': 'logging.StreamHandler',
-        },
+        }
     },
     'loggers': {
         'papermerge': {
-            'handlers': ['mg-handler'],
+            'handlers': ['console'],
             'level': 'DEBUG'
         },
-        'mgclipboard': {
-            'handlers': ['mg-handler'],
-            'level': 'DEBUG'
-        },
-        'mglib': {
-            'handlers': ['mg-handler'],
-            'level': 'DEBUG'
+        'celery': {
+            'handlers': ['console'],
+            'level': 'INFO'
         },
     },
 }

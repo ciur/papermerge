@@ -1,14 +1,9 @@
 import json
 
-from django.test import TestCase
-from django.test import Client
+from django.test import Client, TestCase
 from django.urls import reverse
-
-from papermerge.core.models import (Access, Folder)
-from papermerge.test.utils import (
-    create_uploader_user,
-    create_margaret_user
-)
+from papermerge.core.models import Access, Folder
+from papermerge.test.utils import create_margaret_user, create_uploader_user
 
 READ = Access.PERM_READ
 WRITE = Access.PERM_WRITE

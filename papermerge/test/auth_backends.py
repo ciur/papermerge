@@ -15,4 +15,3 @@ class TestcaseUserBackend(object):
         User = get_user_model()
         user = User.objects.get(pk=user_id)
         return user
-

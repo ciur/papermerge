@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 
-
 User = get_user_model()
 
 
@@ -21,7 +20,6 @@ def create_margaret_user():
     user = User.objects.create_user(
         'margaret',
         'margaret@mail.com',
-        'xxxyyy123',
         is_active=True,
     )
     user.save()
@@ -33,7 +31,6 @@ def create_uploader_user():
     user = User.objects.create_user(
         'uploader',
         'uploader@mail.com',
-        'xxxyyy123',
         is_active=True,
     )
     user.save()
