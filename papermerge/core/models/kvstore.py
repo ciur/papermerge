@@ -1,8 +1,7 @@
 from django.db import models
 
-ADD = 'add'
-REMOVE = 'remove'
-UPDATE = 'update'
+from .diff import Diff
+
 
 """
 # KVStore / Key Value Store
@@ -160,7 +159,6 @@ class KVComp:
         new_row.save()
 
 
-
 class KVCompNode(KVComp):
     pass
 
@@ -203,7 +201,10 @@ class KV:
             namespace=self.namespace,
             key=key
         )
-        self.propagate(key=key, operation=ADD)
+        self.propagate(
+            key=key,
+            operation=Diff.ADD
+        )
 
     def remove(self, key):
         """
@@ -211,12 +212,19 @@ class KV:
         sends event signal for descendents to update themselves
         """
         self.instance.kvstore.filter(key=key).delete()
-        self.propagate(key=key, operation=ADD)
+        self.propagate(
+            key=key,
+            operation=Diff.DELETE
+        )
 
     def propagate(self, key, operation):
-        self.instance.propagate_kv(
-            key=key,
-            operation=operation
+        kv_diff = Diff(
+            operation=operation,
+            instances_set=self.instance.kvstore.all()
+        )
+        self.instance.propagate_changes(
+            diffs_set=[kv_diff],
+            apply_to_self=False
         )
 
 
@@ -301,7 +309,7 @@ class KVStoreNode(KVStore):
 
     def __str__(self):
         k = self.key
-        v = self.v
+        v = self.value
         n = self.node.id
         s = self.namespace
         return f"KVStoreNode(namespace={s}, key={k}, value={v}, node={n})"

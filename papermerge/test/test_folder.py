@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django.test import TestCase
-from papermerge.core.models import Folder
+from papermerge.core.models import Document, Folder
 from papermerge.core.models.kvstore import KVCompKeyLengthMismatch
 from papermerge.test.utils import create_root_user
 
@@ -157,7 +157,7 @@ class TestFolder(TestCase):
             p.kvstorecomp.count()
         )
 
-    def test_folders_kvstore_propagates_to_subfolders(self):
+    def test_folders_kvstore_propagates_add_to_subfolders(self):
         """
         Folder's kvstore propagates to all its descendent folders,
         documents, pages
@@ -173,6 +173,16 @@ class TestFolder(TestCase):
             user=self.user
         )
         sub.save()
+        doc = Document.create_document(
+            title="document_in_sub",
+            file_name="document_sub.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=sub.id,
+            page_count=5,
+        )
+        doc.save()
         self.assertEqual(
             0,
             top.kvstore.count()
@@ -180,6 +190,10 @@ class TestFolder(TestCase):
         self.assertEqual(
             0,
             sub.kvstore.count()
+        )
+        self.assertEqual(
+            0,
+            doc.kvstore.count()
         )
         top.kv.add(key="shop")
         self.assertEqual(
@@ -191,3 +205,14 @@ class TestFolder(TestCase):
             1,
             sub.kvstore.count()
         )
+        # kvstore propagated from ancestor folder to doc
+        self.assertEqual(
+            1,
+            doc.kvstore.count()
+        )
+
+    def test_folders_kvstore_propagates_delete_to_subfolders(self):
+        pass
+
+    def test_folders_kvstore_propagates_update_to_subfolders(self):
+        pass

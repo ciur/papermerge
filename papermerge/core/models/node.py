@@ -141,7 +141,12 @@ class BaseTreeNode(PolymorphicMPTTModel):
                     access=_model
                 )
         elif isinstance(model, KVStoreNode):
-            pass
+            for _model in diff:
+                KVStoreNode.objects.create(
+                    node=self,
+                    kv_inherited=True,
+                    key=_model.key
+                )
         elif isinstance(model, KVStoreCompNode):
             pass
         else:
