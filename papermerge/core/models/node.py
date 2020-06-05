@@ -131,36 +131,69 @@ class BaseTreeNode(PolymorphicMPTTModel):
 
         return ret
 
-    def _apply_access_diff_add(self, access_diff):
-        if access_diff.is_add():
-            for access in access_diff:
+    def _apply_diff_add(self, diff):
+        model = diff.first()
+        if isinstance(model, Access):
+            for _model in diff:
                 Access.create(
                     node=self,
                     access_inherited=True,
-                    access=access
+                    access=_model
                 )
+        elif isinstance(model, KVStoreNode):
+            pass
+        elif isinstance(model, KVStoreCompNode):
+            pass
+        else:
+            raise ValueError(
+                f"Don't know how to replace {model} (found in {diff})"
+            )
 
-    def _apply_access_diff_delete(self, access_diff):
-        if access_diff.is_delete():
-            ids_to_delete = []
-            for existing_access in self.access_set.all():
-                for new_access in access_diff:
-                    if existing_access == new_access:
+    def _apply_diff_delete(self, diff):
+        ids_to_delete = []
+        model = diff.first()
+
+        if isinstance(model, Access):
+            for existing_model in self.access_set.all():
+                for new_model in diff:
+                    if existing_model == new_model:
                         ids_to_delete.append(
-                            existing_access.id
+                            existing_model.id
                         )
             Access.objects.filter(id__in=ids_to_delete).delete()
+        elif isinstance(model, KVStoreCompNode):
+            pass
+        elif isinstance(model, KVStoreCompNode):
+            pass
+        else:
+            raise ValueError(
+                f"Don't know how to replace {model} (found in {diff})"
+            )
 
-    def _apply_access_diff_update(self, access_diff):
-        if access_diff.is_update():
-            for existing_access in self.access_set.all():
-                for new_access in access_diff:
-                    existing_access.update_from(new_access)
+    def _apply_diff_update(self, diff):
+        model = diff.first()
+        if isinstance(model, Access):
+            for existing_model in self.access_set.all():
+                for new_model in diff:
+                    existing_model.update_from(new_model)
+        elif isinstance(model, KVStoreCompNode):
+            pass
+        elif isinstance(model, KVStoreCompNode):
+            pass
+        else:
+            raise ValueError(
+                f"Don't know how to replace {model} (found in {diff})"
+            )
 
-    def apply_diff(self, access_diff):
-        self._apply_diff_add(access_diff)
-        self._apply_diff_update(access_diff)
-        self._apply_diff_delete(access_diff)
+    def apply_diff(self, diff):
+        if diff.is_add():
+            self._apply_diff_add(diff)
+        elif diff.is_update():
+            self._apply_diff_update(diff)
+        elif diff.is_delete():
+            self._apply_diff_delete(diff)
+        else:
+            raise ValueError("Unexpected diff {diff} type")
 
     def replace_access(self, diff):
         # delete exiting

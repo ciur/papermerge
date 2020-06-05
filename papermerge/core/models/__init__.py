@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from papermerge.core.models.access import Access
-from papermerge.core.models.access_diff import AccessDiff
+from papermerge.core.models.diff import Diff
 from papermerge.core.models.document import Document
 from papermerge.core.models.folder import Folder
 from papermerge.core.models.kvstore import KVStoreNode, KVStorePage

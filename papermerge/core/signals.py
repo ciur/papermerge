@@ -3,7 +3,7 @@ import logging
 from django.db.models.signals import post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from papermerge.core.auth import create_access
-from papermerge.core.models import Access, AccessDiff, Document, Folder
+from papermerge.core.models import Access, Diff, Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
 
@@ -86,12 +86,12 @@ def node_post_save(sender, node, created, *kwargs):
         # When node moved from one parent to another
         # it get all its access replaced by access list of the
         # parent
-        access_diff = AccessDiff(
-            operation=AccessDiff.REPLACE,
+        access_diff = Diff(
+            operation=Diff.REPLACE,
             access_set=node.parent.access_set.all()
         )
-        node.propagate_access_changes(
-            access_diffs=[access_diff],
+        node.propagate_changes(
+            diffs=[access_diff],
             apply_to_self=True
         )
     else:
