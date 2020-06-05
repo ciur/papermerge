@@ -186,6 +186,11 @@ class KV:
         """
         pass
 
+    def keys(self):
+        return [
+            item.key for item in self.kv.all()
+        ]
+
     def all(self):
         return self.instance.kvstore.all()
 
@@ -219,7 +224,27 @@ class KVNode(KV):
     """
     KV specific to Node (Folder or Document)
     """
-    pass
+
+    def __eq__(self, kvnode):
+        """
+        Two KVNodes are equal if all conditions
+        are true:
+        * kvnode is attached to the same node
+        * have name number of keys
+        * keys names are same
+        """
+        if self.kv.instance.id != kvnode.instance.id:
+            return False
+
+        if len(self.kv.all()) != len(kvnode.instance.kv.all()):
+            return False
+
+        keys_set1 = set(self.kv.keys())
+        keys_set2 = set(kvnode.kv.keys())
+        if keys_set1 != keys_set2:
+            return False
+
+        return True
 
 
 class KVPage(KV):
