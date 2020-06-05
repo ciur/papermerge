@@ -88,10 +88,10 @@ def node_post_save(sender, node, created, *kwargs):
         # parent
         access_diff = Diff(
             operation=Diff.REPLACE,
-            access_set=node.parent.access_set.all()
+            instances_set=node.parent.access_set.all()
         )
         node.propagate_changes(
-            diffs=[access_diff],
+            diffs_set=[access_diff],
             apply_to_self=True
         )
     else:

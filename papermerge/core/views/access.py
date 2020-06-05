@@ -1,27 +1,13 @@
-import logging
 import json
+import logging
+
 from django.contrib.auth.decorators import login_required
-from django.http import (
-    Http404,
-    HttpResponse,
-    HttpResponseBadRequest,
-    HttpResponseForbidden
-)
 from django.contrib.auth.models import Group
-
-
-from papermerge.core.auth import (
-    delete_access_perms,
-    set_access_perms,
-    get_access_perms_as_hash
-)
-
-from papermerge.core.models import (
-    BaseTreeNode,
-    Access,
-    User
-)
-
+from django.http import (Http404, HttpResponse, HttpResponseBadRequest,
+                         HttpResponseForbidden)
+from papermerge.core.auth import (delete_access_perms,
+                                  get_access_perms_as_hash, set_access_perms)
+from papermerge.core.models import Access, BaseTreeNode, User
 
 logger = logging.getLogger(__name__)
 
@@ -95,8 +81,8 @@ def access(request, id):
                     node,
                     access_data['add']
                 )
-                node.propagate_access_changes(
-                    access_diffs,
+                node.propagate_changes(
+                    diffs_set=access_diffs,
                     apply_to_self=False
                 )
             if 'delete' in access_data.keys():
@@ -104,8 +90,8 @@ def access(request, id):
                     node,
                     access_data['delete']
                 )
-                node.propagate_access_changes(
-                    access_diffs,
+                node.propagate_changes(
+                    diffs_set=access_diffs,
                     apply_to_self=False
                 )
         else:  # POST but not ajax

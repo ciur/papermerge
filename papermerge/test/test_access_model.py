@@ -1,20 +1,8 @@
+from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
-from django.contrib.auth.models import (Permission, Group)
-
-from papermerge.test.utils import (
-    create_margaret_user,
-    create_uploader_user
-)
-
-from papermerge.core.models import (
-    Folder,
-    Access,
-    AccessDiff
-)
-
-from papermerge.core.auth import (
-    create_access, set_access_perms
-)
+from papermerge.core.auth import create_access, set_access_perms
+from papermerge.core.models import Access, Diff, Folder
+from papermerge.test.utils import create_margaret_user, create_uploader_user
 
 READ = Access.PERM_READ
 WRITE = Access.PERM_WRITE
@@ -73,7 +61,7 @@ class TestAccessDiff(TestCase):
 
         self.assertEqual(
             access_diffs[0].operation,
-            AccessDiff.ADD
+            Diff.ADD
         )
 
         access = access_diffs[0].pop()
@@ -139,7 +127,7 @@ class TestAccessDiff(TestCase):
 
         self.assertEqual(
             access_diffs[0].operation,
-            AccessDiff.UPDATE
+            Diff.UPDATE
         )
 
         access = access_diffs[0].pop()
@@ -431,13 +419,13 @@ class TestAccessModel(TestCase):
             }  # allow read access to margaret
         )
         # function which does the trick
-        access_diff = AccessDiff(
-            operation=AccessDiff.ADD,
-            access_set=[new_access]
+        access_diff = Diff(
+            operation=Diff.ADD,
+            instances_set=[new_access]
 
         )
-        F1.propagate_access_changes(
-            access_diffs=[access_diff],
+        F1.propagate_changes(
+            diffs_set=[access_diff],
             apply_to_self=True
         )
 
@@ -591,4 +579,3 @@ class TestAccessModel(TestCase):
                 self.uploader_user.has_perms(FULL_ACCESS, folder),
                 f"Failed for folder {folder.title}"
             )
-

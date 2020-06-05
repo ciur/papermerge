@@ -39,7 +39,7 @@ class Diff:
 
     def first(self):
         if len(self) > 0:
-            return self._set[0]
+            return list(self._set)[0]
 
         return None
 
