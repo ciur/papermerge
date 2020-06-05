@@ -2,9 +2,16 @@ from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from papermerge.core.models.access import Access
-from papermerge.core.models.access_diff import AccessDiff
+from papermerge.core.models.diff import Diff
+from papermerge.core.models.kvstore import KVStoreCompNode, KVStoreNode
 from polymorphic_tree.models import (PolymorphicMPTTModel,
                                      PolymorphicTreeForeignKey)
+
+# things you can propagate from parent node to
+# child node
+PROPAGATE_ACCESS = 'access'
+PROPAGATE_KV = 'kv'
+PROPAGATE_KVCOMP = 'kvcomp'
 
 
 class BaseTreeNode(PolymorphicMPTTModel):
@@ -51,9 +58,9 @@ class BaseTreeNode(PolymorphicMPTTModel):
 
     def _get_access_diff_updated(self, new_access_list=[]):
         """
-        gathers AccessDiff with updated operation
+        gathers Diff with updated operation
         """
-        updates = AccessDiff(op=AccessDiff.UPDATE)
+        updates = Diff(op=Diff.UPDATE)
 
         for current in self.access_set.all():
             for new_access in new_access_list:
@@ -64,9 +71,9 @@ class BaseTreeNode(PolymorphicMPTTModel):
 
     def _get_access_diff_deleted(self, new_access_list=[]):
         """
-        gathers AccessDiff with deleted operation
+        gathers Diff with deleted operation
         """
-        dels = AccessDiff(op=AccessDiff.DELETE)
+        dels = Diff(op=Diff.DELETE)
 
         # if current access is not in the new list
         # it means current access was deleted.
@@ -78,9 +85,9 @@ class BaseTreeNode(PolymorphicMPTTModel):
 
     def _get_access_diff_added(self, new_access_list=[]):
         """
-        gathers AccessDiff with added operation
+        gathers Diff with added operation
         """
-        adds = AccessDiff(op=AccessDiff.ADDED)
+        adds = Diff(op=Diff.ADDED)
 
         # if current access is not in the new list
         # it means current access was deleted.
@@ -150,64 +157,80 @@ class BaseTreeNode(PolymorphicMPTTModel):
                 for new_access in access_diff:
                     existing_access.update_from(new_access)
 
-    def apply_access_diff(self, access_diff):
-        self._apply_access_diff_add(access_diff)
-        self._apply_access_diff_update(access_diff)
-        self._apply_access_diff_delete(access_diff)
+    def apply_diff(self, access_diff):
+        self._apply_diff_add(access_diff)
+        self._apply_diff_update(access_diff)
+        self._apply_diff_delete(access_diff)
 
-    def replace_access_diff(self, access_diff):
+    def replace_access(self, diff):
         # delete exiting
         self.access_set.all().delete()
 
         # replace with new ones
-        for access in access_diff:
+        for access in diff:
             Access.create(
                 node=self,
                 access_inherited=True,
                 access=access
             )
 
-    def apply_access_diffs(self, access_diffs):
-        for x in access_diffs:
-            if x.is_update() or x.is_add() or x.is_delete():
+    def replace_kv(self, diff):
+        pass
+
+    def replace_kvcomp(self, diff):
+        pass
+
+    def replace_diff(self, diff):
+        model = diff.first()
+
+        if isinstance(model, Access):
+            self.replace_access(diff)
+        elif isinstance(model, KVStoreNode):
+            # replace associated kv of current node
+            # with new one specified by diff elements
+            self.replace_kv(diff)
+        elif isinstance(model, KVStoreCompNode):
+            # replace associated kvcomp of current node
+            # with new one specified by diff elements
+            self.replace_kvcomp(diff)
+        else:
+            raise ValueError(
+                f"Don't know how to replace {model} (found in {diff})"
+            )
+
+    def apply_diffs(self, diffs_list):
+        for diff in diffs_list:
+            if diff.is_update() or diff.is_add() or diff.is_delete():
                 # add (new), update (existing) or delete(existing)
-                self.apply_access_diff(x)
-            elif x.is_replace():
-                self.replace_access_diff(x)
+                self.apply_diff(diff)
+            elif diff.is_replace():
+                self.replace_diff(diff)
 
     def update_kv(self, key, operation):
         pass
 
-    def propagate_kv(
+    def propagate_changes(
         self,
-        key,
-        operation,
-        apply_to_self=False
-    ):
-        if apply_to_self:
-            self.update_kv(key, operation)
-
-        for node in self.get_descendants():
-            node.update_kv(key, operation)
-
-    def propagate_access_changes(
-        self,
-        access_diffs,
+        diffs_set,
         apply_to_self
     ):
         """
-        Adds new_access permission to self AND all children.
+        Recursively propagates list of diffs
+        (i.e. apply changes to all children).
+        diffs_set is a set of papermerge.core.models.Diff instances
         """
 
         if apply_to_self:
-            self.apply_access_diffs(access_diffs)
+            self.apply_diffs(
+                diffs_set
+            )
 
         children = self.get_children()
         if children.count() > 0:
             for node in children:
-                node.apply_access_diffs(access_diffs)
-                node.propagate_access_changes(
-                    access_diffs,
+                node.apply_diffs(diffs_set)
+                node.propagate_changes(
+                    diffs_set,
                     apply_to_self=False
                 )
 

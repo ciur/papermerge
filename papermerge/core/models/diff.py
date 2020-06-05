@@ -1,12 +1,13 @@
 
 
-class AccessDiff:
+class Diff:
     """
-    A list of access permissions wich an operation
-    associated.
+    A list of Models which can be propagated from parent to child node
+    an operation associated.
 
-    This structure is necessary because of the access permissions
-    propagation from parent to child nodes i.e. if some access(es)
+    This structure is necessary because of
+    the access permissions/kv/kvcomp
+    propagation from parent to child nodes i.e. if some access/kv/kvcomp(es)
     is (are) applied to a node - it will affect (update, insert, delete)
     all its descendents.
     """
@@ -15,26 +16,32 @@ class AccessDiff:
     ADD = 1  # accesses in the list will be added
     REPLACE = 2
 
-    def __init__(self, operation, access_set=[]):
+    def __init__(self, operation, instances_set=[]):
         self._op = operation
 
-        if len(access_set) == 0:
+        if len(instances_set) == 0:
             self._set = set()
         else:
-            self._set = access_set
+            self._set = instances_set
 
     @property
     def operation(self):
         return self._op
 
-    def add(self, access):
-        self._set.add(access)
+    def add(self, instance):
+        self._set.add(instance)
 
     def __len__(self):
         return len(self._set)
 
     def __iter__(self):
         return iter(self._set)
+
+    def first(self):
+        if len(self) > 0:
+            return self._set[0]
+
+        return None
 
     def pop(self):
         return self._set.pop()
@@ -58,12 +65,12 @@ class AccessDiff:
             self.ADD: "add",
             self.REPLACE: "replace"
         }
-        acc_list = [
-            str(acc) for acc in self._set
+        inst_list = [
+            str(inst) for inst in self._set
         ]
         op = op_name[self._op]
 
-        return f"AccessDiff({op}, {acc_list})"
+        return f"Diff({op}, {inst_list})"
 
     def __repr__(self):
         return self.__str__()

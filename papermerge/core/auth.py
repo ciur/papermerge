@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from papermerge.core.models import Access, AccessDiff
+from papermerge.core.models import Access, Diff
 
 # custom user is used - papermerge.core.models.User
 User = get_user_model()
@@ -12,7 +12,7 @@ def delete_access_perms(node, access_list):
     same input as for set_access_perms
     """
 
-    access_diff_d = AccessDiff(operation=AccessDiff.DELETE)
+    access_diff_d = Diff(operation=Diff.DELETE)
     # by the user
     for access_item in node.access_set.all():
         if access_item.user:
@@ -74,8 +74,8 @@ def set_access_perms(node, access_list):
     """
     # first, add new access entries to the node
     # or update existing onces.
-    access_diff_u = AccessDiff(operation=AccessDiff.UPDATE)
-    access_diff_a = AccessDiff(operation=AccessDiff.ADD)
+    access_diff_u = Diff(operation=Diff.UPDATE)
+    access_diff_a = Diff(operation=Diff.ADD)
 
     for access_hash in access_list:
         access = get_access_for(

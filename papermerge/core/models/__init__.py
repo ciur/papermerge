@@ -29,7 +29,7 @@ __all__ = [
     'Page',
     'BaseTreeNode',
     'Access',
-    'AccessDiff',
+    'Diff',
     'KVStoreNode',
     'KVStorePage'
 ]
