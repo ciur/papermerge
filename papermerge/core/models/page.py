@@ -3,7 +3,7 @@ import os
 
 from django.db import models
 from mglib.path import PagePath
-from papermerge.core.models import Document
+from papermerge.core.models import Document, KVPage
 from papermerge.core.storage import default_storage
 from papermerge.search import index
 from papermerge.search.queryset import SearchableQuerySetMixin
@@ -65,6 +65,17 @@ class Page(models.Model, index.Indexed):
     ]
 
     objects = PageQuerySet.as_manager()
+
+    @property
+    def kv(self):
+        return KVPage(instance=self)
+
+    def propagate_changes(
+        self,
+        diffs_set,
+        apply_to_self
+    ):
+        pass
 
     @property
     def is_last(self):

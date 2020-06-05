@@ -315,7 +315,7 @@ class KVStoreNode(KVStore):
         s = self.namespace
         return f"KVStoreNode(namespace={s}, key={k}, value={v}, node={n})"
 
-    def __repre__(self):
+    def __repr__(self):
         return str(self)
 
 
@@ -323,10 +323,22 @@ class KVStorePage(KVStore):
     """
     Normalized KVStore per Page
     """
-    page_id = models.ForeignKey(
+    page = models.ForeignKey(
         'Page',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='kvstore',
+        null=True
     )
+
+    def __str__(self):
+        k = self.key
+        v = self.value
+        p = self.page.id
+        s = self.namespace
+        return f"KVStorePage(namespace={s}, key={k}, value={v}, page={p})"
+
+    def __repr__(self):
+        return str(self)
 
 
 class KVStoreCompItem(KVStore):

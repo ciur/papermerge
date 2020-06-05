@@ -135,3 +135,21 @@ class TestPage(TestCase):
             result.count(),
             3
         )
+
+    def test_basic_kvstore_for_page(self):
+        doc = self.get_whatever_doc()
+        page = Page(
+            text="Some cool content in page model",
+            user=self.user,
+            document=doc
+        )
+        page.save()
+        self.assertEqual(
+            0,
+            page.kvstore.count()
+        )
+        page.kv.add(key="shop")
+        self.assertEqual(
+            1,
+            page.kvstore.count()
+        )
