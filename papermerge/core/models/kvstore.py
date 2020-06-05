@@ -18,7 +18,7 @@ If metadata is defined at Folder level - it will be inherited by all
 descending nodes (subfolders and documents) and pages of respective
 folders. Think of metadata definition as flowing down as a river.
 
-Metadata is a set of key values. For example, metadata defined
+Metadata is defined as a set of key names. For example, metadata defined
 on folder Groceries could be:
 
     * key1 = date
@@ -40,13 +40,13 @@ As result, two page document (say D1) in folder Groceries will have:
            key=price  value=19.00
 
  Which means D1 is one batch scan of two receipts. Other parts of application
- code might split page1 and page2 from D1 into two recepts documents with one
+ code might split page1 and page2 from D1 into two receipts documents with one
  page each.
 
  Groceries receitps are good example of simple KV instances.
  There are other type of KV instances - KVComp, or Key Value Composite.
- Consider a list of bank transactions. A content of document which contains
- bank transctions DX can be described as:
+ Consider a list of bank transactions. A content of document (DX)
+ which contains bank transctions can be described as:
 
  DX content:
 
@@ -59,12 +59,13 @@ parts (keys):
 
   * compkey1 = (date, description, amount)
 
-With compkey1 create for folder Bank, all folder's documents (and resp. pages)
+With compkey1 created for folder Bank, all folder's documents (and resp. pages)
 will have associated multiple instances of compkey1.
 
 There can be ONLY ONE composite key per Entity (E=Page, Node=Folder/Document)
 
-KVComp describe tables. Only one table (compkey) per document is supported.
+KVComp describe tables. I repeat, as this is important -
+only one table (compkey) per document is supported.
 """
 
 
