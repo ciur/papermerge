@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def kvstore(request, id):
+def metadata(request, id):
     try:
         node = BaseTreeNode.objects.get(id=id)
     except BaseTreeNode.DoesNotExist:
