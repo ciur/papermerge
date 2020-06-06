@@ -1,10 +1,9 @@
-from django.urls import path, include
 from django.contrib.auth.decorators import login_required
-
-from papermerge.core.views import documents as doc_views
+from django.urls import include, path
 from papermerge.core.views import access as access_views
 from papermerge.core.views import api as api_views
-
+from papermerge.core.views import documents as doc_views
+from papermerge.core.views import kvstore as kvstore_views
 
 document_patterns = [
     path(
@@ -43,6 +42,9 @@ urlpatterns = [
     ),
     path(
         'access/<int:id>', access_views.access, name="access"
+    ),
+    path(
+        'kvstore/<int:id>', kvstore_views.kvstore, name="kvstore"
     ),
     path(
         'usergroups', access_views.user_or_groups, name="user_or_groups"

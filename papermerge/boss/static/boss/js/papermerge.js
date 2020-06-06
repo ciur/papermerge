@@ -23895,7 +23895,7 @@ class DeleteForm {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataForm", function() { return MetadataForm; });
 class MetadataForm {
-  constructor(node, id = "#metadata-form") {
+  constructor(node, id = "#metadata_form") {
     this._node = node; // only one item!
 
     this._id = id;
@@ -23981,11 +23981,7 @@ class MetadataForm {
       let norm_ai;
       that.clear();
 
-      for (let access_hash of data) {
-        norm_ai = DgNormAccessItem.build_from(access_hash);
-        that.insert_norm_ai(norm_ai);
-        console.log(access);
-      }
+      for (let kvstore_hash of data) {}
 
       $(that._id).find(".cancel").click(function (e) {
         e.preventDefault();

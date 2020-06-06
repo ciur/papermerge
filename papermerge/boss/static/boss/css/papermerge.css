@@ -8558,6 +8558,8 @@ button.btn-reverse:hover {
   background-color: rgba(0, 0, 0, 0.25);
   width: 100%;
   height: 100%; }
+  #modals-container #metadata_form {
+    width: 45vw; }
   #modals-container #access_form {
     width: 45vw; }
     #modals-container #access_form .flex-table .ft-row.disabled {
@@ -10303,6 +10305,8 @@ button.btn-reverse:hover {
   background-color: rgba(0, 0, 0, 0.25);
   width: 100%;
   height: 100%; }
+  #modals-container #metadata_form {
+    width: 45vw; }
   #modals-container #access_form {
     width: 45vw; }
     #modals-container #access_form .flex-table .ft-row.disabled {
