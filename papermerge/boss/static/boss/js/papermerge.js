@@ -23911,18 +23911,28 @@ class MetadataForm {
     this._set_title(node);
 
     this.build_simple_key_actions();
+    this.configEvents();
   }
 
   build_simple_key_actions() {
     $("#add_simple_meta").click(function () {
-      $("ul#simple_keys").append("<li><input id='' name='key' type='text' value=''></li>");
+      $("ul#simple_keys").append(`<li class='d-flex'><input id='' name='key' type='text' value=''>
+                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span></button>
+                </li>`);
     });
     $("#add_comp_meta").click(function () {
-      $("ul#comp_keys").append("<li><input id='' name='comp_key' type='text' value=''></li>");
+      $("ul#comp_keys").append(`<li class="d-flex"><input id='' name='comp_key' type='text' value=''> 
+                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span></button></li>`);
     });
   }
 
-  configEvents() {}
+  configEvents() {
+    $(document).on('click', '.close.key', function () {
+      $(this).parent().empty();
+    });
+  }
 
   _set_title(item) {
     $(this._id).find("[name=title]").val(item.title);
@@ -23981,15 +23991,8 @@ class MetadataForm {
       let norm_ai;
       that.clear();
 
-      for (let kvstore_hash of data) {}
+      for (let kvstore_hash of data) {} // on submit send data to server side
 
-      $(that._id).find(".cancel").click(function (e) {
-        e.preventDefault();
-        $("#modals-container").hide();
-        $(that._id).hide(); // unbind submit event.
-
-        $(that._id).off("submit");
-      }); // on submit send data to server side
 
       $(that._id).submit(function (e) {
         e.preventDefault();
@@ -23999,6 +24002,16 @@ class MetadataForm {
       });
     });
     $(that._id).show();
+    $(that._id).find(".cancel").click(function (e) {
+      e.preventDefault();
+      $("ul#simple_keys").empty();
+      $("ul#comp_keys").empty();
+      $("#modals-container").hide();
+      $(that._id).hide();
+      that.unbind_events(); // unbind submit event.
+
+      $(that._id).off("submit");
+    });
   }
 
 }
