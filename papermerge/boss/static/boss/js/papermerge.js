@@ -26016,22 +26016,7 @@ class MetadataForm {
 
     this._set_title(node);
 
-    this.build_simple_key_actions();
     this.configEvents();
-  }
-
-  build_simple_key_actions() {
-    $("#add_simple_meta").click(function () {
-      $("ul#simple_keys").append(`<li class='d-flex'><input id='' name='key' type='text' value=''>
-                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
-                <span aria-hidden='true'>&times;</span></button>
-                </li>`);
-    });
-    $("#add_comp_meta").click(function () {
-      $("ul#comp_keys").append(`<li class="d-flex"><input id='' name='comp_key' type='text' value=''> 
-                <button type='button' class='close key text-danger mx-1' aria-label='Close'>
-                <span aria-hidden='true'>&times;</span></button></li>`);
-    });
   }
 
   configEvents() {
@@ -26062,23 +26047,6 @@ class MetadataForm {
     $(this._id).append(hidden_input);
   }
 
-  on_submit() {
-    let token = $("[name=csrfmiddlewaretoken]").val();
-    let simple_keys = [];
-    $("input[name=key_name]").each(function () {
-      simple_keys.push({
-        'id': this.id,
-        'key': this.value
-      });
-    });
-    $.ajaxSetup({
-      headers: {
-        'X-CSRFToken': token
-      }
-    });
-    $.post(`/kvstore/${this._node.id}`, JSON.stringify(simple_keys));
-  }
-
   unbind_events() {
     // unbind action events
     this._actions.unbind_events(); // unbind submit event
@@ -26095,7 +26063,7 @@ class MetadataForm {
       e.preventDefault();
       $(that._id).css("display", "none");
       $("#modals-container").hide();
-      that.on_submit();
+      metadata_view.on_submit();
     });
     $(that._id).show();
     $(that._id).find(".cancel").click(function (e) {
@@ -26786,9 +26754,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
 
 class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
-  constructor(doc_id) {
-    super();
+  initialize(doc_id) {
     this.doc_id = doc_id;
+    this._kvstore = [];
+    this._kvstore_comp = [];
+  }
+
+  get kvstore() {
+    return this._kvstore;
+  }
+
+  get kvstore_comp() {
+    return this._kvstore_comp;
   }
 
   urlRoot() {
@@ -26800,6 +26777,22 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
       title: '',
       completed: false
     };
+  }
+
+  add_simple() {
+    this.kvstore.push({
+      'key': '',
+      'id': '',
+      'kv_inherited': false
+    });
+  }
+
+  add_comp() {
+    this.kvstore_comp.push({
+      'key': '',
+      'id': '',
+      'kv_inherited': false
+    });
   }
 
 }
@@ -27702,7 +27695,15 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="modal-header">\n    <h1>Metadata</h1>\n</div>\n<div class="modal-body vertical">\n     <ul class="horizontal menu">\n        <li>\n            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n        </li>\n        <li>\n            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n        </li>\n     </ul>\n     Simple keys\n     <ul id="simple_keys" class="vertical menu">\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
+__p+='<div class="modal-header">\n    <h1>Metadata</h1>\n</div>\n<div class="modal-body vertical">\n     <ul class="horizontal menu">\n        <li>\n            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n        </li>\n        <li>\n            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n        </li>\n     </ul>\n     Simple keys\n     <ul id="simple_keys" class="vertical menu">\n        ';
+ for (i=0; i < kvstore.length; i++) { 
+__p+='\n        <li class=\'d-flex\'><input id=\''+
+((__t=( kvstore[i].id ))==null?'':__t)+
+'\' name=\'key\' type=\'text\' value=\''+
+((__t=( kvstore[i].key ))==null?'':__t)+
+'\'>\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                <span aria-hidden=\'true\'>&times;</span></button>\n        ';
+ } 
+__p+='\n        </li>\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
 }
 return __p;
 };
@@ -28855,31 +28856,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataView", function() { return MetadataView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
 
 let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
 
-class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
-  constructor(doc_id) {
-    super();
-    let metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_1__["Metadata"](doc_id).fetch();
-  }
-
+class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form_content');
   }
 
-  initialize() {
+  initialize(doc_id) {
+    this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["Metadata"](doc_id);
+    this.metadata.fetch();
     this.render();
   }
 
+  events() {
+    let event_map = {
+      "click #add_simple_meta": "add_simple_meta",
+      "click #add_comp_meta": "add_comp_meta"
+    };
+    return event_map;
+  }
+
+  add_simple_meta() {
+    this.metadata.add_simple();
+    this.render();
+  }
+
+  add_comp_meta() {
+    this.metadata.add_comp();
+    this.render();
+  }
+
+  on_submit() {
+    this.metadata.save();
+  }
+
   render() {
-    this.$el.html(TEMPLATE({}));
+    let compiled = underscore__WEBPACK_IMPORTED_MODULE_1___default.a.template(TEMPLATE({
+      kvstore: this.metadata.kvstore
+    }));
+
+    this.$el.html(compiled);
     return this;
   }
 
