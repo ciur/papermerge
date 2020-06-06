@@ -46,43 +46,24 @@
         </div>
     </form>
 
-    <form id="metadata-simple-form" class="modal hidden" action="kv" method="post">
+    <form id="metadata-form" class="modal hidden" action="kv" method="post">
         {% csrf_token %}
         <div class="modal-header">
-            <h1>{% trans "Metadata Simple" %}</h1>
+            <h1>{% trans "Metadata" %}</h1>
         </div>
         <div class="modal-body vertical">
              <ul class="horizontal menu">
                 <li>
-                    <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create"/>
+                    <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>
+                </li>
+                <li>
+                    <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>
                 </li>
              </ul>
              <ul id="simple_keys" class="horizontal menu">
              </ul>
-        </div>
-        <div class="modal-footer horizontal fl-end">
-            <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
-            <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
-        </div>
-    </form>
-
-    <form id="metadata-comp-form" class="modal hidden" action="" method="post">
-        {% csrf_token %}
-        <div class="modal-header">
-            <h1>{% trans "Metadata Composite" %}</h1>
-        </div>
-        <div class="modal-body vertical">
-             <ul class="horizontal menu">
-                <li>
-                    <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create"/>
-                </li>
-                <li>
-                    <input id="edit_comp_meta" class="btn btn-neuter" type="button" value="{% trans 'Edit' %}" />
-                </li>
-                <li>
-                    <input id="delete_comp_meta" class="btn btn-neuter" type="button" value="{% trans 'Delete' %}" />
-                </li>
-            </ul>
+             <ul id="comp_keys" class="horizontal menu">
+             </ul>
         </div>
         <div class="modal-footer horizontal fl-end">
             <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />

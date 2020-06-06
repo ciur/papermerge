@@ -20993,9 +20993,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../forms/delete_form */ "./src/js/forms/delete_form.js");
 /* harmony import */ var _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../forms/rename_form */ "./src/js/forms/rename_form.js");
 /* harmony import */ var _forms_access_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/access_form */ "./src/js/forms/access_form.js");
-/* harmony import */ var _forms_metadata_simple_form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../forms/metadata_simple_form */ "./src/js/forms/metadata_simple_form.js");
-/* harmony import */ var _forms_metadata_comp_form__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../forms/metadata_comp_form */ "./src/js/forms/metadata_comp_form.js");
-
+/* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../forms/metadata_form */ "./src/js/forms/metadata_form.js");
 
 
 
@@ -21118,8 +21116,7 @@ function build_changelist_actions() {
       paste_pages_action,
       rename_action,
       download_action,
-      metadata_simple_action,
-      metadata_comp_action,
+      metadata_action,
       access_action;
   cut_action = new DgChangeListAction({
     id: "#cut",
@@ -21223,8 +21220,8 @@ function build_changelist_actions() {
       access_form.show();
     }
   });
-  metadata_comp_action = new DgChangeListAction({
-    id: "#metadata-comp",
+  metadata_action = new DgChangeListAction({
+    id: "#metadata",
     enabled: function (selection, clipboard) {
       return selection.length == 1;
     },
@@ -21235,23 +21232,7 @@ function build_changelist_actions() {
       // in case of access_action, only node is used - and it
       // refers to the selected node.
 
-      metadata_form = new _forms_metadata_comp_form__WEBPACK_IMPORTED_MODULE_13__["MetadataCompForm"](node, current_node);
-      metadata_form.show();
-    }
-  });
-  metadata_simple_action = new DgChangeListAction({
-    id: "#metadata-simple",
-    enabled: function (selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function (selection, clipboard, current_node) {
-      let metadata_form, node;
-      node = selection.first(); // current_node = referes to the parent node, which is used
-      // some actions (in paste for example)
-      // in case of access_action, only node is used - and it
-      // refers to the selected node.
-
-      metadata_form = new _forms_metadata_simple_form__WEBPACK_IMPORTED_MODULE_12__["MetadataSimpleForm"](node, current_node);
+      metadata_form = new _forms_metadata_form__WEBPACK_IMPORTED_MODULE_12__["MetadataForm"](node, current_node);
       metadata_form.show();
     }
   });
@@ -21262,8 +21243,7 @@ function build_changelist_actions() {
   actions.add(rename_action);
   actions.add(download_action);
   actions.add(access_action);
-  actions.add(metadata_simple_action);
-  actions.add(metadata_comp_action);
+  actions.add(metadata_action);
 }
 
 /***/ }),
@@ -23904,100 +23884,18 @@ class DeleteForm {
 
 /***/ }),
 
-/***/ "./src/js/forms/metadata_comp_form.js":
-/*!********************************************!*\
-  !*** ./src/js/forms/metadata_comp_form.js ***!
-  \********************************************/
-/*! exports provided: MetadataCompForm */
+/***/ "./src/js/forms/metadata_form.js":
+/*!***************************************!*\
+  !*** ./src/js/forms/metadata_form.js ***!
+  \***************************************/
+/*! exports provided: MetadataForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataCompForm", function() { return MetadataCompForm; });
-class MetadataCompForm {
-  constructor(node, id = "#metadata-comp-form") {
-    this._node = node; // only one item!
-
-    this._id = id;
-
-    this._create_hidden_input(node); // will create hidden input for parent id
-    // to know to which folder to redirect back
-    // if this parameter is missing - will redirect back
-    // to root folder.
-
-
-    this._create_hidden_parent(parent_id);
-
-    this._set_title(node);
-  }
-
-  configEvents() {}
-
-  _set_title(item) {
-    $(this._id).find("[name=title]").val(item.title);
-  }
-
-  _create_hidden_parent(parent_id = "") {
-    let hidden_parent = `<input \
-            type="hidden" \
-            name="parent_id" \
-            value="${parent_id}" \
-            />`;
-    $(this._id).append(hidden_parent);
-  }
-
-  _create_hidden_input(item) {
-    let hidden_input = `<input \
-         type="hidden" \
-         name="node_id" \
-         value="${item.id}" \
-         />`;
-    $(this._id).append(hidden_input);
-  }
-
-  on_access_close() {// send all access info to the server.
-  }
-
-  on_submit() {}
-
-  unbind_events() {
-    // unbind action events
-    this._actions.unbind_events(); // unbind submit event
-
-
-    $(this._id).off("submit");
-  }
-
-  show() {
-    let that = this;
-    $("#modals-container").css("display", "flex");
-    $(that._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("#modals-container").hide();
-      $(that._id).hide(); // unbind submit event.
-
-      $(that._id).off("submit");
-    });
-    $(that._id).show();
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
-/***/ "./src/js/forms/metadata_simple_form.js":
-/*!**********************************************!*\
-  !*** ./src/js/forms/metadata_simple_form.js ***!
-  \**********************************************/
-/*! exports provided: MetadataSimpleForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataSimpleForm", function() { return MetadataSimpleForm; });
-class MetadataSimpleForm {
-  constructor(node, id = "#metadata-simple-form") {
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataForm", function() { return MetadataForm; });
+class MetadataForm {
+  constructor(node, id = "#metadata-form") {
     this._node = node; // only one item!
 
     this._id = id;
@@ -24017,7 +23915,10 @@ class MetadataSimpleForm {
 
   build_simple_key_actions() {
     $("#add_simple_meta").click(function () {
-      $("ul#simple_keys").append("<li><input id='' name='key_name' type='text' value=''></li>");
+      $("ul#simple_keys").append("<li><input id='' name='key' type='text' value=''></li>");
+    });
+    $("#add_comp_meta").click(function () {
+      $("ul#comp_keys").append("<li><input id='' name='comp_key' type='text' value=''></li>");
     });
   }
 
@@ -24073,19 +23974,33 @@ class MetadataSimpleForm {
   show() {
     let that = this;
     $("#modals-container").css("display", "flex");
-    $(that._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("#modals-container").hide();
-      $(that._id).hide(); // unbind submit event.
+    $.ajax({
+      url: `/kvstore/${this._node.id}`
+    }).done(function (data) {
+      // load server side data
+      let norm_ai;
+      that.clear();
 
-      $(that._id).off("submit");
-    }); // on submit send data to server side
+      for (let access_hash of data) {
+        norm_ai = DgNormAccessItem.build_from(access_hash);
+        that.insert_norm_ai(norm_ai);
+        console.log(access);
+      }
 
-    $(that._id).submit(function (e) {
-      e.preventDefault();
-      $(that._id).css("display", "none");
-      $("#modals-container").hide();
-      that.on_submit();
+      $(that._id).find(".cancel").click(function (e) {
+        e.preventDefault();
+        $("#modals-container").hide();
+        $(that._id).hide(); // unbind submit event.
+
+        $(that._id).off("submit");
+      }); // on submit send data to server side
+
+      $(that._id).submit(function (e) {
+        e.preventDefault();
+        $(that._id).css("display", "none");
+        $("#modals-container").hide();
+        that.on_submit();
+      });
     });
     $(that._id).show();
   }
