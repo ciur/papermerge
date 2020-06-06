@@ -21361,99 +21361,6 @@ class DgPermissionActions {
 
 /***/ }),
 
-/***/ "./src/js/actions/simple_key_actions.js":
-/*!**********************************************!*\
-  !*** ./src/js/actions/simple_key_actions.js ***!
-  \**********************************************/
-/*! exports provided: MgSimpleKeyAction, MgSimpleKeyActions */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSimpleKeyAction", function() { return MgSimpleKeyAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSimpleKeyActions", function() { return MgSimpleKeyActions; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _abstract_action__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./abstract_action */ "./src/js/actions/abstract_action.js");
-/* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selection */ "./src/js/selection.js");
-
-
-
-class MgSimpleKeyAction extends _abstract_action__WEBPACK_IMPORTED_MODULE_1__["DgAbstractAction"] {
-  constructor(config) {
-    super(config);
-  }
-
-  toggle(selection) {
-    if (this._enabled_cond(selection)) {
-      this.enable();
-    } else {
-      this.disable();
-    }
-  }
-
-  action(node, selection) {
-    this._action(node, selection);
-  }
-
-}
-class MgSimpleKeyActions {
-  constructor(node, simple_key_items) {
-    // DgNode corresponding to selected document/folder
-    this._node = node;
-    this._actions = [];
-    this._simple_key_items = simple_key_items;
-  }
-
-  add(action) {
-    this._attach_events(action);
-
-    this._actions.push(action);
-  }
-
-  actions() {
-    return this._actions;
-  }
-
-  _attach_events(action) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(action.id).click({
-      action: action,
-      node: this._node,
-      selection: this._simple_key_items.get_selected()
-    }, this.on_click);
-  }
-
-  unbind_events() {
-    /*
-      Unbind all click events.
-    */
-    for (let action of this._actions) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(action.id).off('click');
-    }
-  }
-
-  on_change_selection(selection) {
-    for (let action of this._actions) {
-      action.toggle();
-    }
-  }
-
-  on_click(event) {
-    let action = event.data.action;
-    let node = event.data.node;
-    let selection = event.data.selection;
-
-    if (!action.is_enabled) {
-      return;
-    }
-
-    action.action(node, selection);
-  }
-
-}
-
-/***/ }),
-
 /***/ "./src/js/app.js":
 /*!***********************!*\
   !*** ./src/js/app.js ***!
@@ -24089,13 +23996,6 @@ class MetadataCompForm {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataSimpleForm", function() { return MetadataSimpleForm; });
-/* harmony import */ var _metadata_simple_key_items__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../metadata/simple_key_items */ "./src/js/metadata/simple_key_items.js");
-/* harmony import */ var _actions_simple_key_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/simple_key_actions */ "./src/js/actions/simple_key_actions.js");
-/* harmony import */ var _forms_simple_key_editor_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../forms/simple_key_editor_form */ "./src/js/forms/simple_key_editor_form.js");
-
-
-
-
 class MetadataSimpleForm {
   constructor(node, id = "#metadata-simple-form") {
     this._node = node; // only one item!
@@ -24110,40 +24010,15 @@ class MetadataSimpleForm {
 
     this._create_hidden_parent(parent_id);
 
-    this._key_simple_items = new _metadata_simple_key_items__WEBPACK_IMPORTED_MODULE_0__["MgSimpleKeyItems"]();
-    this._actions = new _actions_simple_key_actions__WEBPACK_IMPORTED_MODULE_1__["MgSimpleKeyActions"](node, this._key_simple_items);
-
     this._set_title(node);
 
     this.build_simple_key_actions();
   }
 
   build_simple_key_actions() {
-    let create_action,
-        edit_action,
-        delete_action,
-        that = this;
-    create_action = new _actions_simple_key_actions__WEBPACK_IMPORTED_MODULE_1__["MgSimpleKeyAction"]({
-      id: "#add_simple_meta",
-      initial_state: true,
-      enabled: function (selection) {
-        return true;
-      },
-      action: function (node) {
-        let simple_key_editor_form;
-        simple_key_editor_form = new _forms_simple_key_editor_form__WEBPACK_IMPORTED_MODULE_2__["MgSimpleKeyEditorForm"](node, // initial data is empty, so dialog will
-        // be clear of any previous data
-        undefined);
-        simple_key_editor_form.show();
-        simple_key_editor_form.add_submit(that.on_simple_key_editor_close, that);
-      }
+    $("#add_simple_meta").click(function () {
+      $("ul#simple_keys").append("<li><input id='' name='key_name' type='text' value=''></li>");
     });
-
-    this._actions.add(create_action);
-  }
-
-  on_simple_key_editor_close(simple_key_item) {
-    this._simple_key_items.update(simple_key_item);
   }
 
   configEvents() {}
@@ -24170,10 +24045,22 @@ class MetadataSimpleForm {
     $(this._id).append(hidden_input);
   }
 
-  on_access_close() {// send all access info to the server.
+  on_submit() {
+    let token = $("[name=csrfmiddlewaretoken]").val();
+    let simple_keys = [];
+    $("input[name=key_name]").each(function () {
+      simple_keys.push({
+        'id': this.id,
+        'key': this.value
+      });
+    });
+    $.ajaxSetup({
+      headers: {
+        'X-CSRFToken': token
+      }
+    });
+    $.post(`/kvstore/${this._node.id}`, JSON.stringify(simple_keys));
   }
-
-  on_submit() {}
 
   unbind_events() {
     // unbind action events
@@ -24192,6 +24079,13 @@ class MetadataSimpleForm {
       $(that._id).hide(); // unbind submit event.
 
       $(that._id).off("submit");
+    }); // on submit send data to server side
+
+    $(that._id).submit(function (e) {
+      e.preventDefault();
+      $(that._id).css("display", "none");
+      $("#modals-container").hide();
+      that.on_submit();
     });
     $(that._id).show();
   }
@@ -24794,165 +24688,6 @@ class RenameForm {
 
 /***/ }),
 
-/***/ "./src/js/forms/simple_key_editor_form.js":
-/*!************************************************!*\
-  !*** ./src/js/forms/simple_key_editor_form.js ***!
-  \************************************************/
-/*! exports provided: MgSimpleKeyEditorForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSimpleKeyEditorForm", function() { return MgSimpleKeyEditorForm; });
-/* harmony import */ var bootstrap_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap-select */ "./node_modules/bootstrap-select/dist/js/bootstrap-select.js");
-/* harmony import */ var bootstrap_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap_select__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _metadata_simple_key_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../metadata/simple_key_item */ "./src/js/metadata/simple_key_item.js");
-//  https://developer.snapappointments.com/bootstrap-select/
-
-
-class MgSimpleKeyEditorForm {
-  constructor(node, // refers to the selected folder/document
-  simple_key_item = undefined, // if present,
-  // fill in inial values from it
-  id = "#simple_key_editor_form") {
-    this._item = node; // only one item!
-
-    this._id = id;
-    this._parent_id = parent_id;
-
-    this._create_hidden_input(node); // will create hidden input for parent id
-    // to know to which folder to redirect back
-    // if this parameter is missing - will redirect back
-    // to root folder.
-
-
-    this._create_hidden_parent(parent_id);
-
-    this._set_title(node);
-
-    this._simple_key_item = new _metadata_simple_key_item__WEBPACK_IMPORTED_MODULE_1__["MgSimpleKeyItem"](simple_key_item);
-    this._on_submit = undefined;
-    this.configEvents();
-    this.fill_initial_data(simple_key_item);
-  } // event name
-
-
-  static get SUBMIT() {
-    return "SUBMIT";
-  }
-
-  fill_initial_data(norm_ai) {}
-
-  get access_line() {
-    return this._access_item;
-  }
-
-  configEvents() {
-    let that = this; // https://developer.snapappointments.com/bootstrap-select/
-
-    $(this._id).find('[name=access_type]').change(function (e) {
-      let value = $(e.target).val();
-      that.on_type_changed(value);
-    });
-  }
-
-  add_submit(handler, context) {
-    this._on_submit = {
-      handler,
-      context
-    };
-  }
-
-  on_submit(access_line) {
-    // for permission editor form, submit handler
-    // can be called only once - thus: fire & remove it!
-    if (this._on_submit) {
-      let handler = this._on_submit.handler;
-      let context = this._on_submit.context;
-      handler.apply(context, [access_line]);
-      this._on_submit = undefined;
-    }
-  }
-
-  on_user_or_group_changed(data_model, data_id, is_selected) {
-    if (data_model == 'user') {
-      if (is_selected) {
-        this._access_item.add_user(data_id);
-      } else {
-        this._access_item.del_user(data_id);
-      }
-    }
-
-    if (data_model == 'group') {
-      if (is_selected) {
-        this._access_item.add_group(data_id);
-      } else {
-        this._access_item.del_group(data_id);
-      }
-    }
-  }
-
-  on_perm_changed(name, is_checked) {
-    if (is_checked) {
-      this._access_item.add_perm(name);
-    } else {
-      this._access_item.del_perm(name);
-    }
-  }
-
-  on_type_changed(value) {
-    this._access_item.type = value;
-  }
-
-  _set_title(item) {
-    $(this._id).find("[name=title]").val(item.title);
-  }
-
-  _create_hidden_parent(parent_id = "") {
-    let hidden_parent = `<input \
-            type="hidden" \
-            name="parent_id" \
-            value="${parent_id}" \
-            />`;
-    $(this._id).append(hidden_parent);
-  }
-
-  _create_hidden_input(item) {
-    let hidden_input = `<input \
-         type="hidden" \
-         name="node_id" \
-         value="${item.id}" \
-         />`;
-    $(this._id).append(hidden_input);
-  }
-
-  on_close(submit_line) {// it preserves context of this class
-  }
-
-  on_cancel() {// it preserves context of this class
-  }
-
-  show() {
-    let that = this;
-    $("#modals-container").css("display", "flex");
-    console.log(`showing ${that._id}`);
-    $(that._id).show();
-    $(that._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $(that._id).css("display", "none");
-    });
-    $(that._id).submit(function (e) {
-      e.preventDefault();
-      $(that._id).css("display", "none");
-      that.on_submit(that.access_line);
-    });
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
 /***/ "./src/js/locale.js":
 /*!**************************!*\
   !*** ./src/js/locale.js ***!
@@ -25014,347 +24749,6 @@ class DgLocale {
   }
 
 }
-
-/***/ }),
-
-/***/ "./src/js/metadata/selection.js":
-/*!**************************************!*\
-  !*** ./src/js/metadata/selection.js ***!
-  \**************************************/
-/*! exports provided: MgSelection */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSelection", function() { return MgSelection; });
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
-
-class MgSelection {
-  static get DELETE() {
-    return "mg_selection_simple_key_item_delete";
-  }
-
-  constructor() {
-    this._list = [];
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_0__["DgEvents"]();
-  }
-
-  subscribe_event(name, handler, context) {
-    this._events.subscribe(name, handler, context);
-  }
-
-  notify_subscribers(event_name, model, name) {
-    this._events.notify(event_name, model, name);
-  }
-
-  exists(norm_ai) {
-    for (let i = 0; i < this._list.length; i++) {
-      let item = this._list[i];
-
-      if (item.name == norm_ai.name && item.model == norm_ai.model) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  count() {
-    return this._list.length;
-  }
-
-  first() {
-    if (this.count() > 0) {
-      return this._list[0];
-    }
-  }
-
-  delete_all() {
-    for (let i = 0; i < this._list.length; i++) {
-      let item = this._list[i]; // remove all associated dom elements;
-
-      item.jq_dom_ref.remove();
-      this.notify_subscribers(MgSelection.DELETE, item.model, item.name);
-    }
-
-    this._list = [];
-    this._list.length = 0;
-  }
-
-  del(norm_ai) {
-    let index = -1;
-
-    for (let i = 0; i < this._list.length; i++) {
-      let item = this._list[i];
-
-      if (item.name == norm_ai.name && item.model == norm_ai.model) {
-        index = i;
-      }
-    }
-
-    if (index > -1 && index < this._list.length) {
-      this._list.splice(index, 1);
-    }
-  }
-
-  add(norm_ai) {
-    this._list.push(norm_ai);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/metadata/simple_key_item.js":
-/*!********************************************!*\
-  !*** ./src/js/metadata/simple_key_item.js ***!
-  \********************************************/
-/*! exports provided: MgSimpleKeyItem */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSimpleKeyItem", function() { return MgSimpleKeyItem; });
-class MgSimpleKeyItem {
-  constructor(simple_key_item = undefined) {
-    if (!simple_key_item) {
-      this._name = undefined;
-      this._inherited = false;
-    } else {
-      this._name = simple_key_item.name;
-      this._inherited = simple_key_item.inherited;
-    }
-  }
-
-  get name() {
-    return this._name;
-  }
-
-  set name(value) {
-    this._name = name;
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/metadata/simple_key_items.js":
-/*!*********************************************!*\
-  !*** ./src/js/metadata/simple_key_items.js ***!
-  \*********************************************/
-/*! exports provided: MgSimpleKeyItems */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgSimpleKeyItems", function() { return MgSimpleKeyItems; });
-/* harmony import */ var _simple_key_item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./simple_key_item */ "./src/js/metadata/simple_key_item.js");
-/* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./selection */ "./src/js/metadata/selection.js");
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
-
-
-
-class MgSimpleKeyItems {
-  // events definitions
-  static get SELECT() {
-    return "SIMPLE_KEY_ITEMS_SELECT";
-  }
-
-  constructor(id = "#access_items") {
-    this._id = id; // items in this list will be either created
-    // or updated
-
-    this._list = []; // items in this list will be deleted.
-
-    this._delete_list = [];
-    this._selection = new _selection__WEBPACK_IMPORTED_MODULE_1__["MgSelection"]();
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_2__["DgEvents"]();
-    this.configEvents();
-  }
-
-  configEvents() {
-    let that = this;
-    $(this._id).click(function (e) {
-      let data_name, data_model, arr, dom_el;
-      dom_el = $(e.target.parentElement);
-      data_model = dom_el.data('model');
-      data_name = dom_el.data('name');
-      arr = that._list.filter(norm_ai => norm_ai.model == data_model && norm_ai.name == data_name);
-
-      if (arr.length > 0) {
-        that.on_click(arr[0], dom_el);
-      }
-    });
-
-    this._selection.subscribe_event(_selection__WEBPACK_IMPORTED_MODULE_1__["MgSelection"].DELETE, this.on_selection_delete_item, this);
-  }
-
-  as_hash() {
-    let result = {
-      'add': [],
-      'delete': []
-    }; // format data as expected
-    // by HTTP POST /access/<node_id>
-
-    for (let item of this._list) {
-      result['add'].push(item.as_hash());
-    }
-
-    for (let item of this._delete_list) {
-      result['delete'].push(item.as_hash());
-    }
-
-    return result;
-  }
-
-  subscribe_event(name, handler, context) {
-    this._events.subscribe(name, handler, context);
-  }
-
-  notify_subscribers(event_name, list) {
-    this._events.notify(event_name, list);
-  }
-
-  selected_count() {
-    return this._selection.count();
-  }
-
-  get_selected() {
-    return this._selection;
-  }
-
-  clear() {
-    for (let item in this._list) {
-      item.jq_dom_ref.delete();
-    }
-
-    this._list = [];
-  }
-
-  on_selection_delete_item(model, name) {
-    // just before deleting an item from selection,
-    // it sends an event to the access_items class.
-    // 
-    // DgAccessItems in its turn, deletes item from its list.
-    // model = user | group
-    let index = -1,
-        tmp_one_element_array = [];
-
-    for (let i = 0; i < this._list.length; i++) {
-      let item = this._list[i];
-
-      if (item.model == model && item.name == name) {
-        index = i;
-      }
-    }
-
-    if (index > -1 && index < this._list.length) {
-      tmp_one_element_array = this._list.splice(index, 1);
-
-      this._delete_list.push(tmp_one_element_array[0]);
-    }
-  }
-
-  on_click(norm_ai, dom_el) {
-    if (this._selection.exists(norm_ai)) {
-      this._selection.del(norm_ai);
-
-      dom_el.removeClass('selected');
-    } else {
-      this._selection.add(norm_ai);
-
-      dom_el.addClass('selected');
-    } // notify access form that selection changed,
-    // this will adjust action buttons (edit, delete)
-
-
-    this.notify_subscribers(DgAccessItems.SELECT);
-  }
-
-  dom_add(dom_template) {
-    $(this._id).append(dom_template);
-  }
-
-  insert_norm_ai(norm_ai) {
-    let jq_dom_ref = $(norm_ai.get_template());
-    norm_ai.jq_dom_ref = jq_dom_ref;
-
-    this._list.push(norm_ai);
-
-    this.dom_add(jq_dom_ref);
-  }
-
-  update_norm_ai(norm_ai, access_item) {
-    let jq_dom_ref;
-    norm_ai.type = access_item.type;
-    norm_ai.perms = access_item.perms;
-    jq_dom_ref = $(norm_ai.get_template());
-    norm_ai.jq_dom_ref.replaceWith(jq_dom_ref);
-    norm_ai.jq_dom_ref = jq_dom_ref;
-  }
-
-  user_exists(user_name) {
-    let norm_ai;
-
-    for (let i = 0; i < this._list.length; i++) {
-      norm_ai = this._list[i];
-
-      if (norm_ai.model == 'user' && norm_ai.name == user_name) {
-        return this._list[i];
-      }
-    }
-
-    return false;
-  }
-
-  group_exists(group_name) {
-    let norm_ai;
-
-    for (let i = 0; i < this._list.length; i++) {
-      norm_ai = this._list[i];
-
-      if (norm_ai.model == 'group' && norm_ai.name == group_name) {
-        return this._list[i];
-      }
-    }
-
-    return false;
-  }
-
-  update(access_item) {
-    for (let i = 0; i < access_item.users.length; i++) {
-      let user = access_item.users[i];
-      let existing_norm_ai = this.user_exists(user);
-      let new_norm_ai;
-
-      if (!existing_norm_ai) {
-        new_norm_ai = new DgNormAccessItem(DgNormAccessItem.USER, // model type
-        user, // model name
-        access_item);
-        this.insert_norm_ai(new_norm_ai);
-      } else {
-        this.update_norm_ai(existing_norm_ai, access_item);
-      }
-    }
-
-    for (let i = 0; i < access_item.groups.length; i++) {
-      let group = access_item.groups[i];
-      let existing_norm_ai = this.group_exists(group);
-      let new_norm_ai;
-
-      if (!existing_norm_ai) {
-        new_norm_ai = new DgNormAccessItem(DgNormAccessItem.GROUP, // model type
-        group, // model name
-        access_item);
-        this.insert_norm_ai(new_norm_ai);
-      } else {
-        this.update_norm_ai(existing_norm_ai, access_item);
-      }
-    }
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
