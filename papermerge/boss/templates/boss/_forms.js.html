@@ -52,7 +52,17 @@
             <h1>{% trans "Metadata Simple" %}</h1>
         </div>
         <div class="modal-body vertical">
-            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="+"/>
+             <ul class="horizontal menu">
+                <li>
+                    <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create"/>
+                </li>
+                <li>
+                    <input id="edit_simple_meta" class="btn btn-neuter" type="button" value="{% trans 'Edit' %}" />
+                </li>
+                <li>
+                    <input id="delete_simple_meta" class="btn btn-neuter" type="button" value="{% trans 'Delete' %}" />
+                </li>
+            </ul>
         </div>
         <div class="modal-footer horizontal fl-end">
             <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
@@ -66,7 +76,17 @@
             <h1>{% trans "Metadata Composite" %}</h1>
         </div>
         <div class="modal-body vertical">
-            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="+"/>
+             <ul class="horizontal menu">
+                <li>
+                    <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create"/>
+                </li>
+                <li>
+                    <input id="edit_comp_meta" class="btn btn-neuter" type="button" value="{% trans 'Edit' %}" />
+                </li>
+                <li>
+                    <input id="delete_comp_meta" class="btn btn-neuter" type="button" value="{% trans 'Delete' %}" />
+                </li>
+            </ul>
         </div>
         <div class="modal-footer horizontal fl-end">
             <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
@@ -128,6 +148,21 @@
                     -->
                 </div> <!-- end of body -->
             </div>
+        </div>
+        <div class="modal-footer horizontal fl-end">
+            <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
+            <a class="btn btn-neuter margin-xs cancel">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+
+    <form id="simple_key_editor_form" class="model hidden" action="" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h1>{% trans "Simple Key Editor" %}</h1>
+        </div>
+        <div class="modal-body vertical">
+            <label class="padding-x-xs">{% trans "Key name" %}:</label>
+            <input id="simple_key_name" type="text" />
         </div>
         <div class="modal-footer horizontal fl-end">
             <input type="submit" class="btn action margin-xs" value="{% trans 'OK' %}" />
