@@ -26749,10 +26749,16 @@ class DgLocale {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return Metadata; });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return Metadata; });
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
 
+let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
+Backbone.$.ajaxSetup({
+  headers: {
+    'X-CSRFToken': CSRF_TOKEN
+  }
+});
 class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
   initialize(doc_id) {
     this.doc_id = doc_id;
@@ -26797,6 +26803,7 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
 
 }
 ;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -27697,13 +27704,13 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="modal-header">\n    <h1>Metadata</h1>\n</div>\n<div class="modal-body vertical">\n     <ul class="horizontal menu">\n        <li>\n            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n        </li>\n        <li>\n            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n        </li>\n     </ul>\n     Simple keys\n     <ul id="simple_keys" class="vertical menu">\n        ';
  for (i=0; i < kvstore.length; i++) { 
-__p+='\n        <li class=\'d-flex\'><input id=\''+
+__p+='\n            <li class=\'d-flex\'>\n                <input id=\''+
 ((__t=( kvstore[i].id ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value=\''+
 ((__t=( kvstore[i].key ))==null?'':__t)+
-'\'>\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                <span aria-hidden=\'true\'>&times;</span></button>\n        ';
+'\'>\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            </li>\n        ';
  } 
-__p+='\n        </li>\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
+__p+='\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
 }
 return __p;
 };
@@ -28866,7 +28873,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
+
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_3___default.a.sync;
+
+backbone__WEBPACK_IMPORTED_MODULE_3___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name=csrfmiddlewaretoken]").val();
+  /*
+   * The jQuery `ajax` method includes a 'headers' option
+   * which lets you set any headers you like
+   */
+
+  options.headers = {
+    /* 
+     * Set the 'Authorization' header and get the access
+     * token from the `auth` module
+     */
+    'X-CSRFToken': csrf_token
+  };
+  /*
+   * Call the stored original Backbone.sync method with
+   * extra headers argument added
+   */
+
+  backboneSync(method, model, options);
+};
 
 class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   el() {
