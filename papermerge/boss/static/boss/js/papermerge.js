@@ -25995,7 +25995,10 @@ class DeleteForm {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataForm", function() { return MetadataForm; });
-/* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
+/* harmony import */ var _views_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../views/metadata */ "./src/js/views/metadata.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
+
 
 class MetadataForm {
   constructor(node, id = "#metadata_form") {
@@ -26086,25 +26089,13 @@ class MetadataForm {
 
   show() {
     let that = this,
-        metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_0__["Metadata"](this._node.id);
+        metadata_view = new _views_metadata__WEBPACK_IMPORTED_MODULE_0__["MetadataView"](this._node.id);
     $("#modals-container").css("display", "flex");
-    metadata.fetch();
-    $.ajax({
-      url: `/kvstore/${this._node.id}`
-    }).done(function (data) {
-      // load server side data
-      let norm_ai;
-      that.clear();
-
-      for (let kvstore_hash of data) {} // on submit send data to server side
-
-
-      $(that._id).submit(function (e) {
-        e.preventDefault();
-        $(that._id).css("display", "none");
-        $("#modals-container").hide();
-        that.on_submit();
-      });
+    $(that._id).submit(function (e) {
+      e.preventDefault();
+      $(that._id).css("display", "none");
+      $("#modals-container").hide();
+      that.on_submit();
     });
     $(that._id).show();
     $(that._id).find(".cancel").click(function (e) {
@@ -27701,6 +27692,24 @@ class DgMainSpinner {
 
 /***/ }),
 
+/***/ "./src/js/templates/metadata.html":
+/*!****************************************!*\
+  !*** ./src/js/templates/metadata.html ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-header">\n    <h1>Metadata</h1>\n</div>\n<div class="modal-body vertical">\n     <ul class="horizontal menu">\n        <li>\n            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n        </li>\n        <li>\n            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n        </li>\n     </ul>\n     Simple keys\n     <ul id="simple_keys" class="vertical menu">\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/text_overlay.js":
 /*!********************************!*\
   !*** ./src/js/text_overlay.js ***!
@@ -28829,6 +28838,51 @@ var dglDOM = function () {
 
 function dglReady(func) {
   document.addEventListener('DOMContentLoaded', func);
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/views/metadata.js":
+/*!**********************************!*\
+  !*** ./src/js/views/metadata.js ***!
+  \**********************************/
+/*! exports provided: MetadataView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataView", function() { return MetadataView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
+
+class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  constructor(doc_id) {
+    super();
+    let metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_1__["Metadata"](doc_id).fetch();
+  }
+
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form_content');
+  }
+
+  initialize() {
+    this.render();
+  }
+
+  render() {
+    this.$el.html(TEMPLATE({}));
+    return this;
+  }
+
 }
 ;
 
