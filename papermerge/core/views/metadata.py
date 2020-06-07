@@ -35,12 +35,10 @@ def metadata(request, id):
         kv_data = json.loads(request.body)
         if 'kvstore' in kv_data:
             if isinstance(kv_data['kvstore'], list):
-                for attr in kv_data['kvstore']:
-                    node.kv.add(attr['key'])
+                node.kv.update(kv_data['kvstore'])
         if 'kvstore_comp' in kv_data:
             if isinstance(kv_data['kvstore_comp'], list):
-                for attr in kv_data['kvstore_comp']:
-                    node.kvcomp.add(attr['key'])
+                node.kvcomp.update(kv_data['kvstore_comp'])
 
     return HttpResponse(
         json.dumps(

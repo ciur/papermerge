@@ -136,6 +136,14 @@ class KVComp:
 
         return result
 
+    def update(self, data):
+        """
+        data is one of:
+            *
+            *
+        """
+        pass
+
     def add(self, key, value=()):
 
         self._validate(key, value)
@@ -189,6 +197,20 @@ class KV:
         return [
             item.key for item in self.kv.all()
         ]
+
+    def update(self, data):
+        """
+        data is one of:
+            * list of dictionaries
+            * lisf of KVStores
+            * one dict
+            * one instance of KVStore
+
+        a dict can contain following keys:
+            'key' = kvstore.key
+            'id' = kvstore.id
+        """
+        pass
 
     def all(self):
         return self.instance.kvstore.all()

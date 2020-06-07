@@ -27822,7 +27822,9 @@ __p+='\n            <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                <input data-cid=\''+
+'">\n                <input data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
@@ -27836,7 +27838,9 @@ __p+='\n            <li class=\'d-flex\' data-model=\'comp-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                <input data-cid=\''+
+'">\n                <input data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
