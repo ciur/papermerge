@@ -26015,14 +26015,6 @@ class MetadataForm {
     this._create_hidden_parent(parent_id);
 
     this._set_title(node);
-
-    this.configEvents();
-  }
-
-  configEvents() {
-    $(document).on('click', '.close.key', function () {
-      $(this).parent().empty();
-    });
   }
 
   _set_title(item) {
@@ -26740,6 +26732,74 @@ class DgLocale {
 
 /***/ }),
 
+/***/ "./src/js/models/kvstore.js":
+/*!**********************************!*\
+  !*** ./src/js/models/kvstore.js ***!
+  \**********************************/
+/*! exports provided: KVStore, KVStoreCollection, KVStoreComp, KVStoreCompCollection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStore", function() { return KVStore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreCollection", function() { return KVStoreCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreComp", function() { return KVStoreComp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreCompCollection", function() { return KVStoreCompCollection; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      key: '',
+      kv_inherited: false
+    };
+  }
+
+  toJSON() {
+    let dict = {
+      key: this.get('key'),
+      kv_inherited: this.get('kv_inherited')
+    };
+    return dict;
+  }
+
+}
+class KVStoreCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return KVStore;
+  }
+
+}
+class KVStoreComp extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      key: '',
+      kv_inherited: false
+    };
+  }
+
+  toJSON() {
+    let dict = {
+      key: this.get('key'),
+      kv_inherited: this.get('kv_inherited')
+    };
+    return dict;
+  }
+
+}
+class KVStoreCompCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return KVStoreComp;
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/models/metadata.js":
 /*!***********************************!*\
   !*** ./src/js/models/metadata.js ***!
@@ -26750,8 +26810,14 @@ class DgLocale {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return Metadata; });
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./kvstore */ "./src/js/models/kvstore.js");
+
+
+
 
 let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
 Backbone.$.ajaxSetup({
@@ -26759,11 +26825,11 @@ Backbone.$.ajaxSetup({
     'X-CSRFToken': CSRF_TOKEN
   }
 });
-class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
+class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   initialize(doc_id) {
     this.doc_id = doc_id;
-    this._kvstore = [];
-    this._kvstore_comp = [];
+    this._kvstore = new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"]();
+    this._kvstore_comp = new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCompCollection"]();
   }
 
   get kvstore() {
@@ -26778,26 +26844,44 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
     return `/metadata/${this.doc_id}`;
   }
 
-  defaults() {
-    return {
-      title: '',
-      completed: false
-    };
+  toJSON() {
+    let dict = {};
+    dict['kvstore'] = this.kvstore.toJSON();
+    dict['kvstore_comp'] = this.kvstore_comp.toJSON();
+    return dict;
+  }
+
+  update_simple(cid, value) {
+    let model = this.kvstore.get(cid);
+    model.set({
+      'key': value
+    });
+  }
+
+  update_comp(cid, value) {
+    let model = this.kvstore_comp.get(cid);
+    model.set({
+      'key': value
+    });
   }
 
   add_simple() {
-    this.kvstore.push({
-      'key': '',
-      'id': '',
-      'kv_inherited': false
+    this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]());
+  }
+
+  remove_simple(cid) {
+    this.kvstore.remove({
+      'cid': cid
     });
   }
 
   add_comp() {
-    this.kvstore_comp.push({
-      'key': '',
-      'id': '',
-      'kv_inherited': false
+    this.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"]());
+  }
+
+  remove_comp(cid) {
+    this.kvstore_comp.remove({
+      'cid': cid
     });
   }
 
@@ -27703,14 +27787,34 @@ module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='<div class="modal-header">\n    <h1>Metadata</h1>\n</div>\n<div class="modal-body vertical">\n     <ul class="horizontal menu">\n        <li>\n            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n        </li>\n        <li>\n            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n        </li>\n     </ul>\n     Simple keys\n     <ul id="simple_keys" class="vertical menu">\n        ';
- for (i=0; i < kvstore.length; i++) { 
-__p+='\n            <li class=\'d-flex\'>\n                <input id=\''+
-((__t=( kvstore[i].id ))==null?'':__t)+
-'\' name=\'key\' type=\'text\' value=\''+
-((__t=( kvstore[i].key ))==null?'':__t)+
-'\'>\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            </li>\n        ';
+ for (i=0; i < kvstore.models.length; i++) { 
+__p+='\n            ';
+ item = kvstore.models[i]; 
+__p+='\n            <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' data-value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                <input data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' name=\'key\' type=\'text\' value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            </li>\n        ';
  } 
-__p+='\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
+__p+='\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n        ';
+ for (i=0; i < kvstore_comp.models.length; i++) { 
+__p+='\n            ';
+ item = kvstore_comp.models[i]; 
+__p+='\n            <li class=\'d-flex\' data-model=\'comp-key\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' data-value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                <input data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' name=\'key\' type=\'text\' value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            </li>\n        ';
+ } 
+__p+='\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
 }
 return __p;
 };
@@ -28866,8 +28970,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_kvstore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/kvstore */ "./src/js/models/kvstore.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -28876,9 +28982,9 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_3___default.a.sync;
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync;
 
-backbone__WEBPACK_IMPORTED_MODULE_3___default.a.sync = function (method, model, options) {
+backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync = function (method, model, options) {
   let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
@@ -28886,10 +28992,6 @@ backbone__WEBPACK_IMPORTED_MODULE_3___default.a.sync = function (method, model, 
    */
 
   options.headers = {
-    /* 
-     * Set the 'Authorization' header and get the access
-     * token from the `auth` module
-     */
     'X-CSRFToken': csrf_token
   };
   /*
@@ -28900,7 +29002,7 @@ backbone__WEBPACK_IMPORTED_MODULE_3___default.a.sync = function (method, model, 
   backboneSync(method, model, options);
 };
 
-class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form_content');
   }
@@ -28914,19 +29016,52 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   events() {
     let event_map = {
       "click #add_simple_meta": "add_simple_meta",
-      "click #add_comp_meta": "add_comp_meta"
+      "click #add_comp_meta": "add_comp_meta",
+      "click .close.key": "remove_meta",
+      "keyup input": "update_value"
     };
     return event_map;
   }
 
-  add_simple_meta() {
-    this.metadata.add_simple();
+  update_value(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+
+    if (data['model'] == 'simple-key') {
+      this.metadata.update_simple(data['cid'], value);
+    } else if (data['model'] == 'comp-key') {
+      this.metadata.update_comp(data['cid'], value);
+    }
+  }
+
+  add_simple_meta(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    this.metadata.add_simple(new _models_kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStore"]({
+      'value': value
+    }));
     this.render();
   }
 
-  add_comp_meta() {
-    this.metadata.add_comp();
+  add_comp_meta(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    this.metadata.add_comp(new _models_kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStoreComp"]({
+      'value': value
+    }));
     this.render();
+  }
+
+  remove_meta(event) {
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+
+    if (data['model'] == 'simple-key') {
+      this.metadata.remove_simple(data['cid']);
+    } else if (data['model'] == 'comp-key') {
+      this.metadata.remove_comp(data['cid']);
+    }
+
+    parent.remove();
   }
 
   on_submit() {
@@ -28935,7 +29070,8 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
   render() {
     let compiled = underscore__WEBPACK_IMPORTED_MODULE_1___default.a.template(TEMPLATE({
-      kvstore: this.metadata.kvstore
+      kvstore: this.metadata.kvstore,
+      kvstore_comp: this.metadata.kvstore_comp
     }));
 
     this.$el.html(compiled);

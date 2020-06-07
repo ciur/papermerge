@@ -15,7 +15,8 @@ def metadata(request, id):
     except BaseTreeNode.DoesNotExist:
         raise Http404("Node does not exists")
 
-    result = []
+    kvstore = []
+    kvstore_comp = []
 
     if request.method == 'GET':
         for kv in node.kv.all():
@@ -23,12 +24,30 @@ def metadata(request, id):
             item['id'] = kv.id
             item['key'] = kv.key
             item['inherited'] = kv.inherited
-            result.append(item)
+            kvstore.append(item)
+        for kv in node.kvcomp.all():
+            item = {}
+            item['id'] = kv.id
+            item['key'] = kv.key
+            item['inherited'] = kv.inherited
+            kvstore_comp.append(item)
     else:
-        # POST here
-        pass
+        kv_data = json.loads(request.body)
+        if 'kvstore' in kv_data:
+            if isinstance(kv_data['kvstore'], list):
+                for attr in kv_data['kvstore']:
+                    node.kv.add(attr['key'])
+        if 'kvstore_comp' in kv_data:
+            if isinstance(kv_data['kvstore_comp'], list):
+                for attr in kv_data['kvstore_comp']:
+                    node.kvcomp.add(attr['key'])
 
     return HttpResponse(
-        json.dumps(result),
+        json.dumps(
+            {
+                'kvstore': kvstore,
+                'kvstore_comp': kvstore_comp
+            }
+        ),
         content_type="application/json"
     )
