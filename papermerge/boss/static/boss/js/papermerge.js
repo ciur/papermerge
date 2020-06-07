@@ -26051,6 +26051,7 @@ class MetadataForm {
     let that = this,
         metadata_view = new _views_metadata__WEBPACK_IMPORTED_MODULE_0__["MetadataView"](this._node.id);
     $("#modals-container").css("display", "flex");
+    metadata_view.render();
     $(that._id).submit(function (e) {
       e.preventDefault();
       $(that._id).css("display", "none");
@@ -26826,18 +26827,25 @@ Backbone.$.ajaxSetup({
   }
 });
 class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      kvstore: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"](),
+      kvstore_comp: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCompCollection"]()
+    };
+  }
+
   initialize(doc_id) {
-    this.doc_id = doc_id;
-    this._kvstore = new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"]();
-    this._kvstore_comp = new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCompCollection"]();
+    this.doc_id = doc_id; // fetch data from server side
+
+    this.fetch();
   }
 
   get kvstore() {
-    return this._kvstore;
+    return this.get('kvstore');
   }
 
   get kvstore_comp() {
-    return this._kvstore_comp;
+    return this.get('kvstore_comp');
   }
 
   urlRoot() {
@@ -26849,6 +26857,26 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     dict['kvstore'] = this.kvstore.toJSON();
     dict['kvstore_comp'] = this.kvstore_comp.toJSON();
     return dict;
+  }
+
+  parse(response, options) {
+    let kvstore = response.kvstore,
+        kvstore_comp = response.kvstore_comp,
+        that = this;
+
+    underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore, function (item) {
+      that.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"](item));
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore_comp, function (item) {
+      that.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"](item));
+    });
+
+    this.trigger('change');
+    return {
+      'kvstore': this.kvstore,
+      'kvstore_comp': this.kvstore_comp
+    };
   }
 
   update_simple(cid, value) {
@@ -29009,7 +29037,7 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   initialize(doc_id) {
     this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["Metadata"](doc_id);
-    this.metadata.fetch();
+    this.listenTo(this.metadata, 'change', this.render);
     this.render();
   }
 
