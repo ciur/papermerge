@@ -3,7 +3,7 @@ from pathlib import Path
 from django.test import TestCase
 from django.utils.translation import gettext as _
 from papermerge.core.models import Document, Folder
-from papermerge.core.models.kvstore import KVCompKeyLengthMismatch
+from papermerge.core.models.kvstore import KVCompKeyLengthMismatch, KVStoreNode
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
@@ -263,12 +263,12 @@ class TestFolder(TestCase):
         )
         self.assertEqual(0, p.kv.count())
         p.kv.update(
-            [{'key': "shop"}, {'key': "total"}]
+            [{'key': 'shop'}, {'key': 'total'}]
         )
         self.assertEqual(2, p.kv.count())
         # get ID's of newly created KVStoreNode instances
         _kv_list_of_dicts = [
-            {'key': item['key'], 'id': item['id']} for item in p.kv.all()
+            {'key': item.key, 'id': item.id} for item in p.kv.all()
         ]
         # find key titled 'total', and rename it to 'total_price'
         for obj_with_total_key in _kv_list_of_dicts:

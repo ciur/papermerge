@@ -195,25 +195,42 @@ class KV:
 
     def keys(self):
         return [
-            item.key for item in self.kv.all()
+            item.key for item in self.all()
         ]
 
     def update(self, data):
         """
         data is one of:
             * list of dictionaries
-            * lisf of KVStores
-            * one dict
-            * one instance of KVStore
+        a dict can contain KVStore fields like:
 
-        a dict can contain following keys:
             'key' = kvstore.key
             'id' = kvstore.id
         """
-        pass
+        for item in data:
+            # update exiting
+            if 'id' in item:
+                kvstore_node = self.instance.kvstore.filter(
+                    id=item['id']
+                ).first()
+                if kvstore_node:
+                    # ok found it, just update the key
+                    kvstore_node.key = item['key']
+                    kvstore_node.save()
+            else:
+                # look up by key
+                kvstore_node = self.instance.kvstore.filter(
+                    key=item['key']
+                ).first()
+                # this key does not exist for this node
+                if not kvstore_node:
+                    self.instance.kvstore.create(**item)
 
     def all(self):
         return self.instance.kvstore.all()
+
+    def count(self):
+        return self.instance.kvstore.count()
 
     def add(self, key):
         """
