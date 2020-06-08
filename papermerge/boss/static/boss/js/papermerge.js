@@ -26040,10 +26040,7 @@ class MetadataForm {
   }
 
   unbind_events() {
-    // unbind action events
-    this._actions.unbind_events(); // unbind submit event
-
-
+    // unbind submit event
     $(this._id).off("submit");
   }
 
@@ -26766,6 +26763,16 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       kv_inherited: this.get('kv_inherited')
     };
     return dict;
+  }
+
+  get disabled() {
+    // used to disable input form for inherited
+    // kv items
+    if (this.get('kv_inherited')) {
+      return 'disabled';
+    }
+
+    return '';
   }
 
 }
@@ -27822,13 +27829,19 @@ __p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <input data-id=\''+
+'">\n            <input '+
+((__t=( item.disabled ))==null?'':__t)+
+' data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                <span aria-hidden=\'true\'>&times;</span>\n            </button>\n        </li>\n    ';
+'">\n            ';
+ if (!item.get('kv_inherited')) {  
+__p+='\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            ';
+ } 
+__p+='\n        </li>\n    ';
  } 
 __p+='\n </ul>\n Comp Key\n <ul id="comp_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore_comp.models.length; i++) { 

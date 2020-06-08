@@ -23,13 +23,13 @@ def metadata(request, id):
             item = {}
             item['id'] = kv.id
             item['key'] = kv.key
-            item['inherited'] = kv.kv_inherited
+            item['kv_inherited'] = kv.kv_inherited
             kvstore.append(item)
         for kv in node.kvcomp.all():
             item = {}
             item['id'] = kv.id
             item['key'] = kv.key
-            item['inherited'] = kv.kv_inherited
+            item['kv_inherited'] = kv.kv_inherited
             kvstore_comp.append(item)
     else:
         kv_data = json.loads(request.body)
