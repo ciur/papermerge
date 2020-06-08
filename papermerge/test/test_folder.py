@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from django.test import TestCase
+from django.utils.translation import gettext as _
 from papermerge.core.models import Document, Folder
 from papermerge.core.models.kvstore import KVCompKeyLengthMismatch
 from papermerge.test.utils import create_root_user
@@ -209,6 +210,74 @@ class TestFolder(TestCase):
         self.assertEqual(
             1,
             doc.kvstore.count()
+        )
+
+    def test_update_duplicates_1_kv(self):
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        self.assertEqual(0, p.kv.count())
+        p.kv.update(
+            [{'key': "shop"}, {'key': "shop"}]
+        )
+        # duplicates will be silently discarded
+        self.assertEqual(1, p.kv.count())
+        self.assertEqual(
+            set(p.kv.keys()), set(["shop"])
+        )
+
+    def test_update_duplicates_2_kv(self):
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        self.assertEqual(0, p.kv.count())
+        p.kv.update(
+            [{'key': "shop"}, {'key': "total"}]
+        )
+        self.assertEqual(2, p.kv.count())
+        p.kv.update(
+            [{'key': "shop"}, {'key': "total"}]
+        )
+        # update with already existing keys - will be silently discarded
+        self.assertEqual(2, p.kv.count())
+        self.assertEqual(
+            set(p.kv.keys()), set(["shop", "total"])
+        )
+
+    def test_update_existing_kv_name(self):
+        p = Folder.objects.create(
+            title="P",
+            user=self.user
+        )
+        self.assertEqual(0, p.kv.count())
+        p.kv.update(
+            [{'key': "shop"}, {'key': "total"}]
+        )
+        self.assertEqual(2, p.kv.count())
+        # get ID's of newly created KVStoreNode instances
+        _kv_list_of_dicts = [
+            {'key': item['key'], 'id': item['id']} for item in p.kv.all()
+        ]
+        # find key titled 'total', and rename it to 'total_price'
+        for obj_with_total_key in _kv_list_of_dicts:
+            if obj_with_total_key['key'] == 'total':
+                break
+        else:
+            obj_with_total_key = None
+
+        if obj_with_total_key:
+            obj_with_total_key['key'] = 'total_price'
+
+        # Will update existing KVStoreNode (identified by 'id').
+        # Will change it's key from 'total' -> 'total_price'
+        p.kv.update(_kv_list_of_dicts)
+        # p.kv.count should not change
+        self.assertEqual(2, p.kv.count())
+        # set of kv keys will differ now
+        self.assertEqual(
+            set(p.kv.keys()), set(["shop", "total_price"])
         )
 
     def test_folders_kvstore_propagates_delete_to_subfolders(self):
