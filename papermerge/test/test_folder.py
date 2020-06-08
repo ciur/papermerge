@@ -247,6 +247,16 @@ class TestFolder(TestCase):
         )
 
     def test_update_existing_kv_name(self):
+        """
+        1. User adds 2 simple keys for folder titled "P":
+            * shop
+            * total
+        2. User opens again metadata menu, he sees:
+            * shop
+            * total
+        3. He renames total -> total_price
+        Result must be that an existing kv instance will be updated.
+        """
         p = Folder.objects.create(
             title="P",
             user=self.user
