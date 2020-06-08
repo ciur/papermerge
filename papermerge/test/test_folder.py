@@ -314,6 +314,13 @@ class TestFolder(TestCase):
             user=self.user
         )
         sub.save()
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        self.assertEqual(2, top.kv.count())
 
     def test_folders_kvstore_propagates_delete_to_subfolders(self):
         pass
