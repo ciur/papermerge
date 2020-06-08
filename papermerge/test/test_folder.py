@@ -290,6 +290,31 @@ class TestFolder(TestCase):
             set(p.kv.keys()), set(["shop", "total_price"])
         )
 
+    def test_updating_multiple_times(self):
+        """
+        updating multiple times (with same keys, or edited keys), does not
+        create duplicate metadata on descending nodes.
+
+        User creates 2 folders:
+            * top
+              |--sub
+
+        When he updates multiple times 'top' folder metadata, it does not
+        create duplicates in descending folder 'sub'
+
+        """
+        top = Folder.objects.create(
+            title="top",
+            user=self.user
+        )
+        top.save()
+        sub = Folder.objects.create(
+            title="sub",
+            parent=top,
+            user=self.user
+        )
+        sub.save()
+
     def test_folders_kvstore_propagates_delete_to_subfolders(self):
         pass
 
