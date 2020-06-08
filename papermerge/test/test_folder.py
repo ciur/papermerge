@@ -321,6 +321,20 @@ class TestFolder(TestCase):
             [{'key': 'shop'}, {'key': 'total'}]
         )
         self.assertEqual(2, top.kv.count())
+        # there are not duplicates in descendents' metadata.
+        self.assertEqual(2, sub.kv.count())
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        self.assertEqual(2, sub.kv.count())
+        self.assertEqual(
+            set(
+                sub.kv.keys()
+            ),
+            set(
+                top.kv.keys()
+            )
+        )
 
     def test_folders_kvstore_propagates_delete_to_subfolders(self):
         pass

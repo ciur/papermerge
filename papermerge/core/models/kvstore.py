@@ -225,6 +225,10 @@ class KV:
                 # this key does not exist for this node
                 if not kvstore_node:
                     self.instance.kvstore.create(**item)
+                    self.propagate(
+                        key=item['key'],
+                        operation=Diff.ADD
+                    )
 
     def all(self):
         return self.instance.kvstore.all()
