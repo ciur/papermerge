@@ -27814,39 +27814,39 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="modal-header">\n    <h1>Metadata</h1>\n</div>\n<div class="modal-body vertical">\n     <ul class="horizontal menu">\n        <li>\n            <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n        </li>\n        <li>\n            <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n        </li>\n     </ul>\n     Simple keys\n     <ul id="simple_keys" class="vertical menu">\n        ';
+__p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n    </li>\n    <li>\n        <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n    </li>\n </ul>\n Simple keys\n <ul id="simple_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore.models.length; i++) { 
-__p+='\n            ';
+__p+='\n        ';
  item = kvstore.models[i]; 
-__p+='\n            <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
+__p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                <input data-id=\''+
+'">\n            <input data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            </li>\n        ';
+'">\n            <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                <span aria-hidden=\'true\'>&times;</span>\n            </button>\n        </li>\n    ';
  } 
-__p+='\n     </ul>\n     Comp Key\n     <ul id="comp_keys" class="vertical menu">\n        ';
+__p+='\n </ul>\n Comp Key\n <ul id="comp_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore_comp.models.length; i++) { 
-__p+='\n            ';
+__p+='\n        ';
  item = kvstore_comp.models[i]; 
-__p+='\n            <li class=\'d-flex\' data-model=\'comp-key\' data-cid=\''+
+__p+='\n        <li class=\'d-flex\' data-model=\'comp-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                <input data-id=\''+
+'">\n            <input data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            </li>\n        ';
+'">\n            <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                <span aria-hidden=\'true\'>&times;</span>\n            </button>\n        </li>\n    ';
  } 
-__p+='\n     </ul>\n</div>\n<div class="modal-footer horizontal fl-end">\n    <input type="submit" class="btn action margin-xs" value=\'OK\' />\n    <a class="btn btn-neuter margin-xs cancel">Cancel</a>\n</div>';
+__p+='\n </ul>\n';
 }
 return __p;
 };
@@ -29036,7 +29036,7 @@ backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync = function (method, model, 
 
 class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form_content');
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form .modal-body');
   }
 
   initialize(doc_id) {
