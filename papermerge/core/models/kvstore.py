@@ -233,6 +233,11 @@ class KV:
         return result
 
     def _update_kv_diff_update(self, updates):
+        """
+        updates is a list of dictionaries. Each dict is a will contain
+        a key named "key" and one named "id" - the attributes of kvstore to be
+        updated.
+        """
         for item in updates:
             # update exiting
             if 'id' in item:
@@ -251,6 +256,10 @@ class KV:
             )
 
     def _update_kv_diff_add(self, new_additions):
+        """
+        new_additions is a list of dictionaries. Each dict is a will contain
+        a key named "key" - the key of kvstore to be added.
+        """
         for item in new_additions:
             # look up by key
             kvstore_node = self.instance.kvstore.filter(
@@ -267,6 +276,10 @@ class KV:
             )
 
     def _update_kv_diff_delete(self, deletions):
+        """
+        deletions is a list of dictionaries. Each dict is a will contain
+        a key named "key" - the key of kvstore to be deleted.
+        """
         for item in deletions:
             # look up by key
             kvstore_node = self.instance.kvstore.filter(
