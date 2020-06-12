@@ -205,3 +205,36 @@ class TestDocument(TestCase):
             doc.version,
             1
         )
+
+    def test_document_inherits_kv_from_parent_folder(self):
+        """
+        Newly added focuments into the folder will inherit folder's
+        kv metadata.
+        """
+        top = Folder.objects.create(
+            title="top",
+            user=self.user,
+        )
+        top.save()
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        doc = Document.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=top.id,
+            page_count=5,
+        )
+        doc.save()
+        self.assertEqual(2, doc.kv.count())
+        self.assertEqual(
+            set(
+                doc.kv.keys()
+            ),
+            set(
+                top.kv.keys()
+            )
+        )

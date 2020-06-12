@@ -100,6 +100,13 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     def kv(self):
         return KVNode(instance=self)
 
+    def inherit_kv_from(self, node):
+        inherited_kv = [{
+            'key': key,
+            'kv_inherited': True} for key in node.kv.keys()
+        ]
+        self.kv.update(inherited_kv)
+
     class Meta:
         verbose_name = _("Document")
         verbose_name_plural = _("Documents")
@@ -186,13 +193,14 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 args=[self.id, 800, page_index]
             )
 
-            self.page_set.create(
+            page = self.page_set.create(
                 user=self.user,
                 number=page_index,
                 image=preview,
                 lang=self.lang,
                 page_count=page_count
             )
+            page.inherit_kv_from(self)
 
     def update_text_field(self):
         """Update text field from associated page.text fields.
@@ -360,6 +368,9 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         doc.create_pages()
         # https://github.com/django-mptt/django-mptt/issues/568
         doc._tree_manager.rebuild()
+
+        if parent:
+            doc.inherit_kv_from(parent)
 
         return doc
 

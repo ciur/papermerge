@@ -70,6 +70,9 @@ class Page(models.Model, index.Indexed):
     def kv(self):
         return KVPage(instance=self)
 
+    def inherit_kv_from(self, document):
+        pass
+
     def propagate_changes(
         self,
         diffs_set,

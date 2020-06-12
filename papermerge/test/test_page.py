@@ -2,7 +2,7 @@ from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from papermerge.core.models import Document, Page
+from papermerge.core.models import Document, Folder, Page
 from papermerge.core.tasks import normalize_pages
 
 User = get_user_model()
