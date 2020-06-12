@@ -347,12 +347,12 @@ class KV:
         adds a namespaced key,
         sends event signal for descendents to update themselves
         """
-        self.instance.kvstore.create(
+        instance = self.instance.kvstore.create(
             namespace=self.namespace,
             key=key
         )
         self.propagate(
-            key=key,
+            instances_set=[instance],
             operation=Diff.ADD
         )
 
@@ -361,9 +361,10 @@ class KV:
         adds a namespaced key,
         sends event signal for descendents to update themselves
         """
-        self.instance.kvstore.filter(key=key).delete()
+        instances = self.instance.kvstore.filter(key=key)
+        instances.delete()
         self.propagate(
-            key=key,
+            instances_set=[instances],
             operation=Diff.DELETE
         )
 
