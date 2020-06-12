@@ -180,23 +180,24 @@ class BaseTreeNode(PolymorphicMPTTModel):
                 f"Don't know how to replace {model} (found in {diff})"
             )
 
-    def _apply_diff_update(self, diff):
+    def _apply_diff_update(self, diff, attr_updates):
         model = diff.first()
         if isinstance(model, Access):
             for existing_model in self.access_set.all():
                 for new_model in diff:
                     existing_model.update_from(new_model)
         elif isinstance(model, KVStoreNode):
-            self.kv.apply_updates(
-                [
-                    {
-                        'kv_inherited': True,
-                        'key': _model.key,
-                        'id': _model.id
-                    }
-                    for _model in diff
-                ]
-            )
+
+            if len(attr_updates) > 0:
+                updates = attr_updates
+            else:
+                updates = [{
+                    'kv_inherited': True,
+                    'key': _model.key,
+                    'id': _model.id
+                } for _model in diff]
+
+            self.kv.apply_updates(updates)
         elif isinstance(model, KVStoreCompNode):
             pass
         else:
@@ -204,11 +205,11 @@ class BaseTreeNode(PolymorphicMPTTModel):
                 f"Don't know how to replace {model} (found in {diff})"
             )
 
-    def apply_diff(self, diff):
+    def apply_diff(self, diff, attr_updates):
         if diff.is_add():
             self._apply_diff_add(diff)
         elif diff.is_update():
-            self._apply_diff_update(diff)
+            self._apply_diff_update(diff, attr_updates)
         elif diff.is_delete():
             self._apply_diff_delete(diff)
         else:
@@ -250,11 +251,11 @@ class BaseTreeNode(PolymorphicMPTTModel):
                 f"Don't know how to replace {model} (found in {diff})"
             )
 
-    def apply_diffs(self, diffs_list):
+    def apply_diffs(self, diffs_list, attr_updates):
         for diff in diffs_list:
             if diff.is_update() or diff.is_add() or diff.is_delete():
                 # add (new), update (existing) or delete(existing)
-                self.apply_diff(diff)
+                self.apply_diff(diff, attr_updates)
             elif diff.is_replace():
                 self.replace_diff(diff)
 
@@ -264,7 +265,8 @@ class BaseTreeNode(PolymorphicMPTTModel):
     def propagate_changes(
         self,
         diffs_set,
-        apply_to_self
+        apply_to_self,
+        attr_updates=[]
     ):
         """
         Recursively propagates list of diffs
@@ -274,16 +276,21 @@ class BaseTreeNode(PolymorphicMPTTModel):
 
         if apply_to_self:
             self.apply_diffs(
-                diffs_set
+                diffs_set,
+                attr_updates=attr_updates
             )
 
         children = self.get_children()
         if children.count() > 0:
             for node in children:
-                node.apply_diffs(diffs_set)
+                node.apply_diffs(
+                    diffs_set,
+                    attr_updates=attr_updates
+                )
                 node.propagate_changes(
                     diffs_set,
-                    apply_to_self=False
+                    apply_to_self=False,
+                    attr_updates=attr_updates
                 )
 
     class Meta(PolymorphicMPTTModel.Meta):

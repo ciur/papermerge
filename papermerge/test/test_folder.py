@@ -337,7 +337,101 @@ class TestFolder(TestCase):
         )
 
     def test_folders_kvstore_propagates_delete_to_subfolders(self):
-        pass
+        top = Folder.objects.create(
+            title="top",
+            user=self.user
+        )
+        top.save()
+        sub = Folder.objects.create(
+            title="sub",
+            parent=top,
+            user=self.user
+        )
+        sub.save()
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        self.assertEqual(2, top.kv.count())
+        # there are not duplicates in descendents' metadata.
+        self.assertEqual(2, sub.kv.count())
+
+        # user deletes key 'total' on the top folder
+        top.kv.update(
+            [{'key': 'shop'}]
+        )
+        # subfolder "sub" will will have now only one kv instance
+        self.assertEqual(1, sub.kv.count())
+        # which is same as for its parent
+        self.assertEqual(
+            set(
+                sub.kv.keys()
+            ),
+            set(
+                top.kv.keys()
+            )
+        )
+        # which is 'shop'
+        self.assertEqual(
+            set(
+                sub.kv.keys()
+            ),
+            set(
+                ["shop"]
+            )
+        )
 
     def test_folders_kvstore_propagates_update_to_subfolders(self):
-        pass
+        top = Folder.objects.create(
+            title="top",
+            user=self.user
+        )
+        top.save()
+        sub = Folder.objects.create(
+            title="sub",
+            parent=top,
+            user=self.user
+        )
+        sub.save()
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        self.assertEqual(2, top.kv.count())
+        # there are not duplicates in descendents' metadata.
+        self.assertEqual(2, sub.kv.count())
+
+        # user updates key shop to shop2 on the top folder
+        shop_kv = next(
+            filter(lambda x: x.key == 'shop', top.kv.all())
+        )
+        top.kv.update(
+            [
+                {'key': 'shop2', 'id': shop_kv.id},
+                {'key': 'total'},  # total key is unchanged
+            ]
+        )
+        self.assertEqual(
+            set(
+                top.kv.keys()
+            ),
+            set(
+                ["shop2", "total"]
+            )
+        )
+        self.assertEqual(2, sub.kv.count())
+        # which is same as for its parent
+        self.assertEqual(
+            set(
+                sub.kv.keys()
+            ),
+            set(
+                top.kv.keys()
+            )
+        )
+        self.assertEqual(
+            set(
+                sub.kv.keys()
+            ),
+            set(
+                ["shop2", "total"]
+            )
+        )

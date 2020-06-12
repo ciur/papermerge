@@ -248,6 +248,8 @@ class KV:
         a key named "key" and one named "id" - the attributes of kvstore to be
         updated.
         """
+        attr_updates = []
+
         for item in updates:
             # update exiting
             if 'id' in item:
@@ -256,17 +258,36 @@ class KV:
                 ).first()
                 if kvstore_node:
                     # ok found it, just update the key
+                    attr_updates.append({
+                        'old': kvstore_node.key,
+                        'new': item['key']
+                    })
                     kvstore_node.key = item['key']
+                    kvstore_node.save()
+            elif 'old' in item and 'new' in item:
+                kvstore_node = self.instance.kvstore.filter(
+                    key=item['old']
+                ).first()
+                if kvstore_node:
+                    # ok found it, just update the key
+                    attr_updates.append({
+                        'old': kvstore_node.key,
+                        'new': item['new']
+                    })
+                    kvstore_node.key = item['new']
                     kvstore_node.save()
 
         if updates:
-            updates = [
-                KVStoreNode(key=item['key'], id=item['id'])
-                for item in updates
-            ]
+            prop_updates = []
+            for item in updates:
+                if 'key' in item:
+                    prop_updates.append(
+                        KVStoreNode(key=item['key'])
+                    )
             self.propagate(
-                instances_set=updates,
-                operation=Diff.UPDATE
+                instances_set=prop_updates,
+                operation=Diff.UPDATE,
+                attr_updates=attr_updates
             )
 
     def apply_additions(self, new_additions):
@@ -325,7 +346,6 @@ class KV:
             'id' = kvstore.id
         """
         kv_diff = self.get_diff(data)
-
         self.apply_updates(
             kv_diff[KV.UPDATE]
         )
@@ -368,14 +388,20 @@ class KV:
             operation=Diff.DELETE
         )
 
-    def propagate(self, instances_set, operation):
+    def propagate(
+        self,
+        instances_set,
+        operation,
+        attr_updates=[]
+    ):
         kv_diff = Diff(
             operation=operation,
             instances_set=instances_set
         )
         self.instance.propagate_changes(
             diffs_set=[kv_diff],
-            apply_to_self=False
+            apply_to_self=False,
+            attr_updates=attr_updates
         )
 
 

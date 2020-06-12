@@ -73,7 +73,8 @@ class Page(models.Model, index.Indexed):
     def propagate_changes(
         self,
         diffs_set,
-        apply_to_self
+        apply_to_self,
+        attr_updates=[]
     ):
         pass
 
