@@ -198,16 +198,42 @@ class KV:
             item.key for item in self.all()
         ]
 
-    def update(self, data):
-        """
-        data is one of:
-            * list of dictionaries
-        a dict can contain KVStore fields like:
+    def get_diff(self, data):
+        result = {}
+        result['add'] = []
+        result['remove'] = []
+        result['update'] = []
+        present_keys = self.keys()
 
-            'key' = kvstore.key
-            'id' = kvstore.id
-        """
         for item in data:
+            if item['key'] not in present_keys():
+                if item.get('id', False):
+                    # key is not present, but it has an id => it is an update
+                    result['update'].append(item)
+                else:
+                    # key is not present and it has no ID => it is new
+                    result['add'].append(item)
+
+        # other way around (check for removes)
+        data_keys = [item['key'] for item in data]
+        for item in self.all():
+            # if existing item's key is not found in data
+            if item.key not in data_keys:
+                # but its id is found
+                found_it = next(
+                    filter(lambda x: x.get('id', False) == item.id, data)
+                )
+                # it means that user opted for key removal.
+                if found_it:
+                    result['removed'].append({
+                        'key': item.key,
+                        'id': item.id
+                    })
+
+        return result
+
+    def _update_kv_diff_update(self, updates):
+        for item in updates:
             # update exiting
             if 'id' in item:
                 kvstore_node = self.instance.kvstore.filter(
@@ -217,18 +243,62 @@ class KV:
                     # ok found it, just update the key
                     kvstore_node.key = item['key']
                     kvstore_node.save()
-            else:
-                # look up by key
-                kvstore_node = self.instance.kvstore.filter(
-                    key=item['key']
-                ).first()
-                # this key does not exist for this node
-                if not kvstore_node:
-                    self.instance.kvstore.create(**item)
-                    self.propagate(
-                        key=item['key'],
-                        operation=Diff.ADD
-                    )
+
+        if updates:
+            self.propagate(
+                instances_set=updates,
+                operation=Diff.UPDATE
+            )
+
+    def _update_kv_diff_add(self, new_additions):
+        for item in new_additions:
+            # look up by key
+            kvstore_node = self.instance.kvstore.filter(
+                key=item['key']
+            ).first()
+            # this key does not exist for this node
+            if not kvstore_node:
+                self.instance.kvstore.create(**item)
+
+        if new_additions:
+            self.propagate(
+                instances_set=new_additions,
+                operation=Diff.ADD
+            )
+
+    def _update_kv_diff_delete(self, deletions):
+        for item in deletions:
+            # look up by key
+            kvstore_node = self.instance.kvstore.filter(
+                key=item['key']
+            ).first()
+            self.instance.kvstore.remove(kvstore_node)
+
+        if deletions:
+            self.propagate(
+                instances_set=deletions,
+                operation=Diff.DELETE
+            )
+
+    def update(self, data):
+        """
+        data is one of:
+            * list of dictionaries
+        a dict can contain KVStore fields like:
+
+            'key' = kvstore.key
+            'id' = kvstore.id
+        """
+        kv_diff = self.get_diff(data)
+        self._update_kv_diff_update(
+            kv_diff['update']
+        )
+        self._update_kv_diff_add(
+            kv_diff['add']
+        )
+        self._update_kv_diff_delete(
+            kv_diff['remove']
+        )
 
     def all(self):
         return self.instance.kvstore.all()
@@ -261,10 +331,10 @@ class KV:
             operation=Diff.DELETE
         )
 
-    def propagate(self, key, operation):
+    def propagate(self, instances_set, operation):
         kv_diff = Diff(
             operation=operation,
-            instances_set=self.instance.kvstore.all()
+            instances_set=instances_set
         )
         self.instance.propagate_changes(
             diffs_set=[kv_diff],
