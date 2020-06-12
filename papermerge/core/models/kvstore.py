@@ -183,6 +183,10 @@ class KV:
     and on KVStorePage of the Page
     """
 
+    ADD = 'add'
+    REMOVE = 'remove'
+    UPDATE = 'update'
+
     def __init__(self, instance):
         self.instance = instance
 
@@ -200,32 +204,33 @@ class KV:
 
     def get_diff(self, data):
         result = {}
-        result['add'] = []
-        result['remove'] = []
-        result['update'] = []
+        result[KV.ADD] = []
+        result[KV.REMOVE] = []
+        result[KV.UPDATE] = []
         present_keys = self.keys()
-
         for item in data:
-            if item['key'] not in present_keys():
+            if item['key'] not in present_keys:
                 if item.get('id', False):
                     # key is not present, but it has an id => it is an update
-                    result['update'].append(item)
+                    result[KV.UPDATE].append(item)
                 else:
                     # key is not present and it has no ID => it is new
-                    result['add'].append(item)
+                    result[KV.ADD].append(item)
 
         # other way around (check for removes)
         data_keys = [item['key'] for item in data]
         for item in self.all():
             # if existing item's key is not found in data
+
             if item.key not in data_keys:
-                # but its id is found
-                found_it = next(
-                    filter(lambda x: x.get('id', False) == item.id, data)
+                # neither its id is found
+                id_found = next(
+                    filter(lambda x: x.get('id', False) == item.id, data),
+                    False
                 )
                 # it means that user opted for key removal.
-                if found_it:
-                    result['removed'].append({
+                if not id_found:
+                    result[KV.REMOVE].append({
                         'key': item.key,
                         'id': item.id
                     })
@@ -255,7 +260,7 @@ class KV:
                 operation=Diff.UPDATE
             )
 
-    def apply_addictions(self, new_additions):
+    def apply_additions(self, new_additions):
         """
         new_additions is a list of dictionaries. Each dict is a will contain
         a key named "key" - the key of kvstore to be added.
@@ -304,13 +309,13 @@ class KV:
         """
         kv_diff = self.get_diff(data)
         self.apply_updates(
-            kv_diff['update']
+            kv_diff[KV.UPDATE]
         )
         self.apply_additions(
-            kv_diff['add']
+            kv_diff[KV.ADD]
         )
-        self.apply_deletes(
-            kv_diff['remove']
+        self.apply_deletions(
+            kv_diff[KV.REMOVE]
         )
 
     def all(self):

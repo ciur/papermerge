@@ -167,7 +167,7 @@ class BaseTreeNode(PolymorphicMPTTModel):
                         )
             Access.objects.filter(id__in=ids_to_delete).delete()
         elif isinstance(model, KVStoreNode):
-            self.kv.apply_deletes(
+            self.kv.apply_deletions(
                 [
                     {'kv_inherited': True, 'key': _model.key}
                     for _model in diff
