@@ -208,6 +208,11 @@ class KV:
         result[KV.REMOVE] = []
         result[KV.UPDATE] = []
         present_keys = self.keys()
+
+        # discard empty string keys
+        data = list(
+            filter(lambda item: len(item['key']) > 0, data)
+        )
         for item in data:
             if item['key'] not in present_keys:
                 if item.get('id', False):
@@ -275,6 +280,10 @@ class KV:
                 self.instance.kvstore.create(**item)
 
         if new_additions:
+            new_additions = [
+                KVStoreNode(key=item['key'])
+                for item in new_additions
+            ]
             self.propagate(
                 instances_set=new_additions,
                 operation=Diff.ADD
@@ -308,6 +317,7 @@ class KV:
             'id' = kvstore.id
         """
         kv_diff = self.get_diff(data)
+
         self.apply_updates(
             kv_diff[KV.UPDATE]
         )
