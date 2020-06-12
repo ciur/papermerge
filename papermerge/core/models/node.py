@@ -141,10 +141,12 @@ class BaseTreeNode(PolymorphicMPTTModel):
                     access=_model
                 )
         elif isinstance(model, KVStoreNode):
-            for _model in diff:
-                self.kv.update(
-                    [{'kv_inherited': True, 'key': _model.key}]
-                )
+            self.kv.apply_additions(
+                [
+                    {'kv_inherited': True, 'key': _model.key}
+                    for _model in diff
+                ]
+            )
         elif isinstance(model, KVStoreCompNode):
             pass
         else:
@@ -164,8 +166,13 @@ class BaseTreeNode(PolymorphicMPTTModel):
                             existing_model.id
                         )
             Access.objects.filter(id__in=ids_to_delete).delete()
-        elif isinstance(model, KVStoreCompNode):
-            pass
+        elif isinstance(model, KVStoreNode):
+            self.kv.apply_deletes(
+                [
+                    {'kv_inherited': True, 'key': _model.key}
+                    for _model in diff
+                ]
+            )
         elif isinstance(model, KVStoreCompNode):
             pass
         else:
@@ -179,8 +186,17 @@ class BaseTreeNode(PolymorphicMPTTModel):
             for existing_model in self.access_set.all():
                 for new_model in diff:
                     existing_model.update_from(new_model)
-        elif isinstance(model, KVStoreCompNode):
-            pass
+        elif isinstance(model, KVStoreNode):
+            self.kv.apply_updates(
+                [
+                    {
+                        'kv_inherited': True,
+                        'key': _model.key,
+                        'id': _model.id
+                    }
+                    for _model in diff
+                ]
+            )
         elif isinstance(model, KVStoreCompNode):
             pass
         else:

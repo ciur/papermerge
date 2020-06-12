@@ -232,7 +232,7 @@ class KV:
 
         return result
 
-    def _update_kv_diff_update(self, updates):
+    def apply_updates(self, updates):
         """
         updates is a list of dictionaries. Each dict is a will contain
         a key named "key" and one named "id" - the attributes of kvstore to be
@@ -255,7 +255,7 @@ class KV:
                 operation=Diff.UPDATE
             )
 
-    def _update_kv_diff_add(self, new_additions):
+    def apply_addictions(self, new_additions):
         """
         new_additions is a list of dictionaries. Each dict is a will contain
         a key named "key" - the key of kvstore to be added.
@@ -275,7 +275,7 @@ class KV:
                 operation=Diff.ADD
             )
 
-    def _update_kv_diff_delete(self, deletions):
+    def apply_deletions(self, deletions):
         """
         deletions is a list of dictionaries. Each dict is a will contain
         a key named "key" - the key of kvstore to be deleted.
@@ -303,13 +303,13 @@ class KV:
             'id' = kvstore.id
         """
         kv_diff = self.get_diff(data)
-        self._update_kv_diff_update(
+        self.apply_updates(
             kv_diff['update']
         )
-        self._update_kv_diff_add(
+        self.apply_additions(
             kv_diff['add']
         )
-        self._update_kv_diff_delete(
+        self.apply_deletes(
             kv_diff['remove']
         )
 
