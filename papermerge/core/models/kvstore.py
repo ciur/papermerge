@@ -260,6 +260,10 @@ class KV:
                     kvstore_node.save()
 
         if updates:
+            updates = [
+                KVStoreNode(key=item['key'], id=item['id'])
+                for item in updates
+            ]
             self.propagate(
                 instances_set=updates,
                 operation=Diff.UPDATE
@@ -302,6 +306,10 @@ class KV:
             self.instance.kvstore.remove(kvstore_node)
 
         if deletions:
+            deletions = [
+                KVStoreNode(key=item['key'])
+                for item in deletions
+            ]
             self.propagate(
                 instances_set=deletions,
                 operation=Diff.DELETE
