@@ -216,7 +216,7 @@ class TestPage(TestCase):
         """
         doc = self.get_whatever_doc()
         page = Page(
-            text="Receip page",
+            text="Receipt page",
             user=self.user,
             document=doc
         )
@@ -228,6 +228,8 @@ class TestPage(TestCase):
         # now following setters and getters should work
         page.kv['shop'] = 'lidl'
         page.kv['price'] = '42.50'
+
+        page = Page.objects.get(text="Receipt page")
 
         self.assertEqual(
             page.kv['shop'],
