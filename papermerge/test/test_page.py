@@ -185,8 +185,15 @@ class TestPage(TestCase):
         page = doc.pages.first()
 
         self.assertEqual(
-            3,
-            page.kvstore.count()
+            2,
+            doc.kv.count(),
+            "Document does not have two metakeys associated"
+        )
+
+        self.assertEqual(
+            2,
+            page.kv.count(),
+            "Page does not have two metakeys associated"
         )
 
         self.assertEqual(

@@ -365,12 +365,17 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         )
 
         doc.save()
+        # Important! - first document must inherit metakeys from
+        # parent folder
+        if parent:
+            doc.inherit_kv_from(parent)
+
+        # and only afterwards create pages must be called.
+        # create_pages will trigger metadata keys from document
+        # to the created pages.
         doc.create_pages()
         # https://github.com/django-mptt/django-mptt/issues/568
         doc._tree_manager.rebuild()
-
-        if parent:
-            doc.inherit_kv_from(parent)
 
         return doc
 
