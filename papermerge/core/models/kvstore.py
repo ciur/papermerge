@@ -436,7 +436,20 @@ class KVPage(KV):
     """
     KV specific to Page
     """
-    pass
+
+    def apply_additions(self, new_additions):
+        """
+        new_additions is a list of dictionaries. Each dict is a will contain
+        a key named "key" - the key of kvstore to be added.
+        """
+        for item in new_additions:
+            # look up by key
+            kvstore_node = self.instance.kvstore.filter(
+                key=item['key']
+            ).first()
+            # this key does not exist for this node
+            if not kvstore_node:
+                self.instance.kvstore.create(**item)
 
 
 class KVStore(models.Model):

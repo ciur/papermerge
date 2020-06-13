@@ -3,10 +3,13 @@ import os
 
 from django.db import models
 from mglib.path import PagePath
-from papermerge.core.models import Document, KVPage
 from papermerge.core.storage import default_storage
 from papermerge.search import index
 from papermerge.search.queryset import SearchableQuerySetMixin
+
+from .diff import Diff
+from .document import Document
+from .kvstore import KVPage, KVStorePage
 
 logger = logging.getLogger(__name__)
 
@@ -70,16 +73,63 @@ class Page(models.Model, index.Indexed):
     def kv(self):
         return KVPage(instance=self)
 
-    def inherit_kv_from(self, document):
+    def _apply_diff_add(self, diff):
+        self.kv.apply_additions(
+            [
+                {'kv_inherited': True, 'key': _model.key}
+                for _model in diff
+            ]
+        )
+
+    def _apply_diff_update(self, diff, attr_updates):
         pass
+
+    def _apply_diff_delete(self, diff):
+        pass
+
+    def apply_diff(self, diffs_list, attr_updates):
+        for diff in diffs_list:
+            if diff.is_add():
+                self._apply_diff_add(diff)
+            elif diff.is_update():
+                self._apply_diff_update(diff, attr_updates)
+            elif diff.is_delete():
+                self._apply_diff_delete(diff)
+            else:
+                raise ValueError("Unexpected diff {diff} type")
+
+    def inherit_kv_from(self, document):
+        instances_set = []
+
+        for key in document.kv.keys():
+            instances_set.append(
+                KVStorePage(key=key, kv_inherited=True, page=self)
+            )
+
+        diff = Diff(
+            operation=Diff.ADD,
+            instances_set=instances_set
+        )
+
+        self.propagate_changes(
+            diffs_set=[diff],
+        )
 
     def propagate_changes(
         self,
         diffs_set,
-        apply_to_self,
+        apply_to_self=None,
         attr_updates=[]
     ):
-        pass
+        """
+        apply_to_self argument does not make sense here.
+        apply_to_self argument is here to make this function
+        similar to node.propagate_changes.
+        """
+        self.apply_diff(
+            diffs_list=diffs_set,
+            attr_updates=attr_updates
+        )
 
     @property
     def is_last(self):
