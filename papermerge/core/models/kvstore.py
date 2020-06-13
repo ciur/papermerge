@@ -188,6 +188,10 @@ class KV:
     UPDATE = 'update'
 
     class MetadataKeyDoesNotExist(Exception):
+        """
+        Raised when assigning (e.g. page.kv['shop'] = y)
+        or retrieving a not existing metadata key - in example above - 'shop'
+        """
         pass
 
     def __init__(self, instance):
@@ -220,7 +224,7 @@ class KV:
             instance = self.instance.kvstore.get(key=key)
         except Exception:
             raise KV.MetadataKeyDoesNotExist(
-                f"Metadata key {key} does not exist."
+                f"Metadata key '{key}' does not exist."
             )
 
         if instance:
@@ -228,7 +232,12 @@ class KV:
             instance.save()
 
     def __getitem__(self, key):
-        instance = self.instance.kvstore.filter(key=key).first()
+        try:
+            instance = self.instance.kvstore.get(key=key)
+        except Exception:
+            raise KV.MetadataKeyDoesNotExist(
+                f"Metadata key '{key}' does not exist."
+            )
 
         if instance:
             return instance.value

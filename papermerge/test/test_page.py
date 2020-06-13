@@ -2,7 +2,7 @@ from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from papermerge.core.models import Document, Folder, Page
+from papermerge.core.models import KV, Document, Folder, Page
 from papermerge.core.tasks import normalize_pages
 
 User = get_user_model()
@@ -238,3 +238,9 @@ class TestPage(TestCase):
             page.kv['price'],
             '42.50'
         )
+
+        with self.assertRaises(KV.MetadataKeyDoesNotExist):
+            page.kv['blah'] = '10'
+
+        with self.assertRaises(KV.MetadataKeyDoesNotExist):
+            page.kv['blah']

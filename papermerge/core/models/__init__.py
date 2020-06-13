@@ -4,7 +4,7 @@ from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.document import Document
 from papermerge.core.models.folder import Folder
-from papermerge.core.models.kvstore import KVPage, KVStoreNode, KVStorePage
+from papermerge.core.models.kvstore import KV, KVPage, KVStoreNode, KVStorePage
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.models.page import Page
 
@@ -30,6 +30,7 @@ __all__ = [
     'BaseTreeNode',
     'Access',
     'Diff',
+    'KV',
     'KVPage',
     'KVStoreNode',
     'KVStorePage'
