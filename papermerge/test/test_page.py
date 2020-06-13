@@ -153,3 +153,47 @@ class TestPage(TestCase):
             1,
             page.kvstore.count()
         )
+
+    def test_page_inherits_kv_from_document(self):
+        """
+        Given a folder, say groceries with
+        kv: "shop", "price", "date"
+        a document created in that folder will have
+        pages's kv data "shop", "price", "date" as well.
+
+        KV inheritance flows like this:
+
+            Folder -> Document -> Page
+        """
+        top = Folder.objects.create(
+            title="top",
+            user=self.user,
+        )
+        top.save()
+        top.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        doc = Document.create_document(
+            title="kyuss.pdf",
+            user=self.user,
+            lang="ENG",
+            file_name="kyuss.pdf",
+            size=1222,
+            parent_id=top.id,
+            page_count=3
+        )
+        page = doc.pages.first()
+
+        self.assertEqual(
+            3,
+            page.kvstore.count()
+        )
+
+        self.assertEqual(
+            set(
+                page.kv.keys()
+            ),
+            set(
+                top.kv.keys()
+            )
+        )
