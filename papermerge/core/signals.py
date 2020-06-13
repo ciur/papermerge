@@ -7,7 +7,14 @@ from papermerge.core.models import Access, Diff, Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
 
+from .signal_definitions import page_hocr_ready
+
 logger = logging.getLogger(__name__)
+
+
+@receiver(page_hocr_ready, sender="worker")
+def apply_meta_plugins(sender, **kwargs):
+    pass
 
 
 @receiver(post_delete, sender=Document)

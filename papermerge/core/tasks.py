@@ -4,6 +4,7 @@ from celery import shared_task
 from papermerge.core.ocr.page import ocr_page as main_ocr_page
 
 from .models import Document, Folder, Page
+from .signal_definitions import page_hocr_ready
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +31,13 @@ def ocr_page(
         lang=lang
     )
 
+    page_hocr_ready.send(
+        'worker',
+        user_id=user_id,
+        document_id=document_id,
+        page_num=page_num,
+        lang=lang
+    )
     return True
 
 

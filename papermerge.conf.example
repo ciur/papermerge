@@ -85,7 +85,18 @@ PAPERMERGE_SEARCH_BACKEND=papermerge.search.backends.db.SearchBackend
 # Metadata Plugins
 ####################
 
-# PAPERMERGE_METADATA_PLUGINS=['lidl_receipts_de', 'rewe_receipts_de', 'ard_zdf_letter']
+# Value must be one line json array.
+# Each string in array must be surrounded with double quotes (otherwise json.loads will complain).
+# Each string value should be an importable python module i.e. given:
+#
+#   PAPERMERGE_METADATA_PLUGINS=["lidl_receipts_de", "rewe_receipts_de", "ard_zdf_letter"]
+#
+# you should be able to (but you don't need to, as papermerge does it for you):
+#
+#    import lidl_receipts_de
+#    import rewe_receipts_de
+#    import ard_zdf_letter
+#
 PAPERMERGE_METADATA_PLUGINS=[]
 
 

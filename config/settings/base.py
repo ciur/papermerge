@@ -1,4 +1,5 @@
 # coding: utf-8
+import json
 import os
 from pathlib import Path
 
@@ -80,6 +81,11 @@ PAPERMERGE_SEARCH_BACKEND = os.getenv(
     "PAPERMERGE_SEARCH_BACKEND",
     "papermerge.search.backends.db.SearchBackend"
 )
+
+PAPERMERGE_METADATA_PLUGINS = []
+_plugins_arr = os.getenv("PAPERMERGE_METADATA_PLUGINS")
+if _plugins_arr:
+    PAPERMERGE_METADATA_PLUGINS = json.loads(_plugins_arr)
 
 PAPERMERGE_OCR_LANGUAGE = os.getenv(
     "PAPERMERGE_OCR_LANGUAGE",
