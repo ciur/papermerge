@@ -82,6 +82,12 @@ PAPERMERGE_DEFAULT_FILE_STORAGE=mglib.storage.FileSystemStorage
 
 PAPERMERGE_SEARCH_BACKEND=papermerge.search.backends.db.SearchBackend
 
+# Metadata Plugins
+####################
+
+# PAPERMERGE_METADATA_PLUGINS=['lidl_receipts_de', 'rewe_receipts_de', 'ard_zdf_letter']
+PAPERMERGE_METADATA_PLUGINS=[]
+
 
 # Software Tweaks
 ####################
