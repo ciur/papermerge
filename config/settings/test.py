@@ -75,19 +75,16 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': False,
-#    'handlers': {
-#        '_merge': {
-#            'class': 'logging.FileHandler',
-#            'filename': PROJ_ROOT / Path('run/log/papermerge_test.log'),
-#        },
-#    },
-#    'loggers': {
-#        'django': {
-#            'handlers': ['_merge'],
-#            'level': 'DEBUG'
-#        },
-#    },
-#}
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'CRITICAL'
+    },
+}

@@ -36,7 +36,7 @@ def deleteFiles(sender, instance, **kwargs):
     Preview images as well all other associated files
     are irreversibly deleted.
     """
-    logger.info("Deleting files for doc_id={} of user_id={}".format(
+    logger.debug("Deleting files for doc_id={} of user_id={}".format(
         instance.id,
         instance.user.id
     ))
