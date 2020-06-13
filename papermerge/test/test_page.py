@@ -43,12 +43,12 @@ class TestPage(TestCase):
         doc.save()
 
         self.assertEqual(
-            doc.page_set.count(),
+            doc.pages.count(),
             3
         )
 
         langs = [
-            page.lang for page in doc.page_set.all()
+            page.lang for page in doc.pages.all()
         ]
 
         self.assertEqual(
@@ -69,12 +69,12 @@ class TestPage(TestCase):
         doc.save()
 
         self.assertEqual(
-            doc.page_set.count(),
+            doc.pages.count(),
             3
         )
-        doc.page_set.all().delete()
+        doc.pages.all().delete()
         self.assertEqual(
-            doc.page_set.count(),
+            doc.pages.count(),
             0
         )
 
@@ -122,7 +122,7 @@ class TestPage(TestCase):
         # simulate a singnal trigger
         normalize_pages(doc)
 
-        first_page = doc.page_set.first()
+        first_page = doc.pages.first()
         self.assertEqual(
             first_page.norm_doc_title,
             "kyuss.pdf"

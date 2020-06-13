@@ -172,7 +172,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         """
         Recreate page models
         """
-        self.page_set.all().delete()
+        self.pages.all().delete()
         self.page_count = get_pagecount(
             default_storage.abspath(self.path.url())
         )
@@ -193,7 +193,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                 args=[self.id, 800, page_index]
             )
 
-            page = self.page_set.create(
+            page = self.pages.create(
                 user=self.user,
                 number=page_index,
                 image=preview,
@@ -214,7 +214,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         """
         text = ""
 
-        for page in self.page_set.all():
+        for page in self.pages.all():
             if len(page.text) == 0:
                 page.update_text_field()
                 page.save()

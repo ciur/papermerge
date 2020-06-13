@@ -59,7 +59,7 @@ class TestDocument(TestCase):
             ]
         )
         self.assertEqual(
-            doc.page_set.count(),
+            doc.pages.count(),
             5
         )
 
@@ -92,7 +92,7 @@ class TestDocument(TestCase):
             f"Folder {folder.title} has {count} children"
         )
         self.assertEqual(
-            doc.page_set.count(),
+            doc.pages.count(),
             3
         )
 
@@ -196,7 +196,7 @@ class TestDocument(TestCase):
         )
 
         self.assertEqual(
-            doc.page_set.count(),
+            doc.pages.count(),
             1
         )
 

@@ -20,7 +20,9 @@ class PageQuerySet(SearchableQuerySetMixin, models.QuerySet):
 
 class Page(models.Model, index.Indexed):
     document = models.ForeignKey(
-        Document, on_delete=models.CASCADE
+        Document,
+        on_delete=models.CASCADE,
+        related_name='pages'
     )
     user = models.ForeignKey('User', models.CASCADE)
 
