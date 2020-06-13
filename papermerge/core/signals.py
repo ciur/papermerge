@@ -111,6 +111,19 @@ def save_node_doc(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Document)
+def inherit_metadata_keys(sender, instance, created, **kwargs):
+    """
+    When moved into new folder, documents will inherit their parent
+    metadata keys
+    """
+    # if doc has a parent
+    if instance.parent:
+        instance.inherit_kv_from(instance.parent)
+        for page in instance.pages.all():
+            page.inherit_kv_from(instance.parent)
+
+
+@receiver(post_save, sender=Document)
 def normalize_pages_from_doc_handler(sender, instance, created, **kwargs):
     """Update async this document pages' attributes page.norm_*
     """

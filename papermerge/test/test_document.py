@@ -238,3 +238,65 @@ class TestDocument(TestCase):
                 top.kv.keys()
             )
         )
+
+    def test_document_moved_into_other_folder_inherits_kv(self):
+        """
+        When a Document (e.g. named doc) is moved from one folder F1
+        into another F2, then all metadata keys (and metadata values)
+        of document doc may be are deleted and inherited from parent.
+        'May be deleted' because this replacement of metadata will
+        not happen if new parent folder (F2) has same metadata keys
+        as document doc.
+        """
+        f1 = Folder.objects.create(
+            title="F1",
+            user=self.user,
+        )
+        f1.save()
+        f2 = Folder.objects.create(
+            title="F2",
+            user=self.user,
+        )
+        f2.save()
+        f2.kv.update(
+            [{'key': 'shop'}, {'key': 'total'}]
+        )
+        doc = Document.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=f1.id,
+            page_count=5,
+        )
+        doc.save()
+        self.assertEqual(0, doc.kv.count())
+
+        # move document into the new parent
+        Document.objects.move_node(doc, f2)
+
+        # assert that metakeys were updated
+        self.assertEqual(2, doc.kv.count())
+        self.assertEqual(
+            set(
+                doc.kv.keys()
+            ),
+            set(
+                f2.kv.keys()
+            )
+        )
+
+        # similarly, pages will inherit kv from their parent
+        # document
+        page = doc.pages.first()
+        # assert that metakeys were updated
+        self.assertEqual(2, page.kv.count())
+        self.assertEqual(
+            set(
+                doc.kv.keys()
+            ),
+            set(
+                page.kv.keys()
+            )
+        )
