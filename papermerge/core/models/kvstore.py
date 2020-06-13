@@ -187,6 +187,9 @@ class KV:
     REMOVE = 'remove'
     UPDATE = 'update'
 
+    class MetadataKeyDoesNotExist(Exception):
+        pass
+
     def __init__(self, instance):
         self.instance = instance
 
@@ -196,6 +199,41 @@ class KV:
         returns namepace for added keys
         """
         pass
+
+    def add(self, key):
+        """
+        adds a namespaced key,
+        sends event signal for descendents to update themselves
+        """
+        instance = self.instance.kvstore.create(
+            namespace=self.namespace,
+            key=key
+        )
+        self.propagate(
+            instances_set=[instance],
+            operation=Diff.ADD
+        )
+
+    def __setitem__(self, key, value):
+
+        try:
+            instance = self.instance.kvstore.get(key=key)
+        except Exception:
+            raise KV.MetadataKeyDoesNotExist(
+                f"Metadata key {key} does not exist."
+            )
+
+        if instance:
+            instance.value = value
+            instance.save()
+
+    def __getitem__(self, key):
+        instance = self.instance.kvstore.filter(key=key).first()
+
+        if instance:
+            return instance.value
+
+        return None
 
     def keys(self):
         return [
@@ -362,19 +400,6 @@ class KV:
     def count(self):
         return self.instance.kvstore.count()
 
-    def add(self, key):
-        """
-        adds a namespaced key,
-        sends event signal for descendents to update themselves
-        """
-        instance = self.instance.kvstore.create(
-            namespace=self.namespace,
-            key=key
-        )
-        self.propagate(
-            instances_set=[instance],
-            operation=Diff.ADD
-        )
 
     def remove(self, key):
         """

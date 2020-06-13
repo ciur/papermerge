@@ -204,3 +204,37 @@ class TestPage(TestCase):
                 top.kv.keys()
             )
         )
+
+    def test_page_kv_store_get_and_set(self):
+        """
+        test that kv api works:
+
+            page.kv['shop'] = 'lidl'
+            page.kv['price'] = '11.99'
+            page.kv['shop'] == 'lidl'
+            page.kv['price'] == '11.99'
+        """
+        doc = self.get_whatever_doc()
+        page = Page(
+            text="Receip page",
+            user=self.user,
+            document=doc
+        )
+        page.save()
+        # set page's kv to shop and price
+        page.kv.update(
+            [{'key': 'shop'}, {'key': 'price'}]
+        )
+        # now following setters and getters should work
+        page.kv['shop'] = 'lidl'
+        page.kv['price'] = '42.50'
+
+        self.assertEqual(
+            page.kv['shop'],
+            'lidl'
+        )
+
+        self.assertEqual(
+            page.kv['price'],
+            '42.50'
+        )
