@@ -1,9 +1,9 @@
-import time
 import logging
+import time
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from papermerge.core.importers.local import import_documents
-
 
 logger = logging.getLogger(__name__)
 

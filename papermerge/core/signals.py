@@ -3,28 +3,25 @@ import logging
 from django.db.models.signals import post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from papermerge.core.auth import create_access
-from papermerge.core.models import Access, Diff, Document, Folder, Page
+from papermerge.core.models import Access, Diff, Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
 
-from .metadata_plugins import MetadataPlugins
+from .metadata_plugins import apply_metadata_plugins
 from .signal_definitions import page_hocr_ready
 
 logger = logging.getLogger(__name__)
 
 
 @receiver(page_hocr_ready, sender="worker")
-def apply_meta_plugins(sender, **kwargs):
-    page_id = kwargs.get('page_id', False)
-    try:
-        page = Page.objects.get(id=page_id)
-    except Page.DoesNotExist:
-        logger.error(f"Provided page_id={page_id}, does not exists")
-        return
+def handle_metadata_plusgins(sender, **kwargs):
+    document_id = kwargs.get('document_id', False)
+    page_num = kwargs.get('page_num', False)
 
-    hocr_path = default_storage.abspath(page.path.hocr_url())
-    metadata_plugins = MetadataPlugins()
-    metadata_plugins.apply(hocr_path)
+    result = apply_metadata_plugins(
+        document_id=document_id,
+        page_num=page_num
+    )
 
 
 @receiver(post_delete, sender=Document)

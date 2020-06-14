@@ -144,7 +144,7 @@ class Page(models.Model, index.Indexed):
     @property
     def path(self):
         return PagePath(
-            document_ep=self.document.doc_ep,
+            document_path=self.document.path,
             page_num=self.number,
             page_count=self.page_count
         )
