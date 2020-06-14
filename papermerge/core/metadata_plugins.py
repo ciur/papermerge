@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class MetadataPlugins:
+
     def __init__(self):
         self._plugins = []
 
@@ -14,3 +15,8 @@ class MetadataPlugins:
             self._plugins.append(
                 import_string(plugin)
             )
+
+    def apply(self, hocr_path):
+        for plugin in self._plugins:
+            if plugin.identify(hocr_path):
+                return plugin.extract(hocr_path)

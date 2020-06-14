@@ -237,7 +237,7 @@ class DocumentNodeAdmin(BaseChildAdmin):
         extra_context['title'] = doc.title
         extra_context['preview_urls'] = self.get_preview_urls(object_id)
         extra_context['default_height'] = self.get_default_height()
-        extra_context['pages'] = doc.page_set.order_by('number')
+        extra_context['pages'] = doc.pages.order_by('number')
 
         return super().change_view(
             request, object_id, form_url, extra_context=extra_context,
