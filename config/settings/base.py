@@ -1,93 +1,92 @@
 # coding: utf-8
-import json
+import importlib.machinery
+import importlib.util
 import os
 from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
-from dotenv import load_dotenv
-from mglib.utils import get_bool
 
 DEFAULT_CONFIG_PLACES = [
-    "/etc/papermerge.conf",
-    "papermerge.conf"
+    "/etc/papermerge.conf.py",
+    "papermerge.conf.py"
 ]
+
+cfg = None
 
 for config_file in DEFAULT_CONFIG_PLACES:
     if os.path.exists(config_file):
         # if one configuration file was found
         # load it
-        load_dotenv(config_file)
+        loader_ = importlib.machinery.SourceFileLoader(
+            "config",
+            config_file
+        )
+        spec = importlib.util.spec_from_file_location(
+            "config", config_file, loader=loader_
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
         # and stop looking for ther configs.
+        cfg = vars(mod)
         break
-
-# At this point, parsed key/value from the .env file is now present as system
-# environment variable and they can be conveniently accessed via os.getenv()
 
 # project root directory
 # 1. settings 2. config 3. papermerge-proj - parent 3x
 PROJ_ROOT = Path(__file__).parent.parent.parent
+DEBUG = True
 
-DEBUG = get_bool("PAPERMERGE_DEBUG", "YES")
-
-SECRET_KEY = os.getenv(
-    "PAPERMERGE_SECRET_KEY",
-    "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
-)
+SECRET_KEY = "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
 
 SITE_ID = 1
 
-STATIC_ROOT = os.getenv(
-    "PAPERMERGE_STATICDIR", os.path.join(PROJ_ROOT, "..", "static"))
+STATIC_ROOT = cfg['PAPERMERGE_STATICDIR']
 
-MEDIA_ROOT = os.getenv(
-    "PAPERMERGE_MEDIADIR", os.path.join(PROJ_ROOT, "..", "media"))
+MEDIA_ROOT = cfg['PAPERMERGE_MEDIADIR']
 
-STATIC_URL = os.getenv("PAPERMERGE_STATIC_URL", "/static/")
+STATIC_URL = cfg["PAPERMERGE_STATIC_URL"]
 
-MEDIA_URL = os.getenv("PAPERMERGE_MEDIA_URL", "/media/")
+MEDIA_URL = cfg["PAPERMERGE_MEDIA_URL"]
 
 # This is where Papermerge will look for PDFs to index
-PAPERMERGE_IMPORTER_DIR = os.getenv("PAPERMERGE_IMPORTER_DIR")
+PAPERMERGE_IMPORTER_DIR = cfg["PAPERMERGE_IMPORTER_DIR"]
 
-PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = os.getenv(
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = cfg[
     "PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION"
-)
-PAPERMERGE_IMPORTER_LOOP_TIME = os.getenv(
-    "PAPERMERGE_IMPORTER_LOOP_TIME"
-)
+]
 
-PAPERMERGE_IMPORT_MAIL_HOST = os.getenv(
+PAPERMERGE_IMPORTER_LOOP_TIME = cfg[
+    "PAPERMERGE_IMPORTER_LOOP_TIME"
+]
+
+PAPERMERGE_IMPORT_MAIL_HOST = cfg.get(
     "PAPERMERGE_IMPORT_MAIL_HOST", ""
 )
-PAPERMERGE_IMPORT_MAIL_USER = os.getenv(
+PAPERMERGE_IMPORT_MAIL_USER = cfg.get(
     "PAPERMERGE_IMPORT_MAIL_USER", ""
 )
-PAPERMERGE_IMPORT_MAIL_PASS = os.getenv(
+PAPERMERGE_IMPORT_MAIL_PASS = cfg.get(
     "PAPERMERGE_IMPORT_MAIL_PASS", ""
 )
-PAPERMERGE_IMPORT_MAIL_INBOX = os.getenv(
+PAPERMERGE_IMPORT_MAIL_INBOX = cfg.get(
     "PAPERMERGE_IMPORT_MAIL_INBOX", "INBOX"
 )
-PAPERMERGE_EMAIL_SECRET = os.getenv(
+PAPERMERGE_EMAIL_SECRET = cfg.get(
     "PAPERMERGE_EMAIL_SECRET", ""
 )
 
-PAPERMERGE_DEFAULT_FILE_STORAGE = os.getenv(
+PAPERMERGE_DEFAULT_FILE_STORAGE = cfg.get(
     "PAPERMERGE_DEFAULT_FILE_STORAGE",
     "mglib.storage.FileSystemStorage"
 )
 
-PAPERMERGE_SEARCH_BACKEND = os.getenv(
+PAPERMERGE_SEARCH_BACKEND = cfg.get(
     "PAPERMERGE_SEARCH_BACKEND",
     "papermerge.search.backends.db.SearchBackend"
 )
 
-PAPERMERGE_METADATA_PLUGINS = []
-_plugins_arr = os.getenv("PAPERMERGE_METADATA_PLUGINS")
-if _plugins_arr:
-    PAPERMERGE_METADATA_PLUGINS = json.loads(_plugins_arr)
+PAPERMERGE_METADATA_PLUGINS = cfg["PAPERMERGE_METADATA_PLUGINS"]
 
-PAPERMERGE_OCR_LANGUAGE = os.getenv(
+PAPERMERGE_OCR_LANGUAGE = cfg.get(
     "PAPERMERGE_OCR_LANGUAGE",
     "deu"  # if not defined, defaults to German a.k.a Deutsch
 )
@@ -162,7 +161,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(
-            os.getenv(
+            cfg.get(
                 "PAPERMERGE_DBDIR",
                 PROJ_ROOT
             ),
@@ -171,18 +170,18 @@ DATABASES = {
     }
 }
 
-if os.getenv("PAPERMERGE_DBUSER"):
+if cfg.get("PAPERMERGE_DBUSER", False):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("PAPERMERGE_DBNAME", "papermerge"),
-        "USER": os.getenv("PAPERMERGE_DBUSER"),
+        "NAME": cfg.get("PAPERMERGE_DBNAME", "papermerge"),
+        "USER": cfg.get("PAPERMERGE_DBUSER"),
     }
-    if os.getenv("PAPERMERGE_DBPASS"):
-        DATABASES["default"]["PASSWORD"] = os.getenv("PAPERMERGE_DBPASS")
-    if os.getenv("PAPERMERGE_DBHOST"):
-        DATABASES["default"]["HOST"] = os.getenv("PAPERMERGE_DBHOST")
-    if os.getenv("PAPERMERGE_DBPORT"):
-        DATABASES["default"]["PORT"] = os.getenv("PAPERMERGE_DBPORT")
+    if cfg.get("PAPERMERGE_DBPASS"):
+        DATABASES["default"]["PASSWORD"] = cfg.get("PAPERMERGE_DBPASS")
+    if cfg.get("PAPERMERGE_DBHOST"):
+        DATABASES["default"]["HOST"] = cfg.get("PAPERMERGE_DBHOST")
+    if cfg.get("PAPERMERGE_DBPORT"):
+        DATABASES["default"]["PORT"] = cfg.get("PAPERMERGE_DBPORT")
 
 
 FILE_UPLOAD_HANDLERS = [
@@ -288,7 +287,7 @@ UPLOAD_FILE_SIZE_MAX = 12 * 1024 * 1024
 UPLOAD_FILE_SIZE_MIN = 1
 UPLOAD_ALLOWED_MIMETYPES = ['application/pdf']
 
-PAPERMERGE_TASK_QUEUE_DIR = os.getenv("PAPERMERGE_TASK_QUEUE_DIR")
+PAPERMERGE_TASK_QUEUE_DIR = cfg["PAPERMERGE_TASK_QUEUE_DIR"]
 
 if not os.path.exists(
     PAPERMERGE_TASK_QUEUE_DIR

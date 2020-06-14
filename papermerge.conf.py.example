@@ -1,5 +1,8 @@
-# Example of papermerge.conf
-# Copy this file to /etc/papermerge.conf and modify it to suit your needs.
+# Example of papermerge.conf.py
+#
+#  papermerge.conf.py - is a configuration files with python syntax
+#
+# Copy this file to /etc/papermerge.conf.py and modify it to suit your needs.
 # As this file contains passwords it should only be readable by the user
 # running Papermerge.
 
@@ -9,23 +12,23 @@
 
 # You can specify where you want the SQLite database to be stored instead of
 # the default location of /data/ within the install directory.
-PAPERMERGE_DBDIR=/home/eugen/tmp/papermerge/db
+PAPERMERGE_DBDIR = "/home/eugen/tmp/papermerge/db"
 
 # Override the default MEDIA_ROOT here.  This is where all files are stored.
 # The default location is /media/documents/ within the install folder.
-PAPERMERGE_MEDIADIR=/home/eugen/tmp/papermerge/media
+PAPERMERGE_MEDIADIR = "/home/eugen/tmp/papermerge/media"
 
 # Override the default STATIC_ROOT here.  This is where all static files
 # created using "collectstatic" manager command are stored.
-PAPERMERGE_STATICDIR=/home/eugen/tmp/papermerge/static
+PAPERMERGE_STATICDIR = "/home/eugen/tmp/papermerge/static"
 
 # Override the MEDIA_URL here.  Unless you're hosting Paperless off a subdomain
 # like /paperless/, you probably don't need to change this.
-PAPERMERGE_MEDIA_URL="/media/"
+PAPERMERGE_MEDIA_URL = "/media/"
 
 # Override the STATIC_URL here.  Unless you're hosting Paperless off a
 # subdomain like /paperless/, you probably don't need to change this.
-PAPERMERGE_STATIC_URL="/static/"
+PAPERMERGE_STATIC_URL = "/static/"
 
 
 #   Document Importer
@@ -34,33 +37,33 @@ PAPERMERGE_STATIC_URL="/static/"
 # Configuration for ./manage.py importer command
 
 # This where ./manage importer will import your documents from.
-PAPERMERGE_IMPORTER_DIR=/home/eugen/tmp/papermerge/import
+PAPERMERGE_IMPORTER_DIR = "/home/eugen/tmp/papermerge/import"
 
 # Files are considered ready for import if they have been unmodified
 # for this duration (in seconds)
-PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION=1
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = 1
 
 # This setting is ignored on Linux where inotify is used instead of a
 # polling loop.
 # The number of seconds that Papermerge will wait between checking
 # PAPERMERGE_IMPORTER_DIR. If you tend to write documents to this directory
 # rarely, you may want to use a higher value than the default (5).
-PAPERMERGE_IMPORTER_LOOP_TIME=5
+PAPERMERGE_IMPORTER_LOOP_TIME = 5
 
 
 # These values are required if you want papermerge to import email attachments
 # from specific email account.
 # If you don't define a HOST, mail checking will just be disabled.
-PAPERMERGE_IMPORT_MAIL_HOST=""
-PAPERMERGE_IMPORT_MAIL_USER=""
-PAPERMERGE_IMPORT_MAIL_PASS=""
+PAPERMERGE_IMPORT_MAIL_HOST = ""
+PAPERMERGE_IMPORT_MAIL_USER = ""
+PAPERMERGE_IMPORT_MAIL_PASS = ""
 
 # Override the default IMAP inbox here. If not set Papermerge defaults to
 # "INBOX".
 #PAPERMERGE_IMPORT_MAIL_INBOX="INBOX"
 
 # Any email sent to the target account that does not contain this text will be ignored.
-PAPERMERGE_EMAIL_SECRET=""
+PAPERMERGE_EMAIL_SECRET = ""
 
 #   Worker
 ########################
@@ -68,36 +71,31 @@ PAPERMERGE_EMAIL_SECRET=""
 # These settings are used by built-in asyncronious task (celery).
 # By default, celery will use local directory as message broker.
 # This directory will be created automatically when you start papermerge.
-PAPERMERGE_TASK_QUEUE_DIR="/var/tmp/papermerge/queue"
+PAPERMERGE_TASK_QUEUE_DIR = "/var/tmp/papermerge/queue"
 
 
 #   Storage
 ###############
 
-PAPERMERGE_DEFAULT_FILE_STORAGE=mglib.storage.FileSystemStorage
+PAPERMERGE_DEFAULT_FILE_STORAGE = "mglib.storage.FileSystemStorage"
 
 
 #  Search Backend
 ###################
 
-PAPERMERGE_SEARCH_BACKEND=papermerge.search.backends.db.SearchBackend
+PAPERMERGE_SEARCH_BACKEND = "papermerge.search.backends.db.SearchBackend"
 
 # Metadata Plugins
 ####################
 
-# Value must be one line json array.
-# Each string in array must be surrounded with double quotes (otherwise json.loads will complain).
-# Each string value should be an importable python module i.e. given:
 #
-#   PAPERMERGE_METADATA_PLUGINS=["lidl_receipts_de", "rewe_receipts_de", "ard_zdf_letter"]
+#   PAPERMERGE_METADATA_PLUGINS = [
+#       "lidl_receipts_de.Lidl",
+#       "rewe_receipts_de.Rewe",
+#       "ard_zdf_letter.ARD"
+#    ]
 #
-# you should be able to (but you don't need to, as papermerge does it for you):
-#
-#    import lidl_receipts_de
-#    import rewe_receipts_de
-#    import ard_zdf_letter
-#
-PAPERMERGE_METADATA_PLUGINS=[]
+PAPERMERGE_METADATA_PLUGINS = []
 
 
 # Software Tweaks
@@ -111,4 +109,4 @@ PAPERMERGE_METADATA_PLUGINS=[]
 # deu = for German
 # spa = for Spanish
 
-PAPERMERGE_OCR_LANGUAGE=deu
+PAPERMERGE_OCR_LANGUAGE = "deu"
