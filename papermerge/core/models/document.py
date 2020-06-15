@@ -9,7 +9,7 @@ from mglib import step
 from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
 from papermerge.core import mixins
-from papermerge.core.models.kvstore import KVNode
+from papermerge.core.models.kvstore import KVCompNode, KVNode
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.storage import default_storage
 from papermerge.search import index
@@ -99,6 +99,10 @@ class Document(mixins.ExtractIds, BaseTreeNode):
     @property
     def kv(self):
         return KVNode(instance=self)
+
+    @property
+    def kvcomp(self):
+        return KVCompNode(instance=self)
 
     def inherit_kv_from(self, node):
         inherited_kv = [{
