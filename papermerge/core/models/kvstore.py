@@ -74,6 +74,13 @@ MONEY = 'money'
 NUMERIC = 'numeric'
 DATE = 'date'
 
+METADATA_TYPES = [
+    TEXT,
+    MONEY,
+    NUMERIC,
+    DATE
+]
+
 
 class KVCompKeyLengthMismatch(Exception):
     pass
