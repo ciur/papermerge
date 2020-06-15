@@ -12,23 +12,23 @@
 
 # You can specify where you want the SQLite database to be stored instead of
 # the default location of /data/ within the install directory.
-PAPERMERGE_DBDIR = "/home/eugen/tmp/papermerge/db"
+DBDIR = "/home/eugen/tmp/papermerge/db"
 
 # Override the default MEDIA_ROOT here.  This is where all files are stored.
 # The default location is /media/documents/ within the install folder.
-PAPERMERGE_MEDIADIR = "/home/eugen/tmp/papermerge/media"
+MEDIADIR = "/home/eugen/tmp/papermerge/media"
 
 # Override the default STATIC_ROOT here.  This is where all static files
 # created using "collectstatic" manager command are stored.
-PAPERMERGE_STATICDIR = "/home/eugen/tmp/papermerge/static"
+STATICDIR = "/home/eugen/tmp/papermerge/static"
 
 # Override the MEDIA_URL here.  Unless you're hosting Paperless off a subdomain
 # like /paperless/, you probably don't need to change this.
-PAPERMERGE_MEDIA_URL = "/media/"
+MEDIA_URL = "/media/"
 
 # Override the STATIC_URL here.  Unless you're hosting Paperless off a
 # subdomain like /paperless/, you probably don't need to change this.
-PAPERMERGE_STATIC_URL = "/static/"
+STATIC_URL = "/static/"
 
 
 #   Document Importer
@@ -37,33 +37,33 @@ PAPERMERGE_STATIC_URL = "/static/"
 # Configuration for ./manage.py importer command
 
 # This where ./manage importer will import your documents from.
-PAPERMERGE_IMPORTER_DIR = "/home/eugen/tmp/papermerge/import"
+IMPORTER_DIR = "/home/eugen/tmp/papermerge/import"
 
 # Files are considered ready for import if they have been unmodified
 # for this duration (in seconds)
-PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = 1
+FILES_MIN_UNMODIFIED_DURATION = 1
 
 # This setting is ignored on Linux where inotify is used instead of a
 # polling loop.
 # The number of seconds that Papermerge will wait between checking
-# PAPERMERGE_IMPORTER_DIR. If you tend to write documents to this directory
+# IMPORTER_DIR. If you tend to write documents to this directory
 # rarely, you may want to use a higher value than the default (5).
-PAPERMERGE_IMPORTER_LOOP_TIME = 5
+IMPORTER_LOOP_TIME = 5
 
 
 # These values are required if you want papermerge to import email attachments
 # from specific email account.
 # If you don't define a HOST, mail checking will just be disabled.
-PAPERMERGE_IMPORT_MAIL_HOST = ""
-PAPERMERGE_IMPORT_MAIL_USER = ""
-PAPERMERGE_IMPORT_MAIL_PASS = ""
+IMPORT_MAIL_HOST = ""
+IMPORT_MAIL_USER = ""
+IMPORT_MAIL_PASS = ""
 
 # Override the default IMAP inbox here. If not set Papermerge defaults to
 # "INBOX".
-#PAPERMERGE_IMPORT_MAIL_INBOX="INBOX"
+#IMPORT_MAIL_INBOX="INBOX"
 
 # Any email sent to the target account that does not contain this text will be ignored.
-PAPERMERGE_EMAIL_SECRET = ""
+EMAIL_SECRET = ""
 
 #   Worker
 ########################
@@ -71,31 +71,50 @@ PAPERMERGE_EMAIL_SECRET = ""
 # These settings are used by built-in asyncronious task (celery).
 # By default, celery will use local directory as message broker.
 # This directory will be created automatically when you start papermerge.
-PAPERMERGE_TASK_QUEUE_DIR = "/var/tmp/papermerge/queue"
+TASK_QUEUE_DIR = "/var/tmp/papermerge/queue"
 
 
 #   Storage
 ###############
 
-PAPERMERGE_DEFAULT_FILE_STORAGE = "mglib.storage.FileSystemStorage"
+DEFAULT_FILE_STORAGE = "mglib.storage.FileSystemStorage"
 
 
 #  Search Backend
 ###################
 
-PAPERMERGE_SEARCH_BACKEND = "papermerge.search.backends.db.SearchBackend"
+SEARCH_BACKEND = "papermerge.search.backends.db.SearchBackend"
 
-# Metadata Plugins
+# Metadata
 ####################
 
+# Metadata plugins. These are external applications (very simple ones), that will
+# extract and populate metadata fields.
 #
-#   PAPERMERGE_METADATA_PLUGINS = [
+#   METADATA_PLUGINS = [
 #       "lidl_receipts_de.Lidl",
 #       "rewe_receipts_de.Rewe",
 #       "ard_zdf_letter.ARD"
 #    ]
 #
-PAPERMERGE_METADATA_PLUGINS = []
+METADATA_PLUGINS = []
+
+# METADATA_DATE_FORMATS = [
+#     'dd.mm.yy',
+#     'dd.mm.yyyy',
+#     'dd.M.yyyy'
+# ]
+# 
+# METADATA_CURRENCY_FORMATS = [
+#     'dd.cc',
+#     'dd,cc'
+# ]
+# 
+# METADATA_NUMERIC_FORMATS = [
+#     'dddd',
+#     'd,ddd',
+#     'd.ddd'
+# ]
 
 
 # Software Tweaks
@@ -109,4 +128,4 @@ PAPERMERGE_METADATA_PLUGINS = []
 # deu = for German
 # spa = for Spanish
 
-PAPERMERGE_OCR_LANGUAGE = "deu"
+OCR_LANGUAGE = "deu"

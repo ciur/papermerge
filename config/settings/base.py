@@ -11,7 +11,7 @@ DEFAULT_CONFIG_PLACES = [
     "papermerge.conf.py"
 ]
 
-cfg = None
+cfg_papermerge = None
 
 for config_file in DEFAULT_CONFIG_PLACES:
     if os.path.exists(config_file):
@@ -27,7 +27,7 @@ for config_file in DEFAULT_CONFIG_PLACES:
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         # and stop looking for ther configs.
-        cfg = vars(mod)
+        cfg_papermerge = vars(mod)
         break
 
 # project root directory
@@ -39,55 +39,76 @@ SECRET_KEY = "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
 
 SITE_ID = 1
 
-STATIC_ROOT = cfg['PAPERMERGE_STATICDIR']
+STATIC_ROOT = cfg_papermerge['STATICDIR']
 
-MEDIA_ROOT = cfg['PAPERMERGE_MEDIADIR']
+MEDIA_ROOT = cfg_papermerge['MEDIADIR']
 
-STATIC_URL = cfg["PAPERMERGE_STATIC_URL"]
+STATIC_URL = cfg_papermerge["STATIC_URL"]
 
-MEDIA_URL = cfg["PAPERMERGE_MEDIA_URL"]
+MEDIA_URL = cfg_papermerge["MEDIA_URL"]
 
 # This is where Papermerge will look for PDFs to index
-PAPERMERGE_IMPORTER_DIR = cfg["PAPERMERGE_IMPORTER_DIR"]
+PAPERMERGE_IMPORTER_DIR = cfg_papermerge["IMPORTER_DIR"]
 
-PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = cfg[
-    "PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION"
-]
-
-PAPERMERGE_IMPORTER_LOOP_TIME = cfg[
-    "PAPERMERGE_IMPORTER_LOOP_TIME"
-]
-
-PAPERMERGE_IMPORT_MAIL_HOST = cfg.get(
-    "PAPERMERGE_IMPORT_MAIL_HOST", ""
-)
-PAPERMERGE_IMPORT_MAIL_USER = cfg.get(
-    "PAPERMERGE_IMPORT_MAIL_USER", ""
-)
-PAPERMERGE_IMPORT_MAIL_PASS = cfg.get(
-    "PAPERMERGE_IMPORT_MAIL_PASS", ""
-)
-PAPERMERGE_IMPORT_MAIL_INBOX = cfg.get(
-    "PAPERMERGE_IMPORT_MAIL_INBOX", "INBOX"
-)
-PAPERMERGE_EMAIL_SECRET = cfg.get(
-    "PAPERMERGE_EMAIL_SECRET", ""
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = cfg_papermerge.get(
+    "FILES_MIN_UNMODIFIED_DURATION",
+    1
 )
 
-PAPERMERGE_DEFAULT_FILE_STORAGE = cfg.get(
-    "PAPERMERGE_DEFAULT_FILE_STORAGE",
+PAPERMERGE_IMPORTER_LOOP_TIME = cfg_papermerge.get(
+    "IMPORTER_LOOP_TIME",
+    5
+)
+
+PAPERMERGE_IMPORT_MAIL_HOST = cfg_papermerge.get(
+    "IMPORT_MAIL_HOST", ""
+)
+PAPERMERGE_IMPORT_MAIL_USER = cfg_papermerge.get(
+    "IMPORT_MAIL_USER", ""
+)
+PAPERMERGE_IMPORT_MAIL_PASS = cfg_papermerge.get(
+    "IMPORT_MAIL_PASS", ""
+)
+PAPERMERGE_IMPORT_MAIL_INBOX = cfg_papermerge.get(
+    "IMPORT_MAIL_INBOX", "INBOX"
+)
+PAPERMERGE_EMAIL_SECRET = cfg_papermerge.get(
+    "EMAIL_SECRET", ""
+)
+
+PAPERMERGE_DEFAULT_FILE_STORAGE = cfg_papermerge.get(
+    "DEFAULT_FILE_STORAGE",
     "mglib.storage.FileSystemStorage"
 )
 
-PAPERMERGE_SEARCH_BACKEND = cfg.get(
-    "PAPERMERGE_SEARCH_BACKEND",
+PAPERMERGE_SEARCH_BACKEND = cfg_papermerge.get(
+    "SEARCH_BACKEND",
     "papermerge.search.backends.db.SearchBackend"
 )
 
-PAPERMERGE_METADATA_PLUGINS = cfg["PAPERMERGE_METADATA_PLUGINS"]
+PAPERMERGE_METADATA_PLUGINS = cfg_papermerge.get(
+    "PAPERMERGE_METADATA_PLUGINS", []
+)
 
-PAPERMERGE_OCR_LANGUAGE = cfg.get(
-    "PAPERMERGE_OCR_LANGUAGE",
+PAPERMERGE_METADATA_DATE_FORMATS = [
+    'dd.mm.yy',
+    'dd.mm.yyyy',
+    'dd.M.yyyy'
+]
+
+PAPERMERGE_METADATA_CURRENCY_FORMATS = [
+    'dd.cc',
+    'dd,cc'
+]
+
+PAPERMERGE_METADATA_NUMERIC_FORMATS = [
+    'dddd',
+    'd,ddd',
+    'd.ddd'
+]
+
+PAPERMERGE_OCR_LANGUAGE = cfg_papermerge.get(
+    "OCR_LANGUAGE",
     "deu"  # if not defined, defaults to German a.k.a Deutsch
 )
 
@@ -161,8 +182,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(
-            cfg.get(
-                "PAPERMERGE_DBDIR",
+            cfg_papermerge.get(
+                "DBDIR",
                 PROJ_ROOT
             ),
             "db.sqlite3"
@@ -170,18 +191,18 @@ DATABASES = {
     }
 }
 
-if cfg.get("PAPERMERGE_DBUSER", False):
+if cfg_papermerge.get("DBUSER", False):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": cfg.get("PAPERMERGE_DBNAME", "papermerge"),
-        "USER": cfg.get("PAPERMERGE_DBUSER"),
+        "NAME": cfg_papermerge.get("PAPERMERGE_DBNAME", "papermerge"),
+        "USER": cfg_papermerge.get("PAPERMERGE_DBUSER"),
     }
-    if cfg.get("PAPERMERGE_DBPASS"):
-        DATABASES["default"]["PASSWORD"] = cfg.get("PAPERMERGE_DBPASS")
-    if cfg.get("PAPERMERGE_DBHOST"):
-        DATABASES["default"]["HOST"] = cfg.get("PAPERMERGE_DBHOST")
-    if cfg.get("PAPERMERGE_DBPORT"):
-        DATABASES["default"]["PORT"] = cfg.get("PAPERMERGE_DBPORT")
+    if cfg_papermerge.get("DBPASS"):
+        DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS")
+    if cfg_papermerge.get("DBHOST"):
+        DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST")
+    if cfg_papermerge.get("DBPORT"):
+        DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT")
 
 
 FILE_UPLOAD_HANDLERS = [
@@ -287,7 +308,7 @@ UPLOAD_FILE_SIZE_MAX = 12 * 1024 * 1024
 UPLOAD_FILE_SIZE_MIN = 1
 UPLOAD_ALLOWED_MIMETYPES = ['application/pdf']
 
-PAPERMERGE_TASK_QUEUE_DIR = cfg["PAPERMERGE_TASK_QUEUE_DIR"]
+PAPERMERGE_TASK_QUEUE_DIR = cfg_papermerge["PAPERMERGE_TASK_QUEUE_DIR"]
 
 if not os.path.exists(
     PAPERMERGE_TASK_QUEUE_DIR
