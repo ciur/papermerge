@@ -1,7 +1,7 @@
 from django.db import models
+from django.utils.translation import gettext as _
 
 from .diff import Diff
-
 
 """
 # KVStore / Key Value Store
@@ -18,12 +18,12 @@ If metadata is defined at Folder level - it will be inherited by all
 descending nodes (subfolders and documents) and pages of respective
 folders. Think of metadata definition as flowing down as a river.
 
-Metadata is defined as a set of key names. For example, metadata defined
-on folder Groceries could be:
+Metadata is defined as a set of key names of specific type and format.
+For example, metadata defined on folder Groceries could be:
 
-    * key1 = date
-    * key2 = shop
-    * key3 = price
+    * key1 = date / type=date / format dd.mm.yy
+    * key2 = shop / type=text / format=N/A
+    * key3 = price / type=money / format dd,cc
 
 This way, each and every document in Groceries folder (and respective pages)
 will have associated those 3 keys. Other parts of application code will
@@ -31,13 +31,13 @@ populate the values for those keys.
 As result, two page document (say D1) in folder Groceries will have:
 
  D1 content:
-   page1 = key=date   value=03 June 2020
+   page1 = key=date   value=03.06.2020
            key=shop   value=lidl
-           key=price  value=34.02
+           key=price  value=34,02
 
-   page2 = key=date   value=01 June 2020
+   page2 = key=date   value=01.06.20
            key=shop   value=aldi
-           key=price  value=19.00
+           key=price  value=19,00
 
  Which means D1 is one batch scan of two receipts. Other parts of application
  code might split page1 and page2 from D1 into two receipts documents with one
@@ -67,6 +67,12 @@ There can be ONLY ONE composite key per Entity (E=Page, Node=Folder/Document)
 KVComp describe tables. I repeat, as this is important -
 only one table (compkey) per document is supported.
 """
+
+# metadata types
+TEXT = 'text'
+MONEY = 'money'
+NUMERIC = 'numeric'
+DATE = 'date'
 
 
 class KVCompKeyLengthMismatch(Exception):
@@ -513,6 +519,36 @@ class KVStore(models.Model):
     )
 
     value = models.TextField(
+        null=True,
+        blank=True
+    )
+
+    kv_type = models.CharField(
+        max_length=16,
+        choices=[
+            (TEXT, _('Text')),
+            (MONEY, _('Currency')),
+            (NUMERIC, _('Numeric')),
+            (DATE, _('Date'))
+        ],
+        default='text'
+    )
+
+    # Format for kv_type
+    #
+    # e.g. for currency => dd.cc or may be dd,cc
+    #      for date => dd.mm.yy or dd Month YYYY
+    #      for numeric => 1,2000 or 1200 or 1.200
+    #
+    # available formats are loaded from configuration file
+    # and will be displayed for user to choose from when
+    # creating/adding a metadata.
+    #
+    # Without specifing format - metadata is basically useless.
+    # what does value=05.06.20 key=date mean ?
+    # is it 5th of June 2020 or it is 6th of May 2020 ?
+    kv_format = models.CharField(
+        max_length=64,
         null=True,
         blank=True
     )
