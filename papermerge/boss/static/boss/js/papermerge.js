@@ -26753,14 +26753,20 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
       key: '',
-      kv_inherited: false
+      kv_inherited: false,
+      kv_type: 'text',
+      kv_format: undefined,
+      // only used on local, not passed to the server
+      current_formats: []
     };
   }
 
   toJSON() {
     let dict = {
       key: this.get('key'),
-      kv_inherited: this.get('kv_inherited')
+      kv_inherited: this.get('kv_inherited'),
+      kv_type: this.get('kv_type'),
+      kv_format: this.get('kv_format')
     };
     return dict;
   }
@@ -26786,14 +26792,20 @@ class KVStoreComp extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
       key: '',
-      kv_inherited: false
+      kv_inherited: false,
+      kv_type: 'text',
+      kv_format: undefined,
+      // only used on local, not passed to the server
+      current_formats: []
     };
   }
 
   toJSON() {
     let dict = {
       key: this.get('key'),
-      kv_inherited: this.get('kv_inherited')
+      kv_inherited: this.get('kv_inherited'),
+      kv_type: this.get('kv_type'),
+      kv_format: this.get('kv_format')
     };
     return dict;
   }
@@ -26842,7 +26854,15 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   initialize(doc_id) {
-    this.doc_id = doc_id; // fetch data from server side
+    this.doc_id = doc_id; // Following 4 fields are used to populate UI
+    // with 2 dropdowns - type and format.
+
+    this.kv_types = [];
+    this.currency_formats = [];
+    this.numeric_formats = [];
+    this.date_formats = [];
+    this.kv_current_formats = [];
+    this.kv_current_type = 'text'; // fetch data from server side
 
     this.fetch();
   }
@@ -26879,25 +26899,33 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       that.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"](item));
     });
 
+    this.kv_types = response.kv_types;
+    this.currency_formats = response.currency_formats;
+    this.numeric_formats = response.numeric_formats;
+    this.date_formats = response.date_formats;
     this.trigger('change');
     return {
       'kvstore': this.kvstore,
-      'kvstore_comp': this.kvstore_comp
+      'kvstore_comp': this.kvstore_comp,
+      'kv_types': this.kv_types,
+      'currency_formats': this.currency_formats,
+      'numeric_formats': this.numeric_formats,
+      'date_formats': this.date_formats
     };
   }
 
-  update_simple(cid, value) {
-    let model = this.kvstore.get(cid);
-    model.set({
-      'key': value
-    });
+  update_simple(cid, attr, value) {
+    let model = this.kvstore.get(cid),
+        dict = {};
+    dict[attr] = value;
+    model.set(dict);
   }
 
-  update_comp(cid, value) {
-    let model = this.kvstore_comp.get(cid);
-    model.set({
-      'key': value
-    });
+  update_comp(cid, attr, value) {
+    let model = this.kvstore_comp.get(cid),
+        dict = {};
+    dict[attr] = value;
+    model.set(dict);
   }
 
   add_simple() {
@@ -27825,6 +27853,8 @@ __p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_met
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n        ';
  item = kvstore.models[i]; 
+__p+='\n        ';
+ current_formats = item.get('current_formats'); 
 __p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
@@ -27837,7 +27867,31 @@ __p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            ';
+'">\n            <select class="kv_type" name=\'kv_type\' class="custom-select">\n                ';
+ for (k=0; k < kv_types.length; k++) { 
+__p+='\n                    <option \n                        ';
+ if ( item.get('kv_type') == kv_types[k][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                        value="'+
+((__t=( kv_types[k][0] ))==null?'':__t)+
+'">\n                        '+
+((__t=( kv_types[k][1] ))==null?'':__t)+
+'\n                    </option>\n                ';
+ } 
+__p+='\n            </select>\n            <select class="kv_format" name=\'kv_format\' class="custom-select">\n                ';
+ for (j=0; j < current_formats.length; j++) { 
+__p+='\n                    <option \n                         ';
+ if ( item.get('kv_format') == current_formats[j][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                        value="'+
+((__t=( current_formats[j][0] ))==null?'':__t)+
+'">\n                        '+
+((__t=( current_formats[j][1] ))==null?'':__t)+
+'\n                        \n                    </option>\n                ';
+ } 
+__p+='\n            </select>\n            ';
  if (!item.get('kv_inherited')) {  
 __p+='\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            ';
  } 
@@ -29063,9 +29117,69 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       "click #add_simple_meta": "add_simple_meta",
       "click #add_comp_meta": "add_comp_meta",
       "click .close.key": "remove_meta",
-      "keyup input": "update_value"
+      "keyup input": "update_value",
+      "change input": "update_value",
+      "change .kv_type": "kv_type_update",
+      "change .kv_format": "kv_format_update"
     };
     return event_map;
+  }
+
+  kv_format_update(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+
+    if (data['model'] == 'simple-key') {
+      this.metadata.update_simple(data['cid'], 'kv_format', value);
+    } else if (data['model'] == 'comp-key') {
+      this.metadata.update_comp(data['cid'], 'kv_format', cur_fmt[value]);
+    }
+
+    this.render();
+  }
+
+  kv_type_update(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+    let cur_fmt = {};
+    cur_fmt['money'] = this.metadata.currency_formats;
+    cur_fmt['numeric'] = this.metadata.numeric_formats;
+    cur_fmt['date'] = this.metadata.date_formats;
+    cur_fmt['text'] = [];
+
+    if (data['model'] == 'simple-key') {
+      this.metadata.update_simple(data['cid'], 'kv_type', value);
+      this.metadata.update_simple(data['cid'], 'current_formats', cur_fmt[value]);
+
+      if (cur_fmt[value].length > 0) {
+        // kv_format entry is a 2 items array. First one is used as value
+        // in HTML <option> and second one is the human text
+        // cur_fmt[value][0][0] == use first *value* of first format from the list
+        this.metadata.update_simple(data['cid'], 'kv_format', cur_fmt[value][0][0]);
+      } else {
+        // current list of formatting types is empty only for kv_type text
+        // no formating - means kv_type = text
+        this.metadata.update_simple(data['cid'], 'kv_format', "");
+      }
+    } else if (data['model'] == 'comp-key') {
+      this.metadata.update_comp(data['cid'], 'kv_type', value);
+      this.metadata.update_comp(data['cid'], 'current_formats', cur_fmt[value]);
+
+      if (cur_fmt[value].length > 0) {
+        // kv_format entry is a 2 items array. First one is used as value
+        // in HTML <option> and second one is the human text
+        // cur_fmt[value][0][0] == use first *value* of first format from the list
+        this.metadata.update_comp(data['cid'], 'kv_format', cur_fmt[value][0][0]);
+      } else {
+        // current list of formatting types is empty only for kv_type text
+        // no formating - means kv_type = text
+        this.metadata.update_comp(data['cid'], 'kv_format', "");
+      }
+    }
+
+    this.render();
   }
 
   update_value(event) {
@@ -29074,9 +29188,9 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     let data = parent.data();
 
     if (data['model'] == 'simple-key') {
-      this.metadata.update_simple(data['cid'], value);
+      this.metadata.update_simple(data['cid'], 'key', value);
     } else if (data['model'] == 'comp-key') {
-      this.metadata.update_comp(data['cid'], value);
+      this.metadata.update_comp(data['cid'], 'key', value);
     }
   }
 
@@ -29116,7 +29230,8 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   render() {
     let compiled = underscore__WEBPACK_IMPORTED_MODULE_1___default.a.template(TEMPLATE({
       kvstore: this.metadata.kvstore,
-      kvstore_comp: this.metadata.kvstore_comp
+      kvstore_comp: this.metadata.kvstore_comp,
+      kv_types: this.metadata.kv_types
     }));
 
     this.$el.html(compiled);

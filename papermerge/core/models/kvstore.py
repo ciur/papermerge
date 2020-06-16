@@ -323,6 +323,8 @@ class KV:
                         'new': item['key']
                     })
                     kvstore_node.key = item['key']
+                    kvstore_node.kv_format = item['kv_format']
+                    kvstore_node.kv_type = item['kv_type']
                     kvstore_node.save()
             elif 'old' in item and 'new' in item:
                 kvstore_node = self.instance.kvstore.filter(
@@ -335,6 +337,8 @@ class KV:
                         'new': item['new']
                     })
                     kvstore_node.key = item['new']
+                    kvstore_node.kv_format = item['kv_format']
+                    kvstore_node.kv_type = item['kv_type']
                     kvstore_node.save()
 
         if updates:
