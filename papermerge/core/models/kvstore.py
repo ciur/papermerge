@@ -371,8 +371,8 @@ class KV:
                 # delete a python id key regardless if it is present
                 # or not.
                 # The point here is that NEW element is created, so
-                # presense of empty id key - raises an error.
-                item.pop('id')
+                # presense of empty id key raises an error.
+                item.pop('id', None)
 
                 self.instance.kvstore.create(**item)
 
