@@ -53,12 +53,16 @@ def metadata(request, id):
             item = {}
             item['id'] = kv.id
             item['key'] = kv.key
+            item['kv_type'] = kv.kv_type
+            item['kv_format'] = kv.kv_format
             item['kv_inherited'] = kv.kv_inherited
             kvstore.append(item)
         for kv in node.kvcomp.all():
             item = {}
             item['id'] = kv.id
             item['key'] = kv.key
+            item['kv_type'] = kv.kv_type
+            item['kv_format'] = kv.kv_format
             item['kv_inherited'] = kv.kv_inherited
             kvstore_comp.append(item)
     else:

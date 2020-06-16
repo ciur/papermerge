@@ -26752,6 +26752,7 @@ __webpack_require__.r(__webpack_exports__);
 class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
+      id: '',
       key: '',
       kv_inherited: false,
       kv_type: 'text',
@@ -26763,6 +26764,7 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
   toJSON() {
     let dict = {
+      id: this.get('id'),
       key: this.get('key'),
       kv_inherited: this.get('kv_inherited'),
       kv_type: this.get('kv_type'),
@@ -26791,6 +26793,7 @@ class KVStoreCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collectio
 class KVStoreComp extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
+      id: '',
       key: '',
       kv_inherited: false,
       kv_type: 'text',
