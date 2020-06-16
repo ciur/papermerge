@@ -1,9 +1,8 @@
 from pathlib import Path
 
 from django.test import TestCase
-from django.utils.translation import gettext as _
 from papermerge.core.models import Document, Folder
-from papermerge.core.models.kvstore import KVCompKeyLengthMismatch, KVStoreNode
+from papermerge.core.models.kvstore import MONEY, TEXT, KVCompKeyLengthMismatch
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
@@ -263,12 +262,20 @@ class TestFolder(TestCase):
         )
         self.assertEqual(0, p.kv.count())
         p.kv.update(
-            [{'key': 'shop'}, {'key': 'total'}]
+            [
+                {'key': 'shop', 'kv_type': TEXT, 'kv_format': ''},
+                {'key': 'total', 'kv_type': MONEY, 'kv_format': 'dd,cc'}
+            ]
         )
         self.assertEqual(2, p.kv.count())
         # get ID's of newly created KVStoreNode instances
         _kv_list_of_dicts = [
-            {'key': item.key, 'id': item.id} for item in p.kv.all()
+            {
+                'key': item.key,
+                'id': item.id,
+                'kv_type': item.kv_type,
+                'kv_format': item.kv_format
+            } for item in p.kv.all()
         ]
         # find key titled 'total', and rename it to 'total_price'
         for obj_with_total_key in _kv_list_of_dicts:
@@ -393,7 +400,19 @@ class TestFolder(TestCase):
         )
         sub.save()
         top.kv.update(
-            [{'key': 'shop'}, {'key': 'total'}]
+            [
+                {
+                    'key': 'shop',
+                    'kv_type': TEXT,
+                    'kv_format': ''
+
+                },
+                {
+                    'key': 'total',
+                    'kv_type': MONEY,
+                    'kv_format': 'dd,cc'
+                }
+            ]
         )
         self.assertEqual(2, top.kv.count())
         # there are not duplicates in descendents' metadata.
@@ -405,8 +424,17 @@ class TestFolder(TestCase):
         )
         top.kv.update(
             [
-                {'key': 'shop2', 'id': shop_kv.id},
-                {'key': 'total'},  # total key is unchanged
+                {
+                    'key': 'shop2',
+                    'id': shop_kv.id,
+                    'kv_type': TEXT,
+                    'kv_format': ''
+                },
+                {
+                    'key': 'total',
+                    'kv_type': MONEY,
+                    'kv_format': 'dd,cc'
+                },  # total key is unchanged
             ]
         )
         self.assertEqual(

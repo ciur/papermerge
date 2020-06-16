@@ -321,8 +321,11 @@ class KV:
                 if kvstore_node:
                     # ok found it, just update the key
                     attr_updates.append({
+                        # old key is needed in order to find the element
                         'old': kvstore_node.key,
-                        'new': item['key']
+                        'new': item['key'],
+                        'kv_format': item['kv_format'],
+                        'kv_type': item['kv_type']
                     })
                     kvstore_node.key = item['key']
                     kvstore_node.kv_format = item['kv_format']
@@ -433,7 +436,6 @@ class KV:
 
     def count(self):
         return self.instance.kvstore.count()
-
 
     def remove(self, key):
         """

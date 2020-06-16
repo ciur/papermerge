@@ -194,6 +194,8 @@ class BaseTreeNode(PolymorphicMPTTModel):
                 updates = [{
                     'kv_inherited': True,
                     'key': _model.key,
+                    'kv_format': _model.format,
+                    'kv_type': _model.type,
                     'id': _model.id
                 } for _model in diff]
 
