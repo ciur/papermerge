@@ -26752,7 +26752,6 @@ __webpack_require__.r(__webpack_exports__);
 class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
-      id: '',
       key: '',
       kv_inherited: false,
       kv_type: 'text',
@@ -26920,19 +26919,27 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   update_simple(cid, attr, value) {
     let model = this.kvstore.get(cid),
         dict = {};
-    dict[attr] = value;
-    model.set(dict);
+
+    if (model && attr) {
+      dict[attr] = value;
+      model.set(dict);
+    }
   }
 
   update_comp(cid, attr, value) {
     let model = this.kvstore_comp.get(cid),
         dict = {};
-    dict[attr] = value;
-    model.set(dict);
+
+    if (model && attr) {
+      dict[attr] = value;
+      model.set(dict);
+    }
   }
 
   add_simple() {
-    this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]());
+    this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]({
+      'kv_current_formats': this.kv_current_formats
+    }));
   }
 
   remove_simple(cid) {
@@ -27852,7 +27859,7 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Simle Key"/>\n    </li>\n    <li>\n        <input id="add_comp_meta" class="btn btn-neuter" type="button" value="Create Comp Key"/>\n    </li>\n </ul>\n Simple keys\n <ul id="simple_keys" class="vertical menu">\n    ';
+__p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Key"/>\n    </li>\n </ul>\n All metadata keys\n <ul id="simple_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n        ';
  item = kvstore.models[i]; 
@@ -27900,23 +27907,7 @@ __p+='\n                <button type=\'button\' class=\'close key text-danger mx
  } 
 __p+='\n        </li>\n    ';
  } 
-__p+='\n </ul>\n Comp Key\n <ul id="comp_keys" class="vertical menu">\n    ';
- for (i=0; i < kvstore_comp.models.length; i++) { 
-__p+='\n        ';
- item = kvstore_comp.models[i]; 
-__p+='\n        <li class=\'d-flex\' data-model=\'comp-key\' data-cid=\''+
-((__t=( item.cid ))==null?'':__t)+
-'\' data-value="'+
-((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <input data-id=\''+
-((__t=( item.id ))==null?'':__t)+
-'\' data-cid=\''+
-((__t=( item.cid ))==null?'':__t)+
-'\' name=\'key\' type=\'text\' value="'+
-((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                <span aria-hidden=\'true\'>&times;</span>\n            </button>\n        </li>\n    ';
- } 
-__p+='\n </ul>\n';
+__p+='\n </ul>';
 }
 return __p;
 };
@@ -29118,7 +29109,6 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   events() {
     let event_map = {
       "click #add_simple_meta": "add_simple_meta",
-      "click #add_comp_meta": "add_comp_meta",
       "click .close.key": "remove_meta",
       "keyup input": "update_value",
       "change input": "update_value",
@@ -29132,13 +29122,7 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
     let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
     let data = parent.data();
-
-    if (data['model'] == 'simple-key') {
-      this.metadata.update_simple(data['cid'], 'kv_format', value);
-    } else if (data['model'] == 'comp-key') {
-      this.metadata.update_comp(data['cid'], 'kv_format', cur_fmt[value]);
-    }
-
+    this.metadata.update_simple(data['cid'], 'kv_format', value);
     this.render();
   }
 
@@ -29151,35 +29135,18 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     cur_fmt['numeric'] = this.metadata.numeric_formats;
     cur_fmt['date'] = this.metadata.date_formats;
     cur_fmt['text'] = [];
+    this.metadata.update_simple(data['cid'], 'kv_type', value);
+    this.metadata.update_simple(data['cid'], 'current_formats', cur_fmt[value]);
 
-    if (data['model'] == 'simple-key') {
-      this.metadata.update_simple(data['cid'], 'kv_type', value);
-      this.metadata.update_simple(data['cid'], 'current_formats', cur_fmt[value]);
-
-      if (cur_fmt[value].length > 0) {
-        // kv_format entry is a 2 items array. First one is used as value
-        // in HTML <option> and second one is the human text
-        // cur_fmt[value][0][0] == use first *value* of first format from the list
-        this.metadata.update_simple(data['cid'], 'kv_format', cur_fmt[value][0][0]);
-      } else {
-        // current list of formatting types is empty only for kv_type text
-        // no formating - means kv_type = text
-        this.metadata.update_simple(data['cid'], 'kv_format', "");
-      }
-    } else if (data['model'] == 'comp-key') {
-      this.metadata.update_comp(data['cid'], 'kv_type', value);
-      this.metadata.update_comp(data['cid'], 'current_formats', cur_fmt[value]);
-
-      if (cur_fmt[value].length > 0) {
-        // kv_format entry is a 2 items array. First one is used as value
-        // in HTML <option> and second one is the human text
-        // cur_fmt[value][0][0] == use first *value* of first format from the list
-        this.metadata.update_comp(data['cid'], 'kv_format', cur_fmt[value][0][0]);
-      } else {
-        // current list of formatting types is empty only for kv_type text
-        // no formating - means kv_type = text
-        this.metadata.update_comp(data['cid'], 'kv_format', "");
-      }
+    if (cur_fmt[value].length > 0) {
+      // kv_format entry is a 2 items array. First one is used as value
+      // in HTML <option> and second one is the human text
+      // cur_fmt[value][0][0] == use first *value* of first format from the list
+      this.metadata.update_simple(data['cid'], 'kv_format', cur_fmt[value][0][0]);
+    } else {
+      // current list of formatting types is empty only for kv_type text
+      // no formating - means kv_type = text
+      this.metadata.update_simple(data['cid'], 'kv_format', "");
     }
 
     this.render();
@@ -29189,40 +29156,19 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
     let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
     let data = parent.data();
-
-    if (data['model'] == 'simple-key') {
-      this.metadata.update_simple(data['cid'], 'key', value);
-    } else if (data['model'] == 'comp-key') {
-      this.metadata.update_comp(data['cid'], 'key', value);
-    }
+    this.metadata.update_simple(data['cid'], 'key', value);
   }
 
   add_simple_meta(event) {
     let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    this.metadata.add_simple(new _models_kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStore"]({
-      'value': value
-    }));
-    this.render();
-  }
-
-  add_comp_meta(event) {
-    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    this.metadata.add_comp(new _models_kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStoreComp"]({
-      'value': value
-    }));
+    this.metadata.add_simple();
     this.render();
   }
 
   remove_meta(event) {
     let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
     let data = parent.data();
-
-    if (data['model'] == 'simple-key') {
-      this.metadata.remove_simple(data['cid']);
-    } else if (data['model'] == 'comp-key') {
-      this.metadata.remove_comp(data['cid']);
-    }
-
+    this.metadata.remove_simple(data['cid']);
     parent.remove();
   }
 
