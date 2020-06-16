@@ -7,11 +7,15 @@ Changelog
 Changed
 ~~~~~~~~~
 
+- Automatically Extract Metadata via Plugins
+- Metadata (per Folder/Document/Page)
+- SQLite is default database (Postresql is now optional, available via Plugin)
 - Support for OCR on all languages
-- Refactoring. Webpack's outputs moved into boss/static directory. This change simplifies initial project setup (no need to clone yet another repo)
-- Refactoring. Make Papermerge similar to [paperless](https://github.com/the-paperless-project/paperless/). I checked paperless project and I fell in love with its simplicity in setup and usage.
-- Read configurations from /etc/papermerge.conf or ./papermerge.conf
-- Endpoint moved from pmworker to mglib
+- Refactoring: all static assets moved into boss/static directory. This change simplifies initial project setup (no need to clone yet another repo)
+- Read configurations from /etc/papermerge.conf.py or ./papermerge.conf.py
+- Refactoring: endpoint extracted from pmworker into mglib.path.DocumentPath and mglib.path.PagePath
+- Save last sorting mode in file browser - via save_last_sort cookie
+
 
 
 [1.2.0] - 10 Apr 2020
