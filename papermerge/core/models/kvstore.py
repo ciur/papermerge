@@ -368,6 +368,12 @@ class KV:
             ).first()
             # this key does not exist for this node
             if not kvstore_node:
+                # delete a python id key regardless if it is present
+                # or not.
+                # The point here is that NEW element is created, so
+                # presense of empty id key - raises an error.
+                item.pop('id')
+
                 self.instance.kvstore.create(**item)
 
         if new_additions:
