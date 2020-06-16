@@ -281,6 +281,9 @@ class KV:
                 else:
                     # key is not present and it has no ID => it is new
                     result[KV.ADD].append(item)
+            elif item.get('id', False):
+                # presence of id attributes means an update.
+                result[KV.UPDATE].append(item)
 
         # other way around (check for removes)
         data_keys = [item['key'] for item in data]
@@ -309,7 +312,6 @@ class KV:
         updated.
         """
         attr_updates = []
-
         for item in updates:
             # update exiting
             if 'id' in item:
