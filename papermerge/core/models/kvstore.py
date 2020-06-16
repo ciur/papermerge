@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -80,6 +81,33 @@ METADATA_TYPES = [
     NUMERIC,
     DATE
 ]
+
+
+def get_kv_types():
+    return [
+        (kv_type, _(kv_type)) for kv_type in METADATA_TYPES
+    ]
+
+
+def get_currency_formats():
+    return [
+        (currency, _(currency))
+        for currency in settings.PAPERMERGE_METADATA_CURRENCY_FORMATS
+    ]
+
+
+def get_numeric_formats():
+    return [
+        (numeric, _(numeric))
+        for numeric in settings.PAPERMERGE_METADATA_NUMERIC_FORMATS
+    ]
+
+
+def get_date_formats():
+    return [
+        (_date, _(_date))
+        for _date in settings.PAPERMERGE_METADATA_DATE_FORMATS
+    ]
 
 
 class KVCompKeyLengthMismatch(Exception):
@@ -578,6 +606,20 @@ class KVStore(models.Model):
     kv_inherited = models.BooleanField(
         default=False
     )
+
+    def to_dict(self):
+        item = {}
+        item['id'] = self.id
+        item['key'] = self.key
+        item['kv_type'] = self.kv_type
+        item['kv_format'] = self.kv_format
+        item['kv_inherited'] = self.kv_inherited
+        item['kv_types'] = get_kv_types()
+        item['currency_formats'] = get_currency_formats()
+        item['numeric_formats'] = get_numeric_formats()
+        item['date_formats'] = get_date_formats()
+
+        return item
 
 
 class KVStoreNode(KVStore):
