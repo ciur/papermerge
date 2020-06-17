@@ -388,6 +388,14 @@ class TestFolder(TestCase):
         )
 
     def test_folders_kvstore_propagates_update_to_subfolders(self):
+        """
+        This case is when descendent folders exists during metadata creation.
+        i.e. creation order is this:
+            1. top folder
+            2. sub folder
+            3. metadata on top folder
+            4  metadata is inherited from top to already existing descendents.
+        """
         top = Folder.objects.create(
             title="top",
             user=self.user
@@ -461,5 +469,55 @@ class TestFolder(TestCase):
             ),
             set(
                 ["shop2", "total"]
+            )
+        )
+
+    def test_folders_kvstore_propagates_update_to_subfolders_2(self):
+        """
+        This case is when descendent folders DO NOT exists during
+        metadata creation.
+        i.e. creation order is this:
+            1. top folder
+            2. metadata on top folder
+            3. Sub folder
+            4. Metadata must be inherited by subfolder from top folder.
+        """
+        top = Folder.objects.create(
+            title="top",
+            user=self.user
+        )
+        top.save()
+        top.kv.update(
+            [
+                {
+                    'key': 'shop',
+                    'kv_type': TEXT,
+                    'kv_format': ''
+
+                },
+                {
+                    'key': 'total',
+                    'kv_type': MONEY,
+                    'kv_format': 'dd,cc'
+                }
+            ]
+        )
+        self.assertEqual(2, top.kv.count())
+        # When subfolder is created - parent folder ALREADY has metadata.
+        sub = Folder.objects.create(
+            title="sub",
+            parent=top,
+            user=self.user
+        )
+        sub.save()
+        # there are not duplicates in descendents' metadata.
+        self.assertEqual(2, sub.kv.count())
+
+        self.assertEqual(
+            set(
+                sub.kv.keys()
+            ),
+            set(
+                ["shop", "total"]
             )
         )
