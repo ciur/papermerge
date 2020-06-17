@@ -26759,6 +26759,23 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     };
   }
 
+  initialize(doc_id) {
+    this.on('change:kv_type', this.update_current_formats);
+    this.trigger('change:kv_type');
+  }
+
+  update_current_formats() {
+    if (this.get('kv_type') == 'date') {
+      this.set('current_formats', this.get('date_formats'));
+    } else if (this.get('kv_type') == 'money') {
+      this.set('current_formats', this.get('currency_formats'));
+    } else if (this.get('kv_type') == 'numeric') {
+      this.set('current_formats', this.get('numeric_formats'));
+    } else {
+      this.set('current_formats', []);
+    }
+  }
+
   toJSON() {
     let dict = {
       id: this.get('id'),
@@ -26768,18 +26785,6 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       kv_format: this.get('kv_format')
     };
     return dict;
-  }
-
-  get current_formats() {
-    if (this.get('kv_type') == 'date') {
-      return this.get('date_formats');
-    } else if (this.get('kv_type') == 'money') {
-      return this.get('currency_formats');
-    } else if (this.get('kv_type') == 'numeric') {
-      return this.get('numeric_formats');
-    }
-
-    return [];
   }
 
   get disabled() {
@@ -26861,7 +26866,11 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
       kvstore: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"](),
-      kvstore_comp: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCompCollection"]()
+      kvstore_comp: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCompCollection"](),
+      kv_types: [],
+      date_formats: [],
+      currency_formats: [],
+      numeric_formats: []
     };
   }
 
@@ -26907,16 +26916,19 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       that.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"](item));
     });
 
-    this.set('kv_types', kv_types);
+    this.set({
+      'kv_types': kv_types
+    });
+    this.set({
+      'numeric_formats': numeric_formats
+    });
+    this.set({
+      'date_formats': date_formats
+    });
+    this.set({
+      'currency_formats': currency_formats
+    });
     this.trigger('change');
-    return {
-      'kvstore': this.kvstore,
-      'kvstore_comp': this.kvstore_comp,
-      'kv_types': this.kv_types,
-      'date_formats': this.date_formats,
-      'currency_formats': this.currency_formats,
-      'numeric_formats': this.numeric_formats
-    };
   }
 
   update_simple(cid, attr, value) {
@@ -26941,7 +26953,8 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
   add_simple() {
     this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]({
-      'kv_current_formats': this.kv_current_formats
+      'kv_current_formats': this.kv_current_formats,
+      'kv_types': this.kv_types
     }));
   }
 
@@ -27867,10 +27880,8 @@ __p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_met
 __p+='\n        ';
  item = kvstore.models[i]; 
 __p+='\n        ';
- current_formats = item.current_formats || []; 
-__p+='\n        '+
-((__t=( available_types ))==null?'':__t)+
-'\n        ';
+ current_formats = item.get('current_formats') || []; 
+__p+='\n        ';
  kv_types = item.get('kv_types') || available_types || []; 
 __p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
@@ -27884,7 +27895,9 @@ __p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <select class="kv_type" name=\'kv_type\' class="custom-select">\n                ';
+'">\n            <select '+
+((__t=( item.disabled ))==null?'':__t)+
+'  class="kv_type" name=\'kv_type\' class="custom-select">\n                ';
  for (k=0; k < kv_types.length; k++) { 
 __p+='\n                    <option \n                        ';
  if ( item.get('kv_type') == kv_types[k][0] ) { 
@@ -27896,7 +27909,9 @@ __p+=' \n                        value="'+
 ((__t=( kv_types[k][1] ))==null?'':__t)+
 '\n                    </option>\n                ';
  } 
-__p+='\n            </select>\n            <select class="kv_format" name=\'kv_format\' class="custom-select">\n                ';
+__p+='\n            </select>\n            <select '+
+((__t=( item.disabled ))==null?'':__t)+
+' class="kv_format" name=\'kv_format\' class="custom-select">\n                ';
  for (j=0; j < current_formats.length; j++) { 
 __p+='\n                    <option \n                         ';
  if ( item.get('kv_format') == current_formats[j][0] ) { 
@@ -29138,9 +29153,9 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
     let data = parent.data();
     let cur_fmt = {};
-    cur_fmt['money'] = this.metadata.currency_formats;
-    cur_fmt['numeric'] = this.metadata.numeric_formats;
-    cur_fmt['date'] = this.metadata.date_formats;
+    cur_fmt['money'] = this.metadata.get('currency_formats');
+    cur_fmt['numeric'] = this.metadata.get('numeric_formats');
+    cur_fmt['date'] = this.metadata.get('date_formats');
     cur_fmt['text'] = [];
     this.metadata.update_simple(data['cid'], 'kv_type', value);
     this.metadata.update_simple(data['cid'], 'current_formats', cur_fmt[value]);
@@ -29184,12 +29199,18 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   }
 
   render() {
-    let compiled = underscore__WEBPACK_IMPORTED_MODULE_1___default.a.template(TEMPLATE({
+    let compiled, context;
+    context = {
+      'kvstore': this.metadata.get('kvstore'),
+      'available_types': this.metadata.get('kv_types')
+    };
+    console.log(`kvstore=${this.metadata.get('kvstore')}`);
+    console.log(`available_types=${this.metadata.get('kv_types')}`);
+    console.log(context);
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1___default.a.template(TEMPLATE({
       kvstore: this.metadata.kvstore,
-      kvstore_comp: this.metadata.kvstore_comp,
-      available_types: this.metadata.kv_types
+      available_types: this.metadata.get('kv_types')
     }));
-
     this.$el.html(compiled);
     return this;
   }
