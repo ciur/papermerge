@@ -18,7 +18,7 @@ def handle_metadata_plusgins(sender, **kwargs):
     document_id = kwargs.get('document_id', False)
     page_num = kwargs.get('page_num', False)
 
-    result = apply_metadata_plugins(
+    apply_metadata_plugins(
         document_id=document_id,
         page_num=page_num
     )
@@ -135,6 +135,17 @@ def inherit_metadata_keys(sender, instance, created, **kwargs):
         instance.inherit_kv_from(instance.parent)
         for page in instance.pages.all():
             page.inherit_kv_from(instance.parent)
+
+
+@receiver(post_save, sender=Folder)
+def inherit_metadata_keys_from_parent(sender, instance, created, **kwargs):
+    """
+    When created or moved folders will inherit metadata keys from their
+    parent.
+    """
+    # if folder was just created and has a parent
+    if created and instance.parent:
+        instance.inherit_kv_from(instance.parent)
 
 
 @receiver(post_save, sender=Document)
