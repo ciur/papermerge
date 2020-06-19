@@ -52,6 +52,7 @@
         {% url 'core:rename_node' 'change' as rename_url %}
         {% include "boss/_rename.html" with id="rename_changeform" action_url=rename_url %}
         {% include "boss/_delete_page.html" with id="delete_pageform" action_url=rename_url %}
+        {% include "boss/_metadata.html" %}
     </div>
 {% endblock modals %}
 

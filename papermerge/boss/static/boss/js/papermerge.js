@@ -23722,6 +23722,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./spinner */ "./src/js/spinner.js");
 /* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
 /* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
+/* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./forms/metadata_form */ "./src/js/forms/metadata_form.js");
+
 
 
 
@@ -23877,6 +23879,7 @@ class MgDocument {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
+        metadata_action,
         apply_reorder_changes;
     rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
       // Achtung! #rename id is same for rename action
@@ -24029,6 +24032,18 @@ class MgDocument {
         });
       }
     });
+    metadata_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
+      id: '#metadata',
+      enabled: function (selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function (selection, clipboard, current_node) {
+        let metadata_form, page;
+        page = selection.first();
+        metadata_form = new _forms_metadata_form__WEBPACK_IMPORTED_MODULE_11__["MetadataPageForm"](page);
+        metadata_form.show();
+      }
+    });
     apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
       id: "#apply-reorder-changes",
       enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
@@ -24086,6 +24101,7 @@ class MgDocument {
     actions.add(paste_page_action);
     actions.add(paste_page_before_action);
     actions.add(paste_page_after_action);
+    actions.add(metadata_action);
     actions.add(apply_reorder_changes);
     return actions;
   }
@@ -25989,18 +26005,22 @@ class DeleteForm {
 /*!***************************************!*\
   !*** ./src/js/forms/metadata_form.js ***!
   \***************************************/
-/*! exports provided: MetadataForm */
+/*! exports provided: MetadataForm, MetadataPageForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataForm", function() { return MetadataForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPageForm", function() { return MetadataPageForm; });
 /* harmony import */ var _views_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../views/metadata */ "./src/js/views/metadata.js");
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _views_metadata_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/metadata_page */ "./src/js/views/metadata_page.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 class MetadataForm {
+  // metadata form for documents
   constructor(node, id = "#metadata_form") {
     this._node = node; // only one item!
 
@@ -26060,6 +26080,37 @@ class MetadataForm {
       e.preventDefault();
       $("ul#simple_keys").empty();
       $("ul#comp_keys").empty();
+      $("#modals-container").hide();
+      $(that._id).hide();
+      that.unbind_events(); // unbind submit event.
+
+      $(that._id).off("submit");
+    });
+  }
+
+}
+class MetadataPageForm {
+  // metadata form for page
+  constructor(page, id = "#metadata_form") {
+    this._page = page;
+    this._id = id;
+  }
+
+  show() {
+    let that = this,
+        metadata_view = new _views_metadata_page__WEBPACK_IMPORTED_MODULE_1__["MetadataPageView"](this._page.page_id);
+    $("#modals-container").css("display", "flex");
+    metadata_view.render();
+    $(that._id).submit(function (e) {
+      e.preventDefault();
+      $(that._id).css("display", "none");
+      $("#modals-container").hide();
+      metadata_view.on_submit();
+    });
+    $(that._id).show();
+    $(that._id).find(".cancel").click(function (e) {
+      e.preventDefault();
+      $("ul#simple_keys").empty();
       $("#modals-container").hide();
       $(that._id).hide();
       that.unbind_events(); // unbind submit event.
@@ -26734,13 +26785,15 @@ class DgLocale {
 /*!**********************************!*\
   !*** ./src/js/models/kvstore.js ***!
   \**********************************/
-/*! exports provided: KVStore, KVStoreCollection, KVStoreComp, KVStoreCompCollection */
+/*! exports provided: KVStore, KVStorePage, KVStoreCollection, KVStorePageCollection, KVStoreComp, KVStoreCompCollection */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStore", function() { return KVStore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStorePage", function() { return KVStorePage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreCollection", function() { return KVStoreCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStorePageCollection", function() { return KVStorePageCollection; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreComp", function() { return KVStoreComp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreCompCollection", function() { return KVStoreCompCollection; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
@@ -26798,9 +26851,65 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
 }
+class KVStorePage extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      key: '',
+      value: '',
+      kv_inherited: false,
+      kv_type: 'text',
+      kv_format: undefined
+    };
+  }
+
+  initialize(doc_id) {
+    this.on('change:kv_type', this.update_current_formats);
+    this.trigger('change:kv_type');
+  }
+
+  update_current_formats() {
+    if (this.get('kv_type') == 'date') {
+      this.set('current_formats', this.get('date_formats'));
+    } else if (this.get('kv_type') == 'money') {
+      this.set('current_formats', this.get('currency_formats'));
+    } else if (this.get('kv_type') == 'numeric') {
+      this.set('current_formats', this.get('numeric_formats'));
+    } else {
+      this.set('current_formats', []);
+    }
+  }
+
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      key: this.get('key'),
+      kv_inherited: this.get('kv_inherited'),
+      kv_type: this.get('kv_type'),
+      kv_format: this.get('kv_format')
+    };
+    return dict;
+  }
+
+  get disabled() {
+    // used to disable input form for inherited
+    // kv items
+    if (this.get('kv_inherited')) {
+      return 'disabled';
+    }
+
+    return '';
+  }
+
+}
 class KVStoreCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
   get model() {
     return KVStore;
+  }
+
+}
+class KVStorePageCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return KVStorePage;
   }
 
 }
@@ -26841,12 +26950,13 @@ class KVStoreCompCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Colle
 /*!***********************************!*\
   !*** ./src/js/models/metadata.js ***!
   \***********************************/
-/*! exports provided: Metadata */
+/*! exports provided: Metadata, MetadataPage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return Metadata; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPage", function() { return MetadataPage; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
@@ -26902,6 +27012,113 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   parse(response, options) {
     let kvstore = response.kvstore,
         kvstore_comp = response.kvstore_comp,
+        kv_types = response.kv_types,
+        date_formats = response.date_formats,
+        numeric_formats = response.numeric_formats,
+        currency_formats = response.currency_formats,
+        that = this;
+
+    underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore, function (item) {
+      that.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"](item));
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore_comp, function (item) {
+      that.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"](item));
+    });
+
+    this.set({
+      'kv_types': kv_types
+    });
+    this.set({
+      'numeric_formats': numeric_formats
+    });
+    this.set({
+      'date_formats': date_formats
+    });
+    this.set({
+      'currency_formats': currency_formats
+    });
+    this.trigger('change');
+  }
+
+  update_simple(cid, attr, value) {
+    let model = this.kvstore.get(cid),
+        dict = {};
+
+    if (model && attr) {
+      dict[attr] = value;
+      model.set(dict);
+    }
+  }
+
+  update_comp(cid, attr, value) {
+    let model = this.kvstore_comp.get(cid),
+        dict = {};
+
+    if (model && attr) {
+      dict[attr] = value;
+      model.set(dict);
+    }
+  }
+
+  add_simple() {
+    this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]({
+      'kv_current_formats': this.kv_current_formats,
+      'kv_types': this.kv_types
+    }));
+  }
+
+  remove_simple(cid) {
+    this.kvstore.remove({
+      'cid': cid
+    });
+  }
+
+  add_comp() {
+    this.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"]());
+  }
+
+  remove_comp(cid) {
+    this.kvstore_comp.remove({
+      'cid': cid
+    });
+  }
+
+}
+;
+class MetadataPage extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      kvstore: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStorePageCollection"](),
+      kv_types: [],
+      date_formats: [],
+      currency_formats: [],
+      numeric_formats: []
+    };
+  }
+
+  initialize(page_id) {
+    this.page_id = page_id; // fetch data from server side
+
+    this.fetch();
+  }
+
+  get kvstore() {
+    return this.get('kvstore');
+  }
+
+  urlRoot() {
+    return `/metadata/page/${this.page_id}`;
+  }
+
+  toJSON() {
+    let dict = {};
+    dict['kvstore'] = this.kvstore.toJSON();
+    return dict;
+  }
+
+  parse(response, options) {
+    let kvstore = response.kvstore,
         kv_types = response.kv_types,
         date_formats = response.date_formats,
         numeric_formats = response.numeric_formats,
@@ -29124,6 +29341,156 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   initialize(doc_id) {
     this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["Metadata"](doc_id);
+    this.listenTo(this.metadata, 'change', this.render);
+    this.render();
+  }
+
+  events() {
+    let event_map = {
+      "click #add_simple_meta": "add_simple_meta",
+      "click .close.key": "remove_meta",
+      "keyup input": "update_value",
+      "change input": "update_value",
+      "change .kv_type": "kv_type_update",
+      "change .kv_format": "kv_format_update"
+    };
+    return event_map;
+  }
+
+  kv_format_update(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+    this.metadata.update_simple(data['cid'], 'kv_format', value);
+    this.render();
+  }
+
+  kv_type_update(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+    let cur_fmt = {};
+    cur_fmt['money'] = this.metadata.get('currency_formats');
+    cur_fmt['numeric'] = this.metadata.get('numeric_formats');
+    cur_fmt['date'] = this.metadata.get('date_formats');
+    cur_fmt['text'] = [];
+    this.metadata.update_simple(data['cid'], 'kv_type', value);
+    this.metadata.update_simple(data['cid'], 'current_formats', cur_fmt[value]);
+
+    if (cur_fmt[value].length > 0) {
+      // kv_format entry is a 2 items array. First one is used as value
+      // in HTML <option> and second one is the human text
+      // cur_fmt[value][0][0] == use first *value* of first format from the list
+      this.metadata.update_simple(data['cid'], 'kv_format', cur_fmt[value][0][0]);
+    } else {
+      // current list of formatting types is empty only for kv_type text
+      // no formating - means kv_type = text
+      this.metadata.update_simple(data['cid'], 'kv_format', "");
+    }
+
+    this.render();
+  }
+
+  update_value(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+    this.metadata.update_simple(data['cid'], 'key', value);
+  }
+
+  add_simple_meta(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    this.metadata.add_simple();
+    this.render();
+  }
+
+  remove_meta(event) {
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let data = parent.data();
+    this.metadata.remove_simple(data['cid']);
+    parent.remove();
+  }
+
+  on_submit() {
+    this.metadata.save();
+  }
+
+  render() {
+    let compiled, context;
+    context = {
+      'kvstore': this.metadata.get('kvstore'),
+      'available_types': this.metadata.get('kv_types')
+    };
+    console.log(`kvstore=${this.metadata.get('kvstore')}`);
+    console.log(`available_types=${this.metadata.get('kv_types')}`);
+    console.log(context);
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1___default.a.template(TEMPLATE({
+      kvstore: this.metadata.kvstore,
+      available_types: this.metadata.get('kv_types')
+    }));
+    this.$el.html(compiled);
+    return this;
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/views/metadata_page.js":
+/*!***************************************!*\
+  !*** ./src/js/views/metadata_page.js ***!
+  \***************************************/
+/*! exports provided: MetadataPageView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPageView", function() { return MetadataPageView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/underscore.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
+/* harmony import */ var _models_kvstore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/kvstore */ "./src/js/models/kvstore.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
+
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync;
+
+backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name=csrfmiddlewaretoken]").val();
+  /*
+   * The jQuery `ajax` method includes a 'headers' option
+   * which lets you set any headers you like
+   */
+
+  options.headers = {
+    'X-CSRFToken': csrf_token
+  };
+  /*
+   * Call the stored original Backbone.sync method with
+   * extra headers argument added
+   */
+
+  backboneSync(method, model, options);
+};
+
+class MetadataPageView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form .modal-body');
+  }
+
+  initialize(page_id) {
+    this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["MetadataPage"](page_id);
     this.listenTo(this.metadata, 'change', this.render);
     this.render();
   }
