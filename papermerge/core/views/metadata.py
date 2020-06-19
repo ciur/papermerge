@@ -3,7 +3,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
-from papermerge.core.models import BaseTreeNode
+from papermerge.core.models import BaseTreeNode, Page
 from papermerge.core.models.kvstore import (get_currency_formats,
                                             get_date_formats, get_kv_types,
                                             get_numeric_formats)
@@ -12,34 +12,35 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def metadata(request, id):
+def metadata(request, model, id):
+    """
+    model can be either node or page. Respectively
+    id will be the 'id' of either node or page.
+    """
+    if model == 'node':
+        _Klass = BaseTreeNode
+    else:
+        _Klass = Page
     try:
-        node = BaseTreeNode.objects.get(id=id)
-    except BaseTreeNode.DoesNotExist:
+        item = _Klass.objects.get(id=id)
+    except _Klass.DoesNotExist:
         raise Http404("Node does not exists")
 
     kvstore = []
-    kvstore_comp = []
 
     if request.method == 'GET':
-        for kv in node.kv.all():
+        for kv in item.kv.all():
             kvstore.append(kv.to_dict())
-        for kv in node.kvcomp.all():
-            kvstore_comp.append(kv.to_dict())
     else:
         kv_data = json.loads(request.body)
         if 'kvstore' in kv_data:
             if isinstance(kv_data['kvstore'], list):
-                node.kv.update(kv_data['kvstore'])
-        if 'kvstore_comp' in kv_data:
-            if isinstance(kv_data['kvstore_comp'], list):
-                node.kvcomp.update(kv_data['kvstore_comp'])
+                item.kv.update(kv_data['kvstore'])
 
     return HttpResponse(
         json.dumps(
             {
                 'kvstore': kvstore,
-                'kvstore_comp': kvstore_comp,
                 'currency_formats': get_currency_formats(),
                 'date_formats': get_date_formats(),
                 'numeric_formats': get_numeric_formats(),

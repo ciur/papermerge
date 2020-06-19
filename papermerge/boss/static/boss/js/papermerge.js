@@ -26976,7 +26976,6 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
       kvstore: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"](),
-      kvstore_comp: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCompCollection"](),
       kv_types: [],
       date_formats: [],
       currency_formats: [],
@@ -26994,24 +26993,18 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return this.get('kvstore');
   }
 
-  get kvstore_comp() {
-    return this.get('kvstore_comp');
-  }
-
   urlRoot() {
-    return `/metadata/${this.doc_id}`;
+    return `/metadata/node/${this.doc_id}`;
   }
 
   toJSON() {
     let dict = {};
     dict['kvstore'] = this.kvstore.toJSON();
-    dict['kvstore_comp'] = this.kvstore_comp.toJSON();
     return dict;
   }
 
   parse(response, options) {
     let kvstore = response.kvstore,
-        kvstore_comp = response.kvstore_comp,
         kv_types = response.kv_types,
         date_formats = response.date_formats,
         numeric_formats = response.numeric_formats,
@@ -27020,10 +27013,6 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
     underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore, function (item) {
       that.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"](item));
-    });
-
-    underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore_comp, function (item) {
-      that.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"](item));
     });
 
     this.set({
@@ -27051,16 +27040,6 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     }
   }
 
-  update_comp(cid, attr, value) {
-    let model = this.kvstore_comp.get(cid),
-        dict = {};
-
-    if (model && attr) {
-      dict[attr] = value;
-      model.set(dict);
-    }
-  }
-
   add_simple() {
     this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]({
       'kv_current_formats': this.kv_current_formats,
@@ -27072,10 +27051,6 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     this.kvstore.remove({
       'cid': cid
     });
-  }
-
-  add_comp() {
-    this.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"]());
   }
 
   remove_comp(cid) {
@@ -27129,10 +27104,6 @@ class MetadataPage extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       that.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"](item));
     });
 
-    underscore__WEBPACK_IMPORTED_MODULE_0___default.a.each(kvstore_comp, function (item) {
-      that.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"](item));
-    });
-
     this.set({
       'kv_types': kv_types
     });
@@ -27182,7 +27153,7 @@ class MetadataPage extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   add_comp() {
-    this.kvstore_comp.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreComp"]());
+    this.kvstore_comp.add(new KVStoreComp());
   }
 
   remove_comp(cid) {

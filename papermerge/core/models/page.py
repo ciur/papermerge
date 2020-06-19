@@ -9,7 +9,7 @@ from papermerge.search.queryset import SearchableQuerySetMixin
 
 from .diff import Diff
 from .document import Document
-from .kvstore import KVPage, KVStorePage
+from .kvstore import KVCompPage, KVPage, KVStorePage
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +74,10 @@ class Page(models.Model, index.Indexed):
     @property
     def kv(self):
         return KVPage(instance=self)
+
+    @property
+    def kvcomp(self):
+        return KVCompPage(instance=self)
 
     def _apply_diff_add(self, diff):
         self.kv.apply_additions(

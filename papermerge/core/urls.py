@@ -44,7 +44,7 @@ urlpatterns = [
         'access/<int:id>', access_views.access, name="access"
     ),
     path(
-        'metadata/<int:id>', metadata_views.metadata, name="metadata"
+        'metadata/<model>/<int:id>', metadata_views.metadata, name="metadata"
     ),
     path(
         'usergroups', access_views.user_or_groups, name="user_or_groups"
