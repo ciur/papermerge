@@ -3,6 +3,7 @@ from pathlib import Path
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from papermerge.core.models import KV, Document, Folder, Page
+from papermerge.core.models.kvstore import MONEY, TEXT
 from papermerge.core.tasks import normalize_pages
 
 User = get_user_model()
@@ -171,7 +172,18 @@ class TestPage(TestCase):
         )
         top.save()
         top.kv.update(
-            [{'key': 'shop'}, {'key': 'total'}]
+            [
+                {
+                    'key': 'shop',
+                    'kv_type': TEXT,
+                    'kv_format': ''
+                },
+                {
+                    'key': 'total',
+                    'kv_type': MONEY,
+                    'kv_format': 'dd,cc'
+                }
+            ]
         )
         doc = Document.create_document(
             title="kyuss.pdf",
@@ -198,10 +210,10 @@ class TestPage(TestCase):
 
         self.assertEqual(
             set(
-                page.kv.keys()
+                page.kv.typed_keys()
             ),
             set(
-                top.kv.keys()
+                top.kv.typed_keys()
             )
         )
 

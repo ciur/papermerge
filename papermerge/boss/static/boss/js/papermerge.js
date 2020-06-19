@@ -26082,7 +26082,11 @@ class MetadataForm {
       $("ul#comp_keys").empty();
       $("#modals-container").hide();
       $(that._id).hide();
-      that.unbind_events(); // unbind submit event.
+
+      if (that) {
+        that.unbind_events();
+      } // unbind submit event.
+
 
       $(that._id).off("submit");
     });

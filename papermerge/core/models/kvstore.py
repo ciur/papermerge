@@ -118,6 +118,36 @@ class KVCompValidation(Exception):
     pass
 
 
+class TypedKey:
+    """ Used to compare inherited keys
+    from parent to child (or from doc to page).
+    Correcly inherited key is not just a key name - it is
+    a combination of key, type and format.
+    """
+
+    def __init__(self, key, ktype, kformat):
+        self.key = key
+        self.ktype = ktype
+        self.kformat = kformat
+
+    def __eq__(self, other):
+
+        _key = (self.key == other.key)
+        _type = (self.ktype == other.ktype)
+        _format = (self.kformat == other.kformat)
+
+        return _key and _type and _format
+
+    def __hash__(self):
+        return hash((self.key, self.ktype, self.kformat))
+
+    def __str__(self):
+        return f"TypedKey({self.key}, {self.ktype}, {self.kformat})"
+
+    def __repr__(self):
+        return f"TypedKey({self.key}, {self.ktype}, {self.kformat})"
+
+
 class KVComp:
     """
     Utility class that operates - adds, deletes, updates,
@@ -288,6 +318,11 @@ class KV:
     def keys(self):
         return [
             item.key for item in self.all()
+        ]
+
+    def typed_keys(self):
+        return [
+            item.to_typed_key() for item in self.all()
         ]
 
     def get_diff(self, data):
@@ -620,6 +655,14 @@ class KVStore(models.Model):
         item['date_formats'] = get_date_formats()
 
         return item
+
+    def to_typed_key(self):
+
+        return TypedKey(
+            key=self.key,
+            ktype=self.kv_type,
+            kformat=self.kv_format
+        )
 
 
 class KVStoreNode(KVStore):
