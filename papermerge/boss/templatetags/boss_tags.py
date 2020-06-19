@@ -428,41 +428,6 @@ def register_tag():
     )
 
 
-@register.simple_tag
-def terms_tag():
-    link = gettext('/en/terms')
-    title = gettext('Terms and Conditions')
-
-    return format_html(
-        '<a target="_blank" href="{}">{}</a>',
-        link,
-        title
-    )
-
-
-@register.simple_tag
-def privacy_tag():
-    link = gettext('/en/privacy')
-    title = gettext('Privacy Policy')
-    return format_html(
-        '<a target="_blank" href="{}">{}</a>',
-        link,
-        title
-    )
-
-
-@register.simple_tag
-def cookies_tag():
-    link = gettext('/en/cookies')
-    title = gettext('Cookies Policy')
-
-    return format_html(
-        '<a target="_blank" href="{}">{}</a>',
-        link,
-        title
-    )
-
-
 @register.inclusion_tag('boss/ocr_language_select.html')
 def ocr_language_select(user):
     languages = []
