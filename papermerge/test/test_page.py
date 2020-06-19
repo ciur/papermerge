@@ -283,9 +283,38 @@ class TestPage(TestCase):
                 }
             ]
         )
+        page = Page.objects.get(id=page.id)
         kvstore_set = set([kv.value for kv in page.kv.all()])
 
         self.assertEqual(
             kvstore_set,
             set(["10,99", "lidl"])
+        )
+
+        # now update value of key=shop
+        # get ID's of newly created KVStoreNode instances
+        _kv_list_of_dicts = [
+            {
+                'key': item.key,
+                'id': item.id,
+                'kv_type': item.kv_type,
+                'kv_format': item.kv_format,
+                'value': item.value
+            } for item in page.kv.all()
+        ]
+        # find key titled 'total', and rename it to 'total_price'
+        for obj_with_lidl_value in _kv_list_of_dicts:
+            if obj_with_lidl_value['value'] == 'lidl':
+                break
+        else:
+            obj_with_lidl_value = None
+
+        if obj_with_lidl_value:
+            obj_with_lidl_value['value'] = 'rewe'
+
+        page.kv.update(_kv_list_of_dicts)
+        kvstore_set = set([kv.value for kv in page.kv.all()])
+        self.assertEqual(
+            kvstore_set,
+            set(["10,99", "rewe"])
         )
