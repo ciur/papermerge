@@ -14,30 +14,31 @@
         </div>
     </div>
     <div class="ft-body">
-    {% for result in results %}
+    {% for item in results %}
 
     <li class="{% cycle 'row1' 'row2' %} ft-row node node_list dblclick">
-        {% for item in result %}
-
-             <div class="ft-col list-col horizontal fl-i-center {% if item.ctype == 'Document' %} document_id {% endif %}"  {% if item.ctype == 'Document' %} data-id="{{item.id}}" {% endif %}>
-                    {%  if item.ctype == 'Folder' %}
-                        <i class="yellow-folder margin-y-sm"></i>
-                    {% elif item.text == '' %}
-                        <i class="file-empty margin-y-sm"></i>
-                    {% else %}
-                        <i class="file margin-y-sm"></i>
-                    {% endif %}
-                    {{ item.action_checkbox.repr }}
-                    <input type="hidden" name="action" value="{% url 'boss:core_basetreenode_change' item.id %}" />
-                    <div class="{% if item.ctype == 'Folder' %}folder-title{% endif %} title shorten36 tooltip">
-                        {{ item.title_with_class.repr }}
-                        <span class="tooltiptext">{{item.title}}</span>
-                    </div>
-            </div>
+         <div class="ft-col list-col horizontal fl-i-center {% if item.ctype == 'Document' %} document_id {% endif %}"  {% if item.ctype == 'Document' %} data-id="{{item.id}}" {% endif %}>
+                {%  if item.ctype == 'Folder' %}
+                    <i class="yellow-folder margin-y-sm"></i>
+                {% elif item.text == '' %}
+                    <i class="file-empty margin-y-sm"></i>
+                {% else %}
+                    <i class="file margin-y-sm"></i>
+                {% endif %}
+                {{ item.action_checkbox.repr }}
+                <input type="hidden" name="action" value="{% url 'boss:core_basetreenode_change' item.id %}" />
+                <div class="title">
+                    {{ item.title }}
+                </div>
+        </div>
+        {% for kvstore in item.kvstore %}
             <div class="ft-col list-col">
-                    {{ item.created_at.repr }}
+                    {{ kvstore.value | default_if_none:"Empty" }}
             </div>
         {% endfor %}
+        <div class="ft-col list-col">
+                {{ item.created_at.repr }}
+        </div>
     </li>
     {% endfor %}
     </div> <!--ft-body  -->

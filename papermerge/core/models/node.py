@@ -56,6 +56,12 @@ class BaseTreeNode(PolymorphicMPTTModel):
     ancestors_fts = SearchVectorField(null=True)
     title_fts = SearchVectorField(null=True)
 
+    def is_folder(self):
+        return 'folder' in str(self.polymorphic_ctype).lower()
+
+    def is_document(self):
+        return 'document' in str(self.polymorphic_ctype).lower()
+
     def _get_access_diff_updated(self, new_access_list=[]):
         """
         gathers Diff with updated operation

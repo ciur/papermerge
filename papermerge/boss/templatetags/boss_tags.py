@@ -6,7 +6,6 @@ import datetime
 import warnings
 
 from django.conf import settings
-from django.contrib.admin.templatetags.admin_list import result_headers
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.contrib.admin.utils import (display_for_field, display_for_value,
                                         lookup_field, quote)
@@ -19,7 +18,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
 from papermerge.core.lib.lang import LANG_DICT
-from papermerge.core.models import Access
+from papermerge.core.models import Access, BaseTreeNode
 
 try:
     from django.urls import NoReverseMatch
@@ -359,19 +358,55 @@ def mptt_search_results(cl, user):
     return results
 
 
-def mptt_result_list(cl):
-    """
-    Displays the headers and data list together
-    """
-    return {'cl': cl,
-            'result_headers': list(result_headers(cl)),
-            'results': list(mptt_results(cl))}
+def result_page_headers(cl):
+
+    result = []
+    instance = cl.queryset.first()
+
+    result.append({'text': 'title'})
+
+    for kvstore in instance.kv.all():
+        result.append(
+            {'text': kvstore.key}
+        )
+
+    result.append({'text': 'created_at'})
+
+    return result
+
+
+def result_page_items(cl):
+    result = []
+
+    nodes = cl.queryset.all()
+
+    for node in nodes:
+        _dict = {
+            'id': node.id,
+            'title': node.title,
+            'created_at': node.created_at
+        }
+        if node.is_document():
+            page = node.pages.first()
+            kvstore = [
+                {'key': kv.key, 'value': kv.value} for kv in page.kv.all()
+            ]
+            _dict['kvstore'] = kvstore
+        else:
+            kvstore = [
+                {'key': kv.key, 'value': kv.value} for kv in node.kv.all()
+            ]
+            _dict['kvstore'] = kvstore
+
+        result.append(_dict)
+
+    return result
 
 
 def boss_result(cl):
     return {
         'cl': cl,
-        'result_headers': list(result_headers(cl)),
+        'result_headers': result_page_headers(cl),
         'results': list(mptt_results(cl))
     }
 
@@ -389,7 +424,11 @@ def boss_result_list(cl):
     """
     Displays the headers and data list together
     """
-    return boss_result(cl)
+    return {
+        'cl': cl,
+        'result_headers': result_page_headers(cl),
+        'results': result_page_items(cl)
+    }
 
 
 @register.inclusion_tag('boss/mptt_change_list_search_results.html')
