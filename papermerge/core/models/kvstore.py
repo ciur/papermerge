@@ -649,6 +649,7 @@ class KVStore(models.Model):
         item['kv_type'] = self.kv_type
         item['kv_format'] = self.kv_format
         item['kv_inherited'] = self.kv_inherited
+        item['value'] = self.value
         item['kv_types'] = get_kv_types()
         item['currency_formats'] = get_currency_formats()
         item['numeric_formats'] = get_numeric_formats()

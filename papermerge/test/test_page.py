@@ -258,3 +258,34 @@ class TestPage(TestCase):
 
         with self.assertRaises(KV.MetadataKeyDoesNotExist):
             page.kv['blah']
+
+    def test_page_kv_stores_value(self):
+        doc = self.get_whatever_doc()
+        page = Page(
+            text="Some cool content in page model",
+            user=self.user,
+            document=doc
+        )
+        page.save()
+        page.kv.update(
+            [
+                {
+                    'key': 'shop',
+                    'kv_type': TEXT,
+                    'kv_format': '',
+                    'value': 'lidl'
+                },
+                {
+                    'key': 'price',
+                    'kv_type': MONEY,
+                    'kv_format': 'dd,cc',
+                    'value': '10,99'
+                }
+            ]
+        )
+        kvstore_set = set([kv.value for kv in page.kv.all()])
+
+        self.assertEqual(
+            kvstore_set,
+            set(["10,99", "lidl"])
+        )
