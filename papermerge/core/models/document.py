@@ -105,9 +105,14 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         return KVCompNode(instance=self)
 
     def inherit_kv_from(self, node):
-        inherited_kv = [{
-            'key': key,
-            'kv_inherited': True} for key in node.kv.keys()
+        inherited_kv = [
+            {
+                'key': item.key,
+                'kv_type': item.kv_type,
+                'kv_format': item.kv_format,
+                'value': item.value,
+                'kv_inherited': True
+            } for item in node.kv.all()
         ]
         self.kv.update(inherited_kv)
 
