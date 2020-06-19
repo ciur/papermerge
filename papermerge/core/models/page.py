@@ -82,7 +82,12 @@ class Page(models.Model, index.Indexed):
     def _apply_diff_add(self, diff):
         self.kv.apply_additions(
             [
-                {'kv_inherited': True, 'key': _model.key}
+                {
+                    'kv_inherited': True,
+                    'key': _model.key,
+                    'kv_format': _model.kv_format,
+                    'kv_type': _model.kv_type
+                }
                 for _model in diff
             ]
         )
@@ -107,9 +112,16 @@ class Page(models.Model, index.Indexed):
     def inherit_kv_from(self, document):
         instances_set = []
 
-        for key in document.kv.keys():
+        for kvstore in document.kv.all():
             instances_set.append(
-                KVStorePage(key=key, kv_inherited=True, page=self)
+                KVStorePage(
+                    key=kvstore.key,
+                    kv_format=kvstore.kv_format,
+                    kv_type=kvstore.kv_type,
+                    value=kvstore.value,
+                    kv_inherited=True,
+                    page=self
+                )
             )
 
         diff = Diff(

@@ -678,7 +678,11 @@ class KVStoreNode(KVStore):
         v = self.value
         n = self.node.id
         s = self.namespace
-        return f"KVStoreNode(namespace={s}, key={k}, value={v}, node={n})"
+        f = self.kv_format
+        t = self.kv_type
+
+        return f"KVStoreNode(namespace={s}," + \
+            f" key={k}, kv_type={t}, kv_format={f}, value={v}, node={n})"
 
     def __repr__(self):
         return str(self)
@@ -700,7 +704,11 @@ class KVStorePage(KVStore):
         v = self.value
         p = self.page.id
         s = self.namespace
-        return f"KVStorePage(namespace={s}, key={k}, value={v}, page={p})"
+        f = self.kv_format
+        t = self.kv_type
+
+        return f"KVStorePage(namespace={s}," + \
+            f" key={k}, kv_type={t}, kv_format={f} , value={v}, page={p})"
 
     def __repr__(self):
         return str(self)

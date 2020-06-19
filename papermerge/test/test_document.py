@@ -217,7 +217,18 @@ class TestDocument(TestCase):
         )
         top.save()
         top.kv.update(
-            [{'key': 'shop'}, {'key': 'total'}]
+            [
+                {
+                    'key': 'shop',
+                    'kv_type': 'text',
+                    'kv_format': ''
+                },
+                {
+                    'key': 'total',
+                    'kv_type': 'money',
+                    'kv_format': 'dd.cc'
+                }
+            ]
         )
         doc = Document.create_document(
             title="document_c",
@@ -232,10 +243,10 @@ class TestDocument(TestCase):
         self.assertEqual(2, doc.kv.count())
         self.assertEqual(
             set(
-                doc.kv.keys()
+                doc.kv.typed_keys()
             ),
             set(
-                top.kv.keys()
+                top.kv.typed_keys()
             )
         )
 
