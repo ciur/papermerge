@@ -32,6 +32,6 @@ class TestSearchExcerpt(TestCase):
         )
 
         self.assertEqual(
-            result,
-            "power are weak, slavish, subject"
+            result['excerpt'],
+            "... power are weak, slavish, subject ..."
         )

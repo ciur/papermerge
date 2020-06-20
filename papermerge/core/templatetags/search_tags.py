@@ -1,3 +1,5 @@
+import re
+
 from django import template
 from django.template import TemplateSyntaxError
 
@@ -7,9 +9,65 @@ register = template.Library()
 def search_excerpt(
     text,
     phrases,
-    context_words_count=None,
+    context_words_count=5,
 ):
-    return "blah blah"
+    if isinstance(phrases, str):
+        phrases = [phrases]
+
+    flags = re.I
+    exprs = [
+        re.compile("^%s$" % p, flags) for p in phrases
+    ]
+    whitespace = re.compile(r"\s+")
+    re_template = r"\b(%s)\b" or r"(%s)"
+
+    pattern = re_template % "|".join(phrases)
+    pieces = re.compile(pattern, flags).split(text)
+    matches = {}
+    word_lists = []
+
+    for i, piece in enumerate(pieces):
+        word_lists.append(whitespace.split(piece))
+        if i % 2:
+            for expr in exprs:
+                if expr.match(piece):
+                    matches.setdefault(expr, []).append(i)
+
+    def merge(lists):
+        merged = []
+        for words in lists:
+            if merged:
+                merged[-1] += words[0]
+                del words[0]
+            merged.extend(words)
+        return merged
+
+    i = 0
+    merged = []
+    for j in map(min, matches.values()):
+        merged.append(merge(word_lists[i:j]))
+        merged.append(word_lists[j])
+        i = j + 1
+
+    merged.append(merge(word_lists[i:]))
+
+    output = []
+    for i, words in enumerate(merged):
+        omit = None
+        if i == len(merged) - 1:
+            omit = slice(max(1, 2 - i) * context_words_count + 1, None)
+        elif i == 0:
+            omit = slice(-context_words_count - 1)
+        elif not i % 2:
+            omit = slice(context_words_count + 1, -context_words_count - 1)
+        if omit and words[omit]:
+            words[omit] = ["..."]
+
+        output.append(" ".join(words))
+
+    return dict(
+        original=text, excerpt="".join(output)
+    )
 
 
 class SearchExcerptNode(template.Node):
