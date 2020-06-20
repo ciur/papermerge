@@ -36,6 +36,7 @@ class TestSearchExcerpt(TestCase):
             "... power are weak, slavish, subject ..."
         )
 
+    def test_search_excerpt_two_phrases(self):
         result = search_excerpt(
             text=TEXT,
             phrases=["weak", "free"],
@@ -46,4 +47,16 @@ class TestSearchExcerpt(TestCase):
             result['excerpt'],
             "... by nature free, not subject ..."
             " power are weak, slavish, subject ..."
+        )
+
+    def test_search_excerpt_phrase_occurs_twice(self):
+        result = search_excerpt(
+            text=TEXT,
+            phrases=["others"],
+            context_words_count=2
+        )
+
+        self.assertEqual(
+            result['excerpt'],
+            "... power, and others are not. ..."
         )

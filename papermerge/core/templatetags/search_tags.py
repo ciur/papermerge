@@ -2,8 +2,11 @@ import re
 
 from django import template
 from django.template import TemplateSyntaxError
+from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+# https://djangosnippets.org/snippets/661/
 
 
 def _merge(lists):
@@ -14,6 +17,33 @@ def _merge(lists):
             del words[0]
         merged.extend(words)
     return merged
+
+
+def highlight(
+    text,
+    phrases,
+    class_name='success'
+):
+    if isinstance(phrases, str):
+        phrases = [phrases]
+
+    phrases = map(re.escape, phrases)
+    flags = re.I
+    re_template = r"\b(%s)\b" or r"(%s)"
+    expr = re.compile(re_template % "|".join(phrases), flags)
+    template = '<span class="%s">%%s</span>' % class_name
+    matches = []
+
+    def replace(match):
+        matches.append(match)
+        return template % match.group(0)
+
+    highlighted = mark_safe(expr.sub(replace, text))
+
+    return dict(
+        original=text,
+        highlighted=highlighted,
+    )
 
 
 def search_excerpt(
@@ -38,7 +68,7 @@ def search_excerpt(
 
     for i, piece in enumerate(pieces):
         word_lists.append(whitespace.split(piece))
-        if i % 2:
+        if i % 2:  # matched piece
             for expr in exprs:
                 if expr.match(piece):
                     matches.setdefault(expr, []).append(i)
