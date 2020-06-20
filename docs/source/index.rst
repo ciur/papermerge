@@ -1,5 +1,5 @@
-Welcome to Papermerge's documentation!
-======================================
+Papermerge DMS
+===============
 
 I have nothing against paper. Paper is a brilliant invention of humanity. But in the
 21st century I find it more appropriate for paper-based documents to be
@@ -12,6 +12,24 @@ documents. As well as OCR with full text search, it provides the look and feel o
 major modern file browsers, with a hierarchical structure for files and folders,
 so that you can organize your documents in a similar way to Dropbox (via web)
 or Google Drive.
+
+What It Does
+============
+
+ * It OCRs your documents
+ * Provides you nice user interface to easy browse your documents
+ * Augments your documents with metadata
+ * Helps you instantly find your documents:
+    
+    * based on extracted text
+    * based on metadata
+ * Helps you fix scanned documents issues
+
+
+What It Does't Do
+=================
+ 
+ * It does **not** take control of your documents. Documents are **stored on filesystem** in a simple and intuitive manner so that you can take snapshot of your data at any time.
 
 .. toctree::
    :maxdepth: 4

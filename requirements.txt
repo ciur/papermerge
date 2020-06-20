@@ -5,6 +5,8 @@ django
 djangorestframework  # DRF stores tokens clear text in DB
 django-rest-knox     # Knox stores hashed tokens in DB
 django-extensions
+sphinx
+sphinx_rtd_theme
 pyyaml
 lxml
 psycopg2-binary
