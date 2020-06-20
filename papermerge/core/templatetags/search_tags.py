@@ -27,7 +27,6 @@ def highlight(
     if isinstance(phrases, str):
         phrases = [phrases]
 
-    phrases = map(re.escape, phrases)
     flags = re.I
     re_template = r"\b(%s)\b" or r"(%s)"
     expr = re.compile(re_template % "|".join(phrases), flags)

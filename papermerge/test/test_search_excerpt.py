@@ -1,5 +1,5 @@
 from django.test import TestCase
-from papermerge.core.templatetags.search_tags import search_excerpt
+from papermerge.core.templatetags.search_tags import highlight, search_excerpt
 
 #  Discourses of Epictetus
 TEXT = """
@@ -59,4 +59,16 @@ class TestSearchExcerpt(TestCase):
         self.assertEqual(
             result['excerpt'],
             "... power, and others are not. ..."
+        )
+
+    def test_highlight(self):
+        result = highlight(
+            text="this is a weak match",
+            phrases=["weak"],
+            class_name="highlighted"
+        )
+
+        self.assertEqual(
+            result['highlighted'],
+            'this is a <span class="highlighted">weak</span> match'
         )
