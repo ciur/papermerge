@@ -1,4 +1,5 @@
 mglib == 1.1.0
+mgclipboard >= 0.2.0
 python-dotenv
 imapclient
 django
@@ -20,4 +21,4 @@ gunicorn
 django-anymail
 django-redis
 pmworker
-mgclipboard >= 0.2.0
+django-modelcluster
