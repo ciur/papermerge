@@ -31,10 +31,8 @@ def highlight(
     re_template = r"\b(%s)\b" or r"(%s)"
     expr = re.compile(re_template % "|".join(phrases), flags)
     template = '<span class="%s">%%s</span>' % class_name
-    matches = []
 
     def replace(match):
-        matches.append(match)
         return template % match.group(0)
 
     highlighted = mark_safe(expr.sub(replace, text))
@@ -188,16 +186,18 @@ def search_excerpt_tag(parser, token):
             "%r tag had invalid arguments" % tag_name
         )
 
-    bits, var_name = m.groups()
+    before_var, var_name = m.groups()
+    bits = before_var.split(None)
 
     if len(bits) > 2:
-        context_words_count = bits[3]
+        context_words_count = bits[2]
     else:
         context_words_count = 5
+
     return SearchExcerptNode(
-        content=bits[1],
-        search_terms=bits[2],
-        context_words_count=context_words_count,
+        content=bits[0],
+        search_terms=bits[1],
+        context_words_count=int(context_words_count),
         var_name=var_name
     )
 
@@ -221,16 +221,17 @@ def highlight_tag(parser, token):
             "%r tag had invalid arguments" % tag_name
         )
 
-    bits, var_name = m.groups()
+    before_var, var_name = m.groups()
+    bits = before_var.split(None)
 
     if len(bits) > 2:
-        class_name = bits[3]
+        class_name = bits[2]
     else:
-        class_name = 'highlighted'
+        class_name = 'text-success'
 
     return HighlightNode(
-        content=bits[1],
-        search_term=bits[2],
+        content=bits[0],
+        search_terms=bits[1],
         class_name=class_name,
         var_name=var_name
     )

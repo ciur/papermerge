@@ -32,7 +32,10 @@
                 </div>
                 
                 <div class="page_highlight">
-                    {% search_excerpt_tag item.text request.GET.q 5 %}
+                    {% search_excerpt_tag item.text request.GET.q 5 as matched_context %}
+                    {{ matched_context.excerpt }}
+                    {% highlight_tag matched_context.excerpt request.GET.q  as highlighted_context %}
+                    {{ highlighted_context.highlighted }}
                 </div>
             </div>
         </li>

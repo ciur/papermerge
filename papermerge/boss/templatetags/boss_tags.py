@@ -372,6 +372,9 @@ def result_page_headers(cl):
     result = []
     instance = cl.queryset.first()
 
+    if not instance:
+        return []
+
     result.append({'text': 'title'})
 
     for kvstore in instance.kv.all():
