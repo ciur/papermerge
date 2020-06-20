@@ -1,3 +1,5 @@
+{% load search_tags %}
+
 {% if results %}
 <div class="results">
     <!-- flex-table = ft -->
@@ -31,7 +33,9 @@
                 
                 <div class="page_highlight">
                     {% if item.model_ctype == 'document' %}
-                        {{ item.page_highlight }}
+                            {% search_excerpt_tag terms 5 %}
+                               {{ item.text|striptags }}
+                            {% endsearch_excerpt_tag %}
                     {% endif %}
                 </div>
             </div>

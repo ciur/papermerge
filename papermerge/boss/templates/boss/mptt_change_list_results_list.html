@@ -17,6 +17,7 @@
     {% for item in results %}
 
     <li class="{% cycle 'row1' 'row2' %} ft-row node node_list dblclick">
+        <input type="hidden" name="action" value="{% url 'boss:core_basetreenode_change' item.id %}" />
          <div class="ft-col list-col horizontal fl-i-center {% if item.ctype == 'Document' %} document_id {% endif %}"  {% if item.ctype == 'Document' %} data-id="{{item.id}}" {% endif %}>
                 {%  if item.ctype == 'Folder' %}
                     <i class="yellow-folder margin-y-sm"></i>

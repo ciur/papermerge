@@ -344,6 +344,14 @@ def get_icon_html(node):
     return mark_safe(result)
 
 
+def get_text(node):
+
+    if node.is_document():
+        return node.text
+
+    return ''
+
+
 def mptt_search_results(cl, user):
     results = []
     for node in cl.result_list:
@@ -352,6 +360,7 @@ def mptt_search_results(cl, user):
                 'icon': get_icon_html(node),
                 'dir_path': build_tree_path(node),
                 'title': build_url_for_node(node),
+                'text': get_text(node),
                 'model_ctype': node.polymorphic_ctype_id
             })
 
