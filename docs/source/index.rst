@@ -40,6 +40,7 @@ What It Does't Do
    languages
    rest_api
    page_management
+   metadata
    settings
    developers_guide/index
    changelog
