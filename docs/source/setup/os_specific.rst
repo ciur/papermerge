@@ -24,4 +24,4 @@ Install required ubuntu packages::
 
 
 Every language has its own tesseract-ocr-<code> package. You will have to install tesseract language
-package for the languages you want to OCR.
+package for each language you want to OCR.

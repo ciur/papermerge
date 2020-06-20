@@ -12,15 +12,15 @@
 
 # You can specify where you want the SQLite database to be stored instead of
 # the default location of /data/ within the install directory.
-DBDIR = "/home/eugen/tmp/papermerge/db"
+DB_DIR = "/path/to/papermerge/db"
 
 # Override the default MEDIA_ROOT here.  This is where all files are stored.
 # The default location is /media/documents/ within the install folder.
-MEDIADIR = "/home/eugen/tmp/papermerge/media"
+MEDIA_DIR = "/path/to/media/dir"
 
 # Override the default STATIC_ROOT here.  This is where all static files
 # created using "collectstatic" manager command are stored.
-STATICDIR = "/home/eugen/tmp/papermerge/static"
+STATIC_DIR = "/path/to/static/dir"
 
 # Override the MEDIA_URL here.  Unless you're hosting Paperless off a subdomain
 # like /paperless/, you probably don't need to change this.
@@ -37,7 +37,7 @@ STATIC_URL = "/static/"
 # Configuration for ./manage.py importer command
 
 # This where ./manage importer will import your documents from.
-IMPORTER_DIR = "/home/eugen/tmp/papermerge/import"
+IMPORTER_DIR = "/path/to/import/dir"
 
 # Files are considered ready for import if they have been unmodified
 # for this duration (in seconds)

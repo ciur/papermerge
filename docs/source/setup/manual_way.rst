@@ -1,69 +1,41 @@
 Manual Way
 ************
 
-Papermerge has two parts:
- 
-    * :ref:`Web application <design>`
-    * :ref:`Worker <worker>` - which is used for OCR operation
-
-With this installation method both parts will run on the same computer.
-
 If you follow along in this document and still have trouble, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
 the gaps.
 
-.. _packages-and-db:
-
-Install :ref:`os specific packages <osspecific>` 
-:ref:`Download <download>` Papermerge.
-
-1. Install the requirements as per the requirements page.
-
-
-
-
-
-Create python's virtual environment .env::
-
-    cd papermerge-proj
-    python3 -m venv .venv
-
-Activate python's virtual environment::    
+1. Within extracted directory copy ``papermerge.conf.py.example`` to ``/etc/papermerge.conf.py`` and open it in editor. Set values for:
     
-    source .venv/bin/activate
+    * ``IMPORTER_DIR``: this is local filesystem directory from where your documents will be imported
+    * ``DB_DIR``: this is local directory where sqlite database file will be stored
+    * ``MEDIA_DIR``: this is where all your document files will be saved
+    * ``STATIC_DIR``: this is where all static files will be collected by ``collectstatic`` command
 
-Install required python packages (now you are in papermerge-proj directory)::
-    
-    # while in <papermerge-proj> folder
-    pip install -r requirements.txt
+2. Create and activate python virtual environment with::
 
+    $ python -m venv .venv
+    $ source .venv/bin/activate
 
-Rename file *config/settings/development.example.py* to *config/settings/development.py*.
-This file is default for DJANGO_SETTINGS_MODULE and it is included in .gitignore.
+3. Install dependencies in requirements.txt::
 
-Adjust following settings in *config/settings/development.py*:
+    $ pip install -r requirements.txt
 
-* :ref:`DATABASES <databases>` -  name, username and password of database you created in PostgreSQL
-* :ref:`STATICFILES_DIRS <staticfilesdirs>` - include path to <absolute_path_to_papermerge_js_clone>/static
-* MEDIA_ROOT - absolute path to media folder
-* :ref:`STORAGE_ROOT`- absolute path to same media root, but with a "local:/" prefix
+4. Initialize SQLite database with::
 
-.. note::
+    $ ./manage.py migrate
 
-    1. Make sure that ``data_folder_in`` and ``data_folder_out`` point to the same location.
-    2. Make sure that folder pointed by ``data_folder_in`` and ``data_folder_out`` exists.
+5. Collect static files for webserver with::
 
-Then, as in any django based project, run migrations, create super user and run build in webserver::
+    $ ./manage.py collectstatic
 
-      cd <papermerge-proj>
-     ./manage.py migrate
-     ./manage.py createsuperuser
-     ./manage.py runserver
+6. Create user for Papermerge instance::
 
+    $ ./manage.py createsuperuser
 
-At this point, you should be able to see (styled) login page.  You should be
-able as well to login with administrative user you created before with
-``./manage.py createsuperuser`` command.
+7. Start webserver with::
+
+    $ ./manage runserver
 
 At this step, must be able to access login screen and it should look like in
 screenshot below.

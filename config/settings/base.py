@@ -39,9 +39,9 @@ SECRET_KEY = "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
 
 SITE_ID = 1
 
-STATIC_ROOT = cfg_papermerge['STATICDIR']
+STATIC_ROOT = cfg_papermerge['STATIC_DIR']
 
-MEDIA_ROOT = cfg_papermerge['MEDIADIR']
+MEDIA_ROOT = cfg_papermerge['MEDIA_DIR']
 
 STATIC_URL = cfg_papermerge["STATIC_URL"]
 
