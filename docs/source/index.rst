@@ -18,7 +18,7 @@ What It Does
 
  * It OCRs your documents
  * Provides you nice user interface to easy browse your documents
- * Augments your documents with metadata
+ * Augments your documents with **metadata**
  * Helps you instantly find your documents:
     
     * based on extracted text
@@ -30,6 +30,7 @@ What It Does't Do
 =================
  
  * It does **not** take control of your documents. Documents are **stored on filesystem** in a simple and intuitive manner so that you can take snapshot of your data at any time.
+ * It does **not** stay in your way when you make decisions about your data. 
 
 .. toctree::
    :maxdepth: 4
