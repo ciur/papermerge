@@ -14,7 +14,7 @@ environment. This method relies on systemd and its ``--user`` argument.
 Package Dependencies
 ======================
 
-You will need to install :ref:`os specific packages for webapp + worker <osspecific1>` first.
+You will need to install :ref:`os specific packages <osspecific>` first.
 Then make sure that :ref:`PostreSQL is up and running <packages-and-db>`.
 
 Make sure that your machine has both ``nginx`` and ``systemd`` available::

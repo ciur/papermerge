@@ -36,7 +36,7 @@ What It Does't Do
    :maxdepth: 4
    
    requirements
-   installation/index
+   setup/index
    languages
    rest_api
    page_management

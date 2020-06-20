@@ -1,4 +1,0 @@
-Ansible (Semiautomated)
-************************
-
-Coming soon...

@@ -1,21 +1,12 @@
 Manual Way
 ************
 
-.. warning::
-
-    Starting with version 1.3.0 (which is now in development), manual installation will be simplified a lot. The installation process be as easy as 1. pip install papermerge 2. ./manage.py migrate 3. ./manage.py createsuperuser 4. ./manage.py runserver
-    Also, in version 1.3.0 the PostgreSQL part will be optional i.e. you will be able to use Papermerge with other databases we well e.g. sqlite.
-
-
 Papermerge has two parts:
  
     * :ref:`Web application <design>`
     * :ref:`Worker <worker>` - which is used for OCR operation
 
 With this installation method both parts will run on the same computer.
-This installation method is suitable for developers. In this method
-no configuration is automated, so it is a **perfect method if you want to
-understand the mechanics** of the project.
 
 If you follow along in this document and still have trouble, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
@@ -23,47 +14,14 @@ the gaps.
 
 .. _packages-and-db:
 
-Package Dependencies
-======================
+Install :ref:`os specific packages <osspecific>` 
+:ref:`Download <download>` Papermerge.
 
-In this setup, Web App and Workers run on the same machine. 
-
-Install :ref:`os specific packages for webapp + worker <osspecific1>` 
-
-Check that Postgres version 11 is is up and running::
-
-    sudo systemctl status postgresql@11-main.service
-
-Create new role for postgres database::
-
-    sudo -u postgres createuser --interactive
-
-When asked *Shall the new role be allowed to create databases?* please answer yes 
-(when running tests, django creates a temporary database) 
-
-Create new database owned by previously created user::
-
-    sudo -u postgres createdb -O <user-created-in-prev-step> <dbname>
-
-Set a password for user::
-    
-    sudo -u postgres psql
-    ALTER USER <username> WITH PASSWORD '<password>';
+1. Install the requirements as per the requirements page.
 
 
-Web App
-========
 
-Once we have prepared database, tesseract and other dependencies, let's start
-with paperpermerge itself.
 
-Clone main papermerge project::
-
-    git clone --branch v1.2.2 https://github.com/ciur/papermerge papermerge-proj
-
-Clone papermerge-js project (this is the frontend part)::
-
-    git clone --branch v1.2.2 https://github.com/ciur/papermerge-js
 
 Create python's virtual environment .env::
 
