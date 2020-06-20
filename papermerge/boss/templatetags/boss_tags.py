@@ -440,15 +440,18 @@ def boss_result_list(cl):
     }
 
 
-@register.inclusion_tag('boss/mptt_change_list_search_results.html')
-def boss_search_results(cl, user):
+@register.inclusion_tag(
+    'boss/mptt_change_list_search_results.html',
+    takes_context=True
+)
+def boss_search_results(context, cl, user):
     """
     Displays search results as a list using search specific view
     """
-    return {
-        'cl': cl,
-        'results': mptt_search_results(cl, user)
-    }
+    context['cl'] = cl
+    context['results'] = mptt_search_results(cl, user)
+    
+    return context
 
 
 @register.simple_tag

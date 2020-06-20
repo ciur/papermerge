@@ -1,5 +1,5 @@
 from django import template
-from django.template import Node, TemplateSyntaxError
+from django.template import TemplateSyntaxError
 
 register = template.Library()
 
@@ -7,60 +7,36 @@ register = template.Library()
 def search_excerpt(
     text,
     phrases,
-    context_words=None,
-    ignore_case=None,
-    word_boundary=None
+    context_words_count=None,
 ):
-    pass
+    return "blah blah"
 
 
-class Proxy(Node):
+class SearchExcerptNode(template.Node):
 
-    def __init__(self, nodelist, args, variable_name=None):
-        self.nodelist = nodelist
-        self.args = args
-        self.variable_name = variable_name
+    def __init__(self, content, search_terms, context_words_count):
+        self._content = template.Variable(content)
+        self._search_terms = template.Variable(search_terms)
+        self._context_words_count = context_words_count
 
     def render(self, context):
-        args = [arg.resolve(context) for arg in self.args]
-        text = self.nodelist.render(context)
-        value = self.get_value(text, *args)
+        try:
+            content = self._content.resolve(context)
+            search_terms = self._search_terms.resolve(context)
+        except template.VariableDoesNotExist:
+            return ''
 
-        if self.variable_name:
-            context[self.variable_name] = value
-            return ""
-        else:
-            return self.string_value(value)
-
-    def get_value(self, *args):
-        raise NotImplementedError
-
-    def string_value(self, value):
-        return value
+        return search_excerpt(
+            text=content,
+            phrases=search_terms,
+            context_words_count=self._context_words_count
+        )
 
 
-class SearchExcerptNode(Proxy):
-
-    def get_value(self, *args):
-        return search_excerpt(*args)
-
-    def string_value(self, value):
-        return value['excerpt']
-
-
-@register.tag
+@register.tag(name='search_excerpt_tag')
 def search_excerpt_tag(parser, token):
     """
-        {%
-            search_excerpt_tag \
-                search_terms \
-                [context_words] \
-                [ignore_case] \
-                [word_boundary] \
-                [as name]
-        %}
-        ...text...
-        {% endsearchexcerpt %}
+        {% search_excerpt_tag content search_terms [context_words_count] %}
     """
     try:
         # split_contents() knows not to split quoted strings.
@@ -71,18 +47,14 @@ def search_excerpt_tag(parser, token):
             "%r tag requires a single argument" % token.contents.split()[0]
         )
 
-    if not 3 <= len(bits) <= 8:
+    if len(bits) != 4:
         usage = search_excerpt_tag.__doc__.strip()
         raise TemplateSyntaxError(
             f"{bits[0]} expected usage: {usage}"
         )
 
-    if len(bits) > 4 and bits[-2] == "as":
-        args, name = bits[1:-2], bits[-1]
-    else:
-        args, name = bits[1:], None
-
-    nodelist = parser.parse(('endsearch_excerpt_tag',))
-    parser.delete_first_token()
-
-    return SearchExcerptNode(nodelist, map(parser.compile_filter, args), name)
+    return SearchExcerptNode(
+        content=bits[1],
+        search_terms=bits[2],
+        context_words_count=bits[3]
+    )

@@ -32,11 +32,7 @@
                 </div>
                 
                 <div class="page_highlight">
-                    {% if item.model_ctype == 'document' %}
-                            {% search_excerpt_tag terms 5 %}
-                               {{ item.text|striptags }}
-                            {% endsearch_excerpt_tag %}
-                    {% endif %}
+                    {% search_excerpt_tag item.text request.GET.q 5 %}
                 </div>
             </div>
         </li>
