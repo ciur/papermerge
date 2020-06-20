@@ -23,7 +23,7 @@ class TestSearchExcerpt(TestCase):
             * highlight
     """
 
-    def test_search_excerpt(self):
+    def test_search_excerpt_basic(self):
 
         result = search_excerpt(
             text=TEXT,
@@ -34,4 +34,16 @@ class TestSearchExcerpt(TestCase):
         self.assertEqual(
             result['excerpt'],
             "... power are weak, slavish, subject ..."
+        )
+
+        result = search_excerpt(
+            text=TEXT,
+            phrases=["weak", "free"],
+            context_words_count=2
+        )
+
+        self.assertEqual(
+            result['excerpt'],
+            "... by nature free, not subject ..."
+            " power are weak, slavish, subject ..."
         )
