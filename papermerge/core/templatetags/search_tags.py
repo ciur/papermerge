@@ -6,6 +6,16 @@ from django.template import TemplateSyntaxError
 register = template.Library()
 
 
+def _merge(lists):
+    merged = []
+    for words in lists:
+        if merged:
+            merged[-1] += words[0]
+            del words[0]
+        merged.extend(words)
+    return merged
+
+
 def search_excerpt(
     text,
     phrases,
@@ -33,23 +43,18 @@ def search_excerpt(
                 if expr.match(piece):
                     matches.setdefault(expr, []).append(i)
 
-    def merge(lists):
-        merged = []
-        for words in lists:
-            if merged:
-                merged[-1] += words[0]
-                del words[0]
-            merged.extend(words)
-        return merged
-
     i = 0
     merged = []
     for j in map(min, matches.values()):
-        merged.append(merge(word_lists[i:j]))
+        merged.append(
+            _merge(word_lists[i:j])
+        )
         merged.append(word_lists[j])
         i = j + 1
 
-    merged.append(merge(word_lists[i:]))
+    merged.append(
+        _merge(word_lists[i:])
+    )
 
     output = []
     for i, words in enumerate(merged):
