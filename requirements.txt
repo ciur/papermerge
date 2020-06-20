@@ -1,4 +1,4 @@
-mglib >= 1.0.1
+mglib == 1.1.0
 python-dotenv
 imapclient
 django
