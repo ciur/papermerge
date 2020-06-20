@@ -35,10 +35,11 @@ the gaps.
 
 7. Start webserver with::
 
-    $ ./manage runserver
+    $ ./manage runserver <IP>:<PORT>
 
+If no specific IP or port is given, the default is 127.0.0.1:8000 also known as http://localhost:8000/. 
 At this step, must be able to access login screen and it should look like in
-screenshot below.
+screenshot below. You can login with the user/pass you created in #6.
 
     .. figure:: ../img/login.png
 
