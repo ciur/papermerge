@@ -106,10 +106,17 @@ def search_excerpt(
 
 class SearchExcerptNode(template.Node):
 
-    def __init__(self, content, search_terms, context_words_count):
+    def __init__(
+        self,
+        content,
+        search_terms,
+        context_words_count,
+        var_name
+    ):
         self._content = template.Variable(content)
         self._search_terms = template.Variable(search_terms)
         self._context_words_count = context_words_count
+        self._var_name = var_name
 
     def render(self, context):
         try:
@@ -118,35 +125,112 @@ class SearchExcerptNode(template.Node):
         except template.VariableDoesNotExist:
             return ''
 
-        return search_excerpt(
+        result = search_excerpt(
             text=content,
             phrases=search_terms,
             context_words_count=self._context_words_count
         )
+        if self._var_name:
+            context[self._var_name] = result
+            return ""
+
+        return result
+
+class HighlightNode(template.Node):
+
+    def __init__(
+        self,
+        content,
+        search_terms,
+        class_name,
+        var_name
+    ):
+        self._content = template.Variable(content)
+        self._search_terms = template.Variable(search_terms)
+        self._class_name = class_name
+        self._var_name = var_name
+
+    def render(self, context):
+        try:
+            content = self._content.resolve(context)
+            search_terms = self._search_terms.resolve(context)
+        except template.VariableDoesNotExist:
+            return ''
+
+        result = highlight(
+            text=content,
+            phrases=search_terms,
+            class_name=self._class_name
+        )
+        if self._var_name:
+            context[self._var_name] = result
+            return ""
+
+        return result
 
 
-@register.tag(name='search_excerpt_tag')
+@register.tag
 def search_excerpt_tag(parser, token):
     """
-        {% search_excerpt_tag content search_terms [context_words_count] %}
+        {% search_excerpt_tag content search_terms [word_count] [as name] %}
     """
     try:
-        # split_contents() knows not to split quoted strings.
-        bits = list(token.split_contents())
-
+        # Splitting by None == splitting by spaces.
+        tag_name, arg = token.contents.split(None, 1)
     except ValueError:
-        raise template.TemplateSyntaxError(
-            "%r tag requires a single argument" % token.contents.split()[0]
-        )
-
-    if len(bits) != 4:
-        usage = search_excerpt_tag.__doc__.strip()
         raise TemplateSyntaxError(
-            f"{bits[0]} expected usage: {usage}"
+            "%r tag requires arguments" % token.contents.split()[0]
         )
 
+    m = re.search(r'(.*?) as (\w+)', arg)
+    if not m:
+        raise TemplateSyntaxError(
+            "%r tag had invalid arguments" % tag_name
+        )
+
+    bits, var_name = m.groups()
+
+    if len(bits) > 2:
+        context_words_count = bits[3]
+    else:
+        context_words_count = 5
     return SearchExcerptNode(
         content=bits[1],
         search_terms=bits[2],
-        context_words_count=bits[3]
+        context_words_count=context_words_count,
+        var_name=var_name
+    )
+
+
+@register.tag
+def highlight_tag(parser, token):
+    """
+        {% highlight_tag text search_terms [class_name] [as name] %}
+    """
+    try:
+        # Splitting by None == splitting by spaces.
+        tag_name, arg = token.contents.split(None, 1)
+    except ValueError:
+        raise TemplateSyntaxError(
+            "%r tag requires arguments" % token.contents.split()[0]
+        )
+
+    m = re.search(r'(.*?) as (\w+)', arg)
+    if not m:
+        raise TemplateSyntaxError(
+            "%r tag had invalid arguments" % tag_name
+        )
+
+    bits, var_name = m.groups()
+
+    if len(bits) > 2:
+        class_name = bits[3]
+    else:
+        class_name = 'highlighted'
+
+    return HighlightNode(
+        content=bits[1],
+        search_term=bits[2],
+        class_name=class_name,
+        var_name=var_name
     )
