@@ -1,8 +1,8 @@
 mglib == 1.1.0
 mgclipboard >= 0.2.0
+django >= 3.0.0
 python-dotenv
 imapclient
-django
 djangorestframework  # DRF stores tokens clear text in DB
 django-rest-knox     # Knox stores hashed tokens in DB
 django-extensions
