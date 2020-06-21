@@ -15,8 +15,8 @@ Following picture is a (scanned document) receipt with highlighted shop name, pr
 
    Receipt with metadata
 
-This additional information - shop name, price and date is so called document's metadata.
-Metadata is extremely useful when you need to locate specific document among many other very similar documents.
+This additional information - shop name, price and date is so called document's **metadata**.
+Metadata is extremely useful when you need to *locate specific document among many other very similar documents*.
 
 Imagine that you scanned 60 groceries receipts and *organized* them in a folder named Groceries.
 If would just store those receipts on an ordinary file system the only way to distinguish between files
@@ -29,3 +29,7 @@ document and add metadata to each file individually. A faster way to create meta
 associated it to any file, is by simple creating a folder - add metadata to
 that folder - let's name it Groceries-2020 - and then just copy all groceries
 related files into that folder.
+
+.. figure:: img/metadata/02-inherited-metadata.png
+
+   Metadata is inherited from folder to all documents within it
