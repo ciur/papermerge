@@ -44,3 +44,11 @@ Now all receipts in Groceries-2020 folder can be displayed as lists with price, 
 .. figure:: img/metadata/03-list-display-with-metadata.png
 
    With metadata information associated it easier to navigate receipt documents
+
+
+Keys, Values and Formats
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Metadata *key* is the *repetitive* or *common*  information you are interested about. In groceries example shop, date and price are the keys. Other metadata keys examples would be a Tax-ID from tax declaration documents, Client-ID from invoice documents and License-ID from pool of licenses you are managing.
+
+Metadata *value* is, well, the value of specific key. Continuing with groceries examples the "10,99", "3,69", "29,00" are all metadata values for key which we named - "price". Groceries-2020 folder has only 3 keys, but can have any number of values.
