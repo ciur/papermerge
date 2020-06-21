@@ -18,9 +18,11 @@ Following picture is a (scanned document) receipt with highlighted shop name, pr
 This additional information - shop name, price and date is so called document's **metadata**.
 Metadata is extremely useful when you need to *locate specific document among many other very similar documents*.
 
-Imagine that you scanned 60 groceries receipts and *organized* them in a folder named Groceries.
-If would just store those receipts on an ordinary file system the only way to distinguish between files
-is by file names or maybe by their text content if your storage supports OCR - finding, specific file, say the receipts you got in June 2020, would be time consuming.
+Imagine that you scanned 60 groceries receipts and *organized* them in a
+folder named Groceries. If you would just store those receipts on an ordinary
+file system, then only way to distinguish between files is by file names or
+maybe by their text content if your storage supports OCR - finding, specific
+file, say the receipts you got in June 2020, would be time consuming.
 
 A more efficient and practical way to tackle this problem is by associating to
 all scanned documents (receipts in this example) - metadata. Let's continue
