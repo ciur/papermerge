@@ -17,12 +17,13 @@ What It Does
 ============
 
  * It OCRs your documents
- * Provides you nice user interface to easy browse your documents
- * Augments your documents with **metadata**
+ * Provides you nice user interface to easly browse your documents
+ * Augments your documents with :doc:`metadata`
  * Helps you instantly find your documents:
     
     * based on extracted text
-    * based on metadata
+    * based on :doc:`metadata`
+
  * Helps you fix scanned documents issues
 
 
