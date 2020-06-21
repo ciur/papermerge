@@ -43,12 +43,25 @@ Now all receipts in Groceries-2020 folder can be displayed as lists with price, 
 
 .. figure:: img/metadata/03-list-display-with-metadata.png
 
-   With metadata information associated it easier to navigate receipt documents
+   With metadata information associated it is easier to navigate receipt documents
 
 
-Keys, Values and Formats
+Keys, Values and Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Metadata *key* is the *repetitive* or *common*  information you are interested about. In groceries example shop, date and price are the keys. Other metadata keys examples would be a Tax-ID from tax declaration documents, Client-ID from invoice documents and License-ID from pool of licenses you are managing.
+Metadata **key** is the *repetitive* or *common*  information you are interested
+about. In groceries example shop, date and price are the keys. Other metadata
+keys examples would be a Tax-ID from tax declaration documents, Client-ID from
+invoice documents and License-ID from pool of licenses you are managing.
 
-Metadata *value* is, well, the value of specific key. Continuing with groceries examples the "10,99", "3,69", "29,00" are all metadata values for key which we named - "price". Groceries-2020 folder has only 3 keys, but can have any number of values.
+Metadata **value** is, well, the value of specific key. Continuing with
+groceries examples the "10,99", "3,69", "29,00" are all metadata values for
+key which we named - "price". Groceries-2020 folder has only 3 keys, but can
+have any number of values.
+
+Metadata key can be of specific **type**. Metadata can express monetary
+information (e.g. a price), a date or it can be some sort of ID (a numbers and
+eventually with letter characters). Knowing metadata type is not enough
+consider example of 06.05.2020 date. Is 06.05.2020 6th of May 2020 or is it
+5th of June 2020 ? Thus, when you define a new metadata, usually you will need to provide
+a specific **format** for that type.
