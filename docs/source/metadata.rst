@@ -1,7 +1,12 @@
 Metadata
 ============
 
-Metadata is a new feature introduced since  version 1.3.0 (will be available since July 2020).
+.. warning::
+
+	Metadata is a new feature introduced since  version 1.3.0 and it will be available since July 2020.
+
+Main Concepts
+~~~~~~~~~~~~~~
 
 Metadata is extra information about your documents. In other words - data about your data.
 Following picture is a (scanned document) receipt with highlighted shop name, price and date on it.
@@ -11,3 +16,10 @@ Following picture is a (scanned document) receipt with highlighted shop name, pr
    Receipt with metadata
 
 This additional information - shop name, price and date is so called document's metadata.
+Metadata is extremely useful when you need to local specific document among many other very similar documents.
+
+Imagine that you scanned 60 groceries receipts and *organized* them in a folder named Groceries.
+If would just store those receipts on an ordinary file system the only way to distinguish between files
+is by file names or maybe by their text search if your storage supports OCR. Finding, specific file, say the receipts you got in June 2020, would be time consuming.
+
+A more efficient and practical way to tackle this problem is by associating to all scanned documents (receipts in this example) - metadata.
