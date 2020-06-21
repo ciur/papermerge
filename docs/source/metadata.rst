@@ -3,7 +3,7 @@ Metadata
 
 .. warning::
 
-	Metadata is a new feature introduced since  version 1.3.0 and it will be available since July 2020.
+    Metadata is a new feature introduced since  version 1.3.0 and it will be available since July 2020.
 
 Main Concepts
 ~~~~~~~~~~~~~~
@@ -33,3 +33,14 @@ related files into that folder.
 .. figure:: img/metadata/02-inherited-metadata.png
 
    Metadata is inherited from folder to all documents within it
+
+
+.. note::
+
+    Newly uploaded to Groceries-2020 documents (or moved from different folder) will automatically inherited metadata keys defined on that folder.
+
+Now all receipts in Groceries-2020 folder can be displayed as lists with price, date and shop information. Isn't now easier to understand when and how much you spent in each case?
+
+.. figure:: img/metadata/03-list-display-with-metadata.png
+
+   With metadata information associated it easier to navigate receipt documents
