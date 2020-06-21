@@ -29,6 +29,8 @@ for config_file in DEFAULT_CONFIG_PLACES:
         # and stop looking for ther configs.
         cfg_papermerge = vars(mod)
         break
+    else:
+        cfg_papermerge = {}
 
 # project root directory
 # 1. settings 2. config 3. papermerge-proj - parent 3x
@@ -39,16 +41,30 @@ SECRET_KEY = "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
 
 SITE_ID = 1
 
-STATIC_ROOT = cfg_papermerge['STATIC_DIR']
+STATIC_ROOT = cfg_papermerge.get(
+    'STATIC_DIR', os.path.join(PROJ_ROOT, "static")
+)
 
-MEDIA_ROOT = cfg_papermerge['MEDIA_DIR']
+MEDIA_ROOT = cfg_papermerge.get(
+    'MEDIA_DIR',
+    os.path.join(PROJ_ROOT, "media")
+)
 
-STATIC_URL = cfg_papermerge["STATIC_URL"]
+STATIC_URL = cfg_papermerge.get(
+    "STATIC_URL",
+    "/static/"
+)
 
-MEDIA_URL = cfg_papermerge["MEDIA_URL"]
+MEDIA_URL = cfg_papermerge.get(
+    "MEDIA_URL",
+    "/media/"
+)
 
 # This is where Papermerge will look for PDFs to index
-PAPERMERGE_IMPORTER_DIR = cfg_papermerge["IMPORTER_DIR"]
+PAPERMERGE_IMPORTER_DIR = cfg_papermerge.get(
+    "IMPORTER_DIR",
+    None
+)
 
 PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = cfg_papermerge.get(
     "FILES_MIN_UNMODIFIED_DURATION",
@@ -308,7 +324,10 @@ UPLOAD_FILE_SIZE_MAX = 12 * 1024 * 1024
 UPLOAD_FILE_SIZE_MIN = 1
 UPLOAD_ALLOWED_MIMETYPES = ['application/pdf']
 
-PAPERMERGE_TASK_QUEUE_DIR = cfg_papermerge["TASK_QUEUE_DIR"]
+PAPERMERGE_TASK_QUEUE_DIR = cfg_papermerge.get(
+    "TASK_QUEUE_DIR",
+    os.path.join(PROJ_ROOT, "queue")
+)
 
 if not os.path.exists(
     PAPERMERGE_TASK_QUEUE_DIR
