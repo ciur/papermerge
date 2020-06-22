@@ -22,84 +22,72 @@ If all above attempts fail, Papermerge will use default configurations values
 and issue you a warning. If you want to get rid of warning message, just create an
 empty configuration file papermerge.conf.py in project root directory (right next to papermerge.conf.py.example) or in location /etc/papermerge.conf.py.
 
+Configuration file uses python syntax.
 
-.. _STORAGE_ROOT:
 
-STORAGE_ROOT
-~~~~~~~~~~~~
+Some of the most used configurations which you might be interest in:
+  
+    * :ref:`media_dir` - location where all uploaded/imported documents are stored
+    *
+  
 
-* ``local:/<path to local folder>``
-* ``s3:/<path to bucket>``
+Paths and Folders
+##################
 
-Defines either local or a remote location where documents are stored. In case of local, it's meaning
-is same of for Django's ``MEDIA_ROOT``. In case of s3 storage it indicates path to the S3 bucket.
+.. _db_dir:
+
+DB_DIR
+~~~~~~~
+
+* ``/path/to/papermerge/sqlite/db/``
+
+Defines location where db.sqlite3 will be saved.
+By default uses project's local directory.
 
 Examples::
     
-    STORAGE_ROOT = 'local:/home/vagrant/papermerge-proj/run/media'  # good for development env
-    STORAGE_ROOT = 's3:/yourbucketname/alldocuments' # suitable for production
+    DB_DIR = "/opt/papermerge/db/"
 
-.. note::
-    In case when you choose **not** to use S3 storage both ``STORAGE_ROOT`` needs to be
-    set to ``local://...`` path **and** :ref:`S3` option must be set to False.
-    And other way around, if you want to use S3 storage, both ``SOTRAGE_ROOT``
-    and ``S3`` needs to be set accordingly (S3=True, STORAGE_ROOT='s3:/bucketname').
+.. _media_dir:
 
-.. _s3:
+MEDIA_DIR
+~~~~~~~~~~~
 
-S3
-~~~
+  * ``/path/to/media/``
 
-  * ``True|False``
+  Defines directory where all uploaded documents will be stored.
 
-  Instructs papermerge if you want to use S3 storage. ``S3=True`` is more suitable for production
-  environments.
+  By default uses a folder named ``media`` in project's local directory.
 
-  .. note::
-    In case ``S3=True`` you need to point ref:`STORAGE_ROOT` to s3 location.
+.. _static_dir:
 
-.. _ocr:
+STATIC_DIR
+~~~~~~~~~~
 
-OCR
-~~~
+ * ``/path/to/collected/static/assets/``
 
- * ``True|False``
+  Location where all static assets of the project Papermerge project (javascript files, css files) will be copied by ``./manage collectstatic`` command.
 
-  Enables or disables OCR features. With ``OCR=False`` no workers needs to be configured;
-
-.. _databases:
-
-DATABASES
-~~~~~~~~~
-
- This is Django specific configuration settings. Papermerge uses PostgreSQL as database, which
- means that ENGINE options must be set to ``django.db.backends.postgresql``.
- Example::
-
-     DATABASES = {
-         'default': {
-             'NAME': 'db_name',
-             'ENGINE': 'django.db.backends.postgresql',
-             'USER': 'db_user',
-             'PASSWORD': 'db_password'
-         },
-     }
+  By default uses a folder named `static` in project's local directory.
 
 
-.. _staticfilesdirs:
+Document Importer
+##################
 
-STATICFILES_DIRS
-~~~~~~~~~~~~~~~~
+Importer is a command line utility, which you can invoke with ``./manage.py importer``, used to import all documents
+from local directory.
 
-  Include absolute path where papermege-js static files are.
+.. _importer_dir:
 
-  Example::
+IMPORTER_DIR
+~~~~~~~~~~~~
 
-        STATICFILES_DIRS = [
-            '/home/vagrant/papermerge-js/static'
-        ]
+ * ``/path/where/documents/will/be/imported/from/``
 
-.. _mg_ocr_languages:        
+  Location on local file system where Papermerge 
+  will try to import documents from.
+
+
 
 MG_OCR_LANGUAGES
 ~~~~~~~~~~~~~~~~~

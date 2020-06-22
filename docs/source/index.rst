@@ -42,6 +42,7 @@ What It Does't Do
    rest_api
    page_management
    metadata
+   utilities
    settings
    developers_guide/index
    changelog
