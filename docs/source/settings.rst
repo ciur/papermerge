@@ -28,7 +28,8 @@ Configuration file uses python syntax.
 Some of the most used configurations which you might be interest in:
   
     * :ref:`media_dir` - location where all uploaded/imported documents are stored
-    *
+    * :ref:`ocr_languages` - user can select one of those languages to perform OCR
+    * :ref:`ocr_default_language` - default language for OCR
   
 
 Paths and Folders
@@ -36,8 +37,8 @@ Paths and Folders
 
 .. _db_dir:
 
-DB_DIR
-~~~~~~~
+``DB_DIR``
+~~~~~~~~~~~
 
 * ``/path/to/papermerge/sqlite/db/``
 
@@ -50,8 +51,8 @@ Example::
 
 .. _media_dir:
 
-MEDIA_DIR
-~~~~~~~~~~~
+``MEDIA_DIR``
+~~~~~~~~~~~~~~
 
   * ``/path/to/media/``
 
@@ -61,8 +62,8 @@ MEDIA_DIR
 
 .. _static_dir:
 
-STATIC_DIR
-~~~~~~~~~~
+``STATIC_DIR``
+~~~~~~~~~~~~~~~~
 
  * ``/path/to/collected/static/assets/``
 
@@ -84,8 +85,8 @@ from local directory.
 
 .. _importer_dir:
 
-IMPORTER_DIR
-~~~~~~~~~~~~
+``IMPORTER_DIR``
+~~~~~~~~~~~~~~~~~
 
  * ``/path/where/documents/will/be/imported/from/``
 
@@ -95,17 +96,54 @@ IMPORTER_DIR
   IMPORTER_DIR = "/opt/papermerge/import/"
 
 
+OCR
+####
 
-MG_OCR_LANGUAGES
+.. _ocr_languages:
+
+``OCR_LANGUAGES``
 ~~~~~~~~~~~~~~~~~
 
-  Addinational languages for text OCR. A dictionary where key is `ISO 639-2/T code <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_ and value is name of postgresql language dictionary.
+  Addinational languages for text OCR. A dictionary where key is `ISO 639-2/T code <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_ and value human
+  text name for language
 
   Example::
 
-    MG_OCR_LANGUAGES = {
+    OCR_LANGUAGES = {
         'heb': 'hebrew',
         'jpn': 'japanese'
     }
 
-Note that both `hebrew` and `japanes` must be listed in Name column of `\\dF` command in psql (which basically means that postgres dictionaries `hebrew` and `japanes` are installed).
+Note that both `hebrew` and `japanes` language data for tesseract must be installed. You can check Tesseract's available languages with following command::
+
+  $ tesseract --list-langs
+
+Default value for OCR_LANGUAGES uses following value::
+
+    OCR_LANGUAGES = {
+        "deu": "Deutsch",  # German language
+        "eng": "English",
+      }
+
+.. _ocr_default_language:
+
+``OCR_DEFAULT_LANGUAGE``
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default Papermerge will use language specified with this option to perform OCR. Change this value for language used by majority of your documents.
+
+  Example:
+
+    OCR_DEFAULT_LANGUAGE = "spa"
+
+Default value is "deu" (German language).
+
+.. _ocr_binary:
+
+``OCR_BINARY``
+~~~~~~~~~~~~~~~~
+
+Full path to tesseract binary/executable file.
+Default value is::
+
+  OCR_BINARY = "/usr/bin/tesseract"

@@ -128,6 +128,11 @@ PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
     }
 )
 
+PAPERMERGE_OCR_BINARY = cfg_papermerge.get(
+    "OCR_BINARY",
+    "/usr/bin/tesseract"
+)
+
 AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
