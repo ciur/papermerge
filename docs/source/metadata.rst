@@ -39,7 +39,7 @@ related files into that folder.
 
 .. note::
 
-    Newly uploaded to Groceries-2020 documents (or moved from different folder) will automatically inherit metadata keys defined on that folder.
+    Newly uploaded to Groceries-2020 documents (or moved from different folder) will automatically inherit metadata labels defined on that folder.
 
 Now all receipts in Groceries-2020 folder can be displayed as lists with price, date and shop information. Isn't now easier to understand when and how much you spent in each case?
 
@@ -48,22 +48,21 @@ Now all receipts in Groceries-2020 folder can be displayed as lists with price, 
    With metadata information associated it is easier to navigate receipt documents
 
 
-Keys, Values and Types
+Labels, Values and Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Metadata **key** is the *repetitive* or *common*  information you are interested
-about. In groceries example shop, date and price are the keys. Other metadata
-keys examples would be a Tax-ID from tax declaration documents, Client-ID from
+Metadata **label** is the *repetitive* or *common*  information you are interested
+about. In groceries example shop, date and price are labels. Other metadata
+labels examples would be a Tax-ID from tax declaration documents, Client-ID from
 invoice documents and License-ID from pool of licenses you are managing.
 
  .. note::
 
-    Another convenient term for metadata keys would be - metadata label. Because
-    metadata key acts like a label and is sort of label.
+    Internally metadata labels are called - keys.
 
-Metadata **value** is, well, the value of specific key. Continuing with
+Metadata **value** is, well, the value of specific label. Continuing with
 groceries examples the "10,99", "3,69", "29,00" are all metadata values for
-key which we named - "price". Groceries-2020 folder has only 3 keys, but can
+labels which we named - "price". Groceries-2020 folder has only 3 labels, but can
 have any number of values.
 
 Metadata can be of specific **type**. Metadata can express monetary
