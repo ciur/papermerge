@@ -1,8 +1,7 @@
 # coding: utf-8
-import importlib.machinery
-import importlib.util
 import os
 from pathlib import Path
+from mglib.utils import try_load_config
 
 from django.utils.translation import gettext_lazy as _
 
@@ -11,26 +10,19 @@ DEFAULT_CONFIG_PLACES = [
     "papermerge.conf.py"
 ]
 
-cfg_papermerge = None
+DEFAULT_PAPERMERGE_CONFIG_ENV_NAME = "PAPERMERGE_CONFIG"
 
-for config_file in DEFAULT_CONFIG_PLACES:
-    if os.path.exists(config_file):
-        # if one configuration file was found
-        # load it
-        loader_ = importlib.machinery.SourceFileLoader(
-            "config",
-            config_file
-        )
-        spec = importlib.util.spec_from_file_location(
-            "config", config_file, loader=loader_
-        )
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-        # and stop looking for ther configs.
-        cfg_papermerge = vars(mod)
-        break
-    else:
-        cfg_papermerge = {}
+cfg_papermerge = try_load_config(
+    config_locations=[
+        "/etc/papermerge.conf.py",
+        "papermerge.conf.py"
+    ],
+    config_env_var_name=DEFAULT_PAPERMERGE_CONFIG_ENV_NAME
+)
+
+# do not remove this assignment. It is used in core checks to
+# figure out if papermerge configuration file was successfully load.
+CFG_PAPERMERGE = cfg_papermerge
 
 # project root directory
 # 1. settings 2. config 3. papermerge-proj - parent 3x

@@ -3,26 +3,21 @@ Settings
 
 .. warning::
 
-    Starting with version 1.3.0 configuration process will be simplified
-    and parts of this documentation page will become absolete.
+    This page describes the new configurations way introduced in version 1.3.0 which
+    will be available starting with July 2020. How to configure previous releases see version
+    specific respective documentation.
 
-These are configurations settings for Papermerge - Web App. Configuration
-settings are used in same manner as `for any Django based project
-<https://docs.djangoproject.com/en/3.0/topics/settings/>`_.
+Papermerge loads its settings from a configurations file. At first it tries read following files:
 
-Settings which are common for all environments (production, development, staging)
-are defined in ``papermerge.config.settings.base`` module.
+  1. /etc/papermerge.conf.py
+  2. papermerge.conf.py - from current project directory
 
-If you want to reuse ``papermerge.config.settings.base``, create python file, for example
-``staging.py``, and import all settings from base module::
+If neither of above files exists it will check environment variable
+``PAPERMERGE_CONFIG_FILE``. In case environment variable
+``PAPERMERGE_CONFIG_FILE`` points to an existing file - it will try to read
+its configurations from there.
 
-    from .base import *
-
-    DEBUG = False
-    STATIC_ROOT = '/www/static/'
-
-Example above assumes that ``staging.py`` was created in same folder with ``base.py``.
-Don't forget to point `DJANGO_SETTINGS_MODULE <https://docs.djangoproject.com/en/3.0/topics/settings/#envvar-DJANGO_SETTINGS_MODULE>`_ environment variable to your settings module.
+If all above atemps fail, Papermerge will use default configurations values and issue you an warning. 
 
 
 .. _STORAGE_ROOT:
