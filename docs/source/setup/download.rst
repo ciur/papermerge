@@ -5,14 +5,20 @@ Download
 
 The source is currently only available via GitHub. You can either clone it with ``git``::
 
-    $ git clone https://github.com/ciur/papermerge.git
+    $ git clone  --depth 1 --branch v1.2.2 https://github.com/ciur/papermerge.git
     $ cd papermerge
 
-or just download the tarball::
+Notice ``--branch`` option. Always clone a stable release branch. See all `available stable releases here <https://github.com/ciur/papermerge/releases>`_.
+
+.. note::
+
+	Master branch is used for development.
+
+or just download the tarball for latest stable release::
 
     $ cd to the directory where you want to run Papermerge
-    $ wget https://github.com/ciur/papermerge/archive/master.zip
-    $ unzip master.zip
-    $ cd papermerge-master
+    $ wget https://github.com/ciur/papermerge/archive/v1.2.2.zip
+    $ unzip v1.2.2.zip
+    $ cd papermerge-1.2.2
 
 
