@@ -7,7 +7,8 @@ Settings
     will be available starting with July 2020. How to configure previous releases see version
     specific respective documentation.
 
-Papermerge loads its settings from a configurations file. At first it tries read following files:
+Papermerge loads its settings from a configurations file. At first it tries to
+read following files:
 
   1. /etc/papermerge.conf.py
   2. papermerge.conf.py - from current project directory
@@ -18,7 +19,7 @@ If neither of above files exists it will check environment variable
 its configurations from there.
 
 If all above attempts fail, Papermerge will use default configurations values
-and issue you a warning. If you want to get rid of warning, just create an
+and issue you a warning. If you want to get rid of warning message, just create an
 empty configuration file papermerge.conf.py in project root directory (right next to papermerge.conf.py.example) or in location /etc/papermerge.conf.py.
 
 
