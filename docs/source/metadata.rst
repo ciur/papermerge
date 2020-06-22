@@ -21,14 +21,14 @@ Metadata is extremely useful when you need to *locate specific document among ma
 Imagine that you scanned 60 groceries receipts and *organized* them in a
 folder named Groceries. If you would just store those receipts on an ordinary
 file system, then only way to distinguish between files is by file names or
-maybe by their text content if your storage supports OCR - finding, specific
-file, say the receipts you got in June 2020, would be time consuming.
+maybe by their text content (if your storage supports OCR) - finding, specific
+file, say all receipts you got in June 2020, would be time consuming.
 
 A more efficient and practical way to tackle this problem is by associating to
 all scanned documents (receipts in this example) - metadata. Let's continue
-with groceries receipts example. It would very time consuming to go to each
+with groceries receipts example. It would be very time consuming to go to each
 document and add metadata to each file individually. A faster way to create metadata and
-associated it to any file, is by simple creating a folder - add metadata to
+associated it to a group of files, is by a creating a folder - add metadata to
 that folder - let's name it Groceries-2020 - and then just copy all groceries
 related files into that folder.
 
@@ -39,7 +39,7 @@ related files into that folder.
 
 .. note::
 
-    Newly uploaded to Groceries-2020 documents (or moved from different folder) will automatically inherited metadata keys defined on that folder.
+    Newly uploaded to Groceries-2020 documents (or moved from different folder) will automatically inherit metadata keys defined on that folder.
 
 Now all receipts in Groceries-2020 folder can be displayed as lists with price, date and shop information. Isn't now easier to understand when and how much you spent in each case?
 
@@ -56,13 +56,18 @@ about. In groceries example shop, date and price are the keys. Other metadata
 keys examples would be a Tax-ID from tax declaration documents, Client-ID from
 invoice documents and License-ID from pool of licenses you are managing.
 
+ .. note::
+
+    Another convinient term for metadata keys would be - metadata label. Because
+    metadata key acts like a label and is sort of label.
+
 Metadata **value** is, well, the value of specific key. Continuing with
 groceries examples the "10,99", "3,69", "29,00" are all metadata values for
 key which we named - "price". Groceries-2020 folder has only 3 keys, but can
 have any number of values.
 
-Metadata key can be of specific **type**. Metadata can express monetary
-information (e.g. a price), a date or it can be some sort of ID (a numbers and
+Metadata can be of specific **type**. Metadata can express monetary
+information (e.g. a price), a date or it can be some sort of ID (a number and
 eventually with letter characters). Knowing metadata type is not enough
 consider example of 06.05.2020 date. Is 06.05.2020 6th of May 2020 or is it
 5th of June 2020 ? Thus, when you define a new metadata, usually you will need to provide
