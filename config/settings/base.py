@@ -115,9 +115,17 @@ PAPERMERGE_METADATA_NUMERIC_FORMATS = [
     'd.ddd'
 ]
 
-PAPERMERGE_OCR_LANGUAGE = cfg_papermerge.get(
-    "OCR_LANGUAGE",
+PAPERMERGE_OCR_DEFAULT_LANGUAGE = cfg_papermerge.get(
+    "OCR_DEFAULT_LANGUAGE",
     "deu"  # if not defined, defaults to German a.k.a Deutsch
+)
+
+PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
+    "OCR_LANGUAGES",
+    {
+        "deu": "Deutsch",
+        "eng": "English",
+    }
 )
 
 AUTH_USER_MODEL = "core.User"

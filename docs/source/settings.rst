@@ -44,7 +44,7 @@ DB_DIR
 Defines location where db.sqlite3 will be saved.
 By default uses project's local directory.
 
-Examples::
+Example::
     
     DB_DIR = "/opt/papermerge/db/"
 
@@ -70,6 +70,11 @@ STATIC_DIR
 
   By default uses a folder named `static` in project's local directory.
 
+  Example::
+      
+    STATIC_DIR = "/opt/papermerge/static/"
+
+
 
 Document Importer
 ##################
@@ -86,6 +91,8 @@ IMPORTER_DIR
 
   Location on local file system where Papermerge 
   will try to import documents from.
+
+  IMPORTER_DIR = "/opt/papermerge/import/"
 
 
 
