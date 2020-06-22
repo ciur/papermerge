@@ -76,9 +76,10 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |OCR   | Yes | Yes | Yes |
 |Metadata |  Yes (> 1.3.0) | Yes | No |
 |Folders/Cabinets| Yes (Folders) | Yes (Cabinets) | No |
+|Advanced Permissions Management | Yes | Yes | No |
 |Documents Versioning| No | Yes | No | 
 |Digital Signatures | No | Yes | No |
-|Workflows| No | Yes No |
+|Workflows| No | Yes | No |
 |Tags     | No | Yes | Yes |
 |REST API | Yes | Yes | Yes |
 |License  | Apache-2.0 | Apache 2.0 | GPLv3 |
