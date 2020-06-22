@@ -18,7 +18,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
 from papermerge.core.lib.lang import LANG_DICT
-from papermerge.core.models import Access, BaseTreeNode
+from papermerge.core.models import Access
 
 try:
     from django.urls import NoReverseMatch

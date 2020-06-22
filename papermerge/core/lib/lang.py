@@ -10,6 +10,8 @@ LANG_DICT maps those two worlds.
 # value is language dictionary as as per
 # psql> \dFd (which lists installed dictionaries)
 
+LANG_DICT = settings.PAPERMERGE_OCR_LANGUAGES
+
 
 def get_default_ocr_lang():
 
@@ -21,7 +23,6 @@ def get_ocr_lang_choices(capitalize=True):
     returns a list of tuples as required by
     Django's choices ((key, value),(key, value), ...)
     """
-    LANG_DICT = settings.PAPERMERGE_OCR_LANGUAGES
 
     return [
         (key, value.capitalize())
