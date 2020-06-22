@@ -15,7 +15,7 @@ document using full text search capabilities.
 
 It is built on [Django 3.0](https://www.djangoproject.com/).
 
-Papermerge is actively developed.
+Papermerge is actively developed and I [release quite frequently](https://github.com/ciur/papermerge/releases).
 
 This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
