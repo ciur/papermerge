@@ -3,14 +3,13 @@
 Design
 =======
 
-A brief description of the architecture of Papermerge and why such
-design decisions were taken. Papermerge project has 2 parts:
+A brief description of the architecture of Papermerge.
+Papermerge DMS project has 2 parts:
 
     * Web Application
-    * Workers
+    * Worker(s)
 
-Web application is further devided into Frontend and Backend. As result
-there are 3 separate repositories that are part of one whole.
+Web application is further devided into Frontend and Backend.
 
 .. figure:: ../img/design1.png
 
@@ -39,15 +38,16 @@ The outcome of this project, among others, are two important files::
         <papermerge-js>/static/js/papermerge.js
         <papermerge-js>/static/css/papermerge.css
 
-There are files as well, like images and fonts.
-These, so called static assets, are copied into :ref:`backend`
+There are other files as well e.g. images and fonts.
+These, so called static assets, which are copied into :ref:`backend`. Outcome of webpack project is
+distributed as part of main web application.
 
 .. _backend:
 
 Backend
 *********
 
-`Papermerge-proj Repository <https://github.com/ciur/papermerge>`_
+`Papermerge DMS Repository <https://github.com/ciur/papermerge>`_
 
 Backend is a standard `Django 3.0 <https://djangoproject.com>`_ application. It uses static files
 from frontend part. Throughout documentation it is refered as *backend* because term webapp is more
@@ -58,12 +58,15 @@ general (webapp = backend + frontend).
 Workers
 *********
 
-Workers perform OCR on the documents. There is a built-in worker in main `Papermerge-proj Repository <https://github.com/ciur/papermerge>`_. Built-in worker is called with command::
+Workers perform OCR on the documents. There is a built-in worker in main `Papermerge DMS Repository <https://github.com/ciur/papermerge>`_. Built-in worker is called with command::
 
     $ ./manage.py worker
 
-In utilities part of this documentation you can learn more about built-in :ref:`worker_command`.
+In :ref:`utilities` part of this documentation you can learn more about built-in :ref:`worker_command`.
 
-In more advanced setups many workers can be used. But for that a messaging
-queues like rabbitmq should be configured and a shared storage - like S3.
+In more advanced setups any number of workers can be used (depends on the number of documents you plan to use). However in such cases: 
+    
+    * a messaging queues like rabbitmq should be configured
+    * a shared storage - like S3 - should be configured
+
 These advanced deployements are outside scope of this documentation.
