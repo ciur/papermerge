@@ -71,7 +71,6 @@ information (e.g. a price), a date or it can be some sort of ID (a number and
 eventually with letter characters). 
 
 Knowing metadata type is not enough. Consider example of 06.05.2020 date. 
-
 Does 06.05.2020 date refer to 6th of May 2020 or does it refer to 5th of June
 2020 ? To remove any confusion, when you define a new metadata, usually you
 will need to provide a specific **format** for that type. In previous example
