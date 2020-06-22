@@ -17,7 +17,9 @@ If neither of above files exists it will check environment variable
 ``PAPERMERGE_CONFIG_FILE`` points to an existing file - it will try to read
 its configurations from there.
 
-If all above atemps fail, Papermerge will use default configurations values and issue you an warning. 
+If all above attempts fail, Papermerge will use default configurations values
+and issue you a warning. If you want to get rid of warning, just create an
+empty configuration file papermerge.conf.py in project root directory (right next to papermerge.conf.py.example) or in location /etc/papermerge.conf.py.
 
 
 .. _STORAGE_ROOT:
