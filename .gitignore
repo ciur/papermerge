@@ -23,3 +23,7 @@ docs/build/
 _build
 _static
 _templates
+media/
+static/
+queue/
+celerybeat-schedule
