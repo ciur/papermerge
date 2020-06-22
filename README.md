@@ -83,7 +83,7 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |Tags     | No | Yes | Yes |
 |REST API | Yes | Yes | Yes |
 |License  | Apache-2.0 | Apache 2.0 | GPLv3 |
-|Status| Active Development | Active Development | Maintenance| 
+|Status| Active Development | Active Development | Maintenance / No Development| 
 |Stable Release | 1.2.2 / May 16, 2020 | 3.4.7 / April 28, 2020 | 2.7.0 / January 27, 2019 |
 |Initial Release| February 9, 2020 | February 3, 2011 | ~ 2015 |
 |Python3?| Yes | Yes | Yes|
