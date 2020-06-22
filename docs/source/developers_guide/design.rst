@@ -19,7 +19,7 @@ there are 3 separate repositories that are part of one whole.
 
 .. _frontend:
 
-1. Frontend
+Frontend
 ***********
 `Papermerge-js Repository <https://github.com/ciur/papermerge-js>`_
 
@@ -39,44 +39,31 @@ The outcome of this project, among others, are two important files::
         <papermerge-js>/static/js/papermerge.js
         <papermerge-js>/static/css/papermerge.css
 
-There are static files as well, like images and fonts. However images and fonts, are just
-placed in ``<papermerge-js>/static`` and nothing really interesting happens with them.
+There are files as well, like images and fonts.
+These, so called static assets, are copied into :ref:`backend`
 
 .. _backend:
 
-2. Backend
-**********
+Backend
+*********
 
 `Papermerge-proj Repository <https://github.com/ciur/papermerge>`_
 
-Backend is a standard `Django <https://djangoproject.com>`_ application. It uses static files
+Backend is a standard `Django 3.0 <https://djangoproject.com>`_ application. It uses static files
 from frontend part. Throughout documentation it is refered as *backend* because term webapp is more
 general (webapp = backend + frontend).
 
-.. _worker:
+.. _workers:
 
-3. Workers
-***********
-`Papermerge-worker Repository <https://github.com/ciur/papermerge-worker>`_
+Workers
+*********
 
-Workers perform OCR on the documents. Documents are passed as reference (see
-note below) from backend to the workers via a shared location.  In simplest
-setup  when everything runs on same machine, shared location is just a folder
-on local machine accessible by worker and by backend. In production, shared
-location is a S3 bucket.
+Workers perform OCR on the documents. There is a built-in worker in main `Papermerge-proj Repository <https://github.com/ciur/papermerge>`_. Built-in worker is called with command::
 
-.. note::
+    $ ./manage.py worker
 
-    There are at least two distinct methods of passing documents from backend
-    to the workers. First method, which is very simple, but wrong: backend
-    will just transfer entire document byte by byte to the worker. Without
-    diving deep into technical details, this method is not scalable
-    because it deplets backend's memory very quickly.
+In utilities part of this documentation you can learn more about built-in :ref:`worker_command`.
 
-    Backend instead instructs workers which documents they need to OCR by telling workers
-    document id (it passes user id and language name as well). 
-    
-
-.. figure:: ../img/design2.png
-
-   Backend passes documents to workers by reference. 
+In more advanced setups many workers can be used. But for that a messaging
+queues like rabbitmq should be configured and a shared storage - like S3.
+These advanced deployements are outside scope of this documentation.
