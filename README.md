@@ -68,6 +68,22 @@ There are couple options:
 * [Manual way - detailed step by step instructions](https://papermerge.readthedocs.io/en/latest/installation/manual_way.html)
 * Deploy it with ansible... coming soon!
 
+### Comparison With Other DMS
+
+From my own reasearch I found another two very similar project - [Paperless](https://github.com/the-paperless-project/paperless) and [MayanEDMS](https://www.mayan-edms.com/). Similar to the way parents tend to love their own children more - I am biased towards my own project - Papermerge. So, below is a comparison table of the three based on my research.
+
+|  Metric  | Papermerge | [MayanEDMS](https://www.mayan-edms.com/) | [Paperless](https://github.com/the-paperless-project/paperless)         
+|----------|:-----------:|:---------------------------------------:|:---------------:|
+|OCR   | Yes | Yes | Yes |
+|Metadata |  Yes (> 1.3.0) | Yes | No |
+|Tags     | No | Yes | Yes |
+|Status| Active Development | Active Development | Maintenance| 
+|Stable Release | 1.2.2 / May 16, 2020 | 3.4.7 / April 28, 2020 | 2.7.0 / January 27, 2019 |
+|Initial Release| February 9, 2020 | February 3, 2011 | ~ 2015 |
+|Python3?| Yes | Yes | Yes|
+|Django Version| 3.0 | 2.2 | 2.0|
+
+
 ### Related Projects
 
 * [MgMail](https://github.com/papermerge/mg-mail) - Imports document attachments from SMTP account/email into Papermerge DMS via REST API key
