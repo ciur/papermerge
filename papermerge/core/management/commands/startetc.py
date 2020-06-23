@@ -28,7 +28,6 @@ class Rundir:
         self.proj_etc = self.proj_root / Path("run") / Path("etc")
         self.proj_log = self.proj_root / Path("run") / Path("log")
         self.proj_tmp = self.proj_root / Path("run") / Path("tmp")
-        self.proj_broker = self.proj_root / Path("run") / Path("broker")
         self.proj_systemd = self.proj_etc / Path("systemd")
 
     def exists(self):
@@ -39,7 +38,6 @@ class Rundir:
             self.proj_log.exists(),
             self.proj_tmp.exists(),
             self.proj_systemd.exists(),
-            self.proj_broker.exists()
         ]
         return all(all_run_dirs)
 
@@ -54,22 +52,6 @@ class Rundir:
         )
         os.makedirs(
             self.proj_tmp,
-            exist_ok=True
-        )
-        os.makedirs(
-            self.proj_broker,
-            exist_ok=True
-        )
-        os.makedirs(
-            self.proj_broker / Path("data_in"),
-            exist_ok=True
-        )
-        os.makedirs(
-            self.proj_broker / Path("data_out"),
-            exist_ok=True
-        )
-        os.makedirs(
-            self.proj_broker / Path("data_processed"),
             exist_ok=True
         )
 
@@ -129,17 +111,11 @@ class Command(BaseCommand):
         for file in [
             'etc/nginx.conf',
             'etc/papermerge.env',
-            'etc/pmworker.env',
             'etc/gunicorn.conf.py',
-            'etc/pmworker.py',
-            'etc/systemd/pm_nginx.service',
+            'etc/systemd/mg_nginx.service',
             'etc/systemd/papermerge.service',
-            'etc/systemd/pmworker.service',
+            'etc/systemd/worker.service',
             'etc/systemd/papermerge.target',  # tracks deps
-            'etc/systemd/txt2db.timer',  # onces in every 2 minutes
-            'etc/systemd/txt2db.service',  # copies OCRed txt files to DB
-            'etc/systemd/update_fts.timer',  # onces in every 2 minutes
-            'etc/systemd/update_fts.service',  # prepares FTS columns
         ]:
             rendered = render_to_string(file, context)
             string_to_file(
