@@ -29,10 +29,6 @@ Clone main papermerge project::
 
     git clone https://github.com/ciur/papermerge papermerge-proj
 
-Clone papermerge-js project (this is the frontend part)::
-
-    git clone https://github.com/ciur/papermerge-js
-
 Create python's virtual environment .env::
 
     cd papermerge-proj
@@ -52,21 +48,14 @@ Install required python packages (now you are in papermerge-proj directory)::
 Rename file *config/settings/development.example.py* to *config/settings/development.py*.
 This file is default for DJANGO_SETTINGS_MODULE and it is included in .gitignore.
 
-Adjust following settings in *config/settings/development.py*:
-
-* :ref:`DATABASES <databases>` -  name, username and password of database you created in PostgreSQL
-* MEDIA_ROOT - absolute path to media folder
-* :ref:`STORAGE_ROOT`- absolute path to same media root, but with a "local:/" prefix
-
-.. note::
-
-    1. Make sure that ``data_folder_in`` and ``data_folder_out`` point to the same location.
-    2. Make sure that folder pointed by ``data_folder_in`` and ``data_folder_out`` exists.
+In project root directory create ``papermerge.conf.py`` and add there :ref:`media_dir` for example.
+In case you leave papermerge.conf.py empty - default values will be used.
 
 Then, as in any django based project, run migrations and create super user::
 
     cd <papermerge-proj>
     ./manage.py migrate
+    ./manage.py collectstatic
     ./manage.py createsuperuser
 
 Run startetc command::
@@ -77,31 +66,20 @@ Just out of curiousity, have a look ``<papermerge-proj>/run`` at folder generate
 Folder ``<papermerge-proj>`` should have following structure::
 
     run
-    ├── broker
-    │   ├── data_in
-    │   ├── data_out
-    │   └── data_processed
     ├── etc
     │   ├── gunicorn.conf.py
     │   ├── nginx.conf
     │   ├── papermerge.env
-    │   ├── pmworker.env
-    │   ├── pmworker.py
     │   └── systemd
     │       ├── papermerge.service
     │       ├── papermerge.target
-    │       ├── pm_nginx.service
-    │       ├── pmworker.service
-    │       ├── txt2db.service
-    │       ├── txt2db.timer
-    │       ├── update_fts.service
-    │       └── update_fts.timer
+    │       ├── mg_nginx.service
+    │       ├── worker.service
     ├── log
     └── tmp
 
 Systemd can be used to manage user services. For that --user flag is used.
-User services must be referenced in ``~/.config/systemd/user`` folder. By the way,
-`I made a video about systemd --user feature <https://www.django-lessons.com/lesson/lesson-12-system-for-python-developers>`_.
+User services must be referenced in ``~/.config/systemd/user`` folder.
 
 Create ``~/.config/systemd/user`` if you don't have it. Then reference (create symbolic links)
 ``<papermerge-proj>/run/etc/systemd/`` units in ``~/.config/systemd/user`` folder::
