@@ -215,8 +215,8 @@ DATABASES = {
 if cfg_papermerge.get("DBUSER", False):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": cfg_papermerge.get("PAPERMERGE_DBNAME", "papermerge"),
-        "USER": cfg_papermerge.get("PAPERMERGE_DBUSER"),
+        "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
+        "USER": cfg_papermerge.get("DBUSER"),
     }
     if cfg_papermerge.get("DBPASS"):
         DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS")

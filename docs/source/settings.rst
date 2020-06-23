@@ -147,3 +147,43 @@ Full path to tesseract binary/executable file.
 Default value is::
 
   OCR_BINARY = "/usr/bin/tesseract"
+
+
+DATABASE
+###########
+
+By default, Papermerge uses SQLite3 database (which is a file located in :ref:`db_dir`). Alternatively
+you can use PostgreSQL database. Following are options for PostgreSQL database connections. 
+
+
+ .. _dbuser:
+
+``DBUSER``
+~~~~~~~~~~~
+
+DB user used for PostgreSQL database connection
+
+  Example:
+
+    DBUSER = "john"
+
+.. _dbname:
+
+``DBNAME``
+~~~~~~~~~~~
+
+  PostgreSQL database name
+
+.. _dbhost:
+
+``DBHOST``
+~~~~~~~~~~~
+ 
+  PostgreSQL database host
+
+.. _dbpass:
+
+``DBPASS``
+~~~~~~~~~~~
+ 
+  password for connecting to PostgreSQL database
