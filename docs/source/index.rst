@@ -43,6 +43,7 @@ What It Does't Do
    page_management
    metadata
    utilities
+   migrations
    settings
    developers_guide/index
    changelog
