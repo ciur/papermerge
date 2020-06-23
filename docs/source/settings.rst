@@ -153,15 +153,15 @@ DATABASE
 ###########
 
 By default, Papermerge uses SQLite3 database (which is a file located in :ref:`db_dir`). Alternatively
-you can use PostgreSQL database. Following are options for PostgreSQL database connections. 
-
+you can use PostgreSQL database. Following are options for PostgreSQL database connections.
 
  .. _dbuser:
 
 ``DBUSER``
 ~~~~~~~~~~~
 
-DB user used for PostgreSQL database connection
+DB user used for PostgreSQL database connection. If specified will automatically 'switch' from
+sqlite3 to PostgreSQL database.
 
   Example:
 
@@ -172,18 +172,34 @@ DB user used for PostgreSQL database connection
 ``DBNAME``
 ~~~~~~~~~~~
 
-  PostgreSQL database name
+PostgreSQL database name.
+Default value is papermerge.
 
 .. _dbhost:
 
 ``DBHOST``
 ~~~~~~~~~~~
  
-  PostgreSQL database host
+PostgreSQL database host.
+Default value is localhost.
+
+.. _dbport:
+
+``DBPORT``
+~~~~~~~~~~~
+   
+PostgreSQL database port. Port must be specified as integer number. No string quotes.
+
+  Example:
+
+    DBPORT = 5432
+
+Default value is 5432.
 
 .. _dbpass:
 
 ``DBPASS``
 ~~~~~~~~~~~
  
-  password for connecting to PostgreSQL database
+Password for connecting to PostgreSQL database
+Default value is empty string.

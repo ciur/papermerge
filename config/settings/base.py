@@ -218,12 +218,9 @@ if cfg_papermerge.get("DBUSER", False):
         "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
         "USER": cfg_papermerge.get("DBUSER"),
     }
-    if cfg_papermerge.get("DBPASS"):
-        DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS")
-    if cfg_papermerge.get("DBHOST"):
-        DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST")
-    if cfg_papermerge.get("DBPORT"):
-        DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT")
+    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
+    DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
+    DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 5432)
 
 
 FILE_UPLOAD_HANDLERS = [
