@@ -238,7 +238,7 @@ class Document(mixins.ExtractIds, BaseTreeNode):
                     # interrupt - if one page's .txt was not found.
                     break
             else:
-                logger.info(
+                logger.debug(
                     f"document_log "
                     f" username={page.user.username}"
                     f" doc_id={page.document.id}"
