@@ -8,7 +8,7 @@ from papermerge.core.models import (Page, Document, Folder)
 from papermerge.test.utils import create_root_user
 from pmworker import ENG
 from pmworker.storage import copy2doc_url
-from mglib.endpoint import PageEp
+from mglib.path import PagePath
 from pmworker.step import Step
 
 BASE_DIR = os.path.dirname(__file__)
@@ -74,7 +74,7 @@ class TestDocumentView(TestCase):
             src_file_path=os.path.join(
                 BASE_DIR, "data", "andromeda.pdf"
             ),
-            doc_url=doc.doc_ep.url()
+            doc_url=doc.path.url()
         )
         ret = self.client.post(
             reverse('core:preview', args=(doc.id, 1, 1))
@@ -83,8 +83,8 @@ class TestDocumentView(TestCase):
             ret.status_code,
             200
         )
-        page_url = PageEp(
-            document_ep=doc.doc_ep,
+        page_url = PagePath(
+            document_path=doc.path,
             page_num=1,
             step=Step(1),
             page_count=3
@@ -172,7 +172,7 @@ class TestDocumentView(TestCase):
             src_file_path=os.path.join(
                 BASE_DIR, "data", "andromeda.pdf"
             ),
-            doc_url=doc.doc_ep.url()
+            doc_url=doc.path.url()
         )
         ret = self.client.post(
             reverse('core:document_download', args=(doc.id, ))
@@ -209,10 +209,10 @@ class TestDocumentView(TestCase):
             src_file_path=os.path.join(
                 BASE_DIR, "data", "andromeda.pdf"
             ),
-            doc_url=doc.doc_ep.url()
+            doc_url=doc.path.url()
         )
         # build page url
-        page_ep = doc.page_eps[1]
+        page_path = doc.doc_paths[1]
 
         # just remember that at the end of test
         # copied file must be deteled. (1)
@@ -220,7 +220,7 @@ class TestDocumentView(TestCase):
             src_file_path=os.path.join(
                 BASE_DIR, "data", "page-1.hocr"
             ),
-            doc_url=page_ep.hocr_url()
+            doc_url=page_path.hocr_url()
         )
         ret = self.client.get(
             reverse('core:hocr', args=(doc.id, 1, 1))
