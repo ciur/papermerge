@@ -5,11 +5,12 @@ from django.test import Client
 from django.urls import reverse
 
 from papermerge.core.models import (Page, Document, Folder)
+from papermerge.core.storage import default_storage
 from papermerge.test.utils import create_root_user
 from pmworker import ENG
 from pmworker.storage import copy2doc_url
 from mglib.path import PagePath
-from pmworker.step import Step
+from mglib.step import Step
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -63,16 +64,16 @@ class TestDocumentView(TestCase):
 
     def test_preview(self):
         doc = Document.create_document(
-            title="andromeda.pdf",
+            title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
-            file_name="andromeda.pdf",
+            file_name="berlin.pdf",
             size=1222,
             page_count=3
         )
         copy2doc_url(
             src_file_path=os.path.join(
-                BASE_DIR, "data", "andromeda.pdf"
+                BASE_DIR, "data", "berlin.pdf"
             ),
             doc_url=doc.path.url()
         )
@@ -83,14 +84,16 @@ class TestDocumentView(TestCase):
             ret.status_code,
             200
         )
-        page_url = PagePath(
+        page_path = PagePath(
             document_path=doc.path,
             page_num=1,
             step=Step(1),
             page_count=3
         )
         self.assertTrue(
-            os.path.exists(page_url.img_exists())
+            os.path.exists(
+                default_storage.abspath(page_path.img_url())
+            )
         )
 
     def test_copy_paste(self):
@@ -209,7 +212,7 @@ class TestDocumentView(TestCase):
             src_file_path=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            doc_url=doc.path.url()
+            doc_url=default_storage.abspath(doc.path.url())
         )
         # build page url
         page_path = doc.page_paths[1]
@@ -220,7 +223,7 @@ class TestDocumentView(TestCase):
             src_file_path=os.path.join(
                 BASE_DIR, "data", "page-1.hocr"
             ),
-            doc_url=page_path.hocr_url()
+            doc_url=default_storage.abspath(page_path.hocr_url())
         )
         ret = self.client.get(
             reverse('core:hocr', args=(doc.id, 1, 1))
@@ -230,7 +233,9 @@ class TestDocumentView(TestCase):
             200
         )
         # Deleting file created at (1)
-        os.remove(page_path.hocr_url())
+        os.remove(
+            default_storage.abspath(page_path.hocr_url())
+        )
 
     def test_download_hocr_which_does_not_exists(self):
         """
