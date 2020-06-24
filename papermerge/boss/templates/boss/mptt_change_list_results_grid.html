@@ -5,7 +5,7 @@
             {% for result in results %}
                     {% for item in result %}
                         <li class="node node_grid dblclick {% if item.ctype == 'Document' %} document {% else %} folder {% endif %}">
-                            {%  if item.ctype == 'core | Document'  or item.ctype == 'Dokument'  %}
+                            {%  if item.is_document  %}
                                 <div class="placeholder document">
                                     <img class="zero_pix" src="{% url 'core:preview' item.id 4 1 %}" />
                                     <div class="document-loading"></div>
