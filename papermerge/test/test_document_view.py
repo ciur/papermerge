@@ -35,7 +35,7 @@ class TestDocumentView(TestCase):
         file_path = os.path.join(
             BASE_DIR,
             "data",
-            "andromeda.pdf"
+            "berlin.pdf"
         )
         with open(file_path, "rb") as fp:
             self.client.post(
@@ -161,16 +161,16 @@ class TestDocumentView(TestCase):
 
     def test_download(self):
         doc = Document.create_document(
-            title="andromeda.pdf",
+            title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
-            file_name="andromeda.pdf",
+            file_name="berlin.pdf",
             size=1222,
             page_count=3
         )
         copy2doc_url(
             src_file_path=os.path.join(
-                BASE_DIR, "data", "andromeda.pdf"
+                BASE_DIR, "data", "berlin.pdf"
             ),
             doc_url=doc.path.url()
         )
@@ -197,22 +197,22 @@ class TestDocumentView(TestCase):
 
     def test_download_hocr(self):
         doc = Document.create_document(
-            title="andromeda.pdf",
+            title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
-            file_name="andromeda.pdf",
+            file_name="berlin.pdf",
             size=1222,
             page_count=3
         )
 
         copy2doc_url(
             src_file_path=os.path.join(
-                BASE_DIR, "data", "andromeda.pdf"
+                BASE_DIR, "data", "berlin.pdf"
             ),
             doc_url=doc.path.url()
         )
         # build page url
-        page_path = doc.doc_paths[1]
+        page_path = doc.page_paths[1]
 
         # just remember that at the end of test
         # copied file must be deteled. (1)
@@ -230,7 +230,7 @@ class TestDocumentView(TestCase):
             200
         )
         # Deleting file created at (1)
-        os.remove(page_ep.hocr_url())
+        os.remove(page_path.hocr_url())
 
     def test_download_hocr_which_does_not_exists(self):
         """
@@ -240,19 +240,19 @@ class TestDocumentView(TestCase):
         Missing HCOR file => HTTP 404 return code is expected.
         """
         doc = Document.create_document(
-            title="andromeda.pdf",
+            title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
-            file_name="andromeda.pdf",
+            file_name="berlin.pdf",
             size=1222,
             page_count=3
         )
         # Doc is available (for get_pagecount on server side).
         copy2doc_url(
             src_file_path=os.path.join(
-                BASE_DIR, "data", "andromeda.pdf"
+                BASE_DIR, "data", "berlin.pdf"
             ),
-            doc_url=doc.doc_ep.url()
+            doc_url=doc.path.url()
         )
         # But HOCR file is missing.
         ret = self.client.get(
@@ -274,10 +274,10 @@ class TestDocumentView(TestCase):
     )
     def test_change_document_notes(self):
         doc = Document.create_document(
-            title="andromeda.pdf",
+            title="berlin.pdf",
             user=self.testcase_user,
             lang="eng",
-            file_name="andromeda.pdf",
+            file_name="berlin.pdf",
             size=1222,
             page_count=1
         )

@@ -9,7 +9,7 @@ from django.urls import reverse
 BASE_DIR = Path(__file__).parent
 
 src_file_path = os.path.join(
-    BASE_DIR, "data", "andromeda.pdf"
+    BASE_DIR, "data", "berlin.pdf"
 )
 
 
@@ -46,7 +46,7 @@ class TestBasicUpload(TestCase):
                 {
                     'file': fp,
                     'parent_id': -1,
-                    'name': "andromeda.pdf",
-                    'language': "eng"
+                    'name': "berlin.pdf",
+                    'language': "deu"
                 },
             )

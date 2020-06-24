@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.postgres',
     'anymail',
     'django_extensions',
+    'mgclipboard'
 )
 
 MIDDLEWARE = [
@@ -41,6 +42,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'mgclipboard.middleware.ClipboardMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
@@ -63,12 +65,7 @@ REST_KNOX = {
 }
 
 
-CELERY_BROKER_URL = "filesystem://"
-CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'data_folder_in': '',
-    'data_folder_out': '',
-    'data_folder_processed': ''
-}
+CELERY_BROKER_URL = "memory://"
 
 CACHES = {
     'default': {
