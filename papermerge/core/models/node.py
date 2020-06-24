@@ -1,6 +1,8 @@
 from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes.models import ContentType
+
 from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.kvstore import KVStoreCompNode, KVStoreNode
@@ -57,10 +59,16 @@ class BaseTreeNode(PolymorphicMPTTModel):
     title_fts = SearchVectorField(null=True)
 
     def is_folder(self):
-        return 'folder' in str(self.polymorphic_ctype).lower()
+        folder_ct = ContentType.objects.get(
+            app_label='core', model='folder'
+        )
+        return self.polymorphic_ctype_id == folder_ct.id
 
     def is_document(self):
-        return 'document' in str(self.polymorphic_ctype).lower()
+        document_ct = ContentType.objects.get(
+            app_label='core', model='document'
+        )
+        return document_ct.id == self.polymorphic_ctype_id
 
     def _get_access_diff_updated(self, new_access_list=[]):
         """

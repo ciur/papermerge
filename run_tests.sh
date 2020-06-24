@@ -9,6 +9,8 @@ export DJANGO_SETTINGS_MODULE=config.settings.test
                  papermerge.test.test_path \
                  papermerge.test.test_page \
                  papermerge.test.test_document \
+                 papermerge.test.test_document_view \
                  papermerge.test.test_folder \
                  papermerge.test.test_typed_key \
-                 papermerge.test.test_search_excerpt
+                 papermerge.test.test_search_excerpt \
+                 papermerge.test.test_node
