@@ -51,12 +51,12 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         30.0, import_from_local_folder.s(), name='import_from_local_folder'
     )
-    if not settings.PAPERMERGE_MAIL_USER:
-        logger.info("PAPERMERGE_MAIL_USER not defined")
+    if not settings.PAPERMERGE_IMPORT_MAIL_USER:
+        logger.info("PAPERMERGE_IMPORT_MAIL_USER not defined")
         return
 
-    if not settings.PAPERMERGE_MAIL_HOST:
-        logger.info("PAPERMERGE_MAIL_HOST not defined")
+    if not settings.PAPERMERGE_IMPORT_MAIL_HOST:
+        logger.info("PAPERMERGE_IMPORT_MAIL_HOST not defined")
         return
 
     sender.add_periodic_task(
