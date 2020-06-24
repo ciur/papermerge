@@ -222,14 +222,21 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         text (i.e it was OCRed)
         """
         text = ""
+        txt_exists = False
 
         for page in self.pages.all():
             if len(page.text) == 0:
-                page.update_text_field()
-                page.save()
-                logger.debug(
-                    f"text saved. len(page.text)=={len(page.text)}"
-                )
+                txt_exists = page.update_text_field()
+                # in case .txt for one page is not present - interrupt
+                # the whole iteration
+                if txt_exists:
+                    page.save()
+                    logger.debug(
+                        f"text saved. len(page.text)=={len(page.text)}"
+                    )
+                else:
+                    # interrupt - if one page's .txt was not found.
+                    break
             else:
                 logger.info(
                     f"document_log "
@@ -241,8 +248,12 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
             text = text + ' ' + page.text
 
-        self.text = text.strip()
-        self.save()
+        if txt_exists:
+            # Save this document only in case all .txt
+            # were present, otherwise running ./manage.py worker
+            # will 'resurrect' deleted documents.
+            self.text = text.strip()
+            self.save()
 
         return len(text.strip()) != 0
 
