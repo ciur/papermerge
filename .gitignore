@@ -24,6 +24,6 @@ _build
 _static
 _templates
 media/
-static/
+./static/
 queue/
 celerybeat-schedule

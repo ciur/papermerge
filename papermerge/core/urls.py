@@ -36,7 +36,6 @@ document_patterns = [
 app_name = 'core'
 
 urlpatterns = [
-    path('', doc_views.index, name="index"),
     path(
         'document/', include(document_patterns)
     ),

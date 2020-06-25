@@ -8,17 +8,13 @@ from django.conf.urls import (
     handler500
 )
 
-from papermerge.boss.admin import site as boss_site
 from django.conf.urls.static import static
 from django.conf import settings
 
 
 urlpatterns = [
-    path('login/', boss_site.login, name="login"),
-    # will redirect login from public login, to
-    # a given tenant login url
-    path('admin/', boss_site.urls),
     path('accounts/', include('allauth.urls')),
+    path('', include('papermerge.contrib.admin.urls')),
     path('', include('papermerge.core.urls')),
 ]
 
