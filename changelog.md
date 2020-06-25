@@ -3,12 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.0] - Work in progress
+## [1.3.0] - 25 June 2020
+
+### Added
+
+- Metadata (per Folder/Document/Page)
+- Built-in worker (./manage.py worker - command)
 
 ### Changed
 
-- Automatically Extract Metadata via Plugins
-- Metadata (per Folder/Document/Page)
+
 - SQLite is default database (Postresql is now optional, available via Plugin)
 - Support for OCR on all languages
 - Refactoring: all static assets moved into boss/static directory. This change simplifies initial project setup (no need to clone yet another repo)
