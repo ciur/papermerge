@@ -147,8 +147,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'papermerge.boss',
     'papermerge.core',
-    'papermerge.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'allauth',
     'allauth.account',
@@ -251,6 +252,11 @@ ACCOUNT_SESSION_REMEMBER = False
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
+
 MEDIA_URL = '/documents/'
 
 ALLOWED_HOSTS = [
@@ -274,13 +280,13 @@ ACCOUNT_EMAIL_REQUIRED = True
 # “none” no e-mail verification mails are sent.
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/admin/browse/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/login/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/boss/'
 
 
-LOGIN_REDIRECT_URL = '/admin/browse/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
-LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/boss/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
