@@ -27,7 +27,7 @@ Web App
 
 Clone main papermerge project::
 
-    git clone https://github.com/ciur/papermerge papermerge-proj
+    git clone --depth 1 --branch v1.3.0  https://github.com/ciur/papermerge papermerge-proj
 
 Create python's virtual environment .env::
 

@@ -80,8 +80,8 @@ PAPERMERGE_IMPORT_MAIL_PASS = cfg_papermerge.get(
 PAPERMERGE_IMPORT_MAIL_INBOX = cfg_papermerge.get(
     "IMPORT_MAIL_INBOX", "INBOX"
 )
-PAPERMERGE_EMAIL_SECRET = cfg_papermerge.get(
-    "EMAIL_SECRET", ""
+PAPERMERGE_IMPORT_MAIL_SECRET = cfg_papermerge.get(
+    "IMPORT_MAIL_SECRET", ""
 )
 
 PAPERMERGE_DEFAULT_FILE_STORAGE = cfg_papermerge.get(

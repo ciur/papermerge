@@ -21,7 +21,7 @@ Command to run::
 Worker
 #######
 
-Performs documents OCR.
+Most important task of the built-in worker is to perform documents' OCR. Also, if :ref:`settings_email` settings are defined (at least email host and email user) - will import periodically (once in 30 seconds), documents from specified email account. Similarly if :ref:`importer_dir` is defined - every 30 seconds - will fetch documents from specified directory.
 
 Command to run::
 

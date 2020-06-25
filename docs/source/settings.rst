@@ -148,8 +148,9 @@ Default value is::
 
   OCR_BINARY = "/usr/bin/tesseract"
 
+.. _database:
 
-DATABASE
+Database
 ###########
 
 By default, Papermerge uses SQLite3 database (which is a file located in :ref:`db_dir`). Alternatively
@@ -203,3 +204,38 @@ Default value is 5432.
  
 Password for connecting to PostgreSQL database
 Default value is empty string.
+
+.. _settings_email:
+
+EMail
+#######
+
+You can import documents directly from email/IMAP account.
+
+``IMPORT_MAIL_HOST``
+~~~~~~~~~~~~~~~~~~~~~
+
+IMAP Server host.
+
+
+``IMPORT_MAIL_USER``
+~~~~~~~~~~~~~~~~~~~~~
+
+Email account/IMAP user.
+
+
+``IMPORT_MAIL_PASS``
+~~~~~~~~~~~~~~~~~~~~~~
+
+Email account/IMAP password
+
+``IMPORT_MAIL_INBOX``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+IMAP folder to read email from.
+Default value for this settings is INBOX.
+
+``IMPORT_MAIL_SECRET``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Any email sent to the target account that does not contain this text will be ignored.

@@ -63,7 +63,7 @@ IMPORT_MAIL_PASS = ""
 #IMPORT_MAIL_INBOX="INBOX"
 
 # Any email sent to the target account that does not contain this text will be ignored.
-EMAIL_SECRET = ""
+IMPORT_MAIL_SECRET = ""
 
 #   Worker
 ########################
