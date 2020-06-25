@@ -30,10 +30,6 @@ from papermerge.core.tasks import ocr_page
 logger = logging.getLogger(__name__)
 
 
-def index(request):
-    return redirect('boss:core_basetreenode_changelist')
-
-
 @login_required
 def cut_node(request):
     if request.method == 'GET':
