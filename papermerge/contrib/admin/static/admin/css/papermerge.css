@@ -10992,22 +10992,18 @@ nav#left-sidebar.phone {
         width: 100%; }
 
 ul li a, ol li a {
-  color: #016191; }
+  color: #585959; }
 
 ul li a:hover, ol li a:hover {
-  text-decoration: none; }
+  text-decoration: none;
+  color: #008a23; }
 
 footer a {
-  color: #016191; }
+  color: #585959; }
 
 footer a:hover {
-  text-decoration: none; }
-
-#login-logo {
-  padding-top: 3rem;
-  max-width: 160px; }
-  #login-logo img {
-    vertical-align: middle; }
+  text-decoration: none;
+  color: #008a23; }
 
 
 /*# sourceMappingURL=papermerge.css.map*/
