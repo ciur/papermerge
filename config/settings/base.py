@@ -248,8 +248,9 @@ DATE_FORMAT = '%d/%m/%Y'
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
 
 ACCOUNT_SESSION_REMEMBER = False
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 MEDIA_URL = '/documents/'
 
@@ -262,17 +263,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
-
-ACCOUNT_SESSION_REMEMBER = False
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED = True
-# Determines the e-mail verification method during signup – choose one of
-# "mandatory", "optional", or "none". When set to “mandatory” the user is
-# blocked from logging in until the email address is verified. Choose “optional”
-# or “none” to allow logins with an unverified e-mail address. In case of
-# “optional”, the e-mail verification mail is still sent, whereas in case of
-# “none” no e-mail verification mails are sent.
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/admin/browse/'
