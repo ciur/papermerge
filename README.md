@@ -1,4 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/papermerge/badge/?version=latest)](https://papermerge.readthedocs.io/en/latest/?badge=latest)
+
+![Papermerge](./artwork/logo.svg)
+
 # Papermerge - Document Management System
 
 Papermerge is an open source document management system (DMS) primarily
