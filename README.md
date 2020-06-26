@@ -1,5 +1,6 @@
-![Papermerge](./artwork/logo.png)
 [![Documentation Status](https://readthedocs.org/projects/papermerge/badge/?version=latest)](https://papermerge.readthedocs.io/en/latest/?badge=latest)
+
+![Papermerge](./artwork/logo.png)
 
 # Papermerge - Document Management System
 
