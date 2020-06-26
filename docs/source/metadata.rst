@@ -1,10 +1,6 @@
 Metadata
 ============
 
-.. warning::
-
-    Metadata is a new feature introduced in version 1.3.0 and it will be available starting with July 2020.
-
 Main Concepts
 ~~~~~~~~~~~~~~
 

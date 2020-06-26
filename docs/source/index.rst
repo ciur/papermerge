@@ -1,3 +1,5 @@
+.. figure:: img/logo.png
+
 Papermerge DMS
 ===============
 

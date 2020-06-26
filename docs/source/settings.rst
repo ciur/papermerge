@@ -1,12 +1,6 @@
 Settings
 =========
 
-.. warning::
-
-    This page describes the new configurations way introduced in version 1.3.0 which
-    will be available starting with July 2020. How to configure previous releases see version
-    specific respective documentation.
-
 Papermerge loads its settings from a configurations file. At first it tries to
 read following files:
 
