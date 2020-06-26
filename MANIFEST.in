@@ -10,10 +10,9 @@ include papermerge/core/locale/de/LC_MESSAGES/django.po
 exclude config/settings/development.py
 exclude config/settings/dev.py
 
-recursive-include papermerge/core/pgsql/ *
-recursive-include papermerge/boss/management/commands/thumbify/ *
-recursive-include papermerge/boss/templates/	*
-recursive-include papermerge/boss/static/boss/    *
+recursive-include papermerge/contrib/admin/management/commands/thumbify/ *
+recursive-include papermerge/contrib/admin/templates/	*
+recursive-include papermerge/contrib/admin/static/admin/    *
 recursive-include papermerge/core/templates/	*
 
 recursive-exclude docs/     *
