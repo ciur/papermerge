@@ -11003,5 +11003,11 @@ footer a {
 footer a:hover {
   text-decoration: none; }
 
+#login-logo {
+  padding-top: 3rem;
+  max-width: 160px; }
+  #login-logo img {
+    vertical-align: middle; }
+
 
 /*# sourceMappingURL=papermerge.css.map*/

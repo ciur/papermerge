@@ -17,9 +17,14 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition login-page">
+  <div class="login-logo">
+    <div>
+      <img src="{% static 'admin/img/logo_120x116_wbg.png' %}"/>
+    </div>
+    <strong>Papermerge</strong> <span> DMS</span>
+  </div>
   {% block content %}
   {% endblock %}
-
 <!-- jQuery -->
 <script src="{% static 'admin/js/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
