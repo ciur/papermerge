@@ -215,21 +215,6 @@ def rename_node(request, redirect_to):
 
 
 @login_required
-def browse(request, parent_id):
-
-    nodes = BaseTreeNode.objects.filter(parent_id=parent_id)
-
-    return HttpResponse(
-        json.dumps(
-            {
-                'nodes': [node.to_dict() for node in nodes],
-            }
-        ),
-        content_type="application/json"
-    )
-
-
-@login_required
 @require_POST
 def create_folder(request):
     """
