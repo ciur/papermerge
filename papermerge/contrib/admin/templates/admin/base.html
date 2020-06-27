@@ -50,18 +50,18 @@
                      {% ocr_language_select user %}
                  </li>
                  <li class="mx-1">
-                     <button id="id_btn_upload1" class="btn btn-neuter">{% trans "Upload" %}</button>
+                     <button type="button" id="id_btn_upload1" class="btn btn-light btn-bordered ">{% trans "Upload" %}</button>
                  </li>
                  <li class="mx-1">
                      <!--parent_id=object.id -->
-                     <button id="new-folder" data-target-id="new-folder-form" class="btn btn-neuter">
+                     <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
                          {% trans "New Folder" %}
                      </button>
 
                  </li>
                  <li class="mx-1">
                    <div class="dropdown actions">
-                     <button class="btn btn-light btn-neuter btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                        {% trans "Actions" %}
                      </button>
                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -8390,58 +8390,6 @@ h1, h2, h3, h4 {
   .input-group input {
     width: 100%; }
 
-.search_main button {
-  display: flex;
-  padding: 0.2rem 1rem;
-  margin: 0;
-  border: 0;
-  background-color: #e5e5e5; }
-  @media (max-width: 37.5em) {
-    .search_main button {
-      padding: 0.2rem 0.25rem; } }
-  .search_main button i.icon-search {
-    width: 1.5rem;
-    height: 1.5rem; }
-    @media (max-width: 37.5em) {
-      .search_main button i.icon-search {
-        width: 1rem;
-        height: 1rem; } }
-
-.search_main input {
-  margin: 0;
-  border: 0; }
-
-form {
-  position: relative; }
-  form input.search_secondary {
-    width: 12rem;
-    border: none;
-    transition: width 0.4s ease-in-out; }
-  form input.search_secondary_placeholder {
-    border: none;
-    background-color: #fff;
-    color: white; }
-  form i.icon-search-light {
-    position: absolute;
-    right: 0;
-    top: 0.2rem; }
-  form input.search_secondary:focus {
-    width: 20rem;
-    background-color: #ffffff;
-    color: #333333; }
-
-form {
-  margin: 0.25rem; }
-  form .form-row {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 0.5rem 0; }
-    form .form-row input {
-      flex: 1; }
-  form.labels-above > .form-row {
-    flex-direction: column; }
-
 #user_form {
   padding: 0rem 1rem; }
   #user_form .field-is_staff, #user_form .field-is_superuser, #user_form .field-is_active {
@@ -8475,80 +8423,6 @@ fieldset.module.vertical .form-row div {
   background-color: #e6fcf4; }
   .help ul li {
     list-style-type: circle; }
-
-select, input {
-  background-color: white;
-  border-color: #a7a7a7;
-  border-width: 1px;
-  border-style: solid; }
-
-input {
-  padding: 0.2rem 0.3rem; }
-
-select {
-  padding: 0.7rem 0.25rem; }
-
-input.password {
-  padding: 0.5rem 1rem;
-  padding-left: 1.5rem; }
-
-button, .btn {
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 0.7rem;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap; }
-
-a.btn:hover {
-  text-decoration: none; }
-
-input.action, button.action, .btn.action {
-  color: white;
-  background-color: #15b57b;
-  min-width: 8rem; }
-
-.btn.huge {
-  font-size: 1.5rem;
-  font-weight: bold;
-  padding: 0.5rem 1.8rem; }
-  @media (max-width: 37.5em) {
-    .btn.huge {
-      font-size: 1.2rem;
-      padding: 0.2rem 1.2rem; } }
-
-.btn.large {
-  font-size: 1.2rem;
-  padding: 0.5rem 1.8rem; }
-  @media (max-width: 37.5em) {
-    .btn.large {
-      font-size: 1.2rem;
-      padding: 0.2rem 1.2rem; } }
-
-button.neuter, .btn-neuter {
-  background-color: white;
-  font-size: 1.2rem;
-  border-color: #a7a7a7;
-  border-width: 1px;
-  border-style: solid; }
-
-button.btn-reverse {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: white;
-  border: white 1px solid; }
-
-button.btn-reverse:hover {
-  color: rgba(255, 255, 255, 0.8);
-  border-color: rgba(255, 255, 255, 0.8); }
-
-.btn-lock {
-  background-image: url(../img/icons/lock.svg);
-  background-repeat: no-repeat;
-  background-position: left;
-  background-size: 2rem; }
-  @media (max-width: 37.5em) {
-    .btn-lock {
-      background-size: 1.5rem; } }
 
 .flex-table {
   display: flex;
@@ -10749,6 +10623,9 @@ footer a:hover {
 
 .row.breadcrumb {
   background-color: #f4f6f9; }
+
+.btn-bordered {
+  border: 1px solid #ccc; }
 
 
 /*# sourceMappingURL=papermerge.css.map*/
