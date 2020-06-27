@@ -1,0 +1,51 @@
+{% load static i18n  %}
+
+<!-- Brand Logo -->
+<a href="{% url 'index' %}" class="brand-link">
+  <img src="{% static 'admin/img/logo_bbg.svg' %}" alt="" class="brand-image"
+       style="opacity: .8">
+  <span class="brand-text font-weight-light">Papermerge</span>
+</a>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <!-- Sidebar Menu -->
+  <nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fa fa-folder"></i>
+          <p>
+            Documents
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fa fa-inbox"></i>
+          <p>
+            Inbox(3)
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fa fa-users"></i>
+          <p>
+            Groups
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fa fa-user-friends"></i>
+          <p>
+            Users
+          </p>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
