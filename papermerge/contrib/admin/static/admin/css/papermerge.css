@@ -9427,9 +9427,6 @@ form#document_form .document_details {
 .breadcrumb_text_color {
   color: #004d80; }
 
-#changelist .actions select {
-  border-radius: 0; }
-
 @keyframes spin {
   from {
     transform: rotate(0deg); }
@@ -11004,6 +11001,12 @@ footer a {
 footer a:hover {
   text-decoration: none;
   color: #008a23; }
+
+.content-wrapper {
+  background-color: white; }
+
+.row.breadcrumb {
+  background-color: #f4f6f9; }
 
 
 /*# sourceMappingURL=papermerge.css.map*/

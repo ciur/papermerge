@@ -20291,11 +20291,8 @@ let App = function () {
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_switch_2_document_form"]); // creates a new DgDocument instance
 
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_load_on_scroll"]); //$('.toast').toast({'autohide': true, 'delay': 5000});
-
-  jquery__WEBPACK_IMPORTED_MODULE_9___default()('.toast').toast({
-    'autohide': false
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_9___default()('.toast').toast('show');
+  //$('.toast').toast({'autohide': false});
+  //$('.toast').toast('show');
 
   if (dom_actual_pages) {
     new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_7__["DgPageScroll"](dom_actual_pages);
