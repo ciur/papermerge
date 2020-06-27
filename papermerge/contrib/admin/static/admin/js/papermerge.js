@@ -21725,16 +21725,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_changelist_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions/changelist_actions */ "./src/js/actions/changelist_actions.js");
 /* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
 /* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -21752,9 +21754,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
+
+backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
+  /*
+   * The jQuery `ajax` method includes a 'headers' option
+   * which lets you set any headers you like
+   */
+
+  options.headers = {
+    'X-CSRFToken': csrf_token
+  };
+  /*
+   * Call the stored original Backbone.sync method with
+   * extra headers argument added
+   */
+
+  backboneSync(method, model, options);
+};
 
 let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_9___default()("#document_form");
+  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document_form");
 
   if ($document_form.length == 0) {
     return;
@@ -21811,25 +21833,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
 /* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selection */ "./src/js/selection.js");
+/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/new_folder */ "./src/js/views/new_folder.js");
+
 
 
 
 function show_add_new_folder(new_folder_sel) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(new_folder_sel).click(function (e) {
-    var target_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("target-id"),
-        $target; // target is new folder form displayed to user
-
+    let new_folder_view;
     e.preventDefault();
-    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + target_id);
-
-    if ($target.length == 0) {
-      console.log("target " + target_id + " not found");
-      return;
-    }
-
-    $target.find("[name='parent_id']").attr("value", Object(_utils__WEBPACK_IMPORTED_MODULE_1__["get_parent_id"])());
-    $target.find("[name='title']").val("");
-    $target.modal();
+    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_3__["NewFolderView"]();
   });
 }
 function node_doubleclick(node_sel) {
@@ -25352,6 +25365,47 @@ class MetadataPage extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
 /***/ }),
 
+/***/ "./src/js/models/new_folder.js":
+/*!*************************************!*\
+  !*** ./src/js/models/new_folder.js ***!
+  \*************************************/
+/*! exports provided: NewFolder */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewFolder", function() { return NewFolder; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class NewFolder extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  /**
+      Used for new folder/rename node operations.
+  */
+  defaults() {
+    return {
+      name: '',
+      parent_id: ''
+    };
+  }
+
+  initialize(parent_id) {}
+
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      parent_id: this.get('parent_id'),
+      name: this.get('name')
+    };
+    return dict;
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/node.js":
 /*!************************!*\
   !*** ./src/js/node.js ***!
@@ -26279,6 +26333,24 @@ __p+='\n                <button type=\'button\' class=\'close key text-danger mx
 __p+='\n        </li>\n    ';
  } 
 __p+='\n </ul>';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/new_folder.html":
+/*!******************************************!*\
+  !*** ./src/js/templates/new_folder.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n                <label class="padding-x-xs">Folder name</label>\n                <input name="title" type="text" >\n                <input name="parent_id" value="" type="hidden" >\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs" >Create Folder</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
 }
 return __p;
 };
@@ -27386,28 +27458,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
-
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name=csrfmiddlewaretoken]").val();
-  /*
-   * The jQuery `ajax` method includes a 'headers' option
-   * which lets you set any headers you like
-   */
-
-  options.headers = {
-    'X-CSRFToken': csrf_token
-  };
-  /*
-   * Call the stored original Backbone.sync method with
-   * extra headers argument added
-   */
-
-  backboneSync(method, model, options);
-};
 
 class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
@@ -27667,6 +27718,71 @@ class MetadataPageView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
 }
 ;
+
+/***/ }),
+
+/***/ "./src/js/views/new_folder.js":
+/*!************************************!*\
+  !*** ./src/js/views/new_folder.js ***!
+  \************************************/
+/*! exports provided: NewFolderView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewFolderView", function() { return NewFolderView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _models_new_folder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/new_folder */ "./src/js/models/new_folder.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/new_folder.html */ "./src/js/templates/new_folder.html");
+
+class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#new-folder-form');
+  }
+
+  initialize(parent_id) {
+    this.folder = new _models_new_folder__WEBPACK_IMPORTED_MODULE_2__["NewFolder"](parent_id);
+    this.render();
+  }
+
+  events() {
+    let event_map = {
+      "click input[type=submit]": "on_submit"
+    };
+    return event_map;
+  }
+
+  on_submit(event) {
+    let folder_name;
+    event.preventDefault();
+    console.log("default prevented");
+    this.folder.set({
+      'name': folder_name
+    });
+    this.folder.save();
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'name': this.folder.get('name')
+    }));
+    this.$el.html(compiled);
+    this.$el.modal();
+  }
+
+}
 
 /***/ }),
 

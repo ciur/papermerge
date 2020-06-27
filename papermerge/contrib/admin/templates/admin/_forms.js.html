@@ -24,38 +24,13 @@
     {% csrf_token %}
 </form>
 
+<div id="new-folder-form" class="modal hidden" tabindex="-1" role="dialog">
+    <!-- This part is rendered by backbone templates -->
+</div>
+
 
 {% url 'core:rename_node' 'list' as rename_url %}
 {% include "admin/_rename.html" with id="rename_form" action_url=rename_url %}
-
-<div id="new-folder-form" class="modal hidden" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-            {% trans "Create Folder" %}
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form  action="{% url 'core:create_folder' %}" method="post">
-          <div class="modal-body">
-                {% csrf_token %}
-                <div class="modal-body vertical">
-                    <label class="padding-x-xs">{% trans "Please enter a folder name" %}:</label>
-                    <input name="title" type="text" >
-                    <input name="parent_id" value="" type="hidden" >
-                </div>
-          </div>
-          <div class="modal-footer">
-                <button type="submit" class="btn btn-success action margin-xs" >{% trans "Create Folder" %}</button>
-                <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">{% trans "Cancel" %}</button></a>
-          </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 <form id="access_form" class="modal hidden" action="" method="post">
     {% csrf_token %}
