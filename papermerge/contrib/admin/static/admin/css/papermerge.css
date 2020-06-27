@@ -10558,5 +10558,36 @@ footer a:hover {
 .btn-bordered {
   border: 1px solid #ccc; }
 
+.node-w1 {
+  width: 8rem; }
+
+#browse input[type=checkbox] {
+  display: none; }
+
+#browse ul.grid {
+  flex-wrap: wrap; }
+  #browse ul.grid .node .icon-folder {
+    width: 8rem;
+    height: 8rem;
+    background-image: url(../img/folder.svg);
+    background-size: 100% 100%; }
+    @media (max-width: 37.5em) {
+      #browse ul.grid .node .icon-folder {
+        width: 5rem;
+        height: 5rem; } }
+  #browse ul.grid .node .icon-file {
+    width: 8rem;
+    height: 8rem;
+    background-image: url(../img/file.svg);
+    background-size: 100% 100%; }
+    @media (max-width: 37.5em) {
+      #browse ul.grid .node .icon-file {
+        width: 5rem;
+        height: 5rem; } }
+  #browse ul.grid .node .title {
+    text-align: center;
+    opacity: 1;
+    z-index: 0; }
+
 
 /*# sourceMappingURL=papermerge.css.map*/

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import include, path
+from django.urls import include, path, re_path
 from papermerge.core.views import access as access_views
 from papermerge.core.views import api as api_views
 from papermerge.core.views import documents as doc_views
@@ -40,7 +40,7 @@ urlpatterns = [
     path(
         'document/', include(document_patterns)
     ),
-    path('browse/<int:parent_id>', node_views.browse, name="browse"),
+    re_path(r'^browse/(?P<parent_id>\w*)$', node_views.browse, name="browse"),
     path('node/<int:node_id>', node_views.nodeinfo, name="node"),
     path(
         'access/<int:id>', access_views.access, name="access"
