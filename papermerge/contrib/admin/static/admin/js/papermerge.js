@@ -25386,18 +25386,22 @@ class NewFolder extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   */
   defaults() {
     return {
-      name: '',
+      title: '',
       parent_id: ''
     };
   }
 
   initialize(parent_id) {}
 
+  urlRoot() {
+    return '/create-folder/';
+  }
+
   toJSON() {
     let dict = {
       id: this.get('id'),
       parent_id: this.get('parent_id'),
-      name: this.get('name')
+      title: this.get('title')
     };
     return dict;
   }
@@ -26350,7 +26354,7 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n                <label class="padding-x-xs">Folder name</label>\n                <input name="title" type="text" >\n                <input name="parent_id" value="" type="hidden" >\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs" >Create Folder</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form>\n                  <div class="form-group">\n                    <label for="title">Folder name:</label>\n                    <input type="text" class="form-control" id="title" name="title">\n                    <input name="parent_id" value="" type="hidden" >\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
 }
 return __p;
 };
@@ -27747,6 +27751,7 @@ let TEMPLATE = __webpack_require__(/*! ../templates/new_folder.html */ "./src/js
 
 class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   el() {
+    // this element is defined in admin/_forms.js.html
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#new-folder-form');
   }
 
@@ -27757,19 +27762,21 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
   events() {
     let event_map = {
-      "click input[type=submit]": "on_submit"
+      "click .create": "on_create"
     };
     return event_map;
   }
 
-  on_submit(event) {
-    let folder_name;
-    event.preventDefault();
-    console.log("default prevented");
+  on_create(event) {
+    let folder_title, parent_id;
+    parent_id = this.$el.find("[name=parent_id]").val();
+    folder_title = this.$el.find("[name=title]").val();
     this.folder.set({
-      'name': folder_name
+      'title': folder_title,
+      'parent_id': parent_id
     });
     this.folder.save();
+    this.$el.modal('hide');
   }
 
   render() {

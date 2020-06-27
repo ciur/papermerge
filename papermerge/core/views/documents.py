@@ -4,6 +4,7 @@ import logging
 
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.http import (
     HttpResponse,
@@ -214,29 +215,36 @@ def rename_node(request, redirect_to):
 
 
 @login_required
+@require_POST
 def create_folder(request):
     """
     Creates a new folder.
 
     Mandatory parameters parent_id and title:
-    * If either parent_id or title are missing - does nothing,
-    just redirects to root folder.
+    * If either parent_id or title are missing - does nothing.
     * If parent_id < 0 => creates a folder with parent root.
     * If parent_id >= 0 => creates a folder with given parent id.
     """
-    if request.method == 'GET':
-        return redirect('boss:core_basetreenode_changelist')
+    data = json.loads(request.body)
+    parent_id = data.get('parent_id', False)
+    title = data.get('title', False)
 
-    parent_id = request.POST.get('parent_id', False)
-    title = request.POST.get('title', False)
-
-    if not (parent_id and title):
+    if not (parent_id or title):
         logger.info(
             "Invalid params for create_folder: parent=%s title=%s",
             parent_id,
             title
         )
-        return redirect('boss:core_basetreenode_changelist')
+        return HttpResponseBadRequest(
+            json.dumps({
+                'msg': 'Both parent_id and title empty'
+            }),
+            content_type="application/json"
+        )
+    try:
+        parent_id = int(parent_id)
+    except ValueError:
+        parent_id = -1
 
     if int(parent_id) < 0:
         parent_folder = None
@@ -244,21 +252,22 @@ def create_folder(request):
         parent_folder = Folder.objects.filter(id=parent_id).first()
         # if not existing parent_id was given, redirect to root
         if not parent_folder:
-            return redirect('boss:core_basetreenode_changelist')
+            return HttpResponseBadRequest(
+                json.dumps({
+                    'msg': f"Parent with id={parent_id} does not exist"
+                }),
+                content_type="application/json"
+            )
 
-    Folder.objects.create(
+    folder = Folder.objects.create(
         title=title,
         parent=parent_folder,
         user=request.user
     )
 
-    # must redirect to parent of created folder
-    if int(parent_id) == -1:
-        return redirect('boss:core_basetreenode_changelist')
-
-    return redirect(
-        reverse(
-            'boss:core_basetreenode_changelist_obj', args=(parent_id,)
+    return HttpResponse(
+        json.dumps(
+            folder.to_dict()
         )
     )
 
