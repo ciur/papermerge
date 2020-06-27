@@ -39,6 +39,7 @@ urlpatterns = [
     path(
         'document/', include(document_patterns)
     ),
+    path('browse/<int:parent_id>', doc_views.browse, name="browse"),
     path(
         'access/<int:id>', access_views.access, name="access"
     ),

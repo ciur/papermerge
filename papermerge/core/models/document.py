@@ -96,6 +96,18 @@ class Document(mixins.ExtractIds, BaseTreeNode):
         index.SearchField('notes')
     ]
 
+    def to_dict(self):
+        item = {}
+        item['id'] = self.id
+        item['title'] = self.title
+        if self.parent:
+            item['parent_id'] = self.parent.id
+        else:
+            item['parent_id'] = ''
+        item['ctype'] = 'document'
+
+        return item
+
     @property
     def kv(self):
         return KVNode(instance=self)
