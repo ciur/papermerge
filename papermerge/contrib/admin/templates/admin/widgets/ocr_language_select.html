@@ -1,0 +1,5 @@
+<select name="lang" id="lang" class="">
+    {% for lang in languages %}
+        <option value="{{lang.tsr_code}}"  {{ lang.selected }}>{{lang.human}}</option>
+    {% endfor %}
+</select>
