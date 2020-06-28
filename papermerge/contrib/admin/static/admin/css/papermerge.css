@@ -10565,29 +10565,37 @@ footer a:hover {
   display: none; }
 
 #browse ul.grid {
-  flex-wrap: wrap; }
-  #browse ul.grid .node .icon-folder {
-    width: 8rem;
-    height: 8rem;
-    background-image: url(../img/folder.svg);
-    background-size: 100% 100%; }
-    @media (max-width: 37.5em) {
-      #browse ul.grid .node .icon-folder {
-        width: 5rem;
-        height: 5rem; } }
-  #browse ul.grid .node .icon-file {
-    width: 8rem;
-    height: 8rem;
-    background-image: url(../img/file.svg);
-    background-size: 100% 100%; }
-    @media (max-width: 37.5em) {
-      #browse ul.grid .node .icon-file {
-        width: 5rem;
-        height: 5rem; } }
-  #browse ul.grid .node .title {
-    text-align: center;
-    opacity: 1;
-    z-index: 0; }
+  flex-wrap: wrap;
+  padding: 0; }
+  #browse ul.grid .node {
+    margin: 0.25rem;
+    padding: 0.25rem 1rem;
+    width: 10rem; }
+    #browse ul.grid .node .icon-folder {
+      width: 8rem;
+      height: 8rem;
+      background-image: url(../img/folder.svg);
+      background-size: 100% 100%; }
+      @media (max-width: 37.5em) {
+        #browse ul.grid .node .icon-folder {
+          width: 5rem;
+          height: 5rem; } }
+    #browse ul.grid .node .icon-file {
+      width: 8rem;
+      height: 8rem;
+      background-image: url(../img/file.svg);
+      background-size: 100% 100%; }
+      @media (max-width: 37.5em) {
+        #browse ul.grid .node .icon-file {
+          width: 5rem;
+          height: 5rem; } }
+    #browse ul.grid .node .title {
+      text-align: center;
+      opacity: 1;
+      z-index: 0; }
+    #browse ul.grid .node:hover {
+      background-color: #e6f5ff;
+      outline: 1px solid #e6f5ff; }
 
 
 /*# sourceMappingURL=papermerge.css.map*/
