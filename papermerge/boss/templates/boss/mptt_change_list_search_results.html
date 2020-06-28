@@ -13,7 +13,7 @@
         {% for item in results %}
         <li class="{% cycle 'row1' 'row2' %} ft-row  dblclick">
             <div class="ft-col">
-                 {% if item.model_ctype == 'document' %}
+                 {% if item.is_document %}
                     <h2>{{ item.title }}</h2>
                  {% else %}
                     <ul class="horizontal fl-i-center">
@@ -24,13 +24,13 @@
                  {% endif %}
                 
                 <div class="ft-col">
-                    {% if item.model_ctype == 'document' %}
+                    {% if item.is_document %}
                         {{ item.dir_path }}
                     {% endif %}
                 </div>
                 
                 <div class="page_highlight">
-                    {% if item.model_ctype == 'document' %}
+                    {% if item.is_document %}
                         {{ item.page_highlight }}
                     {% endif %}
                 </div>

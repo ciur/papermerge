@@ -111,6 +111,18 @@ class BaseTreeNode(PolymorphicMPTTModel):
     title_deu = SearchVectorField(null=True)
     title_eng = SearchVectorField(null=True)
 
+    def is_folder(self):
+        folder_ct = ContentType.objects.get(
+            app_label='core', model='folder'
+        )
+        return self.polymorphic_ctype_id == folder_ct.id
+
+    def is_document(self):
+        document_ct = ContentType.objects.get(
+            app_label='core', model='document'
+        )
+        return document_ct.id == self.polymorphic_ctype_id
+
     def _get_access_diff_updated(self, new_access_list=[]):
         """
         gathers AccessDiff with updated operation

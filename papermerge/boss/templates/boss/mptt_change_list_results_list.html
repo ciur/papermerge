@@ -19,8 +19,8 @@
     <li class="{% cycle 'row1' 'row2' %} ft-row node node_list dblclick">
         {% for item in result %}
 
-             <div class="ft-col list-col horizontal fl-i-center {% if item.ctype == 'Document' %} document_id {% endif %}"  {% if item.ctype == 'Document' %} data-id="{{item.id}}" {% endif %}>
-                    {%  if item.ctype == 'Folder' %}
+             <div class="ft-col list-col horizontal fl-i-center {% if item.is_document %} document_id {% endif %}"  {% if item.is_document %} data-id="{{item.id}}" {% endif %}>
+                    {%  if item.is_folder %}
                         <i class="yellow-folder margin-y-sm"></i>
                     {% elif item.text == '' %}
                         <i class="file-empty margin-y-sm"></i>
@@ -29,9 +29,8 @@
                     {% endif %}
                     {{ item.action_checkbox.repr }}
                     <input type="hidden" name="action" value="{% url 'boss:core_basetreenode_change' item.id %}" />
-                    <div class="{% if item.ctype == 'Folder' %}folder-title{% endif %} title shorten36 tooltip">
+                    <div class="{% if item.is_folder %}folder-title{% endif %}title">
                         {{ item.title_with_class.repr }}
-                        <span class="tooltiptext">{{item.title}}</span>
                     </div>
             </div>
             <div class="ft-col list-col">

@@ -223,7 +223,9 @@ def mptt_items_for_result(cl, result, form):
     yielded_result['id'] = _id
     # ctype = Document | Folder
     yielded_result['ctype'] = str(result.polymorphic_ctype)
-    if (str(result.polymorphic_ctype) == 'Document'):
+    yielded_result['is_document'] = result.is_document()
+    yielded_result['is_folder'] = result.is_folder()
+    if (result.is_document()):
         yielded_result['text'] = result.get_real_instance().text
     yielded_result['title'] = str(result.title)
 
@@ -278,7 +280,7 @@ def build_url_for_index(
 
 def build_url_for_node(node, html_class_attr=''):
 
-    if node.polymorphic_ctype.name in ('Folder', 'Ordner'):
+    if node.is_folder():
         url = url_for_folder(node)
     else:
         url = url_for_document(node)
@@ -333,7 +335,7 @@ def build_tree_path(
 
 def get_icon_html(node):
     result = ''
-    if node.polymorphic_ctype.name == 'Folder':
+    if node.is_folder():
         result = "<i class='yellow-folder margin-y-sm'></i>"
     else:
         #if len(node.text) > 0:
@@ -353,7 +355,9 @@ def mptt_search_results(cl, user):
                 'dir_path': build_tree_path(node),
                 'title': build_url_for_node(node),
                 'page_highlight': mark_safe(node.page_highlight),
-                'model_ctype': node.model_ctype
+                'model_ctype': node.model_ctype,
+                'is_document': node.is_document(),
+                'is_folder': node.is_folder()
             })
 
     return results
