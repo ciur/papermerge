@@ -74,10 +74,10 @@ class PageForm(forms.ModelForm):
 
     image = forms.CharField(
         required=False,
-        widget=forms.TextInput,
+        widget=forms.HiddenInput,
         max_length=1024
     )
-    number = forms.IntegerField(disabled=True, widget=forms.TextInput)
+    number = forms.IntegerField(disabled=True, widget=forms.HiddenInput)
 
     class Meta:
         exclude = [

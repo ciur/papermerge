@@ -3,7 +3,6 @@
 {% endcomment %}
 
 {% load i18n admin_urls static %}
-
 <div class="js-inline-admin-formset inline-group"
      id="{{ inline_admin_formset.formset.prefix }}-group"
      data-inline-type="stacked"
@@ -11,6 +10,13 @@
 <fieldset class="module">
     {{ inline_admin_formset.formset.management_form }}
     {{ inline_admin_formset.formset.non_form_errors }}
+    {% for form in inline_admin_formset.formset %}
+        {% for field in form %}
+            {% if field.name != 'DELETE' %}
+                {{ field }}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
     {% for page in pages %}
      <fieldset class="document module aligned">
         <div class="form-row field-image">
@@ -26,6 +32,8 @@
                 <div class="page_number">
                     <input value="{{page.number}}" />
                 </div>
+                <input type="hidden" name="id" value="{{page.id}}"  />
+                <input type="hidden" name="number" value="{{page.number}}" />
             </div>
         </div>
     </fieldset>
