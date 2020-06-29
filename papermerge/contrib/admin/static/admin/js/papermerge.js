@@ -19710,6 +19710,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./src/js/models/node.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -19727,8 +19729,10 @@ class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   urlRoot() {
-    if (this.parent_id) {
-      return f`/breadcrumb/${this.parent_id}/`;
+    let parent_id = this.get('parent_id');
+
+    if (parent_id) {
+      return `/breadcrumb/${parent_id}/`;
     }
 
     return '/breadcrumb/';
@@ -19743,9 +19747,26 @@ class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return dict;
   }
 
+  open(parent_node, notify_all) {
+    let breadcrumb = new Breadcrumb(parent_node.id),
+        that = this;
+    breadcrumb.fetch();
+    breadcrumb.on('change', function (event) {
+      that.nodes = breadcrumb.nodes;
+      that.parent_id = breadcrumb.parent_id;
+      that.trigger('change');
+
+      if (notify_all) {
+        // inform everybody about new parent
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], breadcrumb.parent_id);
+      }
+    });
+  }
+
   parse(response, options) {
     let nodes = response.nodes,
         that = this;
+    that.nodes.reset();
 
     underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(nodes, function (item) {
       that.nodes.add(new _node__WEBPACK_IMPORTED_MODULE_2__["Node"](item));
@@ -19791,8 +19812,10 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   urlRoot() {
-    if (this.parent_id) {
-      return `/browse/${this.parent_id}/`;
+    let parent_id = this.get('parent_id');
+
+    if (parent_id) {
+      return `/browse/${parent_id}/`;
     }
 
     return '/browse/';
@@ -19807,16 +19830,19 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return dict;
   }
 
-  open(parent_node) {
+  open(parent_node, notify_all) {
     let browse = new Browse(parent_node.id),
         that = this;
     browse.fetch();
     browse.on('change', function (event) {
       that.nodes = browse.nodes;
       that.parent_id = browse.parent_id;
-      that.trigger('change'); // inform everybody about new parent
+      that.trigger('change');
 
-      _dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], browse.parent_id);
+      if (notify_all) {
+        // inform everybody about new parent
+        _dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], browse.parent_id);
+      }
     });
   }
 
@@ -19824,12 +19850,15 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     let nodes = response.nodes,
         that = this,
         parent_id = response.parent_id;
+    that.nodes.reset();
 
     underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(nodes, function (item) {
       that.nodes.add(new _node__WEBPACK_IMPORTED_MODULE_2__["Node"](item));
     });
 
-    this.parent_id = parent_id;
+    this.set({
+      'parent_id': parent_id
+    });
     this.trigger('change');
   }
 
@@ -21072,6 +21101,34 @@ class DgMainSpinner {
 
 /***/ }),
 
+/***/ "./src/js/templates/breadcrumb.html":
+/*!******************************************!*\
+  !*** ./src/js/templates/breadcrumb.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a class="breadcrumb-node" data-id=""><a href="#">Home</a>\n    </li>\n    ';
+ for (i=0; i < nodes.length; i++) { 
+__p+='\n        ';
+ node = nodes.at(i) 
+__p+='\n        <li class="breadcrumb-item">\n            <a href="#" class="breadcrumb-node"  data-id="'+
+((__t=( node.get('id') ))==null?'':__t)+
+'">'+
+((__t=( node.get('title') ))==null?'':__t)+
+'</a>\n        </li>\n\n    ';
+ } 
+__p+='\n</ol>\n';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/browse.html":
 /*!**************************************!*\
   !*** ./src/js/templates/browse.html ***!
@@ -21097,7 +21154,7 @@ __p+='\n        <li class="node node-w1" data-id="'+
 '" class="action-select" />\n            <div class="title">\n                <a href="#" class="'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
 '" data-id="'+
-((__t=( node.get('id')  ))==null?'':__t)+
+((__t=( node.get('id') ))==null?'':__t)+
 '" alt="Test">'+
 ((__t=( node.get('title') ))==null?'':__t)+
 '</a>\n            </div>\n        </li>\n    ';
@@ -22432,13 +22489,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_breadcrumb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/breadcrumb */ "./src/js/models/breadcrumb.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 
 
 
 
 
 
-let TEMPLATE = __webpack_require__(/*! ../templates/browse.html */ "./src/js/templates/browse.html");
+
+let TEMPLATE = __webpack_require__(/*! ../templates/breadcrumb.html */ "./src/js/templates/breadcrumb.html");
 
 class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   el() {
@@ -22446,14 +22505,21 @@ class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(parent_id) {
+    let that = this;
     this.breadcrumb = new _models_breadcrumb__WEBPACK_IMPORTED_MODULE_2__["Breadcrumb"](parent_id);
     this.breadcrumb.fetch();
     this.listenTo(this.breadcrumb, 'change', this.render);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], function (parent_id) {
+      that.breadcrumb.set({
+        'parent_id': parent_id
+      });
+      that.breadcrumb.fetch();
+    });
   }
 
   events() {
     let event_map = {
-      'click .node': 'open_node'
+      'click .breadcrumb-node': 'open_node'
     };
     return event_map;
   }
@@ -22461,11 +22527,10 @@ class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   open_node(event) {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
         node;
-    node = this.breadcrumb.nodes.get(data['cid']);
+    node = this.breadcrumb.nodes.get(data['id']);
 
     if (node) {
-      console.log(`Open node ${node.get('title')}`);
-      this.breadcrumb.open(node);
+      this.breadcrumb.open(node, true);
     }
   }
 
@@ -22473,7 +22538,7 @@ class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'nodes': this.browse.nodes
+      'nodes': this.breadcrumb.nodes
     }));
     this.$el.html(compiled);
   }
@@ -22498,6 +22563,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_browse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/browse */ "./src/js/models/browse.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -22512,9 +22579,16 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(parent_id) {
+    let that = this;
     this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id);
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], function (parent_id) {
+      that.browse.set({
+        'parent_id': parent_id
+      });
+      that.browse.fetch();
+    });
   }
 
   events() {
@@ -22532,7 +22606,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
     if (node) {
       console.log(`Open node ${node.get('title')}`);
-      this.browse.open(node);
+      this.browse.open(node, true);
     }
   }
 
@@ -22881,8 +22955,7 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let folder_title, parent_id;
     folder_title = this.$el.find("[name=title]").val();
     this.folder.set({
-      'title': folder_title,
-      'parent_id': this.folder.get('parent_id')
+      'title': folder_title
     });
     this.folder.save();
     this.$el.modal('hide');

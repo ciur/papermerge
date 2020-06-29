@@ -42,6 +42,12 @@ urlpatterns = [
     ),
     path('browse/', node_views.browse, name="browse"),
     path('browse/<int:parent_id>/', node_views.browse, name="browse"),
+    path('breadcrumb/', node_views.breadcrumb, name="breadcrumb"),
+    path(
+        'breadcrumb/<int:parent_id>/',
+        node_views.breadcrumb,
+        name="breadcrumb"
+    ),
     path('node/<int:node_id>', node_views.nodeinfo, name="node"),
     path(
         'access/<int:id>', access_views.access, name="access"

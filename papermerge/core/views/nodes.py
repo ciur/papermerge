@@ -29,6 +29,30 @@ def browse(request, parent_id=None):
 
 
 @login_required
+def breadcrumb(parent, parent_id=None):
+
+    nodes = []
+
+    node = None
+    try:
+        node = BaseTreeNode.objects.get(id=parent_id)
+    except BaseTreeNode.DoesNotExist:
+        pass
+
+    if node:
+        nodes = [
+            item.to_dict() for item in node.get_ancestors(include_self=True)
+        ]
+
+    return HttpResponse(
+        json.dumps({
+            'nodes': nodes,
+        }),
+        content_type="application/json"
+    )
+
+
+@login_required
 def nodeinfo(request, node_id):
     try:
         node = BaseTreeNode.objects.get(id=node_id)

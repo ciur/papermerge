@@ -13,10 +13,10 @@
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{% url 'browse' %}" class="nav-link">
           <i class="nav-icon fa fa-folder"></i>
           <p>
-            Documents
+            {% trans "Documents" %}
           </p>
         </a>
       </li>
@@ -24,7 +24,7 @@
         <a href="#" class="nav-link">
           <i class="nav-icon fa fa-inbox"></i>
           <p>
-            Inbox(3)
+            {% trans "Inbox" %} (3)
           </p>
         </a>
       </li>
@@ -32,7 +32,7 @@
         <a href="#" class="nav-link">
           <i class="nav-icon fa fa-users"></i>
           <p>
-            Groups
+            {% trans "Groups" %}
           </p>
         </a>
       </li>
@@ -40,7 +40,7 @@
         <a href="#" class="nav-link">
           <i class="nav-icon fa fa-user-friends"></i>
           <p>
-            Users
+            {% trans "Users" %}
           </p>
         </a>
       </li>
