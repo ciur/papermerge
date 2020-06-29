@@ -19748,19 +19748,23 @@ class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   open(parent_node, notify_all) {
-    let breadcrumb = new Breadcrumb(parent_node.id),
-        that = this;
-    breadcrumb.fetch();
-    breadcrumb.on('change', function (event) {
-      that.nodes = breadcrumb.nodes;
-      that.parent_id = breadcrumb.parent_id;
-      that.trigger('change');
+    let parent_id;
 
-      if (notify_all) {
-        // inform everybody about new parent
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], breadcrumb.parent_id);
-      }
+    if (parent_node) {
+      parent_id = parent_node.id;
+    } else {
+      parent_id = undefined;
+    }
+
+    this.set({
+      'parent_id': parent_id
     });
+    this.fetch();
+
+    if (notify_all) {
+      // inform everybody about new parent
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], parent_id);
+    }
   }
 
   parse(response, options) {
@@ -19831,19 +19835,23 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   open(parent_node, notify_all) {
-    let browse = new Browse(parent_node.id),
-        that = this;
-    browse.fetch();
-    browse.on('change', function (event) {
-      that.nodes = browse.nodes;
-      that.parent_id = browse.parent_id;
-      that.trigger('change');
+    let parent_id;
 
-      if (notify_all) {
-        // inform everybody about new parent
-        _dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], browse.parent_id);
-      }
+    if (parent_node) {
+      parent_id = parent_node.id;
+    } else {
+      parent_id = undefined;
+    }
+
+    this.set({
+      'parent_id': parent_id
     });
+    this.fetch();
+
+    if (notify_all) {
+      // inform everybody about new parent
+      _dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], parent_id);
+    }
   }
 
   parse(response, options) {
@@ -21111,7 +21119,7 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a class="breadcrumb-node" data-id=""><a href="#">Home</a>\n    </li>\n    ';
+__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a class="breadcrumb-node" data-id="">Home</a>\n    </li>\n    ';
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
@@ -22528,10 +22536,7 @@ class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
         node;
     node = this.breadcrumb.nodes.get(data['id']);
-
-    if (node) {
-      this.breadcrumb.open(node, true);
-    }
+    this.breadcrumb.open(node, true);
   }
 
   render() {
