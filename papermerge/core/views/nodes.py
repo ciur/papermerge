@@ -15,9 +15,6 @@ logger = logging.getLogger(__name__)
 @login_required
 def browse(request, parent_id=None):
 
-    if parent_id.strip() == '':
-        parent_id = None
-
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id)
 
     return HttpResponse(

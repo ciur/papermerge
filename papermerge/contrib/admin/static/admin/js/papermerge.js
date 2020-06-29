@@ -20361,19 +20361,21 @@ __webpack_require__.r(__webpack_exports__);
 class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
-      nodes: '',
-      parent_id: ''
+      nodes: [],
+      parent_id: '',
+      breadcrumb_nodes: []
     };
   }
 
   initialize(parent_id) {
     this.parent_id = parent_id;
     this.nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
+    this.breadcrumb_nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
   }
 
   urlRoot() {
     if (this.parent_id) {
-      return f`/browse/${this.parent_id}/`;
+      return `/browse/${this.parent_id}/`;
     }
 
     return '/browse/';
@@ -20388,14 +20390,28 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return dict;
   }
 
+  open(parent_node) {
+    let browse = new Browse(parent_node.id),
+        that = this;
+    browse.fetch();
+    browse.on('change', function (event) {
+      that.nodes = browse.nodes;
+      that.parent_id = browse.parent_id;
+      that.trigger('change');
+      that.render();
+    });
+  }
+
   parse(response, options) {
     let nodes = response.nodes,
-        that = this;
+        that = this,
+        parent_id = response.parent_id;
 
     underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(nodes, function (item) {
       that.nodes.add(new _node__WEBPACK_IMPORTED_MODULE_2__["Node"](item));
     });
 
+    this.parent_id = parent_id;
     this.trigger('change');
   }
 
@@ -21627,7 +21643,11 @@ __p+='<ul class="d-flex grid">\n    ';
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
-__p+='\n        <li class="node node-w1">\n            <div class="icon-'+
+__p+='\n        <li class="node node-w1" data-id="'+
+((__t=( node.get('id') ))==null?'':__t)+
+'" data-cid="'+
+((__t=( node.cid ))==null?'':__t)+
+'">\n            <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
 '">\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
 ((__t=( node.get('id') ))==null?'':__t)+
@@ -22928,15 +22948,30 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   events() {
-    let event_map = {};
+    let event_map = {
+      'dblclick .node': 'open_node'
+    };
     return event_map;
+  }
+
+  open_node(event) {
+    let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
+        node,
+        new_co;
+    node = this.browse.nodes.get(data['cid']);
+
+    if (node) {
+      console.log(`Open node ${node.get('title')}`);
+      this.browse.open(node);
+    }
   }
 
   render() {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'nodes': this.browse.nodes
+      'nodes': this.browse.nodes,
+      'breadcrumb_nodes': this.browse.breadcumb_nodes
     }));
     this.$el.html(compiled);
   }
