@@ -17221,74 +17221,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./src/js/actions/abstract_action.js":
-/*!*******************************************!*\
-  !*** ./src/js/actions/abstract_action.js ***!
-  \*******************************************/
-/*! exports provided: DgAbstractAction */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgAbstractAction", function() { return DgAbstractAction; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-
-class DgAbstractAction {
-  /*
-    Action triggered from menu/actiobar
-  */
-  constructor(config) {
-    this._enabled_cond = config['enabled']; // id is a DOM selector (i.e a string)
-
-    this._id = config['id'];
-    this._is_enabled = config['initial_state'] || false;
-    this._confirm = config['confirm'];
-    this._action = config['action'];
-
-    if (this._is_enabled) {
-      this.enable();
-    }
-  }
-
-  get id() {
-    return this._id;
-  }
-
-  get confirm() {
-    return this._confirm;
-  }
-
-  get is_enabled() {
-    return this._is_enabled;
-  }
-
-  enable() {
-    this._is_enabled = true;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._id).removeClass("disabled");
-  }
-
-  disable() {
-    this._is_enabled = false;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._id).addClass("disabled");
-  }
-
-  toggle(selection, clipboard) {
-    if (this._enabled_cond(selection, clipboard)) {
-      this.enable();
-    } else {
-      this.disable();
-    }
-  }
-
-  action(selection, current_node) {
-    this._action(selection, current_node);
-  }
-
-}
-
-/***/ }),
-
 /***/ "./src/js/actions/changeform_actions.js":
 /*!**********************************************!*\
   !*** ./src/js/actions/changeform_actions.js ***!
@@ -17472,284 +17404,6 @@ class MgChangeFormActions {
 
 /***/ }),
 
-/***/ "./src/js/actions/changelist_actions.js":
-/*!**********************************************!*\
-  !*** ./src/js/actions/changelist_actions.js ***!
-  \**********************************************/
-/*! exports provided: DgChangeListAction, DgChangeListActions, build_changelist_actions */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgChangeListAction", function() { return DgChangeListAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgChangeListActions", function() { return DgChangeListActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "build_changelist_actions", function() { return build_changelist_actions; });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _abstract_action__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./abstract_action */ "./src/js/actions/abstract_action.js");
-/* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selection */ "./src/js/selection.js");
-/* harmony import */ var _clipboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../clipboard */ "./src/js/clipboard.js");
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../node */ "./src/js/node.js");
-/* harmony import */ var _forms_cut_form__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../forms/cut_form */ "./src/js/forms/cut_form.js");
-/* harmony import */ var _forms_paste_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../forms/paste_form */ "./src/js/forms/paste_form.js");
-/* harmony import */ var _forms_paste_pages_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../forms/paste_pages_form */ "./src/js/forms/paste_pages_form.js");
-/* harmony import */ var _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../forms/delete_form */ "./src/js/forms/delete_form.js");
-/* harmony import */ var _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../forms/rename_form */ "./src/js/forms/rename_form.js");
-/* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/metadata_form */ "./src/js/forms/metadata_form.js");
-
-
-
-
-
-
-
-
-
-
- //import {AccessForm} from "../forms/access_form";
-
-
-class DgChangeListAction extends _abstract_action__WEBPACK_IMPORTED_MODULE_2__["DgAbstractAction"] {
-  /*
-    An abstraction of action item in (actions) dropdown menu from
-    changelist view.
-  */
-  constructor(config) {
-    super(config);
-  }
-
-  action(selection, clipboard, current_node) {
-    this._action(selection, clipboard, current_node);
-  }
-
-}
-class DgChangeListActions {
-  /*
-    An abstraction of actions dropdown menu in changelist view.
-    Actions dropdown menu operates on a selection of one or many
-    items (document or folder).
-  */
-  constructor(config) {
-    this._actions = [];
-    this._selection = new _selection__WEBPACK_IMPORTED_MODULE_3__["DgSelection"](); // user can cut some items in one folder and
-    // paste them in another folder. Cut/Pasted items are placed (taken)
-    // to/from DgClipboard
-
-    this._clipboard = new _clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"](); // get_current_parent_id() always returns undefined.... to be
-    // removed
-    // parent id is loaded from papermerge/boss/templates/_forms.js.html
-
-    this._current_node = Object(_node__WEBPACK_IMPORTED_MODULE_5__["get_current_parent_id"])();
-    this.configEvents();
-  }
-
-  add(action) {
-    this._attach_events(action);
-
-    this._actions.push(action);
-  }
-
-  _attach_events(action) {
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()(action.id).click({
-      action: action,
-      selection: this._selection,
-      clipboard: this._clipboard,
-      current_node: this._current_node
-    }, this.on_click);
-  }
-
-  on_change_selection(selection) {
-    /*
-      Invoked every time when selection changes i.e. elemnts are either 
-      added or removed from the list.
-       Theorethically this._selection and selection should be same.
-    */
-    for (let action of this._actions) {
-      action.toggle(this._selection, this._clipboard);
-    }
-  }
-
-  on_change_clipboard(clipboard) {
-    for (let action of this._actions) {
-      action.toggle(this._selection, clipboard);
-    }
-  }
-
-  on_click(event) {
-    let action = event.data.action;
-    let selection = event.data.selection;
-    let clipboard = event.data.clipboard;
-    let current_node = event.data.current_node;
-
-    if (!action.is_enabled) {
-      return;
-    }
-
-    action.action(selection, clipboard, current_node);
-  }
-
-  configEvents() {
-    this._selection.subscribe_event(_selection__WEBPACK_IMPORTED_MODULE_3__["DgSelection"].CHANGE, this.on_change_selection, this // context
-    );
-
-    this._clipboard.subscribe_event(_clipboard__WEBPACK_IMPORTED_MODULE_4__["DgClipboard"].CHANGE, this.on_change_clipboard, this //context
-    );
-
-    for (let action of this._actions) {
-      this._attach_events(action);
-    }
-  }
-
-}
-function build_changelist_actions() {
-  /**
-  Actions dropdown menu of changelist view.
-  */
-  if (!Object(_utils__WEBPACK_IMPORTED_MODULE_0__["find_by_id"])("changelist_actions")) {
-    // there is no point to do anything if actions
-    // dropdown is not in the view.
-    return;
-  }
-
-  let actions = new DgChangeListActions(),
-      cut_action,
-      delete_action,
-      paste_action,
-      paste_pages_action,
-      rename_action,
-      download_action,
-      metadata_action,
-      access_action;
-  cut_action = new DgChangeListAction({
-    id: "#cut",
-    enabled: function (selection, clipboard) {
-      return selection.length > 0;
-    },
-    action: function (selection, clipboard, current_node) {
-      let cut_form;
-      clipboard.add(selection.all());
-      selection.all().forEach(item => item.addClass('cut'));
-      cut_form = new _forms_cut_form__WEBPACK_IMPORTED_MODULE_6__["CutForm"](selection.all(), current_node);
-      cut_form.submit();
-    }
-  });
-  delete_action = new DgChangeListAction({
-    id: "#delete",
-    enabled: function (selection, clipboard) {
-      return selection.length > 0;
-    },
-    action: function (selection, clipboard, current_node) {
-      let delete_form,
-          confirmation = true;
-
-      if (this.confirm) {
-        confirmation = confirm("Are you sure?");
-      }
-
-      if (!confirmation) {
-        return;
-      }
-
-      delete_form = new _forms_delete_form__WEBPACK_IMPORTED_MODULE_9__["DeleteForm"](selection.all(), current_node);
-      delete_form.submit();
-    },
-    confirm: true
-  });
-  paste_action = new DgChangeListAction({
-    id: "#paste",
-    initial_state: true,
-    // enabled by default
-    enabled: function (selection, clipboard) {
-      if (clipboard) {
-        return clipboard.length > 0;
-      }
-
-      return false;
-    },
-    action: function (selection, clipboard, current_node) {
-      let paste_form;
-      paste_form = new _forms_paste_form__WEBPACK_IMPORTED_MODULE_7__["PasteForm"]();
-      paste_form.submit();
-    }
-  });
-  paste_pages_action = new DgChangeListAction({
-    id: "#paste_pages",
-    initial_state: true,
-    // enabled by default
-    enabled: function (selection, clipboard) {
-      return true;
-    },
-    action: function (selection, clipboard, current_node) {
-      let paste_pages_form;
-      paste_pages_form = new _forms_paste_pages_form__WEBPACK_IMPORTED_MODULE_8__["PastePagesForm"]();
-      paste_pages_form.submit();
-    }
-  });
-  rename_action = new DgChangeListAction({
-    // Achtung! #rename id is same for rename action
-    // in changeform view and changelist view.
-    id: "#rename",
-    enabled: function (selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function (selection, clipboard, current_node) {
-      let rename_form, node;
-      node = selection.first();
-      rename_form = new _forms_rename_form__WEBPACK_IMPORTED_MODULE_10__["RenameForm"](node, current_node);
-      rename_form.show();
-    }
-  });
-  download_action = new DgChangeListAction({
-    id: "#download",
-    enabled: function (selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function (selection, clipboard, current_node) {}
-  });
-  access_action = new DgChangeListAction({
-    id: "#access",
-    enabled: function (selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function (selection, clipboard, current_node) {
-      let access_form, node;
-      node = selection.first(); // current_node = referes to the parent node, which is used
-      // some actions (in paste for example)
-      // in case of access_action, only node is used - and it
-      // refers to the selected node.
-      //access_form = new AccessForm(node, current_node);
-      //access_form.show();
-    }
-  });
-  metadata_action = new DgChangeListAction({
-    id: "#metadata",
-    enabled: function (selection, clipboard) {
-      return selection.length == 1;
-    },
-    action: function (selection, clipboard, current_node) {
-      let metadata_form, node;
-      node = selection.first(); // current_node = referes to the parent node, which is used
-      // some actions (in paste for example)
-      // in case of access_action, only node is used - and it
-      // refers to the selected node.
-
-      metadata_form = new _forms_metadata_form__WEBPACK_IMPORTED_MODULE_11__["MetadataForm"](node, current_node);
-      metadata_form.show();
-    }
-  });
-  actions.add(cut_action);
-  actions.add(delete_action);
-  actions.add(paste_action);
-  actions.add(paste_pages_action);
-  actions.add(rename_action);
-  actions.add(download_action);
-  actions.add(access_action);
-  actions.add(metadata_action);
-}
-
-/***/ }),
-
 /***/ "./src/js/app.js":
 /*!***********************!*\
   !*** ./src/js/app.js ***!
@@ -17765,22 +17419,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./register */ "./src/js/register.js");
 /* harmony import */ var _password__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./password */ "./src/js/password.js");
-/* harmony import */ var _actions_changelist_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions/changelist_actions */ "./src/js/actions/changelist_actions.js");
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
-/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
+/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_16__);
 
 
 
@@ -17800,10 +17455,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync;
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_11___default.a.sync;
 
-backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_11___default()("[name=csrfmiddlewaretoken]").val();
+backbone__WEBPACK_IMPORTED_MODULE_11___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_12___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17821,7 +17476,7 @@ backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync = function (method, model,
 };
 
 let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_11___default()("#document_form");
+  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_12___default()("#document_form");
 
   if ($document_form.length == 0) {
     return;
@@ -17832,28 +17487,24 @@ let on_document_form = function (func) {
 
 let App = function () {
   let uploader = new _uploader_uploader__WEBPACK_IMPORTED_MODULE_1__["DgUploader"](),
-      browse;
-  let dom_actual_pages = document.querySelector('.actual-pages'); // submits a form to the server to create a new folder
-
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["show_add_new_folder"])("button#new-folder");
+      browse_view,
+      actions_view,
+      breadcrumb_view;
+  let dom_actual_pages = document.querySelector('.actual-pages');
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_zoom_2_document_form"]);
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_switch_2_document_form"]); // creates a new DgDocument instance
 
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_load_on_scroll"]); //$('.toast').toast({'autohide': true, 'delay': 5000});
-  //$('.toast').toast({'autohide': false});
-  //$('.toast').toast('show');
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_load_on_scroll"]);
 
   if (dom_actual_pages) {
-    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_7__["DgPageScroll"](dom_actual_pages);
+    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__["DgPageScroll"](dom_actual_pages);
   }
 
-  Object(_actions_changelist_actions__WEBPACK_IMPORTED_MODULE_6__["build_changelist_actions"])();
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["node_doubleclick"])(".dblclick"); // make node's titles (in document's changelist grid/list mode)
-
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["shorten_title"])();
+  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseView"]();
+  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_10__["ActionsView"]();
+  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_9__["BreadcrumbView"]();
   Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["document_preloader"])();
-  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_8__["sort_cookie"])();
-  browse = new _views_browse__WEBPACK_IMPORTED_MODULE_9__["BrowseView"]();
+  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_7__["sort_cookie"])();
 };
 
 Object(_utils__WEBPACK_IMPORTED_MODULE_0__["dglReady"])( // i.e. after all DOM is loaded
@@ -17867,15 +17518,12 @@ function (event) {
 /*!******************************!*\
   !*** ./src/js/changelist.js ***!
   \******************************/
-/*! exports provided: show_add_new_folder, node_doubleclick, document_preloader, shorten_title */
+/*! exports provided: document_preloader */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show_add_new_folder", function() { return show_add_new_folder; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "node_doubleclick", function() { return node_doubleclick; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "document_preloader", function() { return document_preloader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shorten_title", function() { return shorten_title; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
@@ -17885,22 +17533,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function show_add_new_folder(new_folder_sel) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(new_folder_sel).click(function (e) {
-    let new_folder_view;
-    e.preventDefault();
-    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_3__["NewFolderView"]();
-  });
-}
-function node_doubleclick(node_sel) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(node_sel).dblclick(function () {
-    let $anchor = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find("a");
-
-    if ($anchor.length > 0) {
-      $anchor[0].click();
-    }
-  });
-}
 function document_preloader() {
   // displays a gray area (gray bg color) and a spinner
   // for loading images.
@@ -17910,89 +17542,6 @@ function document_preloader() {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".zero_pix").removeClass("zero_pix");
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".document-loading").hide();
   });
-}
-function shorten_title() {
-  function shorten(selector, len) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).each(function () {
-      let anchor = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find("a");
-      let text = anchor.text(),
-          result;
-
-      if (text && text.length > len) {
-        result = text.substring(0, len);
-        anchor.text(`${result}...`);
-      }
-    });
-  } //for node's title in list mode
-
-
-  shorten(".shorten36", 36); //for node's title in grid mode
-
-  shorten(".shorten16", 16);
-}
-
-/***/ }),
-
-/***/ "./src/js/clipboard.js":
-/*!*****************************!*\
-  !*** ./src/js/clipboard.js ***!
-  \*****************************/
-/*! exports provided: DgClipboard */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgClipboard", function() { return DgClipboard; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events */ "./src/js/events.js");
-
-
-class DgClipboard {
-  /* 
-    A list of documents/folders or pages user cutted into clipboard.
-  */
-  constructor(id = "#clipboard_form") {
-    this._id = id;
-    this._list = [];
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"]();
-
-    this._get_clipboard_form_server();
-  } // event name
-
-
-  static get CHANGE() {
-    return "change";
-  }
-
-  subscribe_event(name, handler, context) {
-    this._events.subscribe(name, handler, context);
-  }
-
-  notify_subscribers(event_name, list) {
-    this._events.notify(event_name, list);
-  }
-
-  get length() {
-    return this._list.length;
-  }
-
-  _get_clipboard_form_server() {
-    let url = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._id).attr('action');
-    let that = this;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get(url, function (data) {
-      that._list = data.clipboard;
-      that.notify_subscribers(DgClipboard.CHANGE, that._list);
-    });
-  }
-
-  add(items) {}
-
-  count(cond_fn = x => x) {
-    // same as length, but with an optional filter.
-    return this._list.filter(cond_fn).length;
-  }
-
 }
 
 /***/ }),
@@ -19969,86 +19518,6 @@ class DgEvents {
 
 /***/ }),
 
-/***/ "./src/js/forms/cut_form.js":
-/*!**********************************!*\
-  !*** ./src/js/forms/cut_form.js ***!
-  \**********************************/
-/*! exports provided: CutForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CutForm", function() { return CutForm; });
-class CutForm {
-  constructor(items, parent_id, id = "#cut_form") {
-    this._items = items;
-    this._id = id;
-    this._parent_id = parent_id; // will create hidden inputs node ids
-
-    this._create_hidden_inputs(items);
-  }
-
-  _create_hidden_inputs(items) {
-    items.forEach(item => {
-      let hidden_input = `<input \
-             type="hidden" \
-             name="node_ids[]" \
-             value="${item.id}" \
-             />`;
-      $(this._id).append(hidden_input);
-    });
-  }
-
-  submit() {
-    let url = $(this._id).attr('action'),
-        params = $(this._id).serialize();
-    $.post(url, params);
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
-/***/ "./src/js/forms/delete_form.js":
-/*!*************************************!*\
-  !*** ./src/js/forms/delete_form.js ***!
-  \*************************************/
-/*! exports provided: DeleteForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteForm", function() { return DeleteForm; });
-class DeleteForm {
-  constructor(items, parent_id, id = "#delete_form") {
-    this._items = items;
-    this._id = id;
-    this._parent_id = parent_id; // will create hidden inputs node ids
-
-    this._create_hidden_inputs(items);
-  }
-
-  _create_hidden_inputs(items) {
-    items.forEach(item => {
-      let hidden_input = `<input \
-             type="hidden" \
-             name="node_ids[]" \
-             value="${item.id}" \
-             />`;
-      $(this._id).append(hidden_input);
-    });
-  }
-
-  submit() {
-    $(this._id).submit();
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
 /***/ "./src/js/forms/metadata_form.js":
 /*!***************************************!*\
   !*** ./src/js/forms/metadata_form.js ***!
@@ -20175,55 +19644,6 @@ class MetadataPageForm {
 
 /***/ }),
 
-/***/ "./src/js/forms/paste_form.js":
-/*!************************************!*\
-  !*** ./src/js/forms/paste_form.js ***!
-  \************************************/
-/*! exports provided: PasteForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PasteForm", function() { return PasteForm; });
-class PasteForm {
-  constructor(id = "#paste_form") {
-    this._id = id;
-  }
-
-  submit() {
-    $(this._id).submit();
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
-/***/ "./src/js/forms/paste_pages_form.js":
-/*!******************************************!*\
-  !*** ./src/js/forms/paste_pages_form.js ***!
-  \******************************************/
-/*! exports provided: PastePagesForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PastePagesForm", function() { return PastePagesForm; });
-class PastePagesForm {
-  // same ID as defined in papermerge/boss/templates/boss/_forms.js.html
-  constructor(id = "#paste_pages_form") {
-    this._id = id;
-  }
-
-  submit() {
-    $(this._id).submit();
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
 /***/ "./src/js/forms/rename_change_form.js":
 /*!********************************************!*\
   !*** ./src/js/forms/rename_change_form.js ***!
@@ -20276,68 +19696,65 @@ class RenameChangeForm {
 
 /***/ }),
 
-/***/ "./src/js/forms/rename_form.js":
+/***/ "./src/js/models/breadcrumb.js":
 /*!*************************************!*\
-  !*** ./src/js/forms/rename_form.js ***!
+  !*** ./src/js/models/breadcrumb.js ***!
   \*************************************/
-/*! exports provided: RenameForm */
+/*! exports provided: Breadcrumb */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RenameForm", function() { return RenameForm; });
-class RenameForm {
-  constructor(item, parent_id, id = "#rename_form") {
-    this._item = item; // only one item!
-
-    this._id = id;
-    this._parent_id = parent_id;
-
-    this._create_hidden_input(item); // will create hidden input for parent id
-    // to know to which folder to redirect back
-    // if this parameter is missing - will redirect back
-    // to root folder.
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Breadcrumb", function() { return Breadcrumb; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./src/js/models/node.js");
 
 
-    this._create_hidden_parent(parent_id);
 
-    this._set_title(item);
+class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      nodes: [],
+      parent_id: ''
+    };
   }
 
-  _set_title(item) {
-    $(this._id).find("[name=title]").val(item.title);
+  initialize(parent_id) {
+    this.parent_id = parent_id;
+    this.nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
   }
 
-  _create_hidden_parent(parent_id = "") {
-    let hidden_parent = `<input \
-            type="hidden" \
-            name="parent_id" \
-            value="${parent_id}" \
-            />`;
-    $(this._id).append(hidden_parent);
+  urlRoot() {
+    if (this.parent_id) {
+      return f`/breadcrumb/${this.parent_id}/`;
+    }
+
+    return '/breadcrumb/';
   }
 
-  _create_hidden_input(item) {
-    let hidden_input = `<input \
-         type="hidden" \
-         name="node_id" \
-         value="${item.id}" \
-         />`;
-    $(this._id).append(hidden_input);
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      parent_id: this.get('parent_id'),
+      nodes: this.get('nodes')
+    };
+    return dict;
   }
 
-  show() {
-    $("#modals-container").css("display", "flex");
-    $(this._id).show();
-    $(this._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("#modals-container").hide();
-      $(this._id).hide();
+  parse(response, options) {
+    let nodes = response.nodes,
+        that = this;
+
+    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(nodes, function (item) {
+      that.nodes.add(new _node__WEBPACK_IMPORTED_MODULE_2__["Node"](item));
     });
+
+    this.trigger('change');
   }
 
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -20355,6 +19772,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./src/js/models/node.js");
+/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -20362,15 +19781,13 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
       nodes: [],
-      parent_id: '',
-      breadcrumb_nodes: []
+      parent_id: ''
     };
   }
 
   initialize(parent_id) {
     this.parent_id = parent_id;
     this.nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
-    this.breadcrumb_nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
   }
 
   urlRoot() {
@@ -20397,8 +19814,9 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     browse.on('change', function (event) {
       that.nodes = browse.nodes;
       that.parent_id = browse.parent_id;
-      that.trigger('change');
-      that.render();
+      that.trigger('change'); // inform everybody about new parent
+
+      _dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], browse.parent_id);
     });
   }
 
@@ -20416,6 +19834,27 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
 }
+
+/***/ }),
+
+/***/ "./src/js/models/dispatcher.js":
+/*!*************************************!*\
+  !*** ./src/js/models/dispatcher.js ***!
+  \*************************************/
+/*! exports provided: mg_dispatcher, PARENT_CHANGED */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mg_dispatcher", function() { return mg_dispatcher; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PARENT_CHANGED", function() { return PARENT_CHANGED; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+let mg_dispatcher = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_1__["Events"]);
+let PARENT_CHANGED = "parent_changed";
 
 /***/ }),
 
@@ -20774,7 +20213,11 @@ class NewFolder extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     };
   }
 
-  initialize(parent_id) {}
+  initialize(parent_id) {
+    this.set({
+      'parent_id': parent_id
+    });
+  }
 
   urlRoot() {
     return '/create-folder/';
@@ -22912,6 +22355,133 @@ function dglReady(func) {
 
 /***/ }),
 
+/***/ "./src/js/views/actions.js":
+/*!*********************************!*\
+  !*** ./src/js/views/actions.js ***!
+  \*********************************/
+/*! exports provided: ActionsView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActionsView", function() { return ActionsView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
+
+
+
+
+
+
+class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#actions');
+  }
+
+  initialize(parent_id) {
+    let that = this;
+    this.parent_id = parent_id;
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], function (parent_id) {
+      that.parent_id = parent_id;
+    });
+  }
+
+  events() {
+    let event_map = {
+      'click #new-folder': 'new_folder'
+    };
+    return event_map;
+  }
+
+  new_folder(event) {
+    let new_folder_view;
+    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_4__["NewFolderView"](this.parent_id);
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'nodes': this.browse.nodes
+    }));
+    this.$el.html(compiled);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/breadcrumb.js":
+/*!************************************!*\
+  !*** ./src/js/views/breadcrumb.js ***!
+  \************************************/
+/*! exports provided: BreadcrumbView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BreadcrumbView", function() { return BreadcrumbView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _models_breadcrumb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/breadcrumb */ "./src/js/models/breadcrumb.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/browse.html */ "./src/js/templates/browse.html");
+
+class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#breadcrumb');
+  }
+
+  initialize(parent_id) {
+    this.breadcrumb = new _models_breadcrumb__WEBPACK_IMPORTED_MODULE_2__["Breadcrumb"](parent_id);
+    this.breadcrumb.fetch();
+    this.listenTo(this.breadcrumb, 'change', this.render);
+  }
+
+  events() {
+    let event_map = {
+      'click .node': 'open_node'
+    };
+    return event_map;
+  }
+
+  open_node(event) {
+    let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
+        node;
+    node = this.breadcrumb.nodes.get(data['cid']);
+
+    if (node) {
+      console.log(`Open node ${node.get('title')}`);
+      this.breadcrumb.open(node);
+    }
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'nodes': this.browse.nodes
+    }));
+    this.$el.html(compiled);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/views/browse.js":
 /*!********************************!*\
   !*** ./src/js/views/browse.js ***!
@@ -22970,8 +22540,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'nodes': this.browse.nodes,
-      'breadcrumb_nodes': this.browse.breadcumb_nodes
+      'nodes': this.browse.nodes
     }));
     this.$el.html(compiled);
   }
@@ -23310,11 +22879,10 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
   on_create(event) {
     let folder_title, parent_id;
-    parent_id = this.$el.find("[name=parent_id]").val();
     folder_title = this.$el.find("[name=title]").val();
     this.folder.set({
       'title': folder_title,
-      'parent_id': parent_id
+      'parent_id': this.folder.get('parent_id')
     });
     this.folder.save();
     this.$el.modal('hide');
