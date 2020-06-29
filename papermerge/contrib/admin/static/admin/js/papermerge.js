@@ -19759,7 +19759,6 @@ class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     this.set({
       'parent_id': parent_id
     });
-    this.fetch();
 
     if (notify_all) {
       // inform everybody about new parent
@@ -19846,7 +19845,6 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     this.set({
       'parent_id': parent_id
     });
-    this.fetch();
 
     if (notify_all) {
       // inform everybody about new parent
@@ -21119,15 +21117,15 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a class="breadcrumb-node" data-id="">Home</a>\n    </li>\n    ';
+__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a href="#" class="breadcrumb-node" data-id="">Home</a>\n    </li>\n    ';
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
 __p+='\n        <li class="breadcrumb-item">\n            <a href="#" class="breadcrumb-node"  data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
-'">'+
+'">\n            	'+
 ((__t=( node.get('title') ))==null?'':__t)+
-'</a>\n        </li>\n\n    ';
+'\n            </a>\n        </li>\n    ';
  } 
 __p+='\n</ol>\n';
 }
@@ -22518,6 +22516,7 @@ class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     this.breadcrumb.fetch();
     this.listenTo(this.breadcrumb, 'change', this.render);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], function (parent_id) {
+      console.log("BreadcrumbView: parent_changed");
       that.breadcrumb.set({
         'parent_id': parent_id
       });
@@ -22536,6 +22535,7 @@ class BreadcrumbView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
         node;
     node = this.breadcrumb.nodes.get(data['id']);
+    console.log(`BreadcrumbView open node ${node.get('title')}`);
     this.breadcrumb.open(node, true);
   }
 
@@ -22589,6 +22589,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], function (parent_id) {
+      console.log("BrowseView: parent_changed");
       that.browse.set({
         'parent_id': parent_id
       });
@@ -22610,7 +22611,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     node = this.browse.nodes.get(data['cid']);
 
     if (node) {
-      console.log(`Open node ${node.get('title')}`);
+      console.log(`BrowseView open node ${node.get('title')}`);
       this.browse.open(node, true);
     }
   }
