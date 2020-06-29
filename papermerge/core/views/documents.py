@@ -484,9 +484,10 @@ def document_download(request, id):
             logger.error(
                 "Cannot open local version of %s" % doc.path.url()
             )
-            return redirect(
-                'boss:core_basetreenode_changelist_obj', args=(id,)
-            )
+            # return redirect(
+            #     'boss:core_basetreenode_changelist_obj', args=(id,)
+            # )
+            return redirect('browse')
 
         resp = HttpResponse(
             file_handle.read(),
@@ -497,6 +498,7 @@ def document_download(request, id):
         file_handle.close()
         return resp
 
-    return redirect(
-        'boss:core_basetreenode_changelist_obj', args=(id,)
-    )
+    # return redirect(
+    #     'boss:core_basetreenode_changelist_obj', args=(id,)
+    # )
+    return redirect('browse')
