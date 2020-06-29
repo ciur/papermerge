@@ -1,5 +1,13 @@
 language: python
 
+python:
+  - 3.8
+
+# command to run tests
+script:
+  - ./run_tests.sh
+
+
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq libpoppler-cpp-dev imagemagick tesseract-ocr
