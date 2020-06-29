@@ -10,7 +10,7 @@ script:
 
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install -qq libpoppler-cpp-dev imagemagick tesseract-ocr
+- sudo apt-get install -qq poppler-utils imagemagick tesseract-ocr
 
 sudo: false
 
