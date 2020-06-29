@@ -25,7 +25,7 @@ class TestDocumentView(TestCase):
 
     def test_index(self):
         self.client.get(
-            reverse('core:index')
+            reverse('index')
         )
 
     def test_upload(self):

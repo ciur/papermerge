@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 @login_required
 def cut_node(request):
     if request.method == 'GET':
-        return redirect('boss:core_basetreenode_changelist')
+        return redirect('browse')
 
     node_ids = request.POST.getlist('node_ids[]', False)
     parent_id = request.POST.get('parent_id', False)
@@ -44,12 +44,13 @@ def cut_node(request):
 
     if parent_id:
         return redirect(
-            reverse(
-                'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            )
+            # reverse(
+            #     'boss:core_basetreenode_changelist_obj', args=(parent_id,)
+            # )
+            reverse('browse')
         )
 
-    return redirect('boss:core_basetreenode_changelist')
+    return redirect('browse')
 
 
 @login_required
@@ -76,7 +77,7 @@ def paste_pages(request):
     is created.
     """
     if request.method == 'GET':
-        return redirect('boss:core_basetreenode_changelist')
+        return redirect('browse')
 
     parent_id = request.POST.get('parent_id', False)
 
@@ -90,18 +91,19 @@ def paste_pages(request):
 
     if parent_id:
         return redirect(
-            reverse(
-                'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            )
+            # reverse(
+            #     'boss:core_basetreenode_changelist_obj', args=(parent_id,)
+            # )
+            reverse('browse')
         )
 
-    return redirect('boss:core_basetreenode_changelist')
+    return redirect('browse')
 
 
 @login_required
 def paste_node(request):
     if request.method == 'GET':
-        return redirect('boss:core_basetreenode_changelist')
+        return redirect('browse')
 
     parent_id = request.POST.get('parent_id', False)
 
@@ -126,12 +128,13 @@ def paste_node(request):
 
     if parent_id:
         return redirect(
-            reverse(
-                'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            )
+            # reverse(
+            #     'boss:core_basetreenode_changelist_obj', args=(parent_id,)
+            # )
+            reverse('browse')
         )
 
-    return redirect('boss:core_basetreenode_changelist')
+    return redirect('browse')
 
 
 @login_required
@@ -347,9 +350,9 @@ class DocumentsUpload(views.View):
         #
         # with that info a new thumbnail will be created.
 
-        action_url = reverse(
-            'boss:core_basetreenode_change', args=(doc.id,)
-        )
+        # action_url = reverse(
+        #     'boss:core_basetreenode_change', args=(doc.id,)
+        # )
 
         preview_url = reverse(
             'core:preview', args=(doc.id, 200, 1)
@@ -358,7 +361,7 @@ class DocumentsUpload(views.View):
         result = {
             'title': doc.title,
             'doc_id': doc.id,
-            'action_url': action_url,
+            'action_url': "",
             'preview_url': preview_url
         }
         logger.info("and response is!")
