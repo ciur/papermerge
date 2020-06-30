@@ -17415,28 +17415,25 @@ class MgChangeFormActions {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
 /* harmony import */ var _uploader_uploader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uploader/uploader */ "./src/js/uploader/uploader.js");
-/* harmony import */ var _changelist__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./changelist */ "./src/js/changelist.js");
-/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./register */ "./src/js/register.js");
-/* harmony import */ var _password__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./password */ "./src/js/password.js");
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
-/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
+/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -17454,13 +17451,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
 
-
-
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_13___default()("[name=csrfmiddlewaretoken]").val();
+backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17478,7 +17472,7 @@ backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model,
 };
 
 let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_13___default()("#document_form");
+  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document_form");
 
   if ($document_form.length == 0) {
     return;
@@ -17494,60 +17488,27 @@ let App = function () {
       breadcrumb_view,
       browse_router;
   let dom_actual_pages = document.querySelector('.actual-pages');
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_zoom_2_document_form"]);
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_switch_2_document_form"]); // creates a new DgDocument instance
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_zoom_2_document_form"]);
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_switch_2_document_form"]); // creates a new DgDocument instance
 
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_3__["add_load_on_scroll"]);
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_load_on_scroll"]);
 
   if (dom_actual_pages) {
-    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__["DgPageScroll"](dom_actual_pages);
+    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
   }
 
-  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseView"]();
-  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_10__["ActionsView"]();
-  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_9__["BreadcrumbView"]();
-  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_11__["BrowseRouter"](browse_view, breadcrumb_view);
-  backbone__WEBPACK_IMPORTED_MODULE_12___default.a.history.start();
-  Object(_changelist__WEBPACK_IMPORTED_MODULE_2__["document_preloader"])();
-  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_7__["sort_cookie"])();
+  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_5__["BrowseView"]();
+  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_7__["ActionsView"]();
+  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_6__["BreadcrumbView"]();
+  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
+  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
+  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_4__["sort_cookie"])();
 };
 
 Object(_utils__WEBPACK_IMPORTED_MODULE_0__["dglReady"])( // i.e. after all DOM is loaded
 function (event) {
   App();
 });
-
-/***/ }),
-
-/***/ "./src/js/changelist.js":
-/*!******************************!*\
-  !*** ./src/js/changelist.js ***!
-  \******************************/
-/*! exports provided: document_preloader */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "document_preloader", function() { return document_preloader; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-/* harmony import */ var _selection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selection */ "./src/js/selection.js");
-/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/new_folder */ "./src/js/views/new_folder.js");
-
-
-
-
-function document_preloader() {
-  // displays a gray area (gray bg color) and a spinner
-  // for loading images.
-  // When ALL IMAGES are loaded window receives an "load" even:
-  // spinner is removed and gray area changes into image preview.
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on("load", function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".zero_pix").removeClass("zero_pix");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".document-loading").hide();
-  });
-}
 
 /***/ }),
 
@@ -20299,7 +20260,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       parent_id: '',
       ctype: '',
       kvstore: '',
-      open_url: ''
+      selected: false
     };
   }
 
@@ -20444,431 +20405,6 @@ class DgDocument extends DgNode {
 
 /***/ }),
 
-/***/ "./src/js/password.js":
-/*!****************************!*\
-  !*** ./src/js/password.js ***!
-  \****************************/
-/*! exports provided: DgPassword, DgPasswordDuo, decorate_passwords */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgPassword", function() { return DgPassword; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgPasswordDuo", function() { return DgPasswordDuo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decorate_passwords", function() { return decorate_passwords; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events */ "./src/js/events.js");
-
-
-
-function password_validator(pwd) {
-  if (!pwd) {
-    // no charcters at all - first condition failed.
-    return "Too short. Min of 8 characters required";
-  }
-
-  if (pwd.length < 8) {
-    return "Too short. Min of 8 characters required";
-  }
-
-  if (pwd.length > 32) {
-    return "Too long. Max of 32 characters required";
-  }
-
-  return false;
-}
-
-class DgPassword {
-  /**
-  Following structure is expected
-  <div class="container">
-      <input type="password">    // dom_ref_input
-      <i class="icon-eye"></i>   // dom_ref_eye 
-      <i class="icon-cross"></i> // dom_ref_cross
-  </div>
-  **/
-  constructor(dom_ref_input) {
-    this._dom_ref = dom_ref_input;
-    this._dom_ref_eye = this.get_dom_eye();
-    this._dom_ref_cross = this.get_dom_cross();
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"]();
-    this.config_events();
-
-    if (this._dom_ref_cross) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref_cross).hide();
-    }
-  }
-
-  subscribe(name, handler, context) {
-    this._events.subscribe(name, handler, context);
-  }
-
-  get_dom_eye() {
-    let icon_eye = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).siblings(".icon-eye");
-
-    if (icon_eye && icon_eye.length > 0) {
-      return icon_eye[0];
-    }
-
-    return undefined;
-  }
-
-  get_dom_cross() {
-    let icon_cross = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).siblings(".icon-cross");
-
-    if (icon_cross && icon_cross.length > 0) {
-      return icon_cross[0];
-    }
-
-    return undefined;
-  }
-
-  config_events() {
-    let that = this,
-        eye = this._dom_ref_eye,
-        input = this._dom_ref;
-
-    if (eye) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(eye).click(function () {
-        console.log("Eye clicked");
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).toggleClass('icon-eye icon-eye-blocked');
-
-        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).attr("type") == "password") {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).attr("type", "text");
-        } else {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).attr("type", "password");
-        }
-      });
-    }
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).keyup(function () {
-      that._events.notify('keyup', that);
-    });
-  }
-
-  text() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_ref).val();
-  }
-
-  mark_correct() {
-    let icon = this._dom_ref_cross,
-        input = this._dom_ref;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).removeClass("fail");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).removeClass("icon-cross");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).addClass("success");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).addClass("icon-checkmark");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).show();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).parent().prev('span').html('');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).parent().prev('span').removeClass('fail');
-  }
-
-  mark_wrong(reason) {
-    let icon = this._dom_ref_cross,
-        input = this._dom_ref;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).addClass("fail");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).addClass("icon-cross");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).removeClass("success");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).removeClass("icon-checkmark");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(icon).show();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).prop('title', reason);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).parent().prev('span').html(reason);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(input).parent().prev('span').addClass('fail');
-  }
-
-}
-class DgPasswordDuo {
-  constructor(pass1, pass2) {
-    this._pass1 = pass1;
-    this._pass2 = pass2;
-    this.config_events();
-  }
-
-  config_events() {
-    this._pass1.subscribe('keyup', this.on_key_up, this);
-
-    this._pass2.subscribe('keyup', this.on_key_up, this);
-  }
-
-  on_key_up(pass) {
-    let text1 = this._pass1.text(),
-        text = pass.text();
-
-    let text2 = this._pass2.text(),
-        reason = password_validator(text);
-
-    if (!reason) {
-      pass.mark_correct();
-    } else {
-      pass.mark_wrong(reason);
-    }
-
-    if (text1 && text2 && text1.length > 0 && text2.length > 0) {
-      if (text1 != text2) {
-        pass.mark_wrong("Password do not match");
-      } else if (!reason) {
-        this._pass1.mark_correct();
-
-        this._pass2.mark_correct();
-      } else {
-        pass.mark_wrong(reason);
-      }
-    }
-  }
-
-}
-function decorate_passwords() {
-  let pwd1,
-      pwd2,
-      duo,
-      pwd_arr = Array.from(document.getElementsByClassName("password"));
-
-  if (pwd_arr.length == 1) {
-    pwd1 = new DgPassword(pwd_arr[0]);
-  } else if (pwd_arr.length == 2 || pwd_arr.length == 4) {
-    pwd1 = new DgPassword(pwd_arr[0]);
-    pwd2 = new DgPassword(pwd_arr[1]);
-    duo = new DgPasswordDuo(pwd1, pwd2);
-  }
-}
-
-/***/ }),
-
-/***/ "./src/js/register.js":
-/*!****************************!*\
-  !*** ./src/js/register.js ***!
-  \****************************/
-/*! exports provided: registration */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registration", function() { return registration; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _password__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./password */ "./src/js/password.js");
-
-
-
-function email_validator(email) {
-  // not very strict one
-  let re = /\S+@\S+\.\S+/;
-
-  if (!re.test(email)) {
-    console.log("Invalid Email Format");
-    return "Invalid email format";
-  }
-
-  return false;
-}
-
-function username_validator(name) {
-  /**
-      Validates that username is correct.
-      name : str : name to validate
-       A valid name is:
-       1) Minumum number of characters is 3.
-      2) Maximum number of characters is 32.
-      3) contains only numbers 0-9, letters a-z and underscore (_).
-       If name is valid, returns 0. Otherwise returns the number of condition 
-      from the list above - which failed.
-  **/
-  if (!name) {
-    // no charcters at all - first condition failed.
-    return "Too short. Min of 3 characters required";
-  }
-
-  if (name.length < 3) {
-    return "Too short. Min of 3 characters required";
-  }
-
-  if (name.length > 32) {
-    return "Too long. Max of 32 characters required";
-  }
-
-  if (!/^[0-9a-z\_]+$/.test(name)) {
-    return "Contains invalid characters. Only a-z, 0-9 and underscore allowed.";
-  }
-
-  return false;
-}
-
-function company_name_validator(name) {
-  /**
-      Validates that company name is correct.
-      name : str : name to validate
-       A valid name is:
-       1) Minumum number of characters is 3.
-      2) Maximum number of characters is 32.
-      3) contains only numbers 0-9 and lowercase letters a-z.
-       If name is valid, returns 0. Otherwise returns the number of condition 
-      from the list above - which failed.
-  **/
-  if (!name) {
-    // no charcters at all - first condition failed.
-    return "Too short. Min of 3 characters required";
-  }
-
-  if (name.length < 3) {
-    return "Too short. Min of 3 characters required";
-  }
-
-  if (name.length > 32) {
-    return "Too long. Max of 32 characters required";
-  }
-
-  if (!/^[0-9a-z]+$/.test(name)) {
-    return "Contains invalid characters. Only lowercase a-z, 0-9.";
-  }
-
-  return false;
-}
-
-function Feedback(css_selector, validator) {
-  var $icon = jquery__WEBPACK_IMPORTED_MODULE_0___default()(css_selector).nextAll(".icon-cross, .icon-checkmark");
-  return {
-    validate: function (name) {
-      return validator(name);
-    },
-    mark_correct: function () {
-      // show green checkmark
-      // remove error tooltip 
-      $icon.removeClass("fail");
-      $icon.removeClass("icon-cross");
-      $icon.addClass("success");
-      $icon.addClass("icon-checkmark");
-      $icon.show();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(css_selector).parent().prev('span').html('');
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(css_selector).parent().prev('span').removeClass('fail');
-    },
-    mark_wrong: function (text, reason) {
-      // show red cross mark
-      // add hin via tooltip
-      $icon.addClass("fail");
-      $icon.addClass("icon-cross");
-      $icon.removeClass("success");
-      $icon.removeClass("icon-checkmark");
-      $icon.show();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(css_selector).prop('title', reason || validator(text));
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(css_selector).parent().prev('span').html(reason || validator(text));
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(css_selector).parent().prev('span').addClass('fail');
-    }
-  };
-}
-
-;
-
-function username_feedback() {
-  var text = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val(),
-      feedback = new Feedback('#id_username', username_validator);
-
-  if (!feedback.validate(text)) {
-    feedback.mark_correct(text);
-  } else {
-    feedback.mark_wrong(text);
-  }
-}
-
-function email_feedback() {
-  var text = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val(),
-      feedback = new Feedback('#id_email', email_validator);
-
-  if (!feedback.validate(text)) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-      'url': '/register/email/check',
-      'data': {
-        'email': text
-      }
-    }).done(function (data, textStatus) {
-      // means company names was not taken
-      if (!data) {
-        return;
-      }
-
-      if (!data.exists) {
-        feedback.mark_correct(text);
-      } else {
-        feedback.mark_wrong(text, "Email already taken.");
-      }
-    }).fail(function () {});
-    feedback.mark_correct(text);
-  } else {
-    feedback.mark_wrong(text);
-  }
-}
-
-function company_name_feedback() {
-  /* check if company name already taken */
-  var text = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val(),
-      feedback = new Feedback('#id_company', company_name_validator);
-
-  if (!feedback.validate(text)) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-      'url': '/register/company/check',
-      'data': {
-        'name': text
-      }
-    }).done(function (data, textStatus) {
-      // means company names was not taken
-      if (!data) {
-        return;
-      }
-
-      if (!data.exists) {
-        feedback.mark_correct(text);
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#domain_hint").text("https://" + text + "." + document.domain);
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#domain_hint").attr("href", "https://" + text + "." + document.domain);
-      } else {
-        feedback.mark_wrong(text, "Name already taken.");
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#domain_hint").text("");
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#domain_hint").attr("href", "");
-      }
-    }).fail(function () {});
-  } else {
-    feedback.mark_wrong(text);
-  }
-}
-
-function registration() {
-  let i;
-
-  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#register-form").length > 0) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.icon-checkmark').hide();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.icon-cross').hide();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_company").keyup(company_name_feedback);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_company").focusout(company_name_feedback);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_username").keyup(username_feedback);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_username").focusout(username_feedback);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_email").keyup(email_feedback);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_email").focusout(email_feedback); // in case we reload the page and form
-    // has some filled in text, display correct feedback;
-
-    let arr = ["#id_company", "#id_username", "#id_email", "#id_password1", "#id_password2"],
-        val;
-
-    for (i = 0; i < arr.length; i++) {
-      val = jquery__WEBPACK_IMPORTED_MODULE_0___default()(arr[i]).val();
-
-      if (val && val.length > 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(arr[i]).keyup();
-      }
-    }
-
-    let pwd1,
-        pwd2,
-        duo,
-        pwd_arr = Array.from(document.getElementsByClassName("password"));
-
-    if (pwd_arr.length == 2) {
-      pwd1 = new _password__WEBPACK_IMPORTED_MODULE_1__["DgPassword"](pwd_arr[0]);
-      pwd2 = new _password__WEBPACK_IMPORTED_MODULE_1__["DgPassword"](pwd_arr[1]);
-      duo = new _password__WEBPACK_IMPORTED_MODULE_1__["DgPasswordDuo"](pwd1, pwd2);
-    }
-  }
-}
-
-/***/ }),
-
 /***/ "./src/js/routers/browse.js":
 /*!**********************************!*\
   !*** ./src/js/routers/browse.js ***!
@@ -20913,141 +20449,6 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
   browse(node_id) {
     this.browse_view.open(node_id);
     this.breadcrumb_view.open(node_id);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/selection.js":
-/*!*****************************!*\
-  !*** ./src/js/selection.js ***!
-  \*****************************/
-/*! exports provided: DgSelection */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgSelection", function() { return DgSelection; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node */ "./src/js/node.js");
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./events */ "./src/js/events.js");
-
-
-
-class DgSelection {
-  /*
-  A list of selected DgDocuments and DgFolder objects.
-  */
-  constructor() {
-    this._list = [];
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_2__["DgEvents"]();
-
-    this._configEvents();
-  } // event name
-
-
-  static get CHANGE() {
-    return "change";
-  }
-
-  subscribe_event(name, handler, context) {
-    this._events.subscribe(name, handler, context);
-  }
-
-  notify_subscribers(event_name) {
-    this._events.notify(event_name);
-  }
-
-  add(dg_node) {
-    let pos;
-    pos = this._list.findIndex(item => item.id == dg_node.id); // add dg_node only if it is not already in the list.
-
-    if (pos < 0) {
-      this._list.push(dg_node);
-    }
-  }
-
-  all() {
-    return this._list;
-  }
-
-  first() {
-    return this._list[0];
-  }
-
-  remove(dg_node) {
-    let pos;
-    pos = this._list.findIndex(item => item.id == dg_node.id);
-
-    if (pos >= 0) {
-      this._list.splice(pos, 1);
-    }
-  }
-
-  get length() {
-    return this._list.length;
-  }
-
-  count(cond_fn = x => x) {
-    // count is same as length, but with an optional filter
-    return this._list.filter(cond_fn).length;
-  }
-
-  _on_node_click(event) {
-    let $this = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
-    let dg_node;
-    let checkbox = $this.find("[type=checkbox]").first();
-    let checked, new_state;
-    checked = checkbox.prop("checked");
-    new_state = !checked;
-    checkbox.prop("checked", new_state);
-
-    if (new_state) {
-      $this.addClass("checked");
-    } else {
-      $this.removeClass("checked");
-    }
-
-    if (event.data.node_type == 'document') {
-      dg_node = _node__WEBPACK_IMPORTED_MODULE_1__["DgDocument"].create_from_dom($this);
-    } else if (event.data.node_type == 'folder') {
-      dg_node = _node__WEBPACK_IMPORTED_MODULE_1__["DgFolder"].create_from_dom($this);
-    }
-
-    if (new_state) {
-      // is checked
-      event.data.selection.add(dg_node);
-    } else {
-      event.data.selection.remove(dg_node);
-    }
-
-    event.data.selection.notify_subscribers(DgSelection.CHANGE, this._list);
-  }
-
-  find(dg_node) {
-    for (let item of this._list) {
-      if (dg_node.id == item.id) {
-        return item;
-      }
-    }
-
-    return false;
-  }
-
-  _configEvents() {
-    // listens on clicks on file and folders
-    // and adds/removes them from list
-    // when selection count changed - sends an event
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(_node__WEBPACK_IMPORTED_MODULE_1__["DgDocument"].selector).click({
-      selection: this,
-      node_type: 'document'
-    }, this._on_node_click);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(_node__WEBPACK_IMPORTED_MODULE_1__["DgFolder"].selector).click({
-      selection: this,
-      node_type: 'folder'
-    }, this._on_node_click);
   }
 
 }
@@ -22523,15 +21924,6 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_4__["NewFolderView"](this.parent_id);
   }
 
-  render() {
-    let compiled, context;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'nodes': this.browse.nodes
-    }));
-    this.$el.html(compiled);
-  }
-
 }
 
 /***/ }),
@@ -22647,7 +22039,6 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(parent_id) {
-    let that = this;
     this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id);
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
@@ -22655,9 +22046,35 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
   events() {
     let event_map = {
-      'dblclick .node': 'open_node'
+      'dblclick .node': 'open_node',
+      'click .node': 'select_node'
     };
     return event_map;
+  }
+
+  select_node(event) {
+    let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
+        node,
+        selected,
+        new_state,
+        $target,
+        checkbox;
+    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+    node = this.browse.nodes.get(data['cid']);
+
+    if (node) {
+      selected = node.get('selected');
+      node.set({
+        'selected': !selected
+      });
+      new_state = !selected;
+
+      if (new_state) {
+        $target.addClass('checked');
+      } else {
+        $target.removeClass('checked');
+      }
+    }
   }
 
   open_node(event) {
