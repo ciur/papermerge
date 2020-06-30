@@ -40,15 +40,15 @@ urlpatterns = [
     path(
         'document/', include(document_patterns)
     ),
-    path('browse/', node_views.browse, name="browse"),
-    path('browse/<int:parent_id>/', node_views.browse, name="browse"),
-    path('breadcrumb/', node_views.breadcrumb, name="breadcrumb"),
+    path('browse/', node_views.browse_view, name="browse"),
+    path('browse/<int:parent_id>/', node_views.browse_view, name="browse"),
+    path('breadcrumb/', node_views.breadcrumb_view, name="breadcrumb"),
     path(
         'breadcrumb/<int:parent_id>/',
-        node_views.breadcrumb,
+        node_views.breadcrumb_view,
         name="breadcrumb"
     ),
-    path('node/<int:node_id>', node_views.nodeinfo, name="node"),
+    path('node/<int:node_id>', node_views.node_view, name="node"),
     path(
         'access/<int:id>', access_views.access, name="access"
     ),

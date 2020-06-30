@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def browse(request, parent_id=None):
+def browse_view(request, parent_id=None):
 
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id)
 
@@ -29,7 +29,7 @@ def browse(request, parent_id=None):
 
 
 @login_required
-def breadcrumb(parent, parent_id=None):
+def breadcrumb_view(parent, parent_id=None):
 
     nodes = []
 
@@ -53,13 +53,24 @@ def breadcrumb(parent, parent_id=None):
 
 
 @login_required
-def nodeinfo(request, node_id):
+def node_view(request, node_id):
     try:
         node = BaseTreeNode.objects.get(id=node_id)
     except BaseTreeNode.DoesNotExist:
         return HttpResponseBadRequest(
             json.dumps({
                 'node': node.to_dict()
+            }),
+            content_type="application/json"
+        )
+
+    if request.method == "DELETE":
+
+        node.delete()
+
+        return HttpResponse(
+            json.dumps({
+                'msg': 'OK'
             }),
             content_type="application/json"
         )

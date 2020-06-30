@@ -19842,7 +19842,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*************************************!*\
   !*** ./src/js/models/dispatcher.js ***!
   \*************************************/
-/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED */
+/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, BROWSER_REFRESH */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19850,6 +19850,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mg_dispatcher", function() { return mg_dispatcher; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PARENT_CHANGED", function() { return PARENT_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECTION_CHANGED", function() { return SELECTION_CHANGED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BROWSER_REFRESH", function() { return BROWSER_REFRESH; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -19858,6 +19859,7 @@ __webpack_require__.r(__webpack_exports__);
 let mg_dispatcher = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_1__["Events"]);
 let PARENT_CHANGED = "parent_changed";
 let SELECTION_CHANGED = "selection_changed";
+let BROWSER_REFRESH = "browser_refresh";
 
 /***/ }),
 
@@ -21926,7 +21928,17 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     return event_map;
   }
 
-  delete_node(event) {}
+  delete_node(event) {
+    let options = {};
+
+    options['success'] = function () {
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["BROWSER_REFRESH"]);
+    };
+
+    this.selection.each(function (model) {
+      model.destroy(options);
+    });
+  }
 
   rename_node(event) {}
 
@@ -22104,6 +22116,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id);
     this.browse.fetch();
     this.listenTo(this.browse, 'change', this.render);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"], this.refresh, this);
   }
 
   events() {
@@ -22164,6 +22177,11 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
       'parent_id': node_id
     });
     this.browse.fetch();
+  }
+
+  refresh() {
+    console.log('refresh');
+    this.open(this.browse.get('parend_id'));
   }
 
   render() {
@@ -22481,6 +22499,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_new_folder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/new_folder */ "./src/js/models/new_folder.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -22508,13 +22528,20 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   on_create(event) {
-    let folder_title, parent_id;
+    let folder_title,
+        parent_id,
+        options = {};
+
+    options['success'] = function () {
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+    };
+
     folder_title = this.$el.find("[name=title]").val();
     this.folder.set({
       'title': folder_title
     });
-    this.folder.save();
     this.$el.modal('hide');
+    this.folder.save({}, options);
   }
 
   render() {

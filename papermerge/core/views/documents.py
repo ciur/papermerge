@@ -229,7 +229,7 @@ def create_folder(request):
     * If parent_id >= 0 => creates a folder with given parent id.
     """
     data = json.loads(request.body)
-    parent_id = data.get('parent_id', False)
+    parent_id = data.get('parent_id', -1)
     title = data.get('title', False)
 
     if not (parent_id or title):
