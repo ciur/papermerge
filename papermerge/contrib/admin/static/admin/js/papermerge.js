@@ -21906,7 +21906,11 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   initialize(parent_id) {
     let that = this;
-    this.parent_id = parent_id;
+    this.parent_id = parent_id; // collection of nodes
+
+    this.selection = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](); // collection of nodes
+
+    this.clipboard = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], function (parent_id) {
       that.parent_id = parent_id;
     });
@@ -21914,10 +21918,16 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   events() {
     let event_map = {
-      'click #new-folder': 'new_folder'
+      'click #new-folder': 'new_folder',
+      'click #delete': 'delete_node',
+      'click #rename': 'rename_node'
     };
     return event_map;
   }
+
+  delete_node(event) {}
+
+  rename_node(event) {}
 
   new_folder(event) {
     let new_folder_view;
