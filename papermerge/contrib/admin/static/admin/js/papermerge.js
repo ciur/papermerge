@@ -20350,6 +20350,10 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return "upload_progress";
   }
 
+  get human_size() {
+    return "5KB";
+  }
+
 }
 class Uploader extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
   get model() {
@@ -20880,7 +20884,19 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div id="upload_feedback" class="border-thin card hidden">\n    <section class="header">\n        <ul>\n            <li>\n                <button type="button" id="uploader_close" class="close" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>                    \n            </li>\n        </ul>\n\n    </section>\n    <section id="upload_feedback_details" class="hidden">\n        <ul class="details">\n        </ul>\n    </section>\n    <section id="upload_feedback_summary">\n        <ul class="short horizontal fl-j-space-between fl-i-center">\n            <li id="uploader_short_status" class="cell status">\n            </li>\n            <li id="uploader_text_status" class="cell filename padding-left-md">\n                Uploading...\n            </li>\n            <li>\n                <button class="btn btn-neuter"  id="uploader_details_sw">\n                    Details\n                </button>\n            </li>\n        </ul>\n    </section>\n    <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>\n</div>';
+__p+='<div id="upload_feedback" class="border-thin card hidden">\n    <div class="card-header container-fluid" id="newsHeading">\n        <div class="row">\n            <div class="col">\n                <h5>Uploading...</h5>\n            </div>\n            <div class="col">\n                <button type="button" class="close text-danger" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>\n            </div>\n        </div>\n    <div id="upload_feedback_details" class="hidden">\n        <div class="details">\n            <div class="row">\n                ';
+ for (i=0; i < files.length; i++) { 
+__p+='\n                    ';
+ file = files.at(i) 
+__p+='\n                    <div class="col-1">\n                        <div class="status">\n                            <i class="fa fa-check-circle"></i>\n                        </div>\n                    </div>\n                    <div class="col-7">\n                        <div class="filename">'+
+((__t=( file.get('title') ))==null?'':__t)+
+'</div>\n                    </div>\n                    <div class="col-2 text-right">\n                        <div class="size">'+
+((__t=( file.human_size ))==null?'':__t)+
+'</div>\n                    </div>\n                    <div class="col-2 text-right">\n                        <div class="lang">'+
+((__t=( file.get('lang') ))==null?'':__t)+
+'</div>\n                    </div>\n                ';
+ } 
+__p+='\n            </div>\n        </div>\n    </div>\n    <div id="upload_feedback_summary">\n        <div class="row my-2 align-items-center">\n            <div id="uploader_short_status" class="col-4 status text-success">\n                <i class="fa fa-check-circle"></i>\n            </div>\n            <div id="uploader_text_status" class="col-4 filename padding-left-md">\n            </div>\n            <div class="col-4 text-right">\n                <button class="btn btn-neuter btn-bordered"  id="uploader_details_sw">\n                    Details\n                </button>\n            </div>\n        </div>\n    </div>\n    <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>\n</div>';
 }
 return __p;
 };
@@ -22724,15 +22740,21 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   events() {
-    let event_map = {};
+    let event_map = {
+      'click .close': 'close'
+    };
     return event_map;
+  }
+
+  close(event) {
+    this.$el.html('');
   }
 
   render() {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'files': this.uploader.models
+      'files': this.uploader
     }));
     this.$el.html(compiled);
   }

@@ -10245,8 +10245,10 @@ footer a:hover {
   bottom: 1rem;
   right: 0;
   left: 0;
-  max-width: 50%;
-  margin: 0 auto; }
+  max-width: 80%;
+  margin: 0 auto;
+  /** uploader must have higher z-index then aside bar **/
+  z-index: 2000; }
 
 
 /*# sourceMappingURL=papermerge.css.map*/
