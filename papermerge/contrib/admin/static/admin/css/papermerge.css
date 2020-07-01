@@ -7264,6 +7264,10 @@ a.text-dark:hover, a.text-dark:focus {
   height: 900px;
   background-color: #ccc; }
 
+#upload_feedback .details {
+  padding: 0.5rem 1rem;
+  background-color: white; }
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
@@ -10174,6 +10178,9 @@ nav#left-sidebar.phone {
       nav#left-sidebar.phone ul li button {
         margin: 0.5rem 0;
         width: 100%; }
+
+.hidden {
+  display: none; }
 
 ul li a, ol li a {
   color: #585959; }

@@ -17414,26 +17414,25 @@ class MgChangeFormActions {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-/* harmony import */ var _uploader_uploader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uploader/uploader */ "./src/js/uploader/uploader.js");
-/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
-/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
+/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__);
 
 
 
@@ -17450,11 +17449,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync;
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
+backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_9___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17472,7 +17470,7 @@ backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, 
 };
 
 let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document_form");
+  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_9___default()("#document_form");
 
   if ($document_form.length == 0) {
     return;
@@ -17484,21 +17482,21 @@ let on_document_form = function (func) {
 let App = function () {
   let browse_view, actions_view, breadcrumb_view, browse_router;
   let dom_actual_pages = document.querySelector('.actual-pages');
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_zoom_2_document_form"]);
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_switch_2_document_form"]); // creates a new DgDocument instance
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_zoom_2_document_form"]);
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_switch_2_document_form"]); // creates a new DgDocument instance
 
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_load_on_scroll"]);
+  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_load_on_scroll"]);
 
   if (dom_actual_pages) {
-    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
+    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_2__["DgPageScroll"](dom_actual_pages);
   }
 
-  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_5__["BrowseView"]();
-  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_7__["ActionsView"]();
-  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_6__["BreadcrumbView"]();
-  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
-  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
-  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_4__["sort_cookie"])();
+  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_4__["BrowseView"]();
+  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_6__["ActionsView"]();
+  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_5__["BreadcrumbView"]();
+  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_7__["BrowseRouter"](browse_view, breadcrumb_view);
+  backbone__WEBPACK_IMPORTED_MODULE_8___default.a.history.start();
+  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_3__["sort_cookie"])();
 };
 
 Object(_utils__WEBPACK_IMPORTED_MODULE_0__["dglReady"])( // i.e. after all DOM is loaded
@@ -20310,6 +20308,7 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return {
       title: '',
       size: '',
+      file: '',
       lang: '',
       status: '',
       file_type: '',
@@ -20325,7 +20324,10 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       'file_type': file.type,
       'progress': 0,
       'status': UploaderItem.INIT
-    });
+    }); // once uploader item instance is created
+    // immediately start upload process.
+
+    this.send();
   }
 
   static get INIT() {
@@ -20352,6 +20354,13 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
   get human_size() {
     return "5KB";
+  }
+
+  send() {
+    /*
+    This model class does NOT use Backbone's sync. The
+    reason is that we need to closely monitor the progress of file uploads.
+     */
   }
 
 }
@@ -20884,9 +20893,9 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div id="upload_feedback" class="border-thin card hidden">\n    <div class="card-header container-fluid" id="newsHeading">\n        <div class="row">\n            <div class="col">\n                <h5>Uploading...</h5>\n            </div>\n            <div class="col">\n                <button type="button" class="close text-danger" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>\n            </div>\n        </div>\n    <div id="upload_feedback_details" class="hidden">\n        <div class="details">\n            <div class="row">\n                ';
+__p+='<div id="upload_feedback" class="border-thin card">\n    <div class="card-header container-fluid" id="newsHeading">\n        <div class="row">\n            <div class="col">\n                <h5>Uploading...</h5>\n            </div>\n            <div class="col">\n                <button type="button" class="close text-danger" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>\n            </div>\n        </div>\n    <div class="hidden uploader-details">\n        <div class="details">\n            \n            ';
  for (i=0; i < files.length; i++) { 
-__p+='\n                    ';
+__p+='\n                <div class="row">\n                ';
  file = files.at(i) 
 __p+='\n                    <div class="col-1">\n                        <div class="status">\n                            <i class="fa fa-check-circle"></i>\n                        </div>\n                    </div>\n                    <div class="col-7">\n                        <div class="filename">'+
 ((__t=( file.get('title') ))==null?'':__t)+
@@ -20894,9 +20903,9 @@ __p+='\n                    <div class="col-1">\n                        <div cl
 ((__t=( file.human_size ))==null?'':__t)+
 '</div>\n                    </div>\n                    <div class="col-2 text-right">\n                        <div class="lang">'+
 ((__t=( file.get('lang') ))==null?'':__t)+
-'</div>\n                    </div>\n                ';
+'</div>\n                    </div>\n                </div>\n            ';
  } 
-__p+='\n            </div>\n        </div>\n    </div>\n    <div id="upload_feedback_summary">\n        <div class="row my-2 align-items-center">\n            <div id="uploader_short_status" class="col-4 status text-success">\n                <i class="fa fa-check-circle"></i>\n            </div>\n            <div id="uploader_text_status" class="col-4 filename padding-left-md">\n            </div>\n            <div class="col-4 text-right">\n                <button class="btn btn-neuter btn-bordered"  id="uploader_details_sw">\n                    Details\n                </button>\n            </div>\n        </div>\n    </div>\n    <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>\n</div>';
+__p+='\n            \n        </div>\n    </div>\n    <div id="upload_feedback_summary">\n        <div class="row my-2 align-items-center">\n            <div id="uploader_short_status" class="col-4 status text-success">\n                <i class="fa fa-check-circle"></i>\n            </div>\n            <div id="uploader_text_status" class="col-4 filename padding-left-md">\n            </div>\n            <div class="col-4 text-right">\n                <button class="btn btn-neuter btn-bordered toggle-details">\n                    Details\n                </button>\n            </div>\n        </div>\n    </div>\n    <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>\n</div>';
 }
 return __p;
 };
@@ -21117,526 +21126,11 @@ class DgTextOverlay {
 
 /***/ }),
 
-/***/ "./src/js/toast_message.js":
-/*!*********************************!*\
-  !*** ./src/js/toast_message.js ***!
-  \*********************************/
-/*! exports provided: ToastMessage */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToastMessage", function() { return ToastMessage; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-
-class ToastMessage {
-  constructor(message, type) {
-    this._message = message;
-    this._type = type;
-  }
-
-  static get ERROR() {
-    return "error";
-  }
-
-  static get INFO() {
-    return "info";
-  }
-
-  static get WARNING() {
-    return "warning";
-  }
-
-  get title() {
-    if (this._type == ToastMessage.ERROR) {
-      return "Error";
-    } else if (this._type == ToastMessage.WARNING) {
-      return "Warning";
-    }
-
-    return "Info";
-  }
-
-  get_template() {
-    let templ = `
-            <div class="toast ${this._type}" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="mr-auto">${this.title}</strong>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                  ${this._message}
-                </div>
-            </div>`;
-    return templ;
-  }
-
-  show() {
-    let templ = this.get_template();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.toasts').html(templ);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.toast').toast({
-      'autohide': false
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.toast').toast('show');
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/uploader/upload_file.js":
-/*!****************************************!*\
-  !*** ./src/js/uploader/upload_file.js ***!
-  \****************************************/
-/*! exports provided: UploadFiles */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UploadFiles", function() { return UploadFiles; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
-/* harmony import */ var _upload_list_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./upload_list_item */ "./src/js/uploader/upload_list_item.js");
-
-
-
-
-
-class DgUploadList {
-  constructor() {
-    this._items = [];
-  }
-
-  on_upload_progress(item, percent) {
-    item.set_progress(percent);
-  }
-
-  get_summary_status() {
-    let summary_status = {
-      'success': 0,
-      'error': 0
-    };
-
-    for (let it of this._items) {
-      if (it.is_success()) {
-        summary_status['success'] += 1;
-      }
-
-      if (it.is_error()) {
-        summary_status['error'] += 1;
-      }
-    }
-
-    return summary_status;
-  }
-
-  is_summary_success() {
-    let summary_status = this.get_summary_status();
-    return summary_status['success'] == this._items.length;
-  }
-
-  is_summary_error() {
-    let summary_status = this.get_summary_status();
-    return summary_status['error'] > 0;
-  }
-
-  clear_status() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_short_status').removeClass('spinner');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uploader_progress_bar").removeClass("bg-c-success-faded");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uploader_progress_bar").removeClass("bg-c-fail-faded");
-  }
-
-  set_status_success() {
-    this.clear_status();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_short_status').addClass('success');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_text_status').text('Done!');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uploader_progress_bar").addClass("bg-c-success");
-  }
-
-  set_status_error() {
-    this.clear_status();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_short_status').addClass('fail');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_text_status').text('Error');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#uploader_progress_bar").addClass("bg-c-fail");
-  }
-
-  on_upload_success(item) {
-    item.set_status_success();
-
-    if (this.is_summary_success()) {
-      this.set_status_success();
-    } else if (this.is_summary_error()) {
-      this.set_status_error();
-    }
-  }
-
-  on_upload_error(item) {
-    console.log("Upload failed");
-    item.set_status_error();
-    this.set_status_error();
-  }
-
-  on_upload_start(item) {
-    item.set_status_progress();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_short_status').removeClass('success');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_short_status').removeClass('fail');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_short_status').addClass('spinner');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader_text_status').text('Uploading...');
-  }
-
-  add(item) {
-    this._items.push(item);
-
-    this.get_details().append(item.dom_ref);
-    item.subscribe_event(_upload_list_item__WEBPACK_IMPORTED_MODULE_2__["DgUploadListItem"].UPLOAD_PROGRESS, this.on_upload_progress, this);
-    item.subscribe_event(_upload_list_item__WEBPACK_IMPORTED_MODULE_2__["DgUploadListItem"].UPLOAD_SUCCESS, this.on_upload_success, this);
-    item.subscribe_event(_upload_list_item__WEBPACK_IMPORTED_MODULE_2__["DgUploadListItem"].UPLOAD_ERROR, this.on_upload_error, this);
-    item.subscribe_event(_upload_list_item__WEBPACK_IMPORTED_MODULE_2__["DgUploadListItem"].UPLOAD_START, this.on_upload_start, this);
-    item.send(); //i.e. start file upload via ajax
-  }
-
-  get_details() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#upload_feedback_details > .details');
-  }
-
-  total_files_size() {
-    let total;
-
-    for (let i = 0; i < this.items.length; i++) {
-      total += this._items[i].size;
-    }
-
-    return total;
-  }
-
-}
-
-function UploadFiles(files, lang) {
-  let upload_list, upload_item;
-  upload_list = new DgUploadList();
-
-  for (let file of files) {
-    upload_item = new _upload_list_item__WEBPACK_IMPORTED_MODULE_2__["DgUploadListItem"](file, lang);
-    upload_list.add(upload_item);
-  }
-}
-;
-
-/***/ }),
-
-/***/ "./src/js/uploader/upload_list_item.js":
-/*!*********************************************!*\
-  !*** ./src/js/uploader/upload_list_item.js ***!
-  \*********************************************/
-/*! exports provided: DgUploadListItem */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgUploadListItem", function() { return DgUploadListItem; });
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-
-class DgUploadListItem {
-  constructor(file, lang) {
-    this._title = file.name;
-    this._size = file.size; // in Bytes, as integer number
-
-    this._lang = lang;
-    this._status = DgUploadListItem.INIT;
-    this._file = file;
-    this._file_type = file.type;
-    this._progress = 0; // integer (0..100)
-
-    this._dom_ref = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.get_template());
-    this._events = new _events__WEBPACK_IMPORTED_MODULE_0__["DgEvents"]();
-  }
-
-  subscribe_event(name, handler, context) {
-    this._events.subscribe(name, handler, context);
-  }
-
-  get dom_ref() {
-    return this._dom_ref;
-  }
-
-  static get INIT() {
-    // this is initial state
-    // before uploading starts
-    return "init";
-  }
-
-  static get UPLOAD_START() {
-    return "upload_start";
-  }
-
-  static get UPLOAD_ERROR() {
-    return "upload_error";
-  }
-
-  static get UPLOAD_SUCCESS() {
-    return "upload_success";
-  }
-
-  static get UPLOAD_PROGRESS() {
-    return "upload_progress";
-  }
-
-  is_success() {
-    return this._status == DgUploadListItem.UPLOAD_SUCCESS;
-  }
-
-  is_error() {
-    return this._status == DgUploadListItem.UPLOAD_ERROR;
-  }
-
-  is_progress() {
-    return this._status == DgUploadListItem.UPLOAD_PROGRESS;
-  }
-
-  set_status_success() {
-    this.set_status(DgUploadListItem.UPLOAD_SUCCESS);
-  }
-
-  set_status_error() {
-    this.set_status(DgUploadListItem.UPLOAD_ERROR);
-  }
-
-  set_status_progress() {
-    this.set_status(DgUploadListItem.UPLOAD_PROGRESS);
-  }
-
-  set_status(status) {
-    if (status == DgUploadListItem.UPLOAD_ERROR) {
-      this._dom_ref.addClass("bg-c-fail-faded");
-
-      this._dom_ref.find("li.status").removeClass("spinner");
-
-      this._status = DgUploadListItem.UPLOAD_ERROR;
-    } else if (status == DgUploadListItem.UPLOAD_SUCCESS) {
-      this._dom_ref.addClass("bg-c-success-faded");
-
-      this._dom_ref.find("li.status").addClass("success-wire");
-
-      this._dom_ref.find("li.status").removeClass("spinner");
-
-      this._status = DgUploadListItem.UPLOAD_SUCCESS;
-    } else if (status == DgUploadListItem.UPLOAD_PROGRESS) {
-      this._dom_ref.find("li.status").addClass("spinner");
-
-      this._status = DgUploadListItem.UPLOAD_PROGRESS;
-    }
-  }
-
-  get_template() {
-    let templ = `
-        <li class="file">
-            <ul class="horizontal fl-j-space-between fl-i-center">
-                <li class="status"></li>
-                <li class="filename">${this._title}</li>
-                <li class="size">${this.get_human_size()}</li>
-                <li class="lang">${this._lang}</li>
-        </li>
-        `;
-    return templ;
-  }
-
-  set_progress(percent) {
-    // percentage = (0..100), as integer
-    this._progress = percent;
-    this.dom_ref.attr("style", `background-size: ${percent}% 100%`);
-  }
-
-  _build_form_data() {
-    let form_data;
-    form_data = new FormData();
-    form_data.append("language", this._lang);
-    form_data.append("file_name", this._title);
-    form_data.append("file_type", this._file_type);
-    form_data.append("parent", Object(_utils__WEBPACK_IMPORTED_MODULE_1__["get_parent_id"])());
-    form_data.append("file", this._file);
-    return form_data;
-  }
-
-  send() {
-    let xhr,
-        percent,
-        token,
-        that = this;
-    xhr = new XMLHttpRequest();
-    xhr.addEventListener('progress', function (e) {
-      if (e.lengthComputable) {
-        percent = Math.round(e.loaded * 100 / e.total); // notify subscribers of "upload_progress" event
-
-        that._events.notify(DgUploadListItem.UPLOAD_PROGRESS, that, percent);
-      }
-    });
-
-    function transferFailed(e) {
-      console.log("ERROR");
-
-      that._events.notify(DgUploadListItem.UPLOAD_ERROR, that);
-    }
-
-    function transferComplete(e) {
-      if (e.currentTarget.status == 200) {
-        that._events.notify(DgUploadListItem.UPLOAD_SUCCESS, that);
-      }
-
-      if (e.currentTarget.status == 500) {
-        that._events.notify(DgUploadListItem.UPLOAD_ERROR, that);
-      }
-    }
-
-    function transferCanceled(e) {
-      console.log("Canceled");
-    }
-
-    xhr.addEventListener("abort", transferCanceled);
-    xhr.addEventListener("error", transferFailed);
-    xhr.addEventListener("load", transferComplete);
-    token = jquery__WEBPACK_IMPORTED_MODULE_2___default()("[name=csrfmiddlewaretoken]").val();
-    xhr.open("POST", "/upload/");
-    xhr.setRequestHeader("X-CSRFToken", token);
-    xhr.send(this._build_form_data());
-
-    this._events.notify(DgUploadListItem.UPLOAD_START, this);
-  }
-
-  get_human_size() {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["human_size"])(this._size);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/uploader/uploader.js":
-/*!*************************************!*\
-  !*** ./src/js/uploader/uploader.js ***!
-  \*************************************/
-/*! exports provided: DgUploader */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DgUploader", function() { return DgUploader; });
-/* harmony import */ var _toast_message__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../toast_message */ "./src/js/toast_message.js");
-/* harmony import */ var _upload_file__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./upload_file */ "./src/js/uploader/upload_file.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
-
-
-
-
-class DgUploader {
-  constructor() {
-    let that = this;
-    this._dom_ref = jquery__WEBPACK_IMPORTED_MODULE_2___default()(this.get_template()); // insert element into live dom (if element did not exist)
-
-    _utils__WEBPACK_IMPORTED_MODULE_3__["id_or_invoke"]('id_file_name', function () {
-      _utils__WEBPACK_IMPORTED_MODULE_3__["insert"]('input', {
-        type: 'file',
-        name: 'file_name',
-        id: 'id_file_name',
-        multiple: true,
-        // allow user to select multiple files
-        hidden: true
-      });
-    });
-    _utils__WEBPACK_IMPORTED_MODULE_3__["proxy_click"](
-    /*from*/
-    "#id_btn_upload1",
-    /*to*/
-    "#id_file_name");
-    _utils__WEBPACK_IMPORTED_MODULE_3__["proxy_click"](
-    /*from*/
-    "#id_btn_upload2",
-    /*to*/
-    "#id_file_name");
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()("#centralbar").append(this._dom_ref);
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()("#uploader_details_sw").click(function () {
-      that.toggle_details();
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()("#uploader_close").click(function (e) {
-      e.preventDefault();
-      jquery__WEBPACK_IMPORTED_MODULE_2___default()("#upload_feedback").hide();
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()('#id_file_name').change(function (e) {
-      let files = this.files,
-          lang = jquery__WEBPACK_IMPORTED_MODULE_2___default()("#lang").val();
-      that.show();
-      Object(_upload_file__WEBPACK_IMPORTED_MODULE_1__["UploadFiles"])(files, lang);
-    });
-  }
-
-  toggle_details() {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()("#upload_feedback_details").toggle();
-  }
-
-  show() {
-    this._dom_ref.show();
-  }
-
-  get_template() {
-    let templ = UPLOADER_TEMPLATE;
-    return templ;
-  }
-
-} // In ideal case this will be in separate file...
-// But this code is meant to run in web browser.
-
-let UPLOADER_TEMPLATE = `
-    <div id="upload_feedback" class="border-thin card hidden">
-        <section class="header">
-            <ul>
-                <li>
-                    <button type="button" id="uploader_close" class="close" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>                    
-                </li>
-            </ul>
-
-        </section>
-        <section id="upload_feedback_details" class="hidden">
-            <ul class="details">
-            </ul>
-        </section>
-        <section id="upload_feedback_summary">
-            <ul class="short horizontal fl-j-space-between fl-i-center">
-                <li id="uploader_short_status" class="cell status">
-                </li>
-                <li id="uploader_text_status" class="cell filename padding-left-md">
-                    Uploading...
-                </li>
-                <li>
-                    <button class="btn btn-neuter"  id="uploader_details_sw">
-                        Details
-                    </button>
-                </li>
-            </ul>
-        </section>
-        <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>
-    </div>
-`;
-
-/***/ }),
-
 /***/ "./src/js/utils.js":
 /*!*************************!*\
   !*** ./src/js/utils.js ***!
   \*************************/
-/*! exports provided: human_size, find_by_id, get_parent_id, id, id_or_invoke, q, qall, value, insert, proxy_click, dglReady */
+/*! exports provided: human_size, find_by_id, get_parent_id, value, insert, proxy_click, dglReady */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21644,10 +21138,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "human_size", function() { return human_size; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find_by_id", function() { return find_by_id; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_parent_id", function() { return get_parent_id; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "id", function() { return id; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "id_or_invoke", function() { return id_or_invoke; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return q; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "qall", function() { return qall; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "value", function() { return value; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return insert; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proxy_click", function() { return proxy_click; });
@@ -21778,34 +21268,6 @@ function get_object_id(pathname) {
 function get_parent_id() {
   return get_object_id(window.location.pathname);
 }
-function id(elem_id) {
-  var elem;
-  elem = document.getElementById(elem_id);
-
-  if (!elem) {
-    console.log("Element " + elem_id + " was not found");
-    return;
-  } // returns a DOM Element with extra features (i.e. extended DOM element)
-
-
-  return dglDOM(elem);
-}
-function id_or_invoke(elem_id, func) {
-  // if element with id does not exist - call function func
-  // which probably will create one.
-  var elem;
-  elem = document.getElementById(elem_id);
-
-  if (!elem) {
-    func();
-  }
-}
-function q(sel) {
-  return dglDOM(document.querySelector(sel));
-}
-function qall(sel) {
-  return dglDOM(document.querySelectorAll(sel));
-}
 function value(elem_id) {
   var elem = document.getElementById(elem_id);
 
@@ -21844,136 +21306,6 @@ function proxy_click(from_elem_id, to_elem_id) {
     }
   });
 }
-
-var dglDOM = function () {
-  var wrapper, DOMPlus, extend, DglMethods, foreach;
-
-  extend = function (out) {
-    out = out || {};
-
-    for (var i = 1; i < arguments.length; i++) {
-      if (!arguments[i]) continue;
-
-      for (var key in arguments[i]) {
-        if (arguments[i].hasOwnProperty(key)) out[key] = arguments[i][key];
-      }
-    }
-
-    return out;
-  };
-
-  DglMethods = {
-    forEach: function (foo) {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        foo(elems[i], i);
-      }
-
-      return this;
-    },
-    addStyles: function (styles) {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        for (var prop in styles) {
-          elems[i].style[prop] = styles[prop];
-        }
-      }
-
-      return this;
-    },
-    xclick: function (foo) {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        elems[i].addEventListener('click', foo);
-      }
-
-      return this;
-    },
-    xchange: function (foo) {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        elems[i].addEventListener('change', foo);
-      }
-
-      return this;
-    },
-    hide: function () {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        elems[i].classList.add('hidden');
-      }
-
-      return this;
-    },
-    cycle: function (css_class_list) {
-      var elems = this.collection,
-          css1,
-          css2;
-      css1 = css_class_list[0];
-      css2 = css_class_list[1];
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        if (elems[i].classList.contains(css1)) {
-          elems[i].classList.remove(css1);
-          elems[i].classList.add(css2);
-        } else if (elems[i].classList.contains(css2)) {
-          elems[i].classList.remove(css2);
-          elems[i].classList.add(css1);
-        }
-      }
-
-      return this;
-    },
-    toggle: function (css_class) {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        if (elems[i].classList.contains(css_class)) {
-          elems[i].classList.remove(css_class);
-        } else {
-          elems[i].classList.add(css_class);
-        }
-      }
-
-      return this;
-    },
-    toggle_visibility: function () {
-      var elems = this.collection;
-
-      for (var i = 0, l = elems.length; i < l; i++) {
-        if (elems[i].classList.contains("hidden")) {
-          elems[i].classList.remove("hidden");
-        } else {
-          elems[i].classList.add("hidden");
-        }
-      }
-
-      return this;
-    }
-  };
-
-  wrapper = function (elems) {
-    return new DOMPlus(elems);
-  };
-
-  DOMPlus = function (elems) {
-    if (elems === null || elems === undefined) {
-      return undefined;
-    }
-
-    ;
-    this.collection = elems[1] ? Array.prototype.slice.call(elems) : [elems];
-    return extend(elems, this, DglMethods);
-  };
-
-  return wrapper;
-}();
-
 function dglReady(func) {
   document.addEventListener('DOMContentLoaded', func);
 }
@@ -22741,9 +22073,14 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
   events() {
     let event_map = {
-      'click .close': 'close'
+      'click .close': 'close',
+      'click button.toggle-details': 'toggle_details'
     };
     return event_map;
+  }
+
+  toggle_details(event) {
+    this.$el.find('.uploader-details').toggleClass('hidden');
   }
 
   close(event) {
