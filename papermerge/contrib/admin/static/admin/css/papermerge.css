@@ -7268,6 +7268,9 @@ a.text-dark:hover, a.text-dark:focus {
   padding: 0.5rem 1rem;
   background-color: white; }
 
+#upload_feedback .progress-bar-green, #upload_feedback .progress-bar-success {
+  background-color: #00a65a; }
+
 /* latin-ext */
 @font-face {
   font-family: 'Lato';
