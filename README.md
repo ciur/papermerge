@@ -1,5 +1,6 @@
 [![Documentation Status](https://readthedocs.org/projects/papermerge/badge/?version=latest)](https://papermerge.readthedocs.io/en/latest/?badge=latest)
 [![Travis](https://travis-ci.com/ciur/papermerge.svg?branch=master)](https://travis-ci.com/github/ciur/papermerge)
+[![Docker Pulls](https://img.shields.io/docker/pulls/eugenci/papermerge)](https://hub.docker.com/r/eugenci/papermerge)
 
 ![Papermerge](./artwork/logo.png)
 
