@@ -17482,11 +17482,7 @@ let on_document_form = function (func) {
 };
 
 let App = function () {
-  let uploader = new _uploader_uploader__WEBPACK_IMPORTED_MODULE_1__["DgUploader"](),
-      browse_view,
-      actions_view,
-      breadcrumb_view,
-      browse_router;
+  let browse_view, actions_view, breadcrumb_view, browse_router;
   let dom_actual_pages = document.querySelector('.actual-pages');
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_zoom_2_document_form"]);
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_2__["add_switch_2_document_form"]); // creates a new DgDocument instance
@@ -20293,6 +20289,77 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"]
 
 /***/ }),
 
+/***/ "./src/js/models/uploader.js":
+/*!***********************************!*\
+  !*** ./src/js/models/uploader.js ***!
+  \***********************************/
+/*! exports provided: UploaderItem, Uploader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UploaderItem", function() { return UploaderItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Uploader", function() { return Uploader; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      title: '',
+      size: '',
+      lang: '',
+      status: '',
+      file_type: '',
+      progress: 0
+    };
+  }
+
+  initialize(file, lang) {
+    this.set({
+      'title': file.name,
+      'size': file.size,
+      'lang': lang,
+      'file_type': file.type,
+      'progress': 0,
+      'status': UploaderItem.INIT
+    });
+  }
+
+  static get INIT() {
+    // this is initial state
+    // before uploading starts
+    return "init";
+  }
+
+  static get UPLOAD_START() {
+    return "upload_start";
+  }
+
+  static get UPLOAD_ERROR() {
+    return "upload_error";
+  }
+
+  static get UPLOAD_SUCCESS() {
+    return "upload_success";
+  }
+
+  static get UPLOAD_PROGRESS() {
+    return "upload_progress";
+  }
+
+}
+class Uploader extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return UploaderItem;
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/node.js":
 /*!************************!*\
   !*** ./src/js/node.js ***!
@@ -20796,6 +20863,24 @@ module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="title">Folder name:</label>\n                    <input type="text" class="form-control" id="title" name="title">\n                    <input name="parent_id" value="" type="hidden" >\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/uploader.html":
+/*!****************************************!*\
+  !*** ./src/js/templates/uploader.html ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div id="upload_feedback" class="border-thin card hidden">\n    <section class="header">\n        <ul>\n            <li>\n                <button type="button" id="uploader_close" class="close" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>                    \n            </li>\n        </ul>\n\n    </section>\n    <section id="upload_feedback_details" class="hidden">\n        <ul class="details">\n        </ul>\n    </section>\n    <section id="upload_feedback_summary">\n        <ul class="short horizontal fl-j-space-between fl-i-center">\n            <li id="uploader_short_status" class="cell status">\n            </li>\n            <li id="uploader_text_status" class="cell filename padding-left-md">\n                Uploading...\n            </li>\n            <li>\n                <button class="btn btn-neuter"  id="uploader_details_sw">\n                    Details\n                </button>\n            </li>\n        </ul>\n    </section>\n    <div id="uploader_progress_bar" class="progress bar-thin bg-c-success"></div>\n</div>';
 }
 return __p;
 };
@@ -21897,6 +21982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 /* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
+/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+
 
 
 
@@ -21923,9 +22010,29 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let event_map = {
       'click #new-folder': 'new_folder',
       'click #delete': 'delete_node',
-      'click #rename': 'rename_node'
+      'click #rename': 'rename_node',
+      // will proxy event to #id_file_name
+      'click #id_btn_upload': 'upload_clicked',
+      'change #id_file_name': 'upload'
     };
     return event_map;
+  }
+
+  upload(event) {
+    let $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget),
+        files,
+        lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
+        uploader_view;
+    files = $target[0].files;
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_5__["UploaderView"](files, lang);
+  }
+
+  upload_clicked(event) {
+    let $hidden_file_input = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#id_file_name");
+    event.preventDefault(); // send click event to hidden #id_file_name element
+    // (input[type=file] element used for uploads)
+
+    $hidden_file_input.click();
   }
 
   delete_node(event) {
@@ -21944,8 +22051,6 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   rename_node(event) {}
 
   parent_changed(parent_id) {
-    console.log(`Actions View, parent changed, new parent_id=${parent_id}`);
-    console.log(`Actions View, parent changed, old parent_id=${this.parent_id}`);
     this.parent_id = parent_id;
   }
 
@@ -22569,6 +22674,67 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     }));
     this.$el.html(compiled);
     this.$el.modal();
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/uploader.js":
+/*!**********************************!*\
+  !*** ./src/js/views/uploader.js ***!
+  \**********************************/
+/*! exports provided: UploaderView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UploaderView", function() { return UploaderView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _models_uploader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/uploader */ "./src/js/models/uploader.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
+
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/uploader.html */ "./src/js/templates/uploader.html");
+
+class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    // this element is defined in admin/_forms.js.html
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader-view');
+  }
+
+  initialize(files, lang) {
+    this.uploader = new _models_uploader__WEBPACK_IMPORTED_MODULE_2__["Uploader"]();
+
+    for (let file of files) {
+      this.uploader.add(new _models_uploader__WEBPACK_IMPORTED_MODULE_2__["UploaderItem"](file, lang));
+    }
+
+    this.listenTo(this.uploader, 'change', this.render);
+    this.render();
+  }
+
+  events() {
+    let event_map = {};
+    return event_map;
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'files': this.uploader.models
+    }));
+    this.$el.html(compiled);
   }
 
 }

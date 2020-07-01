@@ -46,8 +46,15 @@
                      {% ocr_language_select user %}
                  </li>
                  <li class="mx-1">
-                     <button type="button" id="id_btn_upload1" class="btn btn-light btn-bordered ">{% trans "Upload" %}</button>
+                     <button type="button" id="id_btn_upload" class="btn btn-light btn-bordered ">{% trans "Upload" %}</button>
                  </li>
+                 <!-- Hidden input required for file uploads-->
+                 <input type="file"
+                   name="file_name"
+                   id="id_file_name"
+                   multiple="true"
+                   hidden="true"
+                 />
                  <li class="mx-1">
                      <!--parent_id=object.id -->
                      <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
@@ -114,6 +121,7 @@
         {% endblock %}
       </div>
       <!-- /.content -->
+      <div id="uploader-view"></div>
     </div>
     <!-- /.content-wrapper -->
 

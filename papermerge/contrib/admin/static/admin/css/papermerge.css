@@ -10240,5 +10240,13 @@ footer a:hover {
       background-color: #e6f5ff;
       outline: 1px solid #e6f5ff; }
 
+#upload_feedback {
+  position: fixed;
+  bottom: 1rem;
+  right: 0;
+  left: 0;
+  max-width: 50%;
+  margin: 0 auto; }
+
 
 /*# sourceMappingURL=papermerge.css.map*/
