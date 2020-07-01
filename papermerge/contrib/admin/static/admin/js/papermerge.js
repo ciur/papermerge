@@ -20795,7 +20795,7 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form>\n                  <div class="form-group">\n                    <label for="title">Folder name:</label>\n                    <input type="text" class="form-control" id="title" name="title">\n                    <input name="parent_id" value="" type="hidden" >\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="title">Folder name:</label>\n                    <input type="text" class="form-control" id="title" name="title">\n                    <input name="parent_id" value="" type="hidden" >\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
 }
 return __p;
 };
@@ -21933,9 +21933,10 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     options['success'] = function () {
       _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["BROWSER_REFRESH"]);
-    };
+    }; // https://stackoverflow.com/questions/10858935/cleanest-way-to-destroy-every-model-in-a-collection-in-backbone
 
-    this.selection.each(function (model) {
+
+    underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(underscore__WEBPACK_IMPORTED_MODULE_1__["default"].clone(this.selection.models), function (model) {
       model.destroy(options);
     });
   }
@@ -21943,6 +21944,8 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   rename_node(event) {}
 
   parent_changed(parent_id) {
+    console.log(`Actions View, parent changed, new parent_id=${parent_id}`);
+    console.log(`Actions View, parent changed, old parent_id=${this.parent_id}`);
     this.parent_id = parent_id;
   }
 
@@ -21960,8 +21963,9 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   new_folder(event) {
-    let new_folder_view;
-    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_4__["NewFolderView"](this.parent_id);
+    let new_folder_view, parent_id;
+    parent_id = this.parent_id;
+    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_4__["NewFolderView"](parent_id);
   }
 
   enable_action(item) {
@@ -22163,7 +22167,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   open_node(event) {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
         node;
-    node = this.browse.nodes.get(data['cid']);
+    node = this.browse.nodes.get(data['cid']); // routers.browse handles PARENT_CHANGED event.
 
     if (node) {
       _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], node.id);
@@ -22173,6 +22177,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   open(node_id) {
+    let parent_id = node_id;
     this.browse.set({
       'parent_id': node_id
     });
@@ -22180,8 +22185,8 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   refresh() {
-    console.log('refresh');
-    this.open(this.browse.get('parend_id'));
+    let parent_id = this.browse.get('parent_id');
+    this.open(parent_id);
   }
 
   render() {
@@ -22512,7 +22517,7 @@ let TEMPLATE = __webpack_require__(/*! ../templates/new_folder.html */ "./src/js
 class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   el() {
     // this element is defined in admin/_forms.js.html
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#new-folder-form');
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#new-folder-modal');
   }
 
   initialize(parent_id) {
@@ -22522,9 +22527,15 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
   events() {
     let event_map = {
-      "click .create": "on_create"
+      "click .create": "on_create",
+      "submit": "on_form_submit"
     };
     return event_map;
+  }
+
+  on_form_submit(event) {
+    event.preventDefault();
+    this.on_create(event);
   }
 
   on_create(event) {
@@ -22537,6 +22548,12 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     };
 
     folder_title = this.$el.find("[name=title]").val();
+
+    if (folder_title == null || folder_title.trim().length === 0) {
+      this.$el.modal('hide');
+      return;
+    }
+
     this.folder.set({
       'title': folder_title
     });
