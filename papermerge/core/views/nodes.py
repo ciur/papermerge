@@ -96,3 +96,25 @@ def node_view(request, node_id):
         content_type="application/json"
     )
 
+
+@login_required
+def nodes_view(request):
+    if request.method == "POST":
+
+        data = json.loads(request.body)
+        node_ids = [item['id'] for item in data]
+        BaseTreeNode.objects.filter(id__in=node_ids).delete()
+
+        return HttpResponse(
+            json.dumps({
+                'msg': 'OK'
+            }),
+            content_type="application/json"
+        )
+
+    return HttpResponse(
+        json.dumps({
+            'msg': 'OK'
+        }),
+        content_type="application/json"
+    )

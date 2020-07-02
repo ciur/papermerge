@@ -20247,11 +20247,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Node", function() { return Node; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodeCollection", function() { return NodeCollection; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 
 
-class Node extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+
+class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
   defaults() {
     return {
       title: '',
@@ -20295,9 +20298,34 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
 }
-class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
   get model() {
     return Node;
+  }
+
+  urlRoot() {
+    return '/nodes/';
+  }
+
+  delete(options) {
+    let token, post_data, request;
+    token = jquery__WEBPACK_IMPORTED_MODULE_1___default()("[name=csrfmiddlewaretoken]").val();
+    post_data = this.models.map(function (models) {
+      return models.attributes;
+    });
+    jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajaxSetup({
+      headers: {
+        'X-CSRFToken': token
+      }
+    });
+    request = jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajax({
+      method: "POST",
+      url: this.urlRoot(),
+      data: JSON.stringify(post_data),
+      contentType: "application/json",
+      dataType: 'json'
+    });
+    request.done(options['success']);
   }
 
 }
@@ -21515,9 +21543,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
-/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+/* harmony import */ var _models_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/node */ "./src/js/models/node.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
+/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+
 
 
 
@@ -21534,11 +21564,11 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.parent_id = parent_id;
     this.action_conditions = this._build_action_conditions(); // collection of nodes
 
-    this.selection = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](); // collection of nodes
+    this.selection = new _models_node__WEBPACK_IMPORTED_MODULE_3__["NodeCollection"](); // collection of nodes
 
     this.clipboard = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], this.parent_changed, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], this.parent_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
   events() {
@@ -21559,7 +21589,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
         uploader_view;
     files = $target[0].files;
-    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_5__["UploaderView"](files, lang, this.parent_id);
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_6__["UploaderView"](files, lang, this.parent_id);
   }
 
   upload_clicked(event) {
@@ -21574,13 +21604,14 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
     }; // https://stackoverflow.com/questions/10858935/cleanest-way-to-destroy-every-model-in-a-collection-in-backbone
+    //_.each(_.clone(this.selection.models), function(model){
+    //  model.destroy(options);
+    //});
 
 
-    underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(underscore__WEBPACK_IMPORTED_MODULE_1__["default"].clone(this.selection.models), function (model) {
-      model.destroy(options);
-    });
+    this.selection.delete(options);
   }
 
   rename_node(event) {}
@@ -21605,7 +21636,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   new_folder(event) {
     let new_folder_view, parent_id;
     parent_id = this.parent_id;
-    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_4__["NewFolderView"](parent_id);
+    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_5__["NewFolderView"](parent_id);
   }
 
   enable_action(item) {

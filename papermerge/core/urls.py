@@ -49,6 +49,7 @@ urlpatterns = [
         name="breadcrumb"
     ),
     path('node/<int:node_id>', node_views.node_view, name="node"),
+    path('nodes/', node_views.nodes_view, name="nodes"),
     path(
         'access/<int:id>', access_views.access, name="access"
     ),
