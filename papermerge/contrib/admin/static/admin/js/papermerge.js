@@ -20301,6 +20301,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+
+
 
 
 class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
@@ -20312,17 +20317,24 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       lang: '',
       status: '',
       file_type: '',
+      parent_id: -1,
       progress: 0
     };
   }
 
-  initialize(file, lang) {
+  initialize(file, lang, parent_id) {
+    if (!parent_id) {
+      parent_id = -1;
+    }
+
     this.set({
       'title': file.name,
       'size': file.size,
+      'file': file,
       'lang': lang,
       'file_type': file.type,
       'progress': 0,
+      'parent_id': parent_id,
       'status': UploaderItem.INIT
     }); // once uploader item instance is created
     // immediately start upload process.
@@ -20352,8 +20364,37 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return "upload_progress";
   }
 
+  is_success() {
+    return this.get('status') == UploaderItem.UPLOAD_SUCCESS;
+  }
+
+  is_error() {
+    return this.get('status') == UploaderItem.UPLOAD_ERROR;
+  }
+
+  is_progress() {
+    return this.get('status') == UploaderItem.UPLOAD_PROGRESS;
+  }
+
   get human_size() {
-    return "5KB";
+    return Object(_utils__WEBPACK_IMPORTED_MODULE_3__["human_size"])(this.get('size'));
+  }
+
+  set_progress(percent) {
+    // percentage = (0..100), as integer
+    this.set('progress', percent);
+    this.trigger('change');
+  }
+
+  _build_form_data() {
+    let form_data;
+    form_data = new FormData();
+    form_data.append("language", this.get('lang'));
+    form_data.append("file_name", this.get("file_name"));
+    form_data.append("file_type", this.get("file_type"));
+    form_data.append("parent", this.get("parent_id"));
+    form_data.append("file", this.get("file"));
+    return form_data;
   }
 
   send() {
@@ -20361,12 +20402,97 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     This model class does NOT use Backbone's sync. The
     reason is that we need to closely monitor the progress of file uploads.
      */
-  }
+    let xhr,
+        percent,
+        token,
+        that = this;
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('progress', function (e) {
+      if (e.lengthComputable) {
+        percent = Math.round(e.loaded * 100 / e.total); // notify subscribers of "upload_progress" event
+
+        that.set_progress(percent);
+      }
+    });
+
+    function transferFailed(e) {
+      console.log(`Transfer failed for ${that.get('title')}`);
+      that.set({
+        'status': UploaderItem.UPLOAD_ERROR
+      });
+    }
+
+    function transferComplete(e) {
+      console.log(`Complete? status = ${e.currentTarget.status}`);
+
+      if (e.currentTarget.status == 200) {
+        that.set({
+          'status': UploaderItem.UPLOAD_SUCCESS
+        });
+      } else if (e.currentTarget.status == 500) {
+        that.set({
+          'status': UploaderItem.UPLOAD_ERROR
+        });
+      } else if (e.currentTarget.status == 400) {
+        that.set({
+          'status': UploaderItem.UPLOAD_ERROR
+        });
+      }
+    }
+
+    xhr.addEventListener("error", transferFailed);
+    xhr.addEventListener("load", transferComplete);
+    token = jquery__WEBPACK_IMPORTED_MODULE_2___default()("[name=csrfmiddlewaretoken]").val();
+    xhr.open("POST", "/upload/");
+    xhr.setRequestHeader("X-CSRFToken", token);
+    xhr.send(this._build_form_data());
+  } // send
+
 
 }
 class Uploader extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
   get model() {
     return UploaderItem;
+  }
+
+  get progress() {
+    let total_progress = 0;
+    this.each(function (it) {
+      total_progress += it.get('progress');
+    });
+
+    if (this.length > 0) {
+      total_progress = total_progress / this.length;
+    }
+
+    return total_progress;
+  }
+
+  get_summary_status() {
+    let summary_status = {
+      'success': 0,
+      'error': 0
+    };
+    this.each(function (it) {
+      if (it.is_success()) {
+        summary_status['success'] += 1;
+      }
+
+      if (it.is_error()) {
+        summary_status['error'] += 1;
+      }
+    });
+    return summary_status;
+  }
+
+  is_summary_success() {
+    let summary_status = this.get_summary_status();
+    return summary_status['success'] == this.length;
+  }
+
+  is_summary_error() {
+    let summary_status = this.get_summary_status();
+    return summary_status['error'] > 0;
   }
 
 }
@@ -20893,11 +21019,35 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div id="upload_feedback" class="border-thin card">\n    <div class="card-header container-fluid" id="newsHeading">\n        <div class="row">\n            <div class="col">\n                <h5>Uploading...</h5>\n            </div>\n            <div class="col">\n                <button type="button" class="close text-danger" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>\n            </div>\n        </div>\n    <div class="hidden uploader-details">\n        <div class="details">\n            \n            ';
+__p+='<div id="upload_feedback" class="border-thin card">\n    <div class="card-header container-fluid" id="newsHeading">\n        <div class="row">\n            <div class="col">\n                ';
+ if (files.is_summary_success()) { 
+__p+='\n                    <h5 class="text-success">Done!</h5>\n                ';
+ } else if (files.is_summary_error()) { 
+__p+='\n                    <h5 class="text-danger">Error</h5>\n                ';
+ } else { 
+__p+='\n                    <h5>Uploading...</h5>\n                ';
+ } 
+__p+='\n            </div>\n            <div class="col">\n                <button type="button" class="close text-danger" aria-label="Close">\n                  <span aria-hidden="true">&times;</span>\n                </button>\n            </div>\n        </div>\n    <div class="hidden uploader-details">\n        <div class="details">\n            \n            ';
  for (i=0; i < files.length; i++) { 
-__p+='\n                <div class="row">\n                ';
+__p+='\n                ';
  file = files.at(i) 
-__p+='\n                    <div class="col-1">\n                        <div class="status">\n                            <i class="fa fa-check-circle"></i>\n                        </div>\n                    </div>\n                    <div class="col-7">\n                        <div class="filename">'+
+__p+='\n                <div style="background-size: '+
+((__t=( file.get('progress') ))==null?'':__t)+
+'% 100% %>" class="row ';
+ if (file.is_error()) { 
+__p+=' status-fail ';
+ } else { 
+__p+=' status-success ';
+ } 
+__p+='">\n                    <div class="col-1">\n                        <div class="status">\n                            ';
+ if (file.is_error()) { 
+__p+='\n                                <i class="fa fa-times text-danger"></i>\n                            ';
+ } else if (file.is_success()) { 
+__p+='\n                                <i class="fa fa-check-circle text-success"></i>\n                            ';
+ } else if (file.is_progress()) { 
+__p+='\n                                <i class="fa fa-spinner"></i>\n                            ';
+ }  
+__p+='\n                        </div>\n                    </div>\n                    <div class="col-7">\n                        <div class="filename">'+
 ((__t=( file.get('title') ))==null?'':__t)+
 '</div>\n                    </div>\n                    <div class="col-2 text-right">\n                        <div class="size">'+
 ((__t=( file.human_size ))==null?'':__t)+
@@ -20905,7 +21055,21 @@ __p+='\n                    <div class="col-1">\n                        <div cl
 ((__t=( file.get('lang') ))==null?'':__t)+
 '</div>\n                    </div>\n                </div>\n            ';
  } 
-__p+='\n            \n        </div>\n    </div>\n    <div id="upload_feedback_summary">\n        <div class="row my-2 align-items-center">\n            <div id="uploader_short_status" class="col-4 status text-success">\n                <i class="fa fa-check-circle"></i>\n            </div>\n            <div id="uploader_text_status" class="col-4 filename padding-left-md">\n            </div>\n            <div class="col-4 text-right">\n                <button class="btn btn-neuter btn-bordered toggle-details">\n                    Details\n                </button>\n            </div>\n        </div>\n    </div>\n    <div class="progress progress-bar-animated progress-sm active">\n        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">\n            <span class="sr-only">20% Complete</span>\n        </div>\n    </div>\n</div>';
+__p+='\n            \n        </div>\n    </div>\n    <div id="upload_feedback_summary">\n        <div class="row my-2 align-items-center">\n            <div id="uploader_short_status" class="col-4 status">\n                ';
+ if (files.is_summary_success()) { 
+__p+='\n                    <i class="fa fa-check-circle  text-success"></i>\n                ';
+ } else { 
+__p+='\n                    <i class="fa fa-times  text-danger"></i>\n                ';
+  } 
+__p+='\n            </div>\n            <div id="uploader_text_status" class="col-4 filename padding-left-md">\n            </div>\n            <div class="col-4 text-right">\n                <button class="btn btn-neuter btn-bordered toggle-details">\n                    Details\n                </button>\n            </div>\n        </div>\n    </div>\n    <div class="progress progress-bar-animated progress-sm active">\n        <div class="progress-bar ';
+ if (files.is_summary_success()) { 
+__p+='progress-bar-success ';
+ } else { 
+__p+=' progress-bar-fail ';
+ } 
+__p+='" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: '+
+((__t=( files.progress ))==null?'':__t)+
+'%">\n            <span class="sr-only">20% Complete</span>\n        </div>\n    </div>\n</div>';
 }
 return __p;
 };
@@ -21372,7 +21536,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
         uploader_view;
     files = $target[0].files;
-    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_5__["UploaderView"](files, lang);
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_5__["UploaderView"](files, lang, this.parent_id);
   }
 
   upload_clicked(event) {
@@ -22060,11 +22224,11 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#uploader-view');
   }
 
-  initialize(files, lang) {
+  initialize(files, lang, parent_id) {
     this.uploader = new _models_uploader__WEBPACK_IMPORTED_MODULE_2__["Uploader"]();
 
     for (let file of files) {
-      this.uploader.add(new _models_uploader__WEBPACK_IMPORTED_MODULE_2__["UploaderItem"](file, lang));
+      this.uploader.add(new _models_uploader__WEBPACK_IMPORTED_MODULE_2__["UploaderItem"](file, lang, parent_id));
     }
 
     this.listenTo(this.uploader, 'change', this.render);
