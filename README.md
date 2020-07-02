@@ -95,13 +95,6 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |Django Version| 3.0 | 2.2 | 2.0|
 
 
-### Related Projects
-
-* [MgMail](https://github.com/papermerge/mg-mail) - Imports document attachments from SMTP account/email into Papermerge DMS via REST API key
-* [MgClipboard](https://github.com/papermerge/mg-clipboard) - Django Middleware used in Papermerge DMS to power cut/paste of the document/folder/page (IDs) into user's session
-* [Django Lessons](https://django-lessons.com) - All knowledge I gain during development of Papermerge nicely presented as screencasts. Screencasts are short and to the point lessons about Django ecosystem
-
-
 ### Contact 
 
 * [Twitter Account](https://twitter.com/papermerge)
