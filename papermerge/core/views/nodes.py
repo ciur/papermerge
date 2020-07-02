@@ -7,6 +7,7 @@ from django.http import (
 )
 from django.contrib.auth.decorators import login_required
 from papermerge.core.models import BaseTreeNode
+from django.urls import reverse
 
 
 logger = logging.getLogger(__name__)
@@ -16,11 +17,24 @@ logger = logging.getLogger(__name__)
 def browse_view(request, parent_id=None):
 
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id)
+    nodes_list = []
+
+    for node in nodes:
+
+        node_dict = node.to_dict()
+
+        if node.is_document():
+            node_dict['img_src'] = reverse(
+                'core:preview',
+                args=(node.id, 4, 1)
+            )
+
+        nodes_list.append(node_dict)
 
     return HttpResponse(
         json.dumps(
             {
-                'nodes': [node.to_dict() for node in nodes],
+                'nodes': nodes_list,
                 'parent_id': parent_id
             }
         ),

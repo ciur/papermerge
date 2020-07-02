@@ -20258,7 +20258,8 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       parent_id: '',
       ctype: '',
       kvstore: '',
-      selected: false
+      selected: false,
+      img_src: ''
     };
   }
 
@@ -20275,6 +20276,22 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       title: this.get('title')
     };
     return dict;
+  }
+
+  is_document() {
+    if (this.get('ctype') == 'document') {
+      return true;
+    }
+
+    return false;
+  }
+
+  is_folder() {
+    if (this.get('ctype') == 'folder') {
+      return true;
+    }
+
+    return false;
   }
 
 }
@@ -20821,7 +20838,13 @@ __p+='\n        <li class="node node-w1" data-id="'+
 ((__t=( node.cid ))==null?'':__t)+
 '" data-url="/'+
 ((__t=( node.get('id') ))==null?'':__t)+
-'">\n            <div class="icon-'+
+'">\n            ';
+ if (node.is_document())  { 
+__p+='\n                <div class="placeholder document">\n                    <img class="zero_pix" src="'+
+((__t=(  node.get('img_src') ))==null?'':__t)+
+'" />\n                    <div class="document-loading"></div>\n                </div>\n            ';
+ } 
+__p+='\n            <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
 '">\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
 ((__t=( node.get('id') ))==null?'':__t)+
