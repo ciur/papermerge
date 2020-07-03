@@ -20014,6 +20014,20 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return this.get('kvstore');
   }
 
+  get all_disabled() {
+    let kvstore = this.get('kvstore'),
+        inherited_items = [];
+    inherited_items = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].filter(kvstore.models, function (model) {
+      return model.get('kv_inherited') == true;
+    }); // if all items in kvstore are disabled
+
+    if (inherited_items.length == kvstore.length) {
+      return true;
+    }
+
+    return false;
+  }
+
   urlRoot() {
     return `/metadata/node/${this.doc_id}`;
   }
@@ -20913,7 +20927,9 @@ __p+='\n        ';
  current_formats = item.get('current_formats') || []; 
 __p+='\n        ';
  kv_types = item.get('kv_types') || available_types || []; 
-__p+='\n        <li class=\'container\' data-model=\'simple-key\' data-cid=\''+
+__p+='\n        <li class=\'container\' data-model=\'simple-key\' data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
@@ -20964,7 +20980,7 @@ __p+=' \n                                value="'+
 __p+='\n                    </select>\n                </div>\n            </div>\n           \n        </li>\n    ';
  } 
 __p+='\n </ul>\n ';
- if (kvstore.models.length > 0) { 
+ if (kvstore.models.length > 0 && !all_disabled) { 
 __p+='\n     <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n         Save\n     </button>\n ';
  } 
 __p+='\n';
@@ -21993,6 +22009,11 @@ __webpack_require__.r(__webpack_exports__);
 let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/templates/metadata.html");
 
 class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+  /***
+      Manages the sidebar control (the one on the left side)
+      view for metadata.
+      Sidebar control contains other views besides this one.
+  **/
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata');
   }
@@ -22001,6 +22022,10 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["Metadata"](doc_id);
     this.start();
     this.render();
+  }
+
+  get all_disabled() {
+    return this.metadata.all_disabled;
   }
 
   start() {
@@ -22082,6 +22107,7 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     let data = parent.data();
     this.metadata.remove_simple(data['cid']);
     $li_container.remove();
+    this.render();
   }
 
   on_save() {
@@ -22096,7 +22122,8 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     };
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       kvstore: this.metadata.kvstore,
-      available_types: this.metadata.get('kv_types')
+      available_types: this.metadata.get('kv_types'),
+      all_disabled: this.all_disabled
     }));
     this.$el.html(compiled);
     return this;
