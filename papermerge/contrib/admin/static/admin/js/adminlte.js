@@ -53,7 +53,7 @@
       FOOTER_XL_FIXED: 'layout-xl-footer-fixed'
     };
     var Default = {
-      controlsidebarSlide: true,
+      controlsidebarSlide: false,
       scrollbarTheme: 'os-theme-light',
       scrollbarAutoHide: 'l'
     };

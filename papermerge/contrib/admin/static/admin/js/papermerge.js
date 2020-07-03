@@ -21912,12 +21912,32 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
+  is_control_sidebar_visible() {
+    let $body = $('body'),
+        sidebar_open,
+        sidebar_slide;
+    sidebar_open = $body.hasClass('control-sidebar-open');
+    return sidebar_open;
+  }
+
+  show_sidebar_control() {
+    $('body').addClass('control-sidebar-open');
+  }
+
+  hide_sidebar_control() {
+    $('body').removeClass('control-sidebar-open');
+  }
+
   selection_changed(selection) {
     let selected_node, metadata;
-    console.log('node selected');
 
     if (selection.length == 0 || selection.length != 1) {
-      // nothing is selected, remove the view.
+      // if control sidebar is visible - hide it
+      if (this.is_control_sidebar_visible()) {
+        this.hide_sidebar_control();
+      } // nothing is selected, remove the view.
+
+
       if (this.metadata_view) {
         this.metadata_view.stop();
         this.metadata_view = undefined;
@@ -21929,6 +21949,12 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 
     if (!selected_node) {
       return;
+    } // always display control sidebar if exactly one element
+    // is selected
+
+
+    if (!this.is_control_sidebar_visible()) {
+      this.show_sidebar_control();
     } // new MetadataView(...)
     // calls start() method.
 
@@ -21997,14 +22023,15 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       "keyup input": "update_value",
       "change input": "update_value",
       "change .kv_type": "kv_type_update",
-      "change .kv_format": "kv_format_update"
+      "change .kv_format": "kv_format_update",
+      "click button.save": "on_save"
     };
     return event_map;
   }
 
   kv_format_update(event) {
     let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
     let data = parent.data();
     this.metadata.update_simple(data['cid'], 'kv_format', value);
     this.render();
@@ -22038,7 +22065,7 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   update_value(event) {
     let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
     let data = parent.data();
     this.metadata.update_simple(data['cid'], 'key', value);
   }
@@ -22057,7 +22084,7 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     $li_container.remove();
   }
 
-  on_submit() {
+  on_save() {
     this.metadata.save();
   }
 
