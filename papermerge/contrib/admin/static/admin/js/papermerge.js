@@ -17420,19 +17420,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
 /* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
 /* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -17449,10 +17450,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync;
 
-backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_9___default()("[name=csrfmiddlewaretoken]").val();
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
+
+backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17470,7 +17472,7 @@ backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync = function (method, model, 
 };
 
 let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_9___default()("#document_form");
+  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document_form");
 
   if ($document_form.length == 0) {
     return;
@@ -17480,7 +17482,7 @@ let on_document_form = function (func) {
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, browse_router;
+  let browse_view, actions_view, breadcrumb_view, control_sidebar, browse_router;
   let dom_actual_pages = document.querySelector('.actual-pages');
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_zoom_2_document_form"]);
   on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_switch_2_document_form"]); // creates a new DgDocument instance
@@ -17494,8 +17496,9 @@ let App = function () {
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_4__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_6__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_5__["BreadcrumbView"]();
-  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_7__["BrowseRouter"](browse_view, breadcrumb_view);
-  backbone__WEBPACK_IMPORTED_MODULE_8___default.a.history.start();
+  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_7__["ControlSidebarView"]();
+  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
+  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
   Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_3__["sort_cookie"])();
 };
 
@@ -20902,7 +20905,7 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Label"/>\n    </li>\n </ul>\n <ul id="simple_keys" class="vertical menu">\n    ';
+__p+=' <h5 class="border-bottom">Metadata</h5>\n <ul>\n    <li>\n        <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n    </li>\n </ul>\n <ul id="simple_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n        ';
  item = kvstore.models[i]; 
@@ -20910,53 +20913,61 @@ __p+='\n        ';
  current_formats = item.get('current_formats') || []; 
 __p+='\n        ';
  kv_types = item.get('kv_types') || available_types || []; 
-__p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
+__p+='\n        <li class=\'container\' data-model=\'simple-key\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <input '+
+'">\n            <div class="row summary">\n                <div class="col-11 label">\n                    <input '+
 ((__t=( item.disabled ))==null?'':__t)+
 ' data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
-'\' name=\'key\' type=\'text\' value="'+
+'\' placeholder="label name..." name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <select '+
+'">\n                </div>\n                <div class="col-1 close"  data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\'>\n                    ';
+ if (!item.get('kv_inherited')) {  
+__p+='\n                        <button type=\'button\' class=\'close key text-white mx-1\' aria-label=\'Close\'>\n                            <span aria-hidden=\'true\'>&times;</span>\n                        </button>\n                    ';
+ } 
+__p+='\n                </div>\n            </div>\n            <div class="row">\n                <div class="col-4">\n                    <label>Type</label>\n                </div>\n                <div class="col-8">\n                    <select '+
 ((__t=( item.disabled ))==null?'':__t)+
-'  class="kv_type" name=\'kv_type\' class="custom-select">\n                ';
+'  class="kv_type" name=\'kv_type\' class="custom-select">\n                        ';
  for (k=0; k < kv_types.length; k++) { 
-__p+='\n                    <option \n                        ';
+__p+='\n                            <option \n                                ';
  if ( item.get('kv_type') == kv_types[k][0] ) { 
 __p+=' selected  ';
  }  
-__p+=' \n                        value="'+
+__p+=' \n                                value="'+
 ((__t=( kv_types[k][0] ))==null?'':__t)+
-'">\n                        '+
+'">\n                                '+
 ((__t=( kv_types[k][1] ))==null?'':__t)+
-'\n                    </option>\n                ';
+'\n                            </option>\n                        ';
  } 
-__p+='\n            </select>\n            <select '+
+__p+='\n                    </select>\n                </div>\n            </div>\n            <div class="row">\n                <div class="col-4">\n                    <label>Format</label>\n                </div>\n                <div class="col-8">\n                    <select '+
 ((__t=( item.disabled ))==null?'':__t)+
-' class="kv_format" name=\'kv_format\' class="custom-select">\n                ';
+' class="kv_format" name=\'kv_format\' class="custom-select">\n                        ';
  for (j=0; j < current_formats.length; j++) { 
-__p+='\n                    <option \n                         ';
+__p+='\n                            <option \n                                 ';
  if ( item.get('kv_format') == current_formats[j][0] ) { 
 __p+=' selected  ';
  }  
-__p+=' \n                        value="'+
+__p+=' \n                                value="'+
 ((__t=( current_formats[j][0] ))==null?'':__t)+
-'">\n                        '+
+'">\n                                '+
 ((__t=( current_formats[j][1] ))==null?'':__t)+
-'\n                        \n                    </option>\n                ';
+'\n                                \n                            </option>\n                        ';
  } 
-__p+='\n            </select>\n            ';
- if (!item.get('kv_inherited')) {  
-__p+='\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            ';
+__p+='\n                    </select>\n                </div>\n            </div>\n           \n        </li>\n    ';
  } 
-__p+='\n        </li>\n    ';
+__p+='\n </ul>\n ';
+ if (kvstore.models.length > 0) { 
+__p+='\n     <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n         Save\n     </button>\n ';
  } 
-__p+='\n </ul>';
+__p+='\n';
 }
 return __p;
 };
@@ -21873,6 +21884,63 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
 /***/ }),
 
+/***/ "./src/js/views/control_sidebar.js":
+/*!*****************************************!*\
+  !*** ./src/js/views/control_sidebar.js ***!
+  \*****************************************/
+/*! exports provided: ControlSidebarView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ControlSidebarView", function() { return ControlSidebarView; });
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./metadata */ "./src/js/views/metadata.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
+
+
+class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
+  el() {
+    return $('.control-sidebar');
+  }
+
+  initialize() {
+    console.log("ControlSidebarView");
+    this.metadata_view = undefined;
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["SELECTION_CHANGED"], this.selection_changed, this);
+  }
+
+  selection_changed(selection) {
+    let selected_node, metadata;
+    console.log('node selected');
+
+    if (selection.length == 0 || selection.length != 1) {
+      // nothing is selected, remove the view.
+      if (this.metadata_view) {
+        this.metadata_view.stop();
+        this.metadata_view = undefined;
+        return;
+      }
+    }
+
+    selected_node = selection[0];
+
+    if (!selected_node) {
+      return;
+    } // new MetadataView(...)
+    // calls start() method.
+
+
+    this.metadata_view = new _metadata__WEBPACK_IMPORTED_MODULE_1__["MetadataView"](selected_node.get('id'));
+  }
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./src/js/views/metadata.js":
 /*!**********************************!*\
   !*** ./src/js/views/metadata.js ***!
@@ -21900,13 +21968,26 @@ let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/t
 
 class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form .modal-body');
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata');
   }
 
   initialize(doc_id) {
     this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["Metadata"](doc_id);
-    this.listenTo(this.metadata, 'change', this.render);
+    this.start();
     this.render();
+  }
+
+  start() {
+    // start listening on this.metadata object
+    // which will trigger view rendering
+    this.listenTo(this.metadata, 'change', this.render);
+  }
+
+  stop() {
+    // stops listening
+    // and remove html associated to this elem.
+    this.stopListening(this.metadata);
+    this.$el.html('');
   }
 
   events() {
@@ -21931,7 +22012,7 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   kv_type_update(event) {
     let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
     let data = parent.data();
     let cur_fmt = {};
     cur_fmt['money'] = this.metadata.get('currency_formats');
@@ -21970,9 +22051,10 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   remove_meta(event) {
     let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    let $li_container = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
     let data = parent.data();
     this.metadata.remove_simple(data['cid']);
-    parent.remove();
+    $li_container.remove();
   }
 
   on_submit() {
@@ -21985,9 +22067,6 @@ class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       'kvstore': this.metadata.get('kvstore'),
       'available_types': this.metadata.get('kv_types')
     };
-    console.log(`kvstore=${this.metadata.get('kvstore')}`);
-    console.log(`available_types=${this.metadata.get('kv_types')}`);
-    console.log(context);
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       kvstore: this.metadata.kvstore,
       available_types: this.metadata.get('kv_types')

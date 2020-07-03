@@ -10154,6 +10154,19 @@ nav#left-sidebar.phone {
         margin: 0.5rem 0;
         width: 100%; }
 
+/*
+* Right sidebar provided by AdminLTE3.
+* Right sidebar displays insformation about Metadata, Access etc
+*/
+.control-sidebar h5 {
+  padding-bottom: 0.5rem; }
+
+.control-sidebar .muted-border-bottom {
+  border-bottom: 1px solid #888; }
+
+.control-sidebar .border-bottom {
+  border-bottom: 1px solid white; }
+
 #upload_feedback .details {
   padding: 0.5rem 1rem; }
   #upload_feedback .details .row {
@@ -10407,6 +10420,27 @@ nav#left-sidebar.phone {
     #browse ul.grid .node:hover {
       background-color: #e6f5ff;
       outline: 1px solid #e6f5ff; }
+
+#metadata ul {
+  margin: 0;
+  padding: 0;
+  color: white; }
+  #metadata ul li.container {
+    padding: 0.5rem;
+    border: 1px solid #555;
+    margin: 0.5rem 0; }
+    #metadata ul li.container .toggle, #metadata ul li.container .label, #metadata ul li.container .close {
+      padding: 0; }
+    #metadata ul li.container .summary {
+      margin: 0.5rem 0; }
+      #metadata ul li.container .summary .label input {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        border: 0px;
+        border-bottom: 1px solid white;
+        color: white; }
+    #metadata ul li.container label {
+      color: #999; }
 
 .hidden {
   display: none; }
