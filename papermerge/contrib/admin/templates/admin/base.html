@@ -1,4 +1,4 @@
-{% load static i18n admin_tags %}
+{% load static i18n  %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,81 +35,17 @@
       <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
-          <div class="row mb-2 py-1 breadcrumb">
-            <div id="breadcrumb" class="col-sm-12">
-            </div><!-- /.col -->
-          </div><!-- /.row -->
           <div class="row">
-            <div id="actions" class="col-sm-12">
-               <ul  class="nav nav-pills">
-                 <li class="mx-1">
-                     {% ocr_language_select user %}
-                 </li>
-                 <li class="mx-1">
-                     <button type="button" id="id_btn_upload" class="btn btn-light btn-bordered ">{% trans "Upload" %}</button>
-                 </li>
-                 <!-- Hidden input required for file uploads-->
-                 <input type="file"
-                   name="file_name"
-                   id="id_file_name"
-                   multiple="true"
-                   hidden="true"
-                 />
-                 <li class="mx-1">
-                     <!--parent_id=object.id -->
-                     <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
-                         {% trans "New Folder" %}
-                     </button>
-
-                 </li>
-                 <li class="mx-1">
-                   <div class="dropdown actions">
-                     <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       {% trans "Actions" %}
-                     </button>
-                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                       <li class="dropdown-item fl fl-i-center" id="download" class="dropdown-item fl fl-i-center disabled">
-                           <a href="#"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
-                       </li>
-                       <li class="dropdown-divider"></li>
-                       <li class="dropdown-item disabled" id="cut">
-                           <a href="#"><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
-                       </li>
-                       <!-- PASTE -->
-                       <li class="nav-item dropdown-submenu-right dropdown-submenu dropdown fl fl-i-center">
-                           <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
-                               <a href="#"><i class="fa fa-paste mx-2"></i>
-                               {% trans "Paste" %}</a>
-                           </a>
-                         <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
-                           <li class="dropdown-item" id="paste">
-                             {% trans "Documents & Folders" %}
-                           </li>
-                           <li class="dropdown-item" id="paste_pages">
-                             {% trans "Pages" %}
-                           </li>
-                         </ul>
-                       </li>
-                       <!-- PASTE -->
-                       <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
-                           <a href="#"><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
-                       </li>
-                       <li class="dropdown-item disabled" id="access" data-target-id="access-form" disabled>
-                          <a href="#"><i class="fa fa-users mx-2"></i>{% trans "Access" %}
-                          </a>
-                       </li>
-                       <li class="dropdown-item disabled" id="metadata" data-target-id="metadata-form" disabled>
-                          <a href="#"><i class="fa fa-list mx-2"></i>{% trans "Metadata" %}</a>
-                       </li>
-                       <li class="dropdown-divider"></li>
-                       <li id="delete" class="dropdown-item disabled">
-                           <a href="#"><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
-                       </li>
-                     </ul>
-                   </div>
-                 </li>
-              </ul>
-            </div>
+            {% block breadcrumb %}
+              <!-- breadcrumb or document/folder path -->
+            {% endblock %}
+          </div>
+          <div class="row mb-2 py-1 breadcrumb">
+            {% block actions %}
+              <!-- action buttons like new folder, 
+                dropdown menu with rename, delete, download actions. 
+              -->
+            {% endblock %}
           </div>
         </div><!-- /.container-fluid -->
       </div>
@@ -129,8 +65,9 @@
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
       <div class="p-3">
-        <h5>Title</h5>
-        <p>Sidebar content</p>
+        <h5>Details</h5>
+        <div id="metadata">
+        </div>
       </div>
     </aside>
     <!-- /.control-sidebar -->
