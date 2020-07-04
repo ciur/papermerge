@@ -33,7 +33,19 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def document(request, doc_id):
-    return render(request, 'admin/document.html')
+    try:
+        doc = Document.objects.get(id=doc_id)
+    except Document.DoesNotExist:
+        return render(request, "admin/document_404.html")
+
+    return render(
+        request,
+        'admin/document.html',
+        {
+            'pages': doc.pages.all(),
+            'document': doc
+        }
+    )
 
 
 @login_required
