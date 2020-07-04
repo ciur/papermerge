@@ -21886,7 +21886,10 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
       } else {
         _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], undefined);
       }
-    }
+
+      return;
+    } // will reach this place only if node is a document.
+
 
     window.location = node.get('document_url');
   }
@@ -21945,32 +21948,11 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
-  is_control_sidebar_visible() {
-    let $body = $('body'),
-        sidebar_open,
-        sidebar_slide;
-    sidebar_open = $body.hasClass('control-sidebar-open');
-    return sidebar_open;
-  }
-
-  show_sidebar_control() {
-    $('body').addClass('control-sidebar-open');
-  }
-
-  hide_sidebar_control() {
-    $('body').removeClass('control-sidebar-open');
-  }
-
   selection_changed(selection) {
     let selected_node, metadata;
 
     if (selection.length == 0 || selection.length != 1) {
-      // if control sidebar is visible - hide it
-      if (this.is_control_sidebar_visible()) {
-        this.hide_sidebar_control();
-      } // nothing is selected, remove the view.
-
-
+      // nothing is selected, remove the view.
       if (this.metadata_view) {
         this.metadata_view.stop();
         this.metadata_view = undefined;
@@ -21982,12 +21964,6 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 
     if (!selected_node) {
       return;
-    } // always display control sidebar if exactly one element
-    // is selected
-
-
-    if (!this.is_control_sidebar_visible()) {
-      this.show_sidebar_control();
     } // new MetadataView(...)
     // calls start() method.
 
