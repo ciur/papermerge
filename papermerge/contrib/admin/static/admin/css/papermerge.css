@@ -10636,41 +10636,42 @@ nav#left-sidebar.phone {
   overflow: scroll;
   border-right: 1px solid #d7d7d7;
   padding: 0; }
-  #document ul.page_thumbnails li.page_thumbnail:hover .icon-arrow-up {
+  #document ul.page_thumbnails li.page_thumbnail:hover .arrow-up-control {
     visibility: visible; }
-  #document ul.page_thumbnails li.page_thumbnail:hover .icon-arrow-down {
+  #document ul.page_thumbnails li.page_thumbnail:hover .arrow-down-control {
     visibility: visible; }
-  #document ul.page_thumbnails li.page_thumbnail.last:hover a.icon-arrow-down {
+  #document ul.page_thumbnails li.page_thumbnail.last:hover .arrow-down-control {
     display: none; }
-  #document ul.page_thumbnails li.page_thumbnail.first:hover a.icon-arrow-up {
+  #document ul.page_thumbnails li.page_thumbnail.first:hover .arrow-up-control {
+    display: none; }
+  #document ul.page_thumbnails li.page_thumbnail.last.first:hover .arrow-down-control {
+    display: none; }
+  #document ul.page_thumbnails li.page_thumbnail.last.first:hover .arrow-up-control {
     display: none; }
   #document ul.page_thumbnails li.page_thumbnail {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0.5rem; }
     #document ul.page_thumbnails li.page_thumbnail .page_number input {
       width: 2rem; }
-    #document ul.page_thumbnails li.page_thumbnail a.icon-arrow-up {
-      width: 1.5rem;
-      height: 1.5rem;
+    #document ul.page_thumbnails li.page_thumbnail .arrow-up-control {
       visibility: hidden;
       display: block;
-      background-image: url(../img/icons/arrow-up.svg);
-      background-size: 100% 100%;
       position: absolute;
       top: 0;
       left: 0; }
-    #document ul.page_thumbnails li.page_thumbnail a.icon-arrow-down {
-      width: 1.5rem;
-      height: 1.5rem;
+      #document ul.page_thumbnails li.page_thumbnail .arrow-up-control a {
+        color: #00b000; }
+    #document ul.page_thumbnails li.page_thumbnail .arrow-down-control {
       visibility: hidden;
       display: block;
-      background-image: url(../img/icons/arrow-down.svg);
-      background-size: 100% 100%;
       position: absolute;
       bottom: 1rem;
       left: 0; }
+      #document ul.page_thumbnails li.page_thumbnail .arrow-down-control a {
+        color: #00b000; }
 
 #document ul.actual_pages {
   height: 100vh;
