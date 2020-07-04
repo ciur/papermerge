@@ -10167,6 +10167,13 @@ nav#left-sidebar.phone {
 .control-sidebar .border-bottom {
   border-bottom: 1px solid white; }
 
+.icon-sw-left-panel {
+  width: 1rem;
+  height: 1rem;
+  background-image: url(../img/icons/sw-left-panel.svg);
+  background-size: 100% 100%;
+  display: inline-block; }
+
 #upload_feedback .details {
   padding: 0.5rem 1rem; }
   #upload_feedback .details .row {
@@ -10700,6 +10707,10 @@ nav#left-sidebar.phone {
 .content-header {
   padding: 0;
   padding-top: 1rem; }
+
+#sw-left-panel {
+  outline: 1px solid #ccc;
+  background-color: white; }
 
 ul li a, ol li a {
   color: #585959; }
