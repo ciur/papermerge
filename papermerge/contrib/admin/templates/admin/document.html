@@ -4,6 +4,26 @@
 
 {% block title %} Papermerge | Documents {% endblock %}
 
+{% block control_sidebar %}
+  <!-- Control sidebar content goes here -->
+  <div class="p-3">
+    <button type="button" class="btn btn-block btn-success">{% trans "Download" %}</button>
+    <button type="button" class="btn btn-block btn-light">
+    {% trans "Save" %}</button>
+    <div class="form-group">
+      <label for="language">{% trans "Language" %}</label>
+      <input type="text" class="form-control" class="form-control" disabled value="{{document.lang}}">
+    </div>
+    <div id="metadata">
+    </div>
+    <div class="form-group">
+      <label for="notes">{% trans "Notes" %}</label>
+      <textarea class="form-control" rows="3"></textarea>
+    </div>
+    <button type="button" class="btn btn-block btn-light hover-danger">{% trans "Delete" %}</button>
+  </div>
+{% endblock %}
+
 {% block actions %}
 <div id="actions" class="col-sm-12 d-flex flex-row justify-content-between">
   <div class="d-flex flex-row">
