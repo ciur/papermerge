@@ -102,10 +102,8 @@
         <div id="document">
           <div id="viewer" class="d-flex flex-row">
             <div id="page-thumbnails">
-              {% include 'admin/_page_thumbnails.html' with pages=pages document=document %}
             </div>
             <div id="actual-pages">
-              {% include 'admin/_pages.html' with pages=pages %}
             </div>
           </div>
         </div>
@@ -113,4 +111,6 @@
   </div>
   <!-- /.row -->
 </div><!-- /.container-fluid -->
+
+<input type="hidden" name="document_id" value="{{document.id}}" />
 {% endblock %}

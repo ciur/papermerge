@@ -38,13 +38,24 @@ def document(request, doc_id):
     except Document.DoesNotExist:
         return render(request, "admin/document_404.html")
 
-    return render(
-        request,
-        'admin/document.html',
-        {
-            'pages': doc.pages.all(),
-            'document': doc
-        }
+    if not request.is_ajax():
+        return render(
+            request,
+            'admin/document.html',
+            {
+                'pages': doc.pages.all(),
+                'document': doc
+            }
+        )
+    # so, ajax only here
+    if request.method == 'POST':
+        # ajax + post
+        pass
+
+    # ajax + GET here
+    return HttpResponse(
+        json.dumps({'document': doc.to_dict()}),
+        content_type="application/json",
     )
 
 

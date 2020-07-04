@@ -69,7 +69,20 @@ class Page(models.Model, index.Indexed):
         index.FilterField('lang')
     ]
 
+    image = models.CharField(
+        max_length=1024,
+        default=''
+    )
+
     objects = PageQuerySet.as_manager()
+
+    def to_dict(self):
+
+        item = {}
+        item['id'] = self.id
+        item['number'] = self.number
+
+        return item
 
     @property
     def kv(self):
@@ -189,11 +202,6 @@ class Page(models.Model, index.Indexed):
             text = self.text
 
         return text
-
-    image = models.CharField(
-        max_length=1024,
-        default=''
-    )
 
     @property
     def txt_url(self):

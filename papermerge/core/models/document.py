@@ -98,13 +98,22 @@ class Document(mixins.ExtractIds, BaseTreeNode):
 
     def to_dict(self):
         item = {}
+
+        pages = []
+        for page in self.pages.all():
+            pages.append(page.to_dict())
+
         item['id'] = self.id
         item['title'] = self.title
+        item['notes'] = self.notes
+
         if self.parent:
             item['parent_id'] = self.parent.id
         else:
             item['parent_id'] = ''
+
         item['ctype'] = 'document'
+        item['pages'] = pages
 
         return item
 
