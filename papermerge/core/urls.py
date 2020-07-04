@@ -8,6 +8,11 @@ from papermerge.core.views import metadata as metadata_views
 
 document_patterns = [
     path(
+        '<int:doc_id>/',
+        doc_views.document,
+        name="document"
+    ),
+    path(
         '<int:id>/preview/page/<int:page>',
         doc_views.preview,
         name="preview"

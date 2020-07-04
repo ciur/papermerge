@@ -2,7 +2,7 @@ import os
 import json
 import logging
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.conf import settings
@@ -29,6 +29,11 @@ from papermerge.core.models import (
 from papermerge.core.tasks import ocr_page
 
 logger = logging.getLogger(__name__)
+
+
+@login_required
+def document(request, doc_id):
+    return render(request, 'admin/document.html')
 
 
 @login_required

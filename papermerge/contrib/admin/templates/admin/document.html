@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+
+{% load i18n admin_tags %}
+
+{% block title %} Papermerge | Documents {% endblock %}
+
+{% block actions %}
+<div id="actions" class="col-sm-12">
+ <ul  class="nav nav-pills">
+    <li class="mx-1">
+        <div class="dropdown actions">
+          <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% trans "Actions" %}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+             <li class="dropdown-item fl fl-i-center" id="download" class="dropdown-item fl fl-i-center disabled">
+                 <a href="#"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+             </li>
+             <li class="dropdown-divider"></li>
+             <li class="dropdown-item disabled" id="cut">
+                 <a href="#"><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
+             </li>
+             <!-- PASTE -->
+             <li class="nav-item dropdown-submenu-right dropdown-submenu dropdown fl fl-i-center">
+                 <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
+                     <a href="#"><i class="fa fa-paste mx-2"></i>
+                     {% trans "Paste" %}</a>
+                 </a>
+               <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
+                 <li class="dropdown-item" id="paste">
+                   {% trans "Documents & Folders" %}
+                 </li>
+                 <li class="dropdown-item" id="paste_pages">
+                   {% trans "Pages" %}
+                 </li>
+               </ul>
+             </li>
+             <!-- PASTE -->
+             <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
+                 <a href="#"><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
+             </li>
+             <li class="dropdown-divider"></li>
+             <li id="delete" class="dropdown-item disabled">
+                 <a href="#"><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
+             </li>
+          </ul>
+        </div>
+    </li>
+</ul>
+</div>
+{% endblock %}
+
+{% block breadcrumb %}
+    <div id="breadcrumb" class="col-sm-12">
+    </div><!-- /.col -->
+{% endblock %}
+
+{% block modals %}
+    {% include 'admin/_forms.js.html' %}
+{% endblock modals %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+        <div id="document">
+        </div>
+    </div>
+  </div>
+  <!-- /.row -->
+</div><!-- /.container-fluid -->
+{% endblock %}

@@ -28,6 +28,10 @@ def browse_view(request, parent_id=None):
                 'core:preview',
                 args=(node.id, 4, 1)
             )
+            node_dict['document_url'] = reverse(
+                'core:document',
+                args=(node.id,)
+            )
 
         nodes_list.append(node_dict)
 

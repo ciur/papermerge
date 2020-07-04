@@ -20298,6 +20298,18 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     return dict;
   }
 
+  get url() {
+    if (this.is_document()) {
+      // this url corresponds to backend's 
+      // reverse('core:document', args=(doc_id))
+      // and is used to open admin/documet.html template.
+      return this.get('document_url');
+    } // this form of url is used for folder browsing via json requests.
+
+
+    return `/${this.get('id')}`;
+  }
+
   is_document() {
     if (this.get('ctype') == 'document') {
       return true;
@@ -20881,8 +20893,8 @@ __p+='\n        <li class="node node-w1" data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
 '" data-cid="'+
 ((__t=( node.cid ))==null?'':__t)+
-'" data-url="/'+
-((__t=( node.get('id') ))==null?'':__t)+
+'" data-url="'+
+((__t=( node.url ))==null?'':__t)+
 '">\n            ';
  if (node.is_document())  { 
 __p+='\n                <div class="placeholder document">\n                    <img class="zero_pix" src="'+
@@ -21865,13 +21877,18 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   open_node(event) {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
         node;
-    node = this.browse.nodes.get(data['cid']); // routers.browse handles PARENT_CHANGED event.
+    node = this.browse.nodes.get(data['cid']); // folder is 'browsed' by triggering PARENT_CHANGED event
 
-    if (node) {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], node.id);
-    } else {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], undefined);
+    if (node.is_folder()) {
+      // routers.browse handles PARENT_CHANGED event.
+      if (node) {
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], node.id);
+      } else {
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], undefined);
+      }
     }
+
+    window.location = node.get('document_url');
   }
 
   open(node_id) {
