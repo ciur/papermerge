@@ -9566,6 +9566,7 @@ h1, h2, h3, h4 {
     white-space: nowrap;
     /* Position the tooltip text - see examples below! */
     position: absolute;
+    top: 1rem;
     z-index: 1;
     opacity: 0;
     transition: opacity 1s; }
@@ -9573,7 +9574,8 @@ h1, h2, h3, h4 {
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
-  opacity: 1; }
+  opacity: 1;
+  z-index: 2100; }
 
 .gray_1 {
   background-color: #ffffff; }

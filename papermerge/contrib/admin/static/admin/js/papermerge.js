@@ -19851,6 +19851,21 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     return `/${this.get('id')}`;
   }
 
+  full_title() {
+    return this.get('title');
+  }
+
+  short_title(len) {
+    let result,
+        text = this.get('title');
+
+    if (text && text.length > len) {
+      result = text.substring(0, len);
+    }
+
+    return `${result}...`;
+  }
+
   is_document() {
     if (this.get('ctype') == 'document') {
       return true;
@@ -20430,7 +20445,7 @@ __p+='<ul class="d-flex grid">\n    ';
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
-__p+='\n        <li class="node node-w1" data-id="'+
+__p+='\n        <li class="node node-w1 d-flex flex-column align-items-center" data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
 '" data-cid="'+
 ((__t=( node.cid ))==null?'':__t)+
@@ -20446,13 +20461,17 @@ __p+='\n            <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
 '">\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
 ((__t=( node.get('id') ))==null?'':__t)+
-'" class="action-select" />\n            <div class="title">\n                <a href="#" class="'+
+'" class="action-select" />\n            <div class="title tooltip">\n                <a href="#" class="'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
 '" data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
-'" alt="Test">'+
-((__t=( node.get('title') ))==null?'':__t)+
-'</a>\n            </div>\n        </li>\n    ';
+'" alt="'+
+((__t=(  node.full_title() ))==null?'':__t)+
+'">'+
+((__t=( node.short_title(20) ))==null?'':__t)+
+'</a>\n                <span class="tooltiptext">'+
+((__t=( node.full_title()  ))==null?'':__t)+
+'</span>\n            </div>\n        </li>\n    ';
  } 
 __p+='\n</ul>';
 }
