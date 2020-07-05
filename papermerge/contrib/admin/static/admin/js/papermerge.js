@@ -17414,27 +17414,26 @@ class MgChangeFormActions {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-/* harmony import */ var _document_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./document_form */ "./src/js/document_form.js");
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
-/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
-/* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
-/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
+/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
+/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
+/* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -17450,13 +17449,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
 
-
-
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_11___default()("[name=csrfmiddlewaretoken]").val();
+backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17473,481 +17469,22 @@ backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync = function (method, model,
   backboneSync(method, model, options);
 };
 
-let on_document_form = function (func) {
-  let $document_form = jquery__WEBPACK_IMPORTED_MODULE_11___default()("#document_form");
-
-  if ($document_form.length == 0) {
-    return;
-  }
-
-  func();
-};
-
 let App = function () {
   let browse_view, actions_view, breadcrumb_view, document_view, control_sidebar, browse_router;
-  let dom_actual_pages = document.querySelector('.actual-pages');
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_zoom_2_document_form"]);
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_switch_2_document_form"]); // creates a new DgDocument instance
-
-  on_document_form(_document_form__WEBPACK_IMPORTED_MODULE_1__["add_load_on_scroll"]);
-
-  if (dom_actual_pages) {
-    new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_2__["DgPageScroll"](dom_actual_pages);
-  }
-
-  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_4__["BrowseView"]();
-  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_7__["ActionsView"]();
-  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_6__["BreadcrumbView"]();
-  document_view = new _views_document__WEBPACK_IMPORTED_MODULE_5__["DocumentView"]();
-  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_8__["ControlSidebarView"]();
-  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_9__["BrowseRouter"](browse_view, breadcrumb_view);
-  backbone__WEBPACK_IMPORTED_MODULE_10___default.a.history.start();
-  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_3__["sort_cookie"])();
+  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_3__["BrowseView"]();
+  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_5__["ActionsView"]();
+  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__["BreadcrumbView"]();
+  document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
+  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
+  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
+  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
+  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_2__["sort_cookie"])();
 };
 
 Object(_utils__WEBPACK_IMPORTED_MODULE_0__["dglReady"])( // i.e. after all DOM is loaded
 function (event) {
   App();
 });
-
-/***/ }),
-
-/***/ "./src/js/document_form.js":
-/*!*********************************!*\
-  !*** ./src/js/document_form.js ***!
-  \*********************************/
-/*! exports provided: add_zoom_2_document_form, add_switch_2_document_form, add_load_on_scroll */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_zoom_2_document_form", function() { return add_zoom_2_document_form; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_switch_2_document_form", function() { return add_switch_2_document_form; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_load_on_scroll", function() { return add_load_on_scroll; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./text_overlay */ "./src/js/text_overlay.js");
-/* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
-/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
-/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./document_form/zoom */ "./src/js/document_form/zoom.js");
-/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./document_form/page_list */ "./src/js/document_form/page_list.js");
-/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./document_form/common */ "./src/js/document_form/common.js");
-/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./spinner */ "./src/js/spinner.js");
-/* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
-/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
-/* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./forms/metadata_form */ "./src/js/forms/metadata_form.js");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function add_switch_logic(switch_selector) {
-  // but clicking switch selector, target is toggled.
-  // in document view - this applies to page thumbnails left panel
-  // and document details right panels which can be visible or hidden.
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(switch_selector).click(function (e) {
-    var target_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("target-id"),
-        $target;
-    e.preventDefault();
-    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + target_id);
-
-    if ($target.length == 0) {
-      console.log("target " + target_id + " not found");
-      return;
-    }
-
-    $target.toggle();
-  });
-} // add_switch_logic
-
-
-function add_zoom_logic() {
-  let actual_pages = Array.from(document.querySelectorAll('.actual-pages .actual_page'));
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".zoom").change(function () {
-    let zoom_val = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val()) || 3;
-    actual_pages.forEach(function (dom_page_item, index, arr) {});
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".zoom").trigger("change");
-} // add_zoom_logic
-
-
-function add_zoom_2_document_form() {
-  add_zoom_logic();
-}
-function add_switch_2_document_form() {
-  // ok, here we are in document for page.
-  add_switch_logic("#sw-left-panel");
-  add_switch_logic("#sw-right-panel");
-}
-
-class MgDocument {
-  constructor(page_num, text_arr) {
-    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_3__["MgThumbnailList"]();
-    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_5__["DgZoom"]();
-    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_6__["MgPageList"](this._zoom);
-    this._page_num;
-    this._text_arr = text_arr;
-
-    this._thumbnail_list.load();
-
-    this._page_list.load(this.zoom.get_value());
-
-    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_8__["DgMainSpinner"]();
-    this._actions = this.build_actions();
-    this.configEvents();
-
-    if (page_num) {
-      this.scroll_to(page_num);
-    }
-
-    if (text_arr) {
-      this._page_list.highlight_text(text_arr);
-    }
-  }
-
-  get actions() {
-    return this._actions;
-  }
-
-  get zoom() {
-    return this._zoom;
-  }
-
-  get page_list() {
-    return this._page_list;
-  }
-
-  scroll_to(page_num) {
-    this._thumbnail_list.remove_highlights();
-
-    this._thumbnail_list.mark_highlight(page_num);
-
-    this._page_list.scroll_to(page_num);
-  }
-
-  on_thumbnail_dblclick(page_num) {
-    this.scroll_to(page_num);
-  }
-
-  on_thumbnail_click(page_num) {
-    console.log(`Page ${page_num} click`);
-  }
-
-  on_zoom_change(new_zoom_val) {
-    this.page_list.on_zoom(new_zoom_val);
-  }
-
-  on_page_move_up(page_num, doc_id, page_id) {
-    this.actions.clear_selection();
-
-    this._thumbnail_list.clear_selections();
-
-    this._page_list.on_page_move_up(page_num, doc_id, page_id);
-  }
-
-  on_page_move_down(page_num, doc_id, page_id) {
-    this.actions.clear_selection();
-
-    this._thumbnail_list.clear_selections();
-
-    this._page_list.on_page_move_down(page_num, doc_id, page_id);
-  }
-
-  configEvents() {
-    let that = this;
-
-    this._thumbnail_list.ondblclick(this.on_thumbnail_dblclick, this);
-
-    this._thumbnail_list.onclick(this.on_thumbnail_click, this);
-
-    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
-
-    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
-
-    this.zoom.subscribe("zoom", this.on_zoom_change, this);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).resize(function () {
-      let zoom_val = that.zoom.get_value();
-      console.log("window resized");
-      that.page_list.on_zoom(zoom_val);
-    });
-  }
-
-  build_actions() {
-    /**
-    Actions dropdown menu of changeform view.
-    */
-    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
-        rename_action,
-        delete_page_action,
-        cut_page_action,
-        paste_page_action,
-        paste_page_before_action,
-        paste_page_after_action,
-        metadata_action,
-        apply_reorder_changes;
-    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      // Achtung! #rename id is same for rename action
-      // in changeform view and changelist view.
-      id: "#rename",
-      enabled: function (selection, clipboard) {
-        return true;
-      },
-      action: function (selection, clipboard, current_node) {
-        let rename_form = new _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_9__["RenameChangeForm"](current_node);
-        rename_form.show();
-      }
-    });
-    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: "#delete-page",
-      enabled: function (selection, clipboard) {
-        let order_changed = false; // User cannot delete pages if he changed their
-        // order and changes are pending. He/She must 
-        // apply reorder changes!
-
-        for (let page of selection.all()) {
-          if (page.page_num != page.page_order) {
-            return false;
-          }
-        }
-
-        return selection.length > 0;
-      },
-      action: function (selection, clipboard, current_node, thumbnail_list, page_list) {
-        let delete_page_form,
-            confirmation = confirm("Are you sure?"),
-            url,
-            params,
-            pages = [],
-            doc_id;
-
-        if (!confirmation) {
-          return;
-        }
-
-        for (let page of selection.all()) {
-          doc_id = page.doc_id;
-          pages.push(page.page_num);
-        }
-
-        url = `/api/document/${doc_id}/pages?`;
-        params = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.param({
-          'pages': pages
-        });
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-          url: url + params,
-          method: 'DELETE'
-        });
-        thumbnail_list.delete_selected(selection);
-        page_list.delete_selected(selection);
-      }
-    });
-    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: "#cut-page",
-      enabled: function (selection, clipboard) {
-        return selection.length > 0;
-      },
-      action: function (selection, clipboard, current_node) {
-        let url,
-            pages = [],
-            doc_id;
-
-        for (let page of selection.all()) {
-          doc_id = page.doc_id;
-          pages.push(page.page_num);
-        }
-
-        url = `/api/document/${doc_id}/pages/cut`;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
-          url: url,
-          type: 'POST',
-          data: JSON.stringify(pages),
-          dataType: "json",
-          contentType: "application/json; charset=utf-8"
-        });
-      }
-    });
-    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: "#paste-page",
-      enabled: function (selection, clipboard) {
-        return true;
-      },
-      action: function (selection, clipboard, current_node) {
-        let url;
-        url = `/api/document/${current_node.id}/pages/paste`;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
-          url: url,
-          type: 'POST',
-          dataType: "json",
-          contentType: "application/json; charset=utf-8"
-        });
-      }
-    });
-    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: "#paste-page-before",
-      enabled: function (selection, clipboard) {
-        return selection.length == 1;
-      },
-      action: function (selection, clipboard, current_node) {
-        let url,
-            page_num = -1;
-
-        for (let page of selection.all()) {
-          if (page.page_num) {
-            page_num = page.page_num;
-          }
-        }
-
-        url = `/api/document/${current_node.id}/pages/paste`;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
-          url: url,
-          type: 'POST',
-          data: JSON.stringify({
-            'before': page_num
-          }),
-          dataType: "json",
-          contentType: "application/json; charset=utf-8"
-        });
-      }
-    });
-    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: "#paste-page-after",
-      enabled: function (selection, clipboard) {
-        return selection.length == 1;
-      },
-      action: function (selection, clipboard, current_node) {
-        let url,
-            page_num = -1;
-
-        for (let page of selection.all()) {
-          if (page.page_num) {
-            page_num = page.page_num;
-          }
-        }
-
-        url = `/api/document/${current_node.id}/pages/paste`;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
-          url: url,
-          type: 'POST',
-          data: JSON.stringify({
-            'after': page_num
-          }),
-          dataType: "json",
-          contentType: "application/json; charset=utf-8"
-        });
-      }
-    });
-    metadata_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: '#metadata',
-      enabled: function (selection, clipboard) {
-        return selection.length == 1;
-      },
-      action: function (selection, clipboard, current_node) {
-        let metadata_form, page;
-        page = selection.first();
-        metadata_form = new _forms_metadata_form__WEBPACK_IMPORTED_MODULE_11__["MetadataPageForm"](page);
-        metadata_form.show();
-      }
-    });
-    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_10__["MgChangeFormAction"]({
-      id: "#apply-reorder-changes",
-      enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
-        // if any page has page_num != page_order
-        // it means page was reordered => there pending
-        // changes.
-        if (!thumbnail_list) {
-          return false;
-        }
-
-        for (let thumb of thumbnail_list.all()) {
-          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
-
-          if (data['page_num'] != data['page_order']) {
-            return true;
-          }
-        }
-
-        return false;
-      },
-      action: function (selection, clipboard, current_node, thumbnail_list, page_list) {
-        let confirmation = confirm("Are you sure?"),
-            url,
-            params,
-            pages = [],
-            doc_id,
-            data;
-
-        if (!confirmation) {
-          return;
-        }
-
-        for (let thumb of thumbnail_list.all()) {
-          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_4__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
-          doc_id = thumb.doc_id;
-          pages.push({
-            'page_num': data['page_num'],
-            'page_order': data['page_order']
-          });
-        }
-
-        url = `/api/document/${doc_id}/pages`;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
-          url: url,
-          type: 'POST',
-          data: JSON.stringify(pages),
-          dataType: "json",
-          contentType: "application/json; charset=utf-8"
-        });
-      }
-    });
-    actions.add(rename_action);
-    actions.add(delete_page_action);
-    actions.add(cut_page_action);
-    actions.add(paste_page_action);
-    actions.add(paste_page_before_action);
-    actions.add(paste_page_after_action);
-    actions.add(metadata_action);
-    actions.add(apply_reorder_changes);
-    return actions;
-  }
-
-}
-
-function add_load_on_scroll() {
-  let csrftoken,
-      step,
-      page_num = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["get_win_param"])('page'),
-      text_arr = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["get_win_param"])('text'),
-      mg_document;
-  csrftoken = Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["getCookie"])('csrftoken');
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajaxSetup({
-    beforeSend: function (xhr, settings) {
-      if (!Object(_document_form_common__WEBPACK_IMPORTED_MODULE_7__["csrfSafeMethod"])(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-      }
-    }
-  }); // when opening the document land on this page
-
-  if (page_num) {
-    page_num = parseInt(page_num);
-  } // when opening the document highlight this text
-
-
-  if (text_arr) {
-    text_arr = text_arr.split('+');
-  }
-
-  mg_document = new MgDocument(page_num, text_arr);
-}
 
 /***/ }),
 
@@ -18595,8 +18132,8 @@ __webpack_require__.r(__webpack_exports__);
 class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
   constructor(zoom) {
     super();
-    this._container_selector = ".actual-pages";
-    this._selector = ".actual-pages .actual_page";
+    this._container_selector = ".actual_pages";
+    this._selector = ".actual_pages .actual_page";
     this._list = [];
     this._zoom = zoom;
 
@@ -19863,68 +19400,6 @@ let BROWSER_REFRESH = "browser_refresh";
 
 /***/ }),
 
-/***/ "./src/js/models/document.js":
-/*!***********************************!*\
-  !*** ./src/js/models/document.js ***!
-  \***********************************/
-/*! exports provided: Document */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Document", function() { return Document; });
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./page */ "./src/js/models/page.js");
-/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
-
-
-
-
-class Document extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
-  defaults() {
-    return {
-      pages: [],
-      doc_id: ''
-    };
-  }
-
-  initialize(id) {
-    this.set({
-      'id': id
-    });
-    this.pages = new _page__WEBPACK_IMPORTED_MODULE_2__["PageCollection"]();
-  }
-
-  urlRoot() {
-    return `/document/`;
-  }
-
-  toJSON() {
-    let dict = {
-      id: this.get('id'),
-      nodes: this.get('pages')
-    };
-    return dict;
-  }
-
-  parse(response, options) {
-    let pages = response.document.pages,
-        that = this;
-    that.pages.reset();
-
-    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(pages, function (item) {
-      that.pages.add(new _page__WEBPACK_IMPORTED_MODULE_2__["Page"](item));
-    });
-
-    this.trigger('change');
-  }
-
-}
-
-/***/ }),
-
 /***/ "./src/js/models/kvstore.js":
 /*!**********************************!*\
   !*** ./src/js/models/kvstore.js ***!
@@ -20420,60 +19895,6 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
       dataType: 'json'
     });
     request.done(options['success']);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/models/page.js":
-/*!*******************************!*\
-  !*** ./src/js/models/page.js ***!
-  \*******************************/
-/*! exports provided: Page, PageCollection */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Page", function() { return Page; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageCollection", function() { return PageCollection; });
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-class Page extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
-  defaults() {
-    return {
-      number: ''
-    };
-  }
-
-  initialize() {}
-
-  urlRoot() {
-    return '/page/';
-  }
-
-  toJSON() {
-    let dict = {
-      id: this.get('id'),
-      number: this.get('number')
-    };
-    return dict;
-  }
-
-}
-class PageCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
-  get model() {
-    return Page;
-  }
-
-  urlRoot() {
-    return '/pages/';
   }
 
 }
@@ -21211,72 +20632,6 @@ module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="title">Folder name:</label>\n                    <input type="text" class="form-control" id="title" name="title">\n                    <input name="parent_id" value="" type="hidden" >\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/page_thumbnails.html":
-/*!***********************************************!*\
-  !*** ./src/js/templates/page_thumbnails.html ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<ul class="page_thumbnails">\n    ';
- for (i=0; i < pages.length; i++) { 
-__p+='\n      ';
- page = pages.at(i) 
-__p+='\n        <li class="page_thumbnail ';
- if (i==0) { 
-__p+=' first ';
- } else if (i==pages.length - 1) { 
-__p+=' last ';
- } 
-__p+='">\n          <div class="arrow-up-control">\n              <a href="#"><i class="fa fa-arrow-circle-up"></i></a>\n          </div>\n          <img src="/document/'+
-((__t=( document.get('id') ))==null?'':__t)+
-'/preview/4/page/'+
-((__t=( page.get('number') ))==null?'':__t)+
-'">\n          <div class="arrow-down-control">\n              <a href="#"><i class="fa fa-arrow-circle-down"></i></a>\n          </div>\n          <div class="page_number">'+
-((__t=( page.get('number') ))==null?'':__t)+
-'</div>\n        </li>\n    ';
- } 
-__p+='\n</ul>';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/pages.html":
-/*!*************************************!*\
-  !*** ./src/js/templates/pages.html ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<ul class="actual_pages">\n    ';
- for (i=0; i < pages.length; i++) { 
-__p+='\n      ';
- page = pages.at(i) 
-__p+='\n        <li class="actual_page">\n        <img src="/document/'+
-((__t=( document.get('id') ))==null?'':__t)+
-'/preview/1/page/'+
-((__t=( page.get('number') ))==null?'':__t)+
-'">\n          <div class="page_number">'+
-((__t=( page.get('number') ))==null?'':__t)+
-'</div>\n        </li>\n    ';
- } 
-__p+='\n</ul>';
 }
 return __p;
 };
@@ -22165,19 +21520,30 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 /*!**********************************!*\
   !*** ./src/js/views/document.js ***!
   \**********************************/
-/*! exports provided: DocumentView */
+/*! exports provided: add_zoom_2_document_form, add_switch_2_document_form, DocumentView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_zoom_2_document_form", function() { return add_zoom_2_document_form; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_switch_2_document_form", function() { return add_switch_2_document_form; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentView", function() { return DocumentView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
+/* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
+/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
+/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../document_form/zoom */ "./src/js/document_form/zoom.js");
+/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../document_form/page_list */ "./src/js/document_form/page_list.js");
+/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../document_form/common */ "./src/js/document_form/common.js");
+/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
+/* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
+/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
+/* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../forms/metadata_form */ "./src/js/forms/metadata_form.js");
 
 
 
@@ -22185,40 +21551,383 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let PAGES_TEMPLATE = __webpack_require__(/*! ../templates/pages.html */ "./src/js/templates/pages.html");
 
-let PAGE_THUMBNAILS_TEMPLATE = __webpack_require__(/*! ../templates/page_thumbnails.html */ "./src/js/templates/page_thumbnails.html");
 
-class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+
+
+
+
+
+
+
+
+function add_switch_logic(switch_selector) {
+  // but clicking switch selector, target is toggled.
+  // in document view - this applies to page thumbnails left panel
+  // and document details right panels which can be visible or hidden.
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(switch_selector).click(function (e) {
+    var target_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("target-id"),
+        $target;
+    e.preventDefault();
+    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + target_id);
+
+    if ($target.length == 0) {
+      console.log("target " + target_id + " not found");
+      return;
+    }
+
+    $target.toggle();
+  });
+} // add_switch_logic
+
+
+function add_zoom_logic() {
+  let actual_pages = Array.from(document.querySelectorAll('.actual-pages .actual_page'));
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".zoom").change(function () {
+    let zoom_val = parseInt(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val()) || 3;
+    actual_pages.forEach(function (dom_page_item, index, arr) {});
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".zoom").trigger("change");
+} // add_zoom_logic
+
+
+function add_zoom_2_document_form() {
+  add_zoom_logic();
+}
+function add_switch_2_document_form() {
+  // ok, here we are in document for page.
+  add_switch_logic("#sw-left-panel");
+  add_switch_logic("#sw-right-panel");
+}
+class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document');
   }
 
-  initialize() {
-    let document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name='document_id']").val();
-    this.document = new _models_document__WEBPACK_IMPORTED_MODULE_2__["Document"](document_id);
-    this.document.fetch();
-    this.listenTo(this.document, 'change', this.render);
+  constructor() {
+    let dom_actual_pages = document.querySelector('.actual_pages');
+    super();
+    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__["MgThumbnailList"]();
+    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__["DgZoom"]();
+    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__["MgPageList"](this._zoom);
+
+    this._thumbnail_list.load();
+
+    this._page_list.load(this.zoom.get_value());
+
+    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_10__["DgMainSpinner"]();
+    this._actions = this.build_actions();
+
+    if (dom_actual_pages) {
+      new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
+    }
+
+    this.configEvents();
   }
 
-  events() {
-    let event_map = {};
-    return event_map;
+  get actions() {
+    return this._actions;
   }
 
-  render() {
-    let compiled_pages, compiled_page_thumbnails, context;
-    context = {};
-    compiled_pages = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(PAGES_TEMPLATE({
-      'pages': this.document.pages,
-      'document': this.document
-    }));
-    compiled_page_thumbnails = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(PAGE_THUMBNAILS_TEMPLATE({
-      'pages': this.document.pages,
-      'document': this.document
-    }));
-    this.$el.find("#page-thumbnails").html(compiled_page_thumbnails);
-    this.$el.find("#actual-pages").html(compiled_pages);
+  get zoom() {
+    return this._zoom;
+  }
+
+  get page_list() {
+    return this._page_list;
+  }
+
+  scroll_to(page_num) {
+    this._thumbnail_list.remove_highlights();
+
+    this._thumbnail_list.mark_highlight(page_num);
+
+    this._page_list.scroll_to(page_num);
+  }
+
+  on_thumbnail_dblclick(page_num) {
+    this.scroll_to(page_num);
+  }
+
+  on_thumbnail_click(page_num) {
+    console.log(`Page ${page_num} click`);
+  }
+
+  on_zoom_change(new_zoom_val) {
+    this.page_list.on_zoom(new_zoom_val);
+  }
+
+  on_page_move_up(page_num, doc_id, page_id) {
+    this.actions.clear_selection();
+
+    this._thumbnail_list.clear_selections();
+
+    this._page_list.on_page_move_up(page_num, doc_id, page_id);
+  }
+
+  on_page_move_down(page_num, doc_id, page_id) {
+    this.actions.clear_selection();
+
+    this._thumbnail_list.clear_selections();
+
+    this._page_list.on_page_move_down(page_num, doc_id, page_id);
+  }
+
+  configEvents() {
+    let that = this;
+
+    this._thumbnail_list.ondblclick(this.on_thumbnail_dblclick, this);
+
+    this._thumbnail_list.onclick(this.on_thumbnail_click, this);
+
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
+
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
+
+    this.zoom.subscribe("zoom", this.on_zoom_change, this);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).resize(function () {
+      let zoom_val = that.zoom.get_value();
+      console.log("window resized");
+      that.page_list.on_zoom(zoom_val);
+    });
+  }
+
+  build_actions() {
+    /**
+    Actions dropdown menu of changeform view.
+    */
+    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
+        rename_action,
+        delete_page_action,
+        cut_page_action,
+        paste_page_action,
+        paste_page_before_action,
+        paste_page_after_action,
+        metadata_action,
+        apply_reorder_changes;
+    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      // Achtung! #rename id is same for rename action
+      // in changeform view and changelist view.
+      id: "#rename",
+      enabled: function (selection, clipboard) {
+        return true;
+      },
+      action: function (selection, clipboard, current_node) {
+        let rename_form = new _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__["RenameChangeForm"](current_node);
+        rename_form.show();
+      }
+    });
+    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: "#delete-page",
+      enabled: function (selection, clipboard) {
+        let order_changed = false; // User cannot delete pages if he changed their
+        // order and changes are pending. He/She must 
+        // apply reorder changes!
+
+        for (let page of selection.all()) {
+          if (page.page_num != page.page_order) {
+            return false;
+          }
+        }
+
+        return selection.length > 0;
+      },
+      action: function (selection, clipboard, current_node, thumbnail_list, page_list) {
+        let delete_page_form,
+            confirmation = confirm("Are you sure?"),
+            url,
+            params,
+            pages = [],
+            doc_id;
+
+        if (!confirmation) {
+          return;
+        }
+
+        for (let page of selection.all()) {
+          doc_id = page.doc_id;
+          pages.push(page.page_num);
+        }
+
+        url = `/api/document/${doc_id}/pages?`;
+        params = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.param({
+          'pages': pages
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+          url: url + params,
+          method: 'DELETE'
+        });
+        thumbnail_list.delete_selected(selection);
+        page_list.delete_selected(selection);
+      }
+    });
+    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: "#cut-page",
+      enabled: function (selection, clipboard) {
+        return selection.length > 0;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url,
+            pages = [],
+            doc_id;
+
+        for (let page of selection.all()) {
+          doc_id = page.doc_id;
+          pages.push(page.page_num);
+        }
+
+        url = `/api/document/${doc_id}/pages/cut`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify(pages),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: "#paste-page",
+      enabled: function (selection, clipboard) {
+        return true;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url;
+        url = `/api/document/${current_node.id}/pages/paste`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: "#paste-page-before",
+      enabled: function (selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url,
+            page_num = -1;
+
+        for (let page of selection.all()) {
+          if (page.page_num) {
+            page_num = page.page_num;
+          }
+        }
+
+        url = `/api/document/${current_node.id}/pages/paste`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify({
+            'before': page_num
+          }),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: "#paste-page-after",
+      enabled: function (selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function (selection, clipboard, current_node) {
+        let url,
+            page_num = -1;
+
+        for (let page of selection.all()) {
+          if (page.page_num) {
+            page_num = page.page_num;
+          }
+        }
+
+        url = `/api/document/${current_node.id}/pages/paste`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify({
+            'after': page_num
+          }),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    metadata_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: '#metadata',
+      enabled: function (selection, clipboard) {
+        return selection.length == 1;
+      },
+      action: function (selection, clipboard, current_node) {
+        let metadata_form, page;
+        page = selection.first();
+        metadata_form = new _forms_metadata_form__WEBPACK_IMPORTED_MODULE_13__["MetadataPageForm"](page);
+        metadata_form.show();
+      }
+    });
+    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+      id: "#apply-reorder-changes",
+      enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
+        // if any page has page_num != page_order
+        // it means page was reordered => there pending
+        // changes.
+        if (!thumbnail_list) {
+          return false;
+        }
+
+        for (let thumb of thumbnail_list.all()) {
+          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+
+          if (data['page_num'] != data['page_order']) {
+            return true;
+          }
+        }
+
+        return false;
+      },
+      action: function (selection, clipboard, current_node, thumbnail_list, page_list) {
+        let confirmation = confirm("Are you sure?"),
+            url,
+            params,
+            pages = [],
+            doc_id,
+            data;
+
+        if (!confirmation) {
+          return;
+        }
+
+        for (let thumb of thumbnail_list.all()) {
+          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+          doc_id = thumb.doc_id;
+          pages.push({
+            'page_num': data['page_num'],
+            'page_order': data['page_order']
+          });
+        }
+
+        url = `/api/document/${doc_id}/pages`;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post({
+          url: url,
+          type: 'POST',
+          data: JSON.stringify(pages),
+          dataType: "json",
+          contentType: "application/json; charset=utf-8"
+        });
+      }
+    });
+    actions.add(rename_action);
+    actions.add(delete_page_action);
+    actions.add(cut_page_action);
+    actions.add(paste_page_action);
+    actions.add(paste_page_before_action);
+    actions.add(paste_page_after_action);
+    actions.add(metadata_action);
+    actions.add(apply_reorder_changes);
+    return actions;
   }
 
 }

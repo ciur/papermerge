@@ -1,0 +1,15 @@
+<ul class="actual_pages">
+    {% for page in pages %}
+        <li class="actual_page">
+            <div class="document page" 
+                data-page_num="{{page.number}}"
+                data-img_type="page"
+                data-page_id="{{page.id}}"
+                data-doc_id="{{document.pk}}"
+                data-page_order="{{page.number}}"
+                data-step="3">
+            </div>
+            <div class="page_number">{{ page.number }}</div>
+        </li>
+    {% endfor %}
+</ul> 
