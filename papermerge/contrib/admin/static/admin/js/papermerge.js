@@ -17474,8 +17474,8 @@ let App = function () {
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_3__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_5__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__["BreadcrumbView"]();
-  document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
   control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
+  document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
   browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
   document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
   backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
@@ -19228,7 +19228,9 @@ class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   initialize(parent_id) {
-    this.parent_id = parent_id;
+    this.set({
+      'parent_id': parent_id
+    });
     this.nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
   }
 
@@ -19848,7 +19850,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     } // this form of url is used for folder browsing via json requests.
 
 
-    return `/${this.get('id')}`;
+    return `/#${this.get('id')}`;
   }
 
   full_title() {
@@ -19860,10 +19862,12 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
         text = this.get('title');
 
     if (text && text.length > len) {
-      result = text.substring(0, len);
+      result = `${text.substring(0, len)}...`;
+    } else {
+      result = text;
     }
 
-    return `${result}...`;
+    return result;
   }
 
   is_document() {
@@ -20417,7 +20421,9 @@ __p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n 
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
-__p+='\n        <li class="breadcrumb-item">\n            <a href="#" class="breadcrumb-node"  data-id="'+
+__p+='\n        <li class="breadcrumb-item">\n            <a href="'+
+((__t=( node.url ))==null?'':__t)+
+'" class="breadcrumb-node"  data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
 '">\n            	'+
 ((__t=( node.get('title') ))==null?'':__t)+
@@ -21540,14 +21546,13 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 /*!**********************************!*\
   !*** ./src/js/views/document.js ***!
   \**********************************/
-/*! exports provided: DocumentActionsView, add_zoom_2_document_form, add_switch_2_document_form, DocumentView */
+/*! exports provided: DocumentActionsView, add_zoom_2_document_form, DocumentView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentActionsView", function() { return DocumentActionsView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_zoom_2_document_form", function() { return add_zoom_2_document_form; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_switch_2_document_form", function() { return add_switch_2_document_form; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentView", function() { return DocumentView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
@@ -21565,6 +21570,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
 /* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
 /* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../forms/metadata_form */ "./src/js/forms/metadata_form.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
+
 
 
 
@@ -21622,18 +21629,14 @@ function add_zoom_logic() {
 function add_zoom_2_document_form() {
   add_zoom_logic();
 }
-function add_switch_2_document_form() {
-  // ok, here we are in document for page.
-  add_switch_logic("#sw-left-panel");
-  add_switch_logic("#sw-right-panel");
-}
 class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document');
   }
 
   constructor() {
-    let dom_actual_pages = document.querySelector('.actual_pages');
+    let dom_actual_pages = document.querySelector('.actual_pages'),
+        document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val();
     super();
     this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__["MgThumbnailList"]();
     this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__["DgZoom"]();
@@ -21645,6 +21648,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_10__["DgMainSpinner"]();
     this._actions = this.build_actions();
+    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_14__["BreadcrumbView"](document_id);
 
     if (dom_actual_pages) {
       new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
