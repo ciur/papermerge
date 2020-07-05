@@ -33,25 +33,21 @@
             {% trans "Actions" %}
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-             <li class="dropdown-item fl fl-i-center" id="download" class="dropdown-item fl fl-i-center disabled">
-                 <a href="#"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
-             </li>
-             <li class="dropdown-divider"></li>
              <li class="dropdown-item disabled" id="cut">
                  <a href="#"><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
              </li>
              <!-- PASTE -->
-             <li class="nav-item dropdown-submenu-right dropdown-submenu dropdown fl fl-i-center">
+             <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
                  <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
-                     <a href="#"><i class="fa fa-paste mx-2"></i>
-                     {% trans "Paste" %}</a>
+                     <i class="fa fa-paste mx-2"></i>
+                     {% trans "Paste" %}
                  </a>
                <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
                  <li class="dropdown-item" id="paste">
-                   {% trans "Documents & Folders" %}
+                   <a href="#">{% trans "Documents & Folders" %}</a>
                  </li>
                  <li class="dropdown-item" id="paste_pages">
-                   {% trans "Pages" %}
+                   <a href="#">{% trans "Pages" %}</a>
                  </li>
                </ul>
              </li>
