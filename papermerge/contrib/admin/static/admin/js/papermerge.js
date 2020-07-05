@@ -17470,13 +17470,14 @@ backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, 
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, document_view, control_sidebar, browse_router;
+  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router;
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_3__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_5__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__["BreadcrumbView"]();
   document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
   control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
   browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
+  document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
   backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
   Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_2__["sort_cookie"])();
 };
@@ -18741,8 +18742,8 @@ __webpack_require__.r(__webpack_exports__);
 class MgThumbnailList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
   constructor() {
     super();
-    this._container_selector = ".page-thumbnails";
-    this._selector = ".page-thumbnails .page_thumbnail";
+    this._container_selector = ".page_thumbnails";
+    this._selector = ".page_thumbnails .page_thumbnail";
     this._list = [];
 
     this._config_events();
@@ -21520,11 +21521,12 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 /*!**********************************!*\
   !*** ./src/js/views/document.js ***!
   \**********************************/
-/*! exports provided: add_zoom_2_document_form, add_switch_2_document_form, DocumentView */
+/*! exports provided: DocumentActionsView, add_zoom_2_document_form, add_switch_2_document_form, DocumentView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentActionsView", function() { return DocumentActionsView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_zoom_2_document_form", function() { return add_zoom_2_document_form; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add_switch_2_document_form", function() { return add_switch_2_document_form; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentView", function() { return DocumentView; });
@@ -21560,15 +21562,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+class DocumentActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document-actions');
+  }
 
-function add_switch_logic(switch_selector) {
-  // but clicking switch selector, target is toggled.
-  // in document view - this applies to page thumbnails left panel
-  // and document details right panels which can be visible or hidden.
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(switch_selector).click(function (e) {
-    var target_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("target-id"),
+  events() {
+    let event_map = {
+      "click #sw-left-panel": "toggle_thumbnails"
+    };
+    return event_map;
+  }
+
+  toggle_thumbnails(event) {
+    let target_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data("target-id"),
         $target;
-    e.preventDefault();
+    event.preventDefault();
     $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + target_id);
 
     if ($target.length == 0) {
@@ -21577,9 +21586,9 @@ function add_switch_logic(switch_selector) {
     }
 
     $target.toggle();
-  });
-} // add_switch_logic
+  }
 
+}
 
 function add_zoom_logic() {
   let actual_pages = Array.from(document.querySelectorAll('.actual-pages .actual_page'));

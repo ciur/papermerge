@@ -5,6 +5,15 @@
               <a href="#"><i class="fa fa-arrow-circle-up"></i></a>
           </div>
           <img src="/document/{{document.id}}/preview/4/page/{{page.number}}">
+          <div class="document page" 
+               data-page_num="{{page.number}}"
+               data-img_type="thumbnail"
+               data-page_id="{{page.id}}"
+               data-doc_id="{{document.pk}}"
+               data-page_order="{{page.number}}"
+               data-step="4">
+               <input type="checkbox" name="_selected_action" value="{{ page.number }}" />
+            </div>
           <div class="arrow-down-control">
               <a href="#"><i class="fa fa-arrow-circle-down"></i></a>
           </div>
