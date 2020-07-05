@@ -7940,6 +7940,10 @@ h1, h2, h3, h4 {
   .input-group input {
     width: 100%; }
 
+form.change_password {
+  padding: 2rem;
+  border: 1px solid #ccc; }
+
 #user_form {
   padding: 0rem 1rem; }
   #user_form .field-is_staff, #user_form .field-is_superuser, #user_form .field-is_active {
@@ -10221,7 +10225,7 @@ footer a:hover {
 .content-wrapper {
   background-color: white; }
 
-.row.breadcrumb {
+#breadcrumb {
   background-color: #f4f6f9; }
 
 .btn-bordered {
