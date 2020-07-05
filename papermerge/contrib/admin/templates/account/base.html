@@ -23,6 +23,13 @@
   </div>
   {% block content %}
   {% endblock %}
+  <div>
+    <ul>
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+  </div>
 <!-- jQuery -->
 <script src="{% static 'admin/js/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
