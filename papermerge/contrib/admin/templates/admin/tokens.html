@@ -10,6 +10,9 @@
           <h3>{% trans "Authentication Tokens" %}</h3>
       </div>
     </div>
+    <div class="col-lg-12 col-md-12 my-3">
+      <a href="#" class="btn btn-success" role="button">{% trans "New API Token" %}</a>
+    </div>
     <div class="col-lg-12 col-md-12">
         <div class="p-1 p-md-3">
           <!-- form error messages -->
@@ -26,6 +29,7 @@
               </ul>
             {% endif %}
             <!-- form error messages -->
+            
             <table class="table">
               <thead>
                 <tr>
@@ -37,7 +41,7 @@
               <tbody>
                 {% for token in tokens %}
                   <tr>
-                    <td>{{ token.digest }}</td>
+                    <td><input type="checkbox" />{{ token.digest }}</td>
                     <td>{{ token.created }}</td>
                     <td>{{ token.expiry }}</td>
                   </tr>
