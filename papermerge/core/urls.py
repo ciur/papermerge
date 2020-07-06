@@ -6,6 +6,7 @@ from papermerge.core.views import documents as doc_views
 from papermerge.core.views import nodes as node_views
 from papermerge.core.views import metadata as metadata_views
 from papermerge.core.views import preferences as preferences_views
+from papermerge.core.views import tokens as tokens_views
 
 document_patterns = [
     path(
@@ -139,5 +140,10 @@ urlpatterns = [
         'preferences/',
         preferences_views.preferences_view,
         name='preferences'
+    ),
+    path(
+        'tokens/',
+        tokens_views.tokens_view,
+        name='tokens'
     )
 ]
