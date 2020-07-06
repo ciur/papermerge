@@ -145,5 +145,10 @@ urlpatterns = [
         'tokens/',
         tokens_views.tokens_view,
         name='tokens'
+    ),
+    path(
+        'token/',
+        tokens_views.token_view,
+        name='token'
     )
 ]

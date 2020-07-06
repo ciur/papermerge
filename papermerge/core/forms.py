@@ -9,6 +9,7 @@ from django.contrib.auth import (
     password_validation
 )
 
+from knox.models import AuthToken
 from papermerge.core.models import (Document, Folder)
 
 
@@ -101,9 +102,10 @@ class AuthTokenForm(forms.ModelForm):
         required=True,
         initial=4464,  # ~ 6 months
         help_text=_(
-            "Number of hours this token will be valid (since its creation)"
+            "Number of hours this token will be valid (4464 hours ~ 6 months)"
         ),
     )
 
     class Meta:
+        model = AuthToken
         fields = ('hours',)
