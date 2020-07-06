@@ -1,3 +1,0 @@
-{% load i18n %}
-
-{% trans 'Please confirm your Papermerge account' %}
