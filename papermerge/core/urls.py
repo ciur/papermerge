@@ -7,6 +7,8 @@ from papermerge.core.views import nodes as node_views
 from papermerge.core.views import metadata as metadata_views
 from papermerge.core.views import preferences as preferences_views
 from papermerge.core.views import tokens as tokens_views
+from papermerge.core.views import users as users_views
+from papermerge.core.views import groups as groups_views
 
 document_patterns = [
     path(
@@ -150,5 +152,25 @@ urlpatterns = [
         'token/',
         tokens_views.token_view,
         name='token'
+    ),
+    path(
+        'users/',
+        users_views.users_view,
+        name='users'
+    ),
+    path(
+        'user/',
+        users_views.user_view,
+        name='user'
+    ),
+    path(
+        'groups/',
+        groups_views.groups_view,
+        name='groups'
+    ),
+    path(
+        'group/',
+        groups_views.group_view,
+        name='group'
     )
 ]

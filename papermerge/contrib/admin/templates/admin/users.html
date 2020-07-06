@@ -1,0 +1,56 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Users" %}{% endblock %}
+
+{% block content %}
+    <div class="text-left">
+        <h3>{% trans "Users" %}</h3>
+    </div>
+    <form action="{% url 'core:users' %}" method="post">
+      {% csrf_token %}
+        <div class="col-12 p-3">
+            <a href="{% url 'core:user' %}" class="btn btn-success" role="button">{% trans "New User" %}</a>
+            
+              <select name="action" required="">
+                <option value="" selected="">---------</option>
+                <option value="delete_selected">Delete selected users</option>
+              </select>
+            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+        </div>
+        <div class="col-12">
+          <ul class="list-unstyled">
+            {% for message in messages %}
+            <li> <i class="fa fa-info-circle text-success m-2"></i>{{message|safe}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-12 p-3">
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th>{% trans "Username" %}</th>
+                  <th>{% trans "Email Address" %}</th>
+                  <th>{% trans "Superuser Status" %}</th>
+                  <th>{% trans "Staff Status" %}</th>
+                  <th>{% trans "Active Status" %}</th>
+                  <th>{% trans "Last Login" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ user.id }}" /></span>{{ user.username}}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.is_superuser }}</td>
+                    <td>{{ user.is_staff }}</td>
+                    <td>{{ user.is_active }}</td>
+                    <td>{{ user.last_login }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+      </div>
+    </form>
+{% endblock %}

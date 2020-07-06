@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Groups" %}{% endblock %}
+
+{% block content %}
+    <div class="text-left">
+        <h3>{% trans "Groups" %}</h3>
+    </div>
+    <form action="{% url 'core:groups' %}" method="post">
+      {% csrf_token %}
+        <div class="col-12 p-3">
+            <a href="{% url 'core:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>
+            
+              <select name="action" required="">
+                <option value="" selected="">---------</option>
+                <option value="delete_selected">Delete selected groups</option>
+              </select>
+            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+        </div>
+        <div class="col-12">
+          <ul class="list-unstyled">
+            {% for message in messages %}
+            <li> <i class="fa fa-info-circle text-success m-2"></i>{{message|safe}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-12 p-3">
+          {% if groups|length > 0 %}
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th>{% trans "Group" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for group in groups %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ group.id }}" /></span>{{ group.name}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            {% trans "No groups defined so far" %}
+          {% endif %}
+      </div>
+    </form>
+{% endblock %}
