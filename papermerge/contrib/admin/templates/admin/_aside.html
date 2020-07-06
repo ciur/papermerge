@@ -1,4 +1,4 @@
-{% load static i18n  %}
+{% load static i18n admin_tags  %}
 
 <!-- Brand Logo -->
 <a href="{% url 'index' %}" class="brand-link">
@@ -11,9 +11,9 @@
 <div class="sidebar sidebar_collapse_remember">
   <!-- Sidebar Menu -->
   <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
       <li class="nav-item">
-        <a href="{% url 'browse' %}" class="nav-link">
+        <a href="{% url 'browse' %}" class="nav-link {% activate_on 'index, browse' %}">
           <i class="nav-icon fa fa-folder"></i>
           <p>
             {% trans "Documents" %}
@@ -29,7 +29,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'core:groups' %}" class="nav-link">
+        <a href="{% url 'core:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
           <i class="nav-icon fa fa-users"></i>
           <p>
             {% trans "Groups" %}
@@ -37,7 +37,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'core:users' %}" class="nav-link">
+        <a href="{% url 'core:users' %}" class="nav-link {% activate_on 'users, user' %}">
           <i class="nav-icon fa fa-user-friends"></i>
           <p>
             {% trans "Users" %}
