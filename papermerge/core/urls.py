@@ -5,6 +5,7 @@ from papermerge.core.views import api as api_views
 from papermerge.core.views import documents as doc_views
 from papermerge.core.views import nodes as node_views
 from papermerge.core.views import metadata as metadata_views
+from papermerge.core.views import preferences as preferences_views
 
 document_patterns = [
     path(
@@ -134,4 +135,9 @@ urlpatterns = [
         api_views.PagesPasteView.as_view(),
         name='api_pages_paste'
     ),
+    path(
+        'preferences/',
+        preferences_views.preferences_view,
+        name='preferences'
+    )
 ]
