@@ -155,27 +155,26 @@ urlpatterns = [
     ),
     path(
         'users/',
-        users_views.users_view,
-        name='users'
+        users_views.users_view, name='users'
     ),
     path(
         'user/',
-        users_views.user_view,
-        name='user'
+        users_views.user_view, name='user'
+    ),
+    path(
+        'user/<int:id>/change',
+        users_views.user_change_view, name='user_change'
     ),
     path(
         'groups/',
-        groups_views.groups_view,
-        name='groups'
+        groups_views.groups_view, name='groups'
     ),
     path(
         'group/',
-        groups_views.group_view,
-        name='group'
+        groups_views.group_view, name='group'
     ),
     path(
         'group/<int:id>/change',
-        groups_views.group_change_view,
-        name='group_change'
+        groups_views.group_change_view, name='group_change'
     )
 ]

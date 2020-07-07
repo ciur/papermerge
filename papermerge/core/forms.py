@@ -15,7 +15,6 @@ class UserForm(forms.ModelForm):
             'is_superuser',
             'is_staff',
             'is_active',
-            'last_login',
         )
 
 

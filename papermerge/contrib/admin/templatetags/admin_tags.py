@@ -1,4 +1,6 @@
 from django.template import Library
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from papermerge.core.lib.lang import LANG_DICT
 
 
@@ -42,3 +44,21 @@ def activate_on(context, names):
 
     return ''
 
+
+@register.simple_tag
+def boolean_icon(boolean_value):
+
+    icon_html = mark_safe("<i class='fa {} {}'></i>")
+
+    if boolean_value:
+        return format_html(
+            icon_html,
+            "fa-check",
+            "text-success"
+        )
+
+    return format_html(
+        icon_html,
+        "fa-times",
+        "text-danger"
+    )
