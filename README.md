@@ -35,12 +35,12 @@ For Papermerge a document is anything which is a good candidate for archiving - 
 future reference. For example receipts are perfect examples - you don't need to
 read receipts everyday, but eventually you will need them for your tax
 declaration. In this sense - scanned documents, which are usually
-in PDF or TIFF format, are a perfect match.
+in PDF or TIFF format, are perfect match.
 
-Out of scope (at least of near future) are Office documents (ODT, DOCX....),
-text files (notes) which usually are editable.
+Out of scope (at least for near future) are Office documents (ODT, DOCX....),
+text files (notes) which usually are editable. In future Papermerge might support Office documents (ODT etc), but that feature will be provided as plugins.
 
-Papermerge is simply not designed to store books.
+Papermerge is simply not designed to store books. Yes, you can scan a book and import it in Papermege, but again - this is not what Papermerge was designed for.
 
 ## Features
     
