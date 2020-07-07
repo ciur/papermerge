@@ -172,5 +172,10 @@ urlpatterns = [
         'group/',
         groups_views.group_view,
         name='group'
+    ),
+    path(
+        'group/<int:id>/change',
+        groups_views.group_change_view,
+        name='group_change'
     )
 ]

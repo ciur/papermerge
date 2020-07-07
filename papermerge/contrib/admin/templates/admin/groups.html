@@ -6,7 +6,12 @@
 
 {% block content %}
     <div class="text-left">
-        <h3>{% trans "Groups" %}</h3>
+        <h4 class="p-3">{% trans "Groups" %}</h4>
+        <p class="bg-light p-3">
+          {% blocktrans %}
+            A group - is a collection of users. A groups is a convinient model to group/associate a number of users together. For example only users belonging to accounting group might be allowed to access Accounting-2020 folder.
+          {% endblocktrans %}
+        </p>
     </div>
     <form action="{% url 'core:groups' %}" method="post">
       {% csrf_token %}
@@ -30,14 +35,14 @@
           {% if groups|length > 0 %}
             <table class="table table-striped">
               <thead class="thead-dark">
-                <tr>
-                  <th>{% trans "Group" %}</th>
+                <tr class="text-uppercase">
+                  <th>{% trans "Group Name" %}</th>
                 </tr>
               </thead>
               <tbody>
                 {% for group in groups %}
                   <tr>
-                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ group.id }}" /></span>{{ group.name}}</td>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ group.id }}" /></span><a href="{% url 'core:group_change' group.id %}">{{ group.name}}</a></td>
                   </tr>
                 {% endfor %}
               </tbody>
