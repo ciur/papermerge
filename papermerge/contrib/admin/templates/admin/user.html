@@ -2,16 +2,30 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "New User" %}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
     <div class="col-lg-12 col-md-12">
       <div class="text-left">
           <h3 class="px-3">{{ title }}</h3>
+
+          <p class="p-3 bg-light">
+            <i class="fa fa-info-circle text-success"></i>
+            {% blocktrans %}
+              Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password (of the user your are editing right now) using
+            {% endblocktrans %}<a class="" href="{% url 'core:user_change_password' user_id %}"> {% trans "this form" %}</a>.
+          </p>
       </div>
     </div>
     <div class="col-lg-12 col-md-12">
         <div class="p-1 p-md-3">
+          <div>
+            <ul class="list-unstyled">
+              {% for message in messages %}
+                <li>{{message}}</li>
+              {% endfor %}
+            </ul>
+          </div>
           <!-- form error messages -->
             {% if form.errors %}
               <ul class='form-errors text-danger list-unstyled'>

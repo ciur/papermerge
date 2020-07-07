@@ -166,6 +166,10 @@ urlpatterns = [
         users_views.user_change_view, name='user_change'
     ),
     path(
+        'user/<int:id>/change-password',
+        users_views.user_change_password_view, name='user_change_password'
+    ),
+    path(
         'groups/',
         groups_views.groups_view, name='groups'
     ),

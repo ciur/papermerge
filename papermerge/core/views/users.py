@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -36,29 +37,28 @@ def users_view(request):
 @login_required
 def user_view(request):
     """
-    Used for new users
+    When adding a new user, administrator will need to add
+    username + password and then he/she will be able to edit further
+    details.
     """
-    action_url = reverse('core:user')
-
     if request.method == 'POST':
 
         form = UserForm(request.POST)
 
         if form.is_valid():
+            user = form.save()
 
-            form.save()
-
-            return redirect('core:users')
+            return redirect(
+                reverse('core:user_change', args=(user.id, ))
+            )
 
     form = UserForm()
 
     return render(
         request,
-        'admin/user.html',
+        'admin/add_user.html',
         {
             'form': form,
-            'action_url': action_url,
-            'title': _('New User')
         }
     )
 
@@ -85,6 +85,40 @@ def user_change_view(request, id):
         {
             'form': form,
             'action_url': action_url,
-            'title': _('Edit User')
+            'title': _('Edit User'),
+            'user_id': id
+        }
+    )
+
+
+@login_required
+def user_change_password_view(request, id):
+    """
+    This view is used by administrator to change password of ANY user in the
+    system. As result, 'current password' won't be asked.
+    """
+    user = get_object_or_404(User, id=id)
+    action_url = reverse('core:user_change_password', args=(id,))
+
+    if request.method == 'POST':
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        if password1 == password2:
+            user.set_password(password1)
+            user.save()
+            messages.success(
+                request,
+                _("Password was successfully changed.")
+            )
+            return redirect(
+                reverse('core:user_change', args=(id,))
+            )
+
+    return render(
+        request,
+        'admin/user_change_password.html',
+        {
+            'user': user,
+            'action_url': action_url
         }
     )
