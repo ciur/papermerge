@@ -25,6 +25,24 @@ This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
+## Is It Right Tool For You?
+
+To be efficient you always need to choose right tool for the problem. Because
+Document Management is too generic - I think that a definition of what is a
+Document in context of this software is needed.
+
+For Papermerge a document is anything which is a good candidate for achieving
+- some piece of information which is not editable but you need to store it for
+future reference. For example recipes are perfect examples - you don't need to
+"read" receipts everyday, but eventually you will need them for your tax
+declaration for example. In this sense - scanned documents which are usually
+in PDF or TIFF format are a perfect match as well.
+
+Out of scope (at least of near future) are Office documents (ODT, DOCX....),
+text files (notes) which usually are editable.
+
+Papermerge is simply not designed to store books.
+
 ## Features
     
 * Documents of pdf, jpg, png, tiff formats are supported
