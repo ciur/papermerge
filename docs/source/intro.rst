@@ -12,7 +12,7 @@ For Papermerge a document is anything which is a good candidate for archiving - 
 
 **PDF (Portable Document Format)** is de facto standard for storing archived documents. In correct technical terms - it is `PDF/A <https://en.wikipedia.org/wiki/PDF/A>`_ subset. PDF/A differs from PDF by prohibiting features unsuitable for long-term archiving, such as font linking and encryption.
 
-Most of the modern office scanners will output scanned files in PDF/A format. This is why, PDF is practically the synonymous for document in context of Papermerge.
+Most of the modern office scanners will output scanned files in PDF/A format. This is why, PDF is practically synonymous for document in context of Papermerge.
 
 What is Not a Document?
 ~~~~~~~~~~~~~~~~~~~~~~~~
