@@ -20,7 +20,7 @@ def users_view(request):
 
         if go_action == 'delete_selected':
             User.objects.filter(
-                digest__in=selected_action
+                id__in=selected_action
             ).delete()
 
     users = User.objects.all()
