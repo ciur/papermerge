@@ -32,10 +32,10 @@ To be efficient you always need to choose right tool for the problem. Because
 *Document* in context of this software is needed.
 
 For Papermerge a document is anything which is a good candidate for archiving - some piece of information which is not editable but you need to store it for
-future reference. For example recipes are perfect examples - you don't need to
-"read" receipts everyday, but eventually you will need them for your tax
-declaration for example. In this sense - scanned documents which are usually
-in PDF or TIFF format are a perfect match as well.
+future reference. For example receipts are perfect examples - you don't need to
+read receipts everyday, but eventually you will need them for your tax
+declaration. In this sense - scanned documents, which are usually
+in PDF or TIFF format, are a perfect match.
 
 Out of scope (at least of near future) are Office documents (ODT, DOCX....),
 text files (notes) which usually are editable.
