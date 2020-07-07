@@ -25,7 +25,7 @@ This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
-## Is It Right Tool For You?
+## Right Tool For You?
 
 To be efficient you always need to choose right tool for the problem. Because
 *Document Management* is too generic - I think that a definition of what is a

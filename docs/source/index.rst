@@ -38,6 +38,7 @@ What It Does't Do
 .. toctree::
    :maxdepth: 4
    
+   intro
    requirements
    setup/index
    languages
