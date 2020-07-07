@@ -26,7 +26,7 @@
               </ul>
             {% endif %}
             <!-- form error messages -->
-            <form class="user" method="POST" action="{{action_url}}">
+            <form class="user" method="POST" action="{{ action_url }}">
               {% csrf_token %}
               {% for field in form %}
                 <div class="form-group">

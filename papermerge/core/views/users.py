@@ -46,9 +46,8 @@ def user_view(request):
 
         if form.is_valid():
 
-            instance, user = User.objects.create(
-                form.cleaned_data
-            )
+            form.save()
+
             return redirect('core:users')
 
     form = UserForm()

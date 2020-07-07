@@ -3,6 +3,11 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 from knox.models import AuthToken
 from papermerge.core.models import User
+from django.forms.widgets import (
+    TextInput,
+    EmailInput,
+    ChoiceWidget
+)
 
 
 class UserForm(forms.ModelForm):
@@ -12,10 +17,22 @@ class UserForm(forms.ModelForm):
         fields = (
             'username',
             'email',
+            'first_name',
+            'last_name',
+            'groups',
             'is_superuser',
             'is_staff',
             'is_active',
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if isinstance(
+                visible.field.widget,
+                (TextInput, EmailInput, ChoiceWidget)
+            ):
+                visible.field.widget.attrs['class'] = 'form-control'
 
 
 class GroupForm(forms.ModelForm):
