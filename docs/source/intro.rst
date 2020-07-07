@@ -1,3 +1,5 @@
+.. figure:: img/logo.png
+
 Right Tool for You?
 ==========================
 
@@ -6,9 +8,9 @@ To be efficient you always need to choose right tool for the problem. Because Do
 What is a Document?
 ~~~~~~~~~~~~~~~~~~~~
 
-For Papermerge a document is anything which is a good candidate for archiving - some piece of information which is not editable but you need to store it for future reference. For example **receipts** are perfect examples - you don't need to read receipts everyday, but eventually you will need them for your tax declaration. In this sense - **scanned documents**, which are usually in PDF or TIFF format, are perfect match.
+For Papermerge a document is anything which is a good candidate for archiving - some piece of information which is not editable but you need to store it for future reference. For example **receipts** are perfect examples - you don't need to read receipts everyday, but eventually you will need them for your tax declaration. In this sense - **scanned documents**, which are usually in PDF or `TIFF <https://en.wikipedia.org/wiki/TIFF>`_ format, are perfect match.
 
-**PDF (Portable Document Format)** is de facto standard for storing archived documents. In correct technical terms - it is PDF/A subset. PDF/A differs from PDF by prohibiting features unsuitable for long-term archiving, such as font linking and encryption.
+**PDF (Portable Document Format)** is de facto standard for storing archived documents. In correct technical terms - it is `PDF/A <https://en.wikipedia.org/wiki/PDF/A>`_ subset. PDF/A differs from PDF by prohibiting features unsuitable for long-term archiving, such as font linking and encryption.
 
 Most of the modern office scanners will output scanned files in PDF/A format. This is why, PDF is practically the synonymous for document in context of Papermerge.
 
