@@ -31,7 +31,7 @@ To be efficient you always need to choose right tool for the problem. Because
 *Document Management* is too generic - I think that a definition of what is a
 *Document* in context of this software is needed.
 
-For Papermerge a document is anything which is a good candidate for achieving - some piece of information which is not editable but you need to store it for
+For Papermerge a document is anything which is a good candidate for archiving - some piece of information which is not editable but you need to store it for
 future reference. For example recipes are perfect examples - you don't need to
 "read" receipts everyday, but eventually you will need them for your tax
 declaration for example. In this sense - scanned documents which are usually
