@@ -16,8 +16,12 @@ class Folder(mixins.ExtractIds, BaseTreeNode):
 
     def to_dict(self):
         item = {}
+
         item['id'] = self.id
         item['title'] = self.title
+        item['created_at'] = self.created_at.strftime("%d.%m.%Y %H:%M:%S")
+        item['timestamp'] = self.created_at.timestamp()
+
         if self.parent:
             item['parent_id'] = self.parent.id
         else:

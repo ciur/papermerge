@@ -19647,7 +19647,8 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
       ctype: '',
       kvstore: '',
       selected: false,
-      img_src: ''
+      img_src: '',
+      created_at: ''
     };
   }
 
@@ -19661,7 +19662,8 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     let dict = {
       id: this.get('id'),
       parent_id: this.get('parent_id'),
-      title: this.get('title')
+      title: this.get('title'),
+      created_at: this.get('created_at')
     };
     return dict;
   }
@@ -20383,7 +20385,9 @@ __p+='\n          <td scope="col">'+
 ((__t=( node.get_page_value_for(kvstore.get('key')) ))==null?'':__t)+
 '</td>\n        ';
  } 
-__p+='\n        <td>None</td>\n    </tr>\n    ';
+__p+='\n        <td>'+
+((__t=( node.get('created_at') ))==null?'':__t)+
+'</td>\n    </tr>\n    ';
  } 
 __p+='\n  </tbody>\n</table>';
 }
