@@ -9588,14 +9588,18 @@ h1, h2, h3, h4 {
 * Right sidebar provided by AdminLTE3.
 * Right sidebar displays insformation about Metadata, Access etc
 */
-.control-sidebar h5 {
-  padding-bottom: 0.5rem; }
-
-.control-sidebar .muted-border-bottom {
-  border-bottom: 1px solid #888; }
-
-.control-sidebar .border-bottom {
-  border-bottom: 1px solid white; }
+.control-sidebar {
+  overflow: scroll; }
+  .control-sidebar span {
+    background-color: rgba(0, 0, 0, 0);
+    color: #bbb;
+    border: 1px solid #888; }
+  .control-sidebar h5 {
+    padding-bottom: 0.5rem; }
+  .control-sidebar .muted-border-bottom {
+    border-bottom: 1px solid #888; }
+  .control-sidebar .border-bottom {
+    border-bottom: 1px solid white; }
 
 .icon-sw-left-panel {
   width: 1rem;
@@ -9858,6 +9862,12 @@ h1, h2, h3, h4 {
       background-color: #e6f5ff;
       outline: 1px solid #e6f5ff; }
 
+.dropdown-submenu > .dropdown-menu {
+  left: -100%; }
+
+#metadata button[type=hidden] {
+  visibility: hidden; }
+
 #metadata ul {
   margin: 0;
   padding: 0;
@@ -9870,12 +9880,16 @@ h1, h2, h3, h4 {
       padding: 0; }
     #metadata ul li.container .summary {
       margin: 0.5rem 0; }
-      #metadata ul li.container .summary .label input {
+      #metadata ul li.container .summary input[disabled] {
         width: 100%;
         background-color: rgba(0, 0, 0, 0);
         border: 0px;
         border-bottom: 1px solid white;
         color: white; }
+      #metadata ul li.container .summary input {
+        width: 100%;
+        border: 0px;
+        padding: 0.25rem; }
     #metadata ul li.container label {
       color: #999; }
 

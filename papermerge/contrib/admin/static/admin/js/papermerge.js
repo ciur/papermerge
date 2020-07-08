@@ -20424,47 +20424,55 @@ __p+='\n        <li class=\'container\' data-model=\'simple-key\' data-id=\''+
  if (!item.get('kv_inherited')) {  
 __p+='\n                        <button type=\'button\' class=\'close key text-white mx-1\' aria-label=\'Close\'>\n                            <span aria-hidden=\'true\'>&times;</span>\n                        </button>\n                    ';
  } 
-__p+='\n                </div>\n            </div> <!-- row.summary -->\n            <div class="row summary">\n                <div class="col-12 label">\n                    <input data-id=\''+
+__p+='\n                </div>\n            </div> <!-- row.summary -->\n            <div class="row summary align-items-center">\n                <div class="col-11 label">\n                    <input data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' placeholder="value..." name=\'value\' type=\'text\' value="'+
 ((__t=( item.get('value') ))==null?'':__t)+
-'">\n                </div>\n            </div> <!-- row.summary -->\n            <div class="row">\n                <div class="col-4">\n                    <label>Type</label>\n                </div>\n                <div class="col-8">\n                    <select '+
-((__t=( item.disabled ))==null?'':__t)+
-'  class="kv_type" name=\'kv_type\' class="custom-select">\n                        ';
+'">\n                </div>\n                <div class="col-1 chevron toggle d-flex">\n                    <a class="m-1" href="#">\n                        <i class="fa fa-chevron-left"></i>\n                    </a>\n                </div>\n            </div> <!-- row.summary -->\n            <div class="row details d-none">\n                <div class="col-4">\n                    <label>Type</label>\n                </div>\n                <div class="col-8">\n                    ';
+ if (item.disabled) { 
+__p+='\n                        <label>'+
+((__t=( item.get('kv_type') ))==null?'':__t)+
+'</label>\n                    ';
+ } else { 
+__p+='\n                        <select class="kv_type" name=\'kv_type\' class="custom-select">\n                            ';
  for (k=0; k < kv_types.length; k++) { 
-__p+='\n                            <option \n                                ';
+__p+='\n                                <option \n                                    ';
  if ( item.get('kv_type') == kv_types[k][0] ) { 
 __p+=' selected  ';
  }  
-__p+=' \n                                value="'+
+__p+=' \n                                    value="'+
 ((__t=( kv_types[k][0] ))==null?'':__t)+
-'">\n                                '+
+'">\n                                    '+
 ((__t=( kv_types[k][1] ))==null?'':__t)+
-'\n                            </option>\n                        ';
+'\n                                </option>\n                            ';
  } 
-__p+='\n                    </select>\n                </div>\n            </div>\n            <div class="row">\n                <div class="col-4">\n                    <label>Format</label>\n                </div>\n                <div class="col-8">\n                    <select '+
-((__t=( item.disabled ))==null?'':__t)+
-' class="kv_format" name=\'kv_format\' class="custom-select">\n                        ';
+__p+='\n                        </select>\n                    ';
+ } 
+__p+='\n                </div>\n            </div>\n            <div class="row details d-none">\n                <div class="col-4">\n                    <label>Format</label>\n                </div>\n                <div class="col-8">\n                    ';
+ if (item.disabled) { 
+__p+='\n                        <label>'+
+((__t=( item.get('kv_format') || 'Free form' ))==null?'':__t)+
+'</label>\n                    ';
+ } else { 
+__p+='\n                        <select class="kv_format" name=\'kv_format\' class="custom-select">\n                            ';
  for (j=0; j < current_formats.length; j++) { 
-__p+='\n                            <option \n                                 ';
+__p+='\n                                <option \n                                     ';
  if ( item.get('kv_format') == current_formats[j][0] ) { 
 __p+=' selected  ';
  }  
-__p+=' \n                                value="'+
+__p+=' \n                                    value="'+
 ((__t=( current_formats[j][0] ))==null?'':__t)+
-'">\n                                '+
+'">\n                                    '+
 ((__t=( current_formats[j][1] ))==null?'':__t)+
-'\n                                \n                            </option>\n                        ';
+'\n                                </option>\n                            ';
  } 
-__p+='\n                    </select>\n                </div>\n            </div>\n           \n        </li>\n    ';
+__p+='\n                        </select>\n                    ';
  } 
-__p+='\n </ul>\n ';
- if (kvstore.models.length > 0 && !all_disabled) { 
-__p+='\n     <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n         Save\n     </button>\n ';
+__p+='\n                </div>\n            </div>\n           \n        </li>\n    ';
  } 
-__p+='\n';
+__p+='\n </ul>\n <button id="save-metadata" type=\'hidden\' class=\'btn btn-success btn-flat save key mx-1\'>\n     Save\n </button>\n';
 }
 return __p;
 };
@@ -21335,6 +21343,13 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
     return $('.control-sidebar');
   }
 
+  events() {
+    let events_map = {
+      "click button#save": "on_save"
+    };
+    return events_map;
+  }
+
   initialize() {
     this.metadata_view = undefined;
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
@@ -21387,6 +21402,10 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 
 
     this.metadata_view = new _metadata__WEBPACK_IMPORTED_MODULE_1__["MetadataView"](selected_node.get('id'));
+  }
+
+  on_save(event) {
+    this.$el.find("#save-metadata").trigger('click');
   }
 
 }
@@ -21988,6 +22007,50 @@ class MetadataPageView extends _metadata__WEBPACK_IMPORTED_MODULE_3__["MetadataV
     this.metadata = new _models_metadata_page__WEBPACK_IMPORTED_MODULE_2__["MetadataPage"](page_id);
     this.start();
     this.render();
+  }
+
+  events() {
+    let event_map = {
+      "click #add_simple_meta": "add_simple_meta",
+      "click .close.key": "remove_meta",
+      "keyup input[name='key']": "update_key",
+      // event triggered when user - instead of typing
+      // chooses a value from dropdown - native agent autocomplete feature
+      "change input[name='key']": "update_key",
+      "keyup input[name='value']": "update_value",
+      // event triggered when user - instead of typing
+      // chooses a value from dropdown - native agent autocomplete feature
+      "change input[name='value']": "update_value",
+      "change .kv_type": "kv_type_update",
+      "change .kv_format": "kv_format_update",
+      "click button.save": "on_save",
+      "click .chevron.toggle": "toggle_details"
+    };
+    return event_map;
+  }
+
+  toggle_details(event) {
+    let $current = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+    let parent = $current.closest("li"),
+        icon_tags;
+    parent.find(".details").toggleClass("d-none");
+    icon_tags = $current.find("i.fa");
+    icon_tags.toggleClass("fa-chevron-left");
+    icon_tags.toggleClass("fa-chevron-down");
+  }
+
+  update_value(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
+    let data = parent.data();
+    this.metadata.update_simple(data['cid'], 'value', value);
+  }
+
+  update_key(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
+    let data = parent.data();
+    this.metadata.update_simple(data['cid'], 'key', value);
   }
 
   render() {

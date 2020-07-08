@@ -8,11 +8,11 @@
   <!-- Control sidebar content goes here -->
   <div class="p-3">
     <button type="button" class="btn btn-block btn-success">{% trans "Download" %}</button>
-    <button type="button" class="btn btn-block btn-light">
+    <button id="save" type="button" class="btn btn-block btn-light save">
     {% trans "Save" %}</button>
     <div class="form-group">
       <label for="language">{% trans "Language" %}</label>
-      <input type="text" class="form-control" class="form-control" disabled value="{{document.lang}}">
+      <span class="form-control">{{document.lang}} </span>
     </div>
     <div id="metadata">
     </div>
