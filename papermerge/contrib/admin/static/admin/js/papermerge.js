@@ -18659,8 +18659,7 @@ class MgThumbnail extends _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"] {
       }
 
       that.timer = setTimeout(function () {
-        console.log('!click!');
-        that.notify(MgThumbnail.CLICK, that._page_num);
+        that.notify(MgThumbnail.CLICK, that._page_num, that.doc_id, that.page_id);
       }, MgThumbnail.CLICK_TIMEOUT);
     };
 
@@ -18736,6 +18735,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _thumbnail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./thumbnail */ "./src/js/document_form/thumbnail.js");
 /* harmony import */ var _lister__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lister */ "./src/js/document_form/lister.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -18909,7 +18910,8 @@ class MgThumbnailList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
   }
 
   _config_events() {
-    let that = this;
+    let that = this,
+        first_thumb;
 
     this._add_thumbnails();
 
@@ -18917,7 +18919,15 @@ class MgThumbnailList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
       for (let thumb of that._list) {
         thumb.on_scroll();
       }
-    });
+    }); // after document load, user did not select
+    // any page yet. In this case, metadata view will
+    // display first page' metadata.
+
+    if (this._list.length > 0) {
+      // if there is at least one thumbnail
+      first_thumb = this._list[0];
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PAGE_SELECTION_CHANGED"], first_thumb.page_id);
+    }
   }
 
 }
@@ -19019,132 +19029,6 @@ class DgEvents {
   }
 
 }
-
-/***/ }),
-
-/***/ "./src/js/forms/metadata_form.js":
-/*!***************************************!*\
-  !*** ./src/js/forms/metadata_form.js ***!
-  \***************************************/
-/*! exports provided: MetadataForm, MetadataPageForm */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataForm", function() { return MetadataForm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPageForm", function() { return MetadataPageForm; });
-/* harmony import */ var _views_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../views/metadata */ "./src/js/views/metadata.js");
-/* harmony import */ var _views_metadata_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/metadata_page */ "./src/js/views/metadata_page.js");
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-
-
-
-class MetadataForm {
-  // metadata form for documents
-  constructor(node, id = "#metadata_form") {
-    this._node = node; // only one item!
-
-    this._id = id;
-
-    this._create_hidden_input(node); // will create hidden input for parent id
-    // to know to which folder to redirect back
-    // if this parameter is missing - will redirect back
-    // to root folder.
-
-
-    this._create_hidden_parent(parent_id);
-
-    this._set_title(node);
-  }
-
-  _set_title(item) {
-    $(this._id).find("[name=title]").val(item.title);
-  }
-
-  _create_hidden_parent(parent_id = "") {
-    let hidden_parent = `<input \
-            type="hidden" \
-            name="parent_id" \
-            value="${parent_id}" \
-            />`;
-    $(this._id).append(hidden_parent);
-  }
-
-  _create_hidden_input(item) {
-    let hidden_input = `<input \
-         type="hidden" \
-         name="node_id" \
-         value="${item.id}" \
-         />`;
-    $(this._id).append(hidden_input);
-  }
-
-  unbind_events() {
-    // unbind submit event
-    $(this._id).off("submit");
-  }
-
-  show() {
-    let that = this,
-        metadata_view = new _views_metadata__WEBPACK_IMPORTED_MODULE_0__["MetadataView"](this._node.id);
-    $("#modals-container").css("display", "flex");
-    metadata_view.render();
-    $(that._id).submit(function (e) {
-      e.preventDefault();
-      $(that._id).css("display", "none");
-      $("#modals-container").hide();
-      metadata_view.on_submit();
-    });
-    $(that._id).show();
-    $(that._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("ul#simple_keys").empty();
-      $("ul#comp_keys").empty();
-      $("#modals-container").hide();
-      $(that._id).hide();
-
-      if (that) {
-        that.unbind_events();
-      } // unbind submit event.
-
-
-      $(that._id).off("submit");
-    });
-  }
-
-}
-class MetadataPageForm {
-  // metadata form for page
-  constructor(page, id = "#metadata_form") {
-    this._page = page;
-    this._id = id;
-  }
-
-  show() {
-    let that = this,
-        metadata_view = new _views_metadata_page__WEBPACK_IMPORTED_MODULE_1__["MetadataPageView"](this._page.page_id);
-    $("#modals-container").css("display", "flex");
-    metadata_view.render();
-    $(that._id).submit(function (e) {
-      e.preventDefault();
-      $(that._id).css("display", "none");
-      $("#modals-container").hide();
-      metadata_view.on_submit();
-    });
-    $(that._id).show();
-    $(that._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("ul#simple_keys").empty();
-      $("#modals-container").hide();
-      $(that._id).hide();
-      that.unbind_events(); // unbind submit event.
-
-      $(that._id).off("submit");
-    });
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -19382,7 +19266,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*************************************!*\
   !*** ./src/js/models/dispatcher.js ***!
   \*************************************/
-/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, BROWSER_REFRESH */
+/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19390,6 +19274,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mg_dispatcher", function() { return mg_dispatcher; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PARENT_CHANGED", function() { return PARENT_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECTION_CHANGED", function() { return SELECTION_CHANGED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_SELECTION_CHANGED", function() { return PAGE_SELECTION_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BROWSER_REFRESH", function() { return BROWSER_REFRESH; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
@@ -19397,8 +19282,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let mg_dispatcher = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_1__["Events"]);
-let PARENT_CHANGED = "parent_changed";
-let SELECTION_CHANGED = "selection_changed";
+let PARENT_CHANGED = "parent_changed"; // selection changed event is used to refresh metadata view
+// for nodes i.e. while user is browsing documents and folders.
+
+let SELECTION_CHANGED = "selection_changed"; // page_selection_changed event is used to refresh metadata view
+// in DOCUMENT VIEWER. In Document viewer, it is displayed is per Page
+// If nothing is selected - metadata for first page is displayed.
+
+let PAGE_SELECTION_CHANGED = "page_selection_changed";
 let BROWSER_REFRESH = "browser_refresh";
 
 /***/ }),
@@ -19515,13 +19406,12 @@ class KVStoreCompCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Colle
 /*!***********************************!*\
   !*** ./src/js/models/metadata.js ***!
   \***********************************/
-/*! exports provided: Metadata, MetadataPage */
+/*! exports provided: Metadata */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return Metadata; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPage", function() { return MetadataPage; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -19639,110 +19529,35 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
 }
 ;
-class MetadataPage extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
-  defaults() {
-    return {
-      kvstore: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"](),
-      kv_types: [],
-      date_formats: [],
-      currency_formats: [],
-      numeric_formats: []
-    };
-  }
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
+/***/ }),
+
+/***/ "./src/js/models/metadata_page.js":
+/*!****************************************!*\
+  !*** ./src/js/models/metadata_page.js ***!
+  \****************************************/
+/*! exports provided: MetadataPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPage", function() { return MetadataPage; });
+/* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./metadata */ "./src/js/models/metadata.js");
+
+class MetadataPage extends _metadata__WEBPACK_IMPORTED_MODULE_0__["Metadata"] {
   initialize(page_id) {
     this.page_id = page_id; // fetch data from server side
 
     this.fetch();
   }
 
-  get kvstore() {
-    return this.get('kvstore');
-  }
-
   urlRoot() {
     return `/metadata/page/${this.page_id}`;
   }
 
-  toJSON() {
-    let dict = {};
-    dict['kvstore'] = this.kvstore.toJSON();
-    return dict;
-  }
-
-  parse(response, options) {
-    let kvstore = response.kvstore,
-        kv_types = response.kv_types,
-        date_formats = response.date_formats,
-        numeric_formats = response.numeric_formats,
-        currency_formats = response.currency_formats,
-        that = this;
-
-    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(kvstore, function (item) {
-      that.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"](item));
-    });
-
-    this.set({
-      'kv_types': kv_types
-    });
-    this.set({
-      'numeric_formats': numeric_formats
-    });
-    this.set({
-      'date_formats': date_formats
-    });
-    this.set({
-      'currency_formats': currency_formats
-    });
-    this.trigger('change');
-  }
-
-  update_simple(cid, attr, value) {
-    let model = this.kvstore.get(cid),
-        dict = {};
-
-    if (model && attr) {
-      dict[attr] = value;
-      model.set(dict);
-    }
-  }
-
-  update_comp(cid, attr, value) {
-    let model = this.kvstore_comp.get(cid),
-        dict = {};
-
-    if (model && attr) {
-      dict[attr] = value;
-      model.set(dict);
-    }
-  }
-
-  add_simple() {
-    this.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"]({
-      'kv_current_formats': this.kv_current_formats,
-      'kv_types': this.kv_types
-    }));
-  }
-
-  remove_simple(cid) {
-    this.kvstore.remove({
-      'cid': cid
-    });
-  }
-
-  add_comp() {
-    this.kvstore_comp.add(new KVStoreComp());
-  }
-
-  remove_comp(cid) {
-    this.kvstore_comp.remove({
-      'cid': cid
-    });
-  }
-
 }
 ;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -20579,7 +20394,7 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+=' <ul class="horizontal menu">\n    <li>\n        <input id="add_simple_meta" class="btn btn-neuter" type="button" value="Create Label"/>\n    </li>\n </ul>\n <ul id="simple_keys" class="vertical menu">\n    ';
+__p+=' <h5 class="border-bottom">Metadata</h5>\n <ul>\n    <li>\n        <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n    </li>\n </ul>\n <ul id="simple_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n        ';
  item = kvstore.models[i]; 
@@ -20587,59 +20402,69 @@ __p+='\n        ';
  current_formats = item.get('current_formats') || []; 
 __p+='\n        ';
  kv_types = item.get('kv_types') || available_types || []; 
-__p+='\n        <li class=\'d-flex\' data-model=\'simple-key\' data-cid=\''+
+__p+='\n        <li class=\'container\' data-model=\'simple-key\' data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <input class="key" '+
+'">\n            <div class="row summary">\n                <div class="col-11 label">\n                    <input '+
 ((__t=( item.disabled ))==null?'':__t)+
 ' data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
-'\' name=\'key\' type=\'text\' value="'+
+'\' placeholder="label name..." name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n            <select '+
-((__t=( item.disabled ))==null?'':__t)+
-'  class="kv_type" name=\'kv_type\' class="custom-select">\n                ';
- for (k=0; k < kv_types.length; k++) { 
-__p+='\n                    <option \n                        ';
- if ( item.get('kv_type') == kv_types[k][0] ) { 
-__p+=' selected  ';
- }  
-__p+=' \n                        value="'+
-((__t=( kv_types[k][0] ))==null?'':__t)+
-'">\n                        '+
-((__t=( kv_types[k][1] ))==null?'':__t)+
-'\n                    </option>\n                ';
- } 
-__p+='\n            </select>\n            <select '+
-((__t=( item.disabled ))==null?'':__t)+
-' class="kv_format" name=\'kv_format\' class="custom-select">\n                ';
- for (j=0; j < current_formats.length; j++) { 
-__p+='\n                    <option \n                         ';
- if ( item.get('kv_format') == current_formats[j][0] ) { 
-__p+=' selected  ';
- }  
-__p+=' \n                        value="'+
-((__t=( current_formats[j][0] ))==null?'':__t)+
-'">\n                        '+
-((__t=( current_formats[j][1] ))==null?'':__t)+
-'\n                        \n                    </option>\n                ';
- } 
-__p+='\n            </select>\n            <input class="value" data-id=\''+
+'">\n                </div>\n                <div class="col-1 close"  data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
-'\' name=\'value\' type=\'text\' value="'+
-((__t=( item.get('value') ))==null?'':__t)+
-'">\n            ';
+'\'>\n                    ';
  if (!item.get('kv_inherited')) {  
-__p+='\n                <button type=\'button\' class=\'close key text-danger mx-1\' aria-label=\'Close\'>\n                    <span aria-hidden=\'true\'>&times;</span>\n                </button>\n            ';
+__p+='\n                        <button type=\'button\' class=\'close key text-white mx-1\' aria-label=\'Close\'>\n                            <span aria-hidden=\'true\'>&times;</span>\n                        </button>\n                    ';
  } 
-__p+='\n        </li>\n    ';
+__p+='\n                </div>\n            </div> <!-- row.summary -->\n            <div class="row summary">\n                <div class="col-12 label">\n                    <input data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' placeholder="value..." name=\'value\' type=\'text\' value="'+
+((__t=( item.get('value') ))==null?'':__t)+
+'">\n                </div>\n            </div> <!-- row.summary -->\n            <div class="row">\n                <div class="col-4">\n                    <label>Type</label>\n                </div>\n                <div class="col-8">\n                    <select '+
+((__t=( item.disabled ))==null?'':__t)+
+'  class="kv_type" name=\'kv_type\' class="custom-select">\n                        ';
+ for (k=0; k < kv_types.length; k++) { 
+__p+='\n                            <option \n                                ';
+ if ( item.get('kv_type') == kv_types[k][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                                value="'+
+((__t=( kv_types[k][0] ))==null?'':__t)+
+'">\n                                '+
+((__t=( kv_types[k][1] ))==null?'':__t)+
+'\n                            </option>\n                        ';
  } 
-__p+='\n </ul>';
+__p+='\n                    </select>\n                </div>\n            </div>\n            <div class="row">\n                <div class="col-4">\n                    <label>Format</label>\n                </div>\n                <div class="col-8">\n                    <select '+
+((__t=( item.disabled ))==null?'':__t)+
+' class="kv_format" name=\'kv_format\' class="custom-select">\n                        ';
+ for (j=0; j < current_formats.length; j++) { 
+__p+='\n                            <option \n                                 ';
+ if ( item.get('kv_format') == current_formats[j][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                                value="'+
+((__t=( current_formats[j][0] ))==null?'':__t)+
+'">\n                                '+
+((__t=( current_formats[j][1] ))==null?'':__t)+
+'\n                                \n                            </option>\n                        ';
+ } 
+__p+='\n                    </select>\n                </div>\n            </div>\n           \n        </li>\n    ';
+ } 
+__p+='\n </ul>\n ';
+ if (kvstore.models.length > 0 && !all_disabled) { 
+__p+='\n     <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n         Save\n     </button>\n ';
+ } 
+__p+='\n';
 }
 return __p;
 };
@@ -21499,7 +21324,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./metadata */ "./src/js/views/metadata.js");
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _metadata_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./metadata_page */ "./src/js/views/metadata_page.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -21509,12 +21336,37 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
   }
 
   initialize() {
-    console.log("ControlSidebarView");
     this.metadata_view = undefined;
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PAGE_SELECTION_CHANGED"], this.page_selection_changed, this);
+  }
+
+  page_selection_changed(page_id) {
+    /**
+    Triggered by thumbnails_list: 
+        * after thumbnail list is loaded, in this case
+          page_id of first thumb is passed).
+        * when user clicks on any thumb.
+    */
+    if (!page_id) {
+      return;
+    }
+
+    if (this.metadata_view) {
+      this.metadata_view.stop();
+      this.metadata_view = undefined;
+      return;
+    } // calls start() method.
+
+
+    this.metadata_view = new _metadata_page__WEBPACK_IMPORTED_MODULE_2__["MetadataPageView"](page_id);
   }
 
   selection_changed(selection) {
+    /*
+        Triggered by browser view when user selects/deselects
+        nodes - documents/folders
+    */
     let selected_node, metadata;
 
     if (selection.length == 0 || selection.length != 1) {
@@ -21569,9 +21421,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
 /* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
 /* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
-/* harmony import */ var _forms_metadata_form__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../forms/metadata_form */ "./src/js/forms/metadata_form.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
-
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
 
 
 
@@ -21648,7 +21498,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_10__["DgMainSpinner"]();
     this._actions = this.build_actions();
-    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_14__["BreadcrumbView"](document_id);
+    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_13__["BreadcrumbView"](document_id);
 
     if (dom_actual_pages) {
       new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
@@ -21681,8 +21531,8 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.scroll_to(page_num);
   }
 
-  on_thumbnail_click(page_num) {
-    console.log(`Page ${page_num} click`);
+  on_thumbnail_click(page_num, doc_id, page_id) {
+    console.log(`Page ${page_num} ${doc_id} ${page_id} click`);
   }
 
   on_zoom_change(new_zoom_val) {
@@ -21735,7 +21585,6 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
-        metadata_action,
         apply_reorder_changes;
     rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
       // Achtung! #rename id is same for rename action
@@ -21888,18 +21737,6 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    metadata_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
-      id: '#metadata',
-      enabled: function (selection, clipboard) {
-        return selection.length == 1;
-      },
-      action: function (selection, clipboard, current_node) {
-        let metadata_form, page;
-        page = selection.first();
-        metadata_form = new _forms_metadata_form__WEBPACK_IMPORTED_MODULE_13__["MetadataPageForm"](page);
-        metadata_form.show();
-      }
-    });
     apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
       id: "#apply-reorder-changes",
       enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
@@ -21957,7 +21794,6 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     actions.add(paste_page_action);
     actions.add(paste_page_before_action);
     actions.add(paste_page_after_action);
-    actions.add(metadata_action);
     actions.add(apply_reorder_changes);
     return actions;
   }
@@ -21994,7 +21830,7 @@ let TEMPLATE = __webpack_require__(/*! ../templates/metadata.html */ "./src/js/t
 class MetadataView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   /***
       Manages the sidebar control (the one on the left side)
-      view for metadata.
+      view for metadata (of files and folder).
       Sidebar control contains other views besides this one.
   **/
   el() {
@@ -22130,11 +21966,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
-/* harmony import */ var _models_kvstore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/kvstore */ "./src/js/models/kvstore.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
-
+/* harmony import */ var _models_metadata_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/metadata_page */ "./src/js/models/metadata_page.js");
+/* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./metadata */ "./src/js/views/metadata.js");
+/* harmony import */ var _models_kvstore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/kvstore */ "./src/js/models/kvstore.js");
 
 
 
@@ -22143,114 +21977,17 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/metadata_page.html */ "./src/js/templates/metadata_page.html");
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_4___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name=csrfmiddlewaretoken]").val();
-  /*
-   * The jQuery `ajax` method includes a 'headers' option
-   * which lets you set any headers you like
-   */
-
-  options.headers = {
-    'X-CSRFToken': csrf_token
-  };
-  /*
-   * Call the stored original Backbone.sync method with
-   * extra headers argument added
-   */
-
-  backboneSync(method, model, options);
-};
-
-class MetadataPageView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#metadata_form .modal-body');
-  }
-
+class MetadataPageView extends _metadata__WEBPACK_IMPORTED_MODULE_3__["MetadataView"] {
+  /***
+      Manages the sidebar control (the one on the left side)
+      view for metadata (of specific page within document).
+      Sidebar control contains other views besides this one.
+  **/
   initialize(page_id) {
-    this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_2__["MetadataPage"](page_id);
-    this.listenTo(this.metadata, 'change', this.render);
+    // metadata per page
+    this.metadata = new _models_metadata_page__WEBPACK_IMPORTED_MODULE_2__["MetadataPage"](page_id);
+    this.start();
     this.render();
-  }
-
-  events() {
-    let event_map = {
-      "click #add_simple_meta": "add_simple_meta",
-      "click .close.key": "remove_meta",
-      "keyup input.key": "update_key",
-      "change input.key": "update_key",
-      "keyup input.value": "update_value",
-      "change input.value": "update_value",
-      "change .kv_type": "kv_type_update",
-      "change .kv_format": "kv_format_update"
-    };
-    return event_map;
-  }
-
-  kv_format_update(event) {
-    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
-    let data = parent.data();
-    this.metadata.update_simple(data['cid'], 'kv_format', value);
-    this.render();
-  }
-
-  kv_type_update(event) {
-    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
-    let data = parent.data();
-    let cur_fmt = {};
-    cur_fmt['money'] = this.metadata.get('currency_formats');
-    cur_fmt['numeric'] = this.metadata.get('numeric_formats');
-    cur_fmt['date'] = this.metadata.get('date_formats');
-    cur_fmt['text'] = [];
-    this.metadata.update_simple(data['cid'], 'kv_type', value);
-    this.metadata.update_simple(data['cid'], 'current_formats', cur_fmt[value]);
-
-    if (cur_fmt[value].length > 0) {
-      // kv_format entry is a 2 items array. First one is used as value
-      // in HTML <option> and second one is the human text
-      // cur_fmt[value][0][0] == use first *value* of first format from the list
-      this.metadata.update_simple(data['cid'], 'kv_format', cur_fmt[value][0][0]);
-    } else {
-      // current list of formatting types is empty only for kv_type text
-      // no formating - means kv_type = text
-      this.metadata.update_simple(data['cid'], 'kv_format', "");
-    }
-
-    this.render();
-  }
-
-  update_key(event) {
-    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
-    let data = parent.data();
-    this.metadata.update_simple(data['cid'], 'key', value);
-  }
-
-  update_value(event) {
-    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
-    let data = parent.data();
-    this.metadata.update_simple(data['cid'], 'value', value);
-  }
-
-  add_simple_meta(event) {
-    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
-    this.metadata.add_simple();
-    this.render();
-  }
-
-  remove_meta(event) {
-    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
-    let data = parent.data();
-    this.metadata.remove_simple(data['cid']);
-    parent.remove();
-  }
-
-  on_submit() {
-    this.metadata.save();
   }
 
   render() {
@@ -22259,19 +21996,16 @@ class MetadataPageView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       'kvstore': this.metadata.get('kvstore'),
       'available_types': this.metadata.get('kv_types')
     };
-    console.log(`kvstore=${this.metadata.get('kvstore')}`);
-    console.log(`available_types=${this.metadata.get('kv_types')}`);
-    console.log(context);
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       kvstore: this.metadata.kvstore,
-      available_types: this.metadata.get('kv_types')
+      available_types: this.metadata.get('kv_types'),
+      all_disabled: this.all_disabled
     }));
     this.$el.html(compiled);
     return this;
   }
 
 }
-;
 
 /***/ }),
 
