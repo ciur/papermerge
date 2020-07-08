@@ -20252,10 +20252,10 @@ return __p;
 
 /***/ }),
 
-/***/ "./src/js/templates/browse.html":
-/*!**************************************!*\
-  !*** ./src/js/templates/browse.html ***!
-  \**************************************/
+/***/ "./src/js/templates/browse_grid.html":
+/*!*******************************************!*\
+  !*** ./src/js/templates/browse_grid.html ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -20295,6 +20295,24 @@ __p+='\n            <div class="icon-'+
 '</span>\n            </div>\n        </li>\n    ';
  } 
 __p+='\n</ul>';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/browse_list.html":
+/*!*******************************************!*\
+  !*** ./src/js/templates/browse_list.html ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<ul class="d-flex grid">\nlist mode\n</ul>';
 }
 return __p;
 };
@@ -21206,10 +21224,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _models_browse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/browse */ "./src/js/models/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var _display_mode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./display_mode */ "./src/js/views/display_mode.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../routers/browse */ "./src/js/routers/browse.js");
 
 
 
@@ -21218,9 +21237,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let TEMPLATE = __webpack_require__(/*! ../templates/browse.html */ "./src/js/templates/browse.html");
 
-class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+let TEMPLATE_GRID = __webpack_require__(/*! ../templates/browse_grid.html */ "./src/js/templates/browse_grid.html");
+
+let TEMPLATE_LIST = __webpack_require__(/*! ../templates/browse_list.html */ "./src/js/templates/browse_list.html");
+
+class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#browse');
   }
@@ -21228,8 +21250,10 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   initialize(parent_id) {
     this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id);
     this.browse.fetch();
+    this.display_mode = new _display_mode__WEBPACK_IMPORTED_MODULE_3__["DisplayModeView"]();
     this.listenTo(this.browse, 'change', this.render);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"], this.refresh, this);
+    this.listenTo(this.display_mode, 'change', this.render);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"], this.refresh, this);
   }
 
   events() {
@@ -21263,7 +21287,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
         $target.removeClass('checked');
       }
 
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.get_selection());
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
     }
   }
 
@@ -21281,9 +21305,9 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     if (node.is_folder()) {
       // routers.browse handles PARENT_CHANGED event.
       if (node) {
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], node.id);
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PARENT_CHANGED"], node.id);
       } else {
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], undefined);
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PARENT_CHANGED"], undefined);
       }
 
       return;
@@ -21307,9 +21331,16 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   render() {
-    let compiled, context;
+    let compiled, context, list_or_grid_template;
     context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+
+    if (this.display_mode.is_list()) {
+      list_or_grid_template = TEMPLATE_LIST;
+    } else {
+      list_or_grid_template = TEMPLATE_GRID;
+    }
+
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(list_or_grid_template({
       'nodes': this.browse.nodes
     }));
     this.$el.html(compiled);
@@ -21410,6 +21441,68 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/views/display_mode.js":
+/*!**************************************!*\
+  !*** ./src/js/views/display_mode.js ***!
+  \**************************************/
+/*! exports provided: GRID, LIST, DisplayModeView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GRID", function() { return GRID; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIST", function() { return LIST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DisplayModeView", function() { return DisplayModeView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+let GRID = 1;
+let LIST = 2;
+class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#display-mode');
+  }
+
+  initialize() {
+    this.display = GRID;
+  }
+
+  events() {
+    let events_map = {
+      "click .display-list": "display_list",
+      "click .display-grid": "display_grid"
+    };
+    return events_map;
+  }
+
+  is_list() {
+    console.log(`display = ${this.display}`);
+    return this.display == LIST;
+  }
+
+  is_grid() {
+    return this.display == GRID;
+  }
+
+  display_list(event) {
+    console.log("Display list clicked");
+    this.display = LIST;
+    this.trigger('change');
+  }
+
+  display_grid(event) {
+    console.log("Display grid clicked");
+    this.display = GRID;
+    this.trigger('change');
+  }
+
+}
 
 /***/ }),
 
