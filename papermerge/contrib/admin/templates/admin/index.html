@@ -64,62 +64,9 @@
           </div>
       </li>
   </ul>
-  </div>
+  </div> <!-- #actions -->
   <div id="display-mode" class="d-flex flex-row">
-    <div class="dropdown">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdown_view_opt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-th"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-            <a href="#" class="dropdown-item display-grid"><i class="fa fa-th"></i>
-            {% trans "Grid" %}</a>
-            <a href="#" class="dropdown-item display-list"><i class="fa fa-bars"></i>
-            {% trans "List" %}</a>
-        </div>
-    </div>
-    <div class="dropdown order">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdown_order_opt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-sort-amount-up"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right sort" aria-labelledby="navbarDropdownMenuLink">
-              <li class="dropdown-submenu-left dropdown-submenu">
-                <a class="dropdown-item dropdown-toggle" href="#">Title</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item sort asc title" href="/admin/core/basetreenode/?o=1">
-                    Asc
-                  </a></li>
-                  <li><a class="dropdown-item sort desc title" href="/admin/core/basetreenode/?o=-1">
-                    Desc
-                  </a></li>
-                </ul>
-              </li>
-              <li class="dropdown-submenu dropdown-submenu-left"><a class="dropdown-item dropdown-toggle" href="#">
-                Date
-              </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item sort asc date" href="/admin/core/basetreenode/?o=2">
-                    Asc
-                  </a></li>
-                  <li><a class="dropdown-item sort desc date" href="/admin/core/basetreenode/?o=-2">
-                    Desc
-                </a></li>
-                </ul>
-              </li>
-              <li class="dropdown-submenu-left dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">
-                Type
-              </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item sort asc type" href="/admin/core/basetreenode/?o=3">
-                    Asc
-                  </a></li>
-                  <li><a class="dropdown-item sort desc type" href="/admin/core/basetreenode/?o=-3">
-                    Desc
-                  </a></li>
-                </ul>
-              </li>
-            </ul>
-            </div>
-  </div>
+  </div> <!--  #display-mode -->
 </div>
 {% endblock %}
 

@@ -20320,6 +20320,38 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/display_mode.html":
+/*!********************************************!*\
+  !*** ./src/js/templates/display_mode.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="dropdown">\n    <button class="btn btn-light dropdown-toggle" type="button" id="dropdown_view_opt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n      ';
+ if (is_list) { 
+__p+='\n        <i class="fa fa-bars"></i>\n      ';
+ } else { 
+__p+='\n        <i class="fa fa-th"></i>\n      ';
+ } 
+__p+='\n    </button>\n    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\n        <a href="#" class="dropdown-item display-grid">\n          <i class="fa fa-th"> </i><span class="px-2">Grid</span>\n          ';
+ if (is_grid) { 
+__p+='\n            <i class="fa fa-check text-green"></i>\n          ';
+ } 
+__p+='\n        </a>\n        <a href="#" class="dropdown-item display-list"><i class="fa fa-bars"></i>\n          <span class="px-2">List</span>\n          ';
+ if (is_list) { 
+__p+='\n            <i class="fa fa-check text-green"></i>\n          ';
+ } 
+__p+='\n      </a>\n    </div>\n</div>\n\n<div class="dropdown order">\n    <button class="btn btn-light dropdown-toggle" type="button" id="dropdown_order_opt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n      <i class="fa fa-sort-amount-up"></i>\n    </button>\n    <ul class="dropdown-menu dropdown-menu-right sort" aria-labelledby="navbarDropdownMenuLink">\n          <li class="dropdown-submenu-left dropdown-submenu">\n            <a class="dropdown-item dropdown-toggle" href="#">Title</a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc title" href="/admin/core/basetreenode/?o=1">\n                Asc\n              </a></li>\n              <li><a class="dropdown-item sort desc title" href="/admin/core/basetreenode/?o=-1">\n                Desc\n              </a></li>\n            </ul>\n          </li>\n          <li class="dropdown-submenu dropdown-submenu-left"><a class="dropdown-item dropdown-toggle" href="#">\n            Date\n          </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc date" href="/admin/core/basetreenode/?o=2">\n                Asc\n              </a></li>\n              <li><a class="dropdown-item sort desc date" href="/admin/core/basetreenode/?o=-2">\n                Desc\n            </a></li>\n            </ul>\n          </li>\n          <li class="dropdown-submenu-left dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">\n            Type\n          </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc type" href="/admin/core/basetreenode/?o=3">\n                Asc\n              </a></li>\n              <li><a class="dropdown-item sort desc type" href="/admin/core/basetreenode/?o=-3">\n                Desc\n              </a></li>\n            </ul>\n          </li>\n        </ul>\n    </div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/metadata.html":
 /*!****************************************!*\
   !*** ./src/js/templates/metadata.html ***!
@@ -21458,19 +21490,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DisplayModeView", function() { return DisplayModeView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/display_mode.html */ "./src/js/templates/display_mode.html");
 
 let GRID = 1;
 let LIST = 2;
-class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
+class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#display-mode');
   }
 
   initialize() {
     this.display = GRID;
+    this.listenTo(this, "change", this.render);
+    this.render();
   }
 
   events() {
@@ -21482,7 +21521,6 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
   }
 
   is_list() {
-    console.log(`display = ${this.display}`);
     return this.display == LIST;
   }
 
@@ -21491,15 +21529,23 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
   }
 
   display_list(event) {
-    console.log("Display list clicked");
     this.display = LIST;
     this.trigger('change');
   }
 
   display_grid(event) {
-    console.log("Display grid clicked");
     this.display = GRID;
     this.trigger('change');
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'is_list': this.is_list(),
+      'is_grid': this.is_grid()
+    }));
+    this.$el.html(compiled);
   }
 
 }
