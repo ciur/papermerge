@@ -19186,7 +19186,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./src/js/models/node.js");
-/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./kvstore */ "./src/js/models/kvstore.js");
+/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -19195,13 +19197,16 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   defaults() {
     return {
       nodes: [],
-      parent_id: ''
+      parent_id: '',
+      parent_kv: [] // used in list display mode
+
     };
   }
 
   initialize(parent_id) {
     this.parent_id = parent_id;
     this.nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
+    this.parent_kv = new _kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStoreCollection"]();
   }
 
   urlRoot() {
@@ -19238,18 +19243,23 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
     if (notify_all) {
       // inform everybody about new parent
-      _dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], parent_id);
+      _dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], parent_id);
     }
   }
 
   parse(response, options) {
     let nodes = response.nodes,
         that = this,
+        parent_kv = response.parent_kv,
         parent_id = response.parent_id;
     that.nodes.reset();
 
     underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(nodes, function (item) {
       that.nodes.add(new _node__WEBPACK_IMPORTED_MODULE_2__["Node"](item));
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(parent_kv, function (item) {
+      that.parent_kv.add(new _kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStore"](item));
     });
 
     this.set({
@@ -19699,6 +19709,33 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     }
 
     return false;
+  }
+
+  get_page_value_for(key) {
+    let pages, kvstore, first_page, index;
+
+    if (node.is_folder()) {
+      return '';
+    }
+
+    pages = this.get('pages');
+
+    if (pages) {
+      first_page = pages[0];
+      kvstore = first_page.kvstore;
+
+      if (kvstore) {
+        index = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].findIndex(kvstore, function (kv) {
+          return kv.key == key;
+        });
+
+        if (index > 0) {
+          return kvstore[index].value;
+        }
+      }
+    }
+
+    return '';
   }
 
 }
@@ -20312,7 +20349,43 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<ul class="d-flex grid">\nlist mode\n</ul>';
+__p+='<table class="table">\n  <thead>\n    <tr>\n      <th scope="col">Type</th>\n      <th scope="col">Title</th>\n      ';
+ for (i=0; i < parent_kv.length; i++) { 
+__p+='\n        ';
+ kvstore = parent_kv.at(i) 
+__p+='\n        <th scope="col">'+
+((__t=( kvstore.get('key') ))==null?'':__t)+
+'</th>\n      ';
+ } 
+__p+='\n      <th scope="col">Created At</th>\n    </tr>\n  </thead>\n  <tbody>\n    ';
+ for (i=0; i < nodes.length; i++) { 
+__p+='\n        ';
+ node = nodes.at(i) 
+__p+='\n    <tr class="node" data-id="'+
+((__t=( node.get('id') ))==null?'':__t)+
+'" data-cid="'+
+((__t=( node.cid ))==null?'':__t)+
+'" data-url="'+
+((__t=( node.url ))==null?'':__t)+
+'">\n        <td>';
+ if (node.is_document()) { 
+__p+=' <i class="fa fa-file"></i> ';
+ } else { 
+__p+=' <i class="fa fa-folder text-warning"></i> ';
+ } 
+__p+='</td>\n        <td scope="row">'+
+((__t=( node.full_title() ))==null?'':__t)+
+'</td>\n        ';
+ for (j=0; j < parent_kv.length; j++) { 
+__p+='\n          ';
+ kvstore = parent_kv.at(j) 
+__p+='\n          <td scope="col">'+
+((__t=( node.get_page_value_for(kvstore.get('key')) ))==null?'':__t)+
+'</td>\n        ';
+ } 
+__p+='\n        <td>None</td>\n    </tr>\n    ';
+ } 
+__p+='\n  </tbody>\n</table>';
 }
 return __p;
 };
@@ -21373,7 +21446,8 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     }
 
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(list_or_grid_template({
-      'nodes': this.browse.nodes
+      'nodes': this.browse.nodes,
+      'parent_kv': this.browse.parent_kv
     }));
     this.$el.html(compiled);
   }

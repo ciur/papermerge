@@ -9808,6 +9808,10 @@ h1, h2, h3, h4 {
 #browse input[type=checkbox] {
   display: none; }
 
+#browse .node:hover {
+  background-color: #e6f5ff;
+  outline: 1px solid #e6f5ff; }
+
 #browse ul.grid {
   flex-wrap: wrap;
   padding: 0; }
@@ -9858,9 +9862,6 @@ h1, h2, h3, h4 {
       text-align: center;
       opacity: 1;
       z-index: 0; }
-    #browse ul.grid .node:hover {
-      background-color: #e6f5ff;
-      outline: 1px solid #e6f5ff; }
 
 .dropdown-submenu > .dropdown-menu {
   left: -100%; }

@@ -81,6 +81,7 @@ class Page(models.Model, index.Indexed):
         item = {}
         item['id'] = self.id
         item['number'] = self.number
+        item['kvstore'] = [item.to_dict() for item in self.kv.all()]
 
         return item
 

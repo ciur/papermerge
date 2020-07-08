@@ -8,7 +8,7 @@ from django.http import (
 from django.contrib.auth.decorators import login_required
 from papermerge.core.models import BaseTreeNode
 from django.urls import reverse
-
+from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +18,16 @@ def browse_view(request, parent_id=None):
 
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id)
     nodes_list = []
+    parent_kv = []
+
+    if parent_id:
+
+        parent_node = get_object_or_404(
+            BaseTreeNode, id=parent_id
+        )
+
+        for item in parent_node.kv.all():
+            parent_kv.append(item.to_dict())
 
     for node in nodes:
 
@@ -39,7 +49,8 @@ def browse_view(request, parent_id=None):
         json.dumps(
             {
                 'nodes': nodes_list,
-                'parent_id': parent_id
+                'parent_id': parent_id,
+                'parent_kv': parent_kv
             }
         ),
         content_type="application/json"
