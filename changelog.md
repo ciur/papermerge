@@ -3,6 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - Work in Progress
+
+### Added 
+	
+- AdminLTE3/Bootstrap based own UI
+
+### Changed
+
+- Metadata details are now displayed/edited on specialized right side panel (instead of modals)
+
+### Removed
+
+- Customized Django Admin app named boss. Thus, UI is no longer Django Admin based.
+
+
+
 ## [1.3.0] - 25 June 2020
 
 ### Added

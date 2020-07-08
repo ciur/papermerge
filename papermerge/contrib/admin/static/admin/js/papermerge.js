@@ -20417,7 +20417,7 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a href="/">Home</a>\n    </li>\n    ';
+__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a href="/"><i class="fa fa-home px-1"></i>Home</a>\n    </li>\n    ';
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
