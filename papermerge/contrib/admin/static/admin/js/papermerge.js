@@ -21573,15 +21573,15 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/display_mode.html */ "./src/js/templates/display_mode.html");
 
-let GRID = 1;
-let LIST = 2;
+let GRID = 'grid';
+let LIST = 'list';
 class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#display-mode');
   }
 
   initialize() {
-    this.display = GRID;
+    this.display = this.get_local('display_mode') || GRID;
     this.listenTo(this, "change", this.render);
     this.render();
   }
@@ -21594,6 +21594,14 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     return events_map;
   }
 
+  get_local() {
+    return localStorage.getItem('display_mode');
+  }
+
+  set_local(mode) {
+    return localStorage.setItem('display_mode', mode);
+  }
+
   is_list() {
     return this.display == LIST;
   }
@@ -21603,12 +21611,16 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   display_list(event) {
+    event.preventDefault();
     this.display = LIST;
+    this.set_local(LIST);
     this.trigger('change');
   }
 
   display_grid(event) {
+    event.preventDefault();
     this.display = GRID;
+    this.set_local(GRID);
     this.trigger('change');
   }
 
