@@ -9805,6 +9805,13 @@ h1, h2, h3, h4 {
   background-color: green;
   color: white; }
 
+#browse .table a.sort.header:hover {
+  text-decoration: none; }
+
+#browse .table th {
+  border-left: 1px solid #cecece;
+  border-right: 1px solid #cecece; }
+
 #browse input[type=checkbox] {
   display: none; }
 
