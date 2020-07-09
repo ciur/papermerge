@@ -17478,7 +17478,13 @@ let App = function () {
   document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
   browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
   document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
-  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start();
+  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
+  // They serve as widgets for django's messages
+
+  jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast({
+    'autohide': false
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast('show');
   Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_2__["sort_cookie"])();
 };
 

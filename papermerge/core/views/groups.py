@@ -1,10 +1,12 @@
 import logging
 
 from django.urls import reverse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ngettext
 
 from papermerge.core.forms import GroupForm
 
@@ -19,9 +21,18 @@ def groups_view(request):
         go_action = request.POST['action']
 
         if go_action == 'delete_selected':
-            Group.objects.filter(
+            deleted, row_count = Group.objects.filter(
                 id__in=selected_action
             ).delete()
+
+            if deleted:
+                count = row_count['auth.Group']
+                msg_sg = "%(count)s group was successfully deleted."
+                msg_pl = "%(count)s groups were successfully deleted."
+                messages.info(
+                    request,
+                    ngettext(msg_sg, msg_pl, count) % {'count': count}
+                )
 
     groups = Group.objects.all()
 
@@ -46,9 +57,15 @@ def group_view(request):
         form = GroupForm(request.POST)
         if form.is_valid():
 
-            Group.objects.create(
+            group = Group.objects.create(
                 name=form.cleaned_data['name']
             )
+            if group:
+                msg = "Group %(name)s was successfully created."
+                messages.info(
+                    request,
+                    _(msg) % {'name': group.name}
+                )
             return redirect('core:groups')
 
     form = GroupForm()

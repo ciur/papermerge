@@ -19,13 +19,6 @@
               </select>
             <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
         </div>
-        <div class="col-12">
-          <ul class="list-unstyled">
-            {% for message in messages %}
-            <li> <i class="fa fa-info-circle text-success m-2"></i>{{message|safe}}</li>
-            {% endfor %}
-          </ul>
-        </div>
         <div class="col-12 p-3">
           {% if tokens|length > 0 %}          
             <table class="table table-striped">

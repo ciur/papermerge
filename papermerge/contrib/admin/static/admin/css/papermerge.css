@@ -9168,7 +9168,7 @@ h1, h2, h3, h4 {
 
 .toasts {
   position: fixed;
-  z-index: 100; }
+  z-index: 2000; }
 
 .toast.error {
   color: red; }
