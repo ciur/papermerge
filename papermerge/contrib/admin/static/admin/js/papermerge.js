@@ -19722,7 +19722,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
   get_page_value_for(key) {
     let pages, kvstore, first_page, index;
 
-    if (node.is_folder()) {
+    if (this.is_folder()) {
       return '';
     }
 
@@ -20380,38 +20380,22 @@ __p+='\n      ';
 __p+='\n      <th scope="col">\n        <a\n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="created_at"\n        >\n          Created At\n          <i class="fa  '+
 ((__t=( table.cols[table.cols.length -1].sort_icon_name ))==null?'':__t)+
 '"></i>\n        </a>\n      </th>\n    </tr>\n  </thead>\n  <tbody>\n    ';
- for (i=0; i < nodes.length; i++) { 
+ for (i=0; i < table.rows.length; i++) { 
 __p+='\n        ';
- node = nodes.at(i) 
+ row = table.rows[i] 
 __p+='\n    <tr class="node" data-id="'+
-((__t=( node.get('id') ))==null?'':__t)+
+((__t=( row[0].id ))==null?'':__t)+
 '" data-cid="'+
-((__t=( node.cid ))==null?'':__t)+
+((__t=( row[0].cid ))==null?'':__t)+
 '" data-url="'+
-((__t=( node.url ))==null?'':__t)+
-'">\n        <td>';
- if (node.is_document()) { 
-__p+=' <i class="fa fa-file"></i> ';
- } else { 
-__p+=' <i class="fa fa-folder text-warning"></i> ';
- } 
-__p+='</td>\n        <td scope="row">'+
-((__t=( node.full_title() ))==null?'':__t)+
+((__t=( row[0].url ))==null?'':__t)+
+'">\n        ';
+ for (j=0; j < row.length; j++) { 
+__p+='\n          <td>'+
+((__t=( row[j].value ))==null?'':__t)+
 '</td>\n        ';
- for (j=0; j < parent_kv.length; j++) { 
-__p+='\n          ';
- kvstore = parent_kv.at(j) 
-__p+='\n          ';
- if (kvstore) { 
-__p+='\n            <td scope="col">'+
-((__t=( node.get_page_value_for(kvstore.get('key')) ))==null?'':__t)+
-'</td>\n          ';
  } 
-__p+='\n        ';
- } 
-__p+='\n        <td>'+
-((__t=( node.get('created_at') ))==null?'':__t)+
-'</td>\n    </tr>\n    ';
+__p+='\n    </tr>\n    ';
  } 
 __p+='\n  </tbody>\n</table>';
 }
@@ -21375,8 +21359,9 @@ let TEMPLATE_GRID = __webpack_require__(/*! ../templates/browse_grid.html */ "./
 
 let TEMPLATE_LIST = __webpack_require__(/*! ../templates/browse_list.html */ "./src/js/templates/browse_list.html");
 
-let ASC = 'asc';
-let DESC = 'desc';
+let SORT_ASC = 'asc';
+let SORT_DESC = 'desc';
+let SORT_UNDEFINED = 0;
 
 class Column {
   constructor(name, key, sort) {
@@ -21399,10 +21384,18 @@ class Column {
 
   set sort(sort_state) {
     this._sort = sort_state;
+    this.set_local(this.name, sort_state);
   }
 
   get_local(name) {
-    return localStorage.getItem(`browse_list.${name}`);
+    let local = localStorage.getItem(`browse_list.${name}`);
+
+    if (local == "0" || local == undefined) {
+      return SORT_UNDEFINED;
+    }
+
+    ;
+    return local;
   }
 
   set_local(name, value) {
@@ -21412,23 +21405,21 @@ class Column {
   toggle() {
     // changes sorting state of the column
     // if sort is undefined - initial sort is ASC
-    if (this.sort == undefined) {
-      this.sort = ASC;
-    } else if (this.sort == ASC) {
-      this.sort = DESC;
-    } else if (this.sort == DESC) {
-      this.sort = ASC;
+    if (this.sort == SORT_UNDEFINED || this.sort == undefined) {
+      this.sort = SORT_ASC;
+    } else if (this.sort == SORT_ASC) {
+      this.sort = SORT_DESC;
+    } else if (this.sort == SORT_DESC) {
+      this.sort = SORT_ASC;
     }
-
-    this.set_local(this.name, this.sort);
   }
 
   get sort_icon_name() {
     let fa_name = 'fa-sort';
 
-    if (this.sort == ASC) {
+    if (this.sort == SORT_ASC) {
       fa_name = 'fa-sort-amount-down-alt';
-    } else if (this.sort == DESC) {
+    } else if (this.sort == SORT_DESC) {
       fa_name = 'fa-sort-amount-down';
     }
 
@@ -21439,10 +21430,31 @@ class Column {
 
 class Table {
   constructor(nodes, parent_kv) {
-    let cols;
+    let cols, sort_column;
     this._cols = this._build_header_cols(parent_kv);
     cols = this._cols;
-    this._rows = this._build_rows(cols, nodes);
+    this._rows = this._build_rows(parent_kv, nodes);
+    sort_column = this.get_sort_column();
+
+    if (sort_column) {
+      if (sort_column.key) {
+        this.sort_key_column(sort_column.key, sort_column.sort == SORT_ASC ? -1 : 1);
+      } else {
+        this.sort_standard_column(sort_column.name, sort_column.sort == SORT_ASC ? -1 : 1);
+      }
+    }
+  }
+
+  get_sort_column() {
+    let index = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].findIndex(this._cols, function (col) {
+      return col.sort == SORT_ASC || col.sort == SORT_DESC;
+    });
+
+    if (index >= 0) {
+      return this._cols[index];
+    }
+
+    return undefined;
   }
 
   get cols() {
@@ -21462,10 +21474,155 @@ class Table {
   }
 
   toggle_col_sort(index) {
-    this._cols[index].toggle();
+    this._cols[index].toggle(); // Set as sort = undefined for all other columns
+    // Only one column at the time is supported.
+
+
+    for (let i = 0; i < this._cols.length; i++) {
+      if (i != index) {
+        this._cols[i].sort = SORT_UNDEFINED;
+      }
+    }
+
+    return this._cols[index];
   }
 
-  _build_rows(cols, nodes) {}
+  sort_key_column(key_name, sort_type) {
+    function compare_keys(row1, row2) {
+      let found_1, found_2;
+      found_1 = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(row1, function (item) {
+        return item['key'] == key_name;
+      });
+      found_2 = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(row2, function (item) {
+        return item['key'] == key_name;
+      });
+
+      if (found_1['virtual_value'] < found_2['virtual_value']) {
+        return sort_type;
+      }
+
+      if (found_1['virtual_value'] > found_2['virtual_value']) {
+        return sort_type;
+      }
+
+      return 0;
+    }
+
+    this._rows = this._rows.sort(compare_keys);
+  }
+
+  sort_standard_column(name, sort_type) {
+    function compare_cols(row1, row2) {
+      let found_1, found_2;
+      found_1 = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(row1, function (item) {
+        return item['col'] == name;
+      });
+      found_2 = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(row2, function (item) {
+        return item['col'] == name;
+      });
+
+      if (found_1['virtual_value'] < found_2['virtual_value']) {
+        return sort_type;
+      }
+
+      if (found_1['virtual_value'] > found_2['virtual_value']) {
+        return sort_type;
+      }
+
+      return 0;
+    }
+
+    this._rows = this._rows.sort(compare_cols);
+  }
+
+  _build_dict_for_type_col(node) {
+    let value, virtual_value;
+
+    if (node.is_document()) {
+      value = `<i class="fa fa-file"></i>`;
+      virtual_value = 0;
+    } else {
+      value = `<i class="fa fa-folder text-warning"></i>`;
+      virtual_value = 1;
+    }
+
+    return {
+      'id': node.get('id'),
+      'cid': node.cid,
+      'url': node.url,
+      'col': 'type',
+      'value': value,
+      'virtual_value': virtual_value,
+      'virtual_type': 'int'
+    };
+  }
+
+  _build_dict_for_title_col(node) {
+    let value, virtual_value;
+    return {
+      'id': node.get('id'),
+      'cid': node.cid,
+      'url': node.url,
+      'col': 'title',
+      'value': node.full_title(),
+      'virtual_value': node.full_title(),
+      'virtual_type': 'str'
+    };
+  }
+
+  _build_dict_for_created_at_col(node) {
+    let value, virtual_value;
+    return {
+      'id': node.get('id'),
+      'cid': node.cid,
+      'url': node.url,
+      'col': 'created_at',
+      'value': node.get('created_at'),
+      'virtual_value': node.get('created_at'),
+      'virtual_type': 'str'
+    };
+  }
+
+  _build_rows(parent_kv, nodes) {
+    let node,
+        result = [],
+        value,
+        virtual_value,
+        kvstore,
+        key,
+        row = [];
+
+    for (let i = 0; i < nodes.length; i++) {
+      node = nodes.at(i);
+      row = [];
+      row.push(this._build_dict_for_type_col(node));
+      row.push(this._build_dict_for_title_col(node));
+
+      for (let j = 0; j < parent_kv.length; j++) {
+        kvstore = parent_kv.at(j);
+
+        if (kvstore) {
+          key = kvstore.get('key');
+          value = node.get_page_value_for(key);
+          row.push({
+            'id': node.get('id'),
+            'cid': node.cid,
+            'url': node.url,
+            'key': key,
+            'value': value,
+            'virtual_value': node.get_page_value_for(kvstore.get('key')),
+            'virtual_type': 'str'
+          });
+        }
+      }
+
+      row.push(this._build_dict_for_created_at_col(node));
+      result.push(row);
+    } // for
+
+
+    return result;
+  }
 
   _build_header_cols(parent_kv) {
     let result = [],
@@ -21529,7 +21686,8 @@ class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   col_sort(event) {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
-        key_name;
+        key_name,
+        column;
 
     if (data.col == 'key') {
       // kvstore column was clicked, find out
@@ -21537,7 +21695,6 @@ class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       key_name = data.key;
       this.toggle_key_column(key_name);
     } else {
-      // one of 3 column was clicked - type, name or created_at
       this.toggle_standard_column(data.col);
     }
 
@@ -21557,7 +21714,7 @@ class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   }
 
   toggle_col_sort(index) {
-    this._table.toggle_col_sort(index);
+    return this._table.toggle_col_sort(index);
   }
 
   toggle_standard_column(name) {
@@ -21567,7 +21724,7 @@ class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     });
 
     if (index >= 0) {
-      this.toggle_col_sort(index);
+      return this.toggle_col_sort(index);
     }
   }
 
