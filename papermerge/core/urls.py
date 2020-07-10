@@ -84,11 +84,6 @@ urlpatterns = [
         name='rename_node'
     ),
     path(
-        'delete-node/',
-        doc_views.delete_node,
-        name='delete_node'
-    ),
-    path(
         'cut-node/',
         doc_views.cut_node,
         name='cut_node'

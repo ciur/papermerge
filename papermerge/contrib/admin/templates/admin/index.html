@@ -30,14 +30,14 @@
      </li>
       <li class="mx-1">
           <div class="dropdown actions">
-            <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {% trans "Actions" %}
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                <li class="dropdown-item disabled" id="cut">
-                   <a href="#"><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
+                   <a><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
                </li>
-               <!-- PASTE -->
+               <!-- PASTE BEGIN -->
                <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
                    <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
                        <i class="fa fa-paste mx-2"></i>
@@ -45,20 +45,20 @@
                    </a>
                  <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
                    <li class="dropdown-item" id="paste">
-                     <a href="#">{% trans "Documents & Folders" %}</a>
+                     <a>{% trans "Documents & Folders" %}</a>
                    </li>
                    <li class="dropdown-item" id="paste_pages">
-                     <a href="#">{% trans "Pages" %}</a>
+                     <a>{% trans "Pages" %}</a>
                    </li>
                  </ul>
                </li>
-               <!-- PASTE -->
-               <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
-                   <a href="#"><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
+               <!-- PASTE END -->
+               <li  id="rename" class="dropdown-item disabled">
+                   <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
                </li>
                <li class="dropdown-divider"></li>
                <li id="delete" class="dropdown-item disabled">
-                   <a href="#"><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
+                   <a><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
                </li>
             </ul>
           </div>

@@ -60,25 +60,21 @@ def document(request, doc_id):
 
 
 @login_required
+@require_POST
 def cut_node(request):
-    if request.method == 'GET':
-        return redirect('browse')
 
-    node_ids = request.POST.getlist('node_ids[]', False)
-    parent_id = request.POST.get('parent_id', False)
+    data = json.loads(request.body)
+    node_ids = [item['id'] for item in data]
 
     # request.clipboard.nodes = request.nodes
     request.nodes.add(node_ids)
 
-    if parent_id:
-        return redirect(
-            # reverse(
-            #     'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            # )
-            reverse('browse')
-        )
-
-    return redirect('browse')
+    return HttpResponse(
+        json.dumps({
+            'msg': 'OK'
+        }),
+        content_type="application/json"
+    )
 
 
 @login_required
@@ -129,11 +125,19 @@ def paste_pages(request):
 
 
 @login_required
+@require_POST
 def paste_node(request):
-    if request.method == 'GET':
-        return redirect('browse')
+    data = json.loads(request.body)
 
-    parent_id = request.POST.get('parent_id', False)
+    if not data:
+        return HttpResponseBadRequest(
+            json.dumps({
+                'msg': 'Payload empty'
+            }),
+            content_type="application/json"
+        )
+
+    parent_id = data.get('parent_id', False)
 
     if parent_id:
         parent = BaseTreeNode.objects.filter(id=parent_id).first()
@@ -154,40 +158,12 @@ def paste_node(request):
     # request.clipboard.nodes = request.nodes
     request.nodes.clear()
 
-    if parent_id:
-        return redirect(
-            # reverse(
-            #     'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            # )
-            reverse('browse')
-        )
-
-    return redirect('browse')
-
-
-@login_required
-def delete_node(request):
-    """
-    Delete selected nodes.
-
-    Mandatory parameters node_ids[] and title:
-    """
-    if request.method == 'GET':
-        return redirect('boss:core_basetreenode_changelist')
-
-    node_ids = request.POST.getlist('node_ids[]', False)
-    parent_id = request.POST.get('parent_id', False)
-
-    BaseTreeNode.objects.filter(id__in=node_ids).delete()
-
-    if parent_id:
-        return redirect(
-            reverse(
-                'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            )
-        )
-    else:
-        return redirect('boss:core_basetreenode_changelist')
+    return HttpResponse(
+        json.dumps({
+            'msg': 'OK'
+        }),
+        content_type="application/json"
+    )
 
 
 @login_required

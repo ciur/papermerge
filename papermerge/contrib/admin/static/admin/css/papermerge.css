@@ -9870,7 +9870,7 @@ h1, h2, h3, h4 {
       opacity: 1;
       z-index: 0; }
 
-.dropdown-submenu > .dropdown-menu {
+#display-mode .dropdown-submenu > .dropdown-menu {
   left: -100%; }
 
 #metadata button[type=hidden] {
@@ -10216,6 +10216,9 @@ h1, h2, h3, h4 {
 
 p a {
   text-decoration: underline; }
+
+a {
+  cursor: pointer; }
 
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
   background-color: #616161;

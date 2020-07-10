@@ -1,25 +1,5 @@
 {% load i18n  %}
 
-
-<form action="{% url 'core:delete_node' %}" method="POST" id="delete_form">
-    {% csrf_token %}
-    <input type="hidden" name="parent_id" value="{% if object %}{{ object.id }}{% else %}{% endif %}">
-</form>
-
-<form action="{% url 'core:cut_node' %}" method="POST" id="cut_form">
-    {% csrf_token %}
-</form>
-
-<form action="{% url 'core:paste_node' %}" method="POST" id="paste_form">
-    {% csrf_token %}
-    <input type="hidden" name="parent_id" value="{% if object %}{{ object.id }}{% else %}{% endif %}">
-</form>
-
-<form action="{% url 'core:paste_pages' %}" method="POST" id="paste_pages_form">
-    {% csrf_token %}
-    <input type="hidden" name="parent_id" value="{% if object %}{{ object.id }}{% else %}{% endif %}">
-</form>
-
 <form action="{% url 'core:clipboard' %}" method="GET" id="clipboard_form">
     {% csrf_token %}
 </form>

@@ -17475,7 +17475,11 @@ let App = function () {
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_5__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__["BreadcrumbView"]();
   control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
-  document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
+
+  if (jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document").length == 1) {
+    document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
+  }
+
   browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
   document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
   backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
@@ -19756,12 +19760,19 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     return '/nodes/';
   }
 
-  delete(options) {
+  collection_post_action(url, options, extra_data) {
     let token, post_data, request;
     token = jquery__WEBPACK_IMPORTED_MODULE_1___default()("[name=csrfmiddlewaretoken]").val();
     post_data = this.models.map(function (models) {
       return models.attributes;
     });
+
+    if (extra_data) {
+      post_data = { ...post_data,
+        ...extra_data
+      };
+    }
+
     jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajaxSetup({
       headers: {
         'X-CSRFToken': token
@@ -19769,12 +19780,44 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     });
     request = jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajax({
       method: "POST",
-      url: this.urlRoot(),
+      url: url,
       data: JSON.stringify(post_data),
       contentType: "application/json",
       dataType: 'json'
     });
     request.done(options['success']);
+  }
+
+  delete(options) {
+    this.collection_post_action(this.urlRoot(), options);
+  }
+
+  cut(options) {
+    this.collection_post_action('/cut-node/', options);
+  }
+
+  paste(options, parent_id) {
+    let token, request;
+    token = jquery__WEBPACK_IMPORTED_MODULE_1___default()("[name=csrfmiddlewaretoken]").val();
+    jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajaxSetup({
+      headers: {
+        'X-CSRFToken': token
+      }
+    });
+    request = jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajax({
+      method: "POST",
+      url: '/paste-node/',
+      data: JSON.stringify({
+        'parent_id': parent_id
+      }),
+      contentType: "application/json",
+      dataType: 'json'
+    });
+    request.done(options['success']);
+  }
+
+  paste_pages(options, parent_id) {
+    this.collection_post_action('/paste-pages/', options);
   }
 
 }
@@ -21205,6 +21248,9 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let event_map = {
       'click #new-folder': 'new_folder',
       'click #delete': 'delete_node',
+      'click #cut': 'cut_node',
+      'click #paste': 'paste',
+      'click #paste_pages': 'paste_pages',
       'click #rename': 'rename_node',
       // will proxy event to #id_file_name
       'click #id_btn_upload': 'upload_clicked',
@@ -21231,7 +21277,10 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   delete_node(event) {
-    let options = {};
+    let options = {},
+        confirmation,
+        titles_arr,
+        titles_str;
 
     options['success'] = function () {
       _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
@@ -21241,11 +21290,53 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     //});
 
 
+    titles_arr = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(this.selection.models, function (model) {
+      return model.get('title');
+    });
+    titles_str = titles_arr.join(', ');
+    confirmation = confirm(`DELETE following folders/documents:  ${titles_str}?`);
+
+    if (!confirmation) {
+      return;
+    }
+
     this.selection.delete(options);
+  }
+
+  cut_node(event) {
+    let options = {};
+
+    options['success'] = function () {
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+    };
+
+    this.selection.cut(options);
+  }
+
+  paste(event) {
+    let options = {};
+
+    options['success'] = function () {
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+    };
+
+    console.log(`paste: current parent_id=${this.parent_id}`);
+    this.selection.paste(options, this.parent_id);
+  }
+
+  paste_pages(event) {
+    let options = {};
+
+    options['success'] = function () {
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+    };
+
+    this.selection.paste_pages(options, this.parent_id);
   }
 
   parent_changed(parent_id) {
     this.parent_id = parent_id;
+    console.log(`ActionsView - parent_changed: current parent_id=${this.parent_id}`);
   }
 
   selection_changed(selection) {
@@ -21289,6 +21380,16 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         result = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
     result.add({
       'id': "#delete",
+      'cond': function (selection, clipboard, parent_id) {
+        if (selection.length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+    result.add({
+      'id': "#cut",
       'cond': function (selection, clipboard, parent_id) {
         if (selection.length > 0) {
           return true;
@@ -22202,10 +22303,9 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document');
   }
 
-  constructor() {
+  initialize() {
     let dom_actual_pages = document.querySelector('.actual_pages'),
         document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val();
-    super();
     this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__["MgThumbnailList"]();
     this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__["DgZoom"]();
     this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__["MgPageList"](this._zoom);
