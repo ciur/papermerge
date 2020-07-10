@@ -19781,6 +19781,41 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
 
 /***/ }),
 
+/***/ "./src/js/models/rename.js":
+/*!*********************************!*\
+  !*** ./src/js/models/rename.js ***!
+  \*********************************/
+/*! exports provided: Rename */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Rename", function() { return Rename; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  /**
+      Used to rename folder/document.
+  */
+  urlRoot() {
+    return '/rename-node/';
+  }
+
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      title: this.get('title')
+    };
+    return dict;
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/models/uploader.js":
 /*!***********************************!*\
   !*** ./src/js/models/uploader.js ***!
@@ -20633,6 +20668,26 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/rename.html":
+/*!**************************************!*\
+  !*** ./src/js/templates/rename.html ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Rename\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="title">New Name:</label>\n                    <input type="text" class="form-control" id="title" value="'+
+((__t=( title ))==null?'':__t)+
+'" name="title" />\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">Rename</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/uploader.html":
 /*!****************************************!*\
   !*** ./src/js/templates/uploader.html ***!
@@ -21119,7 +21174,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/node */ "./src/js/models/node.js");
 /* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 /* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
-/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+
 
 
 
@@ -21162,7 +21219,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
         uploader_view;
     files = $target[0].files;
-    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_6__["UploaderView"](files, lang, this.parent_id);
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_7__["UploaderView"](files, lang, this.parent_id);
   }
 
   upload_clicked(event) {
@@ -21187,8 +21244,6 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.selection.delete(options);
   }
 
-  rename_node(event) {}
-
   parent_changed(parent_id) {
     this.parent_id = parent_id;
   }
@@ -21204,6 +21259,15 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         that.disable_action(item);
       }
     });
+  }
+
+  rename_node(event) {
+    let node = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(this.selection.models),
+        rename_view;
+
+    if (node) {
+      rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_6__["RenameView"](node);
+    }
   }
 
   new_folder(event) {
@@ -22785,6 +22849,94 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'name': this.folder.get('name')
+    }));
+    this.$el.html(compiled);
+    this.$el.modal();
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/rename.js":
+/*!********************************!*\
+  !*** ./src/js/views/rename.js ***!
+  \********************************/
+/*! exports provided: RenameView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RenameView", function() { return RenameView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _models_rename__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/rename */ "./src/js/models/rename.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
+
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/rename.html */ "./src/js/templates/rename.html");
+
+class RenameView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    // this element is defined in admin/_forms.js.html
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#rename-modal');
+  }
+
+  initialize(node) {
+    this.rename = new _models_rename__WEBPACK_IMPORTED_MODULE_2__["Rename"](node);
+    this.node = node;
+    this.render();
+  }
+
+  events() {
+    let event_map = {
+      "click .rename": "on_rename",
+      "submit": "on_form_submit"
+    };
+    return event_map;
+  }
+
+  on_form_submit(event) {
+    event.preventDefault();
+    this.on_rename(event);
+  }
+
+  on_rename(event) {
+    let node_title,
+        parent_id,
+        options = {};
+
+    options['success'] = function () {
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+    };
+
+    node_title = this.$el.find("[name=title]").val();
+
+    if (node_title == null || node_title.trim().length === 0) {
+      this.$el.modal('hide');
+      return;
+    }
+
+    this.rename.set({
+      'title': node_title
+    });
+    this.$el.modal('hide');
+    this.rename.save({}, options);
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'title': this.node.get('title')
     }));
     this.$el.html(compiled);
     this.$el.modal();

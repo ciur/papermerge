@@ -28,9 +28,9 @@
     <!-- This part is rendered by backbone templates -->
 </div>
 
-
-{% url 'core:rename_node' 'list' as rename_url %}
-{% include "admin/_rename.html" with id="rename_form" action_url=rename_url %}
+<div id="rename-modal" class="modal hidden" tabindex="-1" role="dialog">
+    <!-- This part is rendered by backbone templates -->
+</div>
 
 <form id="access_form" class="modal hidden" action="" method="post">
     {% csrf_token %}

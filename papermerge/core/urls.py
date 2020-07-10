@@ -79,7 +79,7 @@ urlpatterns = [
         name='create_folder'
     ),
     path(
-        'rename-node/<slug:redirect_to>/',
+        'rename-node/<int:id>',
         doc_views.rename_node,
         name='rename_node'
     ),

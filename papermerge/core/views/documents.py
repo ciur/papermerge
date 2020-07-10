@@ -2,7 +2,7 @@ import os
 import json
 import logging
 
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.conf import settings
@@ -191,58 +191,29 @@ def delete_node(request):
 
 
 @login_required
-def rename_node(request, redirect_to):
+def rename_node(request, id):
     """
     Renames a node (changes its title field).
-
-    Mandatory parameters node_id and title.
-
-    redirect_to = (change | list)
-        change = will redirect to changeform of given doc
-        list = will redirect to list view of given parent_id
     """
-    if request.method == 'GET':
-        return redirect('boss:core_basetreenode_changelist')
 
-    node_id = request.POST.get('node_id', False)
-    title = request.POST.get('title', False)
+    data = json.loads(request.body)
+    title = data.get('title', None)
 
-    if not (node_id and title):
-        logger.info(
-            "Invalid params for rename_node: node_id=%s title=%s",
-            node_id,
-            title
+    if not title:
+        return HttpResponse(
+            json.dumps({'msg': 'Missing title'}),
+            content_type="application/json",
         )
-        return redirect('boss:core_basetreenode_changelist')
 
-    node = BaseTreeNode.objects.get(id=node_id)
-    if not node:
-        return redirect('boss:core_basetreenode_changelist')
+    node = get_object_or_404(BaseTreeNode, id=id)
 
     node.title = title
     node.save()
 
-    # Node can be renamed in two places:
-    # 1. In changeform view
-    # 2. In changelist view
-    # In case 1. redirect_to == 'change' in other case
-    # redirect_to == 'list'
-    if redirect_to == 'change':
-        return redirect(
-            reverse(
-                'boss:core_basetreenode_change', args=(node_id,)
-            )
-        )
-    # means redirect_to == 'list' i.e this rename was
-    # called from changelist view.
-    if node.parent_id:
-        return redirect(
-            reverse(
-                'boss:core_basetreenode_changelist_obj', args=(node.parent_id,)
-            )
-        )
-    else:
-        return redirect('boss:core_basetreenode_changelist')
+    return HttpResponse(
+        json.dumps({'msg': "OK"}),
+        content_type="application/json",
+    )
 
 
 @login_required
