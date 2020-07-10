@@ -1,4 +1,5 @@
 import os
+import json
 from unittest import skip
 from django.test import TestCase
 from django.test import Client
@@ -141,14 +142,19 @@ class TestDocumentView(TestCase):
             10
         )
         # copy nodes (place node_ids in current session)
+        node_ids = [{'id': doc_id} for doc_id in doc_ids]
         self.client.post(
             reverse('core:cut_node'),
-            {'node_ids[]': doc_ids}
+            json.dumps(node_ids),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
         # paste nodes to inbox
         self.client.post(
             reverse('core:paste_node'),
-            {'parent_id': inbox.id}
+            {'parent_id': inbox.id},
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
 
         inbox.refresh_from_db()

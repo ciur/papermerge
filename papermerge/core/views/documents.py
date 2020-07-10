@@ -62,7 +62,6 @@ def document(request, doc_id):
 @login_required
 @require_POST
 def cut_node(request):
-
     data = json.loads(request.body)
     node_ids = [item['id'] for item in data]
 
