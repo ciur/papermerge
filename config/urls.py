@@ -1,13 +1,7 @@
 from django.urls import path, re_path
 from django.views.generic.base import RedirectView
 
-from django.conf.urls import (
-    include,
-    handler400,
-    handler403,
-    handler404,
-    handler500
-)
+from django.conf.urls import include
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -33,9 +27,3 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
-
-
-handler400 = 'papermerge.core.views.errors.bad_request_400_custom'
-handler403 = 'papermerge.core.views.errors.permission_denied_403_custom'
-handler404 = 'papermerge.core.views.errors.page_not_found_404_custom'
-handler500 = 'papermerge.core.views.errors.server_error_500_custom'
