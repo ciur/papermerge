@@ -19724,7 +19724,13 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
   }
 
   get_page_value_for(key) {
-    let pages, kvstore, first_page, index;
+    /**
+    * Returns value of the provided key in first page
+    of corresponding document.
+    In browser list mode (and in document viewer if no page is selected)
+    it is metadata of the first page displayed.
+    **/
+    let pages, kvstore, first_page, index; // pages are relevant only of nodes which are Documents.
 
     if (this.is_folder()) {
       return '';
@@ -19741,7 +19747,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
           return kv.key == key;
         });
 
-        if (index > 0) {
+        if (index >= 0) {
           return kvstore[index].value;
         }
       }
