@@ -176,3 +176,72 @@ class TestRecursiveDelete(TestCase):
             0,
             Folder.objects.count()
         )
+
+    def test_delete_folders_and_documents_recursively(self):
+        """
+        User should be able to delete folder A in following structure:
+                     Home
+                      |
+                      |
+                      A
+                     / \
+                    /   \
+                doc1.pdf subfolder
+                           / \
+                          /   \
+                         B     doc2.pdf
+
+        basically this test asserts correct functionality of
+        papermerge.core.models.utils.recursive_delete function
+        """
+        folder_A = Folder.objects.create(
+            title="A",
+            user=self.user
+        )
+
+        subfolder = Folder.objects.create(
+            title="subfolder",
+            user=self.user,
+            parent_id=folder_A.id
+        )
+
+        doc = Document.create_document(
+            title="document.pdf",
+            file_name="document.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=folder_A.id,
+            page_count=5,
+        )
+        doc.save()
+
+        Folder.objects.create(
+            title="B",
+            user=self.user,
+            parent_id=subfolder.id
+        )
+
+        doc = Document.create_document(
+            title="document.pdf",
+            file_name="document.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=subfolder.id,
+            page_count=5,
+        )
+        doc.save()
+
+        self.assertEqual(
+            5,
+            BaseTreeNode.objects.count()
+        )
+
+        # no exceptions here
+        recursive_delete(folder_A)
+
+        self.assertEqual(
+            0,
+            BaseTreeNode.objects.count()
+        )

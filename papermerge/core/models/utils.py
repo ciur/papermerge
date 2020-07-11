@@ -29,4 +29,9 @@ def recursive_delete(queryset_or_node_instance):
 
         # At this point all descendants were deleted.
         # Self delete :)
-        node.delete()
+        try:
+            node.delete()
+        except BaseTreeNode.DoesNotExist:
+            # this node was deleted by earlier recursive call
+            # it is ok, just sktip
+            pass
