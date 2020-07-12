@@ -36,8 +36,8 @@ def backup_documents(backup_file: io.BytesIO):
         backup_archive.addfile(tarinfo, io.BytesIO(json_bytes))
 
 
-def restore_documents(restore_path:str):
-    with tarfile.open(restore_path, "r") as restore_archive:
+def restore_documents(restore_file:io.BytesIO):
+    with tarfile.open(fileobj=restore_file, mode="r") as restore_archive:
         for restore_file in restore_archive.getnames():
             if restore_file == "backup.json":
                 continue
@@ -60,8 +60,8 @@ def restore_documents(restore_path:str):
     pass
 
 
-def _can_restore(restore_path:str):
-    with tarfile.open(restore_path, "r") as restore_archive:
+def _can_restore(restore_file:io.BytesIO):
+    with tarfile.open(fileobj=restore_file, mode="r") as restore_archive:
         backup_json = restore_archive.extractfile('backup.json')
         if backup_json is None:
             return False
