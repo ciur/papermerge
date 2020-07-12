@@ -9,7 +9,7 @@ from django.test import TestCase
 from papermerge.core.models import Document, Folder
 from papermerge.core.storage import default_storage
 from papermerge.test.utils import create_root_user
-from papermerge.core.backup_restore import backup_documents, _can_restore
+from papermerge.core.backup_restore import backup_documents, _can_restore, restore_documents
 
 # points to papermerge.testing folder
 BASE_DIR = Path(__file__).parent
@@ -116,3 +116,28 @@ class TestBackupRestore(TestCase):
                             'berlin.pdf was not in the backup.tar at folder 1/3/')
             self.assertFalse('4' in backup_file.getnames(),
                              'Folder 4 was in backup.tar but should have been ignored')
+
+    def test_restore_backup(self):
+        restore_path = os.path.join(
+            BASE_DIR, "data", "testdata.tar"
+        )
+
+        with open(restore_path, 'rb') as restore_archive:
+            restore_documents(restore_archive, self.testcase_user.username)
+
+        folder_1 = Folder.objects.filter(title='1', parent=None).first()
+        self.assertIsNotNone(folder_1, 'Folder "1" was not restored')
+
+        folder_2 = Folder.objects.filter(title='2', parent=None).first()
+        self.assertIsNotNone(folder_2, 'Folder "2" was not restored')
+
+        folder_3 = Folder.objects.filter(title='3', parent=folder_2).first()
+        self.assertIsNotNone(folder_3, 'Folder "3" was not restored')
+
+
+        document_berlin_1 = Document.objects.filter(title='berlin.pdf', parent=folder_1).first()
+        self.assertIsNotNone(document_berlin_1, 'Document "berlin.pdf" in folder 1 was not restored')
+
+        document_berlin_3 = Document.objects.filter(title='berlin.pdf', parent=folder_3).first()
+        self.assertIsNotNone(document_berlin_3, 'Document "berlin.pdf" in folder 3 was not restored')
+

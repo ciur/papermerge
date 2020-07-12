@@ -32,6 +32,7 @@ def backup_documents(backup_file: io.BytesIO):
             targetPath = _createTargetPath(current_document_object)
             backup_archive.add(current_document_object.absfilepath, arcname=targetPath)
             current_document['path'] = targetPath
+            current_document['lang'] = current_document_object.lang
             current_backup['documents'].append(current_document)
 
         json_bytes = json.dumps(current_backup, indent=4, default=str).encode('utf-8')
@@ -45,9 +46,15 @@ def restore_documents(restore_file: io.BytesIO, username):
     restore_file.seek(0)
     user = User.objects.filter(username=username).first()
     with tarfile.open(fileobj=restore_file, mode="r") as restore_archive:
+        backup_json = restore_archive.extractfile('backup.json')
+        backup_info = json.load(backup_json)
         for restore_file in restore_archive.getnames():
             if restore_file == "backup.json":
                 continue
+            for info in backup_info['documents']:
+                document_info = info
+                if info['path'] == restore_file:
+                    break
             splitted_path = PurePath(restore_file).parts
             parent = None
             # we first have to create a folder structure
@@ -68,11 +75,10 @@ def restore_documents(restore_file: io.BytesIO, username):
                     temp_output.seek(0)
                     size = os.path.getsize(temp_output.name)
                     page_count = get_pagecount(temp_output.name)
-                    # TODO: get language from restore
                     new_doc = Document.create_document(user=user,
                                              title=splitted_path[-1],
                                              size=size,
-                                             lang='deu',
+                                             lang=document_info['lang'],
                                              file_name=splitted_path[-1],
                                              parent_id=parent.id,
                                              notes="",
@@ -83,13 +89,12 @@ def restore_documents(restore_file: io.BytesIO, username):
                     )
 
                 for page_num in range(1, page_count + 1):
-                    #TODO: get language from restore
                     ocr_page.apply_async(kwargs={
                         'user_id': user.id,
                         'document_id': new_doc.id,
                         'file_name': splitted_path[-1],
                         'page_num': page_num,
-                        'lang': 'deu'}
+                        'lang': document_info['lang']}
                     )
 
 
