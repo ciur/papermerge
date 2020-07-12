@@ -94,4 +94,14 @@ class TestKVPropagation(TestCase):
             1,
             "Metadata was not propagated to document's page"
         )
+        # and test if metadata has correct format
+        self.assertEqual(
+            page_kv[0].kv_type,
+            MONEY
+        )
+
+        self.assertEqual(
+            page_kv[0].kv_format,
+            "dd,cc"
+        )
 
