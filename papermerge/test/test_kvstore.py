@@ -9,7 +9,7 @@ from papermerge.test.utils import create_root_user
 BASE_DIR = Path(__file__).parent
 
 
-class TestFolder(TestCase):
+class TestKVPropagation(TestCase):
 
     def setUp(self):
         self.user = create_root_user()
@@ -85,5 +85,13 @@ class TestFolder(TestCase):
         self.assertEqual(
             document_kvs[0].kv_format,
             "dd,cc"
+        )
+        # now check if metadata was propagated to first page
+        page = doc.pages.first()
+        page_kv = page.kv.all()
+        self.assertEqual(
+            page_kv.count(),
+            1,
+            "Metadata was not propagated to document's page"
         )
 

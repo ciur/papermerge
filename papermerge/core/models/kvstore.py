@@ -443,6 +443,7 @@ class KV:
                 # presense of empty id key raises an error.
                 item.pop('id', None)
                 self.instance.kvstore.create(**item)
+                self.instance.save()
 
         if new_additions:
             new_additions = [
