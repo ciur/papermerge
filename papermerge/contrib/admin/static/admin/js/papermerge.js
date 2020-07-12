@@ -17480,7 +17480,7 @@ let App = function () {
     document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
   }
 
-  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view);
+  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
   document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
   backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
   // They serve as widgets for django's messages
@@ -19724,7 +19724,13 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
   }
 
   get_page_value_for(key) {
-    let pages, kvstore, first_page, index;
+    /**
+    * Returns value of the provided key in first page
+    of corresponding document.
+    In browser list mode (and in document viewer if no page is selected)
+    it is metadata of the first page displayed.
+    **/
+    let pages, kvstore, first_page, index; // pages are relevant only of nodes which are Documents.
 
     if (this.is_folder()) {
       return '';
@@ -19741,7 +19747,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
           return kv.key == key;
         });
 
-        if (index > 0) {
+        if (index >= 0) {
           return kvstore[index].value;
         }
       }
@@ -20205,10 +20211,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
-  constructor(browse_view, breadcrumb_view) {
+  constructor(browse_view, breadcrumb_view, actions_view) {
     super();
     this.browse_view = browse_view;
     this.breadcrumb_view = breadcrumb_view;
+    this.actions_view = actions_view;
   }
 
   preinitialize() {
@@ -20231,6 +20238,7 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
   browse(node_id) {
     this.browse_view.open(node_id);
     this.breadcrumb_view.open(node_id);
+    this.actions_view.set_parent(node_id);
   }
 
 }
@@ -21242,6 +21250,10 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.clipboard = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], this.parent_changed, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.selection_changed, this);
+  }
+
+  set_parent(parent_id) {
+    this.parent_id = parent_id;
   }
 
   events() {

@@ -155,12 +155,21 @@ class BaseTreeNode(PolymorphicMPTTModel):
                     access=_model
                 )
         elif isinstance(model, KVStoreNode):
-            self.kv.apply_additions(
-                [
-                    {'kv_inherited': True, 'key': _model.key}
-                    for _model in diff
-                ]
-            )
+
+            array_to_apply = []
+
+            for _model in diff:
+                array_to_apply.append(
+                    {
+                        'kv_inherited': True,
+                        'key': _model.key,
+                        'kv_type': _model.kv_type,
+                        'kv_format': _model.kv_format
+                    }
+                )
+
+            self.kv.apply_additions(array_to_apply)
+
         elif isinstance(model, KVStoreCompNode):
             pass
         else:

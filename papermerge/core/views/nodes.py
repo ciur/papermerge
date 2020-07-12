@@ -6,9 +6,11 @@ from django.http import (
     HttpResponseBadRequest
 )
 from django.contrib.auth.decorators import login_required
-from papermerge.core.models import BaseTreeNode
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+
+from papermerge.core.models import BaseTreeNode, Document, Folder
+from papermerge.core.models.utils import recursive_delete
 
 logger = logging.getLogger(__name__)
 
@@ -118,7 +120,9 @@ def nodes_view(request):
 
         data = json.loads(request.body)
         node_ids = [item['id'] for item in data]
-        BaseTreeNode.objects.filter(id__in=node_ids).delete()
+
+        queryset = BaseTreeNode.objects.filter(id__in=node_ids)
+        recursive_delete(queryset)
 
         return HttpResponse(
             json.dumps({
