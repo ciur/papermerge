@@ -442,12 +442,11 @@ class KV:
                 # The point here is that NEW element is created, so
                 # presense of empty id key raises an error.
                 item.pop('id', None)
-
                 self.instance.kvstore.create(**item)
 
         if new_additions:
             new_additions = [
-                KVStoreNode(key=item['key'])
+                KVStoreNode(**item)
                 for item in new_additions
             ]
             self.propagate(
@@ -680,7 +679,10 @@ class KVStoreNode(KVStore):
     def __str__(self):
         k = self.key
         v = self.value
-        n = self.node.id
+        if self.node:
+            n = self.node.id
+        else:
+            n = None
         s = self.namespace
         f = self.kv_format
         t = self.kv_type
