@@ -33,6 +33,8 @@ class Command(BaseCommand):
         # ./manage.py backup /backup/papermerge/
 
         if os.path.isdir(location):
+            # in case location is a non existing directory path e.g. "blah/"
+            # os.path.isdir will return False
             backup_location = os.path.join(location, default_filename)
         else:
             backup_location = location
