@@ -10093,7 +10093,9 @@ aside a.download {
   display: none; }
 
 #document {
-  border: 1px solid #ccc; }
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc; }
   #document text::-moz-selection {
     color: black;
     background-color: green;
