@@ -15,4 +15,4 @@ export DJANGO_SETTINGS_MODULE=config.settings.test
                  # papermerge.test.test_typed_key \
                  # papermerge.test.test_search_excerpt \
                  # papermerge.test.test_node \
-                 # papermerge.test.test_kvstore 
+                 # papermerge.test.test_kvstore
