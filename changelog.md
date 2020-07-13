@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added 
 	
 - AdminLTE3/Bootstrap based own UI
+- Backup/Restore feature. Feature implemented by [@frenos](https://github.com/frenos).
 
 ### Changed
 

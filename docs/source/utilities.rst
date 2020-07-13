@@ -5,6 +5,22 @@ Utilities
 
 Utilities are command line tool used to complement various aspects of Papermerge user interface.
 
+
+.. _backup_command:
+
+Backup
+##########
+
+Backups/Exports all docs
+
+.. _restore_command:
+
+Restore
+##########
+
+Restores docs
+
+
 .. _importer_command:
 
 Importer

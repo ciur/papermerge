@@ -43,6 +43,7 @@ What It Does't Do
    setup/index
    languages
    rest_api
+   backup_restore
    page_management
    metadata
    utilities
