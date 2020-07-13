@@ -7,7 +7,9 @@
 {% block control_sidebar %}
   <!-- Control sidebar content goes here -->
   <div class="p-3">
-    <button type="button" class="btn btn-block btn-success">{% trans "Download" %}</button>
+    <a href="{% url 'core:document_download' document.id %}" class="btn btn-block btn-success download">
+      {% trans "Download" %}
+    </a>
     <button id="save" type="button" class="btn btn-block btn-light save">
     {% trans "Save" %}</button>
     <div class="form-group">

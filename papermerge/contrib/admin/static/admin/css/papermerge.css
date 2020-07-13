@@ -10079,6 +10079,9 @@ h1, h2, h3, h4 {
 .breadcrumb_text_color {
   color: #004d80; }
 
+aside a.download {
+  color: white; }
+
 #sw-left-panel {
   outline: 1px solid #ccc;
   background-color: white; }
