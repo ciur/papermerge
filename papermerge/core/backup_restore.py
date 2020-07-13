@@ -75,12 +75,16 @@ def restore_documents(restore_file: io.BytesIO, username):
                     temp_output.seek(0)
                     size = os.path.getsize(temp_output.name)
                     page_count = get_pagecount(temp_output.name)
+                    if parent:
+                        parent_id = parent.id
+                    else:
+                        parent_id = None
                     new_doc = Document.create_document(user=user,
                                              title=splitted_path[-1],
                                              size=size,
                                              lang=document_info['lang'],
                                              file_name=splitted_path[-1],
-                                             parent_id=parent.id,
+                                             parent_id=parent_id,
                                              notes="",
                                              page_count=page_count)
                     default_storage.copy_doc(
