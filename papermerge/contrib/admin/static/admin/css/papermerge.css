@@ -10092,105 +10092,104 @@ aside a.download {
 .page_hocr {
   display: none; }
 
-#document text::-moz-selection {
-  color: black;
-  background-color: green;
-  font-weight: bold; }
-
-#document text::selection {
-  color: black;
-  background-color: green;
-  font-weight: bold; }
-
-#document ul.page_thumbnails {
-  width: 10rem;
-  height: 100vh;
-  overflow: scroll;
-  border-right: 1px solid #d7d7d7;
-  padding: 0;
-  border-right: 3px solid #666666; }
-  #document ul.page_thumbnails li.page_thumbnail:hover .arrow-up-control {
-    visibility: visible; }
-  #document ul.page_thumbnails li.page_thumbnail:hover .arrow-down-control {
-    visibility: visible; }
-  #document ul.page_thumbnails li.page_thumbnail.last:hover .arrow-down-control {
-    display: none; }
-  #document ul.page_thumbnails li.page_thumbnail.first:hover .arrow-up-control {
-    display: none; }
-  #document ul.page_thumbnails li.page_thumbnail.last.first:hover .arrow-down-control {
-    display: none; }
-  #document ul.page_thumbnails li.page_thumbnail.last.first:hover .arrow-up-control {
-    display: none; }
-  #document ul.page_thumbnails li.page_thumbnail {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem;
-    margin: 0.25rem 0.5rem; }
-    #document ul.page_thumbnails li.page_thumbnail img {
-      border: 1px solid #ccc;
-      padding: 0;
-      width: 7rem; }
-    #document ul.page_thumbnails li.page_thumbnail.checked {
-      background-color: #e6f5ff;
-      outline: 1px solid #A6DAFF; }
-    #document ul.page_thumbnails li.page_thumbnail input[type=checkbox] {
+#document {
+  border: 1px solid #ccc; }
+  #document text::-moz-selection {
+    color: black;
+    background-color: green;
+    font-weight: bold; }
+  #document text::selection {
+    color: black;
+    background-color: green;
+    font-weight: bold; }
+  #document ul.page_thumbnails {
+    width: 10rem;
+    height: 100vh;
+    overflow: scroll;
+    border-right: 1px solid #d7d7d7;
+    padding: 0;
+    border-right: 3px solid #666666; }
+    #document ul.page_thumbnails li.page_thumbnail:hover .arrow-up-control {
+      visibility: visible; }
+    #document ul.page_thumbnails li.page_thumbnail:hover .arrow-down-control {
+      visibility: visible; }
+    #document ul.page_thumbnails li.page_thumbnail.last:hover .arrow-down-control {
       display: none; }
-    #document ul.page_thumbnails li.page_thumbnail .page_number input {
-      width: 2rem; }
-    #document ul.page_thumbnails li.page_thumbnail .arrow-up-control {
-      visibility: hidden;
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0; }
-      #document ul.page_thumbnails li.page_thumbnail .arrow-up-control a {
-        color: #00b000; }
-    #document ul.page_thumbnails li.page_thumbnail .arrow-down-control {
-      visibility: hidden;
-      display: block;
-      position: absolute;
-      bottom: 1rem;
-      left: 0; }
-      #document ul.page_thumbnails li.page_thumbnail .arrow-down-control a {
-        color: #00b000; }
-
-#document ul.actual_pages {
-  height: 100vh;
-  overflow: scroll;
-  padding: 0; }
-  #document ul.actual_pages li.actual_page {
-    background-color: #666666;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
-    min-height: 400px; }
-    #document ul.actual_pages li.actual_page svg {
-      position: absolute; }
-    #document ul.actual_pages li.actual_page .page_number {
-      color: white;
-      font-size: 1.4rem;
-      font-weight: bold;
-      margin: 0.75rem;
-      width: 2.5rem; }
-  #document ul.actual_pages fieldset.module.aligned {
-    position: relative; }
-    #document ul.actual_pages fieldset.module.aligned .field-number {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      z-index: 100;
-      background-color: #333333; }
-      #document ul.actual_pages fieldset.module.aligned .field-number div {
-        padding: 0.5rem 1rem; }
-        @media (max-width: 37.5em) {
-          #document ul.actual_pages fieldset.module.aligned .field-number div {
-            padding: 0rem 0.25rem; } }
-        #document ul.actual_pages fieldset.module.aligned .field-number div input {
-          color: white;
-          text-align: center; }
+    #document ul.page_thumbnails li.page_thumbnail.first:hover .arrow-up-control {
+      display: none; }
+    #document ul.page_thumbnails li.page_thumbnail.last.first:hover .arrow-down-control {
+      display: none; }
+    #document ul.page_thumbnails li.page_thumbnail.last.first:hover .arrow-up-control {
+      display: none; }
+    #document ul.page_thumbnails li.page_thumbnail {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.5rem;
+      margin: 0.25rem 0.5rem; }
+      #document ul.page_thumbnails li.page_thumbnail img {
+        border: 1px solid #ccc;
+        padding: 0;
+        width: 7rem; }
+      #document ul.page_thumbnails li.page_thumbnail.checked {
+        background-color: #e6f5ff;
+        outline: 1px solid #A6DAFF; }
+      #document ul.page_thumbnails li.page_thumbnail input[type=checkbox] {
+        display: none; }
+      #document ul.page_thumbnails li.page_thumbnail .page_number input {
+        width: 2rem; }
+      #document ul.page_thumbnails li.page_thumbnail .arrow-up-control {
+        visibility: hidden;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0; }
+        #document ul.page_thumbnails li.page_thumbnail .arrow-up-control a {
+          color: #00b000; }
+      #document ul.page_thumbnails li.page_thumbnail .arrow-down-control {
+        visibility: hidden;
+        display: block;
+        position: absolute;
+        bottom: 1rem;
+        left: 0; }
+        #document ul.page_thumbnails li.page_thumbnail .arrow-down-control a {
+          color: #00b000; }
+  #document ul.actual_pages {
+    height: 100vh;
+    overflow: scroll;
+    padding: 0; }
+    #document ul.actual_pages li.actual_page {
+      background-color: #666666;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0px 4px 6px 1px rgba(0, 0, 0, 0.5);
+      min-height: 400px; }
+      #document ul.actual_pages li.actual_page svg {
+        position: absolute; }
+      #document ul.actual_pages li.actual_page .page_number {
+        color: white;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 0.75rem;
+        width: 2.5rem; }
+    #document ul.actual_pages fieldset.module.aligned {
+      position: relative; }
+      #document ul.actual_pages fieldset.module.aligned .field-number {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        background-color: #333333; }
+        #document ul.actual_pages fieldset.module.aligned .field-number div {
+          padding: 0.5rem 1rem; }
+          @media (max-width: 37.5em) {
+            #document ul.actual_pages fieldset.module.aligned .field-number div {
+              padding: 0rem 0.25rem; } }
+          #document ul.actual_pages fieldset.module.aligned .field-number div input {
+            color: white;
+            text-align: center; }
 
 .hover-danger:hover {
   background-color: red;
