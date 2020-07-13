@@ -19314,6 +19314,81 @@ let BROWSER_REFRESH = "browser_refresh";
 
 /***/ }),
 
+/***/ "./src/js/models/document.js":
+/*!***********************************!*\
+  !*** ./src/js/models/document.js ***!
+  \***********************************/
+/*! exports provided: Document */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Document", function() { return Document; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./page */ "./src/js/models/page.js");
+/* harmony import */ var _thumbnail__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./thumbnail */ "./src/js/models/thumbnail.js");
+/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
+
+
+
+
+
+class Document extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  defaults() {
+    return {
+      pages: [],
+      doc_id: ''
+    };
+  }
+
+  initialize(id) {
+    this.set({
+      'id': id
+    });
+    this.pages = new _page__WEBPACK_IMPORTED_MODULE_2__["PageCollection"]();
+    this.thumbnails = new _thumbnail__WEBPACK_IMPORTED_MODULE_3__["ThumbnailCollection"]();
+  }
+
+  urlRoot() {
+    return `/document/`;
+  }
+
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      nodes: this.get('pages')
+    };
+    return dict;
+  }
+
+  parse(response, options) {
+    let pages = response.document.pages,
+        that = this;
+    that.pages.reset();
+
+    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(pages, function (item) {
+      that.pages.add(new _page__WEBPACK_IMPORTED_MODULE_2__["Page"](item));
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(pages, function (item) {
+      that.thumbnails.add(new _thumbnail__WEBPACK_IMPORTED_MODULE_3__["Thumbnail"](item));
+    });
+
+    this.set({
+      'title': response.document.title
+    });
+    this.set({
+      'notes': response.document.notes
+    });
+    this.trigger('change');
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/models/kvstore.js":
 /*!**********************************!*\
   !*** ./src/js/models/kvstore.js ***!
@@ -19830,6 +19905,60 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
 
 /***/ }),
 
+/***/ "./src/js/models/page.js":
+/*!*******************************!*\
+  !*** ./src/js/models/page.js ***!
+  \*******************************/
+/*! exports provided: Page, PageCollection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Page", function() { return Page; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageCollection", function() { return PageCollection; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class Page extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
+  defaults() {
+    return {
+      number: ''
+    };
+  }
+
+  initialize() {}
+
+  urlRoot() {
+    return '/page/';
+  }
+
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      number: this.get('number')
+    };
+    return dict;
+  }
+
+}
+class PageCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
+  get model() {
+    return Page;
+  }
+
+  urlRoot() {
+    return '/pages/';
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/models/rename.js":
 /*!*********************************!*\
   !*** ./src/js/models/rename.js ***!
@@ -19859,6 +19988,56 @@ class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       title: this.get('title')
     };
     return dict;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/models/thumbnail.js":
+/*!************************************!*\
+  !*** ./src/js/models/thumbnail.js ***!
+  \************************************/
+/*! exports provided: Thumbnail, ThumbnailCollection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Thumbnail", function() { return Thumbnail; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ThumbnailCollection", function() { return ThumbnailCollection; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class Thumbnail extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
+  defaults() {
+    return {
+      number: ''
+    };
+  }
+
+  initialize() {}
+
+  urlRoot() {
+    return '/page/';
+  }
+
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      number: this.get('number')
+    };
+    return dict;
+  }
+
+}
+class ThumbnailCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
+  get model() {
+    return Thumbnail;
   }
 
 }
@@ -22253,6 +22432,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
 /* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
 /* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
+
+
 
 
 
@@ -22415,7 +22598,8 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
-        apply_reorder_changes;
+        apply_reorder_changes,
+        that = this;
     rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
       // Achtung! #rename id is same for rename action
       // in changeform view and changelist view.
@@ -22424,8 +22608,21 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         return true;
       },
       action: function (selection, clipboard, current_node) {
-        let rename_form = new _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__["RenameChangeForm"](current_node);
-        rename_form.show();
+        let rename_view,
+            node,
+            options = {};
+        node = new _models_document__WEBPACK_IMPORTED_MODULE_15__["Document"](current_node.id);
+
+        function update_breadcrumb() {
+          that._breadcrumb_view.breadcrumb.fetch();
+        }
+
+        options['success'] = function (model, response, options) {
+          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_14__["RenameView"](model);
+          rename_view.rename.on("change", update_breadcrumb);
+        };
+
+        node.fetch(options);
       }
     });
     delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
