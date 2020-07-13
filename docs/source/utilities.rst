@@ -11,6 +11,10 @@ Utilities are command line tool used to complement various aspects of Papermerge
 Backup
 ##########
 
+Command to run::
+	
+	./manage.py backup <location>
+
 Backups/Exports all docs
 
 .. _restore_command:
@@ -18,8 +22,9 @@ Backups/Exports all docs
 Restore
 ##########
 
-Restores docs
+Restores docs. Command to run::
 
+	./manage.py restore <location>
 
 .. _importer_command:
 
