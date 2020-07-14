@@ -93,16 +93,18 @@ def clipboard(request):
 
 
 @login_required
+@require_POST
 def paste_pages(request):
     """
     Paste pages in a changelist view.
     This means a new document instance
     is created.
     """
-    if request.method == 'GET':
-        return redirect('browse')
+    data = json.loads(request.body)
+    parent_id = data.get('parent_id', None)
 
-    parent_id = request.POST.get('parent_id', False)
+    if parent_id:
+        parent_id = int(parent_id)
 
     Document.paste_pages(
         user=request.user,
@@ -112,15 +114,10 @@ def paste_pages(request):
 
     request.pages.clear()
 
-    if parent_id:
-        return redirect(
-            # reverse(
-            #     'boss:core_basetreenode_changelist_obj', args=(parent_id,)
-            # )
-            reverse('browse')
-        )
-
-    return redirect('browse')
+    return HttpResponse(
+        json.dumps({'msg': 'OK'}),
+        content_type="application/json",
+    )
 
 
 @login_required

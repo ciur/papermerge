@@ -17478,18 +17478,18 @@ let App = function () {
 
   if (jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document").length == 1) {
     document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
+  } else {
+    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
+    document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
+    backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
+    // They serve as widgets for django's messages
+
+    jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast({
+      'autohide': false
+    });
+    jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast('show');
+    Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_2__["sort_cookie"])();
   }
-
-  browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
-  document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
-  backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
-  // They serve as widgets for django's messages
-
-  jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast({
-    'autohide': false
-  });
-  jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast('show');
-  Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_2__["sort_cookie"])();
 };
 
 Object(_utils__WEBPACK_IMPORTED_MODULE_0__["dglReady"])( // i.e. after all DOM is loaded
@@ -19877,7 +19877,7 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     this.collection_post_action('/cut-node/', options);
   }
 
-  paste(options, parent_id) {
+  _paste(url, options, parent_id) {
     let token, request;
     token = jquery__WEBPACK_IMPORTED_MODULE_1___default()("[name=csrfmiddlewaretoken]").val();
     jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajaxSetup({
@@ -19887,7 +19887,7 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     });
     request = jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajax({
       method: "POST",
-      url: '/paste-node/',
+      url: url,
       data: JSON.stringify({
         'parent_id': parent_id
       }),
@@ -19897,8 +19897,14 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     request.done(options['success']);
   }
 
+  paste(options, parent_id) {
+    // pastes folder or document
+    this._paste('/paste-node/', options, parent_id);
+  }
+
   paste_pages(options, parent_id) {
-    this.collection_post_action('/paste-pages/', options);
+    // pastes pages
+    this._paste('/paste-pages/', options, parent_id);
   }
 
 }
@@ -22210,7 +22216,6 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   render() {
     let compiled, context;
     context = {};
-    console.log(`BrowseView rendering: for parent_id = ${this.browse.parent_id} nodes count ${this.browse.nodes.length}`);
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(this.browse.nodes, this.browse.parent_kv);
