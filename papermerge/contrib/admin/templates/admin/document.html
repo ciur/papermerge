@@ -43,33 +43,21 @@
                     <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
                   </li>
                   <li class="dropdown-item fl fl-i-center" id="delete-page" class="dropdown-item fl fl-i-center disabled">
-                     <a href="#"><i class="fa fa-trash mx-2"></i>{% trans "Delete Page" %}</a>
+                     <a><i class="fa fa-trash mx-2"></i>{% trans "Delete Page" %}</a>
                   </li>
                  
                  <li class="dropdown-divider"></li>
-                 <li class="dropdown-item disabled" id="cut">
-                     <a href="#"><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
+                 <li class="dropdown-item disabled" id="cut-page">
+                     <a><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
                  </li>
                  <!-- PASTE -->
-                 <li class="dropdown-submenu dropdown">
-                     <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
-                         <a href="#"><i class="fa fa-paste mx-2"></i>
-                         {% trans "Paste" %}</a>
-                     </a>
-                   <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
-                     <li class="dropdown-item" id="paste">
-                       {% trans "Documents & Folders" %}
-                     </li>
-                     <li class="dropdown-item" id="paste_pages">
-                       {% trans "Pages" %}
-                     </li>
-                   </ul>
+                 <li class="dropdown-item disabled" id="paste-page">
+                     <a><i class="fa fa-paste mx-2"></i>{% trans "Paste" %}</a>
                  </li>
                  <!-- PASTE -->
-
                  <li class="dropdown-divider"></li>
                  <li id="apply-reorder-changes" class="dropdown-item disabled">
-                     <a href="#"><i class="fa fa-download mx-2 "></i>{% trans "Apply Reorder Changes" %}</a>
+                     <a><i class="fa fa-download mx-2 "></i>{% trans "Apply Reorder Changes" %}</a>
                  </li>
               </ul>
             </div>
