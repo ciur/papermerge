@@ -216,7 +216,7 @@ def create_folder(request):
             content_type="application/json"
         )
     try:
-        parent_id = int(parent_id)
+        parent_id = int(parent_id or -1)
     except ValueError:
         parent_id = -1
 

@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from mglib import step
 from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
-from papermerge.core import mixins
 from papermerge.core.models.kvstore import KVCompNode, KVNode
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.storage import default_storage
@@ -17,7 +16,7 @@ from papermerge.search import index
 logger = logging.getLogger(__name__)
 
 
-class Document(mixins.ExtractIds, BaseTreeNode):
+class Document(BaseTreeNode):
 
     class CannotUpload(Exception):
         pass

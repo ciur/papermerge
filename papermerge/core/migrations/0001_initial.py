@@ -7,7 +7,6 @@ import django.contrib.postgres.search
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import papermerge.core.mixins
 import papermerge.core.models
 import polymorphic_tree.models
 
@@ -96,7 +95,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Document',
                 'verbose_name_plural': 'Documents',
             },
-            bases=(papermerge.core.mixins.ExtractIds, 'core.basetreenode'),
+            bases=('core.basetreenode', ),
         ),
         migrations.CreateModel(
             name='Folder',
@@ -107,7 +106,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Folder',
                 'verbose_name_plural': 'Folders',
             },
-            bases=(papermerge.core.mixins.ExtractIds, 'core.basetreenode'),
+            bases=('core.basetreenode', ),
         ),
         migrations.CreateModel(
             name='Access',

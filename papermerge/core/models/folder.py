@@ -1,12 +1,11 @@
 from django.utils.translation import ugettext_lazy as _
-from papermerge.core import mixins
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.kvstore import KVCompNode, KVNode, KVStoreNode
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.search import index
 
 
-class Folder(mixins.ExtractIds, BaseTreeNode, index.Indexed):
+class Folder(BaseTreeNode, index.Indexed):
 
     search_fields = [
         index.SearchField('title'),
