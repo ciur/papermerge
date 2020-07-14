@@ -6,7 +6,7 @@ from papermerge.core.models.node import BaseTreeNode
 from papermerge.search import index
 
 
-class Folder(mixins.ExtractIds, BaseTreeNode):
+class Folder(mixins.ExtractIds, BaseTreeNode, index.Indexed):
 
     search_fields = [
         index.SearchField('title'),

@@ -114,7 +114,6 @@ class DatabaseSearchResults(BaseSearchResults):
 
     def _do_search(self):
         queryset = self.get_queryset()
-
         if self._score_field:
             queryset = queryset.annotate(**{self._score_field: Value(None, output_field=models.FloatField())})
 
