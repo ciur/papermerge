@@ -20410,7 +20410,8 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
 
   routes() {
     return {
-      ":node_id": "browse"
+      ":node_id": "browse",
+      "*path": "browse"
     };
   }
 
@@ -22120,8 +22121,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   }
 
   initialize(parent_id) {
-    this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id);
-    this.browse.fetch(); // UI used to switch between list and grid display modes
+    this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id); // UI used to switch between list and grid display modes
 
     this.display_mode = new _display_mode__WEBPACK_IMPORTED_MODULE_3__["DisplayModeView"](); // there are to view modes - list and grid
 
@@ -22210,6 +22210,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   render() {
     let compiled, context;
     context = {};
+    console.log(`BrowseView rendering: for parent_id = ${this.browse.parent_id} nodes count ${this.browse.nodes.length}`);
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(this.browse.nodes, this.browse.parent_kv);
