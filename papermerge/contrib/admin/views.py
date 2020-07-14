@@ -32,6 +32,7 @@ def search(request):
         "admin/search.html",
         {
             'results_docs': qs_docs.all(),
-            'results_folders': results_folders.results()
+            'results_folders': results_folders.results(),
+            'search_term': search_term
         }
     )
