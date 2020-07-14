@@ -9601,6 +9601,23 @@ h1, h2, h3, h4 {
   .control-sidebar .border-bottom {
     border-bottom: 1px solid white; }
 
+#search_results h4 {
+  font-weight: 400; }
+  #search_results h4 a {
+    color: #444; }
+
+#search_results ul {
+  margin: 0;
+  padding: 0; }
+  #search_results ul li {
+    padding: 1rem 0.5rem; }
+  #search_results ul li:hover {
+    background-color: #e6f5ff;
+    outline: 1px solid #e6f5ff; }
+
+#search_results .page_highlight {
+  color: #aaa; }
+
 .icon-sw-left-panel {
   width: 1rem;
   height: 1rem;

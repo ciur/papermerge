@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 
-{% load i18n admin_tags %}
+{% load i18n admin_tags search_tags %}
 
 {% block title %} {% trans "Search Results" %} {% endblock %}
 
@@ -13,7 +13,10 @@
   <div id="search_breadcrumb" class="col-sm-12">
     <ol class="breadcrumb float-sm-left">
         <li class="breadcrumb-item">
-            <a><i class="fa fa-search px-1"></i>{% trans "Search Results" %}</a>
+            <a href="{% url 'index' %}"><i class="fa fa-home px-1"></i>{% trans "Home" %}</a>
+        </li>
+        <li class="breadcrumb-item">
+            {% trans "Search Results" %}:
         </li>
     </ol>
   </div><!-- /.col -->
@@ -28,14 +31,40 @@
   <div class="row">
     <div class="col-lg-12">
         <div id="search_results">
-          Folders:
+          <ul class="folders">
           {% for item in results_folders %}
-            {{ item.title }}
+            <li>
+              <h4>
+                <a href="{% url 'index' %}">
+                  <i class="fa fa-folder text-warning"></i>
+                  {% search_folder_path item %}
+                </a>
+              </h4>
+            </li>
           {% endfor %}
-          Docs:
-          {% for item in results_docs %}
-            {{ item.title }}
-          {% endfor %}
+          </ul>
+          <ul class="documents">
+            {% for item in results_docs %}
+              <li>
+                <h4>
+                  <a href="{% url 'core:document' item.id %}">
+                    <i class="fa fa-file"></i>
+                    {{ item.title }}
+                  </a>
+                </h4>
+                <div class="my-1">
+                  <i class="fa fa-folder text-warning"></i> {% search_document_path item %}
+                </div>
+
+                <div class="page_highlight">
+                    {% search_excerpt_tag item.text request.GET.q 5 as matched_context %}
+                    {{ matched_context.excerpt }}
+                    {% highlight_tag matched_context.excerpt request.GET.q  as highlighted_context %}
+                    {{ highlighted_context.highlighted }}
+                </div>
+              </li>
+            {% endfor %}  
+          </ul>
         </div>
     </div>
   </div>

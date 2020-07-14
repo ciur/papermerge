@@ -1,10 +1,91 @@
 from django.template import Library
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.urls import reverse
+
 from papermerge.core.lib.lang import LANG_DICT
 
 
 register = Library()
+
+
+def url_for_folder(node):
+    return f"/#{node.id}"
+
+
+def url_for_document(node):
+    return f"/#{node.id}"
+
+
+def build_url_for_index(
+    html_class_attr='',
+    title=''
+):
+    url = reverse('index')
+
+    link = format_html(
+        '<a href="{}" class="{}" alt="{}">'
+        '{}</a>',
+        url,
+        html_class_attr,
+        title,
+        title
+    )
+
+    return link
+
+
+def build_url_for_node(node, html_class_attr=''):
+
+    if node.is_folder():
+        url = url_for_folder(node)
+    else:
+        url = url_for_document(node)
+
+    link = format_html(
+        '<a href="{}" class="{}" data-id="{}" alt="{}">'
+        '{}</a>',
+        url,
+        html_class_attr,
+        node.id,
+        node.title,
+        node.title
+    )
+
+    return link
+
+
+def build_tree_path(
+    node,
+    include_self=False,
+    include_index=False,
+    html_class_attr=''
+):
+    """
+    Returns an html formated path of the Node.
+    Example:
+        Documents > Folder A > Folder B > Document C
+    Where each node is an html anchor with href to the element.
+    Node is instance of core.models.BaseTreeNode.
+    include_index will add url to the index of boss page.
+    """
+    if node:
+        ancestors = node.get_ancestors(include_self=include_self)
+    else:
+        ancestors = []
+
+    titles = [
+        build_url_for_node(item, html_class_attr=html_class_attr)
+        for item in ancestors
+    ]
+
+    if include_index:
+        titles.insert(
+            0,
+            build_url_for_index(html_class_attr=html_class_attr)
+        )
+
+    return mark_safe(' › '.join(titles))
 
 
 @register.inclusion_tag('admin/widgets/ocr_language_select.html')
@@ -62,3 +143,24 @@ def boolean_icon(boolean_value):
         "fa-times",
         "text-danger"
     )
+
+
+@register.simple_tag()
+def search_folder_path(node):
+    return build_tree_path(
+        node,
+        include_self=True,
+        include_index=True,
+        html_class_attr="mx-1"
+    )
+
+
+@register.simple_tag()
+def search_document_path(node):
+    return build_tree_path(
+        node,
+        include_self=False,
+        include_index=False,
+        html_class_attr="mx-1"
+    )
+
