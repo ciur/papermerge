@@ -10271,7 +10271,7 @@ footer a:hover {
 .content-wrapper {
   background-color: white; }
 
-#breadcrumb {
+#breadcrumb, #search_breadcrumb {
   background-color: #f4f6f9; }
 
 .btn-bordered {

@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% load i18n admin_tags %}
+
+{% block title %} {% trans "Search Results" %} {% endblock %}
+
+{% block actions %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+  
+  <div id="search_breadcrumb" class="col-sm-12">
+    <ol class="breadcrumb float-sm-left">
+        <li class="breadcrumb-item">
+            <a><i class="fa fa-search px-1"></i>{% trans "Search Results" %}</a>
+        </li>
+    </ol>
+  </div><!-- /.col -->
+{% endblock %}
+
+{% block modals %}
+{% endblock modals %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+        <div id="search_results">
+          Folders:
+          {% for item in results_folders %}
+            {{ item.title }}
+          {% endfor %}
+          Docs:
+          {% for item in results_docs %}
+            {{ item.title }}
+          {% endfor %}
+        </div>
+    </div>
+  </div>
+  <!-- /.row -->
+</div><!-- /.container-fluid -->
+{% endblock %}
