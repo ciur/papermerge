@@ -19412,6 +19412,7 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return {
       key: '',
       value: '',
+      virtual_value: '',
       kv_inherited: false,
       kv_type: 'text',
       kv_format: undefined
@@ -19440,6 +19441,7 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       id: this.get('id'),
       key: this.get('key'),
       value: this.get('value'),
+      virtual_value: this.get('virtual_value'),
       kv_inherited: this.get('kv_inherited'),
       kv_type: this.get('kv_type'),
       kv_format: this.get('kv_format')
@@ -19798,9 +19800,9 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     return false;
   }
 
-  get_page_value_for(key) {
+  find_page_kvstore_for(key) {
     /**
-    * Returns value of the provided key in first page
+    * Returns kvstore of the provided key in first page
     of corresponding document.
     In browser list mode (and in document viewer if no page is selected)
     it is metadata of the first page displayed.
@@ -19808,7 +19810,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     let pages, kvstore, first_page, index; // pages are relevant only of nodes which are Documents.
 
     if (this.is_folder()) {
-      return '';
+      return undefined;
     }
 
     pages = this.get('pages');
@@ -19823,9 +19825,31 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
         });
 
         if (index >= 0) {
-          return kvstore[index].value;
+          return kvstore[index];
         }
       }
+    }
+
+    return undefined;
+  }
+
+  get_page_value_for(key) {
+    let page_kvstore;
+    page_kvstore = this.find_page_kvstore_for(key);
+
+    if (page_kvstore) {
+      return page_kvstore.value;
+    }
+
+    return '';
+  }
+
+  get_page_virtual_value_for(key) {
+    let page_kvstore;
+    page_kvstore = this.find_page_kvstore_for(key);
+
+    if (page_kvstore) {
+      return page_kvstore.virtual_value;
     }
 
     return '';
@@ -21865,7 +21889,7 @@ class Table {
       }
 
       if (found_1['virtual_value'] > found_2['virtual_value']) {
-        return sort_type;
+        return -sort_type;
       }
 
       return 0;
@@ -21889,7 +21913,7 @@ class Table {
       }
 
       if (found_1['virtual_value'] > found_2['virtual_value']) {
-        return sort_type;
+        return -sort_type;
       }
 
       return 0;
@@ -21967,13 +21991,14 @@ class Table {
         if (kvstore) {
           key = kvstore.get('key');
           value = node.get_page_value_for(key);
+          virtual_value = node.get_page_virtual_value_for(kvstore.get('key'));
           row.push({
             'id': node.get('id'),
             'cid': node.cid,
             'url': node.url,
             'key': key,
             'value': value,
-            'virtual_value': node.get_page_value_for(kvstore.get('key')),
+            'virtual_value': parseInt(virtual_value),
             'virtual_type': 'str'
           });
         }

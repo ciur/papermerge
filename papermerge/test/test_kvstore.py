@@ -16,7 +16,8 @@ BASE_DIR = Path(__file__).parent
 
 class TestComputeVirtualValue(TestCase):
     """
-    Asserts correctness of compute_virtual_value
+    Asserts correctness of compute_virtual_value.
+    Virtual value is scalar (integer number) used for metadata sorting.
     """
 
     def test_date_type(self):
