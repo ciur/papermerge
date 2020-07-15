@@ -2,6 +2,7 @@ import logging
 
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+from django.conf import settings
 
 from allauth.account.signals import user_logged_in
 
@@ -157,11 +158,12 @@ def _user_init(user):
     Create user specific data:
         1. Inbox folder
     """
-    Folder.objects.get_or_create(
-        title="inbox",
-        parent=None,
-        user=user
-    )
+    if settings.PAPERMERGE_CREATE_INBOX:
+        Folder.objects.get_or_create(
+            title="inbox",
+            parent=None,
+            user=user
+        )
 
 
 @receiver(post_save, sender=User)

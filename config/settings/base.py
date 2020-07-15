@@ -324,6 +324,10 @@ if not os.path.exists(
         PAPERMERGE_TASK_QUEUE_DIR, exist_ok=True
     )
 
+# For each user create a specil folder called Inbox
+# Useful only in dev/production (must be False in testing environment)
+PAPERMERGE_CREATE_INBOX = True
+
 CELERY_BROKER_URL = "filesystem://"
 CELERY_BROKER_TRANSPORT_OPTIONS = {
     'data_folder_in': PAPERMERGE_TASK_QUEUE_DIR,

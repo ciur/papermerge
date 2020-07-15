@@ -16,15 +16,20 @@ def browse(request):
 @login_required
 def inbox_view(request):
 
-    inbox = Folder.objects.get(
-        title__iexact="inbox"
-    )
+    try:
+        inbox = Folder.objects.get(
+            title__iexact="inbox"
+        )
+        root_node_id = inbox.id
+
+    except Folder.DoesNotExist:
+        root_node_id = None
 
     return render(
         request,
         "admin/index.html",
         {
-            'root_node_id': inbox.id
+            'root_node_id': root_node_id
         }
     )
 
