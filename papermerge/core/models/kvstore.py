@@ -1,8 +1,15 @@
+import logging
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext as _
 
 from .diff import Diff
+from papermerge.core.utils import (
+    date_2int,
+    money_2int,
+    number_2int
+)
 
 """
 # KVStore / Key Value Store
@@ -69,6 +76,9 @@ KVComp describe tables. I repeat, as this is important -
 only one table (compkey) per document is supported.
 """
 
+
+logger = logging.getLogger(__name__)
+
 # metadata types
 TEXT = 'text'
 MONEY = 'money'
@@ -81,6 +91,29 @@ METADATA_TYPES = [
     NUMERIC,
     DATE
 ]
+
+
+def compute_virtual_value(kv_type, kv_format, value):
+    """
+    See comments for KVStore.virtual_value.
+    In case of error, unknown kv_type, unkown kv_format,
+    or error during conversion - log error and return 0.
+    """
+    result = 0
+    if kv_type == DATE:
+        result = date_2int(kv_format, value)
+    elif kv_type == MONEY:
+        result = money_2int(kv_format, value)
+    elif kv_type == NUMERIC:
+        result = number_2int(kv_format, value)
+    elif kv_type == TEXT:
+        # virtual_value is not used for kv_type=TEXT
+        result = 0
+    else:
+        logger.error(f"Unknown kv_type value")
+        return 0
+
+    return result
 
 
 def get_kv_types():
@@ -653,6 +686,7 @@ class KVStore(models.Model):
         item['kv_format'] = self.kv_format
         item['kv_inherited'] = self.kv_inherited
         item['value'] = self.value
+        item['virtual_value'] = self.virtual_value
         item['kv_types'] = get_kv_types()
         item['currency_formats'] = get_currency_formats()
         item['numeric_formats'] = get_numeric_formats()
@@ -667,6 +701,29 @@ class KVStore(models.Model):
             ktype=self.kv_type,
             kformat=self.kv_format
         )
+
+    @property
+    def virtual_value(self):
+        """
+        An integer number e.g. 1, 100, 345 which is used for sorting.
+        It is deduced from 3 components: (value, kv_type, kv_format).
+
+        Example:
+        given two metadata items:
+
+            m1 = (date, 'dd.mm.yy', '04.05.20')
+            m2 = (date, 'dd.mm.yy', '05.06.20')
+
+        How to order them? Well, here is where virtual_value comes into
+        the picture. Virtual value is computed, as integer number,
+        and based on it, m1 and m2 are ordered.
+        """
+        result = compute_virtual_value(
+            self.kv_type,
+            self.kv_format,
+            self.value
+        )
+        return result
 
 
 class KVStoreNode(KVStore):

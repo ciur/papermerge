@@ -102,7 +102,9 @@ METADATA_PLUGINS = []
 # METADATA_DATE_FORMATS = [
 #     'dd.mm.yy',
 #     'dd.mm.yyyy',
-#     'dd.M.yyyy'
+#     'dd.M.yyyy',
+#     'month',  Month as locale’s full name, January, February, …, December (en_US);
+				#Januar, Februar, …, Dezember (de_DE)
 # ]
 # 
 # METADATA_CURRENCY_FORMATS = [

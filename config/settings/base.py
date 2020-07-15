@@ -101,7 +101,8 @@ PAPERMERGE_METADATA_PLUGINS = cfg_papermerge.get(
 PAPERMERGE_METADATA_DATE_FORMATS = [
     'dd.mm.yy',
     'dd.mm.yyyy',
-    'dd.M.yyyy'
+    'dd.M.yyyy',
+    'month'  # Month as locale’s full name, January, February
 ]
 
 PAPERMERGE_METADATA_CURRENCY_FORMATS = [

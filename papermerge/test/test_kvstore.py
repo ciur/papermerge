@@ -2,11 +2,96 @@ from pathlib import Path
 
 from django.test import TestCase
 from papermerge.core.models import Document, Folder
-from papermerge.core.models.kvstore import MONEY
 from papermerge.test.utils import create_root_user
+from papermerge.core.models.kvstore import (
+    compute_virtual_value,
+    MONEY,
+    NUMERIC,
+    DATE
+)
 
 # points to papermerge.testing folder
 BASE_DIR = Path(__file__).parent
+
+
+class TestComputeVirtualValue(TestCase):
+    """
+    Asserts correctness of compute_virtual_value
+    """
+
+    def test_date_type(self):
+
+        vv1 = compute_virtual_value(
+            kv_type=DATE,
+            kv_format='dd.mm.yy',
+            value='04.05.20'
+        )
+
+        vv2 = compute_virtual_value(
+            kv_type=DATE,
+            kv_format='dd.mm.yy',
+            value='05.06.20'
+        )
+
+        self.assertTrue(
+            vv2 > vv1,
+            f"Assertion {vv2} > {vv1} failed."
+        )
+
+    def test_money_type(self):
+
+        vv1 = compute_virtual_value(
+            kv_type=MONEY,
+            kv_format='dd.cc',
+            value='45.06'
+        )
+
+        vv2 = compute_virtual_value(
+            kv_type=MONEY,
+            kv_format='dd.cc',
+            value='60.20'
+        )
+
+        self.assertTrue(
+            vv2 > vv1,
+            f"Assertion {vv2} > {vv1} failed."
+        )
+
+        vv1 = compute_virtual_value(
+            kv_type=MONEY,
+            kv_format='dd,cc',
+            value='45.00'
+        )
+
+        vv2 = compute_virtual_value(
+            kv_type=MONEY,
+            kv_format='dd,cc',
+            value='46.00'
+        )
+
+        self.assertTrue(
+            vv2 > vv1,
+            f"Assertion {vv2} > {vv1} failed."
+        )
+
+    def test_numeric_type(self):
+
+        vv1 = compute_virtual_value(
+            kv_type=NUMERIC,
+            kv_format='dddd',
+            value='4500'
+        )
+
+        vv2 = compute_virtual_value(
+            kv_type=NUMERIC,
+            kv_format='dddd',
+            value='4600'
+        )
+
+        self.assertTrue(
+            vv2 > vv1,
+            f"Assertion {vv2} > {vv1} failed."
+        )
 
 
 class TestKVPropagation(TestCase):

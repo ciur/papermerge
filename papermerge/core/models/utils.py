@@ -1,4 +1,9 @@
+import logging
+
+
 from papermerge.core.models import BaseTreeNode
+
+logger = logging.getLogger(__name__)
 
 
 def recursive_delete(queryset_or_node_instance):
@@ -35,3 +40,4 @@ def recursive_delete(queryset_or_node_instance):
             # this node was deleted by earlier recursive call
             # it is ok, just sktip
             pass
+

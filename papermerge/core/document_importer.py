@@ -4,7 +4,6 @@ import os
 from papermerge.core.models import Document, Folder, User
 from papermerge.core.ocr.page import ocr_page
 from papermerge.core.storage import default_storage
-from papermerge.core.utils import get_superuser
 from pmworker.pdfinfo import get_pagecount
 
 logger = logging.getLogger(__name__)
@@ -16,7 +15,10 @@ class DocumentImporter:
         self.filepath = file
 
         if username is None:
-            self.user = get_superuser()
+            # get superuser
+            self.user = User.objects.filter(
+                is_superuser=True
+            ).first()
         else:
             self.user = User.objects.first(username=self.username)
 
