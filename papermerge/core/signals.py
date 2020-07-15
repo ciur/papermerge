@@ -1,9 +1,12 @@
 import logging
 
-from django.db.models.signals import post_delete, post_save, pre_delete
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+
+from allauth.account.signals import user_logged_in
+
 from papermerge.core.auth import create_access
-from papermerge.core.models import Access, Diff, Document, Folder
+from papermerge.core.models import Access, Diff, Document, Folder, User
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
 
@@ -22,20 +25,6 @@ def handle_metadata_plusgins(sender, **kwargs):
         document_id=document_id,
         page_num=page_num
     )
-
-
-@receiver(post_delete, sender=Document)
-def update_user_storage(sender, instance, **kwargs):
-    # update user storage size
-    user = instance.user
-    user.update_current_storage()
-
-
-@receiver(post_save, sender=Document)
-def update_user_storage_after_doc_creation(sender, instance, **kwargs):
-    # update user storage size
-    user = instance.user
-    user.update_current_storage()
 
 
 @receiver(pre_delete, sender=Document)
@@ -161,3 +150,36 @@ def normalize_pages_from_folder_handler(sender, instance, created, **kwargs):
     """Update async folder pages attributes page.norm_*
     """
     normalize_pages(origin=instance)
+
+
+def _user_init(user):
+    """
+    Create user specific data:
+        1. Inbox folder
+    """
+    Folder.objects.get_or_create(
+        title="inbox",
+        parent=None,
+        user=user
+    )
+
+
+@receiver(post_save, sender=User)
+def user_init(sender, instance, created, **kwargs):
+    """
+    Signal sent when user model is saved
+    (create=True if user was actually created).
+    Create user specific data when user is initially created
+    """
+    if created:
+        _user_init(user=instance)
+
+
+@receiver(user_logged_in)
+def user_logged_in_handler(sender, request, user, **kwargs):
+    """
+    Signal sent when user logs in.
+    Just double check is user specific data is there.
+    Spares admin for logging additional management scripts.
+    """
+    _user_init(user=user)

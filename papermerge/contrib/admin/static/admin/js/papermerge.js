@@ -17477,6 +17477,8 @@ let App = function () {
   control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
 
   if (jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document").length == 1) {
+    // we in document view. Document view and browser view
+    // are exclusive.
     document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
   } else {
     browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
@@ -20413,13 +20415,16 @@ class DgDocument extends DgNode {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BrowseRouter", function() { return BrowseRouter; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 
 
 
-class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
+
+class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_2__["Router"] {
   constructor(browse_view, breadcrumb_view, actions_view) {
     super();
     this.browse_view = browse_view;
@@ -20429,7 +20434,7 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
 
   preinitialize() {
     let that = this;
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_2__["PARENT_CHANGED"], function (parent_id) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PARENT_CHANGED"], function (parent_id) {
       if (parent_id) {
         that.navigate(`/${parent_id}`, {
           trigger: true
@@ -20446,6 +20451,14 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_1__["Router"] {
   }
 
   browse(node_id) {
+    if (!node_id) {
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#root_node_id").length > 0) {
+        node_id = jquery__WEBPACK_IMPORTED_MODULE_1___default()("#root_node_id").val();
+      }
+
+      ;
+    }
+
     this.browse_view.open(node_id);
     this.breadcrumb_view.open(node_id);
     this.actions_view.set_parent(node_id);

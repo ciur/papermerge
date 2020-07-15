@@ -6,6 +6,9 @@ urlpatterns = [
         '', views.browse, name="index"
     ),
     path(
+        'inbox/', views.inbox_view, name="inbox"
+    ),
+    path(
         'browse', views.browse, name="browse"
     ),
     path(

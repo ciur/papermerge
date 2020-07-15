@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
-from papermerge.core.models import BaseTreeNode, Document, Folder
+from papermerge.core.models import BaseTreeNode
 from papermerge.core.models.utils import recursive_delete
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,9 @@ logger = logging.getLogger(__name__)
 @login_required
 def browse_view(request, parent_id=None):
 
-    nodes = BaseTreeNode.objects.filter(parent_id=parent_id)
+    nodes = BaseTreeNode.objects.filter(parent_id=parent_id).exclude(
+        title="inbox"
+    )
     nodes_list = []
     parent_kv = []
 
@@ -60,7 +62,7 @@ def browse_view(request, parent_id=None):
 
 
 @login_required
-def breadcrumb_view(parent, parent_id=None):
+def breadcrumb_view(request, parent_id=None):
 
     nodes = []
 
@@ -78,6 +80,29 @@ def breadcrumb_view(parent, parent_id=None):
     return HttpResponse(
         json.dumps({
             'nodes': nodes,
+        }),
+        content_type="application/json"
+    )
+
+
+@login_required
+def node_by_title_view(request, title):
+    """
+    Useful in case of special folders like inbox (and trash in future).
+    Returns node id, children_count, title of specified node's title.
+    Title specified is insensitive (i.e. INBOX = Inbox = inbox).
+    """
+    node = get_object_or_404(
+        BaseTreeNode,
+        title__iexact=title
+    )
+
+    return HttpResponse(
+        json.dumps({
+            'id': node.id,
+            'title': node.title,
+            'children_count': node.get_children().count(),
+            'url': reverse('node_by_title', args=('inbox',))
         }),
         content_type="application/json"
     )

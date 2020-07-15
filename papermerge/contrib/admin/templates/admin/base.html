@@ -45,7 +45,7 @@
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        {% include "admin/_aside.html" %}
+        {% include "admin/_aside.html" with inbox_count=inbox_count %}
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -114,5 +114,6 @@
   <!-- AdminLTE App -->
   <script src="{% static 'admin/js/adminlte.js' %}"></script>
   <script src="{% static 'admin/js/papermerge.js' %}"></script>
+  <input type="hidden" id="root_node_id" name="root_node_id" value="{{root_node_id}}" />
 </body>
 </html>

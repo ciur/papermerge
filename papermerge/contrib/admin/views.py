@@ -14,6 +14,22 @@ def browse(request):
 
 
 @login_required
+def inbox_view(request):
+
+    inbox = Folder.objects.get(
+        title__iexact="inbox"
+    )
+
+    return render(
+        request,
+        "admin/index.html",
+        {
+            'root_node_id': inbox.id
+        }
+    )
+
+
+@login_required
 def search(request):
     search_term = request.GET.get('q')
     backend = get_search_backend()
