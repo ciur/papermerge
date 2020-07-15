@@ -20451,6 +20451,20 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_2__["Router"] {
   }
 
   browse(node_id) {
+    /**
+        There are multiple server side 'index.html' views. Each one with
+        different root folder.
+        E.g. browse => browse top level documents & folders.
+             Inbox => browse documents in special Inbox folder.
+         Both are served with same index.html file but with different
+        django view function.
+        In case of special folder - inbox - while index.html template is served
+        an html div#root_node_id is initialized to signal router that root folder
+        in this case is the one specified with $("#root_node_id").val();
+         This solutions ensures clean implementation of another feature: highlight
+        of active link on the right panel (when user clicks inbox -> highlight inbox,
+        when user clicks documents -> highlight documents. Same for user and groups links).
+    ***/
     if (!node_id) {
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#root_node_id").length > 0) {
         node_id = jquery__WEBPACK_IMPORTED_MODULE_1___default()("#root_node_id").val();
