@@ -3,8 +3,8 @@ import time
 
 from django.conf import settings
 from papermerge.core.storage import default_storage
-from pmworker import mime
-from pmworker.pdfinfo import get_pagecount
+from mglib import mime
+from mglib.pdfinfo import get_pagecount
 from mglib.path import (
     DocumentPath,
     PagePath,
@@ -16,6 +16,7 @@ from mglib.shortcuts import (
     extract_hocr,
     extract_txt,
 )
+from mglib.tiff import convert_tiff2pdf
 
 logger = logging.getLogger(__name__)
 
@@ -112,15 +113,6 @@ def ocr_page_image(
     return page_url
 
 
-def ocr_page_tiff(
-
-):
-    """
-    OCR files with tiff extention
-    """
-    pass
-
-
 def ocr_page(
     user_id,
     document_id,
@@ -160,7 +152,15 @@ def ocr_page(
             lang=lang
         )
     elif mime_type.is_tiff():
-        ocr_page_tiff(
+        # new filename is a pdf file
+        logger.debug("TIFF type detected")
+        new_filename = convert_tiff2pdf(
+            doc_url=default_storage.abspath(doc_path.url())
+        )
+        # now .pdf
+        doc_path.file_name = new_filename
+        # and continue as usual
+        ocr_page_pdf(
             doc_path=doc_path,
             page_num=page_num,
             lang=lang

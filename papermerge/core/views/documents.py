@@ -16,7 +16,7 @@ from django.http import (
 from django import views
 from django.contrib.auth.decorators import login_required
 
-from pmworker.pdfinfo import get_pagecount
+from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
 from mglib.shortcuts import extract_img
 
@@ -300,7 +300,6 @@ class DocumentsUpload(views.View):
             src=f.temporary_file_path(),
             dst=doc.path.url()
         )
-
         for page_num in range(1, page_count + 1):
             ocr_page.apply_async(kwargs={
                 'user_id': user.id,
