@@ -9,6 +9,11 @@ LOGGING = {
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'ocr.log',
+            'level': 'DEBUG'
         }
     },
     'loggers': {
@@ -18,7 +23,15 @@ LOGGING = {
         },
         'celery': {
             'handlers': ['console'],
-            'level': 'INFO'
+            'level': 'DEBUG'
         },
+        'papermerge.core.ocr': {
+            'handlers': ['file'],
+            'level': 'DEBUG'
+        },
+        'mglib': {
+            'handlers': ['file'],
+            'level': 'DEBUG'
+        }
     },
 }

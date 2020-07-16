@@ -12,8 +12,9 @@ from mglib.path import (
 from mglib.step import (Step, Steps)
 from mglib.shortcuts import (
     extract_img,
+    resize_img,
     extract_hocr,
-    extract_txt
+    extract_txt,
 )
 
 logger = logging.getLogger(__name__)
@@ -27,6 +28,8 @@ def ocr_page_pdf(
     """
     doc_path is an mglib.path.DocumentPath instance
     """
+    logger.debug("OCR PDF document")
+
     page_count = get_pagecount(
         default_storage.abspath(doc_path.url())
     )
@@ -64,6 +67,60 @@ def ocr_page_pdf(
     return page_url
 
 
+def ocr_page_image(
+    doc_path,
+    page_num,
+    lang
+):
+    """
+    image = jpg, jpeg, png
+    """
+    logger.debug("OCR image (jpeg, jpg, png) document")
+
+    page_url = PagePath(
+        document_path=doc_path,
+        page_num=page_num,
+        step=Step(1),
+        # jpeg, jpg, png are 1 page documents
+        page_count=1
+    )
+    # resize and eventually convert (png -> jpg)
+    resize_img(
+        page_url,
+        media_root=settings.MEDIA_ROOT
+    )
+    extract_txt(
+        page_url,
+        lang=lang,
+        media_root=settings.MEDIA_ROOT
+    )
+
+    for step in Steps():
+        page_url.step = step
+        resize_img(
+            page_url,
+            media_root=settings.MEDIA_ROOT
+        )
+        # tesseract unterhalt-1.jpg page-1 -l deu hocr
+        if not step.is_thumbnail:
+            extract_hocr(
+                page_url,
+                lang=lang,
+                media_root=settings.MEDIA_ROOT
+            )
+
+    return page_url
+
+
+def ocr_page_tiff(
+
+):
+    """
+    OCR files with tiff extention
+    """
+    pass
+
+
 def ocr_page(
     user_id,
     document_id,
@@ -96,6 +153,18 @@ def ocr_page(
             lang=lang
         )
         page_type = 'pdf'
+    elif mime_type.is_image():  # jpeg, jpeg or png
+        ocr_page_image(
+            doc_path=doc_path,
+            page_num=page_num,
+            lang=lang
+        )
+    elif mime_type.is_tiff():
+        ocr_page_tiff(
+            doc_path=doc_path,
+            page_num=page_num,
+            lang=lang
+        )
     else:
         logger.error(
             f" user_id={user_id}"
