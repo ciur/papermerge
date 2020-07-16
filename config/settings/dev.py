@@ -23,7 +23,7 @@ LOGGING = {
         },
         'celery': {
             'handlers': ['console'],
-            'level': 'DEBUG'
+            'level': 'INFO'
         },
         'papermerge.core.ocr': {
             'handlers': ['file'],

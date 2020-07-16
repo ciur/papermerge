@@ -34,16 +34,29 @@ def ocr_page_pdf(
     page_count = get_pagecount(
         default_storage.abspath(doc_path.url())
     )
+
     if page_num <= page_count:
+        # first quickly generate preview images
         page_url = PagePath(
             document_path=doc_path,
             page_num=page_num,
             step=Step(1),
             page_count=page_count
         )
-        extract_img(
-            page_url,
-            media_root=settings.MEDIA_ROOT
+
+        for step in Steps():
+            page_url.step = step
+            extract_img(
+                page_url,
+                media_root=settings.MEDIA_ROOT
+            )
+
+    if page_num <= page_count:
+        page_url = PagePath(
+            document_path=doc_path,
+            page_num=page_num,
+            step=Step(1),
+            page_count=page_count
         )
         extract_txt(
             page_url,
@@ -53,11 +66,6 @@ def ocr_page_pdf(
 
         for step in Steps():
             page_url.step = step
-            extract_img(
-                page_url,
-                media_root=settings.MEDIA_ROOT
-            )
-            # tesseract unterhalt-1.jpg page-1 -l deu hocr
             if not step.is_thumbnail:
                 extract_hocr(
                     page_url,
@@ -96,13 +104,17 @@ def ocr_page_image(
         media_root=settings.MEDIA_ROOT
     )
 
+    # First quickly generate preview images
     for step in Steps():
         page_url.step = step
         resize_img(
             page_url,
             media_root=settings.MEDIA_ROOT
         )
-        # tesseract unterhalt-1.jpg page-1 -l deu hocr
+    # reset page's step
+    page_url.step = Step(1)
+    # Now OCR each image
+    for step in Steps():
         if not step.is_thumbnail:
             extract_hocr(
                 page_url,
@@ -136,6 +148,8 @@ def ocr_page(
     mime_type = mime.Mime(
         default_storage.abspath(doc_path.url())
     )
+
+    logger.debug(f"Mime Type = {mime_type}")
 
     page_type = ''
     if mime_type.is_pdf():
