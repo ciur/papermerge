@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	
 - AdminLTE3/Bootstrap based own UI
 - Backup/Restore feature. Feature implemented by [@frenos](https://github.com/frenos).
+- Added support for JPEG, PNG, TIFF images
 
 ### Changed
 
