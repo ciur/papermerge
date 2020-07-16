@@ -42,6 +42,7 @@ What It Does't Do
    requirements
    setup/index
    languages
+   file_formats
    rest_api
    backup_restore
    page_management

@@ -5,6 +5,8 @@ Right Tool for You?
 
 To be efficient you always need to choose right tool for the problem. Because Document Management is too generic - I think that a definition of what is a Document in context of this software is needed.
 
+.. _what_is_a_doc:
+
 What is a Document?
 ~~~~~~~~~~~~~~~~~~~~
 
