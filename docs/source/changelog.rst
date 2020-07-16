@@ -1,6 +1,29 @@
 Changelog
 ==========
 
+[1.4.0] - Work in Progress (planned for August 2020)
+################################################
+
+Added 
+~~~~~~~
+    
+- AdminLTE3/Bootstrap based own UI
+- Backup/Restore feature. Feature implemented by `@frenos <https://github.com/frenos>`_
+- Added support for JPEG, PNG, TIFF images
+
+Changed
+~~~~~~~~~
+
+- Metadata details are now displayed/edited on specialized right side panel (instead of modals)
+
+Removed
+~~~~~~~~
+
+- Customized Django Admin app named boss. Thus, UI is no longer Django Admin based.
+
+
+
+
 [1.3.0] - 25 June 2020
 ############################
 
