@@ -266,13 +266,13 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/document_404.html:13
 #: papermerge/contrib/admin/templates/admin/index.html:34
 msgid "Actions"
-msgstr ""
+msgstr "Aktion"
 
 #: papermerge/contrib/admin/templates/admin/document.html:43
 #: papermerge/contrib/admin/templates/admin/document_404.html:40
 #: papermerge/contrib/admin/templates/admin/index.html:57
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:46
 msgid "Delete Page"
@@ -282,27 +282,27 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/document_404.html:21
 #: papermerge/contrib/admin/templates/admin/index.html:38
 msgid "Cut"
-msgstr ""
+msgstr "Ausschneiden"
 
 #: papermerge/contrib/admin/templates/admin/document.html:55
 #: papermerge/contrib/admin/templates/admin/document_404.html:27
 #: papermerge/contrib/admin/templates/admin/index.html:44
 msgid "Paste"
-msgstr ""
+msgstr "Einfügen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:60
 msgid "Apply Reorder Changes"
-msgstr ""
+msgstr "Änderungen anwenden"
 
 #: papermerge/contrib/admin/templates/admin/document_404.html:31
 #: papermerge/contrib/admin/templates/admin/index.html:48
 msgid "Documents & Folders"
-msgstr ""
+msgstr "Dokumente & Ordner"
 
 #: papermerge/contrib/admin/templates/admin/document_404.html:34
 #: papermerge/contrib/admin/templates/admin/index.html:51
 msgid "Pages"
-msgstr ""
+msgstr "Seiten"
 
 #: papermerge/contrib/admin/templates/admin/document_404.html:68
 msgid "Document not found"
