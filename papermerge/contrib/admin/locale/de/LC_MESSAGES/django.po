@@ -15,7 +15,7 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
-msgstr ""
+msgstr "Anmelden"
 
 #: papermerge/contrib/admin/templates/account/login.html:12
 msgid "Sign in to start your session"
