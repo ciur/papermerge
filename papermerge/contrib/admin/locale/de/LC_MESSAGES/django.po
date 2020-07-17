@@ -250,7 +250,7 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/base.html:88
 msgid "Select a folder or a document to see its details here"
-msgstr ""
+msgstr "Wählen Sie einen Ordner oder ein Dokument aus, um dessen Details hier anzuzeigen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:11
 #: papermerge/contrib/admin/templates/admin/document_404.html:17
@@ -259,11 +259,11 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/document.html:16
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: papermerge/contrib/admin/templates/admin/document.html:22
 msgid "Notes"
-msgstr ""
+msgstr "Notizen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:39
 #: papermerge/contrib/admin/templates/admin/document_404.html:13
@@ -279,7 +279,7 @@ msgstr "Umbenennen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:46
 msgid "Delete Page"
-msgstr ""
+msgstr "Seite löschen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:51
 #: papermerge/contrib/admin/templates/admin/document_404.html:21
