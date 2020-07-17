@@ -3,8 +3,6 @@ import os
 from pathlib import Path
 from mglib.utils import try_load_config
 
-from django.utils.translation import gettext_lazy as _
-
 DEFAULT_CONFIG_PLACES = [
     "/etc/papermerge.conf.py",
     "papermerge.conf.py"
@@ -233,8 +231,8 @@ STATICFILES_FINDERS = [
 ]
 
 LANGUAGES = [
-    ('de', _('German')),
-    ('en', _('English')),
+    ('de', 'Deutsch'),
+    ('en', 'English'),
 ]
 TIME_ZONE = 'UTC'
 USE_I18N = True

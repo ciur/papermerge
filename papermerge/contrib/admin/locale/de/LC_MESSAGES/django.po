@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-17 12:42+0000\n"
+"POT-Creation-Date: 2020-07-17 13:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -12,8 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-
 
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
@@ -73,7 +71,6 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/document.html:14
 #: papermerge/contrib/admin/templates/admin/group.html:43
 #: papermerge/contrib/admin/templates/admin/preferences.html:43
-#: papermerge/contrib/admin/templates/admin/token.html:43
 #: papermerge/contrib/admin/templates/admin/user.html:57
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:54
 msgid "Save"
@@ -381,6 +378,10 @@ msgstr "Suchergebnisse"
 msgid "New Authentication Tokens"
 msgstr "Neue Authentication Tokens"
 
+#: papermerge/contrib/admin/templates/admin/token.html:43
+msgid "Create"
+msgstr "Erstellen"
+
 #: papermerge/contrib/admin/templates/admin/tokens.html:5
 #: papermerge/contrib/admin/templates/admin/tokens.html:9
 msgid "Authentication Tokens"
@@ -388,7 +389,7 @@ msgstr "Authentifizierungstoken"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:14
 msgid "New API Token"
-msgstr "Neue"
+msgstr "Neues Token"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:27
 msgid "Digest"
