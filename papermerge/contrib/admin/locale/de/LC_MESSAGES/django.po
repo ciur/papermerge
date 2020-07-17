@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-17 08:57+0000\n"
+"POT-Creation-Date: 2020-07-17 12:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -12,9 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-msgid "New Name"
-msgstr "Neuer Name"
 
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
@@ -110,6 +107,10 @@ msgstr ""
 "Haben Sie Ihre Passwort vergessen? Hier können Sie ganz einfach ein neues "
 "Passwort abrugen."
 
+#: papermerge/contrib/admin/templates/account/password_reset.html:13
+msgid "Email address"
+msgstr ""
+
 #: papermerge/contrib/admin/templates/account/password_reset.html:22
 msgid "Request new password"
 msgstr "Neues Passwort anfordern"
@@ -119,6 +120,7 @@ msgid "Login"
 msgstr "Anmelden"
 
 #: papermerge/contrib/admin/templates/admin/_aside.html:19
+#: papermerge/contrib/admin/templates/admin/index.html:5
 msgid "Documents"
 msgstr "Dokumente"
 
@@ -137,6 +139,10 @@ msgstr "Gruppen"
 #: papermerge/contrib/admin/templates/admin/users.html:9
 msgid "Users"
 msgstr "Benutzer"
+
+#: papermerge/contrib/admin/templates/admin/_footer.html:8
+msgid "All rights reserved"
+msgstr "Alle Rechte vorbehalten"
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:22
 msgid "Permission Editor"
@@ -250,7 +256,9 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/base.html:88
 msgid "Select a folder or a document to see its details here"
-msgstr "Wählen Sie einen Ordner oder ein Dokument aus, um dessen Details hier anzuzeigen"
+msgstr ""
+"Wählen Sie einen Ordner oder ein Dokument aus, um dessen Details hier "
+"anzuzeigen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:11
 #: papermerge/contrib/admin/templates/admin/document_404.html:17
@@ -439,3 +447,6 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/users.html:38
 msgid "Last Login"
 msgstr ""
+
+#~ msgid "New Name"
+#~ msgstr "Neuer Name"
