@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-17 13:33+0000\n"
+"POT-Creation-Date: 2020-07-17 13:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -356,16 +356,23 @@ msgid ""
 "belonging to accounting group might be allowed to access Accounting-2020 "
 "folder.\n"
 "          "
-msgstr 
+msgstr ""
 "\n"
 "Eine Gruppe - ist eine Sammlung von Benutzern.\n"
 "    "
+
+#: papermerge/contrib/admin/templates/admin/groups.html:22
+msgid "Delete selected groups"
+msgstr "Ausgewählte Gruppen löschen"
 
 #: papermerge/contrib/admin/templates/admin/groups.html:24
 #: papermerge/contrib/admin/templates/admin/tokens.html:20
 #: papermerge/contrib/admin/templates/admin/users.html:20
 msgid "Go"
 msgstr "Los!"
+
+msgid "Group %(name)s was successfully created."
+msgstr "Gruppe %(name)s wurde erstellt."
 
 #: papermerge/contrib/admin/templates/admin/groups.html:32
 msgid "Group Name"
