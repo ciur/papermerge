@@ -1,3 +1,22 @@
+# -*- coding: utf-8 -*-
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-17 08:57+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Ciur Eugen\n"
+"Language-Team: Ciur Eugen\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: papermerge/contrib/admin/templates/account/base.html:7
+msgid "Log in"
+msgstr ""
+
 #: papermerge/contrib/admin/templates/account/login.html:12
 msgid "Sign in to start your session"
 msgstr "Melden Sie sich an, um Ihre Sitzung zu starten"
@@ -21,7 +40,7 @@ msgstr "Anmelden"
 
 #: papermerge/contrib/admin/templates/account/login.html:61
 msgid "I forgot my password"
-msgstr ""
+msgstr "Ich habe mein Passwort vergessen"
 
 #: papermerge/contrib/admin/templates/account/logout.html:5
 #: papermerge/contrib/admin/templates/account/logout.html:8
@@ -61,7 +80,7 @@ msgstr ""
 #: papermerge/contrib/admin/templates/account/password_change.html:61
 #: papermerge/contrib/admin/templates/admin/add_user.html:66
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:62
-msgid "Your password cant be too similar to your other personal information."
+msgid "Your password can’t be too similar to your other personal information."
 msgstr ""
 
 #: papermerge/contrib/admin/templates/account/password_change.html:65
@@ -73,14 +92,28 @@ msgstr ""
 #: papermerge/contrib/admin/templates/account/password_change.html:69
 #: papermerge/contrib/admin/templates/admin/add_user.html:74
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:70
-msgid "Your password cant be a commonly used password."
+msgid "Your password can’t be a commonly used password."
 msgstr ""
 
 #: papermerge/contrib/admin/templates/account/password_change.html:73
 #: papermerge/contrib/admin/templates/admin/add_user.html:78
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:74
-msgid "Your password cant be entirely numeric."
+msgid "Your password can’t be entirely numeric."
 msgstr ""
+
+#: papermerge/contrib/admin/templates/account/password_reset.html:9
+msgid "You forgot your password? Here you can easily retrieve a new password."
+msgstr ""
+"Haben Sie Ihre Passwort vergessen? Hier können Sie ganz einfach ein neues "
+"Passwort abrugen."
+
+#: papermerge/contrib/admin/templates/account/password_reset.html:22
+msgid "Request new password"
+msgstr "Neues Passwort anfordern"
+
+#: papermerge/contrib/admin/templates/account/password_reset.html:29
+msgid "Login"
+msgstr "Anmelden"
 
 #: papermerge/contrib/admin/templates/admin/_aside.html:19
 msgid "Documents"
@@ -199,7 +232,7 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/add_user.html:16
 msgid ""
 "\n"
-"              First, enter a username and password. Then, youll be able to "
+"              First, enter a username and password. Then, you’ll be able to "
 "edit more user options.\n"
 "            "
 msgstr ""
@@ -364,7 +397,7 @@ msgstr ""
 msgid ""
 "\n"
 "              Raw passwords are not stored, so there is no way to see this "
-"users password, but you can change the password (of the user your are "
+"user’s password, but you can change the password (of the user your are "
 "editing right now) using\n"
 "            "
 msgstr ""

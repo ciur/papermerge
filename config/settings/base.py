@@ -240,7 +240,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-LANGUAGE_CODE = 'de-DE'
+LANGUAGE_CODE = 'de'
 
 LOCALE_PATHS = (
     PROJ_ROOT / Path('papermerge'),
