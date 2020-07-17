@@ -1,120 +1,94 @@
-#: papermerge/core/admin.py:307
-msgid "Type"
+#: papermerge/core/forms.py:55
+msgid "Number of hours this token will be valid (4464 hours ~ 6 months)"
 msgstr ""
 
-#: papermerge/core/admin.py:395
-#, python-format
-msgid "Successfully deleted %(count)d items."
-msgstr ""
-
-#: papermerge/core/admin.py:408
-#, python-format
-msgid "Delete selected %(verbose_name_plural)s"
-msgstr ""
-
-#: papermerge/core/forms.py:65
-msgid "Password"
-msgstr ""
-
-#: papermerge/core/forms.py:71
-msgid "Password (again)"
-msgstr ""
-
-#: papermerge/core/forms.py:74
-msgid "Enter the same password as before, for verification."
-msgstr ""
-
-#: papermerge/core/models.py:117
-msgid "parent"
-msgstr ""
-
-#: papermerge/core/models.py:120
-msgid "Title"
-msgstr "Title"
-
-#: papermerge/core/models.py:125
-msgid "Language"
-msgstr "Sprache"
-
-#: papermerge/core/models.py:144
-msgid "private folder"
-msgstr ""
-
-#: papermerge/core/models.py:147
-msgid "Designates that this folder will be visible only to the owner."
-msgstr ""
-
-#: papermerge/core/models.py:156 papermerge/core/models.py:203
-#: papermerge/core/models.py:855
-msgid "groups"
-msgstr ""
-
-#: papermerge/core/models.py:159
-msgid "The groups this folder belongs to."
-msgstr ""
-
-#: papermerge/core/models.py:165 papermerge/core/models.py:863
-msgid "Folder permissions"
-msgstr ""
-
-#: papermerge/core/models.py:167 papermerge/core/models.py:865
-msgid "Specific permissions for this Folder."
-msgstr ""
-
-#: papermerge/core/models.py:181 papermerge/core/models.py:182
-#: papermerge/core/models.py:273
-msgid "Documents"
-msgstr "Dokumente"
-
-#: papermerge/core/models.py:196
+#: papermerge/core/models/access.py:43
 msgid "Allow"
 msgstr ""
 
-#: papermerge/core/models.py:197
+#: papermerge/core/models/access.py:44
 msgid "Deny"
 msgstr ""
 
-#: papermerge/core/models.py:208
-msgid "users"
+#: papermerge/core/models/access.py:54
+msgid "group"
 msgstr ""
 
-#: papermerge/core/models.py:232
+#: papermerge/core/models/access.py:61
+msgid "user"
+msgstr ""
+
+#: papermerge/core/models/document.py:38
 msgid "Notes"
 msgstr "Notizen"
 
-#: papermerge/core/models.py:272
+#: papermerge/core/models/document.py:142
 msgid "Document"
 msgstr "Dokument"
 
-#: papermerge/core/models.py:787
+#: papermerge/core/models/document.py:143 papermerge/core/models/node.py:326
+#: papermerge/core/models/node.py:327
+msgid "Documents"
+msgstr "Dokumente"
+
+#: papermerge/core/models/folder.py:61
 msgid "Folder"
 msgstr "Ordner"
 
-#: papermerge/core/models.py:788
+#: papermerge/core/models/folder.py:62
 msgid "Folders"
 msgstr "Ordner"
 
-#: papermerge/core/models.py:846
-msgid "private task"
+#: papermerge/core/models/kvstore.py:649
+msgid "Text"
 msgstr ""
 
-#: papermerge/core/models.py:849
-msgid "Designates that this task will be visible only to the owner."
+#: papermerge/core/models/kvstore.py:650
+msgid "Currency"
 msgstr ""
 
-#: papermerge/core/models.py:858
-msgid "The groups this task belongs to."
+#: papermerge/core/models/kvstore.py:651
+msgid "Numeric"
 msgstr ""
 
-#: papermerge/core/templates/_topbar.html:19
-msgctxt "top bar"
-msgid "Home"
-msgstr "Hauptseite"
+#: papermerge/core/models/kvstore.py:652
+msgid "Date"
+msgstr ""
 
-#: papermerge/core/templates/_topbar.html:24
-msgid "Sign In"
-msgstr "Anmelden"
+#: papermerge/core/models/node.py:26
+msgid "parent"
+msgstr ""
 
-#: papermerge/core/templates/_topbar.html:28
-msgid "Register"
-msgstr "Registrieren"
+#: papermerge/core/models/node.py:29
+msgid "Title"
+msgstr "Title"
+
+#: papermerge/core/models/node.py:34
+msgid "Language"
+msgstr "Sprache"
+
+#: papermerge/core/views/groups.py:79
+msgid "New Group"
+msgstr ""
+
+#: papermerge/core/views/groups.py:106
+msgid "Edit Group"
+msgstr ""
+
+#: papermerge/core/views/users.py:88
+msgid "Edit User"
+msgstr ""
+
+#: papermerge/core/views/users.py:111
+msgid "Password was successfully changed."
+msgstr ""
+
+#~ msgctxt "top bar"
+#~ msgid "Home"
+#~ msgstr "Hauptseite"
+
+#~ msgid "Sign In"
+#~ msgstr "Anmelden"
+
+#~ msgid "Register"
+#~ msgstr "Registrieren"

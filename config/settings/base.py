@@ -175,7 +175,6 @@ MIDDLEWARE = [
     # * django.contrib.sessions.middleware
     # * django.contrib.auth.middleware
     'mgclipboard.middleware.ClipboardMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -241,6 +240,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+LANGUAGE_CODE = 'de-DE'
 
 LOCALE_PATHS = (
     PROJ_ROOT / Path('papermerge'),

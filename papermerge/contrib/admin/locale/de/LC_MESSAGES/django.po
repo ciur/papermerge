@@ -1,0 +1,2 @@
+msgid "User or Group"
+msgstr "Benutzer oder Gruppe"
