@@ -345,10 +345,8 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/group.html:5
 #: papermerge/contrib/admin/templates/admin/groups.html:19
-#, fuzzy
-#| msgid "User or Group"
 msgid "New Group"
-msgstr "Benutzer oder Gruppe"
+msgstr "Neue Gruppe"
 
 #: papermerge/contrib/admin/templates/admin/groups.html:11
 msgid ""
@@ -358,21 +356,24 @@ msgid ""
 "belonging to accounting group might be allowed to access Accounting-2020 "
 "folder.\n"
 "          "
-msgstr ""
+msgstr 
+"\n"
+"Eine Gruppe - ist eine Sammlung von Benutzern.\n"
+"    "
 
 #: papermerge/contrib/admin/templates/admin/groups.html:24
 #: papermerge/contrib/admin/templates/admin/tokens.html:20
 #: papermerge/contrib/admin/templates/admin/users.html:20
 msgid "Go"
-msgstr ""
+msgstr "Los!"
 
 #: papermerge/contrib/admin/templates/admin/groups.html:32
 msgid "Group Name"
-msgstr ""
+msgstr "Gruppenname"
 
 #: papermerge/contrib/admin/templates/admin/groups.html:44
 msgid "No groups defined so far"
-msgstr ""
+msgstr "Bisher keine Gruppen definiert"
 
 #: papermerge/contrib/admin/templates/admin/index.html:15
 msgid "Upload"
