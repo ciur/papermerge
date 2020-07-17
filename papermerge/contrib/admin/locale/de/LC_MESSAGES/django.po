@@ -13,6 +13,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "New Name"
+msgstr "Neuer Name"
+
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
 msgstr "Anmelden"
@@ -200,7 +203,7 @@ msgstr "OK"
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:66
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:122
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:73
 msgid "Permission View"
