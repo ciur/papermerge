@@ -49,15 +49,15 @@ msgstr "Abmelden"
 
 #: papermerge/contrib/admin/templates/account/logout.html:10
 msgid "Are you sure you want to sign out?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie sich abmelden möchten?"
 
 #: papermerge/contrib/admin/templates/account/logout.html:18
 msgid "Yes, sign out"
-msgstr ""
+msgstr "Ja, abmelden"
 
 #: papermerge/contrib/admin/templates/account/logout.html:19
 msgid "Nope, take me back!"
-msgstr ""
+msgstr "Nein, nimm mich zurück!"
 
 #: papermerge/contrib/admin/templates/account/password_change.html:5
 #: papermerge/contrib/admin/templates/account/password_change.html:10
@@ -75,7 +75,7 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/user.html:57
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:54
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: papermerge/contrib/admin/templates/account/password_change.html:61
 #: papermerge/contrib/admin/templates/admin/add_user.html:66
@@ -117,23 +117,23 @@ msgstr "Anmelden"
 
 #: papermerge/contrib/admin/templates/admin/_aside.html:19
 msgid "Documents"
-msgstr ""
+msgstr "Dokumente"
 
 #: papermerge/contrib/admin/templates/admin/_aside.html:27
 msgid "Inbox"
-msgstr ""
+msgstr "Posteingang"
 
 #: papermerge/contrib/admin/templates/admin/_aside.html:36
 #: papermerge/contrib/admin/templates/admin/groups.html:5
 #: papermerge/contrib/admin/templates/admin/groups.html:9
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: papermerge/contrib/admin/templates/admin/_aside.html:44
 #: papermerge/contrib/admin/templates/admin/users.html:5
 #: papermerge/contrib/admin/templates/admin/users.html:9
 msgid "Users"
-msgstr ""
+msgstr "Benutzer"
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:22
 msgid "Permission Editor"
