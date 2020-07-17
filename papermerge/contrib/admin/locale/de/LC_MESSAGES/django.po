@@ -195,7 +195,7 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:65
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:121
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:66
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:122
@@ -212,17 +212,17 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/_nav.html:38
 msgid "API Tokens"
-msgstr ""
+msgstr "API Tokens"
 
 #: papermerge/contrib/admin/templates/admin/_nav.html:43
 #: papermerge/contrib/admin/templates/admin/preferences.html:5
 #: papermerge/contrib/admin/templates/admin/preferences.html:10
 msgid "Preferences"
-msgstr ""
+msgstr "Einstellungen"
 
 #: papermerge/contrib/admin/templates/admin/_nav.html:49
 msgid "Log out"
-msgstr ""
+msgstr "Abmelden"
 
 #: papermerge/contrib/admin/templates/admin/add_user.html:10
 #: papermerge/contrib/admin/templates/admin/users.html:14
@@ -341,27 +341,27 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/index.html:15
 msgid "Upload"
-msgstr ""
+msgstr "Hochladen"
 
 #: papermerge/contrib/admin/templates/admin/index.html:27
 msgid "New Folder"
-msgstr ""
+msgstr "Ordner erstellen"
 
 #: papermerge/contrib/admin/templates/admin/index.html:60
 msgid "Access"
-msgstr ""
+msgstr "Berechtigung"
 
 #: papermerge/contrib/admin/templates/admin/search.html:5
 msgid "Search Results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: papermerge/contrib/admin/templates/admin/search.html:16
 msgid "Home"
-msgstr ""
+msgstr "Hauptseite"
 
 #: papermerge/contrib/admin/templates/admin/search.html:19
 msgid "Search results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: papermerge/contrib/admin/templates/admin/token.html:5
 #: papermerge/contrib/admin/templates/admin/token.html:10
