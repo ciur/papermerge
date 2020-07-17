@@ -13,6 +13,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+
+
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
 msgstr "Anmelden"
@@ -161,7 +163,7 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:28
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:79
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:30
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:81
@@ -377,32 +379,32 @@ msgstr "Suchergebnisse"
 #: papermerge/contrib/admin/templates/admin/token.html:5
 #: papermerge/contrib/admin/templates/admin/token.html:10
 msgid "New Authentication Tokens"
-msgstr ""
+msgstr "Neue Authentication Tokens"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:5
 #: papermerge/contrib/admin/templates/admin/tokens.html:9
 msgid "Authentication Tokens"
-msgstr ""
+msgstr "Authentifizierungstoken"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:14
 msgid "New API Token"
-msgstr ""
+msgstr "Neue"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:27
 msgid "Digest"
-msgstr ""
+msgstr "Gigest"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:28
 msgid "Created At"
-msgstr ""
+msgstr "Erstellungsdatum"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:29
 msgid "Expires At"
-msgstr ""
+msgstr "Gültig bis"
 
 #: papermerge/contrib/admin/templates/admin/tokens.html:43
 msgid "No API Tokens defined so far"
-msgstr ""
+msgstr "Bisher sind keine API-Token definiert"
 
 #: papermerge/contrib/admin/templates/admin/user.html:14
 msgid ""

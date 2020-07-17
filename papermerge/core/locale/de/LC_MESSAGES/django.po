@@ -61,7 +61,7 @@ msgstr ""
 
 #: papermerge/core/models/node.py:29
 msgid "Title"
-msgstr "Title"
+msgstr "Titel"
 
 #: papermerge/core/models/node.py:34
 msgid "Language"

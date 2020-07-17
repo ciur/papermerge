@@ -20700,9 +20700,13 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<table class="table">\n  <thead>\n    <tr>\n      <th scope="col">\n        <a \n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="type"\n        >\n          Type\n          <i class="fa '+
+__p+='<table class="table">\n  <thead>\n    <tr>\n      <th scope="col">\n        <a \n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="type"\n        >\n          '+
+((__t=( gettext('Type') ))==null?'':__t)+
+'\n          <i class="fa '+
 ((__t=( table.cols[0].sort_icon_name ))==null?'':__t)+
-'"></i>\n        </a>\n      </th>\n      <th scope="col">\n        <a\n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="title"\n        >\n          Title\n          <i class="fa '+
+'"></i>\n        </a>\n      </th>\n      <th scope="col">\n        <a\n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="title"\n        >\n          '+
+((__t=( gettext('Title ') ))==null?'':__t)+
+'\n          <i class="fa '+
 ((__t=( table.cols[1].sort_icon_name ))==null?'':__t)+
 '"></i>\n        </a>\n      </th>\n      ';
  for (i=0; i < table.key_cols.length; i++) { 
@@ -20720,7 +20724,9 @@ __p+='\n          <th scope="col">\n            <a \n              href="#"\n   
  } 
 __p+='\n      ';
  } 
-__p+='\n      <th scope="col">\n        <a\n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="created_at"\n        >\n          Created At\n          <i class="fa  '+
+__p+='\n      <th scope="col">\n        <a\n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="created_at"\n        >\n          '+
+((__t=( gettext('Created At') ))==null?'':__t)+
+'\n          <i class="fa  '+
 ((__t=( table.cols[table.cols.length -1].sort_icon_name ))==null?'':__t)+
 '"></i>\n        </a>\n      </th>\n    </tr>\n  </thead>\n  <tbody>\n    ';
  for (i=0; i < table.rows.length; i++) { 
