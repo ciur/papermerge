@@ -19044,55 +19044,49 @@ class DgEvents {
 
 /***/ }),
 
-/***/ "./src/js/forms/rename_change_form.js":
-/*!********************************************!*\
-  !*** ./src/js/forms/rename_change_form.js ***!
-  \********************************************/
-/*! exports provided: RenameChangeForm */
+/***/ "./src/js/models/access.js":
+/*!*********************************!*\
+  !*** ./src/js/models/access.js ***!
+  \*********************************/
+/*! exports provided: Access, AccessCollection */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RenameChangeForm", function() { return RenameChangeForm; });
-class RenameChangeForm {
-  /*
-  Rename form of the changeform view.
-  Triggered by rename action in dropdown menu.
-  */
-  constructor(item, id = "#rename_changeform") {
-    this._item = item;
-    this._id = id;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Access", function() { return Access; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccessCollection", function() { return AccessCollection; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 
-    this._set_title(item);
 
-    this._create_hidden_input(item);
+
+class Access extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
+  urlRoot() {
+    return '/access/';
   }
 
-  _set_title(item) {
-    $(this._id).find("[name=title]").val(item.title);
-  }
-
-  _create_hidden_input(item) {
-    let hidden_input = `<input \
-         type="hidden" \
-         name="node_id" \
-         value="${item.id}" \
-         />`;
-    $(this._id).append(hidden_input);
-  }
-
-  show() {
-    $("#modals-container").css("display", "flex");
-    $(this._id).show();
-    $(this._id).find(".cancel").click(function (e) {
-      e.preventDefault();
-      $("#modals-container").hide();
-      $(this._id).hide();
-    });
+  toJSON() {
+    let dict = {
+      id: this.get('id'),
+      number: this.get('number')
+    };
+    return dict;
   }
 
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
+  get model() {
+    return Page;
+  }
+
+  urlRoot() {
+    return '/pages/';
+  }
+
+}
 
 /***/ }),
 
@@ -20590,6 +20584,24 @@ class DgMainSpinner {
 
 /***/ }),
 
+/***/ "./src/js/templates/access.html":
+/*!**************************************!*\
+  !*** ./src/js/templates/access.html ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n    <div class="modal-content">\n        <div class="modal-header">\n            <h5 class="modal-title">Access</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">Create</button>\n                </li>\n                <li class="mx-1">\n                    <button id="edit_perm" class="btn btn-light btn-bordered">Edit</button>\n                </li>\n                <li class="mx-1">\n                    <button id="delete_perm" class="btn btn-light btn-bordered">Delete</button>\n                </li>\n                <li class="mx-1">\n                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">View</button>\n                </li>\n            </ul>\n            <div class="flex-table">\n                <div class="ft-header">\n                    <div class="ft-row">\n                        <div class="ft-col width10">\n                        </div>\n                        <div class="ft-col width30">\n                            User or Group\n                        </div>\n                        <div class="ft-col width30">\n                            Type\n                        </div>\n                        <div class="ft-col width30">\n                            Access\n                        </div>\n                    </div>\n                </div> <!--- header -->\n                <div class="ft-body" id="access_items">\n                    <!--\n                    <div class="ft-row row1">\n                        <div class="ft-col width10">\n                        </div>\n                        <div class="ft-col width30">\n                           margaret\n                        </div>\n                        <div class="ft-col width30">\n                            Zulassen\n                        </div>\n                        <div class="ft-col width30">\n                            Lesen &amp; Schreiben\n                        </div>\n                    </div>\n                    -->\n                </div> <!-- end of body -->\n            </div>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">Apply</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n        </div>\n    </div> <!-- modal content -->\n</div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/breadcrumb.html":
 /*!******************************************!*\
   !*** ./src/js/templates/breadcrumb.html ***!
@@ -21444,6 +21456,60 @@ function dglReady(func) {
 
 /***/ }),
 
+/***/ "./src/js/views/access.js":
+/*!********************************!*\
+  !*** ./src/js/views/access.js ***!
+  \********************************/
+/*! exports provided: AccessView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccessView", function() { return AccessView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _models_access__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/access */ "./src/js/models/access.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/access.html */ "./src/js/templates/access.html");
+
+class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#access-modal');
+  }
+
+  initialize(node) {
+    this.access = new _models_access__WEBPACK_IMPORTED_MODULE_2__["Access"](node);
+    this.render();
+  }
+
+  events() {
+    let event_map = {};
+    return event_map;
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      access: this.access
+    }));
+    this.$el.html(compiled);
+    this.$el.modal();
+    return this;
+  }
+
+}
+;
+
+/***/ }),
+
 /***/ "./src/js/views/actions.js":
 /*!*********************************!*\
   !*** ./src/js/views/actions.js ***!
@@ -21463,7 +21529,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 /* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
 /* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+/* harmony import */ var _views_access__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/access */ "./src/js/views/access.js");
+/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+
 
 
 
@@ -21499,6 +21567,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       'click #delete': 'delete_node',
       'click #cut': 'cut_node',
       'click #paste': 'paste',
+      'click #access': 'click_access',
       'click #paste_pages': 'paste_pages',
       'click #rename': 'rename_node',
       // will proxy event to #id_file_name
@@ -21508,13 +21577,22 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     return event_map;
   }
 
+  click_access(event) {
+    let node = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(this.selection.models),
+        access_view;
+
+    if (node) {
+      access_view = new _views_access__WEBPACK_IMPORTED_MODULE_7__["AccessView"](node);
+    }
+  }
+
   upload(event) {
     let $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget),
         files,
         lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
         uploader_view;
     files = $target[0].files;
-    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_7__["UploaderView"](files, lang, this.parent_id);
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_8__["UploaderView"](files, lang, this.parent_id);
   }
 
   upload_clicked(event) {
@@ -21649,6 +21727,16 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     });
     result.add({
       'id': "#rename",
+      'cond': function (selection, clipboard, parent_id) {
+        if (selection.length == 1) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+    result.add({
+      'id': "#access",
       'cond': function (selection, clipboard, parent_id) {
         if (selection.length == 1) {
           return true;
@@ -22487,12 +22575,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../document_form/page_list */ "./src/js/document_form/page_list.js");
 /* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../document_form/common */ "./src/js/document_form/common.js");
 /* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
-/* harmony import */ var _forms_rename_change_form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../forms/rename_change_form */ "./src/js/forms/rename_change_form.js");
-/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
-
+/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
 
 
 
@@ -22569,7 +22655,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_10__["DgMainSpinner"]();
     this._actions = this.build_actions();
-    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_13__["BreadcrumbView"](document_id);
+    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_12__["BreadcrumbView"](document_id);
 
     if (dom_actual_pages) {
       new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
@@ -22649,7 +22735,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     /**
     Actions dropdown menu of changeform view.
     */
-    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
+    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
         rename_action,
         delete_page_action,
         cut_page_action,
@@ -22658,7 +22744,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         paste_page_after_action,
         apply_reorder_changes,
         that = this;
-    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       // Achtung! #rename id is same for rename action
       // in changeform view and changelist view.
       id: "#rename",
@@ -22669,21 +22755,21 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         let rename_view,
             node,
             options = {};
-        node = new _models_document__WEBPACK_IMPORTED_MODULE_15__["Document"](current_node.id);
+        node = new _models_document__WEBPACK_IMPORTED_MODULE_14__["Document"](current_node.id);
 
         function update_breadcrumb() {
           that._breadcrumb_view.breadcrumb.fetch();
         }
 
         options['success'] = function (model, response, options) {
-          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_14__["RenameView"](model);
+          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_13__["RenameView"](model);
           rename_view.rename.on("change", update_breadcrumb);
         };
 
         node.fetch(options);
       }
     });
-    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#delete-page",
       enabled: function (selection, clipboard) {
         let order_changed = false; // User cannot delete pages if he changed their
@@ -22727,7 +22813,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         page_list.delete_selected(selection);
       }
     });
-    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#cut-page",
       enabled: function (selection, clipboard) {
         return selection.length > 0;
@@ -22752,7 +22838,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#paste-page",
       enabled: function (selection, clipboard) {
         return true;
@@ -22768,7 +22854,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#paste-page-before",
       enabled: function (selection, clipboard) {
         return selection.length == 1;
@@ -22795,7 +22881,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#paste-page-after",
       enabled: function (selection, clipboard) {
         return selection.length == 1;
@@ -22822,7 +22908,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_12__["MgChangeFormAction"]({
+    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#apply-reorder-changes",
       enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
         // if any page has page_num != page_order
