@@ -20594,15 +20594,15 @@ class DgMainSpinner {
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n    <div class="modal-content">\n        <div class="modal-header">\n            <h5 class="modal-title">'+
+__p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\n    <div class="modal-content">\n        <div class="modal-header">\n            <h5 class="modal-title">'+
 ((__t=( gettext('Access') ))==null?'':__t)+
-'</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">\n                        '+
+'</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-plus mr-1"></i>'+
 ((__t=( gettext('Create') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="edit_perm" class="btn btn-light btn-bordered">\n                        '+
+'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="edit_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-edit mr-1"></i>'+
 ((__t=( gettext('Edit') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="delete_perm" class="btn btn-light btn-bordered">\n                        '+
+'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="delete_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-times mr-1"></i>'+
 ((__t=( gettext('Delete') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">\n                        '+
+'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">\n                         <i class="fa fa-eye mr-1"></i>'+
 ((__t=( gettext('View') ))==null?'':__t)+
 '\n                    </button>\n                </li>\n            </ul>\n            <table class="table table-striped">\n                <thead class="thead-light">\n                    <tr>\n                        <td>\n                        </td>\n                        <td>\n                            '+
 ((__t=( gettext('User or Group') ))==null?'':__t)+

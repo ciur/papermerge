@@ -12,7 +12,9 @@
          {% ocr_language_select user %}
      </li>
      <li class="mx-1">
-         <button type="button" id="id_btn_upload" class="btn btn-light btn-bordered ">{% trans "Upload" %}</button>
+         <button type="button" id="id_btn_upload" class="btn btn-light btn-bordered ">
+            <i class="fa fa-upload mr-1"></i>{% trans "Upload" %}
+          </button>
      </li>
      <!-- Hidden input required for file uploads-->
      <input type="file"
@@ -24,14 +26,14 @@
      <li class="mx-1">
          <!--parent_id=object.id -->
          <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
-             {% trans "New Folder" %}
+            <i class="fa fa-plus mr-1"></i>{% trans "New Folder" %}
          </button>
 
      </li>
       <li class="mx-1">
           <div class="dropdown actions">
             <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {% trans "Actions" %}
+              <i class="fa fa-bolt mr-1"></i>{% trans "Actions" %}
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                <li class="dropdown-item disabled" id="cut">
@@ -61,7 +63,7 @@
                </li>
                <li class="dropdown-divider"></li>
                <li id="delete" class="dropdown-item disabled">
-                   <a><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
+                   <a><i class="fa fa-bomb mx-2 "></i>{% trans "Delete" %}</a>
                </li>
             </ul>
           </div>
