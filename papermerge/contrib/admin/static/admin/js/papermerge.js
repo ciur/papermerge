@@ -20756,7 +20756,7 @@ __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\
 ((__t=( gettext('Delete') ))==null?'':__t)+
 '\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">\n                         <i class="fa fa-eye mr-1 text-success"></i>'+
 ((__t=( gettext('View') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n            </ul>\n            <table class="table table-striped">\n                <thead class="thead-light">\n                    <tr>\n                        <td>\n                        </td>\n                        <td>\n                            '+
+'\n                    </button>\n                </li>\n            </ul>\n            <table class="table table-striped">\n                <thead class="thead-light">\n                    <tr>\n                        <td>\n                            '+
 ((__t=( gettext('User or Group') ))==null?'':__t)+
 '\n                        </td>\n                        <td>\n                            '+
 ((__t=( gettext('Type') ))==null?'':__t)+
@@ -20766,7 +20766,13 @@ __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\
  for (i=0; i < acc_collection.models.length; i++) { 
 __p+='\n                        ';
  item = acc_collection.models[i]; 
-__p+='\n                        <tr>\n                            <td></td>\n                            <td>'+
+__p+='\n                        <tr data-cid="'+
+((__t=( item.cid  ))==null?'':__t)+
+'" data-model="'+
+((__t=( item.get('model')  ))==null?'':__t)+
+'"  data-name="'+
+((__t=( item.get('name')  ))==null?'':__t)+
+'">\n                            <td>'+
 ((__t=( item.get('name') ))==null?'':__t)+
 '</td>\n                            <td>'+
 ((__t=( item.get('access_type') ))==null?'':__t)+
@@ -21758,9 +21764,15 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
       'click #create_perm': 'create_perm',
       'click #edit_perm': 'edit_perm',
       'click #delete_perm': 'delete_perm',
-      'click #readonly_view_perm': 'readonly_view_perm'
+      'click #readonly_view_perm': 'readonly_view_perm',
+      'click #access_items tr': 'on_item_click'
     };
     return event_map;
+  }
+
+  on_item_click(event) {
+    let $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+    $target.toggleClass('checked');
   }
 
   on_perm_changed(permission, users, groups) {
@@ -21798,12 +21810,34 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
   create_perm(event) {
     let perm_editor_view;
     perm_editor_view = new _permission_editor__WEBPACK_IMPORTED_MODULE_2__["PermissionEditorView"]();
-    console.log(this.acc_collection.models);
   }
 
   edit_perm(event) {}
 
-  delete_perm(event) {}
+  delete_perm(event) {
+    let attrs = [],
+        models,
+        that = this;
+    attrs = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(this.$el.find('tr.checked'), function (item) {
+      let name, model;
+      name = jquery__WEBPACK_IMPORTED_MODULE_0___default()(item).data('name');
+      model = jquery__WEBPACK_IMPORTED_MODULE_0___default()(item).data('model');
+      return {
+        'name': name,
+        'model': model
+      };
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(attrs, function (attr) {
+      let found = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(that.acc_collection.models, function (item) {
+        return item.get('name') == attr['name'] && item.get('model') == attr['model'];
+      });
+
+      that.acc_collection.remove(found);
+    });
+
+    this.render();
+  }
 
   readonly_view_perm(event) {}
 
