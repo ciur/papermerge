@@ -13,6 +13,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: papermerge-js/src/js/templates/access.html
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "View"
+msgstr "Aussicht"
+
+msgid "Apply"
+msgstr "Anwenden"
+
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
 msgstr "Anmelden"
