@@ -128,6 +128,6 @@ def user_or_groups(request):
         result.append(item)
 
     return HttpResponse(
-        json.dumps(result),
+        json.dumps({'usergroups': result}),
         content_type="application/json"
     )

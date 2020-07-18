@@ -19087,7 +19087,6 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
 
   initialize(model, options) {
     this.node = options['node'];
-    console.log(`AccessCollection this.node.id=${this.node.id}`);
   }
 
   url() {
@@ -20327,6 +20326,54 @@ class Uploader extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
 
 /***/ }),
 
+/***/ "./src/js/models/user_group.js":
+/*!*************************************!*\
+  !*** ./src/js/models/user_group.js ***!
+  \*************************************/
+/*! exports provided: UserGroup, UserGroupCollection */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserGroup", function() { return UserGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserGroupCollection", function() { return UserGroupCollection; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class UserGroup extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {}
+class UserGroupCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
+  url() {
+    return '/usergroups';
+  }
+
+  get model() {
+    return UserGroup;
+  }
+
+  parse(response, options) {
+    let usergroups = response.usergroups,
+        that = this; // do not trigger reset event
+
+    that.reset([], {
+      'silent': true
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(usergroups, function (item) {
+      that.add(new UserGroup(item));
+    });
+
+    this.trigger('change');
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/node.js":
 /*!************************!*\
   !*** ./src/js/node.js ***!
@@ -21069,7 +21116,15 @@ __p+='<div class="modal-dialog modal-dialog-centered" role="document">    <div c
 ((__t=( gettext('User or Group') ))==null?'':__t)+
 ':</label>\n                <select id="perm_user_or_group" class="form-control" multiple title="'+
 ((__t=( gettext('Nothing selected') ))==null?'':__t)+
-'">\n                    <option>1</option>\n                    <option>2</option>\n                    <option>3</option>\n                </select>\n            </div>  \n            <div class="form-group">\n                <label class="padding-x-xs">'+
+'">\n                    ';
+ for (i=0; i < usergroups.models.length; i++) { 
+__p+='\n                        ';
+ item = usergroups.models[i]; 
+__p+='\n                        <option>'+
+((__t=( item.get('name') ))==null?'':__t)+
+'</option>\n                    ';
+ } 
+__p+='\n                </select>\n            </div>  \n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('Type') ))==null?'':__t)+
 ':</label>\n                <select name="access_type">\n                    <option selected value="allow">'+
 ((__t=( gettext('Allow') ))==null?'':__t)+
@@ -23483,8 +23538,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _models_permission__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/permission */ "./src/js/models/permission.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_user_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/user_group */ "./src/js/models/user_group.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -23492,7 +23549,7 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/permission_editor.html */ "./src/js/templates/permission_editor.html");
 
-class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#permission-editor-modal');
   }
@@ -23504,7 +23561,11 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"]
       this._permission = new _models_permission__WEBPACK_IMPORTED_MODULE_2__["Permission"]();
     }
 
-    this.render();
+    this._usergroups = new _models_user_group__WEBPACK_IMPORTED_MODULE_5__["UserGroupCollection"]();
+
+    this._usergroups.fetch();
+
+    this.listenTo(this._usergroups, 'change', this.render);
   }
 
   events() {
@@ -23515,7 +23576,9 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"]
   render() {
     let compiled, context;
     context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({}));
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'usergroups': this._usergroups
+    }));
     this.$el.html(compiled);
     this.$el.modal();
     return this;
