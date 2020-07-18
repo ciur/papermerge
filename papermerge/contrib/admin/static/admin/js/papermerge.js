@@ -19078,12 +19078,27 @@ class Access extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
 
 }
 class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
+  /****
+      All access for specific node
+  ****/
   get model() {
-    return Page;
+    return Access;
   }
 
-  urlRoot() {
-    return '/pages/';
+  initialize(node) {
+    this.node = node;
+  }
+
+  url() {
+    return `/node/${node.id}/access`;
+  }
+
+  parse(response, options) {
+    let access = response.access,
+        that = this;
+    this.reset();
+    this.add(response.access);
+    this.trigger('change');
   }
 
 }
@@ -20610,7 +20625,17 @@ __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\
 ((__t=( gettext('Type') ))==null?'':__t)+
 '\n                        </td>\n                        <td>\n                            '+
 ((__t=( gettext('Access') ))==null?'':__t)+
-'\n                        </td>\n                    </tr>\n                </thead> <!--- header -->\n                <tbody id="access_items">\n                    <!--\n                    <div class="ft-row row1">\n                        <div class="ft-col width10">\n                        </div>\n                        <div class="ft-col width30">\n                           margaret\n                        </div>\n                        <div class="ft-col width30">\n                            Zulassen\n                        </div>\n                        <div class="ft-col width30">\n                            Lesen &amp; Schreiben\n                        </div>\n                    </div>\n                    -->\n                </tbody> <!-- end of body -->\n            </table> <!--  table -->\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
+'\n                        </td>\n                    </tr>\n                </thead> <!--- header -->\n                <tbody id="access_items">\n                    ';
+ for (i=0; i < acc_collection.models.length; i++) { 
+__p+='\n                        ';
+ item = acc_collection.models[i]; 
+__p+='\n                        <tr>\n                            <td></td>\n                            <td>'+
+((__t=( item.name ))==null?'':__t)+
+'</td>\n                            <td>'+
+((__t=( item.access_type ))==null?'':__t)+
+'</td>\n                            <td>Full Control</td>\n                        </tr>\n                    ';
+ } 
+__p+='\n                </tbody> <!-- end of body -->\n            </table> <!--  table -->\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
 ((__t=( gettext('Apply') ))==null?'':__t)+
 '\n            </button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">\n                '+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
@@ -21521,8 +21546,9 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(node) {
-    this.access = new _models_access__WEBPACK_IMPORTED_MODULE_2__["Access"](node);
-    this.render();
+    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_2__["AccessCollection"](node);
+    this.acc_collection.fetch();
+    this.listenTo(this.acc_collection, 'change', this.render());
   }
 
   events() {
@@ -21534,7 +21560,7 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      access: this.access
+      acc_collection: this.acc_collection
     }));
     this.$el.html(compiled);
     this.$el.modal();

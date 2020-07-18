@@ -64,7 +64,7 @@ urlpatterns = [
     ),
     path('nodes/', node_views.nodes_view, name="nodes"),
     path(
-        'access/<int:id>', access_views.access, name="access"
+        'node/<int:id>/access', access_views.access_view, name="access"
     ),
     path(
         'metadata/<model>/<int:id>', metadata_views.metadata, name="metadata"

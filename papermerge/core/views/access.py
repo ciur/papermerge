@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def access(request, id):
+def access_view(request, id):
     """
     Returns json of access right for a given node
     """
@@ -98,7 +98,12 @@ def access(request, id):
             return HttpResponseBadRequest()
 
     return HttpResponse(
-        json.dumps(result),
+        json.dumps(
+            {
+                'access': result,
+                'node_id': node.id
+            }
+        ),
         content_type="application/json"
     )
 
