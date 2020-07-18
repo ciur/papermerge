@@ -23538,7 +23538,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _models_permission__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/permission */ "./src/js/models/permission.js");
-/* harmony import */ var _models_user_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/user_group */ "./src/js/models/user_group.js");
+/* harmony import */ var _models_user_group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/user_group */ "./src/js/models/user_group.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
 
@@ -23561,7 +23561,7 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
       this._permission = new _models_permission__WEBPACK_IMPORTED_MODULE_2__["Permission"]();
     }
 
-    this._usergroups = new _models_user_group__WEBPACK_IMPORTED_MODULE_5__["UserGroupCollection"]();
+    this._usergroups = new _models_user_group__WEBPACK_IMPORTED_MODULE_3__["UserGroupCollection"]();
 
     this._usergroups.fetch();
 

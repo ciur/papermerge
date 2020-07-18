@@ -14,6 +14,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 
+#: papermerge-js/src/js/templates/permission_editor.html
+msgid "Permission Editor"
+msgstr "Berechtigungseditor"
+
+msgid "Allow"
+msgstr "Zulassen"
+
+msgid "Deny"
+msgstr "Verweigern"
+
+msgid "Read"
+msgstr "Lesen"
+
+msgid "Write"
+msgstr "Schreiben"
+
+msgid "Change Permissions"
+msgstr "Berechtigungen ändern"
+
+msgid "Take Ownership"
+msgstr "Eingentümerschaft übernehmen"
+
 #: papermerge-js/src/js/templates/metadata.html
 msgid "Metadata"
 msgstr "Metadaten"
@@ -184,53 +206,11 @@ msgid "All rights reserved"
 msgstr "Alle Rechte vorbehalten"
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:22
-msgid "Permission Editor"
-msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:25
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:76
 msgid "User or Group"
 msgstr "Benutzer oder Gruppe"
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:26
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:77
-msgid "Nothing selected"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:28
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:79
-msgid "Type"
-msgstr "Typ"
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:30
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:81
-msgid "Allow"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:31
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:82
-msgid "Deny"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:37
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:89
-msgid "Change Permissions"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:42
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:95
-msgid "Take Ownership"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:48
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:102
-msgid "Read"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:54
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:109
-msgid "Write"
-msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:60
 #: papermerge/contrib/admin/templates/admin/_forms.js.html:116
