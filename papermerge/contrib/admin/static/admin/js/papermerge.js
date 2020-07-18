@@ -19085,20 +19085,12 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
     return Access;
   }
 
-  initialize(node) {
-    this.node = node;
+  initialize(model, options) {
+    this.node = options['node'];
   }
 
   url() {
     return `/node/${node.id}/access`;
-  }
-
-  parse(response, options) {
-    let access = response.access,
-        that = this;
-    this.reset();
-    this.add(response.access);
-    this.trigger('change');
   }
 
 }
@@ -21546,9 +21538,11 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(node) {
-    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_2__["AccessCollection"](node);
+    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_2__["AccessCollection"]({}, {
+      'node': node
+    });
     this.acc_collection.fetch();
-    this.listenTo(this.acc_collection, 'change', this.render());
+    this.listenTo(this.acc_collection, 'reset', this.render());
   }
 
   events() {

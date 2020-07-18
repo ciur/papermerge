@@ -172,6 +172,7 @@ class TestAccessView(TestCase):
             resp.status_code, 200
         )
         json_data = json.loads(resp.content)
+        json_data = json_data.get('access', [])
         uploader_json = {}
         for user_json in json_data:
             if user_json['name'] == 'uploader':
