@@ -20008,6 +20008,28 @@ class PageCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
 
 /***/ }),
 
+/***/ "./src/js/models/permission.js":
+/*!*************************************!*\
+  !*** ./src/js/models/permission.js ***!
+  \*************************************/
+/*! exports provided: Permission */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Permission", function() { return Permission; });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {}
+
+/***/ }),
+
 /***/ "./src/js/models/rename.js":
 /*!*********************************!*\
   !*** ./src/js/models/rename.js ***!
@@ -20843,7 +20865,9 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+=' <h5 class="border-bottom">Metadata</h5>\n <ul>\n    <li>\n        <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n    </li>\n </ul>\n <ul id="simple_keys" class="vertical menu">\n    ';
+__p+=' <h5 class="border-bottom">\n    '+
+((__t=( gettext('Metadata') ))==null?'':__t)+
+'\n</h5>\n <ul>\n    <li>\n        <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n    </li>\n </ul>\n <ul id="simple_keys" class="vertical menu">\n    ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n        ';
  item = kvstore.models[i]; 
@@ -21022,6 +21046,48 @@ module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          Create Folder\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="title">Folder name:</label>\n                    <input type="text" class="form-control" id="title" name="title">\n                    <input name="parent_id" value="" type="hidden" >\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs create" >Create</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">Cancel</button></a>\n      </div>\n  </div>\n</div>\n';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/permission_editor.html":
+/*!*************************************************!*\
+  !*** ./src/js/templates/permission_editor.html ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">    <div class="modal-content">\n        <div class="modal-header">\n            <h5>'+
+((__t=( gettext('Permission Editor') ))==null?'':__t)+
+'</h5>\n        </div>\n        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <div class="modal-body">\n            <label class="padding-x-xs">'+
+((__t=( gettext('User or Group') ))==null?'':__t)+
+':</label>\n            <select id="perm_user_or_group" class="selectpicker" multiple title="{% trans \'Nothing selected\' %}">\n            </select>\n            <label class="padding-x-xs">'+
+((__t=( gettext('Type') ))==null?'':__t)+
+':</label>\n            <select name="access_type">\n                <option selected value="allow">'+
+((__t=( gettext('Allow') ))==null?'':__t)+
+'</option>\n                <option value="deny">'+
+((__t=( gettext('Deny') ))==null?'':__t)+
+'</option>\n            </select>\n            <formset class="vertical">\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox" \n                    name="change_perm">'+
+((__t=( gettext('Change Permissions') ))==null?'':__t)+
+'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox" \n                    name="take_ownership">'+
+((__t=( gettext('Take Ownership') ))==null?'':__t)+
+'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox"\n                    name="read"\n                    >'+
+((__t=( gettext('Read') ))==null?'':__t)+
+'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox"\n                    name="write"\n                    >'+
+((__t=( gettext('Write') ))==null?'':__t)+
+'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox"\n                    name="delete"\n                    >'+
+((__t=( gettext('Delete') ))==null?'':__t)+
+'\n                </label>\n            </formset>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
+((__t=( gettext('Apply') ))==null?'':__t)+
+'\n            </button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">\n                '+
+((__t=( gettext('Cancel') ))==null?'':__t)+
+'\n            </button></a>\n        </div>\n    </div> <!-- modal-content -->\n</div> <!-- modal-dialog -->';
 }
 return __p;
 };
@@ -21538,9 +21604,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _models_access__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/access */ "./src/js/models/access.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _permission_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./permission_editor */ "./src/js/views/permission_editor.js");
+/* harmony import */ var _models_access__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/access */ "./src/js/models/access.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -21548,13 +21616,13 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/access.html */ "./src/js/templates/access.html");
 
-class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#access-modal');
   }
 
   initialize(node) {
-    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_2__["AccessCollection"]([], {
+    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_3__["AccessCollection"]([], {
       'node': node
     });
     this.acc_collection.fetch();
@@ -21562,9 +21630,25 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   events() {
-    let event_map = {};
+    let event_map = {
+      'click #create_perm': 'create_perm',
+      'click #edit_perm': 'edit_perm',
+      'click #delete_perm': 'delete_perm',
+      'click #readonly_view_perm': 'readonly_view_perm'
+    };
     return event_map;
   }
+
+  create_perm(event) {
+    let perm_editor_view;
+    perm_editor_view = new _permission_editor__WEBPACK_IMPORTED_MODULE_2__["PermissionEditorView"]();
+  }
+
+  edit_perm(event) {}
+
+  delete_perm(event) {}
+
+  readonly_view_perm(event) {}
 
   render() {
     let compiled, context;
@@ -23380,6 +23464,63 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
 }
+
+/***/ }),
+
+/***/ "./src/js/views/permission_editor.js":
+/*!*******************************************!*\
+  !*** ./src/js/views/permission_editor.js ***!
+  \*******************************************/
+/*! exports provided: PermissionEditorView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PermissionEditorView", function() { return PermissionEditorView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _models_permission__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/permission */ "./src/js/models/permission.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/permission_editor.html */ "./src/js/templates/permission_editor.html");
+
+class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#permission-editor-modal');
+  }
+
+  initialize(permission) {
+    if (permission) {
+      this._permission = permission;
+    } else {
+      this._permission = new _models_permission__WEBPACK_IMPORTED_MODULE_2__["Permission"]();
+    }
+
+    this.render();
+  }
+
+  events() {
+    let event_map = {};
+    return event_map;
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({}));
+    this.$el.html(compiled);
+    this.$el.modal();
+    return this;
+  }
+
+}
+;
 
 /***/ }),
 

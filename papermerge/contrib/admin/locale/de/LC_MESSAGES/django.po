@@ -13,6 +13,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+
+#: papermerge-js/src/js/templates/metadata.html
+msgid "Metadata"
+msgstr "Metadaten"
+
 #: papermerge-js/src/js/templates/access.html
 msgid "Edit"
 msgstr "Bearbeiten"
