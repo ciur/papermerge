@@ -19087,10 +19087,26 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
 
   initialize(model, options) {
     this.node = options['node'];
+    console.log(`AccessCollection this.node.id=${this.node.id}`);
   }
 
   url() {
     return `/node/${node.id}/access`;
+  }
+
+  parse(response, options) {
+    let access = response.access,
+        that = this; // do not trigger reset event
+
+    that.reset([], {
+      'silent': true
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(access, function (item) {
+      that.add(new Access(item));
+    });
+
+    this.trigger('change');
   }
 
 }
@@ -20603,13 +20619,13 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\n    <div class="modal-content">\n        <div class="modal-header">\n            <h5 class="modal-title">'+
 ((__t=( gettext('Access') ))==null?'':__t)+
-'</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-plus mr-1"></i>'+
+'</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-plus mr-1 text-success"></i>'+
 ((__t=( gettext('Create') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="edit_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-edit mr-1"></i>'+
+'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="edit_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-edit mr-1 text-success"></i>'+
 ((__t=( gettext('Edit') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="delete_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-times mr-1"></i>'+
+'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="delete_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-times mr-1 text-danger"></i>'+
 ((__t=( gettext('Delete') ))==null?'':__t)+
-'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">\n                         <i class="fa fa-eye mr-1"></i>'+
+'\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="readonly_view_perm" class="btn btn-light btn-bordered">\n                         <i class="fa fa-eye mr-1 text-success"></i>'+
 ((__t=( gettext('View') ))==null?'':__t)+
 '\n                    </button>\n                </li>\n            </ul>\n            <table class="table table-striped">\n                <thead class="thead-light">\n                    <tr>\n                        <td>\n                        </td>\n                        <td>\n                            '+
 ((__t=( gettext('User or Group') ))==null?'':__t)+
@@ -20622,9 +20638,9 @@ __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\
 __p+='\n                        ';
  item = acc_collection.models[i]; 
 __p+='\n                        <tr>\n                            <td></td>\n                            <td>'+
-((__t=( item.name ))==null?'':__t)+
+((__t=( item.get('name') ))==null?'':__t)+
 '</td>\n                            <td>'+
-((__t=( item.access_type ))==null?'':__t)+
+((__t=( item.get('access_type') ))==null?'':__t)+
 '</td>\n                            <td>Full Control</td>\n                        </tr>\n                    ';
  } 
 __p+='\n                </tbody> <!-- end of body -->\n            </table> <!--  table -->\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
@@ -21538,11 +21554,11 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(node) {
-    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_2__["AccessCollection"]({}, {
+    this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_2__["AccessCollection"]([], {
       'node': node
     });
     this.acc_collection.fetch();
-    this.listenTo(this.acc_collection, 'reset', this.render());
+    this.listenTo(this.acc_collection, 'change', this.render);
   }
 
   events() {
