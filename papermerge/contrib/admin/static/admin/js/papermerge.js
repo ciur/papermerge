@@ -19106,6 +19106,7 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
     });
 
     this.trigger('change');
+    return access;
   }
 
 }
@@ -19304,7 +19305,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*************************************!*\
   !*** ./src/js/models/dispatcher.js ***!
   \*************************************/
-/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH */
+/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19314,6 +19315,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECTION_CHANGED", function() { return SELECTION_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_SELECTION_CHANGED", function() { return PAGE_SELECTION_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BROWSER_REFRESH", function() { return BROWSER_REFRESH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PERMISSION_CHANGED", function() { return PERMISSION_CHANGED; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -19329,6 +19331,7 @@ let SELECTION_CHANGED = "selection_changed"; // page_selection_changed event is 
 
 let PAGE_SELECTION_CHANGED = "page_selection_changed";
 let BROWSER_REFRESH = "browser_refresh";
+let PERMISSION_CHANGED = "permission_changed";
 
 /***/ }),
 
@@ -20025,7 +20028,64 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {}
+let ALLOW = 'allow';
+let DENY = 'deny'; // allowed access_item types
+
+let ALLOWED_TYPES = [ALLOW, DENY];
+class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
+  defaults() {
+    return {
+      name: '',
+      // e.g. admin
+      model: '',
+      // e.g. user/group
+      access_type: ALLOW,
+      access_inherited: false,
+      permissions: {
+        read: false,
+        write: false,
+        delete: false,
+        change_perm: false,
+        take_ownership: false
+      }
+    };
+  }
+
+  set_perm(name, checked) {
+    let permissions = this.get('permissions');
+    permissions[name] = checked;
+    this.set({
+      'permissions': permissions
+    });
+  }
+
+  set_type(access_type) {
+    this.set({
+      'access_type': access_type
+    });
+  }
+
+  static get CHPERM() {
+    return 'change_perm';
+  }
+
+  static get OWN() {
+    return 'take_ownership';
+  }
+
+  static get READ() {
+    return 'read';
+  }
+
+  static get WRITE() {
+    return 'write';
+  }
+
+  static get DEL() {
+    return 'delete';
+  }
+
+}
 
 /***/ }),
 
@@ -21114,33 +21174,35 @@ __p+='<div class="modal-dialog modal-dialog-centered" role="document">    <div c
 ((__t=( gettext('Permission Editor') ))==null?'':__t)+
 '</h5>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('User or Group') ))==null?'':__t)+
-':</label>\n                <select id="perm_user_or_group" class="form-control" multiple title="'+
+':</label>\n                <select class="perm_user_or_group form-control" multiple title="'+
 ((__t=( gettext('Nothing selected') ))==null?'':__t)+
 '">\n                    ';
  for (i=0; i < usergroups.models.length; i++) { 
 __p+='\n                        ';
  item = usergroups.models[i]; 
-__p+='\n                        <option>'+
+__p+='\n                        <option data-model="'+
+((__t=( item.get('model') ))==null?'':__t)+
+'">\n                            '+
 ((__t=( item.get('name') ))==null?'':__t)+
-'</option>\n                    ';
+'\n                        </option>\n                    ';
  } 
 __p+='\n                </select>\n            </div>  \n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('Type') ))==null?'':__t)+
-':</label>\n                <select name="access_type">\n                    <option selected value="allow">'+
+':</label>\n                <select name="access_type" class="access_type">\n                    <option selected value="allow">'+
 ((__t=( gettext('Allow') ))==null?'':__t)+
 '</option>\n                    <option value="deny">'+
 ((__t=( gettext('Deny') ))==null?'':__t)+
-'</option>\n                </select>\n            </div>\n            <formset class="d-flex flex-column">\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="change_perm">\n                    <label class="padding-x-xs horizonal">'+
+'</option>\n                </select>\n            </div>\n            <formset class="d-flex flex-column">\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="change_perm">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Change Permissions') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="take_ownership">\n                    <label class="padding-x-xs horizonal">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="take_ownership">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Take Ownership') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="read">\n                    <label class="padding-x-xs horizonal">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="read">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Read') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="write">\n                    <label class="padding-x-xs horizonal">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="write">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Write') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="delete">\n                    <label class="padding-x-xs horizonal"> '+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="delete">\n                    <label class="padding-x-xs horizonal"> '+
 ((__t=( gettext('Delete') ))==null?'':__t)+
-'</label>\n                </div>\n            </formset>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
+'</label>\n                </div>\n            </formset>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs apply">\n                '+
 ((__t=( gettext('Apply') ))==null?'':__t)+
 '\n            </button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">\n                '+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
@@ -21663,8 +21725,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _permission_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./permission_editor */ "./src/js/views/permission_editor.js");
 /* harmony import */ var _models_access__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/access */ "./src/js/models/access.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _models_permission__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/permission */ "./src/js/models/permission.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
+
 
 
 
@@ -21673,7 +21739,7 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/access.html */ "./src/js/templates/access.html");
 
-class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#access-modal');
   }
@@ -21684,6 +21750,7 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     });
     this.acc_collection.fetch();
     this.listenTo(this.acc_collection, 'change', this.render);
+    this.listenTo(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"], _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["PERMISSION_CHANGED"], this.on_perm_changed);
   }
 
   events() {
@@ -21696,9 +21763,42 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     return event_map;
   }
 
+  on_perm_changed(permission, users, groups) {
+    /*****
+    Permissions set and user + group to which they apply.
+    ****/
+    let that = this,
+        perm;
+
+    underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(users, function (item) {
+      perm = new _models_permission__WEBPACK_IMPORTED_MODULE_4__["Permission"](permission);
+      perm.set({
+        'name': item
+      });
+      perm.set({
+        'model': 'user'
+      });
+      that.acc_collection.add(perm);
+    });
+
+    underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(groups, function (item) {
+      perm = new _models_permission__WEBPACK_IMPORTED_MODULE_4__["Permission"](permission);
+      perm.set({
+        'name': item
+      });
+      perm.set({
+        'model': 'group'
+      });
+      that.acc_collection.add(perm);
+    });
+
+    that.render();
+  }
+
   create_perm(event) {
     let perm_editor_view;
     perm_editor_view = new _permission_editor__WEBPACK_IMPORTED_MODULE_2__["PermissionEditorView"]();
+    console.log(this.acc_collection.models);
   }
 
   edit_perm(event) {}
@@ -23541,6 +23641,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_user_group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/user_group */ "./src/js/models/user_group.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -23561,6 +23663,8 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
       this._permission = new _models_permission__WEBPACK_IMPORTED_MODULE_2__["Permission"]();
     }
 
+    this._users = [];
+    this._groups = [];
     this._usergroups = new _models_user_group__WEBPACK_IMPORTED_MODULE_3__["UserGroupCollection"]();
 
     this._usergroups.fetch();
@@ -23569,8 +23673,62 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
   }
 
   events() {
-    let event_map = {};
+    let event_map = {
+      'click .apply': 'on_apply',
+      'change .perm_user_or_group': 'on_perm_user_or_group',
+      'change .access_type': 'on_access_type',
+      'click .checkbox': 'on_checkbox'
+    };
     return event_map;
+  }
+
+  on_perm_user_or_group(event) {
+    let user_or_groups,
+        name,
+        model,
+        that = this;
+    this._users = [];
+    this._groups = [];
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".perm_user_or_group :selected").each(function (i, sel) {
+      name = jquery__WEBPACK_IMPORTED_MODULE_0___default()(sel).val();
+      model = jquery__WEBPACK_IMPORTED_MODULE_0___default()(sel).data('model');
+
+      if (model == 'user') {
+        that._users.push(name);
+      } else if (model == 'group') {
+        that._groups.push(name);
+      }
+    });
+  }
+
+  on_access_type(event) {
+    let $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget),
+        access_type;
+    access_type = $target.val();
+    this.set_type(access_type);
+  }
+
+  on_checkbox(event) {
+    let $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget),
+        name,
+        checked;
+    name = $target.attr('name');
+    checked = $target.is(':checked');
+    this.set_perm(name, checked);
+  }
+
+  set_perm(name, checked) {
+    this._permission.set_perm(name, checked);
+  }
+
+  set_type(access_type) {
+    this._permission.set_type(access_type);
+  }
+
+  on_apply(event) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PERMISSION_CHANGED"], this._permission, this._users, this._groups);
+    this.$el.html('');
+    this.$el.modal('hide');
   }
 
   render() {
