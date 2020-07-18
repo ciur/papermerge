@@ -21065,25 +21065,27 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="modal-dialog modal-dialog-centered" role="document">    <div class="modal-content">\n        <div class="modal-header">\n            <h5>'+
 ((__t=( gettext('Permission Editor') ))==null?'':__t)+
-'</h5>\n        </div>\n        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n          <span aria-hidden="true">&times;</span>\n        </button>\n        <div class="modal-body">\n            <label class="padding-x-xs">'+
+'</h5>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('User or Group') ))==null?'':__t)+
-':</label>\n            <select id="perm_user_or_group" class="selectpicker" multiple title="{% trans \'Nothing selected\' %}">\n            </select>\n            <label class="padding-x-xs">'+
+':</label>\n                <select id="perm_user_or_group" class="form-control" multiple title="'+
+((__t=( gettext('Nothing selected') ))==null?'':__t)+
+'">\n                    <option>1</option>\n                    <option>2</option>\n                    <option>3</option>\n                </select>\n            </div>  \n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('Type') ))==null?'':__t)+
-':</label>\n            <select name="access_type">\n                <option selected value="allow">'+
+':</label>\n                <select name="access_type">\n                    <option selected value="allow">'+
 ((__t=( gettext('Allow') ))==null?'':__t)+
-'</option>\n                <option value="deny">'+
+'</option>\n                    <option value="deny">'+
 ((__t=( gettext('Deny') ))==null?'':__t)+
-'</option>\n            </select>\n            <formset class="vertical">\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox" \n                    name="change_perm">'+
+'</option>\n                </select>\n            </div>\n            <formset class="d-flex flex-column">\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="change_perm">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Change Permissions') ))==null?'':__t)+
-'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox" \n                    name="take_ownership">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="take_ownership">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Take Ownership') ))==null?'':__t)+
-'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox"\n                    name="read"\n                    >'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="read">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Read') ))==null?'':__t)+
-'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox"\n                    name="write"\n                    >'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="write">\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Write') ))==null?'':__t)+
-'\n                </label>\n                <label class="padding-x-xs horizonal">\n                    <input class="margin-right-sm" \n                    type="checkbox"\n                    name="delete"\n                    >'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm" type="checkbox" name="delete">\n                    <label class="padding-x-xs horizonal"> '+
 ((__t=( gettext('Delete') ))==null?'':__t)+
-'\n                </label>\n            </formset>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
+'</label>\n                </div>\n            </formset>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
 ((__t=( gettext('Apply') ))==null?'':__t)+
 '\n            </button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">\n                '+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
