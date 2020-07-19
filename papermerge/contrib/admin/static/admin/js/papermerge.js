@@ -19079,7 +19079,9 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
   }
 
   url() {
-    return `/node/${node.id}/access`;
+    if (this.node) {
+      return `/node/${this.node.id}/access`;
+    }
   }
 
   parse(response, options) {
@@ -20805,7 +20807,9 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\n    <div class="modal-content">\n        <div class="modal-header">\n            <h5 class="modal-title">'+
 ((__t=( gettext('Access') ))==null?'':__t)+
-'</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-plus mr-1 text-success"></i>'+
+' ('+
+((__t=( node.get('title') ))==null?'':__t)+
+')</h1>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <ul id="permission_actions" class="nav nav-pills">\n                <li class="mx-1">\n                    <button id="create_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-plus mr-1 text-success"></i>'+
 ((__t=( gettext('Create') ))==null?'':__t)+
 '\n                    </button>\n                </li>\n                <li class="mx-1">\n                    <button id="edit_perm" class="btn btn-light btn-bordered">\n                        <i class="fa fa-edit mr-1 text-success"></i>'+
 ((__t=( gettext('Edit') ))==null?'':__t)+
@@ -21883,7 +21887,8 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_3__["AccessCollection"]([], {
       'node': node
     });
-    this.acc_collection.fetch(); // deleted items will be moved to this collection
+    this.acc_collection.fetch();
+    this.node = node; // deleted items will be moved to this collection
     // and then passed to server side
 
     this.deleted_acc = new _models_access__WEBPACK_IMPORTED_MODULE_3__["AccessCollection"]([], {});
@@ -22027,7 +22032,8 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      acc_collection: this.acc_collection
+      acc_collection: this.acc_collection,
+      node: this.node
     }));
     this.$el.html(compiled);
     this.$el.modal();
@@ -22858,9 +22864,11 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   }
 
   get_selection() {
-    return underscore__WEBPACK_IMPORTED_MODULE_1__["default"].filter(this.browse.nodes.models, function (item) {
+    let result;
+    result = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].filter(this.browse.nodes.models, function (item) {
       return item.get('selected') == true;
     });
+    return result;
   }
 
   open_node(event) {
