@@ -191,7 +191,7 @@ class Access(models.Model):
             self.permissions.add(*perms)
 
     def update_from(self, access):
-        if not self.match(access):
+        if not self != access:
             return False
 
         self.access_type = access.access_type
