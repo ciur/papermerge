@@ -661,7 +661,7 @@ class TestAccessModel(TestCase):
         Margaret decides to grant read access to elizabet on folder (f2).
         Expected:
             * elizabet has read access to (f2)
-            * elizabet does  *NOT* has read access to (f1)
+            * elizabet does *NOT* have read access to (f1)
         """
         # (f1)
         margaret_privat = Folder.objects.create(
