@@ -19073,7 +19073,9 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
   }
 
   initialize(model, options) {
-    this.node = options['node'];
+    if (options) {
+      this.node = options.node;
+    }
   }
 
   url() {
@@ -19094,6 +19096,33 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
 
     this.trigger('change');
     return access;
+  }
+
+  save_access(deleted_collection) {
+    let token, post_data, request;
+    token = jquery__WEBPACK_IMPORTED_MODULE_1___default()("[name=csrfmiddlewaretoken]").val();
+    post_data = {
+      'add': [],
+      'delete': []
+    };
+    post_data['add'] = this.models.map(function (models) {
+      return models.attributes;
+    });
+    post_data['delete'] = deleted_collection.models.map(function (models) {
+      return models.attributes;
+    });
+    jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajaxSetup({
+      headers: {
+        'X-CSRFToken': token
+      }
+    });
+    request = jquery__WEBPACK_IMPORTED_MODULE_1___default.a.ajax({
+      method: "POST",
+      url: this.url(),
+      data: JSON.stringify(post_data),
+      contentType: "application/json",
+      dataType: 'json'
+    });
   }
 
 }
@@ -21850,7 +21879,10 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     this.acc_collection = new _models_access__WEBPACK_IMPORTED_MODULE_3__["AccessCollection"]([], {
       'node': node
     });
-    this.acc_collection.fetch();
+    this.acc_collection.fetch(); // deleted items will be moved to this collection
+    // and then passed to server side
+
+    this.deleted_acc = new _models_access__WEBPACK_IMPORTED_MODULE_3__["AccessCollection"]([], {});
     this.listenTo(this.acc_collection, 'change', this.render);
     this.listenTo(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"], _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["PERMISSION_CHANGED"], this.on_perm_changed);
     this.render();
@@ -21868,6 +21900,14 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
       'click .apply': 'on_apply'
     };
     return event_map;
+  }
+
+  on_apply(event) {
+    this.$el.html('');
+    this.$el.modal('hide'); // removes attached events via event map
+
+    this.undelegateEvents();
+    this.acc_collection.save_access(this.deleted_acc);
   }
 
   on_close(event) {
@@ -21960,6 +22000,7 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
         return item.get('name') == attr['name'] && item.get('model') == attr['model'];
       });
 
+      that.deleted_acc.add(found);
       that.acc_collection.remove(found);
     });
 

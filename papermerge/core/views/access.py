@@ -87,14 +87,15 @@ def access_view(request, id):
                     apply_to_self=False
                 )
             if 'delete' in access_data.keys():
-                access_diffs = delete_access_perms(
-                    node,
-                    access_data['delete']
-                )
-                node.propagate_changes(
-                    diffs_set=access_diffs,
-                    apply_to_self=False
-                )
+                if len(access_data['delete']) > 0:
+                    access_diffs = delete_access_perms(
+                        node,
+                        access_data['delete']
+                    )
+                    node.propagate_changes(
+                        diffs_set=access_diffs,
+                        apply_to_self=False
+                    )
         else:  # POST but not ajax
             return HttpResponseBadRequest()
 
