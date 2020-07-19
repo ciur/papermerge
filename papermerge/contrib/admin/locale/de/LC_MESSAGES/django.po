@@ -13,6 +13,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+# papermerge-js/src/js/models/permission.js
+msgid "Full Control"
+msgstr "Vollständige Kontrolle"
+
+msgid "Read & Write"
+msgstr "Lesen & Schreiben"
+
+msgid "Read & Write & Delete"
+msgstr "Lesen & Schreiben & Löschen"
+
+msgid "User Defined"
+msgstr "Benutzerdefiniert"
 
 #: papermerge-js/src/js/templates/permission_editor.html
 msgid "Permission Editor"

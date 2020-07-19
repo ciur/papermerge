@@ -20012,6 +20012,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+
 
 
 
@@ -20070,6 +20072,10 @@ class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
 
   static get DEL() {
     return 'delete';
+  }
+
+  human_access_type() {
+    return Object(_utils__WEBPACK_IMPORTED_MODULE_3__["capitalize"])(this.get('access_type'));
   }
 
   human_perms() {
@@ -20791,7 +20797,7 @@ __p+='\n                        <tr data-cid="'+
 '">\n                            <td>'+
 ((__t=( item.get('name') ))==null?'':__t)+
 '</td>\n                            <td>'+
-((__t=( item.get('access_type') ))==null?'':__t)+
+((__t=( gettext(item.human_access_type()) ))==null?'':__t)+
 '</td>\n                            <td>'+
 ((__t=( gettext(item.human_perms()) ))==null?'':__t)+
 '</td>\n                        </tr>\n                    ';
@@ -21551,11 +21557,12 @@ class DgTextOverlay {
 /*!*************************!*\
   !*** ./src/js/utils.js ***!
   \*************************/
-/*! exports provided: human_size, find_by_id, get_parent_id, value, insert, proxy_click, dglReady */
+/*! exports provided: capitalize, human_size, find_by_id, get_parent_id, value, insert, proxy_click, dglReady */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "capitalize", function() { return capitalize; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "human_size", function() { return human_size; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find_by_id", function() { return find_by_id; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_parent_id", function() { return get_parent_id; });
@@ -21566,6 +21573,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 String.prototype.format = function () {
   var i = 0,
