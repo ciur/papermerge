@@ -308,6 +308,72 @@ class TestAccessModel(TestCase):
         self.W = Permission.objects.get(codename=WRITE)
         self.D = Permission.objects.get(codename=DELETE)
 
+    def test_create_access_from_another_group_based_access(self):
+        """
+        Given an access a1 associated to a group GroupX.
+        New access a2 is created from a1.
+        Expected: access a2 will have associated GroupX as well.
+        """
+        new_folder = Folder.objects.create(
+            title="creator_owns_me",
+            user=self.uploader_user
+        )
+
+        Group.objects.create(name="GroupX")
+
+        a1 = create_access(
+            node=new_folder,
+            model_type=Access.MODEL_GROUP,
+            name="GroupX",
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True
+            }  # allow read access to margaret
+        )
+
+        a2 = Access.create(
+            node=new_folder,
+            access_inherited=True,
+            access=a1
+        )
+        self.assertEqual(
+            a2.group.name,
+            "GroupX"
+        )
+
+    def test_create_access_from_another_user_based_access(self):
+        """
+        Given an access a1 associated to a user margaret.
+        New access a2 is created from a1.
+        Expected: access a2 will have associated user margaret as well.
+        """
+        new_folder = Folder.objects.create(
+            title="creator_owns_me",
+            user=self.uploader_user
+        )
+
+        a1 = create_access(
+            node=new_folder,
+            model_type=Access.MODEL_USER,
+            name="margaret",
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True
+            }  # allow read access to margaret
+        )
+
+        a2 = Access.create(
+            node=new_folder,
+            access_inherited=True,
+            access=a1
+        )
+        self.assertEqual(
+            a2.user.username,
+            "margaret"
+        )
+
     def test_newly_created_folder_owner_full_right(self):
         """
         The owner of the newly created folder has full

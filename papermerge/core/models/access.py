@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -69,17 +70,30 @@ class Access(models.Model):
     )
 
     def create(node, access_inherited, access):
-        new_access = Access.objects.create(
-            user=access.user,
-            access_type=access.access_type,
-            node=node,
-            access_inherited=access_inherited
-        )
+        if access.user:
+            new_access = Access.objects.create(
+                user=access.user,
+                access_type=access.access_type,
+                node=node,
+                access_inherited=access_inherited
+            )
+        elif access.group:
+            new_access = Access.objects.create(
+                group=access.group,
+                access_type=access.access_type,
+                node=node,
+                access_inherited=access_inherited
+            )
+        else:
+            raise ValueError(
+                "Access object must have associated either user or group"
+            )
+
         new_access.permissions.add(
             *access.permissions.all()
         )
 
-        return access
+        return new_access
 
     def perms_codenames(self):
         return {p.codename for p in self.permissions.all()}
@@ -89,10 +103,10 @@ class Access(models.Model):
         #    p.codename for p in self.permissions.all()
         #]
         #perms = 'PPP'
-        name = ''
+        name = '-'
         if self.user:
             name = f"User({self.user.username})"
-        else:
+        elif self.group:
             name = f"Group({self.group.name})"
 
         typ = self.access_type
@@ -109,9 +123,12 @@ class Access(models.Model):
         ]
 
     def __hash__(self):
+
+        name = ''
+
         if self.user:
             name = f"User({self.user.username})"
-        else:
+        elif self.group:
             name = f"Group({self.group.name})"
 
         typ = self.access_type
@@ -191,7 +208,7 @@ class Access(models.Model):
             self.permissions.add(*perms)
 
     def update_from(self, access):
-        if not self != access:
+        if self != access:
             return False
 
         self.access_type = access.access_type
