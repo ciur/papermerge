@@ -10425,6 +10425,14 @@ aside a.download {
   background-color: #e6f5ff;
   outline: 1px solid #A6DAFF; }
 
+#access_items tr.disabled {
+  background-color: #ececec;
+  color: #b9b9b9; }
+
+#access_items tr.disabled:hover {
+  background-color: #ececec;
+  outline: None; }
+
 p a {
   text-decoration: underline; }
 

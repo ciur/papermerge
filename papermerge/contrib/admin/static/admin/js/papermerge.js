@@ -20823,7 +20823,11 @@ __p+='<div class="modal-dialog modal-lg modal-dialog-centered" role="document">\
  for (i=0; i < acc_collection.models.length; i++) { 
 __p+='\n                        ';
  item = acc_collection.models[i]; 
-__p+='\n                        <tr data-cid="'+
+__p+='\n                        <tr class="';
+ if (item.get('access_inherited')) {  
+__p+='disabled';
+ } 
+__p+='" data-cid="'+
 ((__t=( item.cid  ))==null?'':__t)+
 '" data-model="'+
 ((__t=( item.get('model')  ))==null?'':__t)+
@@ -21917,6 +21921,11 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
 
   on_item_click(event) {
     let $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+
+    if ($target.hasClass('disabled')) {
+      return;
+    }
+
     $target.toggleClass('checked');
   }
 
