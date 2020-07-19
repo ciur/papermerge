@@ -27,6 +27,17 @@ def create_margaret_user():
     return user
 
 
+def create_elizabet_user():
+    user = User.objects.create_user(
+        'elizabet',
+        'elizabet@mail.com',
+        is_active=True,
+    )
+    user.save()
+
+    return user
+
+
 def create_uploader_user():
     user = User.objects.create_user(
         'uploader',

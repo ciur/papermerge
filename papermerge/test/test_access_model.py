@@ -2,7 +2,11 @@ from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from papermerge.core.auth import create_access, set_access_perms
 from papermerge.core.models import Access, Diff, Folder
-from papermerge.test.utils import create_margaret_user, create_uploader_user
+from papermerge.test.utils import (
+    create_margaret_user,
+    create_uploader_user,
+    create_elizabet_user
+)
 
 READ = Access.PERM_READ
 WRITE = Access.PERM_WRITE
@@ -304,6 +308,7 @@ class TestAccessModel(TestCase):
     def setUp(self):
         self.margaret_user = create_margaret_user()
         self.uploader_user = create_uploader_user()
+        self.elizabet_user = create_elizabet_user()
         self.R = Permission.objects.get(codename=READ)
         self.W = Permission.objects.get(codename=WRITE)
         self.D = Permission.objects.get(codename=DELETE)
@@ -645,3 +650,42 @@ class TestAccessModel(TestCase):
                 self.uploader_user.has_perms(FULL_ACCESS, folder),
                 f"Failed for folder {folder.title}"
             )
+
+    def test_no_colateral_effect_on_siblings(self):
+        """
+        User margaret creates two folders:
+
+            * margaret_privat  (f1)
+            * from-margaret-to-elizabet (f2)
+
+        Margaret decides to grant read access to elizabet on folder (f2).
+        Expected:
+            * elizabet has read access to (f2)
+            * elizabet does  *NOT* has read access to (f1)
+        """
+        # (f1)
+        margaret_privat = Folder.objects.create(
+            title="margaret_privat",
+            user=self.margaret_user
+        )
+        # (f2)
+        for_elizabet = Folder.objects.create(
+            title="from-margaret-to-elizabet",
+            user=self.margaret_user,
+        )
+        create_access(
+            node=for_elizabet,
+            model_type=Access.MODEL_USER,
+            name=self.elizabet_user,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True
+            }  # allow read access to elizabet
+        )
+        self.assertTrue(
+            self.elizabet_user.has_perm(READ, for_elizabet)
+        )
+        self.assertFalse(
+            self.elizabet_user.has_perm(READ, margaret_privat)
+        )
