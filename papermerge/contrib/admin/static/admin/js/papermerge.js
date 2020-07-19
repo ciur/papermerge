@@ -19048,41 +19048,28 @@ class DgEvents {
 /*!*********************************!*\
   !*** ./src/js/models/access.js ***!
   \*********************************/
-/*! exports provided: Access, AccessCollection */
+/*! exports provided: AccessCollection */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Access", function() { return Access; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccessCollection", function() { return AccessCollection; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _models_permission__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/permission */ "./src/js/models/permission.js");
 
 
 
-class Access extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
-  urlRoot() {
-    return '/access/';
-  }
 
-  toJSON() {
-    let dict = {
-      id: this.get('id'),
-      number: this.get('number')
-    };
-    return dict;
-  }
-
-}
 class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"] {
   /****
       All access for specific node
   ****/
   get model() {
-    return Access;
+    return _models_permission__WEBPACK_IMPORTED_MODULE_3__["Permission"];
   }
 
   initialize(model, options) {
@@ -19102,7 +19089,7 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
     });
 
     underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(access, function (item) {
-      that.add(new Access(item));
+      that.add(new _models_permission__WEBPACK_IMPORTED_MODULE_3__["Permission"](item));
     });
 
     this.trigger('change');
@@ -20085,6 +20072,35 @@ class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     return 'delete';
   }
 
+  human_perms() {
+    let text, permissions;
+    let ch;
+    let own;
+    let write;
+    let read;
+    let del;
+    permissions = this.get('permissions');
+    ch = permissions[Permission.CHPERM];
+    own = permissions[Permission.OWN];
+    write = permissions[Permission.WRITE];
+    read = permissions[Permission.READ];
+    del = permissions[Permission.DEL];
+
+    if (ch && own && write && read && del) {
+      text = 'Full Control';
+    } else if (read && write && !ch && !own && !del) {
+      text = 'Read & Write';
+    } else if (read && !write && !ch && !own && !del) {
+      text = 'Read';
+    } else if (read && write && !ch && !own && del) {
+      text = 'Read & Write & Delete';
+    } else {
+      text = 'User Defined';
+    }
+
+    return text;
+  }
+
 }
 
 /***/ }),
@@ -20776,7 +20792,9 @@ __p+='\n                        <tr data-cid="'+
 ((__t=( item.get('name') ))==null?'':__t)+
 '</td>\n                            <td>'+
 ((__t=( item.get('access_type') ))==null?'':__t)+
-'</td>\n                            <td>Full Control</td>\n                        </tr>\n                    ';
+'</td>\n                            <td>'+
+((__t=( gettext(item.human_perms()) ))==null?'':__t)+
+'</td>\n                        </tr>\n                    ';
  } 
 __p+='\n                </tbody> <!-- end of body -->\n            </table> <!--  table -->\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
 ((__t=( gettext('Apply') ))==null?'':__t)+
@@ -21783,23 +21801,41 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
         perm;
 
     underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(users, function (item) {
-      perm = new _models_permission__WEBPACK_IMPORTED_MODULE_4__["Permission"](permission);
+      perm = new _models_permission__WEBPACK_IMPORTED_MODULE_4__["Permission"]();
+      perm.set({
+        'permissions': permission.get('permissions')
+      });
       perm.set({
         'name': item
       });
       perm.set({
         'model': 'user'
       });
+      perm.set({
+        'access_type': permission.get('access_type')
+      });
+      perm.set({
+        'access_inherited': permission.get('access_inherited')
+      });
       that.acc_collection.add(perm);
     });
 
     underscore__WEBPACK_IMPORTED_MODULE_1__["default"].each(groups, function (item) {
-      perm = new _models_permission__WEBPACK_IMPORTED_MODULE_4__["Permission"](permission);
+      perm = new _models_permission__WEBPACK_IMPORTED_MODULE_4__["Permission"]();
+      perm.set({
+        'permissions': permission.get('permissions')
+      });
       perm.set({
         'name': item
       });
       perm.set({
         'model': 'group'
+      });
+      perm.set({
+        'access_type': permission.get('access_type')
+      });
+      perm.set({
+        'access_inherited': permission.get('access_inherited')
       });
       that.acc_collection.add(perm);
     });
@@ -23733,6 +23769,7 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
         that._groups.push(name);
       }
     });
+    console.log(this._groups);
   }
 
   on_access_type(event) {
@@ -23762,7 +23799,9 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
   on_apply(event) {
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PERMISSION_CHANGED"], this._permission, this._users, this._groups);
     this.$el.html('');
-    this.$el.modal('hide');
+    this.$el.modal('hide'); // removes attached events via event map
+
+    this.undelegateEvents();
   }
 
   render() {
