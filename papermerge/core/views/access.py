@@ -36,6 +36,7 @@ def access_view(request, id):
                 item['name'] = acc.group.name
                 item['model'] = 'group'
 
+            item['id'] = acc.id
             item['access_type'] = acc.access_type
             item['access_inherited'] = acc.access_inherited
             item['permissions'] = get_access_perms_as_hash(

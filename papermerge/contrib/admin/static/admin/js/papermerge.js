@@ -20024,6 +20024,7 @@ let ALLOWED_TYPES = [ALLOW, DENY];
 class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
   defaults() {
     return {
+      id: '',
       name: '',
       // e.g. admin
       model: '',
@@ -20794,6 +20795,8 @@ __p+='\n                        <tr data-cid="'+
 ((__t=( item.get('model')  ))==null?'':__t)+
 '"  data-name="'+
 ((__t=( item.get('name')  ))==null?'':__t)+
+'" data-id="'+
+((__t=( item.get('id')  ))==null?'':__t)+
 '">\n                            <td>'+
 ((__t=( item.get('name') ))==null?'':__t)+
 '</td>\n                            <td>'+
@@ -20802,7 +20805,7 @@ __p+='\n                        <tr data-cid="'+
 ((__t=( gettext(item.human_perms()) ))==null?'':__t)+
 '</td>\n                        </tr>\n                    ';
  } 
-__p+='\n                </tbody> <!-- end of body -->\n            </table> <!--  table -->\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">\n                '+
+__p+='\n                </tbody> <!-- end of body -->\n            </table> <!--  table -->\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs apply">\n                '+
 ((__t=( gettext('Apply') ))==null?'':__t)+
 '\n            </button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">\n                '+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
@@ -21785,6 +21788,7 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     this.acc_collection.fetch();
     this.listenTo(this.acc_collection, 'change', this.render);
     this.listenTo(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"], _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["PERMISSION_CHANGED"], this.on_perm_changed);
+    this.render();
   }
 
   events() {
@@ -21793,9 +21797,17 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
       'click #edit_perm': 'edit_perm',
       'click #delete_perm': 'delete_perm',
       'click #readonly_view_perm': 'readonly_view_perm',
-      'click #access_items tr': 'on_item_click'
+      'click #access_items tr': 'on_item_click',
+      'click .close': 'on_close',
+      'click .cancel': 'on_close',
+      'click .apply': 'on_apply'
     };
     return event_map;
+  }
+
+  on_close(event) {
+    // removes attached events via event map
+    this.undelegateEvents();
   }
 
   on_item_click(event) {
@@ -21858,7 +21870,18 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     perm_editor_view = new _permission_editor__WEBPACK_IMPORTED_MODULE_2__["PermissionEditorView"]();
   }
 
-  edit_perm(event) {}
+  edit_perm(event) {
+    let perm_editor_view, id, cid, found, checked_el;
+    checked_el = this.$el.find('tr.checked');
+    cid = checked_el.data('cid');
+    id = checked_el.data('id');
+    console.log(`edit_perm cid = ${cid}`);
+    found = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(this.acc_collection.models, function (item) {
+      console.log(`cid=${cid} und item.cid=${item.cid}`);
+      return item.cid == cid || item.get('id') == id;
+    });
+    console.log(`edit_perm found = ${found}`); // perm_editor_view = new PermissionEditorView();
+  }
 
   delete_perm(event) {
     let attrs = [],
