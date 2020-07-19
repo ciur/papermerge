@@ -20049,6 +20049,11 @@ class Permission extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     });
   }
 
+  get_perm(name) {
+    let permissions = this.get('permissions');
+    return permissions[name];
+  }
+
   set_type(access_type) {
     this.set({
       'access_type': access_type
@@ -21207,13 +21212,21 @@ __p+='<div class="modal-dialog modal-dialog-centered" role="document">    <div c
 ((__t=( gettext('Permission Editor') ))==null?'':__t)+
 '</h5>\n            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n              <span aria-hidden="true">&times;</span>\n            </button>\n        </div>\n        <div class="modal-body">\n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('User or Group') ))==null?'':__t)+
-':</label>\n                <select class="perm_user_or_group form-control" multiple title="'+
+':</label>\n                <select ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' class="perm_user_or_group form-control" multiple title="'+
 ((__t=( gettext('Nothing selected') ))==null?'':__t)+
 '">\n                    ';
  for (i=0; i < usergroups.models.length; i++) { 
 __p+='\n                        ';
  item = usergroups.models[i]; 
-__p+='\n                        <option data-model="'+
+__p+='\n                        <option ';
+ if (item.get('name') == permission.get('name') && item.get('model') == permission.get('model')) { 
+__p+=' selected ';
+ } 
+__p+=' data-model="'+
 ((__t=( item.get('model') ))==null?'':__t)+
 '">\n                            '+
 ((__t=( item.get('name') ))==null?'':__t)+
@@ -21221,19 +21234,71 @@ __p+='\n                        <option data-model="'+
  } 
 __p+='\n                </select>\n            </div>  \n            <div class="form-group">\n                <label class="padding-x-xs">'+
 ((__t=( gettext('Type') ))==null?'':__t)+
-':</label>\n                <select name="access_type" class="access_type">\n                    <option selected value="allow">'+
+':</label>\n                <select ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' name="access_type" class="access_type">\n                    <option ';
+ if ('allow' == permission.get('access_type')) { 
+__p+=' selected ';
+ } 
+__p+=' value="allow">'+
 ((__t=( gettext('Allow') ))==null?'':__t)+
-'</option>\n                    <option value="deny">'+
+'</option>\n                    <option ';
+ if ('deny' == permission.get('access_type')) { 
+__p+=' selected ';
+ } 
+__p+='  value="deny">'+
 ((__t=( gettext('Deny') ))==null?'':__t)+
-'</option>\n                </select>\n            </div>\n            <formset class="d-flex flex-column">\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="change_perm">\n                    <label class="padding-x-xs horizonal">'+
+'</option>\n                </select>\n            </div>\n            <formset class="d-flex flex-column">\n                <div class="form-check">\n                    <input ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' class="margin-right-sm checkbox" type="checkbox" name="change_perm" ';
+ if (permission.get_perm('change_perm')) { 
+__p+=' checked ';
+ } 
+__p+=' >\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Change Permissions') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="take_ownership">\n                    <label class="padding-x-xs horizonal">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' class="margin-right-sm checkbox" type="checkbox" name="take_ownership" ';
+ if (permission.get_perm('take_ownership')) { 
+__p+=' checked ';
+ } 
+__p+=' >\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Take Ownership') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="read">\n                    <label class="padding-x-xs horizonal">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' class="margin-right-sm checkbox" type="checkbox" name="read"\n                    ';
+ if (permission.get_perm('read')) { 
+__p+=' checked ';
+ } 
+__p+='\n                    >\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Read') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="write">\n                    <label class="padding-x-xs horizonal">'+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' class="margin-right-sm checkbox" type="checkbox" name="write"\n                    ';
+ if (permission.get_perm('write')) { 
+__p+=' checked ';
+ } 
+__p+='\n                    >\n                    <label class="padding-x-xs horizonal">'+
 ((__t=( gettext('Write') ))==null?'':__t)+
-'</label>\n                </div>\n                <div class="form-check">\n                    <input class="margin-right-sm checkbox" type="checkbox" name="delete">\n                    <label class="padding-x-xs horizonal"> '+
+'</label>\n                </div>\n                <div class="form-check">\n                    <input ';
+ if (!edit) { 
+__p+=' disabled ';
+ } 
+__p+=' class="margin-right-sm checkbox" type="checkbox" name="delete"\n                    ';
+ if (permission.get_perm('delete')) { 
+__p+=' checked ';
+ } 
+__p+='\n                    >\n                    <label class="padding-x-xs horizonal"> '+
 ((__t=( gettext('Delete') ))==null?'':__t)+
 '</label>\n                </div>\n            </formset>\n        </div>\n        <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs apply">\n                '+
 ((__t=( gettext('Apply') ))==null?'':__t)+
@@ -21871,16 +21936,9 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
   }
 
   edit_perm(event) {
-    let perm_editor_view, id, cid, found, checked_el;
-    checked_el = this.$el.find('tr.checked');
-    cid = checked_el.data('cid');
-    id = checked_el.data('id');
-    console.log(`edit_perm cid = ${cid}`);
-    found = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(this.acc_collection.models, function (item) {
-      console.log(`cid=${cid} und item.cid=${item.cid}`);
-      return item.cid == cid || item.get('id') == id;
-    });
-    console.log(`edit_perm found = ${found}`); // perm_editor_view = new PermissionEditorView();
+    let perm_editor_view, found;
+    found = this._first_selected();
+    perm_editor_view = new _permission_editor__WEBPACK_IMPORTED_MODULE_2__["PermissionEditorView"](found);
   }
 
   delete_perm(event) {
@@ -21908,7 +21966,12 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     this.render();
   }
 
-  readonly_view_perm(event) {}
+  readonly_view_perm(event) {
+    let perm_editor_view, found;
+    found = this._first_selected();
+    perm_editor_view = new _permission_editor__WEBPACK_IMPORTED_MODULE_2__["PermissionEditorView"](found, false // edit = false, i.e. open readonly view
+    );
+  }
 
   render() {
     let compiled, context;
@@ -21919,6 +21982,20 @@ class AccessView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     this.$el.html(compiled);
     this.$el.modal();
     return this;
+  }
+
+  _first_selected() {
+    /*
+     * Returns first selected Permission object
+    */
+    let checked_el, cid, id, found;
+    checked_el = this.$el.find('tr.checked');
+    cid = checked_el.data('cid');
+    id = checked_el.data('id');
+    found = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(this.acc_collection.models, function (item) {
+      return item.cid == cid || item.get('id') == id;
+    });
+    return found;
   }
 
 }
@@ -23759,13 +23836,14 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#permission-editor-modal');
   }
 
-  initialize(permission) {
+  initialize(permission, edit = true) {
     if (permission) {
       this._permission = permission;
     } else {
       this._permission = new _models_permission__WEBPACK_IMPORTED_MODULE_2__["Permission"]();
     }
 
+    this._edit = edit;
     this._users = [];
     this._groups = [];
     this._usergroups = new _models_user_group__WEBPACK_IMPORTED_MODULE_3__["UserGroupCollection"]();
@@ -23830,7 +23908,14 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
   }
 
   on_apply(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PERMISSION_CHANGED"], this._permission, this._users, this._groups);
+    if (this._edit) {
+      /* 
+         means form was opened in edit mode,
+         maybe something changed.
+       */
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PERMISSION_CHANGED"], this._permission, this._users, this._groups);
+    }
+
     this.$el.html('');
     this.$el.modal('hide'); // removes attached events via event map
 
@@ -23841,7 +23926,9 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'usergroups': this._usergroups
+      'usergroups': this._usergroups,
+      'permission': this._permission,
+      'edit': this._edit
     }));
     this.$el.html(compiled);
     this.$el.modal();
