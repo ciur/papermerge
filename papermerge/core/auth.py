@@ -262,7 +262,7 @@ class NodeAuthBackend:
     assigned directly to the node (object) or inherited via object's parent.
     Inheritance of access models happens during node creation or via user's
     management of access instances. In other words when deciding if user
-    is has permission for a node - node's parents are not consulted.
+    has permission for a node - node's parents are not consulted.
 
     Each Access model has one access type associated (ALLOW or DENY) and
     either one group or user, access model basically says:

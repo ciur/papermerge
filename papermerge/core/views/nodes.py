@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
-from papermerge.core.models import BaseTreeNode
+from papermerge.core.models import BaseTreeNode, Access
 from papermerge.core.models.utils import recursive_delete
 
 logger = logging.getLogger(__name__)
@@ -34,20 +34,20 @@ def browse_view(request, parent_id=None):
             parent_kv.append(item.to_dict())
 
     for node in nodes:
+        if request.user.has_perm(Access.PERM_READ, node):
+            node_dict = node.to_dict()
 
-        node_dict = node.to_dict()
+            if node.is_document():
+                node_dict['img_src'] = reverse(
+                    'core:preview',
+                    args=(node.id, 4, 1)
+                )
+                node_dict['document_url'] = reverse(
+                    'core:document',
+                    args=(node.id,)
+                )
 
-        if node.is_document():
-            node_dict['img_src'] = reverse(
-                'core:preview',
-                args=(node.id, 4, 1)
-            )
-            node_dict['document_url'] = reverse(
-                'core:document',
-                args=(node.id,)
-            )
-
-        nodes_list.append(node_dict)
+            nodes_list.append(node_dict)
 
     return HttpResponse(
         json.dumps(
