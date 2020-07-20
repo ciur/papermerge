@@ -6,7 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from papermerge.core.models import User
-from papermerge.core.forms import UserForm
+from papermerge.core.forms import (
+    UserFormWithoutPassword,
+    UserFormWithPassword
+)
 
 logger = logging.getLogger(__name__)
 
@@ -41,10 +44,10 @@ def user_view(request):
     username + password and then he/she will be able to edit further
     details.
     """
-    form = UserForm()
+    form = UserFormWithPassword()
 
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserFormWithPassword(request.POST)
         if form.is_valid():
 
             password1 = form.cleaned_data['password1']
@@ -82,7 +85,7 @@ def user_change_view(request, id):
     user = get_object_or_404(User, id=id)
     action_url = reverse('core:user_change', args=(id,))
 
-    form = UserForm(
+    form = UserFormWithoutPassword(
         request.POST or None, instance=user
     )
 
