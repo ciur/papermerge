@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
+from django.contrib.auth.password_validation import validate_password
 from knox.models import AuthToken
 from papermerge.core.models import User
 from django.forms.widgets import (
@@ -11,6 +12,18 @@ from django.forms.widgets import (
 
 
 class UserForm(forms.ModelForm):
+
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=8,
+        strip=True,
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        min_length=8,
+        strip=True,
+    )
 
     class Meta:
         model = User
@@ -33,6 +46,22 @@ class UserForm(forms.ModelForm):
                 (TextInput, EmailInput, ChoiceWidget)
             ):
                 visible.field.widget.attrs['class'] = 'form-control'
+
+    def clean_password1(self):
+        password1 = self.cleaned_data.get('password1')
+        try:
+            validate_password(password1, self.instance)
+        except forms.ValidationError as error:
+            self.add_error('password1', error)
+        return password1
+
+    def clean_password2(self):
+        password2 = self.cleaned_data.get('password2')
+        try:
+            validate_password(password2, self.instance)
+        except forms.ValidationError as error:
+            self.add_error('password2', error)
+        return password2
 
 
 class GroupForm(forms.ModelForm):

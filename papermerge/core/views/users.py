@@ -41,18 +41,29 @@ def user_view(request):
     username + password and then he/she will be able to edit further
     details.
     """
-    if request.method == 'POST':
-
-        form = UserForm(request.POST)
-
-        if form.is_valid():
-            user = form.save()
-
-            return redirect(
-                reverse('core:user_change', args=(user.id, ))
-            )
-
     form = UserForm()
+
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+
+            if password1 == password2:
+
+                user = form.save()
+                user.set_password(password1)
+                user.save()
+
+                return redirect(
+                    reverse('core:user_change', args=(user.id, ))
+                )
+            else:
+                form.add_error(
+                    'password1',
+                    _('Password and Password confirmation does not match')
+                )
 
     return render(
         request,

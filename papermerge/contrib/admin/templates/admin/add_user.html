@@ -46,10 +46,12 @@
               </div>
 
                 <div class="form-group">
+                  {{ form.password1.errors }}
                  <label class="mb-10" for="id_password1">{% trans "Password" %}</label>
                    <input id="id_password1" class="form-control" type="password" placeholder='{% trans "password" %}...' name="password1" required>
                 </div>
                 <div class="form-group">
+                  {{ form.password2.errors }}
                  <label class="mb-10" for="id_login">{% trans "Password confirmation" %}</label>
                    <input id="id_email" class="form-control" type="password" placeholder='{% trans "password (confirmation)" %}...' name="password2" required>
                 </div>

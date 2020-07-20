@@ -218,6 +218,9 @@ msgstr ""
 msgid "password (confirmation)"
 msgstr "Passwort (nochmal)"
 
+msgid "Password and Password confirmation does not match"
+msgstr "Passwort und Passwortbestätigung sind nicht identisch"
+
 #: papermerge/contrib/admin/templates/admin/add_user.html:58
 msgid "Continue"
 msgstr "Fortsetzen"
