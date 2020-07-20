@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-17 13:46+0000\n"
+"POT-Creation-Date: 2020-07-20 04:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -12,55 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-# papermerge-js/src/js/models/permission.js
-msgid "Full Control"
-msgstr "Vollständige Kontrolle"
-
-msgid "Read & Write"
-msgstr "Lesen & Schreiben"
-
-msgid "Read & Write & Delete"
-msgstr "Lesen & Schreiben & Löschen"
-
-msgid "User Defined"
-msgstr "Benutzerdefiniert"
-
-#: papermerge-js/src/js/templates/permission_editor.html
-msgid "Permission Editor"
-msgstr "Berechtigungseditor"
-
-msgid "Allow"
-msgstr "Zulassen"
-
-msgid "Deny"
-msgstr "Verweigern"
-
-msgid "Read"
-msgstr "Lesen"
-
-msgid "Write"
-msgstr "Schreiben"
-
-msgid "Change Permissions"
-msgstr "Berechtigungen ändern"
-
-msgid "Take Ownership"
-msgstr "Eingentümerschaft übernehmen"
-
-#: papermerge-js/src/js/templates/metadata.html
-msgid "Metadata"
-msgstr "Metadaten"
-
-#: papermerge-js/src/js/templates/access.html
-msgid "Edit"
-msgstr "Bearbeiten"
-
-msgid "View"
-msgstr "Aussicht"
-
-msgid "Apply"
-msgstr "Anwenden"
 
 #: papermerge/contrib/admin/templates/account/base.html:7
 msgid "Log in"
@@ -71,11 +22,13 @@ msgid "Sign in to start your session"
 msgstr "Melden Sie sich an, um Ihre Sitzung zu starten"
 
 #: papermerge/contrib/admin/templates/account/login.html:28
+#: papermerge/contrib/admin/templates/admin/add_user.html:44
 #: papermerge/contrib/admin/templates/admin/users.html:33
 msgid "Username"
 msgstr "Benutzername"
 
 #: papermerge/contrib/admin/templates/account/login.html:36
+#: papermerge/contrib/admin/templates/admin/add_user.html:49
 msgid "Password"
 msgstr "Passwort"
 
@@ -126,6 +79,7 @@ msgid "New Password"
 msgstr "Neues Passwort"
 
 #: papermerge/contrib/admin/templates/account/password_change.html:45
+#: papermerge/contrib/admin/templates/admin/add_user.html:50
 #, fuzzy
 #| msgid "Password"
 msgid "password"
@@ -217,35 +171,6 @@ msgstr "Benutzer"
 msgid "All rights reserved"
 msgstr "Alle Rechte vorbehalten"
 
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:22
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:25
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:76
-msgid "User or Group"
-msgstr "Benutzer oder Gruppe"
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:60
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:116
-#: papermerge/contrib/admin/templates/admin/document.html:25
-#: papermerge/contrib/admin/templates/admin/document_404.html:44
-#: papermerge/contrib/admin/templates/admin/index.html:64
-msgid "Delete"
-msgstr ""
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:65
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:121
-msgid "OK"
-msgstr "OK"
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:66
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:122
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: papermerge/contrib/admin/templates/admin/_forms.js.html:73
-msgid "Permission View"
-msgstr ""
-
 #: papermerge/contrib/admin/templates/admin/_nav.html:13
 msgid "Search"
 msgstr ""
@@ -269,20 +194,30 @@ msgstr "Abmelden"
 msgid "New User"
 msgstr "Neuer Benutzer"
 
-msgid "Delete selected users"
-msgstr "Ausgewählte Benutzer löschen"
-
 #: papermerge/contrib/admin/templates/admin/add_user.html:16
 msgid ""
-"\n"
-"Zuerst geben Sie einen Benutzernamen und ein Passwort ein. "
-"Anschließend können Sie weitere Benutzeroptionen bearbeiten.\n"
-"            "
+"First, enter a username and password. Then, you’ll be able to edit more user "
+"options."
 msgstr ""
-"\n"
-"              First, enter a username and password. Then, you’ll be able to "
-"edit more user options.\n"
-"   "
+"Zuerst geben Sie einen Benutzernamen und ein Passwort ein. "
+"Anschließend können Sie weitere Benutzeroptionen bearbeiten."
+
+#: papermerge/contrib/admin/templates/admin/add_user.html:45
+#, fuzzy
+#| msgid "Username"
+msgid "username"
+msgstr "Benutzername"
+
+#: papermerge/contrib/admin/templates/admin/add_user.html:53
+msgid "Password confirmation"
+msgstr ""
+
+#: papermerge/contrib/admin/templates/admin/add_user.html:54
+#, fuzzy
+#| msgid "password (again)"
+msgid "password (confirmation)"
+msgstr "Passwort (nochmal)"
+
 #: papermerge/contrib/admin/templates/admin/add_user.html:58
 msgid "Continue"
 msgstr "Fortsetzen"
@@ -310,15 +245,21 @@ msgstr "Sprache"
 msgid "Notes"
 msgstr "Notizen"
 
+#: papermerge/contrib/admin/templates/admin/document.html:25
+#: papermerge/contrib/admin/templates/admin/document_404.html:44
+#: papermerge/contrib/admin/templates/admin/index.html:66
+msgid "Delete"
+msgstr ""
+
 #: papermerge/contrib/admin/templates/admin/document.html:39
 #: papermerge/contrib/admin/templates/admin/document_404.html:13
-#: papermerge/contrib/admin/templates/admin/index.html:34
+#: papermerge/contrib/admin/templates/admin/index.html:36
 msgid "Actions"
 msgstr "Aktion"
 
 #: papermerge/contrib/admin/templates/admin/document.html:43
 #: papermerge/contrib/admin/templates/admin/document_404.html:40
-#: papermerge/contrib/admin/templates/admin/index.html:57
+#: papermerge/contrib/admin/templates/admin/index.html:59
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -328,13 +269,13 @@ msgstr "Seite löschen"
 
 #: papermerge/contrib/admin/templates/admin/document.html:51
 #: papermerge/contrib/admin/templates/admin/document_404.html:21
-#: papermerge/contrib/admin/templates/admin/index.html:38
+#: papermerge/contrib/admin/templates/admin/index.html:40
 msgid "Cut"
 msgstr "Ausschneiden"
 
 #: papermerge/contrib/admin/templates/admin/document.html:55
 #: papermerge/contrib/admin/templates/admin/document_404.html:27
-#: papermerge/contrib/admin/templates/admin/index.html:44
+#: papermerge/contrib/admin/templates/admin/index.html:46
 msgid "Paste"
 msgstr "Einfügen"
 
@@ -343,12 +284,12 @@ msgid "Apply Reorder Changes"
 msgstr "Änderungen anwenden"
 
 #: papermerge/contrib/admin/templates/admin/document_404.html:31
-#: papermerge/contrib/admin/templates/admin/index.html:48
+#: papermerge/contrib/admin/templates/admin/index.html:50
 msgid "Documents & Folders"
 msgstr "Dokumente & Ordner"
 
 #: papermerge/contrib/admin/templates/admin/document_404.html:34
-#: papermerge/contrib/admin/templates/admin/index.html:51
+#: papermerge/contrib/admin/templates/admin/index.html:53
 msgid "Pages"
 msgstr "Seiten"
 
@@ -384,9 +325,6 @@ msgstr "Ausgewählte Gruppen löschen"
 msgid "Go"
 msgstr "Los!"
 
-msgid "Group %(name)s was successfully created."
-msgstr "Gruppe %(name)s wurde erstellt."
-
 #: papermerge/contrib/admin/templates/admin/groups.html:32
 msgid "Group Name"
 msgstr "Gruppenname"
@@ -395,15 +333,15 @@ msgstr "Gruppenname"
 msgid "No groups defined so far"
 msgstr "Bisher keine Gruppen definiert"
 
-#: papermerge/contrib/admin/templates/admin/index.html:15
+#: papermerge/contrib/admin/templates/admin/index.html:16
 msgid "Upload"
 msgstr "Hochladen"
 
-#: papermerge/contrib/admin/templates/admin/index.html:27
+#: papermerge/contrib/admin/templates/admin/index.html:29
 msgid "New Folder"
 msgstr "Ordner erstellen"
 
-#: papermerge/contrib/admin/templates/admin/index.html:60
+#: papermerge/contrib/admin/templates/admin/index.html:62
 msgid "Access"
 msgstr "Berechtigung"
 
@@ -477,6 +415,10 @@ msgid ""
 "            "
 msgstr ""
 
+#: papermerge/contrib/admin/templates/admin/users.html:18
+msgid "Delete selected users"
+msgstr "Ausgewählte Benutzer löschen"
+
 #: papermerge/contrib/admin/templates/admin/users.html:34
 msgid "Email Address"
 msgstr "Email Adresse"
@@ -496,6 +438,64 @@ msgstr "Aktiv Status"
 #: papermerge/contrib/admin/templates/admin/users.html:38
 msgid "Last Login"
 msgstr "Letzte Anmeldung"
+
+# papermerge-js/src/js/models/permission.js
+#~ msgid "Full Control"
+#~ msgstr "Vollständige Kontrolle"
+
+#~ msgid "Read & Write"
+#~ msgstr "Lesen & Schreiben"
+
+#~ msgid "Read & Write & Delete"
+#~ msgstr "Lesen & Schreiben & Löschen"
+
+#~ msgid "User Defined"
+#~ msgstr "Benutzerdefiniert"
+
+#~ msgid "Permission Editor"
+#~ msgstr "Berechtigungseditor"
+
+#~ msgid "Allow"
+#~ msgstr "Zulassen"
+
+#~ msgid "Deny"
+#~ msgstr "Verweigern"
+
+#~ msgid "Read"
+#~ msgstr "Lesen"
+
+#~ msgid "Write"
+#~ msgstr "Schreiben"
+
+#~ msgid "Change Permissions"
+#~ msgstr "Berechtigungen ändern"
+
+#~ msgid "Take Ownership"
+#~ msgstr "Eingentümerschaft übernehmen"
+
+#~ msgid "Metadata"
+#~ msgstr "Metadaten"
+
+#~ msgid "Edit"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "View"
+#~ msgstr "Aussicht"
+
+#~ msgid "Apply"
+#~ msgstr "Anwenden"
+
+#~ msgid "User or Group"
+#~ msgstr "Benutzer oder Gruppe"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Cancel"
+#~ msgstr "Abbrechen"
+
+#~ msgid "Group %(name)s was successfully created."
+#~ msgstr "Gruppe %(name)s wurde erstellt."
 
 #~ msgid "New Name"
 #~ msgstr "Neuer Name"

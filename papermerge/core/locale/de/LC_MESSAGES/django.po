@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-17 13:46+0000\n"
+"POT-Creation-Date: 2020-07-20 04:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -17,19 +17,19 @@ msgstr ""
 msgid "Number of hours this token will be valid (4464 hours ~ 6 months)"
 msgstr "Anzahl der Stunden - dieser Token gültig ist (4464 Stunden ~ 6 Monate)"
 
-#: papermerge/core/models/access.py:43
+#: papermerge/core/models/access.py:44
 msgid "Allow"
 msgstr ""
 
-#: papermerge/core/models/access.py:44
+#: papermerge/core/models/access.py:45
 msgid "Deny"
 msgstr ""
 
-#: papermerge/core/models/access.py:54
+#: papermerge/core/models/access.py:55
 msgid "group"
 msgstr ""
 
-#: papermerge/core/models/access.py:61
+#: papermerge/core/models/access.py:62
 msgid "user"
 msgstr ""
 
