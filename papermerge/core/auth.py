@@ -309,7 +309,7 @@ class NodeAuthBackend:
 
         for access in obj.access_set.filter(access_type=access_type):
             if not access.group:
-                return set()
+                continue
 
             if user_obj.groups.filter(name=access.group.name).exists():
                 return {perm.codename for perm in access.permissions.all()}

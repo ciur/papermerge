@@ -7,7 +7,6 @@ def create_root_user():
     user = User.objects.create_user(
         'admin',
         'admin@mail.com',
-        'xxxyyy123',
         is_active=True,
         is_superuser=True,
     )

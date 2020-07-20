@@ -3,6 +3,7 @@ from django.test import TestCase
 from papermerge.core.auth import create_access, set_access_perms
 from papermerge.core.models import Access, Diff, Folder
 from papermerge.test.utils import (
+    create_root_user,
     create_margaret_user,
     create_uploader_user,
     create_elizabet_user
@@ -688,4 +689,74 @@ class TestAccessModel(TestCase):
         )
         self.assertFalse(
             self.elizabet_user.has_perm(READ, margaret_privat)
+        )
+
+
+class TrickyScenario(TestCase):
+
+    def setUp(self):
+        self.margaret_user = create_margaret_user()
+        self.elizabet_user = create_elizabet_user()
+        self.uploader_user = create_uploader_user()
+        self.root_user = create_root_user()
+        self.R = Permission.objects.get(codename=READ)
+
+    def test_tricky_scenario_1(self):
+        """
+            There are 4 users:
+                * root (i.e. admin)
+                * margaret
+                * elizabet
+                * uploader
+
+            margaret and elizabeth are part of group Accountants.
+            Admin user creates a folder titles 'for-Accountants'.
+            Then, he (admin user) assigns access only with READ permision
+            for Accountants group.
+
+            Expected:
+                * margaret and elizabet have read access on folder
+                    'for-Accountants'
+                * upload does not have read access on folder for-Accountants
+        """
+        for_accountants = Folder.objects.create(
+            title="for-accountants",
+            user=self.root_user
+        )
+
+        accountants = Group.objects.create(
+            name="Accountants"
+        )
+
+        accountants.user_set.add(self.margaret_user)
+        accountants.user_set.add(self.elizabet_user)
+
+        create_access(
+            node=for_accountants,
+            model_type=Access.MODEL_GROUP,
+            name="Accountants",
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True
+            }  # allow read access to margaret
+        )
+
+        # permission via Accountants Group
+        self.assertTrue(
+            self.elizabet_user.has_perm(READ, for_accountants),
+            "Elizabet must have access to for-accountants folder."
+            " She is part of accountants group!"
+        )
+        # permission via Accountants Group
+        self.assertTrue(
+            self.margaret_user.has_perm(READ, for_accountants),
+            "Margaret must have access to for-accountants folder."
+            " She is part of accountants group!"
+        )
+        # uploader is not part of accountants group
+        self.assertFalse(
+            self.uploader_user.has_perm(READ, for_accountants),
+            "Uploader must NOT have access to for-accountants folder."
+            " He is NOT part of accountants group!"
         )
