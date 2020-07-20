@@ -19774,7 +19774,8 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
       kvstore: '',
       selected: false,
       img_src: '',
-      created_at: ''
+      created_at: '',
+      user_perms: {}
     };
   }
 
@@ -19892,6 +19893,17 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     }
 
     return '';
+  }
+
+  is_readonly() {
+    let user_perms = this.get('user_perms'),
+        result;
+    result = user_perms['read'];
+    result = result && !user_perms['write'];
+    result = result && !user_perms['delete'];
+    result = result && !user_perms['change_perm'];
+    result = result && !user_perms['take_ownership'];
+    return result;
   }
 
 }
@@ -20919,7 +20931,11 @@ __p+='\n                <div class="placeholder document">\n                    
  } 
 __p+='\n            <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
-'">\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
+'">\n            </div>\n            <div class="icons">\n                ';
+ if (node.is_readonly()) {  
+__p+='\n                    <i class="fa fa-lock"></i>\n                ';
+ } 
+__p+='\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
 ((__t=( node.get('id') ))==null?'':__t)+
 '" class="action-select" />\n            <div class="title tooltip">\n                <a href="#" class="'+
 ((__t=( node.get('ctype') ))==null?'':__t)+

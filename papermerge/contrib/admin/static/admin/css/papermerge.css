@@ -9844,9 +9844,16 @@ h1, h2, h3, h4 {
   flex-wrap: wrap;
   padding: 0; }
   #browse ul.grid .node {
+    position: relative;
     margin: 0.25rem;
     padding: 0.25rem 1rem;
     width: 10rem; }
+    #browse ul.grid .node .icons {
+      position: absolute;
+      left: 0;
+      font-size: 1.8rem; }
+      #browse ul.grid .node .icons .fa-lock {
+        color: #f00; }
     #browse ul.grid .node .placeholder.document {
       position: relative;
       overflow: hidden;
