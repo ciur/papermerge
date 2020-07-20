@@ -260,7 +260,6 @@ ALLOWED_HOSTS = [
 
 AUTHENTICATION_BACKENDS = (
     'papermerge.core.auth.NodeAuthBackend',
-    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 
