@@ -25,6 +25,16 @@ class UserFormWithoutPassword(forms.ModelForm):
             'is_active',
         )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if isinstance(
+                visible.field.widget,
+                (TextInput, EmailInput, ChoiceWidget)
+            ):
+                visible.field.widget.attrs['class'] = 'form-control'
+
+
 class UserFormWithPassword(UserFormWithoutPassword):
 
     password1 = forms.CharField(
