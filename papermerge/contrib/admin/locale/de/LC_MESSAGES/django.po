@@ -182,7 +182,7 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/account/password_reset.html:13
 msgid "Email address"
-msgstr ""
+msgstr "Email Adresse"
 
 #: papermerge/contrib/admin/templates/account/password_reset.html:22
 msgid "Request new password"
@@ -267,23 +267,29 @@ msgstr "Abmelden"
 #: papermerge/contrib/admin/templates/admin/add_user.html:10
 #: papermerge/contrib/admin/templates/admin/users.html:14
 msgid "New User"
-msgstr ""
+msgstr "Neuer Benutzer"
+
+msgid "Delete selected users"
+msgstr "Ausgewählte Benutzer löschen"
 
 #: papermerge/contrib/admin/templates/admin/add_user.html:16
 msgid ""
 "\n"
-"              First, enter a username and password. Then, you’ll be able to "
-"edit more user options.\n"
+"Zuerst geben Sie einen Benutzernamen und ein Passwort ein. "
+"Anschließend können Sie weitere Benutzeroptionen bearbeiten.\n"
 "            "
 msgstr ""
-
+"\n"
+"              First, enter a username and password. Then, you’ll be able to "
+"edit more user options.\n"
+"   "
 #: papermerge/contrib/admin/templates/admin/add_user.html:58
 msgid "Continue"
-msgstr ""
+msgstr "Fortsetzen"
 
 #: papermerge/contrib/admin/templates/admin/base.html:26
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: papermerge/contrib/admin/templates/admin/base.html:88
 msgid "Select a folder or a document to see its details here"
@@ -473,23 +479,23 @@ msgstr ""
 
 #: papermerge/contrib/admin/templates/admin/users.html:34
 msgid "Email Address"
-msgstr ""
+msgstr "Email Adresse"
 
 #: papermerge/contrib/admin/templates/admin/users.html:35
 msgid "Superuser Status"
-msgstr ""
+msgstr "Superuser-Status"
 
 #: papermerge/contrib/admin/templates/admin/users.html:36
 msgid "Staff Status"
-msgstr ""
+msgstr "Mitarbeiter Status"
 
 #: papermerge/contrib/admin/templates/admin/users.html:37
 msgid "Active Status"
-msgstr ""
+msgstr "Aktiv Status"
 
 #: papermerge/contrib/admin/templates/admin/users.html:38
 msgid "Last Login"
-msgstr ""
+msgstr "Letzte Anmeldung"
 
 #~ msgid "New Name"
 #~ msgstr "Neuer Name"
