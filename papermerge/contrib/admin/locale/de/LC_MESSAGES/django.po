@@ -443,62 +443,62 @@ msgid "Last Login"
 msgstr "Letzte Anmeldung"
 
 # papermerge-js/src/js/models/permission.js
-#~ msgid "Full Control"
-#~ msgstr "Vollständige Kontrolle"
+msgid "Full Control"
+msgstr "Vollständige Kontrolle"
 
-#~ msgid "Read & Write"
-#~ msgstr "Lesen & Schreiben"
+msgid "Read & Write"
+msgstr "Lesen & Schreiben"
 
-#~ msgid "Read & Write & Delete"
-#~ msgstr "Lesen & Schreiben & Löschen"
+msgid "Read & Write & Delete"
+msgstr "Lesen & Schreiben & Löschen"
 
-#~ msgid "User Defined"
-#~ msgstr "Benutzerdefiniert"
+msgid "User Defined"
+msgstr "Benutzerdefiniert"
 
-#~ msgid "Permission Editor"
-#~ msgstr "Berechtigungseditor"
+msgid "Permission Editor"
+msgstr "Berechtigungseditor"
 
-#~ msgid "Allow"
-#~ msgstr "Zulassen"
+msgid "Allow"
+msgstr "Zulassen"
 
-#~ msgid "Deny"
-#~ msgstr "Verweigern"
+msgid "Deny"
+msgstr "Verweigern"
 
-#~ msgid "Read"
-#~ msgstr "Lesen"
+msgid "Read"
+msgstr "Lesen"
 
-#~ msgid "Write"
-#~ msgstr "Schreiben"
+msgid "Write"
+msgstr "Schreiben"
 
-#~ msgid "Change Permissions"
-#~ msgstr "Berechtigungen ändern"
+msgid "Change Permissions"
+msgstr "Berechtigungen ändern"
 
-#~ msgid "Take Ownership"
-#~ msgstr "Eingentümerschaft übernehmen"
+msgid "Take Ownership"
+msgstr "Eingentümerschaft übernehmen"
 
-#~ msgid "Metadata"
-#~ msgstr "Metadaten"
+msgid "Metadata"
+msgstr "Metadaten"
 
-#~ msgid "Edit"
-#~ msgstr "Bearbeiten"
+msgid "Edit"
+msgstr "Bearbeiten"
 
-#~ msgid "View"
-#~ msgstr "Aussicht"
+msgid "View"
+msgstr "Aussicht"
 
-#~ msgid "Apply"
-#~ msgstr "Anwenden"
+msgid "Apply"
+msgstr "Anwenden"
 
-#~ msgid "User or Group"
-#~ msgstr "Benutzer oder Gruppe"
+msgid "User or Group"
+msgstr "Benutzer oder Gruppe"
 
-#~ msgid "OK"
-#~ msgstr "OK"
+msgid "OK"
+msgstr "OK"
 
-#~ msgid "Cancel"
-#~ msgstr "Abbrechen"
+msgid "Cancel"
+msgstr "Abbrechen"
 
-#~ msgid "Group %(name)s was successfully created."
-#~ msgstr "Gruppe %(name)s wurde erstellt."
+msgid "Group %(name)s was successfully created."
+msgstr "Gruppe %(name)s wurde erstellt."
 
-#~ msgid "New Name"
-#~ msgstr "Neuer Name"
+msgid "New Name"
+msgstr "Neuer Name"
