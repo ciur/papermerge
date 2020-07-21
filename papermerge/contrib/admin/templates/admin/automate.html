@@ -38,6 +38,16 @@
                     {% endif %}
                 </div>
               {% endfor %}
+              <div class="form-group">
+                  <label for="id_plugin_name">Plugin name:</label>
+                  <select name="plugin_name" class="form-control" id="id_plugin_name">
+                    {% for plugin in plugin_choices %}
+                      <option value="{{plugin.0}}"> {{plugin.1}}
+                      </option>
+                    {% endfor %}
+              </select>
+                                  
+                              </div>
                 <button class="button btn btn-success mt-3" type="submit">
                   <i class="fa fa-check"></i>
                   {% trans 'Save' %}

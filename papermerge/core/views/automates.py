@@ -64,20 +64,28 @@ def automate_view(request):
 
     action_url = reverse('core:automate')
 
-    form = AutomateForm(plugin_choices=_plugin_choices())
+    form = AutomateForm()
 
     if request.method == 'POST':
 
-        form = AutomateForm(request.POST, plugin_choices=_plugin_choices())
+        form = AutomateForm(request.POST)
         if form.is_valid():
-            automate = form.save()
+            automate = Automate.objects.create(
+                name=form.cleaned_data['name'],
+                match=form.cleaned_data['match'],
+                matching_algorithm=form.cleaned_data['matching_algorithm'],
+                is_case_sensitive=form.cleaned_data['is_case_sensitive'],
+                dst_folder=form.cleaned_data['dst_folder'],
+                extract_page=form.cleaned_data['extract_page'],
+                user=request.user
+            )
             if automate:
                 msg = "Automate %(name)s was successfully created."
                 messages.info(
                     request,
                     _(msg) % {'name': automate.name}
                 )
-            return redirect('core:groups')
+            return redirect('core:automates')
 
     return render(
         request,
@@ -85,7 +93,8 @@ def automate_view(request):
         {
             'form': form,
             'action_url': action_url,
-            'title': _('New Automate')
+            'title': _('New Automate'),
+            'plugin_choices': _plugin_choices()
         }
     )
 
@@ -96,22 +105,24 @@ def automate_change_view(request, id):
     Used to edit existing automates
     """
     automate = get_object_or_404(Automate, id=id)
-    action_url = reverse('core:group_change', args=(id,))
+    action_url = reverse('core:automate_change', args=(id,))
 
     form = AutomateForm(
         request.POST or None, instance=automate
     )
 
-    if form.is_valid():
-        form.save()
-        return redirect('core:automates')
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('core:automates')
 
     return render(
         request,
-        'admin/automates.html',
+        'admin/automate.html',
         {
             'form': form,
             'action_url': action_url,
-            'title': _('Edit Automate')
+            'title': _('Edit Automate'),
+            'plugin_choices': _plugin_choices()
         }
     )

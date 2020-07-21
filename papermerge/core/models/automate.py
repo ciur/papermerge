@@ -49,6 +49,7 @@ class Automate(models.Model):
     plugin_name = models.CharField(
         max_length=256,
         blank=True,
+        null=True,
         choices=(),
         default=None,
     )

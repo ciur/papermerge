@@ -23,14 +23,11 @@ class AutomateForm(forms.ModelForm):
             'match',
             'matching_algorithm',
             'is_case_sensitive',
-            'plugin_name',
             'dst_folder',
             'extract_page'
         )
 
     def __init__(self, *args, **kwargs):
-        plugin_choices = kwargs.pop('plugin_choices', ())
-
         super().__init__(*args, **kwargs)
 
         for visible in self.visible_fields():
@@ -39,9 +36,6 @@ class AutomateForm(forms.ModelForm):
                 (TextInput, EmailInput, ChoiceWidget)
             ):
                 visible.field.widget.attrs['class'] = 'form-control'
-
-        # dynamically populate plugin choices
-        self.fields['plugin_name'].choices = plugin_choices
 
 
 class UserFormWithoutPassword(forms.ModelForm):
