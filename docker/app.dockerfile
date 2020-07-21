@@ -9,10 +9,8 @@ RUN apt-get update \
                     python3-venv \
                     poppler-utils \
                     git \
-                    nginx \
                     imagemagick \
                     build-essential \
-                    poppler-utils \
                     tesseract-ocr \
                     tesseract-ocr-deu \
                     tesseract-ocr-eng \
