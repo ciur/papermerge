@@ -1,0 +1,43 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Automates" %}{% endblock %}
+
+{% block content %}
+    <div class="text-left">
+        <h4 class="px-3">{% trans "Automates" %}</h4>
+    </div>
+    <form action="{% url 'core:automates' %}" method="post">
+      {% csrf_token %}
+        <div class="col-12 p-3">
+            <a href="{% url 'core:automate' %}" class="btn btn-success" role="button">{% trans "New" %}</a>
+              <select name="action" required="">
+                <option value="" selected="">---------</option>
+                <option value="delete_selected">{% trans "Delete selected automates" %}</option>
+              </select>
+            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+        </div>
+
+        <div class="col-12 p-3">
+          {% if automates|length > 0 %}
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr class="text-uppercase">
+                  <th>{% trans "Name" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for automate in automates %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ automate.id }}" /></span><a href="{% url 'core:automate_change' automate.id %}">{{ automate.name}}</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            {% trans "No automates defined so far" %}
+          {% endif %}
+      </div>
+    </form>
+{% endblock %}

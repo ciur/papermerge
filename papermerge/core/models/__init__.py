@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from papermerge.core.models.automate import Automate
 from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.document import Document
@@ -120,6 +121,7 @@ __all__ = [
     'Page',
     'BaseTreeNode',
     'Access',
+    'Automate',
     'Diff',
     'KV',
     'KVPage',

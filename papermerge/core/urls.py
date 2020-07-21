@@ -9,6 +9,7 @@ from papermerge.core.views import preferences as preferences_views
 from papermerge.core.views import tokens as tokens_views
 from papermerge.core.views import users as users_views
 from papermerge.core.views import groups as groups_views
+from papermerge.core.views import automates as automates_views
 
 document_patterns = [
     path(
@@ -179,5 +180,17 @@ urlpatterns = [
     path(
         'group/<int:id>/change',
         groups_views.group_change_view, name='group_change'
-    )
+    ),
+    path(
+        'automates/',
+        automates_views.automates_view, name='automates'
+    ),
+    path(
+        'automate/',
+        automates_views.automate_view, name='automate'
+    ),
+    path(
+        'automate/<int:id>/change',
+        automates_views.automate_change_view, name='automate_change'
+    ),
 ]

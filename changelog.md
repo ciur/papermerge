@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.0] - Work in Progress
 
 ### Added 
-    
+
+- Automation (of metadata extraction, moving doc to a specific folder, extract page)
 - AdminLTE3/Bootstrap based own UI
 - Backup/Restore feature. Feature implemented by [@frenos](https://github.com/frenos).
 - Added support for JPEG, PNG, TIFF images

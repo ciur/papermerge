@@ -3,12 +3,29 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 from django.contrib.auth.password_validation import validate_password
 from knox.models import AuthToken
-from papermerge.core.models import User
+from papermerge.core.models import User, Automate
 from django.forms.widgets import (
     TextInput,
     EmailInput,
     ChoiceWidget
 )
+
+
+class AutomateForm(forms.ModelForm):
+
+    class Meta:
+        model = Automate
+
+        fields = (
+            'name',
+            'match',
+            'matching_algorithm',
+            'is_case_sensitive',
+            'plugin_name',
+            'dst_folder',
+            'extract_page'
+        )
+
 
 class UserFormWithoutPassword(forms.ModelForm):
 

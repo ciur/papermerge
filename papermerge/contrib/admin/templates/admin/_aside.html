@@ -28,6 +28,14 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{% url 'core:automates' %}" class="nav-link  {% activate_on 'automates, automate'  %}">
+          <i class="nav-icon fa fa-robot"></i>
+          <p>
+            {% trans "Automates" %}
+          </p>
+        </a>
+      </li>
       {% if request.user.is_superuser %}
         <li class="nav-item">
           <a href="{% url 'core:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
