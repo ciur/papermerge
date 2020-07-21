@@ -44,7 +44,7 @@ class TestBackupRestore(TestCase):
         )
 
         with io.BytesIO() as memoryfile:
-            backup_documents(memoryfile)
+            backup_documents(memoryfile, self.testcase_user)
             memoryfile.seek(0)
 
             self.assertTrue(
@@ -132,7 +132,7 @@ class TestBackupRestore(TestCase):
         )
 
         with io.BytesIO() as memoryfile:
-            backup_documents(memoryfile)
+            backup_documents(memoryfile, self.testcase_user)
             memoryfile.seek(0)
 
             self.assertTrue(
