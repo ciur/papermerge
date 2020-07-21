@@ -11,7 +11,7 @@ from django.forms.widgets import (
 from knox.models import AuthToken
 
 from papermerge.core.models import User, Automate
-from papermerge.core.metadata_plugins import MetadataPlugins
+
 
 class AutomateForm(forms.ModelForm):
 
@@ -29,6 +29,8 @@ class AutomateForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
+        plugin_choices = kwargs.pop('plugin_choices', ())
+
         super().__init__(*args, **kwargs)
 
         for visible in self.visible_fields():
@@ -39,19 +41,8 @@ class AutomateForm(forms.ModelForm):
                 visible.field.widget.attrs['class'] = 'form-control'
 
         # dynamically populate plugin choices
-        self.fields['plugin_name'].choices = self._plugin_choices()
+        self.fields['plugin_name'].choices = plugin_choices
 
-    def _plugin_choices(self):
-        choices = []
-
-        metadata_plugins = MetadataPlugins()
-
-        for plugin in metadata_plugins:
-            choices.append(
-                (plugin.__module__, plugin.__name__)
-            )
-
-        return choices
 
 class UserFormWithoutPassword(forms.ModelForm):
 

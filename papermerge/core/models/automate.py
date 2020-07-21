@@ -50,7 +50,7 @@ class Automate(models.Model):
         max_length=256,
         blank=True,
         choices=(),
-        default=None
+        default=None,
     )
 
     # Must match correct plugin (in case you wish automate metadta extract)

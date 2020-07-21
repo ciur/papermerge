@@ -8,9 +8,23 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ngettext
 
 from papermerge.core.models import Automate
+from papermerge.core.metadata_plugins import MetadataPlugins
 from papermerge.core.forms import AutomateForm
 
 logger = logging.getLogger(__name__)
+
+
+def _plugin_choices():
+    choices = []
+
+    metadata_plugins = MetadataPlugins()
+
+    for plugin in metadata_plugins:
+        choices.append(
+            (plugin.__module__, plugin.__name__)
+        )
+
+    return choices
 
 
 @login_required
@@ -50,14 +64,13 @@ def automate_view(request):
 
     action_url = reverse('core:automate')
 
+    form = AutomateForm(plugin_choices=_plugin_choices())
+
     if request.method == 'POST':
 
-        form = AutomateForm(request.POST)
+        form = AutomateForm(request.POST, plugin_choices=_plugin_choices())
         if form.is_valid():
-
-            automate = Automate.objects.create(
-                name=form.cleaned_data['name']
-            )
+            automate = form.save()
             if automate:
                 msg = "Automate %(name)s was successfully created."
                 messages.info(
@@ -65,8 +78,6 @@ def automate_view(request):
                     _(msg) % {'name': automate.name}
                 )
             return redirect('core:groups')
-
-    form = AutomateForm()
 
     return render(
         request,
