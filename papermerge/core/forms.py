@@ -2,14 +2,16 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 from django.contrib.auth.password_validation import validate_password
-from knox.models import AuthToken
-from papermerge.core.models import User, Automate
 from django.forms.widgets import (
     TextInput,
     EmailInput,
     ChoiceWidget
 )
 
+from knox.models import AuthToken
+
+from papermerge.core.models import User, Automate
+from papermerge.core.metadata_plugins import MetadataPlugins
 
 class AutomateForm(forms.ModelForm):
 
@@ -26,6 +28,30 @@ class AutomateForm(forms.ModelForm):
             'extract_page'
         )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for visible in self.visible_fields():
+            if isinstance(
+                visible.field.widget,
+                (TextInput, EmailInput, ChoiceWidget)
+            ):
+                visible.field.widget.attrs['class'] = 'form-control'
+
+        # dynamically populate plugin choices
+        self.fields['plugin_name'].choices = self._plugin_choices()
+
+    def _plugin_choices(self):
+        choices = []
+
+        metadata_plugins = MetadataPlugins()
+
+        for plugin in metadata_plugins:
+            choices.append(
+                (plugin.__module__, plugin.__name__)
+            )
+
+        return choices
 
 class UserFormWithoutPassword(forms.ModelForm):
 

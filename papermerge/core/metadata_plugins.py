@@ -25,6 +25,10 @@ class MetadataPlugins:
             if plugin.identify(hocr_path):
                 return plugin.extract(hocr_path)
 
+    def __iter__(self):
+        for plugin in self._plugins:
+            yield plugin
+
 
 def apply_metadata_plugins(document_id, page_num):
 

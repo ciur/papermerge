@@ -48,7 +48,9 @@ class Automate(models.Model):
     # Must match metadata associated with dst_folder
     plugin_name = models.CharField(
         max_length=256,
-        blank=True
+        blank=True,
+        choices=(),
+        default=None
     )
 
     # Must match correct plugin (in case you wish automate metadta extract)
