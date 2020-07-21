@@ -5,7 +5,7 @@ import io
 import os
 import tarfile
 import json
-from pathlib import PurePath, Path
+from pathlib import PurePath
 
 from django.core.files.temp import NamedTemporaryFile
 from pmworker.pdfinfo import get_pagecount
@@ -30,24 +30,38 @@ def backup_documents(backup_file: io.BytesIO):
         for current_document_object in documents:  # type: Document
             current_document = dict()
             targetPath = _createTargetPath(current_document_object)
-            backup_archive.add(current_document_object.absfilepath, arcname=targetPath)
+            backup_archive.add(
+                current_document_object.absfilepath, arcname=targetPath
+            )
             current_document['path'] = targetPath
             current_document['lang'] = current_document_object.lang
-            current_backup['documents'].append(current_document)
+            current_backup['documents'].append(
+                current_document
+            )
 
-        json_bytes = json.dumps(current_backup, indent=4, default=str).encode('utf-8')
+        json_bytes = json.dumps(
+            current_backup,
+            indent=4,
+            default=str
+        ).encode('utf-8')
+
         tarinfo = tarfile.TarInfo(name='backup.json')
         tarinfo.size = len(json_bytes)
         tarinfo.mtime = time.time()
+
         backup_archive.addfile(tarinfo, io.BytesIO(json_bytes))
 
 
 def restore_documents(restore_file: io.BytesIO, username):
+
     restore_file.seek(0)
     user = User.objects.filter(username=username).first()
+
     with tarfile.open(fileobj=restore_file, mode="r") as restore_archive:
+
         backup_json = restore_archive.extractfile('backup.json')
         backup_info = json.load(backup_json)
+
         for restore_file in restore_archive.getnames():
             if restore_file == "backup.json":
                 continue
@@ -55,23 +69,42 @@ def restore_documents(restore_file: io.BytesIO, username):
                 document_info = info
                 if info['path'] == restore_file:
                     break
+
             splitted_path = PurePath(restore_file).parts
             parent = None
             # we first have to create a folder structure
+
             if len(splitted_path) > 1:
                 for folder in splitted_path[:-1]:
-                    folder_object = Folder.objects.filter(title=folder).filter(parent=parent).first()
+
+                    folder_object = Folder.objects.filter(
+                        title=folder
+                    ).filter(parent=parent).first()
+
                     if folder_object is None:
-                        new_folder = Folder.objects.create(title=folder, parent=parent, user=user)
+                        new_folder = Folder.objects.create(
+                            title=folder,
+                            parent=parent, user=user
+                        )
                         parent = new_folder
                     else:
                         parent = folder_object
-            document_object = Document.objects.filter(title=splitted_path[-1]).filter(parent=parent).first()
+
+            document_object = Document.objects.filter(
+                title=splitted_path[-1]
+            ).filter(parent=parent).first()
+
             if document_object is not None:
-                logger.error("Document %s already exists, skipping", restore_file)
+                logger.error(
+                    "Document %s already exists, skipping", restore_file
+                )
             else:
+
                 with NamedTemporaryFile("w+b") as temp_output:
-                    temp_output.write(restore_archive.extractfile(restore_file).read())
+
+                    temp_output.write(
+                        restore_archive.extractfile(restore_file).read()
+                    )
                     temp_output.seek(0)
                     size = os.path.getsize(temp_output.name)
                     page_count = get_pagecount(temp_output.name)
@@ -79,14 +112,15 @@ def restore_documents(restore_file: io.BytesIO, username):
                         parent_id = parent.id
                     else:
                         parent_id = None
-                    new_doc = Document.create_document(user=user,
-                                             title=splitted_path[-1],
-                                             size=size,
-                                             lang=document_info['lang'],
-                                             file_name=splitted_path[-1],
-                                             parent_id=parent_id,
-                                             notes="",
-                                             page_count=page_count)
+                    new_doc = Document.create_document(
+                        user=user,
+                        title=splitted_path[-1],
+                        size=size,
+                        lang=document_info['lang'],
+                        file_name=splitted_path[-1],
+                        parent_id=parent_id,
+                        notes="",
+                        page_count=page_count)
                     default_storage.copy_doc(
                         src=temp_output.name,
                         dst=new_doc.path.url()
@@ -108,6 +142,7 @@ def _can_restore(restore_file: io.BytesIO):
         if backup_json is None:
             return False
         current_backup = json.load(backup_json)
+
         if current_backup.get('version') is not None and current_backup.get('version') in _supported_versions:
             return True
 

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     help = """
-        Backup all documents and their folder structure to a archive.
+        Backup all documents and their folder structure to an archive.
     """
 
     def add_arguments(self, parser):
