@@ -8,7 +8,7 @@ Terms *backup* and *export* (similar for *restore*/*import*) are synonymous so I
 There are two different interfaces to backup and restore your documents:
 
     * Command line based (suitable for automation)
-    * User interface based (by clicking)
+    * User interface based (by clicking) - will be implemented
 
 Command Line
 ##############
@@ -18,17 +18,17 @@ Backup/Export
 
 To create a **backup of all documents** currently found your in Papermerge instance, just run::
 
-    ./manage.py backup
+    ./manage.py backup --user <username>
 
-This will create a file `backup_<current-datetime>.tar` in same folder where `manage.py` file is located.
+This will create a file `backup_<current-datetime>.tar` for specified user in same folder where `manage.py` file is located.
 You can provide a file name as well::
 
-    ./manage.py backup papermerge.tar
+    ./manage.py backup papermerge.tar --user <username>
 
 Notice tar extension. You can provide any file name (or path to a file) but keep in mind that backup command creates a tar archive for you.
 Finally you can provide as argument an existing directory::
 
-    ./manage.py backup /data/backups/papermerge/
+    ./manage.py backup /data/backups/papermerge/ --user <username>
 
 In example above, file named `/data/backups/papermerge/backup_<current-datetime>.tar` will be created.
 
@@ -50,7 +50,7 @@ As main argument for `restore` command use provide path to tar archive.
 User argument expects a *username* - not an id.
 Example of usage::
 
-    ./manage.py restore papermerge_13_07_2020.tar --user eugen
+    ./manage.py restore papermerge_13_07_2020.tar --user admin
 
 
 User Interface
