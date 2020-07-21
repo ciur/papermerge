@@ -16,11 +16,18 @@ from papermerge.core.tasks import ocr_page
 
 logger = logging.getLogger()
 
-_supported_versions = ["1.3.0"]
+_supported_versions = ["1.3.0", "1.4.0"]
 
 
-def backup_documents(backup_file: io.BytesIO):
-    documents = Document.objects.all()
+def backup_documents(
+    backup_file: io.BytesIO,
+    user: User,
+    full_backup=False
+):
+    """
+    Backup all documents for specific user.
+    """
+    documents = Document.objects.filter(user=user)
     current_backup = dict()
     current_backup['created'] = datetime.datetime.now()
     current_backup['version'] = "1.3.0"
@@ -30,9 +37,11 @@ def backup_documents(backup_file: io.BytesIO):
         for current_document_object in documents:  # type: Document
             current_document = dict()
             targetPath = _createTargetPath(current_document_object)
+
             backup_archive.add(
                 current_document_object.absfilepath, arcname=targetPath
             )
+
             current_document['path'] = targetPath
             current_document['lang'] = current_document_object.lang
             current_backup['documents'].append(
@@ -52,7 +61,11 @@ def backup_documents(backup_file: io.BytesIO):
         backup_archive.addfile(tarinfo, io.BytesIO(json_bytes))
 
 
-def restore_documents(restore_file: io.BytesIO, username):
+def restore_documents(
+    restore_file: io.BytesIO,
+    username,
+    skip_ocr=False
+):
 
     restore_file.seek(0)
     user = User.objects.filter(username=username).first()
@@ -127,13 +140,14 @@ def restore_documents(restore_file: io.BytesIO, username):
                     )
 
                 for page_num in range(1, page_count + 1):
-                    ocr_page.apply_async(kwargs={
-                        'user_id': user.id,
-                        'document_id': new_doc.id,
-                        'file_name': splitted_path[-1],
-                        'page_num': page_num,
-                        'lang': document_info['lang']}
-                    )
+                    if not skip_ocr:
+                        ocr_page.apply_async(kwargs={
+                            'user_id': user.id,
+                            'document_id': new_doc.id,
+                            'file_name': splitted_path[-1],
+                            'page_num': page_num,
+                            'lang': document_info['lang']}
+                        )
 
 
 def _can_restore(restore_file: io.BytesIO):

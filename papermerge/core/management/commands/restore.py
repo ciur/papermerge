@@ -14,6 +14,9 @@ class Command(BaseCommand):
     help = """
         Restore all Documents and their folder structure from an archive.
         If you don't pass a username with --user you will be asked for it.
+
+        By default will trigger OCR for each imported document.
+        Use --skip-ocr if you wish to OCR documents later.
     """
 
     def add_arguments(self, parser):
@@ -23,10 +26,24 @@ class Command(BaseCommand):
             help="user (username of) the restored documents should belong to",
             default=None
         )
+        # 1. Very useful option
+        # during tests/development/maintenance of this module
+        # 2. In case archive is full backup (i.e. includes OCR text info)
+        #  can be skipped (that is the point of full backup - not to perform
+        # OCR operation again).
+        parser.add_argument(
+            's',
+            '--skip-ocr',
+            action='store_true',
+            help="will skip ",
+        )
 
         parser.add_argument('location', nargs='?', type=str)
 
     def handle(self, *args, **options):
+
+        skip_ocr = options.get('skip_ocr')
+
         if options.get('location') is None:
             logger.error("Please add the path to your backup.tar")
         else:
@@ -43,7 +60,11 @@ class Command(BaseCommand):
                     )
 
                     if _is_valid_user(username):
-                        restore_documents(restore_file, username)
+                        restore_documents(
+                            restore_file=restore_file,
+                            username=username,
+                            skip_ocr=skip_ocr
+                        )
                     else:
                         logging.error("User %s was not valid", username)
                 else:
