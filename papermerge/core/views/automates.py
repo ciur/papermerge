@@ -40,7 +40,7 @@ def automates_view(request):
             ).delete()
 
             if deleted:
-                count = row_count['auth.Group']
+                count = row_count['core.Automate']
                 msg_sg = "%(count)s Automate was successfully deleted."
                 msg_pl = "%(count)s Automates were successfully deleted."
                 messages.info(
