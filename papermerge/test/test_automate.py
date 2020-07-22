@@ -1,5 +1,3 @@
-import io
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from papermerge.core.models import Automate, Folder
@@ -7,12 +5,23 @@ from papermerge.core.models import Automate, Folder
 User = get_user_model()
 
 
-def _create_am(match, alg, user, is_sensitive):
+TEXT = """
+The majority of mortals, Paulinus, complain bitterly of the spitefulness of
+Nature, because we are born for a brief span of life, because even this space
+that has been granted to us rushes by so speedily and so swiftly that all save
+a very few find life at an end just when they are getting ready to live.
+
+Seneca - On the shortness of life
+"""
+
+
+def _create_am(name, match, alg, user, is_sensitive):
     dst_folder = Folder.objects.create(
         title="destination Folder",
         user=user
     )
     return Automate.objects.create(
+        name=name,
         match=match,
         matching_algorithm=alg,
         is_case_sensitive=is_sensitive,  # i.e. ignore case
@@ -21,8 +30,9 @@ def _create_am(match, alg, user, is_sensitive):
     )
 
 
-def _create_am_any(match, user):
+def _create_am_any(name, match, user):
     return _create_am(
+        name=name,
         match=match,
         alg=Automate.MATCH_ANY,
         user=user,
@@ -30,8 +40,19 @@ def _create_am_any(match, user):
     )
 
 
-def _create_am_literal(match, user):
+def _create_am_all(name, match, user):
     return _create_am(
+        name=name,
+        match=match,
+        alg=Automate.MATCH_ALL,
+        user=user,
+        is_sensitive=False
+    )
+
+
+def _create_am_literal(name, match, user):
+    return _create_am(
+        name=name,
         match=match,
         alg=Automate.MATCH_LITERAL,
         user=user,
@@ -44,22 +65,65 @@ class TestAutomateModel(TestCase):
         self.user = User.objects.create_user('admin')
 
     def test_automate_match_literal(self):
-        am = _create_am_literal(
-            "one",
+        am_1 = _create_am_literal(
+            "1",
+            "Paulinus",
             self.user
         )
-        hocr = """
-            He says, one - this text should match!
-        """
+        am_2 = _create_am_literal(
+            "2",
+            "Cesar",
+            self.user
+        )
         self.assertTrue(
-            am.is_a_match(hocr)
+            am_1.is_a_match(TEXT)
+        )
+        self.assertFalse(
+            am_2.is_a_match(TEXT)
         )
 
     def test_automate_match_all(self):
-        pass
+        # should match because all words occur in
+        # text
+        am_1 = _create_am_all(
+            "1",
+            "granted life rushes",
+            self.user
+        )
+        # should not mach, because word quality
+        # is not in TEXT
+        am_2 = _create_am_all(
+            "2",
+            "granted life quality rushes",
+            self.user
+        )
+        self.assertTrue(
+            am_1.is_a_match(TEXT)
+        )
+        self.assertFalse(
+            am_2.is_a_match(TEXT)
+        )
 
     def test_automate_match_any(self):
-        pass
+        # should match by word 'granted'
+        am_1 = _create_am_any(
+            "1",
+            "what if granted usecase test",
+            self.user
+        )
+        # should not mach, of none of the words
+        # is found in TEXT
+        am_2 = _create_am_any(
+            "2",
+            "what if usecase test",
+            self.user
+        )
+        self.assertTrue(
+            am_1.is_a_match(TEXT)
+        )
+        self.assertFalse(
+            am_2.is_a_match(TEXT)
+        )
 
     def test_automate_match_regexp(self):
         pass

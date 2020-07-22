@@ -127,10 +127,27 @@ class Automate(models.Model):
         pass
 
     def _match_any(self, hocr, search_kwargs):
-        pass
+
+        for word in self._split_match():
+            regexp = r"\b{}\b".format(word)
+            if re.search(regexp, hocr, **search_kwargs):
+                return True
+
+        return False
 
     def _match_all(self, hocr, search_kwargs):
-        pass
+
+        for word in self._split_match():
+            regexp = r"\b{}\b".format(word)
+            search_result = re.search(
+                regexp,
+                hocr,
+                **search_kwargs
+            )
+            if not search_result:
+                return False
+
+        return True
 
     def _match_literal(self, hocr, search_kwargs):
         """
@@ -143,3 +160,19 @@ class Automate(models.Model):
 
     def _match_regexp(self, hocr: io.BytesIO, search_kwargs):
         pass
+
+    def _split_match(self):
+        """
+        Splits the match to individual keywords, getting rid of unnecessary
+        spaces and grouping quoted words together.
+        Example:
+          '  some random  words "with   quotes  " and   spaces'
+            ==>
+          ["some", "random", "words", "with+quotes", "and", "spaces"]
+        """
+        findterms = re.compile(r'"([^"]+)"|(\S+)').findall
+        normspace = re.compile(r"\s+").sub
+        return [
+            normspace(" ", (t[0] or t[1]).strip()).replace(" ", r"\s+")
+            for t in findterms(self.match)
+        ]
