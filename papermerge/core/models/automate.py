@@ -1,5 +1,4 @@
 import re
-import io
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -85,7 +84,7 @@ class Automate(models.Model):
     def __str__(self):
         return self.name
 
-    def is_a_match(self, hocr: io.BytesIO):
+    def is_a_match(self, hocr):
         # Check that match is not empty
         if self.match.strip() == "":
             return False
@@ -158,8 +157,12 @@ class Automate(models.Model):
         result = re.search(regexp, hocr, **search_kwargs)
         return bool(result)
 
-    def _match_regexp(self, hocr: io.BytesIO, search_kwargs):
-        pass
+    def _match_regexp(self, hocr, search_kwargs):
+        regexp = re.compile(self.match, **search_kwargs)
+
+        result = re.search(regexp, hocr)
+
+        return bool(result)
 
     def _split_match(self):
         """

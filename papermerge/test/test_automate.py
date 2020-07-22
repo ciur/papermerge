@@ -59,6 +59,17 @@ def _create_am_literal(name, match, user):
         is_sensitive=False
     )
 
+
+def _create_am_regex(name, match, user):
+    return _create_am(
+        name=name,
+        match=match,
+        alg=Automate.MATCH_REGEX,
+        user=user,
+        is_sensitive=False
+    )
+
+
 class TestAutomateModel(TestCase):
 
     def setUp(self):
@@ -125,10 +136,23 @@ class TestAutomateModel(TestCase):
             am_2.is_a_match(TEXT)
         )
 
-    def test_automate_match_regexp(self):
-        pass
-
-
-
-
-
+    def test_automate_match_regex(self):
+        # should match by word life.
+        am_1 = _create_am_any(
+            "1",
+            r"l..e",
+            self.user
+        )
+        # should not mach, there no double digits
+        # in the TEXT
+        am_2 = _create_am_any(
+            "2",
+            r"\d\d",
+            self.user
+        )
+        self.assertTrue(
+            am_1.is_a_match(TEXT)
+        )
+        self.assertFalse(
+            am_2.is_a_match(TEXT)
+        )
