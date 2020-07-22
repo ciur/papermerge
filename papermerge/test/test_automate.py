@@ -15,61 +15,6 @@ Seneca - On the shortness of life
 """
 
 
-def _create_am(name, match, alg, user, is_sensitive):
-    dst_folder = Folder.objects.create(
-        title="destination Folder",
-        user=user
-    )
-    return Automate.objects.create(
-        name=name,
-        match=match,
-        matching_algorithm=alg,
-        is_case_sensitive=is_sensitive,  # i.e. ignore case
-        user=user,
-        dst_folder=dst_folder
-    )
-
-
-def _create_am_any(name, match, user):
-    return _create_am(
-        name=name,
-        match=match,
-        alg=Automate.MATCH_ANY,
-        user=user,
-        is_sensitive=False
-    )
-
-
-def _create_am_all(name, match, user):
-    return _create_am(
-        name=name,
-        match=match,
-        alg=Automate.MATCH_ALL,
-        user=user,
-        is_sensitive=False
-    )
-
-
-def _create_am_literal(name, match, user):
-    return _create_am(
-        name=name,
-        match=match,
-        alg=Automate.MATCH_LITERAL,
-        user=user,
-        is_sensitive=False
-    )
-
-
-def _create_am_regex(name, match, user):
-    return _create_am(
-        name=name,
-        match=match,
-        alg=Automate.MATCH_REGEX,
-        user=user,
-        is_sensitive=False
-    )
-
-
 class TestAutomateModel(TestCase):
 
     def setUp(self):
@@ -156,3 +101,58 @@ class TestAutomateModel(TestCase):
         self.assertFalse(
             am_2.is_a_match(TEXT)
         )
+
+
+def _create_am(name, match, alg, user, is_sensitive):
+    dst_folder = Folder.objects.create(
+        title="destination Folder",
+        user=user
+    )
+    return Automate.objects.create(
+        name=name,
+        match=match,
+        matching_algorithm=alg,
+        is_case_sensitive=is_sensitive,  # i.e. ignore case
+        user=user,
+        dst_folder=dst_folder
+    )
+
+
+def _create_am_any(name, match, user):
+    return _create_am(
+        name=name,
+        match=match,
+        alg=Automate.MATCH_ANY,
+        user=user,
+        is_sensitive=False
+    )
+
+
+def _create_am_all(name, match, user):
+    return _create_am(
+        name=name,
+        match=match,
+        alg=Automate.MATCH_ALL,
+        user=user,
+        is_sensitive=False
+    )
+
+
+def _create_am_literal(name, match, user):
+    return _create_am(
+        name=name,
+        match=match,
+        alg=Automate.MATCH_LITERAL,
+        user=user,
+        is_sensitive=False
+    )
+
+
+def _create_am_regex(name, match, user):
+    return _create_am(
+        name=name,
+        match=match,
+        alg=Automate.MATCH_REGEX,
+        user=user,
+        is_sensitive=False
+    )
