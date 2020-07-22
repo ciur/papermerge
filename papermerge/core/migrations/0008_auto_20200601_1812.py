@@ -10,9 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='LanguageMap',
-        ),
         migrations.RemoveField(
             model_name='page',
             name='text_deu',
