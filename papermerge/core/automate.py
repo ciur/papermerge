@@ -2,7 +2,7 @@ import logging
 
 from mglib.step import Step
 
-from .models import Document, Page, Automate
+from .models import Document, Automate
 from .storage import default_storage
 from .metadata_plugins import get_plugin_by_module_name
 
@@ -22,7 +22,6 @@ def apply_automates(document_id, page_num):
         step=Step(),
     )
     user = document.user
-    page = Page.objects.get(document_id=document_id)
     hocr_path = default_storage.abspath(page_path.hocr_url())
 
     # check all automates for given user (the owner of the document)
@@ -35,7 +34,7 @@ def apply_automates(document_id, page_num):
             )
             automate.apply(
                 document,
-                page,
+                page_num,
                 hocr_path,
                 plugin
             )

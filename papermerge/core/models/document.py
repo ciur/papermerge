@@ -370,6 +370,7 @@ class Document(BaseTreeNode):
                 page_numbers=item['page_nums']
             )
 
+        return dst_document
         # TODO: update size of the new document (changed doc)
 
     @staticmethod

@@ -3,6 +3,8 @@ import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from .document import Document
+
 
 class Automate(models.Model):
 
@@ -105,25 +107,31 @@ class Automate(models.Model):
         if self.matching_algorithm == Automate.MATCH_REGEX:
             return self._match_regexp(hocr, search_kwargs)
 
+        return False
+
     def apply(
         self,
         document,
-        page,
+        page_num,
         hocr,
         plugin=None
     ):
-        # if self.extract_page:
-        #   get destination folder id
-        #   cut/paste page to destination foder
-        #   get new_doc_id
-        #
-        # if plugin:
-        #   metadata = plugin.extract(hocr)
-        #   associate metadta to:
-        #       # either new_doc_id
-        #       # or
-        #       # doc_id
-        pass
+        new_document = None
+
+        if self.extract_page:
+            if self.dst_folder != document.parent:
+                new_document = Document.paste_pages(
+                    user=document.user,
+                    parent_id=self.dst_folder.id,
+                    doc_pages={
+                        document.id: [page_num]
+                    }
+
+                )
+        if plugin:
+            metadata = plugin.extract(hocr)
+            doc = new_document if new_document else document
+            doc.kv.update(metadata['simple_keys'])
 
     def _match_any(self, hocr, search_kwargs):
 
