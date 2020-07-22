@@ -475,18 +475,14 @@ class KV:
                 # The point here is that NEW element is created, so
                 # presense of empty id key raises an error.
                 item.pop('id', None)
-                item.pop('virtual_value', None)
                 self.instance.kvstore.create(**item)
                 self.instance.save()
 
         if new_additions:
-            new_additions = []
-            for item in new_additions:
-                item.pop('virtual_value', None)
-                new_additions.append(
-                    KVStoreNode(**item)
-                )
-
+            new_additions = [
+                KVStoreNode(**item)
+                for item in new_additions
+            ]
             self.propagate(
                 instances_set=new_additions,
                 operation=Diff.ADD
@@ -613,7 +609,6 @@ class KVPage(KV):
             ).first()
             # this key does not exist for this node
             if not kvstore_node:
-                item.pop('virtual_value', None)
                 self.instance.kvstore.create(**item)
 
 
