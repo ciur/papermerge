@@ -17,11 +17,6 @@ class MetadataPlugins:
                 import_string(plugin)
             )
 
-    def apply(self, hocr_path):
-        for plugin in self._plugins:
-            if plugin.identify(hocr_path):
-                return plugin.extract(hocr_path)
-
     def __iter__(self):
         for plugin in self._plugins:
             yield plugin

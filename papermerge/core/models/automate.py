@@ -1,9 +1,13 @@
+import logging
 import re
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from .document import Document
+
+
+logger = logging.getLogger(__name__)
 
 
 class Automate(models.Model):
@@ -126,6 +130,7 @@ class Automate(models.Model):
         plugin=None
     ):
         new_document = None
+        logger.debug("automate.Apply begin")
 
         if document.page_count == 1:
             # i.e if this is last page
@@ -149,7 +154,11 @@ class Automate(models.Model):
                 )
 
         if plugin:
+            logger.debug("Plugin is provided, extracting hocr")
             metadata = plugin.extract(hocr)
+            logger.debug(
+                f"Metadata Extracted with Automate={metadata}"
+            )
             doc = new_document if new_document else document
             doc.kv.update(metadata['simple_keys'])
 

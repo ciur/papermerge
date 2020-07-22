@@ -86,3 +86,7 @@ LOGGING = {
         'level': 'CRITICAL'
     },
 }
+
+PAPERMERGE_METADATA_PLUGINS = [
+    'papermerge.test.metaplugin.Dummy',
+]

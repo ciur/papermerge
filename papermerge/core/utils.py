@@ -50,6 +50,8 @@ def number_2int(kv_format, str_value):
     So converting to an integer means just remove from string
     non-numeric characters and cast remaining str to integer.
     """
-    line = re.sub(r'[\,\.]', '', str_value)
+    if str_value:
+        line = re.sub(r'[\,\.]', '', str_value)
+        return line
 
-    return line
+    return 0

@@ -42,14 +42,17 @@ def apply_automates(document_id, page_num):
 
         if automate.is_a_match(hocr):
             logger.debug(f"Automate {automate} matched document={document}")
-            plugin = get_plugin_by_module_name(
+            plugin_klass = get_plugin_by_module_name(
                 automate.plugin_name
             )
+            logger.debug(f"Found plugin module={plugin_klass.__module__}")
+            logger.debug(f"len(hocr)=={len(hocr)}")
             automate.apply(
-                document,
-                page_num,
-                hocr_path,
-                plugin
+                document=document,
+                page_num=page_num,
+                hocr=hocr,
+                # Notice () - plugin passed is instance of the class
+                plugin=plugin_klass()
             )
         else:
             logger.debug(
