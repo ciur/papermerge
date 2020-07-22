@@ -446,10 +446,10 @@ class Document(BaseTreeNode):
     def page_paths(self):
         """
         Enables document instance to get quickly page
-        endpoints:
+        paths:
 
-            page_ep = doc.page_eps[2]
-            page_ep.url() # local url to second page of the doc.
+            page_path = doc.page_path[2]
+            page_path.url() # local url to second page of the doc.
 
         This is shortcut method when most used Step(1) is required.
         """

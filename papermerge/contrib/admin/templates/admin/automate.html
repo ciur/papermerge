@@ -41,6 +41,7 @@
               <div class="form-group">
                   <label for="id_plugin_name">{% trans "Meta Plugin name" %}:</label>
                   <select name="plugin_name" class="form-control" id="id_plugin_name">
+                    <option value="">---</option>
                     {% for plugin in plugin_choices %}
                       <option value="{{plugin.0}}"> {{plugin.1}}
                       </option>

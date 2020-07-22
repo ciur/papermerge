@@ -11,18 +11,25 @@ from papermerge.core.models import Access, Diff, Document, Folder, User
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
 
-from .metadata_plugins import apply_metadata_plugins
+from .automate import apply_automates
 from .signal_definitions import page_hocr_ready
 
 logger = logging.getLogger(__name__)
 
 
 @receiver(page_hocr_ready, sender="worker")
-def handle_metadata_plusgins(sender, **kwargs):
+def apply_automates_handler(sender, **kwargs):
+    """
+    Signal sent when HOCR file is ready (i.e. OCR for page is complete).
+    """
     document_id = kwargs.get('document_id', False)
     page_num = kwargs.get('page_num', False)
 
-    apply_metadata_plugins(
+    logger.debug(
+        f"Page hocr ready: document_id={document_id} page_num={page_num}"
+    )
+
+    apply_automates(
         document_id=document_id,
         page_num=page_num
     )

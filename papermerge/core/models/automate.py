@@ -1,3 +1,5 @@
+import io
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -10,11 +12,17 @@ class Automate(models.Model):
         * extraction of metadata
     """
 
+    # any match - looks for any occurrence of any word
+    # provided in the document
     MATCH_ANY = 1
+    # all match - looks for all occurrences of all words
+    # provided in the document (order does not matter)
     MATCH_ALL = 2
+    # literal match means that the text you enter must appear in
+    # the document exactly as you've entered it
     MATCH_LITERAL = 3
+    # reg exp match
     MATCH_REGEX = 4
-    MATCH_FUZZY = 5
 
     MATCHING_ALGORITHMS = (
         (MATCH_ANY, _("Any")),
@@ -76,3 +84,25 @@ class Automate(models.Model):
     def __str__(self):
         return self.name
 
+    def is_a_match(self, hocr: io.BytesIO):
+        pass
+
+    def apply(
+        self,
+        document,
+        page,
+        hocr: io.BytesIO,
+        plugin=None
+    ):
+        # if self.extract_page:
+        #   get destination folder id
+        #   cut/paste page to destination foder
+        #   get new_doc_id
+        #
+        # if plugin:
+        #   metadata = plugin.extract(hocr)
+        #   associate metadta to:
+        #       # either new_doc_id
+        #       # or
+        #       # doc_id
+        pass
