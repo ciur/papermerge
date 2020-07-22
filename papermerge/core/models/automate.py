@@ -109,6 +109,15 @@ class Automate(models.Model):
 
         return False
 
+    def move_to(self, document, dst_folder):
+        document.refresh_from_db()
+        dst_folder.refresh_from_db()
+
+        if document and dst_folder:
+            Document.objects.move_node(
+                document, dst_folder
+            )
+
     def apply(
         self,
         document,
@@ -118,7 +127,17 @@ class Automate(models.Model):
     ):
         new_document = None
 
-        if self.extract_page:
+        if document.page_count == 1:
+            # i.e if this is last page
+            # move entire document to the destination folder
+            self.move_to(
+                document,
+                self.dst_folder
+            )
+        elif self.extract_page:
+            # dealing with case when this is not
+            # last page of the document AND extraction
+            # of the page is wanted.
             if self.dst_folder != document.parent:
                 new_document = Document.paste_pages(
                     user=document.user,
@@ -128,6 +147,7 @@ class Automate(models.Model):
                     }
 
                 )
+
         if plugin:
             metadata = plugin.extract(hocr)
             doc = new_document if new_document else document
