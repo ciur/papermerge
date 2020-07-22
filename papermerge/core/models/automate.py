@@ -1,3 +1,4 @@
+import re
 import io
 
 from django.db import models
@@ -85,13 +86,31 @@ class Automate(models.Model):
         return self.name
 
     def is_a_match(self, hocr: io.BytesIO):
-        pass
+        # Check that match is not empty
+        if self.match.strip() == "":
+            return False
+
+        search_kwargs = {}
+        if self.is_case_sensitive:
+            search_kwargs = {"flags": re.IGNORECASE}
+
+        if self.matching_algorithm == Automate.MATCH_ANY:
+            return self._match_any(hocr, search_kwargs)
+
+        if self.matching_algorithm == Automate.MATCH_ALL:
+            return self._match_all(hocr, search_kwargs)
+
+        if self.matching_algorithm == Automate.MATCH_LITERAL:
+            return self._match_literal(hocr, search_kwargs)
+
+        if self.matching_algorithm == Automate.MATCH_REGEX:
+            return self._match_regexp(hocr, search_kwargs)
 
     def apply(
         self,
         document,
         page,
-        hocr: io.BytesIO,
+        hocr,
         plugin=None
     ):
         # if self.extract_page:
@@ -105,4 +124,22 @@ class Automate(models.Model):
         #       # either new_doc_id
         #       # or
         #       # doc_id
+        pass
+
+    def _match_any(self, hocr, search_kwargs):
+        pass
+
+    def _match_all(self, hocr, search_kwargs):
+        pass
+
+    def _match_literal(self, hocr, search_kwargs):
+        """
+        Simplest match - literal match  i.e.
+        exact match of the given word or string.
+        """
+        regexp = r"\b{}\b".format(self.match)
+        result = re.search(regexp, hocr, **search_kwargs)
+        return bool(result)
+
+    def _match_regexp(self, hocr: io.BytesIO, search_kwargs):
         pass
