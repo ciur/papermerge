@@ -80,6 +80,11 @@ def automate_view(request):
                 user=request.user
             )
             if automate:
+                # plugin_name is not part of the form
+                automate.plugin_name = request.POST.get(
+                    'plugin_name'
+                )
+                automate.save()
                 msg = "Automate %(name)s was successfully created."
                 messages.info(
                     request,
@@ -113,7 +118,13 @@ def automate_change_view(request, id):
 
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
+            automate = form.save()
+            if automate:
+                # plugin_name is not part of the form
+                automate.plugin_name = request.POST.get(
+                    'plugin_name'
+                )
+                automate.save()
             return redirect('core:automates')
 
     return render(
