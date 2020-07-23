@@ -183,6 +183,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+PAPERMERGE_LANGUAGE_FROM_AGENT = cfg_papermerge.get(
+    "LANGUAGE_FROM_AGENT", False
+)
+
+if PAPERMERGE_LANGUAGE_FROM_AGENT:
+    # django middle ware sets language code from agent 'Accept-Language'
+    # header
+    MIDDLEWARE.append(
+        'django.middleware.locale.LocaleMiddleware'
+    )
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -242,7 +253,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = cfg_papermerge.get("LANGUAGE_CODE", 'de')
 
 LOCALE_PATHS = (
     PROJ_ROOT / Path('papermerge'),

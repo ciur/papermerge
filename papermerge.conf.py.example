@@ -140,3 +140,28 @@ OCR_LANGUAGES = {
 }
 
 OCR_BINARY = "/usr/bin/tesseract"
+
+
+# Internationalization & Localization
+######################################
+
+# Internationalization = i18n
+#
+# In what language is user interface.
+# At this point there two options:
+# 
+#  en, en-US, en-UK, ... = for user interface in English language
+#  de, de-DE, de-AT, ... = for user interface in German language
+#
+#  English is default fallback i.e. if you don't specify anything,
+#  of specify unsupported language - English will be used.
+
+LANGUAGE_CODE = 'en'
+
+# If is set to True, will use same language code as your Web Browser (agent) does.
+# Browsers send 'Accept-Language' header with their locale.
+# For more, read: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
+# If set to True  - will override LANGUAGE_CODE option
+# If set to False - language code specified in LANGUAGE_CODE option will be used.
+ 
+LANGUAGE_FROM_AGENT = False
