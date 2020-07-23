@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-20 04:55+0000\n"
+"POT-Creation-Date: 2020-07-23 12:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -28,7 +28,7 @@ msgid "Username"
 msgstr "Benutzername"
 
 #: papermerge/contrib/admin/templates/account/login.html:36
-#: papermerge/contrib/admin/templates/admin/add_user.html:49
+#: papermerge/contrib/admin/templates/admin/add_user.html:50
 msgid "Password"
 msgstr "Passwort"
 
@@ -79,7 +79,7 @@ msgid "New Password"
 msgstr "Neues Passwort"
 
 #: papermerge/contrib/admin/templates/account/password_change.html:45
-#: papermerge/contrib/admin/templates/admin/add_user.html:50
+#: papermerge/contrib/admin/templates/admin/add_user.html:51
 #, fuzzy
 #| msgid "Password"
 msgid "password"
@@ -94,6 +94,7 @@ msgid "password (again)"
 msgstr "Passwort (nochmal)"
 
 #: papermerge/contrib/admin/templates/account/password_change.html:53
+#: papermerge/contrib/admin/templates/admin/automate.html:54
 #: papermerge/contrib/admin/templates/admin/document.html:14
 #: papermerge/contrib/admin/templates/admin/group.html:43
 #: papermerge/contrib/admin/templates/admin/preferences.html:43
@@ -103,7 +104,7 @@ msgid "Save"
 msgstr "Speichern"
 
 #: papermerge/contrib/admin/templates/account/password_change.html:61
-#: papermerge/contrib/admin/templates/admin/add_user.html:66
+#: papermerge/contrib/admin/templates/admin/add_user.html:68
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:62
 msgid "Your password can’t be too similar to your other personal information."
 msgstr ""
@@ -111,19 +112,19 @@ msgstr ""
 "sein."
 
 #: papermerge/contrib/admin/templates/account/password_change.html:65
-#: papermerge/contrib/admin/templates/admin/add_user.html:70
+#: papermerge/contrib/admin/templates/admin/add_user.html:72
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:66
 msgid "Your password must contain at least 8 characters."
 msgstr "Ihr Passwort muss mindestens 8 Zeichen enthalten."
 
 #: papermerge/contrib/admin/templates/account/password_change.html:69
-#: papermerge/contrib/admin/templates/admin/add_user.html:74
+#: papermerge/contrib/admin/templates/admin/add_user.html:76
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:70
 msgid "Your password can’t be a commonly used password."
 msgstr ""
 
 #: papermerge/contrib/admin/templates/account/password_change.html:73
-#: papermerge/contrib/admin/templates/admin/add_user.html:78
+#: papermerge/contrib/admin/templates/admin/add_user.html:80
 #: papermerge/contrib/admin/templates/admin/user_change_password.html:74
 msgid "Your password can’t be entirely numeric."
 msgstr ""
@@ -155,13 +156,19 @@ msgstr "Dokumente"
 msgid "Inbox"
 msgstr "Posteingang"
 
-#: papermerge/contrib/admin/templates/admin/_aside.html:36
+#: papermerge/contrib/admin/templates/admin/_aside.html:35
+#: papermerge/contrib/admin/templates/admin/automates.html:5
+#: papermerge/contrib/admin/templates/admin/automates.html:9
+msgid "Automates"
+msgstr "Automatisierung"
+
+#: papermerge/contrib/admin/templates/admin/_aside.html:44
 #: papermerge/contrib/admin/templates/admin/groups.html:5
 #: papermerge/contrib/admin/templates/admin/groups.html:9
 msgid "Groups"
 msgstr "Gruppen"
 
-#: papermerge/contrib/admin/templates/admin/_aside.html:44
+#: papermerge/contrib/admin/templates/admin/_aside.html:52
 #: papermerge/contrib/admin/templates/admin/users.html:5
 #: papermerge/contrib/admin/templates/admin/users.html:9
 msgid "Users"
@@ -199,8 +206,8 @@ msgid ""
 "First, enter a username and password. Then, you’ll be able to edit more user "
 "options."
 msgstr ""
-"Zuerst geben Sie einen Benutzernamen und ein Passwort ein. "
-"Anschließend können Sie weitere Benutzeroptionen bearbeiten."
+"Zuerst geben Sie einen Benutzernamen und ein Passwort ein. Anschließend "
+"können Sie weitere Benutzeroptionen bearbeiten."
 
 #: papermerge/contrib/admin/templates/admin/add_user.html:45
 #, fuzzy
@@ -208,22 +215,70 @@ msgstr ""
 msgid "username"
 msgstr "Benutzername"
 
-#: papermerge/contrib/admin/templates/admin/add_user.html:53
+#: papermerge/contrib/admin/templates/admin/add_user.html:55
 msgid "Password confirmation"
 msgstr ""
 
-#: papermerge/contrib/admin/templates/admin/add_user.html:54
+#: papermerge/contrib/admin/templates/admin/add_user.html:56
 #, fuzzy
 #| msgid "password (again)"
 msgid "password (confirmation)"
 msgstr "Passwort (nochmal)"
 
-msgid "Password and Password confirmation does not match"
-msgstr "Passwort und Passwortbestätigung sind nicht identisch"
-
-#: papermerge/contrib/admin/templates/admin/add_user.html:58
+#: papermerge/contrib/admin/templates/admin/add_user.html:60
 msgid "Continue"
 msgstr "Fortsetzen"
+
+#: papermerge/contrib/admin/templates/admin/automate.html:5
+msgid "New Automate"
+msgstr "Neuer Automatisierung"
+
+#: papermerge/contrib/admin/templates/admin/automate.html:42
+msgid "Meta Plugin name"
+msgstr ""
+
+#: papermerge/contrib/admin/templates/admin/automates.html:14
+msgid "New"
+msgstr "Neu"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:17
+msgid "Delete selected automates"
+msgstr "Ausgewählte Autom. löschen"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:19
+#: papermerge/contrib/admin/templates/admin/groups.html:24
+#: papermerge/contrib/admin/templates/admin/tokens.html:20
+#: papermerge/contrib/admin/templates/admin/users.html:20
+msgid "Go"
+msgstr "Los!"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:27
+#, fuzzy
+#| msgid "New Name"
+msgid "Name"
+msgstr "Neuer Name"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:28
+msgid "Match"
+msgstr "Suchbegriff"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:29
+msgid "Meta Plugin"
+msgstr ""
+
+#: papermerge/contrib/admin/templates/admin/automates.html:30
+msgid "Extract Page"
+msgstr "Seite extrahieren"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:31
+msgid "Destination Folder"
+msgstr "Zielordner"
+
+#: papermerge/contrib/admin/templates/admin/automates.html:49
+#, fuzzy
+#| msgid "No groups defined so far"
+msgid "No automates defined so far"
+msgstr "Bisher keine Gruppen definiert"
 
 #: papermerge/contrib/admin/templates/admin/base.html:26
 msgid "Info"
@@ -321,12 +376,6 @@ msgstr ""
 #: papermerge/contrib/admin/templates/admin/groups.html:22
 msgid "Delete selected groups"
 msgstr "Ausgewählte Gruppen löschen"
-
-#: papermerge/contrib/admin/templates/admin/groups.html:24
-#: papermerge/contrib/admin/templates/admin/tokens.html:20
-#: papermerge/contrib/admin/templates/admin/users.html:20
-msgid "Go"
-msgstr "Los!"
 
 #: papermerge/contrib/admin/templates/admin/groups.html:32
 msgid "Group Name"
@@ -442,6 +491,9 @@ msgstr "Aktiv Status"
 msgid "Last Login"
 msgstr "Letzte Anmeldung"
 
+msgid "Password and Password confirmation does not match"
+msgstr "Passwort und Passwortbestätigung sind nicht identisch"
+
 # papermerge-js/src/js/models/permission.js
 msgid "Full Control"
 msgstr "Vollständige Kontrolle"
@@ -499,6 +551,3 @@ msgstr "Abbrechen"
 
 msgid "Group %(name)s was successfully created."
 msgstr "Gruppe %(name)s wurde erstellt."
-
-msgid "New Name"
-msgstr "Neuer Name"

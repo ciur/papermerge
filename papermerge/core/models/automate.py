@@ -38,29 +38,34 @@ class Automate(models.Model):
     )
 
     name = models.CharField(
+        _('Name'),
         max_length=128,
         unique=True
     )
 
     # text to match
     match = models.CharField(
+        _('Match'),
         max_length=256,
         blank=True
     )
 
     matching_algorithm = models.PositiveIntegerField(
+        _('Matching Algorithm'),
         choices=MATCHING_ALGORITHMS,
         default=MATCH_ANY,
     )
 
     # shoud be matching case_sensitive? i.e. uppercase == lowercase
     is_case_sensitive = models.BooleanField(
+        _('Is case sensitive'),
         default=True
     )
 
     # name of plugin used to extract metadata, if any.
     # Must match metadata associated with dst_folder
     plugin_name = models.CharField(
+        _('Plugin Name'),
         max_length=256,
         blank=True,
         null=True,
@@ -71,12 +76,14 @@ class Automate(models.Model):
     # Must match correct plugin (in case you wish automate metadta extract)
     dst_folder = models.ForeignKey(
         'Folder',
-        on_delete=models.DO_NOTHING
+        on_delete=models.DO_NOTHING,
+        verbose_name=_('Destination Folder')
     )
 
     # Should this page be cutted and pasted as separate document?
     # Very useful in case of bulk receipts scans
     extract_page = models.BooleanField(
+        _('Extract Page'),
         default=False
     )
 

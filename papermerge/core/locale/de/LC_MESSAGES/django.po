@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-20 04:55+0000\n"
+"POT-Creation-Date: 2020-07-23 12:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ciur Eugen\n"
 "Language-Team: Ciur Eugen\n"
@@ -13,35 +13,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: papermerge/core/forms.py:55
+#: papermerge/core/forms.py:136
 msgid "Number of hours this token will be valid (4464 hours ~ 6 months)"
 msgstr "Anzahl der Stunden - dieser Token gültig ist (4464 Stunden ~ 6 Monate)"
 
-#: papermerge/core/models/access.py:44
+#: papermerge/core/models/access.py:43
 msgid "Allow"
 msgstr ""
 
-#: papermerge/core/models/access.py:45
+#: papermerge/core/models/access.py:44
 msgid "Deny"
 msgstr ""
 
-#: papermerge/core/models/access.py:55
+#: papermerge/core/models/access.py:54
 msgid "group"
 msgstr ""
 
-#: papermerge/core/models/access.py:62
+#: papermerge/core/models/access.py:61
 msgid "user"
+msgstr ""
+
+#: papermerge/core/models/automate.py:34
+msgid "Any"
+msgstr "Nut ein Wort"
+
+#: papermerge/core/models/automate.py:35
+msgid "All"
+msgstr "Alle Wörte"
+
+#: papermerge/core/models/automate.py:36
+msgid "Literal"
+msgstr "Buchstäblich"
+
+#: papermerge/core/models/automate.py:37
+msgid "Regular Expression"
+msgstr "Regular Expression"
+
+#: papermerge/core/models/automate.py:41
+msgid "Name"
+msgstr ""
+
+#: papermerge/core/models/automate.py:48
+msgid "Match"
+msgstr ""
+
+#: papermerge/core/models/automate.py:54
+msgid "Matching Algorithm"
+msgstr ""
+
+#: papermerge/core/models/automate.py:61
+msgid "Is case sensitive"
+msgstr ""
+
+#: papermerge/core/models/automate.py:68
+msgid "Plugin Name"
+msgstr ""
+
+#: papermerge/core/models/automate.py:80
+msgid "Destination Folder"
+msgstr ""
+
+#: papermerge/core/models/automate.py:86
+msgid "Extract Page"
 msgstr ""
 
 #: papermerge/core/models/document.py:38
 msgid "Notes"
 msgstr "Notizen"
 
-#: papermerge/core/models/document.py:142
+#: papermerge/core/models/document.py:164
 msgid "Document"
 msgstr "Dokument"
 
-#: papermerge/core/models/document.py:143 papermerge/core/models/node.py:326
+#: papermerge/core/models/document.py:165 papermerge/core/models/node.py:326
 #: papermerge/core/models/node.py:327
 msgid "Documents"
 msgstr "Dokumente"
@@ -82,28 +126,39 @@ msgstr "Titel"
 msgid "Language"
 msgstr "Sprache"
 
+#: papermerge/core/views/automates.py:101
+msgid "New Automate"
+msgstr "Neue Autom."
+
+#: papermerge/core/views/automates.py:136
+msgid "Edit Automate"
+msgstr "Autom. Bearbeiten"
+
 #: papermerge/core/views/groups.py:79
 msgid "New Group"
-msgstr ""
+msgstr "Neue Gruppe"
 
 #: papermerge/core/views/groups.py:106
 msgid "Edit Group"
-msgstr ""
+msgstr "Gruppe Bearbeiten"
 
-#: papermerge/core/views/users.py:88
+#: papermerge/core/views/users.py:68
+msgid "Password and Password confirmation does not match"
+msgstr "Passwort und Passwortbestätigung stimmen nicht überein"
+
+#: papermerge/core/views/users.py:102
 msgid "Edit User"
-msgstr ""
+msgstr "Benutzer Bearbeiten"
 
-#: papermerge/core/views/users.py:111
+#: papermerge/core/views/users.py:125
 msgid "Password was successfully changed."
-msgstr ""
+msgstr "Passwort wurde erfolgreich geändert."
 
-#~ msgctxt "top bar"
-#~ msgid "Home"
-#~ msgstr "Hauptseite"
+msgid "Home"
+msgstr "Hauptseite"
 
-#~ msgid "Sign In"
-#~ msgstr "Anmelden"
+msgid "Sign In"
+msgstr "Anmelden"
 
-#~ msgid "Register"
-#~ msgstr "Registrieren"
+msgid "Register"
+msgstr "Registrieren"
