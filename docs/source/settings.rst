@@ -161,7 +161,7 @@ or specify unsupported language then English will be used.
 Instead of ``en`` you can use ``en-US``, ``en-UK`` etc.
 Instead of ``de`` you can use ``de-DE``, ``de-AT`` etc.
 `See here <http://www.i18nguy.com/unicode/language-identifiers.html>`_ full least of all available language codes.
-You can translate Papermerge to your own language.
+You can :ref:`translate Papermerge <translate>` to your own language.
 
 .. _database:
 
