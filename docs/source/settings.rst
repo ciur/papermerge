@@ -146,6 +146,7 @@ Default value is::
 
 I18n and Localization
 #######################
+.. _config_language_code:
 
 ``LANGUAGE_CODE``
 ~~~~~~~~~~~~~~~~~~~
@@ -162,6 +163,21 @@ Instead of ``en`` you can use ``en-US``, ``en-UK`` etc.
 Instead of ``de`` you can use ``de-DE``, ``de-AT`` etc.
 `See here <http://www.i18nguy.com/unicode/language-identifiers.html>`_ full least of all available language codes.
 You can :ref:`translate Papermerge <translate>` to your own language.
+
+Default value: ``en``
+
+.. _config_language_from_agent:
+``LANGUAGE_FROM_AGENT``
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If is set to True, will use same language code as your Web Browser (agent) does.
+Browsers send 'Accept-Language' header with their locale.
+For more, `read here <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language>`_.
+
+* If ``True``  - will override :ref:`LANGUAGE_CODE <config_language_code>` option. This means that with ``LANGUAGE_FROM_AGENT=True`` in whatever locale settings your Web Browser runs - same will be used by Papermerge instance.
+* If ``False`` - language code specified in :ref:`LANGUAGE_CODE <config_language_code>` option will be used and 'Accept-Language' header in browser will be ignored.
+
+Default value: ``False``
 
 .. _database:
 

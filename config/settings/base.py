@@ -253,7 +253,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-LANGUAGE_CODE = cfg_papermerge.get("LANGUAGE_CODE", 'de')
+LANGUAGE_CODE = cfg_papermerge.get(
+    "LANGUAGE_CODE",
+    'en'
+)
 
 LOCALE_PATHS = (
     PROJ_ROOT / Path('papermerge'),
