@@ -142,6 +142,27 @@ Default value is::
 
   OCR_BINARY = "/usr/bin/tesseract"
 
+.. _i18n:
+
+I18n and Localization
+#######################
+
+``LANGUAGE_CODE``
+~~~~~~~~~~~~~~~~~~~
+
+This option specifies language of user interface.
+There are two options:
+
+* en - for user interface in English language
+* de - for user interface in German language
+
+English is default fallback i.e. if you don't specify anything
+or specify unsupported language then English will be used.
+Instead of ``en`` you can use ``en-US``, ``en-UK`` etc.
+Instead of ``de`` you can use ``de-DE``, ``de-AT`` etc.
+`See here <http://www.i18nguy.com/unicode/language-identifiers.html>`_ full least of all available language codes.
+You can translate Papermerge to your own language.
+
 .. _database:
 
 Database

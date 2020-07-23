@@ -52,6 +52,7 @@ What It Does't Do
    utilities
    migrations
    settings
+   translators_guide/index
    developers_guide/index
    changelog
 
