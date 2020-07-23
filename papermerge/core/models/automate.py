@@ -160,7 +160,10 @@ class Automate(models.Model):
                 f"Metadata Extracted with Automate={metadata}"
             )
             doc = new_document if new_document else document
-            doc.kv.update(metadata['simple_keys'])
+
+            for key, value in metadata['simple_keys']:
+                # assign values to defined metadata keys
+                doc.kv[key] = value
 
     def _match_any(self, hocr, search_kwargs):
 

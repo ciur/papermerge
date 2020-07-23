@@ -39,6 +39,22 @@ class TestComputeVirtualValue(TestCase):
             f"Assertion {vv2} > {vv1} failed."
         )
 
+    def test_empty_date_type(self):
+        vv1 = compute_virtual_value(
+            kv_type=DATE,
+            kv_format='dd.mm.yy',
+            value=''  # empty date
+        )
+
+        vv2 = compute_virtual_value(
+            kv_type=DATE,
+            kv_format='dd.mm.yy',
+            value=None
+        )
+        # in both cases virtual value is expected to be 0
+        self.assertEqual(vv1, 0)
+        self.assertEqual(vv2, 0)
+
     def test_money_type(self):
 
         vv1 = compute_virtual_value(
@@ -191,3 +207,43 @@ class TestKVPropagation(TestCase):
             "dd,cc"
         )
 
+    def test_kv_update_empty_values(self):
+        """
+        Assign empty value for kv label date
+        """
+        doc = Document.create_document(
+            title="document_A",
+            file_name="document_A.pdf",
+            size='36',
+            lang='DEU',
+            user=self.user,
+            page_count=2,
+        )
+
+        # attach/add metadata to the document_A
+        doc.kv.update(
+            [
+                {
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yy',
+                }
+            ]
+        )
+
+        self.assertFalse(
+            doc.kv['date']
+        )
+
+        doc.kv['date'] = '23.07.20'
+        # reload doc from db
+        doc = Document.objects.get(id=doc.id)
+        self.assertEqual(
+            doc.kv['date'], '23.07.20'
+        )
+        # try empty value for date
+        doc.kv['date'] = None
+        doc = Document.objects.get(id=doc.id)
+        self.assertFalse(
+            doc.kv['date']
+        )

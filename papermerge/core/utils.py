@@ -5,17 +5,13 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 
-
-#def get_superuser():
-#    user = User.objects.filter(
-#        is_superuser=True
-#    ).first()
-#
-#    return user
-
 def date_2int(kv_format, str_value):
     # maps PAPERMERGE_METADATA_DATE_FORMATS to
     # https://docs.python.org/3.8/library/datetime.html#strftime-and-strptime-format-codes
+
+    if not str_value:
+        return 0
+
     format_map = {
         'dd.mm.yy': '%d.%m.%y',
         'dd.mm.yyyy': '%d.%m.%Y',
@@ -27,7 +23,9 @@ def date_2int(kv_format, str_value):
             str_value, format_map[kv_format]
         )
     except Exception as e:
-        logger.error(
+        # this is expected because of automated
+        # extraction of metadata may fail.
+        logger.debug(
             f"While converting date user format {e}"
         )
         return 0
