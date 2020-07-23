@@ -207,18 +207,11 @@ class TestKVPropagation(TestCase):
             "dd,cc"
         )
 
-    def test_kv_update_empty_values(self):
+    def test_kv_assignment_of_empty_values(self):
         """
-        Assign empty value for kv label date
+        Assign empty value for kv label date on a document
         """
-        doc = Document.create_document(
-            title="document_A",
-            file_name="document_A.pdf",
-            size='36',
-            lang='DEU',
-            user=self.user,
-            page_count=2,
-        )
+        doc = _get_a_doc(self.user)
 
         # attach/add metadata to the document_A
         doc.kv.update(
@@ -230,6 +223,8 @@ class TestKVPropagation(TestCase):
                 }
             ]
         )
+
+        doc.save()
 
         self.assertFalse(
             doc.kv['date']
@@ -247,3 +242,60 @@ class TestKVPropagation(TestCase):
         self.assertFalse(
             doc.kv['date']
         )
+
+    def test_kv_assignment_on_document_pages(self):
+        """
+        Assign metadata values on document pages
+        """
+        doc = _get_a_doc(self.user, page_count=2)
+
+        doc.kv.update(
+            [
+                {
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yy',
+                }
+            ]
+        )
+
+        extraction_result = {
+            'date': '23.07.20'
+        }
+
+        doc.assign_kv_values(extraction_result)
+        doc = Document.objects.get(id=doc.id)
+
+        self.assertEqual(
+            doc.kv['date'],
+            '23.07.20'
+        )
+
+        # and same value must be present in both pages'
+        # metadata
+        self.assertEqual(
+            doc.pages.all()[0].kv['date'],
+            '23.07.20'
+        )
+
+        self.assertEqual(
+            doc.pages.all()[1].kv['date'],
+            '23.07.20'
+        )
+
+
+def _get_a_doc(user, page_count=2):
+    """
+    Return a document instance.
+    Title, file_name, size, language do not matter.
+    """
+    doc = Document.create_document(
+        title="document_A",
+        file_name="document_A.pdf",
+        size='36',
+        lang='DEU',
+        user=user,
+        page_count=page_count,
+    )
+
+    return doc

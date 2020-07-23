@@ -3,7 +3,7 @@ from pathlib import Path
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from papermerge.core.models import KV, Document, Folder, Page
-from papermerge.core.models.kvstore import MONEY, TEXT
+from papermerge.core.models.kvstore import MONEY, TEXT, DATE
 from papermerge.core.tasks import normalize_pages
 
 User = get_user_model()
@@ -215,6 +215,56 @@ class TestPage(TestCase):
             set(
                 top.kv.typed_keys()
             )
+        )
+
+    def test_page_inherits_kv_from_document_2(self):
+        """
+        KV inheritance:
+
+            Document -> Page
+        1. Create 2 pages document
+        2. Assign metadata to the document
+        3. Expected:
+            both pages will have same metadata keys as document.
+        """
+        doc = Document.create_document(
+            title="kyuss.pdf",
+            user=self.user,
+            lang="ENG",
+            file_name="kyuss.pdf",
+            size=36,
+            page_count=2
+        )
+
+        # create one metadata key
+        doc.kv.update(
+            [
+                {
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yy',
+                }
+            ]
+        )
+
+        doc.save()
+
+        self.assertEqual(
+            1,
+            doc.kv.count(),
+            "Document does not one metakey associated"
+        )
+
+        self.assertEqual(
+            1,
+            doc.pages.first().kv.count(),
+            "Page does not have one metakey associated"
+        )
+
+        self.assertEqual(
+            1,
+            doc.pages.last().kv.count(),
+            "Page does not have one metakey associated"
         )
 
     def test_page_kv_store_get_and_set(self):

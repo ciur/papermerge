@@ -132,6 +132,9 @@ def inherit_metadata_keys(sender, instance, created, **kwargs):
         instance.inherit_kv_from(instance.parent)
         for page in instance.pages.all():
             page.inherit_kv_from(instance.parent)
+    else:
+        for page in instance.pages.all():
+            page.inherit_kv_from(instance)
 
 
 @receiver(post_save, sender=Folder)

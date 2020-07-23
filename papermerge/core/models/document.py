@@ -118,6 +118,18 @@ class Document(BaseTreeNode):
 
         return item
 
+    def assign_kv_values(self, kv_dict):
+        """
+        Assignes kv_dict of key value to its metadata
+        and metadata of its pages.
+        """
+        for key, value in kv_dict.items():
+            # for self
+            self.kv[key] = value
+            # and for all pages of the document
+            for page in self.pages.all():
+                page.kv[key] = value
+
     @property
     def kv(self):
         return KVNode(instance=self)

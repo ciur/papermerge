@@ -161,9 +161,9 @@ class Automate(models.Model):
             )
             doc = new_document if new_document else document
 
-            for key, value in metadata['simple_keys']:
-                # assign values to defined metadata keys
-                doc.kv[key] = value
+            doc.assign_kv_values(
+                metadata['simple_keys']
+            )
 
     def _match_any(self, hocr, search_kwargs):
 
