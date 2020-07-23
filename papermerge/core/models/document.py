@@ -123,11 +123,21 @@ class Document(BaseTreeNode):
         Assignes kv_dict of key value to its metadata
         and metadata of its pages.
         """
+        logger.debug(
+            f"assign_key_values kv_dict={kv_dict} doc_id={self.id}"
+        )
         for key, value in kv_dict.items():
             # for self
+            logger.debug(
+                f"Assign to DOC key={key} value={value}"
+            )
             self.kv[key] = value
             # and for all pages of the document
             for page in self.pages.all():
+                logger.debug(
+                    f"Assign to page number={page.number}"
+                    f" key={key} value={value}"
+                )
                 page.kv[key] = value
 
     @property
