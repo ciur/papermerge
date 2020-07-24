@@ -138,7 +138,13 @@ class Document(BaseTreeNode):
                     f"Assign to page number={page.number}"
                     f" key={key} value={value}"
                 )
-                page.kv[key] = value
+                try:
+                    page.kv[key] = value
+                except Exception as e:
+                    logging.error(
+                        f"Error: page {page.number}, doc_id={self.id} has no key={key}", # noqa
+                        exc_info=e
+                    )
 
     @property
     def kv(self):

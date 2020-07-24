@@ -35,7 +35,9 @@ def metadata(request, model, id):
         kv_data = json.loads(request.body)
         if 'kvstore' in kv_data:
             if isinstance(kv_data['kvstore'], list):
-                item.kv.update(kv_data['kvstore'])
+                item.kv.update(
+                    _sanitize_kvstore_list(kv_data['kvstore'])
+                )
 
     return HttpResponse(
         json.dumps(
@@ -50,3 +52,19 @@ def metadata(request, model, id):
         ),
         content_type="application/json"
     )
+
+
+def _sanitize_kvstore_list(kvstore_list):
+    """
+    Creates a new dictionay only with allowed keys.
+    """
+    new_kvstore_list = []
+    allowed_keys = ['key', 'kv_inherited', 'value', 'kv_type']
+
+    for item in kvstore_list:
+        sanitized_kvstore_item = {
+            allowed_key: item[allowed_key] for allowed_key in allowed_keys
+        }
+        new_kvstore_list.append(sanitized_kvstore_item)
+
+    return new_kvstore_list

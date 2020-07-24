@@ -92,11 +92,15 @@ SEARCH_BACKEND = "papermerge.search.backends.db.SearchBackend"
 # extract and populate metadata fields.
 #
 #   METADATA_PLUGINS = [
-#       "lidl_receipts_de.Lidl",
-#       "rewe_receipts_de.Rewe",
-#       "ard_zdf_letter.ARD"
+#       "lidl_receipts_de.Lidl",             # (1)
+#       "deutschlandradio.Deutschlandradio"  # (2)
 #    ]
-#
+#  
+# (1) check:
+#     https://github.com/papermerge/lidl-receipts-de
+# (2) check:
+#     https://github.com/papermerge/papermerge-meta-plugin-ard-zdf-deutschlandradio
+
 METADATA_PLUGINS = []
 
 # METADATA_DATE_FORMATS = [
