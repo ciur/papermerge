@@ -30,6 +30,10 @@ keywords in the document. For example if document contains capital case AWO and 
 must be routed to folder AWO/2020; if document contains word Linode and year 2020, then it will be routed to
 Invoices/CloudExpenses/2020.
 
+.. caution::
+  
+   It is crucial to understand that **matching is per Page**. Thus, statement *match a document* is not entirely correct. 
+   Automation processes is triggered every time when OCR for certain page completes. OCRed page is sent to automation module and Papermerge will try to match each automate instance on it. In case there is a match - it is considered that document matched automate criteria, although technically correct is - page of respective the document matched!
 
 Move to Destination Folder
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
