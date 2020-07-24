@@ -1,6 +1,10 @@
 Automation
 ============
 
+.. note::
+
+    This is new feature which will be part of 1.4.0 release (available in August 2020). 
+
 With Automation feature you can do 3 things:
 
 1. automatically moving (cut/paste) of documents into their destination folder
@@ -8,6 +12,11 @@ With Automation feature you can do 3 things:
 3. and please forgive me for repetition - automatically extract pages
 
 The whole idea is to remove boring and repetitive tasks.
+
+
+.. figure:: img/automates/01-automates.png
+
+
 Each automate instance consists of two very important parts:
     
 * matching - what documents it applies to?
@@ -26,8 +35,8 @@ Move to Destination Folder
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Extract Metadata
-~~~~~~~~~~~~~~~~~
+Extract Metadata and Meta-Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Extract Page
