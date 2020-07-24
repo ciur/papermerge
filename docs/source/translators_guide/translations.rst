@@ -19,7 +19,7 @@ You don't need to create .po files manually!
 There is a django command for that. Thus, in case you want to translate
 Papermerge to French (by the way, thanks for your contribution!), you need to::
 
-	./manage.py createmessages -l fr
+	./manage.py makemessages -l fr
 
 Above command will create fr/LC_MESSAGES/django.po files in both apps -
 papermerge.contrib.admin and papermerge.core.
