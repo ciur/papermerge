@@ -2,13 +2,14 @@ Changelog
 ==========
 
 [1.4.0] - Work in Progress (planned for August 2020)
-################################################
+######################################################
 
 Added 
 ~~~~~~~
-    
+
+- :ref:`Automates <automation>` (of metadata extraction, document routing, page extraction)
 - AdminLTE3/Bootstrap based own UI
-- Backup/Restore feature. Feature implemented by `@frenos <https://github.com/frenos>`_
+- :ref:`Backup/Restore <backup_restore>` feature. Feature implemented by `@frenos <https://github.com/frenos>`_
 - Added support for JPEG, PNG, TIFF images
 
 Changed
