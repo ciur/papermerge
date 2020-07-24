@@ -47,6 +47,7 @@ What It Does't Do
    backup_restore
    page_management
    metadata
+   automation
    user_management
    access_permissions
    utilities
