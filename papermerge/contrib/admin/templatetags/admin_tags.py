@@ -164,3 +164,16 @@ def search_document_path(node):
         html_class_attr="mx-1"
     )
 
+
+@register.simple_tag()
+def tree_path(node):
+    return build_tree_path(
+        node,
+        include_self=True,
+        include_index=False,
+        html_class_attr="mx-1"
+    )
+
+
+
+

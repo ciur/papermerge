@@ -134,6 +134,7 @@ def automate_change_view(request, id):
             'form': form,
             'action_url': action_url,
             'title': _('Edit Automate'),
-            'plugin_choices': _plugin_choices()
+            'plugin_choices': _plugin_choices(),
+            'automate': automate
         }
     )

@@ -8,6 +8,8 @@ from django.forms.widgets import (
     ChoiceWidget
 )
 
+from mptt.forms import TreeNodeChoiceField
+
 from knox.models import AuthToken
 
 from papermerge.core.models import User, Automate
@@ -26,6 +28,9 @@ class AutomateForm(forms.ModelForm):
             'dst_folder',
             'extract_page'
         )
+        field_classes = {
+            'dst_folder': TreeNodeChoiceField,
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,7 +38,7 @@ class AutomateForm(forms.ModelForm):
         for visible in self.visible_fields():
             if isinstance(
                 visible.field.widget,
-                (TextInput, EmailInput, ChoiceWidget)
+                (TextInput, EmailInput, ChoiceWidget, TreeNodeChoiceField)
             ):
                 visible.field.widget.attrs['class'] = 'form-control'
 
