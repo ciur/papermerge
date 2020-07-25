@@ -139,7 +139,11 @@ class Document(BaseTreeNode):
                     f" key={key} value={value}"
                 )
                 try:
-                    page.kv[key] = value
+                    # Never (automatically) overwrite am
+                    # existing Metadata value
+                    if not page.kv[key]:
+                        # page metadata value is empty fill it in.
+                        page.kv[key] = value
                 except Exception as e:
                     logging.error(
                         f"Error: page {page.number}, doc_id={self.id} has no key={key}", # noqa

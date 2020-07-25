@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from .document import Document
+from .folder import Folder
 
 
 logger = logging.getLogger(__name__)
@@ -129,6 +130,50 @@ class Automate(models.Model):
                 document, dst_folder
             )
 
+    def is_automate_applicable(self, document):
+        """
+        Automation is only applicable:
+
+        1. for documents which are in document's user inbox folder
+        2. for documents  which are in one of the folders
+        mentioned in automates.dst_folder.
+
+        If 2. is ignored unexpected things might happed: consider
+        this case:
+
+            -> a. 5 page document D matches automate criteria on all pages.
+            -> b. document has a meta plugin assiciated
+            -> c. no page extraction
+            -> d. metadata will be found only on the first page
+            -> e. first page is OCRed last
+
+        Let's assume that second page is processed first and it matches
+        automation criteria.
+        This means that document D will be moved to destination folder.
+        If only 1. is considered, all other pages of document D will not
+        be applicable for automation!
+
+        What about making all documents applicable for automation?
+        In this last case, if user uploads a document to a folder M - documents
+        may be moved unexpectedly by background automation process! From user
+        point of view - docs will just vanish!
+        """
+        if not document.parent:
+            return False
+
+        if document.parent.title == Folder.INBOX_NAME:
+            # document is in Inbox
+            logger.debug(f"Document {document} is in Inbox")
+            return True
+
+        for automate in Automate.objects.filter(user=document.user):
+            # document is in one of automation dst_folders
+            if document.parent == automate.dst_folder:
+                logger.debug(f"Document {document} is in one of dst folders")
+                return True
+
+        return False
+
     def apply(
         self,
         document,
@@ -138,6 +183,10 @@ class Automate(models.Model):
     ):
         new_document = None
         logger.debug("automate.Apply begin")
+
+        if not self.is_automate_applicable(document):
+            logger.debug("Automate not applicable. Quit.")
+            return
 
         if document.page_count == 1:
             # i.e if this is last page
@@ -159,6 +208,14 @@ class Automate(models.Model):
                     }
 
                 )
+        else:
+            # it is not last page in the document AND
+            # page extraction is NOT wanted.
+            # just move document to destination folder.
+            self.move_to(
+                document,
+                self.dst_folder
+            )
 
         if plugin:
             logger.debug("Plugin is provided, extracting hocr")

@@ -7,6 +7,8 @@ from papermerge.search import index
 
 class Folder(BaseTreeNode, index.Indexed):
 
+    INBOX_NAME = "inbox"
+
     search_fields = [
         index.SearchField('title'),
         index.SearchField('text', partial_match=True, boost=2),

@@ -1,13 +1,6 @@
 import logging
 from django.core.management.base import BaseCommand
 
-try:
-    from django_tenants.utils import get_tenant_model
-except:
-    get_tenant_model = None
-
-from django.db import connection
-
 from papermerge.core.models import (
     BaseTreeNode,
     Access
@@ -36,11 +29,6 @@ class Command(BaseCommand):
             '-u',
             action="store_true",
             help="Updated nodes without associated access model."
-        )
-        parser.add_argument(
-            '--schema-name',
-            '-s',
-            help="Run checkaccess for this schema."
         )
 
     def run_count(
@@ -78,18 +66,7 @@ class Command(BaseCommand):
             'update',
             False
         )
-        schema_name = options.get('schema_name', False)
-
-        TenantModel = get_tenant_model()
-
-        if schema_name:
-            tenant_list = TenantModel.objects.filter(name=schema_name)
-        else:
-            tenant_list = TenantModel.objects.exclude(name="public")
-
-        for tenant in tenant_list:
-            connection.set_tenant(tenant)
-            if count:
-                self.run_count()
-            elif update:
-                self.run_update()
+        if count:
+            self.run_count()
+        elif update:
+            self.run_update()

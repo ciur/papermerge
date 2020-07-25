@@ -170,7 +170,7 @@ def _user_init(user):
     """
     if settings.PAPERMERGE_CREATE_INBOX:
         Folder.objects.get_or_create(
-            title="inbox",
+            title=Folder.INBOX_NAME,
             parent=None,
             user=user
         )

@@ -15,11 +15,6 @@ LOGGING = {
             'filename': 'ocr.log',
             'level': 'DEBUG'
         },
-        'file_core': {
-            'class': 'logging.FileHandler',
-            'filename': 'core.log',
-            'level': 'DEBUG'
-        }
     },
     'loggers': {
         'papermerge': {
@@ -38,9 +33,5 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG'
         },
-        'papermerge.core': {
-            'handlers': ['file_core'],
-            'level': 'DEBUG'
-        }
     },
 }
