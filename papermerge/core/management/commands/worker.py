@@ -1,3 +1,4 @@
+import os
 import logging
 
 from celery import Celery
@@ -28,6 +29,11 @@ def import_from_email():
     """
     Import attachments from specified email account.
     """
+    # if no email import defined, just skip the whole
+    # thing.
+    if not settings.PAPERMERGE_IMPORT_MAIL_USER:
+        return
+
     logger.debug("Celery beat: import_from_email")
     import_attachment()
 
@@ -43,26 +49,51 @@ def import_from_local_folder():
 
 @celery_app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    # Calls every 30 seconds txt2db, import_from_email,
-    # and import_from_local_folder
+    # Calls every 64 seconds txt2db
     sender.add_periodic_task(
-        30.0, txt2db.s(), name='txt2db'
-    )
-    sender.add_periodic_task(
-        30.0, import_from_local_folder.s(), name='import_from_local_folder'
-    )
-    if not settings.PAPERMERGE_IMPORT_MAIL_USER:
-        logger.info("PAPERMERGE_IMPORT_MAIL_USER not defined")
-        return
-
-    if not settings.PAPERMERGE_IMPORT_MAIL_HOST:
-        logger.info("PAPERMERGE_IMPORT_MAIL_HOST not defined")
-        return
-
-    sender.add_periodic_task(
-        30.0, import_from_email.s(), name='import_from_email'
+        64.0, txt2db.s(), name='txt2db'
     )
 
+    imp_dir_exists = None
+    imp_dir = settings.PAPERMERGE_IMPORTER_DIR
+    if settings.PAPERMERGE_IMPORTER_DIR:
+        imp_dir_exists = os.path.exists(settings.PAPERMERGE_IMPORTER_DIR)
+
+    if imp_dir and imp_dir_exists:
+        sender.add_periodic_task(
+            30.0, import_from_local_folder.s(), name='import_from_local_folder'
+        )
+    else:
+        reason_msg = ""
+
+        if not imp_dir:
+            reason_msg += "1. IMPORDER_DIR not configured\n"
+        if not imp_dir_exists:
+            reason_msg += "2. importer dir does not exist\n"
+
+        logger.warning(
+            "Importer from local folder task not started."
+            "Reason:\n" + reason_msg
+        )
+
+    mail_user = settings.PAPERMERGE_IMPORT_MAIL_USER
+    mail_host = settings.PAPERMERGE_IMPORT_MAIL_HOST
+
+    if mail_user and mail_host:
+        sender.add_periodic_task(
+            30.0, import_from_email.s(), name='import_from_email'
+        )
+    else:
+        reason_msg = ""
+        if not mail_user:
+            reason_msg += "PAPERMERGE_IMPORT_MAIL_USER not defined\n"
+        if not mail_host:
+            reason_msg += "PAPERMERGE_IMPORT_MAIL_HOST not defined\n"
+
+        logger.warning(
+            "Importer from imap account not started."
+            "Reason:\n" + reason_msg
+        )
 
 class Command(BaseCommand):
 
@@ -82,6 +113,8 @@ class Command(BaseCommand):
         celery_worker = CeleryWorker(
             hostname="localhost",
             app=celery_app,
-            beat=True
+            beat=True,
+            quiet=True,
+            concurrency=1
         )
         celery_worker.start()
