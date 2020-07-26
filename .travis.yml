@@ -15,4 +15,4 @@ before_install:
 sudo: false
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements/base.txt

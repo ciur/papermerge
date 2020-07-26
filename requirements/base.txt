@@ -1,24 +1,14 @@
-mglib == 1.2.3
+mglib == 1.2.5
 mgclipboard >= 0.2.0
 django >= 3.0.0
-python-dotenv
+celery==4.4.0
 imapclient
 djangorestframework  # DRF stores tokens clear text in DB
 django-rest-knox     # Knox stores hashed tokens in DB
-django-extensions
-sphinx
-sphinx_rtd_theme
 pyyaml
 lxml
-psycopg2-binary
-celery
-boto3
 django-celery-results
 django-allauth
 django-dynamic-preferences
 django-polymorphic-tree
-gunicorn
-django-anymail
-django-redis
-pmworker
 django-modelcluster

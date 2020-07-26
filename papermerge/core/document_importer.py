@@ -4,7 +4,7 @@ import os
 from papermerge.core.models import Document, Folder, User
 from papermerge.core.ocr.page import ocr_page
 from papermerge.core.storage import default_storage
-from pmworker.pdfinfo import get_pagecount
+from mglib.pdfinfo import get_pagecount
 
 logger = logging.getLogger(__name__)
 

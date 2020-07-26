@@ -162,10 +162,6 @@ INSTALLED_APPS = (
     'polymorphic_tree',
     'polymorphic',
     'mptt',
-    # we use postgres full text search
-    'django.contrib.postgres',
-    'anymail',
-    'django_extensions',
     'mgclipboard'
 )
 
