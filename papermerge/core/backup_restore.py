@@ -8,7 +8,7 @@ import json
 from pathlib import PurePath
 
 from django.core.files.temp import NamedTemporaryFile
-from pmworker.pdfinfo import get_pagecount
+from mglib.pdfinfo import get_pagecount
 
 from papermerge.core.models import Document, User, Folder
 from papermerge.core.storage import default_storage

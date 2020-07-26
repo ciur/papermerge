@@ -5,13 +5,12 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
 
+from mglib.path import PagePath
+from mglib.step import Step
+
 from papermerge.core.models import (Page, Document, Folder)
 from papermerge.core.storage import default_storage
 from papermerge.test.utils import create_root_user
-from pmworker import ENG
-from pmworker.storage import copy2doc_url
-from mglib.path import PagePath
-from mglib.step import Step
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -45,7 +44,7 @@ class TestDocumentView(TestCase):
                 {
                     'name': 'fred',
                     'file': fp,
-                    'language': ENG,
+                    'language': "eng",
                 },
             )
 
@@ -72,11 +71,11 @@ class TestDocumentView(TestCase):
             size=1222,
             page_count=3
         )
-        copy2doc_url(
-            src_file_path=os.path.join(
+        default_storage.copy_doc(
+            src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            doc_url=doc.path.url()
+            dst=doc.path.url(),
         )
         ret = self.client.post(
             reverse('core:preview', args=(doc.id, 1, 1))
@@ -215,22 +214,22 @@ class TestDocumentView(TestCase):
             page_count=3
         )
 
-        copy2doc_url(
-            src_file_path=os.path.join(
+        default_storage.copy_doc(
+            src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            doc_url=default_storage.abspath(doc.path.url())
+            dst=default_storage.abspath(doc.path.url())
         )
         # build page url
         page_path = doc.page_paths[1]
 
         # just remember that at the end of test
         # copied file must be deteled. (1)
-        copy2doc_url(
-            src_file_path=os.path.join(
+        default_storage.copy_doc(
+            src=os.path.join(
                 BASE_DIR, "data", "page-1.hocr"
             ),
-            doc_url=default_storage.abspath(page_path.hocr_url())
+            dst=default_storage.abspath(page_path.hocr_url())
         )
         ret = self.client.get(
             reverse('core:hocr', args=(doc.id, 1, 1))
@@ -260,11 +259,11 @@ class TestDocumentView(TestCase):
             page_count=3
         )
         # Doc is available (for get_pagecount on server side).
-        copy2doc_url(
-            src_file_path=os.path.join(
+        default_storage.copy_doc(
+            src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            doc_url=doc.path.url()
+            dst=doc.path.url()
         )
         # But HOCR file is missing.
         ret = self.client.get(
