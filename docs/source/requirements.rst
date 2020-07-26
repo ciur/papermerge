@@ -36,4 +36,4 @@ extracts text from images. It works fantastically well for wide range of
 languages.
 
 
-In addition to the above, there are a number of Python requirements, all of which are listed in a file called ``requirements.txt`` in the project root directory.
+In addition to the above, there are a number of Python requirements, all of which are listed in a file called ``requirements/base.txt`` in the project root directory.
