@@ -1,7 +1,7 @@
 language: python
 
 python:
-  - 3.8
+  - 3.7
 
 # command to run tests
 script:
