@@ -23,7 +23,8 @@ def inbox_view(request):
 
     try:
         inbox = Folder.objects.get(
-            title__iexact="inbox"
+            title__iexact="inbox",
+            user=request.user
         )
         root_node_id = inbox.id
 
