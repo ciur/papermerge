@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 
+from papermerge.core.models import Document
+
 User = get_user_model()
 
 
@@ -46,3 +48,20 @@ def create_uploader_user():
     user.save()
 
     return user
+
+
+def create_some_doc(user, page_count=2):
+    """
+    Returns a (newly created) document instance.
+    Title, file_name, size, language do not matter.
+    """
+    doc = Document.create_document(
+        title="document_A",
+        file_name="document_A.pdf",
+        size='36',
+        lang='DEU',
+        user=user,
+        page_count=page_count,
+    )
+
+    return doc

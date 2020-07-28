@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from django.test import TestCase
+
 from papermerge.core.models import Document, Folder
 from papermerge.test.utils import create_root_user
 from papermerge.core.models.kvstore import (
@@ -9,6 +10,8 @@ from papermerge.core.models.kvstore import (
     NUMERIC,
     DATE
 )
+
+from .utils import create_some_doc
 
 # points to papermerge.testing folder
 BASE_DIR = Path(__file__).parent
@@ -211,7 +214,9 @@ class TestKVPropagation(TestCase):
         """
         Assign empty value for kv label date on a document
         """
-        doc = _get_a_doc(self.user)
+        doc = create_some_doc(
+            self.user
+        )
 
         # attach/add metadata to the document_A
         doc.kv.update(
@@ -247,7 +252,9 @@ class TestKVPropagation(TestCase):
         """
         Assign metadata values on document pages
         """
-        doc = _get_a_doc(self.user, page_count=2)
+        doc = create_some_doc(
+            self.user, page_count=2
+        )
 
         doc.kv.update(
             [
@@ -284,18 +291,3 @@ class TestKVPropagation(TestCase):
         )
 
 
-def _get_a_doc(user, page_count=2):
-    """
-    Return a document instance.
-    Title, file_name, size, language do not matter.
-    """
-    doc = Document.create_document(
-        title="document_A",
-        file_name="document_A.pdf",
-        size='36',
-        lang='DEU',
-        user=user,
-        page_count=page_count,
-    )
-
-    return doc

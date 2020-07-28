@@ -10,7 +10,17 @@ from mglib.step import Step
 
 from papermerge.core.models import (Page, Document, Folder)
 from papermerge.core.storage import default_storage
-from papermerge.test.utils import create_root_user
+from papermerge.core.models.kvstore import (
+    TEXT,
+    KVStorePage
+)
+
+
+from .utils import (
+    create_root_user,
+    create_some_doc
+)
+
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -177,11 +187,11 @@ class TestDocumentView(TestCase):
             size=1222,
             page_count=3
         )
-        copy2doc_url(
-            src_file_path=os.path.join(
+        default_storage.copy_doc(
+            src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            doc_url=doc.path.url()
+            dst=doc.path.url()
         )
         ret = self.client.post(
             reverse('core:document_download', args=(doc.id, ))
@@ -334,3 +344,93 @@ class TestDocumentView(TestCase):
             "more recent note"
         )
 
+
+class TestUpdateDocumentMetadataView(TestCase):
+    """
+    Make sure metadata CRUD works
+    """
+
+    def setUp(self):
+
+        self.testcase_user = create_root_user()
+        self.client = Client()
+        self.client.login(testcase_user=self.testcase_user)
+
+    def test_update_existing_metadata_value(self):
+
+        doc = create_some_doc(
+            self.testcase_user,
+            page_count=1
+        )
+
+        doc.kv.update([
+            {
+                'key': 'license_number',
+                'kv_type': TEXT,
+            },
+            {
+                'key': 'holder',
+                'kv_type': TEXT,
+            },
+        ])
+
+        # doc has only one page
+        page = Page.objects.get(
+            document_id=doc.id
+        )
+        #
+        kv_license = KVStorePage.objects.get(
+            page=page,
+            key="license_number"
+        )
+        kv_holder = KVStorePage.objects.get(
+            page=page,
+            key="holder"
+        )
+        # update metadata for given page
+        post_url = reverse(
+            'core:metadata', args=('page', page.id)
+        )
+        post_data = {
+            "kvstore": [{
+                "id": kv_license.id,
+                "key": "license_number",
+                "value": "AM43122101",
+                "virtual_value": 0,  # this field will be sanitized
+                "kv_inherited": True,
+                "kv_type": "text",
+                "kv_format": None
+            }, {
+                "id": kv_holder.id,
+                "key": "holder",
+                "value": "John Licenseberg",
+                "virtual_value": 0,  # this field will be sanitized
+                "kv_inherited": True,
+                "kv_type": "text",
+                "kv_format": None
+            }]
+        }
+        ret = self.client.post(
+            post_url,
+            json.dumps(post_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        page.refresh_from_db()
+
+        # make sure that page's metadata values were
+        # updated indeed
+        self.assertEqual(
+            page.kv['holder'],
+            "John Licenseberg"
+        )
+
+        self.assertEqual(
+            page.kv['license_number'],
+            "AM43122101"
+        )

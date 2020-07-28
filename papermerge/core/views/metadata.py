@@ -16,6 +16,9 @@ def metadata(request, model, id):
     """
     model can be either node or page. Respectively
     id will be the 'id' of either node or page.
+    E.g.
+    POST /metadata/page/55 # will update metadata for page id=55
+    POST /metadata/node/40 # will update metadata for node id=40
     """
     if model == 'node':
         _Klass = BaseTreeNode
