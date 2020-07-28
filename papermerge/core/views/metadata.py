@@ -59,7 +59,14 @@ def _sanitize_kvstore_list(kvstore_list):
     Creates a new dictionay only with allowed keys.
     """
     new_kvstore_list = []
-    allowed_keys = ['key', 'kv_inherited', 'value', 'kv_type']
+    allowed_keys = [
+        'id',
+        'key',
+        'value',
+        'kv_type',
+        'kv_format',
+        'kv_inherited',
+    ]
 
     for item in kvstore_list:
         sanitized_kvstore_item = {
