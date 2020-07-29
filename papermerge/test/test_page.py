@@ -316,6 +316,75 @@ class TestPage(TestCase):
             "dd.mm.yyyy"
         )
 
+    def test_page_kv_keys_are_updated_if_key_of_folder_is_updated(self):
+        """
+        If kv keys are updated/changed on a folder - respetive
+        changes must be reflected on the associated pages model as well
+        (through documents which a part of the folder).
+        """
+        top = Folder.objects.create(
+            title="top",
+            user=self.user,
+        )
+        top.save()
+        doc = create_some_doc(self.user, page_count=2)
+        doc.parent = top
+        doc.save()
+
+        # create one metadata key
+        top.kv.update(
+            [
+                {
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yy',
+                }
+            ]
+        )
+
+        top.save()
+
+        # retrieve associated kv
+        kv_top = KVStoreNode.objects.get(node=top)
+        self.assertEqual(
+            kv_top.kv_format,
+            "dd.mm.yy"
+        )
+
+        page_1 = Page.objects.get(document=doc, number=1)
+
+        # retrieve associated kv
+        kv_page = KVStorePage.objects.get(page=page_1)
+        self.assertEqual(
+            kv_page.kv_format,
+            "dd.mm.yy"
+        )
+
+        # update document key format
+        top.kv.update(
+            [
+                {
+                    'id': kv_top.id,
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yyyy',
+                }
+            ]
+        )
+
+        kv_top.refresh_from_db()
+        self.assertEqual(
+            kv_top.kv_format,
+            "dd.mm.yyyy"
+        )
+
+        # same for page model - changes should take effect
+        kv_page.refresh_from_db()
+        self.assertEqual(
+            kv_page.kv_format,
+            "dd.mm.yyyy"
+        )
+
     def test_page_kv_store_get_and_set(self):
         """
         test that kv api works:

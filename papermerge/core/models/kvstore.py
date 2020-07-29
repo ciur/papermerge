@@ -407,6 +407,9 @@ class KV:
         a key named "key" and one named "id" - the attributes of kvstore to be
         updated.
         """
+        if len(updates) == 0:
+            return
+
         attr_updates = []
         for item in updates:
             # update exiting
@@ -437,7 +440,10 @@ class KV:
                     # ok found it, just update the key
                     attr_updates.append({
                         'old': kvstore_node.key,
-                        'new': item['new']
+                        'new': item['new'],
+                        'kv_format': item['kv_format'],
+                        'kv_type': item['kv_type'],
+                        'value': item.get('value', None)
                     })
                     kvstore_node.key = item['new']
                     kvstore_node.kv_format = item['kv_format']
@@ -457,7 +463,11 @@ class KV:
             for item in updates:
                 if 'key' in item:
                     prop_updates.append(
-                        KVStoreNode(key=item['key'])
+                        KVStoreNode(
+                            key=item['key'],
+                            kv_type=item.get('kv_type', None),
+                            kv_format=item.get('kv_format', None),
+                        )
                     )
             self.propagate(
                 instances_set=prop_updates,
@@ -526,7 +536,12 @@ class KV:
             'key' = kvstore.key
             'id' = kvstore.id
         """
+
+        if len(data) == 0:
+            return
+
         kv_diff = self.get_diff(data)
+
         self.apply_updates(
             kv_diff[KV.UPDATE]
         )

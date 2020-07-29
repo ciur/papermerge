@@ -107,17 +107,15 @@ class Page(models.Model, index.Indexed):
         )
 
     def _apply_diff_update(self, diff, attr_updates):
+        updates = [{
+            'kv_inherited': True,
+            'key': _model.key,
+            'kv_format': _model.kv_format,
+            'kv_type': _model.kv_type,
+            'id': _model.id
+        } for _model in diff]
 
-        if len(attr_updates) > 0:
-            updates = attr_updates
-        else:
-            updates = [{
-                'kv_inherited': True,
-                'key': _model.key,
-                'kv_format': _model.format,
-                'kv_type': _model.type,
-                'id': _model.id
-            } for _model in diff]
+        updates.extend(attr_updates)
 
         self.kv.apply_updates(updates)
 
