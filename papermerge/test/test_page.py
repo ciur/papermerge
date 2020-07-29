@@ -6,6 +6,11 @@ from papermerge.core.models import KV, Document, Folder, Page
 from papermerge.core.models.kvstore import MONEY, TEXT, DATE
 from papermerge.core.tasks import normalize_pages
 
+from .utils import (
+    create_root_user,
+    create_some_doc
+)
+
 User = get_user_model()
 
 # points to papermerge.testing folder
@@ -15,17 +20,7 @@ BASE_DIR = Path(__file__).parent
 class TestPage(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user('admin')
-
-    def get_whatever_doc(self):
-        return Document.create_document(
-            title="kyuss.pdf",
-            user=self.user,
-            lang="ENG",
-            file_name="kyuss.pdf",
-            size=1222,
-            page_count=3
-        )
+        self.user = create_root_user()
 
     def test_language_is_inherited(self):
         """
@@ -80,7 +75,7 @@ class TestPage(TestCase):
         )
 
     def test_page_matching_search(self):
-        doc = self.get_whatever_doc()
+        doc = create_some_doc(self.user)
         page = Page(
             text="Some cool content in page model",
             user=self.user,
@@ -95,7 +90,7 @@ class TestPage(TestCase):
         )
 
     def test_page_not_matching_search(self):
-        doc = self.get_whatever_doc()
+        doc = create_some_doc(self.user)
         page = Page(
             text="Some cool content in page model",
             user=self.user,
@@ -138,7 +133,7 @@ class TestPage(TestCase):
         )
 
     def test_basic_kvstore_for_page(self):
-        doc = self.get_whatever_doc()
+        doc = create_some_doc(self.user)
         page = Page(
             text="Some cool content in page model",
             user=self.user,
@@ -276,7 +271,7 @@ class TestPage(TestCase):
             page.kv['shop'] == 'lidl'
             page.kv['price'] == '11.99'
         """
-        doc = self.get_whatever_doc()
+        doc = create_some_doc(self.user)
         page = Page(
             text="Receipt page",
             user=self.user,
@@ -310,7 +305,7 @@ class TestPage(TestCase):
             page.kv['blah']
 
     def test_page_kv_stores_value(self):
-        doc = self.get_whatever_doc()
+        doc = create_some_doc(self.user)
         page = Page(
             text="Some cool content in page model",
             user=self.user,
