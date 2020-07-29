@@ -53,14 +53,7 @@ class TestPage(TestCase):
         )
 
     def test_recreate_page_models(self):
-        doc = Document.create_document(
-            title="kyuss.pdf",
-            user=self.user,
-            lang="ENG",
-            file_name="kyuss.pdf",
-            size=1222,
-            page_count=3
-        )
+        doc = create_some_doc(self.user, page_count=3)
 
         doc.save()
 
@@ -222,14 +215,7 @@ class TestPage(TestCase):
         3. Expected:
             both pages will have same metadata keys as document.
         """
-        doc = Document.create_document(
-            title="kyuss.pdf",
-            user=self.user,
-            lang="ENG",
-            file_name="kyuss.pdf",
-            size=36,
-            page_count=2
-        )
+        doc = create_some_doc(self.user, page_count=2)
 
         # create one metadata key
         doc.kv.update(
@@ -272,6 +258,7 @@ class TestPage(TestCase):
             page.kv['price'] == '11.99'
         """
         doc = create_some_doc(self.user)
+
         page = Page(
             text="Receipt page",
             user=self.user,
@@ -306,6 +293,7 @@ class TestPage(TestCase):
 
     def test_page_kv_stores_value(self):
         doc = create_some_doc(self.user)
+
         page = Page(
             text="Some cool content in page model",
             user=self.user,
