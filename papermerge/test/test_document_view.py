@@ -347,8 +347,7 @@ class TestDocumentView(TestCase):
 
 class TestUpdateDocumentMetadataView(TestCase):
     """
-    Make sure update metadata on a Page - works.
-    You recognize an update by presense of 'id' key.
+    Make sure update/create metadata on a Page - works.
     """
 
     def setUp(self):
@@ -358,6 +357,9 @@ class TestUpdateDocumentMetadataView(TestCase):
         self.client.login(testcase_user=self.testcase_user)
 
     def test_update_existing_metadata_value_on_page(self):
+        """
+        You recognize an update by presense of 'id' key.
+        """
         doc = create_some_doc(
             self.testcase_user,
             page_count=1
@@ -436,6 +438,9 @@ class TestUpdateDocumentMetadataView(TestCase):
         )
 
     def test_create_metadata_on_page(self):
+        """
+        You recognize create operation by absence of 'id' key.
+        """
         doc = create_some_doc(
             self.testcase_user,
             page_count=1
