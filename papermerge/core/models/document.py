@@ -154,6 +154,28 @@ class Document(BaseTreeNode):
     def kv(self):
         return KVNode(instance=self)
 
+    def propagate_changes(
+        self,
+        diffs_set,
+        apply_to_self,
+        attr_updates=[]
+    ):
+        super().propagate_changes(
+            diffs_set=diffs_set,
+            apply_to_self=apply_to_self,
+            attr_updates=attr_updates
+        )
+
+        # documents need to propage changes
+        # to their pages
+
+        for page in self.pages.all():
+            page.propagate_changes(
+                diffs_set=diffs_set,
+                apply_to_self=apply_to_self,
+                attr_updates=attr_updates
+            )
+
     @property
     def kvcomp(self):
         return KVCompNode(instance=self)

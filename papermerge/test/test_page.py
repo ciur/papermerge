@@ -2,7 +2,14 @@ from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from papermerge.core.models import KV, Document, Folder, Page
+from papermerge.core.models import (
+    KV,
+    Document,
+    Folder,
+    Page,
+    KVStorePage,
+    KVStoreNode
+)
 from papermerge.core.models.kvstore import MONEY, TEXT, DATE
 from papermerge.core.tasks import normalize_pages
 
@@ -246,6 +253,67 @@ class TestPage(TestCase):
             1,
             doc.pages.last().kv.count(),
             "Page does not have one metakey associated"
+        )
+
+    def test_page_kv_keys_are_updated_if_key_of_document_is_updated(self):
+        """
+        If kv keys are updated/changed on a document - respetive
+        changes must be reflected on the associated page model as well.
+        """
+        doc = create_some_doc(self.user, page_count=2)
+
+        # create one metadata key
+        doc.kv.update(
+            [
+                {
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yy',
+                }
+            ]
+        )
+
+        doc.save()
+
+        # retrieve associated kv
+        kv_doc = KVStoreNode.objects.get(node=doc)
+        self.assertEqual(
+            kv_doc.kv_format,
+            "dd.mm.yy"
+        )
+
+        page_1 = Page.objects.get(document=doc, number=1)
+
+        # retrieve associated kv
+        kv_page = KVStorePage.objects.get(page=page_1)
+        self.assertEqual(
+            kv_page.kv_format,
+            "dd.mm.yy"
+        )
+
+        # update document key format
+        doc.kv.update(
+            [
+                {
+                    'id': kv_doc.id,
+                    'key': 'date',
+                    'kv_type': DATE,
+                    'kv_format': 'dd.mm.yyyy',
+                }
+            ]
+        )
+
+        kv_doc.refresh_from_db()
+        self.assertEqual(
+            kv_doc.kv_format,
+            "dd.mm.yyyy"
+        )
+
+        # same for page model - changes should take effect
+        kv_page.refresh_from_db()
+        self.assertEqual(
+            kv_page.kv_format,
+            "dd.mm.yyyy"
         )
 
     def test_page_kv_store_get_and_set(self):

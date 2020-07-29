@@ -107,12 +107,25 @@ class Page(models.Model, index.Indexed):
         )
 
     def _apply_diff_update(self, diff, attr_updates):
-        pass
+
+        if len(attr_updates) > 0:
+            updates = attr_updates
+        else:
+            updates = [{
+                'kv_inherited': True,
+                'key': _model.key,
+                'kv_format': _model.format,
+                'kv_type': _model.type,
+                'id': _model.id
+            } for _model in diff]
+
+        self.kv.apply_updates(updates)
 
     def _apply_diff_delete(self, diff):
         pass
 
     def apply_diff(self, diffs_list, attr_updates):
+
         for diff in diffs_list:
             if diff.is_add():
                 self._apply_diff_add(diff)
@@ -120,8 +133,15 @@ class Page(models.Model, index.Indexed):
                 self._apply_diff_update(diff, attr_updates)
             elif diff.is_delete():
                 self._apply_diff_delete(diff)
+            elif diff.is_replace():
+                # not applicable to page model
+                # replace is used in access permissions
+                # propagation
+                pass
             else:
-                raise ValueError("Unexpected diff {diff} type")
+                raise ValueError(
+                    f"Unexpected diff {diff} type"
+                )
 
     def inherit_kv_from(self, document):
         instances_set = []

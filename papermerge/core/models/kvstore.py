@@ -445,6 +445,13 @@ class KV:
                     kvstore_node.value = item.get('value', None)
                     kvstore_node.save()
 
+        # It does not make sense to continue
+        # propagation in case of pages.
+        # Pages are leafs so to speak of hierarchy tree.
+        # Thus propagation stops here.
+        if isinstance(self, KVPage):
+            return
+
         if updates:
             prop_updates = []
             for item in updates:
