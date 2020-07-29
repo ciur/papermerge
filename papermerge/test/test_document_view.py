@@ -347,7 +347,8 @@ class TestDocumentView(TestCase):
 
 class TestUpdateDocumentMetadataView(TestCase):
     """
-    Make sure metadata CRUD works
+    Make sure update metadata on a Page - works.
+    You recognize an update by presense of 'id' key.
     """
 
     def setUp(self):
@@ -356,8 +357,7 @@ class TestUpdateDocumentMetadataView(TestCase):
         self.client = Client()
         self.client.login(testcase_user=self.testcase_user)
 
-    def test_update_existing_metadata_value(self):
-
+    def test_update_existing_metadata_value_on_page(self):
         doc = create_some_doc(
             self.testcase_user,
             page_count=1
@@ -402,6 +402,65 @@ class TestUpdateDocumentMetadataView(TestCase):
                 "kv_format": None
             }, {
                 "id": kv_holder.id,
+                "key": "holder",
+                "value": "John Licenseberg",
+                "virtual_value": 0,  # this field will be sanitized
+                "kv_inherited": True,
+                "kv_type": "text",
+                "kv_format": None
+            }]
+        }
+        ret = self.client.post(
+            post_url,
+            json.dumps(post_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        page.refresh_from_db()
+
+        # make sure that page's metadata values were
+        # updated indeed
+        self.assertEqual(
+            page.kv['holder'],
+            "John Licenseberg"
+        )
+
+        self.assertEqual(
+            page.kv['license_number'],
+            "AM43122101"
+        )
+
+    def test_create_metadata_on_page(self):
+        doc = create_some_doc(
+            self.testcase_user,
+            page_count=1
+        )
+
+        # doc has only one page
+        page = Page.objects.get(
+            document_id=doc.id
+        )
+
+        # create metadata for given page
+        post_url = reverse(
+            'core:metadata', args=('page', page.id)
+        )
+        post_data = {
+            "kvstore": [{
+                # note, there is no ID key
+                "key": "license_number",
+                "value": "AM43122101",
+                "virtual_value": 0,  # this field will be sanitized
+                "kv_inherited": True,
+                "kv_type": "text",
+                "kv_format": None
+            }, {
+                # note, there is no ID key
                 "key": "holder",
                 "value": "John Licenseberg",
                 "virtual_value": 0,  # this field will be sanitized

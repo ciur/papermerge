@@ -73,7 +73,8 @@ def _sanitize_kvstore_list(kvstore_list):
 
     for item in kvstore_list:
         sanitized_kvstore_item = {
-            allowed_key: item[allowed_key] for allowed_key in allowed_keys
+            allowed_key: item.get(allowed_key, None)
+            for allowed_key in allowed_keys
         }
         new_kvstore_list.append(sanitized_kvstore_item)
 
