@@ -22972,7 +22972,8 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
 
   events() {
     let events_map = {
-      "click button#save": "on_save"
+      "click button#save": "on_save",
+      "click button#delete": "on_delete"
     };
     return events_map;
   }
@@ -23035,13 +23036,30 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
     let doc_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val(),
         notes = jquery__WEBPACK_IMPORTED_MODULE_0___default()("textarea[name=notes]").val(),
         doc;
-    console.log(`Saving notes for document=${doc_id}, notes=${notes}`);
     doc = new _models_document__WEBPACK_IMPORTED_MODULE_2__["Document"](doc_id); // update notes attribute on the server
 
     doc.save({
       'notes': notes
     }, {
       patch: true
+    });
+  }
+
+  on_delete(event) {
+    let doc_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val(),
+        confirmation,
+        doc;
+    confirmation = confirm("Are you sure you want to delete this document?");
+
+    if (!confirmation) {
+      return;
+    }
+
+    doc = new _models_document__WEBPACK_IMPORTED_MODULE_2__["Document"](doc_id);
+    doc.destroy({
+      success: function (model, response) {
+        window.location = response.url;
+      }
     });
   }
 

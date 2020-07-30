@@ -66,6 +66,18 @@ def document(request, doc_id):
                 content_type="application/json",
             )
 
+    if request.method == 'DELETE':
+        doc.delete()
+        return HttpResponse(
+            json.dumps(
+                {
+                    'msg': "OK",
+                    'url': reverse('browse')
+                }
+            ),
+            content_type="application/json",
+        )
+
     # so, ajax only here
     if request.method == 'POST':
         # ajax + post

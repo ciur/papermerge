@@ -23,7 +23,9 @@
       <label for="notes">{% trans "Notes" %}</label>
       <textarea class="form-control" name="notes" rows="3">{{document.notes|default_if_none:""}}</textarea>
     </div>
-    <button type="button" class="btn btn-block btn-light hover-danger">{% trans "Delete" %}</button>
+    <button id="delete" type="button" class="btn btn-block btn-light hover-danger">
+      {% trans "Delete" %}
+    </button>
   </div>
 {% endblock %}
 
