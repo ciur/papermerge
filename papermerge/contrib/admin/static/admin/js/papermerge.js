@@ -21043,15 +21043,61 @@ __p+='\n        <i class="fa fa-bars"></i>\n      ';
  } else { 
 __p+='\n        <i class="fa fa-th"></i>\n      ';
  } 
-__p+='\n    </button>\n    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\n        <a href="#" class="dropdown-item display-grid">\n          <i class="fa fa-th"> </i><span class="px-2">Grid</span>\n          ';
+__p+='\n    </button>\n    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\n        <a href="#" class="dropdown-item display-grid">\n          <i class="fa fa-th"> </i><span class="px-2">\n            '+
+((__t=( gettext('Grid') ))==null?'':__t)+
+'\n          </span>\n          ';
  if (is_grid) { 
 __p+='\n            <i class="fa fa-check text-green"></i>\n          ';
  } 
-__p+='\n        </a>\n        <a href="#" class="dropdown-item display-list"><i class="fa fa-bars"></i>\n          <span class="px-2">List</span>\n          ';
+__p+='\n        </a>\n        <a href="#" class="dropdown-item display-list"><i class="fa fa-bars"></i>\n          <span class="px-2">'+
+((__t=( gettext('List') ))==null?'':__t)+
+'</span>\n          ';
  if (is_list) { 
 __p+='\n            <i class="fa fa-check text-green"></i>\n          ';
  } 
-__p+='\n      </a>\n    </div>\n</div>\n\n<div class="dropdown order">\n    <button class="btn btn-light dropdown-toggle" type="button" id="dropdown_order_opt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n      <i class="fa fa-sort-amount-up"></i>\n    </button>\n    <ul class="dropdown-menu dropdown-menu-right sort" aria-labelledby="navbarDropdownMenuLink">\n          <li class="dropdown-submenu-left dropdown-submenu">\n            <a class="dropdown-item dropdown-toggle" href="#">Title</a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc title" href="/admin/core/basetreenode/?o=1">\n                Asc\n              </a></li>\n              <li><a class="dropdown-item sort desc title" href="/admin/core/basetreenode/?o=-1">\n                Desc\n              </a></li>\n            </ul>\n          </li>\n          <li class="dropdown-submenu dropdown-submenu-left"><a class="dropdown-item dropdown-toggle" href="#">\n            Date\n          </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc date" href="/admin/core/basetreenode/?o=2">\n                Asc\n              </a></li>\n              <li><a class="dropdown-item sort desc date" href="/admin/core/basetreenode/?o=-2">\n                Desc\n            </a></li>\n            </ul>\n          </li>\n          <li class="dropdown-submenu-left dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">\n            Type\n          </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc type" href="/admin/core/basetreenode/?o=3">\n                Asc\n              </a></li>\n              <li><a class="dropdown-item sort desc type" href="/admin/core/basetreenode/?o=-3">\n                Desc\n              </a></li>\n            </ul>\n          </li>\n        </ul>\n    </div>';
+__p+='\n      </a>\n    </div>\n</div>\n\n<div class="dropdown order">\n    <button class="btn btn-light dropdown-toggle" type="button" id="dropdown_order_opt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n      <i class="fa fa-sort-amount-up"></i>\n    </button>\n    <ul class="dropdown-menu dropdown-menu-right sort" aria-labelledby="navbarDropdownMenuLink">\n          <li class="dropdown-submenu-left dropdown-submenu">\n            <a class="dropdown-item dropdown-toggle" href="#">\n              '+
+((__t=( gettext('Title') ))==null?'':__t)+
+'\n            </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc title" href="#">\n                ';
+ if (sort_field == 'title' && sort_order == 'asc') { 
+__p+='\n                  <i class="fa fa-check text-success"></i>\n                ';
+ } 
+__p+='\n               '+
+((__t=( gettext('Asc') ))==null?'':__t)+
+'\n              </a></li>\n              <li><a class="dropdown-item sort desc title" href="#">\n                ';
+ if (sort_field == 'title' && sort_order == 'desc') { 
+__p+='\n                  <i class="fa fa-check text-success"></i>\n                ';
+ } 
+__p+='\n                '+
+((__t=( gettext('Desc') ))==null?'':__t)+
+'\n              </a></li>\n            </ul>\n          </li>\n          <li class="dropdown-submenu dropdown-submenu-left"><a class="dropdown-item dropdown-toggle" href="#">\n            '+
+((__t=( gettext('Date') ))==null?'':__t)+
+'\n          </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc date" href="#">\n                ';
+ if (sort_field == 'date' && sort_order == 'asc') { 
+__p+='\n                  <i class="fa fa-check text-success"></i>\n                ';
+ } 
+__p+='\n                '+
+((__t=( gettext('Asc') ))==null?'':__t)+
+'\n              </a></li>\n              <li><a class="dropdown-item sort desc date" href="#">\n                ';
+ if (sort_field == 'date' && sort_order == 'desc') { 
+__p+='\n                  <i class="fa fa-check text-success"></i>\n                ';
+ } 
+__p+='\n                '+
+((__t=( gettext('Desc') ))==null?'':__t)+
+'\n            </a></li>\n            </ul>\n          </li>\n          <li class="dropdown-submenu-left dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">\n            '+
+((__t=( gettext('Type') ))==null?'':__t)+
+'\n          </a>\n            <ul class="dropdown-menu">\n              <li><a class="dropdown-item sort asc type" href="#">\n                ';
+ if (sort_field == 'type' && sort_order == 'asc') { 
+__p+='\n                  <i class="fa fa-check text-success"></i>\n                ';
+ } 
+__p+='\n                '+
+((__t=( gettext('Asc') ))==null?'':__t)+
+'\n              </a></li>\n              <li><a class="dropdown-item sort desc type" href="#">\n                ';
+ if (sort_field == 'type' && sort_order == 'desc') { 
+__p+='\n                  <i class="fa fa-check text-success"></i>\n                ';
+ } 
+__p+='\n                '+
+((__t=( gettext('Desc') ))==null?'':__t)+
+'\n              </a></li>\n            </ul>\n          </li>\n        </ul>\n    </div>';
 }
 return __p;
 };
@@ -22821,7 +22867,7 @@ class BrowseGridView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#browse');
   }
 
-  render(nodes) {
+  render(nodes, sort_field, sort_order) {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE_GRID({
@@ -22933,7 +22979,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(this.browse.nodes, this.browse.parent_kv);
     } else {
-      this.browse_grid_view.render(this.browse.nodes);
+      this.browse_grid_view.render(this.browse.nodes, this.display_mode.sort_field, this.display_mode.sort_order);
     }
   }
 
@@ -23077,13 +23123,18 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
 /*!**************************************!*\
   !*** ./src/js/views/display_mode.js ***!
   \**************************************/
-/*! exports provided: GRID, LIST, DisplayModeView */
+/*! exports provided: GRID, LIST, ASC, DESC, TITLE, DATE, TYPE, DisplayModeView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GRID", function() { return GRID; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIST", function() { return LIST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ASC", function() { return ASC; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DESC", function() { return DESC; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TITLE", function() { return TITLE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATE", function() { return DATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TYPE", function() { return TYPE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DisplayModeView", function() { return DisplayModeView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
@@ -23098,13 +23149,25 @@ let TEMPLATE = __webpack_require__(/*! ../templates/display_mode.html */ "./src/
 
 let GRID = 'grid';
 let LIST = 'list';
+let ASC = 'asc';
+let DESC = 'desc';
+let TITLE = 'title';
+let DATE = 'date';
+let TYPE = 'type';
+let DEFAULT_SORT_FIELD = 'title';
+let DEFAULT_SORT_ORDER = 'asc';
+let DISPLAY_MODE = 'display_mode';
+let SORT_FIELD = 'sort_field';
+let SORT_ORDER = 'sort_order';
 class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#display-mode');
   }
 
   initialize() {
-    this.display = this.get_local('display_mode') || GRID;
+    this.display = this.get_local(DISPLAY_MODE) || GRID;
+    this.sort_field = this.get_local(SORT_FIELD) || DEFAULT_SORT_FIELD;
+    this.sort_order = this.get_local(SORT_ORDER) || DEFAULT_SORT_ORDER;
     this.listenTo(this, "change", this.render);
     this.render();
   }
@@ -23112,17 +23175,77 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   events() {
     let events_map = {
       "click .display-list": "display_list",
-      "click .display-grid": "display_grid"
+      "click .display-grid": "display_grid",
+      "click .sort.title.asc": "sort_by_title_asc",
+      "click .sort.title.desc": "sort_by_title_desc",
+      "click .sort.date.asc": "sort_by_date_asc",
+      "click .sort.date.desc": "sort_by_date_desc",
+      "click .sort.type.asc": "sort_by_type_asc",
+      "click .sort.type.desc": "sort_by_type_desc"
     };
     return events_map;
   }
 
-  get_local() {
-    return localStorage.getItem('display_mode');
+  sort_by_title_desc(event) {
+    event.preventDefault();
+    this.sort_field = TITLE;
+    this.sort_order = DESC;
+    this.set_local(SORT_FIELD, TITLE);
+    this.set_local(SORT_ORDER, DESC);
+    this.trigger('change');
   }
 
-  set_local(mode) {
-    return localStorage.setItem('display_mode', mode);
+  sort_by_title_asc(event) {
+    event.preventDefault();
+    this.sort_field = TITLE;
+    this.sort_order = ASC;
+    this.set_local(SORT_FIELD, TITLE);
+    this.set_local(SORT_ORDER, ASC);
+    this.trigger('change');
+  }
+
+  sort_by_date_asc(event) {
+    event.preventDefault();
+    this.sort_field = DATE;
+    this.sort_order = ASC;
+    this.set_local(SORT_FIELD, DATE);
+    this.set_local(SORT_ORDER, ASC);
+    this.trigger('change');
+  }
+
+  sort_by_date_desc(event) {
+    event.preventDefault();
+    this.sort_field = DATE;
+    this.sort_order = DESC;
+    this.set_local(SORT_FIELD, DATE);
+    this.set_local(SORT_ORDER, DESC);
+    this.trigger('change');
+  }
+
+  sort_by_type_asc(event) {
+    event.preventDefault();
+    this.sort_field = TYPE;
+    this.sort_order = ASC;
+    this.set_local(SORT_FIELD, TYPE);
+    this.set_local(SORT_ORDER, ASC);
+    this.trigger('change');
+  }
+
+  sort_by_type_desc(event) {
+    event.preventDefault();
+    this.sort_field = TYPE;
+    this.sort_order = DESC;
+    this.set_local(SORT_FIELD, TYPE);
+    this.set_local(SORT_ORDER, DESC);
+    this.trigger('change');
+  }
+
+  get_local(key) {
+    return localStorage.getItem(key);
+  }
+
+  set_local(key, value) {
+    return localStorage.setItem(key, value);
   }
 
   is_list() {
@@ -23136,14 +23259,14 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   display_list(event) {
     event.preventDefault();
     this.display = LIST;
-    this.set_local(LIST);
+    this.set_local(DISPLAY_MODE, LIST);
     this.trigger('change');
   }
 
   display_grid(event) {
     event.preventDefault();
     this.display = GRID;
-    this.set_local(GRID);
+    this.set_local(DISPLAY_MODE, GRID);
     this.trigger('change');
   }
 
@@ -23152,7 +23275,9 @@ class DisplayModeView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'is_list': this.is_list(),
-      'is_grid': this.is_grid()
+      'is_grid': this.is_grid(),
+      'sort_field': this.sort_field,
+      'sort_order': this.sort_order
     }));
     this.$el.html(compiled);
   }
