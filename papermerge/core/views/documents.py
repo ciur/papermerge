@@ -2,6 +2,7 @@ import os
 import json
 import logging
 
+from django.utils.translation import gettext as _
 from django.utils.html import escape
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -56,6 +57,14 @@ def document(request, doc_id):
             # dangerous user input. Escape it.
             doc.notes = escape(data['notes'])
             doc.save()
+            return HttpResponse(
+                json.dumps(
+                    {
+                        'msg': _("Notes saved!")
+                    }
+                ),
+                content_type="application/json",
+            )
 
     # so, ajax only here
     if request.method == 'POST':
