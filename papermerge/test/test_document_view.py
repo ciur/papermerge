@@ -498,3 +498,50 @@ class TestUpdateDocumentMetadataView(TestCase):
             page.kv['license_number'],
             "AM43122101"
         )
+
+
+class TestUpdateDocumentSimpleFieldsView(TestCase):
+    """
+    Make sure user can update/edit documents' simple fields:
+    e.g. notes
+    """
+
+    def setUp(self):
+
+        self.testcase_user = create_root_user()
+        self.client = Client()
+        self.client.login(testcase_user=self.testcase_user)
+
+    def test_update_notes(self):
+        """
+        You recognize an update by presense of 'id' key.
+        """
+        doc = create_some_doc(
+            self.testcase_user,
+            page_count=1
+        )
+        # update metadata for given page
+        patch_url = reverse(
+            'core:document', args=(doc.id,)
+        )
+        patch_data = {
+            "notes": "Test note"
+        }
+        ret = self.client.patch(
+            patch_url,
+            json.dumps(patch_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        doc.refresh_from_db()
+
+        self.assertEqual(
+            doc.notes,
+            "Test note",
+            "document notes field was not updated."
+        )
