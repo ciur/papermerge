@@ -2,6 +2,7 @@ import os
 import json
 import logging
 
+from django.utils.html import escape
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -47,6 +48,15 @@ def document(request, doc_id):
                 'document': doc
             }
         )
+
+    # ajax + PATCH
+    if request.method == 'PATCH':
+        data = json.loads(request.body)
+        if 'notes' in data:
+            # dangerous user input. Escape it.
+            doc.notes = escape(data['notes'])
+            doc.save()
+
     # so, ajax only here
     if request.method == 'POST':
         # ajax + post

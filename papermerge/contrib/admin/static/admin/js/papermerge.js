@@ -18938,7 +18938,7 @@ class MgThumbnailList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
     if (this._list.length > 0) {
       // if there is at least one thumbnail
       first_thumb = this._list[0];
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PAGE_SELECTION_CHANGED"], first_thumb.page_id);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PAGE_SELECTION_CHANGED"], first_thumb.page_id, first_thumb.doc_id);
     }
   }
 
@@ -19394,10 +19394,16 @@ class Document extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return `/document/`;
   }
 
+  url() {
+    // for sake of slash at the end of string.
+    return `/document/${this.get('id')}/`;
+  }
+
   toJSON() {
     let dict = {
       id: this.get('id'),
-      nodes: this.get('pages')
+      nodes: this.get('pages'),
+      notes: this.get('notes')
     };
     return dict;
   }
@@ -22944,19 +22950,24 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ControlSidebarView", function() { return ControlSidebarView; });
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./metadata */ "./src/js/views/metadata.js");
-/* harmony import */ var _metadata_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./metadata_page */ "./src/js/views/metadata_page.js");
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ControlSidebarView", function() { return ControlSidebarView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
+/* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./metadata */ "./src/js/views/metadata.js");
+/* harmony import */ var _metadata_page__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./metadata_page */ "./src/js/views/metadata_page.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 
 
 
 
-class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
+
+
+class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_1__["View"] {
   el() {
-    return $('.control-sidebar');
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.control-sidebar');
   }
 
   events() {
@@ -22968,11 +22979,11 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
 
   initialize() {
     this.metadata_view = undefined;
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PAGE_SELECTION_CHANGED"], this.page_selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PAGE_SELECTION_CHANGED"], this.page_selection_changed, this);
   }
 
-  page_selection_changed(page_id) {
+  page_selection_changed(page_id, doc_id) {
     /**
     Triggered by thumbnails_list: 
         * after thumbnail list is loaded, in this case
@@ -22990,7 +23001,7 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
     } // calls start() method.
 
 
-    this.metadata_view = new _metadata_page__WEBPACK_IMPORTED_MODULE_2__["MetadataPageView"](page_id);
+    this.metadata_view = new _metadata_page__WEBPACK_IMPORTED_MODULE_4__["MetadataPageView"](page_id);
   }
 
   selection_changed(selection) {
@@ -23017,15 +23028,30 @@ class ControlSidebarView extends backbone__WEBPACK_IMPORTED_MODULE_0__["View"] {
     // calls start() method.
 
 
-    this.metadata_view = new _metadata__WEBPACK_IMPORTED_MODULE_1__["MetadataView"](selected_node.get('id'));
+    this.metadata_view = new _metadata__WEBPACK_IMPORTED_MODULE_3__["MetadataView"](selected_node.get('id'));
+  }
+
+  _save_notes() {
+    let doc_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val(),
+        notes = jquery__WEBPACK_IMPORTED_MODULE_0___default()("textarea[name=notes]").val(),
+        doc;
+    console.log(`Saving notes for document=${doc_id}, notes=${notes}`);
+    doc = new _models_document__WEBPACK_IMPORTED_MODULE_2__["Document"](doc_id); // update notes attribute on the server
+
+    doc.save({
+      'notes': notes
+    }, {
+      patch: true
+    });
   }
 
   on_save(event) {
     this.$el.find("#save-metadata").trigger('click');
+
+    this._save_notes();
   }
 
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
