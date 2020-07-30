@@ -20030,6 +20030,13 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
   }
 
   dynamic_sort_by(sort_field, sort_order) {
+    // In order to sort a collection with backbone,
+    // a collection.comparator function must be defined.
+    // Unfortunately default implementation allows you to
+    // sort only by one field (model attributes).
+    // dynamic_comparator is a workaround for this backbone.js issue.
+    // It creates a comparator - dynamically i.e. a comparator
+    // tailored for specific field/sort order.
     this.comparator = dynamic_comparator(sort_field, sort_order);
     this.sort();
   }
