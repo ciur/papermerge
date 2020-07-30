@@ -17415,25 +17415,24 @@ class MgChangeFormActions {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
 /* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _sort_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sort_cookie */ "./src/js/sort_cookie.js");
-/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
-/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
-/* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
+/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
+/* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_13__);
 
 
 
@@ -17448,11 +17447,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync;
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
+backbone__WEBPACK_IMPORTED_MODULE_8___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_9___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17471,26 +17469,25 @@ backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, 
 
 let App = function () {
   let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router;
-  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_3__["BrowseView"]();
-  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_5__["ActionsView"]();
-  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__["BreadcrumbView"]();
-  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
+  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_2__["BrowseView"]();
+  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_4__["ActionsView"]();
+  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_3__["BreadcrumbView"]();
+  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_5__["ControlSidebarView"]();
 
-  if (jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document").length == 1) {
+  if (jquery__WEBPACK_IMPORTED_MODULE_9___default()("#document").length == 1) {
     // we in document view. Document view and browser view
     // are exclusive.
-    document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
-    document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
+    document_view = new _views_document__WEBPACK_IMPORTED_MODULE_6__["DocumentView"]();
+    document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_6__["DocumentActionsView"]();
   } else {
-    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
-    backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
+    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_7__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
+    backbone__WEBPACK_IMPORTED_MODULE_8___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
     // They serve as widgets for django's messages
 
-    jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast({
+    jquery__WEBPACK_IMPORTED_MODULE_9___default()('.toast').toast({
       'autohide': false
     });
-    jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast('show');
-    Object(_sort_cookie__WEBPACK_IMPORTED_MODULE_2__["sort_cookie"])();
+    jquery__WEBPACK_IMPORTED_MODULE_9___default()('.toast').toast('show');
   }
 };
 
@@ -20734,74 +20731,6 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_2__["Router"] {
     this.actions_view.set_parent(node_id);
   }
 
-}
-
-/***/ }),
-
-/***/ "./src/js/sort_cookie.js":
-/*!*******************************!*\
-  !*** ./src/js/sort_cookie.js ***!
-  \*******************************/
-/*! exports provided: sort_cookie */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sort_cookie", function() { return sort_cookie; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function set_cookie(name, value, days) {
-  console.log(`setting cookie named ${name} with value ${value}`);
-  var expires = "";
-
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = "; expires=" + date.toUTCString();
-  }
-
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-
-function sort_cookie() {
-  /**
-      This function resolves the ticket #15.
-      Automatically sort by alphabet - feature request...
-       The 'automatic sort' is accomplished with help of cookie.
-      A cookie file is saved every time user clicks on:
-          title asc/desc -> 1 / -1
-          date asc/desc  -> 2 / -2
-          type asc/desc  -> 3 / -3 
-      sorting. 
-      Cookie file name is 'save_last_sort' and it contains the corresponding
-      number of the sort user chose (1, -1 etc).
-      In changelist of basetreenode (on the server side), this cookie will
-      be read in basetreenodes will be sorted accordingly. This so called
-      cookie based sorting has lower precedence than 'o' parameter.
-  **/
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(".dropdown-item.sort").on('click', function () {
-    let _$this = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
-
-    let value;
-
-    if (_$this.hasClass("title") && _$this.hasClass("asc")) {
-      value = 1;
-    } else if (_$this.hasClass("title") && _$this.hasClass("desc")) {
-      value = -1;
-    } else if (_$this.hasClass("date") && _$this.hasClass("asc")) {
-      value = 2;
-    } else if (_$this.hasClass("date") && _$this.hasClass("desc")) {
-      value = -2;
-    } else if (_$this.hasClass("type") && _$this.hasClass("asc")) {
-      value = 3;
-    } else if (_$this.hasClass("type") && _$this.hasClass("desc")) {
-      value = -3;
-    }
-
-    set_cookie("save_last_sort", value, 365);
-  });
 }
 
 /***/ }),
