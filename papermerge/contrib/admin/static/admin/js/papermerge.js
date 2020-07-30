@@ -19913,7 +19913,9 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
 
 function dynamic_comparator(sort_field, sort_order) {
   let comp,
-      ord = 1;
+      ord = 1,
+      v1,
+      v2;
 
   if (sort_order == 'desc') {
     ord = -1;
@@ -19926,9 +19928,23 @@ function dynamic_comparator(sort_field, sort_order) {
       sort_field = 'timestamp';
     }
 
-    if (m1.get(sort_field) < m2.get(sort_field)) {
+    v1 = m1.get(sort_field);
+    v2 = m2.get(sort_field);
+
+    if (typeof v1 == 'string') {
+      // i.e comparing by string will ignore character case
+      v1 = v1.toUpperCase();
+    }
+
+    if (typeof v2 == 'string') {
+      // i.e comparing by string will ignore character case
+      v2 = v2.toUpperCase();
+    } // the heart of this function
+
+
+    if (v1 < v2) {
       return -1 * ord;
-    } else if (m1.get(sort_field) > m2.get(sort_field)) {
+    } else if (v1 > v2) {
       return 1 * ord;
     }
 
