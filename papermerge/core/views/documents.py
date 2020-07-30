@@ -52,6 +52,9 @@ def document(request, doc_id):
 
     # ajax + PATCH
     if request.method == 'PATCH':
+        # test_document_view
+        # TestDocumentAjaxOperationsView.test_update_notes
+        # test_update_notes
         data = json.loads(request.body)
         if 'notes' in data:
             # dangerous user input. Escape it.
@@ -67,6 +70,8 @@ def document(request, doc_id):
             )
 
     if request.method == 'DELETE':
+        # test_document_view
+        # TestDocumentAjaxOperationsView.test_delete_document
         doc.delete()
         return HttpResponse(
             json.dumps(

@@ -500,10 +500,10 @@ class TestUpdateDocumentMetadataView(TestCase):
         )
 
 
-class TestUpdateDocumentSimpleFieldsView(TestCase):
+class TestDocumentAjaxOperationsView(TestCase):
     """
-    Make sure user can update/edit documents' simple fields:
-    e.g. notes
+    Tests operations on the document via Ajax e.g.
+    edit fields, delete document.
     """
 
     def setUp(self):
@@ -545,3 +545,28 @@ class TestUpdateDocumentSimpleFieldsView(TestCase):
             "Test note",
             "document notes field was not updated."
         )
+
+    def test_delete_document(self):
+        """
+        You recognize an update by presense of 'id' key.
+        """
+        doc = create_some_doc(
+            self.testcase_user,
+            page_count=1
+        )
+        # update metadata for given page
+        url = reverse(
+            'core:document', args=(doc.id,)
+        )
+        ret = self.client.delete(
+            url,
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        with self.assertRaises(Document.DoesNotExist):
+            Document.objects.get(id=doc.id)
