@@ -102,7 +102,7 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |Documents Versioning| No | Yes | No | 
 |Digital Signatures | No | Yes | No |
 |Workflows| No | Yes | No |
-|Tags     | No | Yes | Yes |
+|Tags     | Not, yet. [Will add in 1.5](https://github.com/ciur/papermerge/issues/21) | Yes | Yes |
 |REST API | Yes | Yes | Yes |
 |License  | Apache-2.0 | Apache 2.0 | GPLv3 |
 |Status| Active Development | Active Development | Maintenance / No Development| 
