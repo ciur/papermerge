@@ -64,9 +64,9 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 
 ## Screenshots
 
-![Screenshot 01](./screenshots/screenshot01.png)
-![Screenshot 02](./screenshots/screenshot02.png)
-![Screenshot 03](./screenshots/screenshot03.png)
+![Screenshot 01](./screenshots/screenshot-1.png)
+![Screenshot 02](./screenshots/screenshot-2.png)
+![Screenshot 03](./screenshots/screenshot-3.png)
 
 ### Try it!
 
