@@ -142,7 +142,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
 
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'django.contrib.auth',
@@ -163,7 +163,7 @@ INSTALLED_APPS = (
     'polymorphic',
     'mptt',
     'mgclipboard'
-)
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
