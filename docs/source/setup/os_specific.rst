@@ -25,3 +25,22 @@ Install required ubuntu packages::
 
 Every language has its own tesseract-ocr-<code> package. You will have to install tesseract language
 package for each language you want to OCR.
+
+
+Ubuntu Focal 20.04 (LTS)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Packages naming (and installation method) did not change from Ubuntu Bionic.
+
+
+In order to check what language packs are installed, use command::
+
+    $ tesseract --list-langs
+    
+    List of available languages (5):
+    deu
+    eng
+    fra
+    osd
+    spa
+
