@@ -41,7 +41,7 @@ def binaries_check(app_configs, **kwargs):
         "pdftk": "Without it, Papermerge won't be able to cut/paste PDF pages"
     }
     error = "Papermerge can't find {}. {}."
-    hint = "Either it's not in your ${PATH} or it's not installed."
+    hint = "Either it's not in your PATH or it's not installed."
 
     check_messages = []
     for binary in msg.keys():
