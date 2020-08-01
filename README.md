@@ -114,8 +114,11 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 
 ### Contact 
 
+For feedback, questions and suggestions send me an
+[email](mailto:eugen@papermerge.com). I speak both - German and English, so
+you can write me in whatever language you feel more confortable with.
+
+* [EMail](mailto:eugen@papermerge.com)
 * [Twitter Account](https://twitter.com/papermerge)
 * [YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg)
-* [EMail](mailto:eugen@papermerge.com)
-
 
