@@ -35,16 +35,22 @@ def binaries_check(app_configs, **kwargs):
     for those here.
     """
 
-    error = "Papermerge can't find {}. Without it, OCR of the documents is impossible."
+    msg = {
+        "tesseract": "Without it, OCR of the documents is impossible",
+        "pdfinfo": "Without it, Papermerge won't function properly",
+        "pdftk": "Without it, Papermerge won't be able to cut/paste PDF pages"
+    }
+    error = "Papermerge can't find {}. {}."
     hint = "Either it's not in your ${PATH} or it's not installed."
 
-    binaries = (
-        "tesseract",
-    )
-
     check_messages = []
-    for binary in binaries:
+    for binary in msg.keys():
         if shutil.which(binary) is None:
-            check_messages.append(Warning(error.format(binary), hint))
+            check_messages.append(
+                Warning(
+                    error.format(binary, msg[binary]),
+                    hint
+                )
+            )
 
     return check_messages
