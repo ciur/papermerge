@@ -25,23 +25,34 @@ RUN apt-get update \
  && pip3 install --upgrade pip \
  && mkdir -p /opt/media /opt/broker/queue
 
+RUN groupadd -g 1001 www
+RUN useradd -g www -s /bin/bash --uid 1001 -d /opt/app www
+
+
 # ensures our console output looks familiar and is not buffered by Docker
 ENV PYTHONUNBUFFERED 1
 
 ENV DJANGO_SETTINGS_MODULE config.settings.production
+ENV PATH=/opt/app/:/opt/app/.local/bin:$PATH
 
 WORKDIR /opt
-RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/papermerge
- 
-WORKDIR /opt/papermerge
-RUN pip3 install -r requirements/base.txt
-RUN pip3 install -r requirements/production.txt
+RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/app
 
-COPY app/config/django.production.py /opt/papermerge/config/settings/production.py
-COPY app/config/papermerge.config.py /opt/papermerge/papermerge.conf.py
+RUN chown -R www:www /opt/app
+
+USER 1001
+
+WORKDIR /opt/app
+RUN pip3 install -r requirements/base.txt --no-cache-dir
+RUN pip3 install -r requirements/production.txt --no-cache-dir
+
+COPY app/config/django.production.py /opt/app/config/settings/production.py
+COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
 
 
 COPY app/entrypoint.sh /opt/entrypoint.sh
-COPY app/create_user.py /opt/papermerge/create_user.py
+COPY app/create_user.py /opt/app/create_user.py
+
+
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
