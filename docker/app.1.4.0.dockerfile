@@ -37,7 +37,9 @@ WORKDIR /opt/papermerge
 RUN pip3 install -r requirements/base.txt
 RUN pip3 install -r requirements/production.txt
 
-COPY app/settings.py /opt/papermerge/config/settings/production.py
+COPY app/config/django.production.py /opt/papermerge/config/settings/production.py
+COPY app/config/papermerge.config.py /opt/papermerge/papermerge.conf.py
+
 
 COPY app/entrypoint.sh /opt/entrypoint.sh
 COPY app/create_user.py /opt/papermerge/create_user.py
