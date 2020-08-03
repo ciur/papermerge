@@ -15,7 +15,26 @@ from knox.models import AuthToken
 from papermerge.core.models import User, Automate
 
 
-class AutomateForm(forms.ModelForm):
+class ControlForm(forms.ModelForm):
+    """
+    Adds to following widgets css class 'form-control':
+        * TextInput
+        * EmailInput
+        * ChoiceWidget
+        * TreeNodeChoiceField
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if isinstance(
+                visible.field.widget,
+                (TextInput, EmailInput, ChoiceWidget, TreeNodeChoiceField)
+            ):
+                visible.field.widget.attrs['class'] = 'form-control'
+
+
+class AutomateForm(ControlForm):
 
     class Meta:
         model = Automate
@@ -32,18 +51,8 @@ class AutomateForm(forms.ModelForm):
             'dst_folder': TreeNodeChoiceField,
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
-        for visible in self.visible_fields():
-            if isinstance(
-                visible.field.widget,
-                (TextInput, EmailInput, ChoiceWidget, TreeNodeChoiceField)
-            ):
-                visible.field.widget.attrs['class'] = 'form-control'
-
-
-class UserFormWithoutPassword(forms.ModelForm):
+class UserFormWithoutPassword(ControlForm):
 
     class Meta:
         model = User
@@ -57,15 +66,6 @@ class UserFormWithoutPassword(forms.ModelForm):
             'is_staff',
             'is_active',
         )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            if isinstance(
-                visible.field.widget,
-                (TextInput, EmailInput, ChoiceWidget)
-            ):
-                visible.field.widget.attrs['class'] = 'form-control'
 
 
 class UserFormWithPassword(UserFormWithoutPassword):
@@ -94,15 +94,6 @@ class UserFormWithPassword(UserFormWithoutPassword):
             'is_staff',
             'is_active',
         )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            if isinstance(
-                visible.field.widget,
-                (TextInput, EmailInput, ChoiceWidget)
-            ):
-                visible.field.widget.attrs['class'] = 'form-control'
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
