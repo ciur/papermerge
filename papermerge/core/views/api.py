@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from rest_framework.parsers import (JSONParser, FileUploadParser)
 from rest_framework.permissions import IsAuthenticated
 
-from papermerge.core.models import (Document, BaseTreeNode)
+from papermerge.core.models import (
+    Document, Access
+)
 from papermerge.core.serializers import DocumentSerializer
 
 
@@ -22,12 +24,17 @@ class PagesView(APIView):
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        page_nums = request.GET.getlist('pages[]')
-        page_nums = [int(number) for number in page_nums]
+        if request.user.has_perm(
+            Access.PERM_WRITE, doc
+        ):
+            page_nums = request.GET.getlist('pages[]')
+            page_nums = [int(number) for number in page_nums]
 
-        doc.delete_pages(page_numbers=page_nums)
+            doc.delete_pages(page_numbers=page_nums)
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request, doc_id):
         """
@@ -38,9 +45,14 @@ class PagesView(APIView):
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        doc.reorder_pages(request.data)
+        if request.user.has_perm(
+            Access.PERM_WRITE, doc
+        ):
+            doc.reorder_pages(request.data)
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class PagesCutView(APIView):
@@ -53,17 +65,22 @@ class PagesCutView(APIView):
         which where cut.
         """
         try:
-            Document.objects.get(id=doc_id)
+            doc = Document.objects.get(id=doc_id)
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        page_nums = request.data
-        page_nums = [int(number) for number in page_nums]
+        if request.user.has_perm(
+            Access.PERM_WRITE, doc
+        ):
+            page_nums = request.data
+            page_nums = [int(number) for number in page_nums]
 
-        # request.clipboard.pages.add(...)
-        request.pages.add(doc_id=doc_id, page_nums=page_nums)
+            # request.clipboard.pages.add(...)
+            request.pages.add(doc_id=doc_id, page_nums=page_nums)
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class PagesPasteView(APIView):
