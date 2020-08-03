@@ -94,6 +94,7 @@ class Page(models.Model, index.Indexed):
         return KVCompPage(instance=self)
 
     def _apply_diff_add(self, diff):
+
         self.kv.apply_additions(
             [
                 {

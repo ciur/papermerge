@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from papermerge.core.auth import create_access, set_access_perms
-from papermerge.core.models import Access, Diff, Folder
+from papermerge.core.models import Access, Diff, Folder, Document
 from papermerge.test.utils import (
     create_root_user,
     create_margaret_user,
@@ -307,6 +307,7 @@ class TestAccessModelEquality(TestCase):
 class TestAccessModel(TestCase):
 
     def setUp(self):
+        self.root_user = create_root_user()
         self.margaret_user = create_margaret_user()
         self.uploader_user = create_uploader_user()
         self.elizabet_user = create_elizabet_user()
@@ -690,6 +691,97 @@ class TestAccessModel(TestCase):
         self.assertFalse(
             self.elizabet_user.has_perm(READ, margaret_privat)
         )
+
+    def test_access_on_all_document(self):
+        """
+        Superuser/root user creates one folder:
+
+            * for_margaret
+
+        And places there 3 documents:
+
+            * for_margaret
+                * doc_1
+                * doc_2
+                * doc_3
+
+        Superuser assigns read only access permission on folder
+        for_margaret
+
+        Expected:
+            Margaret can now see/view ALL 3 documents.
+        """
+        # (f1)
+        for_margaret = Folder.objects.create(
+            title="for_margaret",
+            user=self.root_user
+        )
+        doc_1 = Document.create_document(
+            title="doc_1",
+            file_name="doc_1.pdf",
+            size='36',
+            lang='DEU',
+            user=self.root_user,
+            page_count=4,
+            parent_id=for_margaret.id
+        )
+        doc_2 = Document.create_document(
+            title="doc_2",
+            file_name="doc_2.pdf",
+            size='36',
+            lang='DEU',
+            user=self.root_user,
+            page_count=4,
+            parent_id=for_margaret.id
+        )
+        doc_3 = Document.create_document(
+            title="doc_3",
+            file_name="doc_3.pdf",
+            size='36',
+            lang='DEU',
+            user=self.root_user,
+            page_count=4,
+            parent_id=for_margaret.id
+        )
+        for_margaret.refresh_from_db()
+
+        self.assertEqual(
+            for_margaret.get_children().count(),
+            3,
+            "for_margaret folder expected to have 3 child nodes"
+        )
+        access_diffs = set_access_perms(
+            for_margaret,
+            [
+                {
+                    'model': 'user',
+                    'name': self.margaret_user.username,
+                    'access_type': 'allow',
+                    'permissions': {
+                        'read': True,
+                        'write': False,
+                        'delete': False
+                    }
+                }
+            ]
+        )
+        for_margaret.propagate_changes(
+            diffs_set=access_diffs,
+            apply_to_self=False
+        )
+        self.assertTrue(
+            self.margaret_user.has_perm(READ, for_margaret)
+        )
+        self.assertTrue(
+            self.margaret_user.has_perm(READ, doc_1)
+        )
+        self.assertTrue(
+            self.margaret_user.has_perm(READ, doc_2)
+        )
+        self.assertTrue(
+            self.margaret_user.has_perm(READ, doc_3)
+        )
+
 
 
 class TrickyScenario(TestCase):

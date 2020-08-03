@@ -2,7 +2,7 @@
 
 export DJANGO_SETTINGS_MODULE=config.settings.test
 
-./manage.py test # papermerge.test.test_access_model \
+./manage.py test $@ # papermerge.test.test_access_model \
                  # papermerge.test.test_access_view \
                  # papermerge.test.test_hocr \
                  # papermerge.test.test_search \

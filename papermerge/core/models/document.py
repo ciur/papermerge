@@ -10,6 +10,7 @@ from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
 from papermerge.core.models.kvstore import KVCompNode, KVNode
 from papermerge.core.models.node import BaseTreeNode
+from papermerge.core.models.access import Access
 from papermerge.core.storage import default_storage
 from papermerge.search import index
 
@@ -165,6 +166,15 @@ class Document(BaseTreeNode):
             apply_to_self=apply_to_self,
             attr_updates=attr_updates
         )
+        # Access permissions are not applicable
+        # for Page models, so if diffs_set contains
+        # instances of Access - just return
+        if (len(diffs_set)):
+            first_diff = diffs_set[0]
+            if len(first_diff):
+                model = list(first_diff)[0]
+                if isinstance(model, Access):
+                    return
 
         # documents need to propage changes
         # to their pages
