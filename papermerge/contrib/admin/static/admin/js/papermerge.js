@@ -20998,9 +20998,13 @@ __p+='\n    <tr class="node" data-id="'+
 ((__t=( row[0].url ))==null?'':__t)+
 '">\n        ';
  for (j=0; j < row.length; j++) { 
-__p+='\n          <td>'+
+__p+='\n          <td>\n            ';
+ if (row[j].is_readonly) { 
+__p+='\n                <i class="fa fa-lock text-danger"></i>\n            ';
+ } 
+__p+='\n            '+
 ((__t=( row[j].value ))==null?'':__t)+
-'</td>\n        ';
+'\n            </td>\n        ';
  } 
 __p+='\n    </tr>\n    ';
  } 
@@ -22654,6 +22658,7 @@ class Table {
       'id': node.get('id'),
       'cid': node.cid,
       'url': node.url,
+      'is_readonly': node.is_readonly(),
       'col': 'type',
       'value': value,
       'virtual_value': virtual_value,
