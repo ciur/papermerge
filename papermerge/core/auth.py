@@ -293,7 +293,7 @@ class NodeAuthBackend:
         """
         # Access.DENY has priority over Access.ALLOW
         if not obj:
-            return False
+            return user_obj.is_superuser
 
         deny_perms = self._get_all_deny_permissions(user_obj, obj)
         allow_perms = self._get_all_allow_permissions(user_obj, obj)

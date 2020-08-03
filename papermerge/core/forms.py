@@ -62,6 +62,7 @@ class UserFormWithoutPassword(ControlForm):
             'first_name',
             'last_name',
             'groups',
+            'user_permissions',
             'is_superuser',
             'is_staff',
             'is_active',

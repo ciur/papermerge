@@ -11,7 +11,11 @@
     <form action="{% url 'core:tokens' %}" method="post">
       {% csrf_token %}
         <div class="col-12 p-3">
-            <a href="{% url 'core:token' %}" class="btn btn-success" role="button">{% trans "New API Token" %}</a>
+            {% if has_perm_add_authtoken %}
+              <a href="{% url 'core:token' %}" class="btn btn-success"  role="button">{% trans "New API Token" %}</a>
+            {% else %}
+              <a href="#" class="btn btn-secondary disabled"  role="button">{% trans "New API Token" %}</a>
+            {% endif %}
             
               <select name="action" required="">
                 <option value="" selected="">---------</option>
