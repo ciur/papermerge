@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  app:
+    image: eugenci/papermerge:1.4.0
+    build:
+      context: .
+      dockerfile: app.1.4.0.dockerfile
+    container_name: papermerge_service
+    command: python3 /opt/papermerge/manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - media_root:/opt/media
+      - broker_queue:/opt/broker/queue
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+volumes:
+  broker_queue:
+  media_root:
