@@ -64,7 +64,7 @@ def automate_view(request):
 
     action_url = reverse('core:automate')
 
-    form = AutomateForm()
+    form = AutomateForm(user=request.user)
 
     if request.method == 'POST':
 
