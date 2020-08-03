@@ -20,3 +20,12 @@ def extras(request):
     return {
         'inbox_count': count,
     }
+
+
+def user_perms(request):
+    change_user = request.user.has_perm(
+        'core.change_user',
+    )
+    return {
+        'has_perm_change_user': change_user
+    }

@@ -29,9 +29,11 @@
     </a>
     <ul class="dropdown-menu">
       <li class="dropdown-item">
-        <a href="{% url 'account_change_password' %}"><i class="fa fa-asterisk mx-2"></i>
-          {% trans 'Change Password' %}
-        </a>
+        {% if has_perm_change_user %}
+          <a href="{% url 'account_change_password' %}"><i class="fa fa-asterisk mx-2"></i>
+            {% trans 'Change Password' %}
+          </a>
+        {% endif %}
       </li>
       <li class="dropdown-item">
         <a href="{% url 'core:tokens' %}"><i class="fa fa-user-secret mx-2"></i>
