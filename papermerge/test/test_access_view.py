@@ -2,8 +2,17 @@ import json
 
 from django.test import Client, TestCase
 from django.urls import reverse
-from papermerge.core.models import Access, Folder
-from papermerge.test.utils import create_margaret_user, create_uploader_user
+from papermerge.core.models import (
+    Access,
+    Folder,
+    Page
+)
+from papermerge.test.utils import (
+    create_margaret_user,
+    create_uploader_user,
+    create_root_user,
+    create_some_doc
+)
 
 READ = Access.PERM_READ
 WRITE = Access.PERM_WRITE
@@ -356,3 +365,128 @@ class TestAccessView(TestCase):
                 self.margaret_user.has_perm(READ, folder),
                 f"Failed for folder {folder.title}"
             )
+
+
+class TestMetadataAccessView(TestCase):
+    """
+    If user has readonly access to folder/document, then
+    he/she cannot delete/change node's metadata
+    """
+
+    def setUp(self):
+        self.root_user = create_root_user()
+        self.margaret_user = create_margaret_user()
+
+    def test_metadata_is_readonly(self):
+        """
+        superuser creates a folder - for_margaret - and
+        gives margaret readonly access on that folder.
+        for_margaret folder contains two documents doc_1 and doc_2.
+
+        Expected (for all 3 nodes - a folder and 2 documents):
+            * margaret can see/read metadata
+            * margaret cannot delete/change metadata
+        """
+        for_margaret = Folder.objects.create(
+            title="for_margaret",
+            user=self.root_user
+        )
+        doc_1 = create_some_doc(
+            user=self.root_user,
+            parent_id=for_margaret.id
+        )
+        doc_2 = create_some_doc(
+            user=self.root_user,
+            parent_id=for_margaret.id
+        )
+        for_margaret.refresh_from_db()
+
+        self.assertEqual(
+            for_margaret.get_children().count(),
+            2
+        )
+        post_data = {}
+        access_entry = {
+            "model": "user",
+            "name": "margaret",  # username of self.margaret_user
+            "access_type": "allow",
+            "permissions": {
+                "read": True
+            }
+        }
+        post_data['add'] = []
+        post_data['add'].append(access_entry)
+
+        logged_in = self.client.login(
+            testcase_user=self.root_user
+        )
+        self.assertTrue(
+            logged_in,
+            f"Auth failed for {self.root_user}"
+        )
+        resp = self.client.post(
+            reverse('core:access', args=(for_margaret.id, )),
+            post_data,
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        self.assertEqual(
+            resp.status_code, 200
+        )
+        self.client.logout()
+
+        # Preparetion ready #
+        # Now, let margaret change metadata on folder
+        # for_margaret
+        logged_in = self.client.login(
+            testcase_user=self.margaret_user
+        )
+        self.assertTrue(
+            logged_in,
+            f"Auth failed for {self.margaret_user}"
+        )
+        resp = self.client.post(
+            reverse('core:metadata', args=('node', for_margaret.id)),
+            {},  # does not matter, must be unauthorized
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        self.assertEqual(
+            resp.status_code, 403
+        )
+        # same for doc_1
+        resp = self.client.post(
+            reverse('core:metadata', args=('node', doc_1.id)),
+            {},  # does not matter, must be unauthorized
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        self.assertEqual(
+            resp.status_code, 403
+        )
+        # same for doc_2
+        resp = self.client.post(
+            reverse('core:metadata', args=('node', doc_2.id)),
+            {},  # does not matter, must be unauthorized
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        self.assertEqual(
+            resp.status_code, 403
+        )
+
+        page = Page.objects.filter(
+            document=doc_1
+        ).first()
+        # similarely, margaret cannot change
+        # metadata the page
+        resp = self.client.post(
+            reverse('core:metadata', args=('page', page.id)),
+            {},  # does not matter, must be unauthorized
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+        self.assertEqual(
+            resp.status_code, 403
+        )
+

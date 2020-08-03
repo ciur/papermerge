@@ -2,8 +2,16 @@ import json
 import logging
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
-from papermerge.core.models import BaseTreeNode, Page
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseForbidden
+)
+from papermerge.core.models import (
+    BaseTreeNode,
+    Page,
+    Access
+)
 from papermerge.core.models.kvstore import (get_currency_formats,
                                             get_date_formats, get_kv_types,
                                             get_numeric_formats)
@@ -35,12 +43,20 @@ def metadata(request, model, id):
         for kv in item.kv.all():
             kvstore.append(kv.to_dict())
     else:
-        kv_data = json.loads(request.body)
-        if 'kvstore' in kv_data:
-            if isinstance(kv_data['kvstore'], list):
-                item.kv.update(
-                    _sanitize_kvstore_list(kv_data['kvstore'])
-                )
+        if isinstance(item, BaseTreeNode):
+            node = item
+        else:
+            node = item.document
+
+        if request.user.has_perm(Access.PERM_WRITE, node):
+            kv_data = json.loads(request.body)
+            if 'kvstore' in kv_data:
+                if isinstance(kv_data['kvstore'], list):
+                    item.kv.update(
+                        _sanitize_kvstore_list(kv_data['kvstore'])
+                    )
+        else:
+            return HttpResponseForbidden()
 
     return HttpResponse(
         json.dumps(

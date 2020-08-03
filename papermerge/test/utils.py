@@ -50,7 +50,11 @@ def create_uploader_user():
     return user
 
 
-def create_some_doc(user, page_count=2):
+def create_some_doc(
+    user,
+    page_count=2,
+    parent_id=None
+):
     """
     Returns a (newly created) document instance.
     Title, file_name, size, language do not matter.
@@ -62,6 +66,7 @@ def create_some_doc(user, page_count=2):
         lang='DEU',
         user=user,
         page_count=page_count,
+        parent_id=parent_id
     )
 
     return doc

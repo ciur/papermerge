@@ -783,7 +783,6 @@ class TestAccessModel(TestCase):
         )
 
 
-
 class TrickyScenario(TestCase):
 
     def setUp(self):
