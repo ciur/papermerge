@@ -23,6 +23,11 @@ def extras(request):
 
 
 def user_perms(request):
+    if request.user.is_anonymous:
+        return {
+            'has_perm_change_user': False
+        }
+
     change_user = request.user.has_perm(
         'core.change_user',
     )
