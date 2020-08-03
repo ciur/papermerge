@@ -15,6 +15,7 @@ RUN apt-get update \
                     imagemagick \
                     pdftk-java \
                     apache2 \
+                    apache2-dev \
                     tesseract-ocr \
                     tesseract-ocr-deu \
                     tesseract-ocr-eng \
