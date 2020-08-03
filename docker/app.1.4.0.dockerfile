@@ -27,10 +27,10 @@ RUN apt-get update \
 # ensures our console output looks familiar and is not buffered by Docker
 ENV PYTHONUNBUFFERED 1
 
-ENV DJANGO_SETTINGS_MODULE config.settings.stage
+ENV DJANGO_SETTINGS_MODULE config.settings.production
 
 WORKDIR /opt
-RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/papermerge \
+RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/papermerge
  
 WORKDIR /opt/papermerge
 RUN pip3 install -r requirements/base.txt
