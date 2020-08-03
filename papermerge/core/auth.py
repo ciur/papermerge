@@ -285,6 +285,51 @@ class NodeAuthBackend:
         # But we don't use it.
         return None
 
+    def django_get_user_permissions(self, user_obj):
+        return user_obj.user_permissions.all()
+
+    def django_get_group_permissions(self, user_obj):
+        user_groups_field = get_user_model()._meta.get_field('groups')
+        user_groups_query = 'group__%s' % user_groups_field.related_query_name()  # noqa
+
+        return Permission.objects.filter(**{user_groups_query: user_obj})
+
+    def django_get_all_permissions(self, user_obj):
+        if not hasattr(user_obj, '_perm_cache'):
+            user_obj._perm_cache = {
+                *self.django_get_permissions(user_obj, 'user'),
+                *self.django_get_permissions(user_obj, 'group'),
+            }
+
+        return user_obj._perm_cache
+
+    def django_get_permissions(self, user_obj, from_name):
+
+        perm_cache_name = '_%s_perm_cache' % from_name
+        if not hasattr(user_obj, perm_cache_name):
+            if user_obj.is_superuser:
+                perms = Permission.objects.all()
+            else:
+                perms = getattr(
+                    self, 'django_get_%s_permissions' % from_name
+                )(user_obj)
+            perms = perms.values_list(
+                'content_type__app_label', 'codename'
+            ).order_by()
+            setattr(
+                user_obj,
+                perm_cache_name,
+                {"%s.%s" % (ct, name) for ct, name in perms}
+            )
+        return getattr(user_obj, perm_cache_name)
+
+    def _django_has_perm(self, user_obj, perm):
+        """
+        Permissions not related to node access (django way)
+        """
+        permissions = self.django_get_all_permissions(user_obj)
+        return perm in permissions
+
     def has_perm(self, user_obj, perm, obj=None):
         """
         Main function. However it is optional in django auth backend.
@@ -293,7 +338,7 @@ class NodeAuthBackend:
         """
         # Access.DENY has priority over Access.ALLOW
         if not obj:
-            return user_obj.is_superuser
+            return self._django_has_perm(user_obj, perm)
 
         deny_perms = self._get_all_deny_permissions(user_obj, obj)
         allow_perms = self._get_all_allow_permissions(user_obj, obj)

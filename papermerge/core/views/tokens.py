@@ -20,7 +20,7 @@ def tokens_view(request):
         go_action = request.POST['action']
 
         if go_action == 'delete_selected':
-            if request.user.has_perm('delete_authtoken'):
+            if request.user.has_perm('knox.delete_authtoken'):
                 AuthToken.objects.filter(
                     digest__in=selected_action
                 ).delete()
@@ -33,14 +33,16 @@ def tokens_view(request):
                     }
                 )
 
-    tokens = AuthToken.objects.all()
+    tokens = AuthToken.objects.filter(user=request.user)
 
     return render(
         request,
         'admin/tokens.html',
         {
             'tokens': tokens,
-            'has_perm_add_authtoken': request.user.has_perm('add_authtoken')
+            'has_perm_add_authtoken': request.user.has_perm(
+                'knox.add_authtoken'
+            )
         }
     )
 
@@ -49,7 +51,7 @@ def tokens_view(request):
 def token_view(request):
 
     if request.method == 'POST':
-        if request.user.has_perm('add_authtoken'):
+        if request.user.has_perm('knox.add_authtoken'):
             form = AuthTokenForm(request.POST)
 
             if form.is_valid():
@@ -81,6 +83,8 @@ def token_view(request):
         'admin/token.html',
         {
             'form': form,
-            'has_perm_add_authtoken': request.user.has_perm('add_authtoken')
+            'has_perm_add_authtoken': request.user.has_perm(
+                'knox.add_authtoken'
+            )
         }
     )
