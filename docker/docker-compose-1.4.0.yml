@@ -13,6 +13,15 @@ services:
       - broker_queue:/opt/broker/queue
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
+  worker:
+    image: eugenci/papermerge:1.4.0.rc1
+    build:
+      context: .
+      dockerfile: worker.1.4.0.dockerfile    
+    container_name: papermerge_worker
+    volumes:
+      - media_root:/opt/media
+      - broker_queue:/opt/broker/queue
 volumes:
   broker_queue:
   media_root:

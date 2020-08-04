@@ -16,9 +16,12 @@ RUN apt-get update \
                     git \
                     imagemagick \
                     pdftk-java \
-                    apache2 \
-                    apache2-dev \
                     locales \
+                    tesseract-ocr \
+                    tesseract-ocr-deu \
+                    tesseract-ocr-eng \
+                    tesseract-ocr-fra \
+                    tesseract-ocr-spa \
  && rm -rf /var/lib/apt/lists/* \
  && pip3 install --upgrade pip
 
@@ -40,7 +43,7 @@ RUN mkdir -p /opt/media
 RUN mkdir -p /opt/broker/queue
 RUN mkdir /opt/server
 
-COPY app/config/app.production.py /opt/app/config/settings/production.py
+COPY app/config/worker.production.py /opt/app/config/settings/production.py
 COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
 COPY app/entrypoint-1.4.0.sh /opt/entrypoint-1.4.0.sh
 COPY app/create_user.py /opt/app/create_user.py
@@ -57,20 +60,11 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
 RUN pip3 install -r requirements/base.txt --no-cache-dir
-RUN pip3 install -r requirements/production.txt --no-cache-dir
 
 RUN ./manage.py migrate
 # create superuser
 RUN cat create_user.py | python3 manage.py shell
 
-RUN ./manage.py collectstatic --no-input
 RUN ./manage.py check
 
-# ENTRYPOINT ["/opt/entrypoint-1.4.0.sh"]
-CMD ["mod_wsgi-express", "start-server", \
-     "--server-root",  "/opt/app/", \
-    "--url-alias", "/static", "/opt/static", \
-    "--url-alias", "/media", "/opt/media", \
-    "--port", "8000", "--user", "www", "--group", "www", \
-    "--log-to-terminal", \
-    "config/wsgi.py"]
+CMD ["python", "manage.py", "worker"]
