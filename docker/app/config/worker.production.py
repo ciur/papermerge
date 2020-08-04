@@ -9,6 +9,18 @@ INTERNAL_IPS = [
 
 ALLOWED_HOSTS = ['*']
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbname',
+        'USER': 'dbuser',
+        'PASSWORD': 'dbpass',
+        'HOST': 'db',
+        'PORT': 5432,
+    },
+}
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
