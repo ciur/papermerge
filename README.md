@@ -84,8 +84,8 @@ with a red lock are read-only for guest user.
 You can try it with just 3 simple commands (you need git and docker-compose):
 
     git clone git@github.com:ciur/papermerge.git
-    cd docker
-    docker-compose -f docker-compose-1.4.0.yml up -d
+    cd docker/1.4/
+    docker-compose up
 
 Docker compose command will pull all necessary docker images and start
 papermerge (stable 1.4.0 version) on http://localhost:8000. Access it with
