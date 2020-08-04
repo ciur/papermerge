@@ -11,10 +11,7 @@ DEFAULT_CONFIG_PLACES = [
 DEFAULT_PAPERMERGE_CONFIG_ENV_NAME = "PAPERMERGE_CONFIG"
 
 cfg_papermerge = try_load_config(
-    config_locations=[
-        "/etc/papermerge.conf.py",
-        "papermerge.conf.py"
-    ],
+    config_locations=DEFAULT_CONFIG_PLACES,
     config_env_var_name=DEFAULT_PAPERMERGE_CONFIG_ENV_NAME
 )
 
