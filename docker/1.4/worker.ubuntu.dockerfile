@@ -47,7 +47,7 @@ COPY config/worker.production.py /opt/app/config/settings/production.py
 COPY config/papermerge.config.py /opt/app/papermerge.conf.py
 COPY worker.startup.sh /opt/app/startup.sh
 RUN chmod +x /opt/app/startup.sh
-COPY create_user.py /opt/app/create_user.py
+COPY config/create_user.py /opt/app/create_user.py
 
 RUN chown -R www:www /opt/
 
