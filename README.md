@@ -54,6 +54,17 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 * REST API ([screencast demo](https://vimeo.com/391436134))
 * Page Management - delete, reorder, cut & paste pages ([screencast demo](https://www.youtube.com/watch?v=CRhUpPqCI64))
 
+## Live Demo
+
+In live demo some of the features are disabled. For example you cannot manage users, API tokens. Also, OCR
+of the documents is disabled.
+Folders/documents with a red lock are read-only for guest user.
+
+Check [here live demo](https://demo.papermerge.com).
+Username: ``guest``
+Password: ``password77``
+
+
 ## Resources
 
  * [Video Demo](https://www.youtube.com/watch?v=U_x8fOhuMTI)
