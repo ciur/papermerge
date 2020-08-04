@@ -40,11 +40,11 @@ RUN mkdir -p /opt/media
 # RUN mkdir -p /opt/broker/queue
 RUN mkdir /opt/server
 
-COPY app/config/app.production.py /opt/app/config/settings/production.py
-COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
-COPY app.1.4.startup.sh /opt/app/startup.sh
+COPY ../config/app.production.py /opt/app/config/settings/production.py
+COPY ../config/papermerge.config.py /opt/app/papermerge.conf.py
+COPY ../app.startup.sh /opt/app/startup.sh
 RUN chmod +x /opt/app/startup.sh
-COPY app/create_user.py /opt/app/create_user.py
+COPY ..config/create_user.py /opt/app/create_user.py
 
 
 RUN chown -R www:www /opt/
