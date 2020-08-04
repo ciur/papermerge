@@ -17,16 +17,16 @@ RUN apt-get update \
                     pdftk-java \
                     apache2 \
                     apache2-dev \
+                    locales \
                     tesseract-ocr \
                     tesseract-ocr-deu \
                     tesseract-ocr-eng \
                     tesseract-ocr-fra \
                     tesseract-ocr-spa \
  && rm -rf /var/lib/apt/lists/* \
- && pip3 install --upgrade pip \
- && mkdir -p /opt/media /opt/broker/queue && mkdir /opt/server
+ && pip3 install --upgrade pip
 
-RUN groupadd -g 1001 www
+RUN groupadd -g 1002 www
 RUN useradd -g www -s /bin/bash --uid 1001 -d /opt/app www
 
 
@@ -35,6 +35,8 @@ ENV PYTHONUNBUFFERED 1
 
 ENV DJANGO_SETTINGS_MODULE config.settings.production
 ENV PATH=/opt/app/:/opt/app/.local/bin:$PATH
+RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
+ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 WORKDIR /opt
 RUN git clone https://github.com/ciur/papermerge -q --branch v1.4.0.rc1 --depth 1 /opt/app
@@ -43,12 +45,18 @@ RUN chown -R www:www /opt/
 
 USER 1001
 
+RUN mkdir -p /opt/media
+RUN mkdir -p /opt/broker/queue
+RUN mkdir /opt/server
+
 WORKDIR /opt/app
 
 ENV VIRTUAL_ENV=/opt/app/.venv
 RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV DJANGO_SETTINGS_MODULE=config.settings.production
+
 RUN pip3 install -r requirements/base.txt --no-cache-dir
 RUN pip3 install -r requirements/production.txt --no-cache-dir
 
@@ -59,6 +67,27 @@ COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
 COPY app/entrypoint.sh /opt/entrypoint.sh
 COPY app/create_user.py /opt/app/create_user.py
 
+RUN ./manage.py migrate
+# create superuser
+RUN cat create_user.py | python3 manage.py shell
 
+RUN ./manage.py collectstatic --no-input
+
+RUN ./manage.py runmodwsgi --working-directory . \
+        --host 0.0.0.0 \
+        --port 8000 \
+        --user www \
+        --group www \
+        --url-alias /static /opt/static \
+        --url-alias /media /opt/media \
+        --setup-only \
+        --server-root /opt/server \
+        --log-level debug \
+        --access-log \
+        --startup-log \
+        --error-log-name errors.log
+
+
+RUN /opt/server/apachectl start   
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
