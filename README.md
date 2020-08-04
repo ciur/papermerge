@@ -85,10 +85,10 @@ You can try it with just 3 simple commands (you need git and docker-compose):
 
     git clone git@github.com:ciur/papermerge.git
     cd docker
-    docker-compose up -d
+    docker-compose -f docker-compose-1.4.0.yml up -d
 
 Docker compose command will pull all necessary docker images and start
-papermerge (stable 1.2 version) on http://localhost:8000. Access it with
+papermerge (stable 1.4.0 version) on http://localhost:8000. Access it with
 default username/password: admin/admin.
 
 ### Installation
