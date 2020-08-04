@@ -1,17 +1,11 @@
 #!/bin/bash
 
+./manage.py makemigrations
 ./manage.py migrate
-# # create superuser
+# in version 1.2 there were triggers defined
+# Since version 1.4, triggers are not used anymore
+# drop triggers
+./manage.py drop_triggers
 cat create_user.py | python3 manage.py shell
-# 
 ./manage.py check
-# 
 python manage.py worker
-
-# RUN ./manage.py migrate
-# # create superuser
-# RUN cat create_user.py | python3 manage.py shell
-# 
-# RUN ./manage.py check
-# 
-# CMD ["python", "manage.py", "worker"]
