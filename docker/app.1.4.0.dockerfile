@@ -43,7 +43,7 @@ RUN git clone https://github.com/ciur/papermerge -q --branch v1.4.0.rc1 --depth 
 
 RUN chown -R www:www /opt/
 
-USER 1001
+USER www
 
 RUN mkdir -p /opt/media
 RUN mkdir -p /opt/broker/queue
@@ -64,30 +64,18 @@ COPY app/config/django.production.py /opt/app/config/settings/production.py
 COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
 
 
-COPY app/entrypoint.sh /opt/entrypoint.sh
+COPY app/entrypoint-1.4.0.sh /opt/entrypoint-1.4.0.sh
 COPY app/create_user.py /opt/app/create_user.py
 
+USER root
+RUN chown -R www:www /opt/entrypoint-1.4.0.sh
+RUN chown -R www:www /opt/app/create_user.py
+
+USER www
 RUN ./manage.py migrate
 # create superuser
 RUN cat create_user.py | python3 manage.py shell
 
 RUN ./manage.py collectstatic --no-input
 
-RUN ./manage.py runmodwsgi --working-directory . \
-        --host 0.0.0.0 \
-        --port 8000 \
-        --user www \
-        --group www \
-        --url-alias /static /opt/static \
-        --url-alias /media /opt/media \
-        --setup-only \
-        --server-root /opt/server \
-        --log-level debug \
-        --access-log \
-        --startup-log \
-        --error-log-name errors.log
-
-
-RUN /opt/server/apachectl start   
-
-ENTRYPOINT ["/opt/entrypoint.sh"]
+ENTRYPOINT ["/opt/entrypoint-1.4.0.sh"]

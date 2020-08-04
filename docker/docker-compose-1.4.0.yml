@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: app.1.4.0.dockerfile
     container_name: papermerge_service
-    command: python3 /opt/app/manage.py worker
     ports:
       - "8000:8000"
     volumes:
