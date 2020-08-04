@@ -1,5 +1,8 @@
 
-DB_DIR = "/opt/papermerge/"
+DBUSER = "dbuser"
+DBPASS = "dbpass"
+DBHOST = "db"
+DBNAME = "dbname"
 
 MEDIA_DIR = "/opt/media"
 STATIC_DIR = "/opt/static"

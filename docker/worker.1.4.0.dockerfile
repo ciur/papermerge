@@ -40,12 +40,11 @@ ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/app
 RUN mkdir -p /opt/media
-RUN mkdir -p /opt/broker/queue
+# RUN mkdir -p /opt/broker/queue
 RUN mkdir /opt/server
 
 COPY app/config/worker.production.py /opt/app/config/settings/production.py
 COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
-COPY app/entrypoint-1.4.0.sh /opt/entrypoint-1.4.0.sh
 COPY app/create_user.py /opt/app/create_user.py
 
 RUN chown -R www:www /opt/
@@ -60,6 +59,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
 RUN pip3 install -r requirements/base.txt --no-cache-dir
+RUN pip3 install -r requirements/extra.txt --no-cache-dir
 
 RUN ./manage.py migrate
 # create superuser
