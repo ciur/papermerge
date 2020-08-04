@@ -45,6 +45,8 @@ RUN mkdir /opt/server
 
 COPY app/config/worker.production.py /opt/app/config/settings/production.py
 COPY app/config/papermerge.config.py /opt/app/papermerge.conf.py
+COPY worker.1.4.startup.sh /opt/app/startup.sh
+RUN chmod +x /opt/app/startup.sh
 COPY app/create_user.py /opt/app/create_user.py
 
 RUN chown -R www:www /opt/
@@ -61,10 +63,4 @@ ENV DJANGO_SETTINGS_MODULE=config.settings.production
 RUN pip3 install -r requirements/base.txt --no-cache-dir
 RUN pip3 install -r requirements/extra.txt --no-cache-dir
 
-RUN ./manage.py migrate
-# create superuser
-RUN cat create_user.py | python3 manage.py shell
-
-RUN ./manage.py check
-
-CMD ["python", "manage.py", "worker"]
+CMD ["/opt/app/startup.sh"]

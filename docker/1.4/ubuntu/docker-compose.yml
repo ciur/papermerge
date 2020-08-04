@@ -8,8 +8,12 @@ services:
     container_name: papermerge_app
     ports:
       - "8000:8000"
+    links:
+      - "db:db"      
     depends_on:
       - db
+    networks:
+      - djangonetwork       
     volumes:
       - media_root:/opt/media
       - broker_queue:/opt/app/queue
@@ -24,6 +28,8 @@ services:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=dbpass
       - POSTGRES_DB=dbname
+    networks:
+      - djangonetwork 
   worker:
     image: eugenci/papermerge-worker:1.4.0.rc1
     build:
@@ -35,7 +41,13 @@ services:
       - broker_queue:/opt/app/queue
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
+    networks:
+      - djangonetwork
 volumes:
+  postgres_data:
   broker_queue:
   media_root:
-  postgres_data:
+networks:
+  djangonetwork:
+    driver: bridge    
+
