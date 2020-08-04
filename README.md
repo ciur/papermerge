@@ -56,13 +56,13 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 
 ## Live Demo
 
-In live demo some of the features are disabled. For example you cannot manage users, API tokens. Also, OCR
-of the documents is disabled.
-Folders/documents with a red lock are read-only for guest user.
+In live demo some of the features are disabled. For example you cannot manage
+users, API tokens. Also, OCR of the documents is disabled. Folders/documents
+with a red lock are read-only for guest user.
 
-Check [here live demo](https://demo.papermerge.com).
-Username: ``guest``
-Password: ``password77``
+* [Live demo](https://demo.papermerge.com)
+* Username: ``guest``
+* Password: ``password77``
 
 
 ## Resources

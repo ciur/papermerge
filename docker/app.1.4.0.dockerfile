@@ -37,7 +37,7 @@ ENV DJANGO_SETTINGS_MODULE config.settings.production
 ENV PATH=/opt/app/:/opt/app/.local/bin:$PATH
 
 WORKDIR /opt
-RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/app
+RUN git clone https://github.com/ciur/papermerge -q --branch v1.4.0.rc1 --depth 1 /opt/app
 
 RUN chown -R www:www /opt/
 
