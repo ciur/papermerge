@@ -14,7 +14,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
   worker:
-    image: eugenci/papermerge:1.4.0.rc1
+    image: eugenci/papermerge-worker:1.4.0.rc1
     build:
       context: .
       dockerfile: worker.1.4.0.dockerfile    
