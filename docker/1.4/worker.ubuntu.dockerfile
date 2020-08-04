@@ -16,9 +16,12 @@ RUN apt-get update \
                     git \
                     imagemagick \
                     pdftk-java \
-                    apache2 \
-                    apache2-dev \
                     locales \
+                    tesseract-ocr \
+                    tesseract-ocr-deu \
+                    tesseract-ocr-eng \
+                    tesseract-ocr-fra \
+                    tesseract-ocr-spa \
  && rm -rf /var/lib/apt/lists/* \
  && pip3 install --upgrade pip
 
@@ -40,12 +43,11 @@ RUN mkdir -p /opt/media
 # RUN mkdir -p /opt/broker/queue
 RUN mkdir /opt/server
 
-COPY ../config/app.production.py /opt/app/config/settings/production.py
-COPY ../config/papermerge.config.py /opt/app/papermerge.conf.py
-COPY ../app.startup.sh /opt/app/startup.sh
+COPY config/worker.production.py /opt/app/config/settings/production.py
+COPY config/papermerge.config.py /opt/app/papermerge.conf.py
+COPY worker.startup.sh /opt/app/startup.sh
 RUN chmod +x /opt/app/startup.sh
-COPY ..config/create_user.py /opt/app/create_user.py
-
+COPY create_user.py /opt/app/create_user.py
 
 RUN chown -R www:www /opt/
 
@@ -59,7 +61,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
 RUN pip3 install -r requirements/base.txt --no-cache-dir
-RUN pip3 install -r requirements/production.txt --no-cache-dir
 RUN pip3 install -r requirements/extra.txt --no-cache-dir
 
 CMD ["/opt/app/startup.sh"]

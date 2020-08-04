@@ -4,7 +4,7 @@ services:
     image: eugenci/papermerge:1.4.0.rc1
     build:
       context: .
-      dockerfile: app.dockerfile
+      dockerfile: app.ubuntu.dockerfile
     container_name: papermerge_app
     ports:
       - "8000:8000"
@@ -34,7 +34,7 @@ services:
     image: eugenci/papermerge-worker:1.4.0.rc1
     build:
       context: .
-      dockerfile: worker.dockerfile    
+      dockerfile: worker.ubuntu.dockerfile    
     container_name: papermerge_worker
     volumes:
       - media_root:/opt/media
