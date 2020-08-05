@@ -36,9 +36,13 @@ ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 
 RUN git clone https://github.com/ciur/papermerge -q --depth 1 /opt/app
+
 RUN mkdir -p /opt/media
-# RUN mkdir -p /opt/broker/queue
-RUN mkdir /opt/server
+
+# For broker queue. Change ownership
+# so that mounted volume won't make it root-owned
+RUN mkdir /opt/app/queue
+RUN chown www:www /opt/app/queue
 
 COPY config/app.production.py /opt/app/config/settings/production.py
 COPY config/papermerge.config.py /opt/app/papermerge.conf.py
