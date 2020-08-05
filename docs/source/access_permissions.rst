@@ -22,7 +22,7 @@ folders and documents in the system?*. Answer is - *no*.
 
 .. important::
 
-	Every user (including admin) in Papermerge System has his own space of space of folders and documents.
+	Every user (including admin) in Papermerge System has his own space of folders and documents.
 	Once a user uploaded a document - he/she is considered the owner of that document.
 	Initially **only the owner has full access to the document**. And **only the owner can decide** who will
 	have what access and permissions to his/her documents and folders.
