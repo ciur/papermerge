@@ -211,7 +211,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(
             cfg_papermerge.get(
-                "DBDIR",
+                "DB_DIR",
                 PROJ_ROOT
             ),
             "db.sqlite3"
