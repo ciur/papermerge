@@ -605,7 +605,9 @@ class TestDocumentDownload(TestCase):
 
         Expected:
 
-            margaret must be able to download the document.
+            Margaret and root user must be able to download the document.
+            Elizabet on the other hand - must not have access to the document
+            (she was not assigned permissions for that)
         """
         document_path = os.path.join(
             BASE_DIR, "data", "berlin.pdf"
