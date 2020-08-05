@@ -28,4 +28,25 @@ folders and documents in the system?*. Answer is - *no*.
 	have what access and permissions to his/her documents and folders.
 
 
-Thus, if margaret created a folder titled i-am-margaret, by default - admin user won't be able to see neither i-am-margaret folder nor the content of it.
+Thus, if margaret created a folder titled mar-folder, by default - admin user won't be able to see neither mar- folder nor the content of it.
+
+.. figure:: img/access/02-every-user-has-his-own-documents-space.png
+
+   Folders created (and documents uploaded) by margaret user, by default are visible accessible
+   only by her.
+
+On the other hand, if admin creates a folder titled for-margaret, and adds
+read only access permission for margaret (click on folder for-margaret,
+access, create, ...):
+
+.. figure:: img/access/03-read-only-for-margaret.png
+
+   Assign read only access for margaret
+
+Then, margaret will be able to see (view, read only mode) folder for-margaret (owned by admin).
+Read only documents and folders are marked with big red lock.
+This situation is illustrated in figure below.
+
+.. figure:: img/access/04-read-only-access-for-margaret.png
+
+   Margaret has read only access on folder owned by admin user.
