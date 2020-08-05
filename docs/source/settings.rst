@@ -31,7 +31,7 @@ Paths and Folders
 
 .. _db_dir:
 
-``DB_DIR``
+``DBDIR``
 ~~~~~~~~~~~
 
 * ``/path/to/papermerge/sqlite/db/``
@@ -41,7 +41,7 @@ By default uses project's local directory.
 
 Example::
     
-    DB_DIR = "/opt/papermerge/db/"
+    DBDIR = "/opt/papermerge/db/"
 
 .. _media_dir:
 
