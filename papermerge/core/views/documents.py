@@ -481,7 +481,7 @@ def document_download(request, id):
     except Document.DoesNotExist:
         raise Http404("Document does not exists")
 
-    if doc.user.username == request.user.username:
+    if request.user.has_perm(Access.PERM_READ, doc):
         try:
             file_handle = open(default_storage.abspath(
                 doc.path.url()
@@ -507,4 +507,4 @@ def document_download(request, id):
     # return redirect(
     #     'boss:core_basetreenode_changelist_obj', args=(id,)
     # )
-    return redirect('browse')
+    return HttpResponseForbidden()
