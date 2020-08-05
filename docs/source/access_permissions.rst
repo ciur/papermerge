@@ -22,10 +22,10 @@ folders and documents in the system?*. Answer is - *no*.
 
 .. important::
 
-	Every user (including admin) in Papermerge System has his own space of folders and documents.
-	Once a user uploaded a document - he/she is considered the owner of that document.
-	Initially **only the owner has full access to the document**. And **only the owner can decide** who will
-	have what access and permissions to his/her documents and folders.
+    Every user (including admin) in Papermerge System has his own space of folders and documents.
+    Once a user uploaded a document - he/she is considered the owner of that document.
+    Initially **only the owner has full access to the document**. And **only the owner can decide** who will
+    have what access and permissions to his/her documents and folders.
 
 
 Thus, if margaret created a folder titled mar-folder, by default - admin user won't be able to see neither mar- folder nor the content of it.
@@ -50,3 +50,10 @@ This situation is illustrated in figure below.
 .. figure:: img/access/04-read-only-access-for-margaret.png
 
    Margaret has read only access on folder owned by admin user.
+
+
+.. note::
+
+   If a document is in read only mode for margaret, then margaret won't be able to change metadata
+   associated with the document. Similarly - margaret won't be able to delete or change order of pages
+   within respective document.
