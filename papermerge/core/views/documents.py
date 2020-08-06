@@ -475,13 +475,16 @@ def preview(request, id, step=None, page="1"):
 
 @login_required
 def document_download(request, id):
-
+    """
+    Any user with read permission on the document must be
+    able to download the document.
+    """
     try:
         doc = Document.objects.get(id=id)
     except Document.DoesNotExist:
         raise Http404("Document does not exists")
 
-    if doc.user.username == request.user.username:
+    if request.user.has_perm(Access.PERM_READ, doc):
         try:
             file_handle = open(default_storage.abspath(
                 doc.path.url()
@@ -490,9 +493,6 @@ def document_download(request, id):
             logger.error(
                 "Cannot open local version of %s" % doc.path.url()
             )
-            # return redirect(
-            #     'boss:core_basetreenode_changelist_obj', args=(id,)
-            # )
             return redirect('browse')
 
         resp = HttpResponse(
@@ -504,7 +504,4 @@ def document_download(request, id):
         file_handle.close()
         return resp
 
-    # return redirect(
-    #     'boss:core_basetreenode_changelist_obj', args=(id,)
-    # )
-    return redirect('browse')
+    return HttpResponseForbidden()

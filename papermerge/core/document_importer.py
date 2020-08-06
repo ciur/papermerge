@@ -32,7 +32,7 @@ class DocumentImporter:
     def import_file(
         self,
         file_title=None,
-        inbox_title="Inbox",
+        inbox_title=Folder.INBOX_NAME,
         delete_after_import=True,
         skip_ocr=False
     ):

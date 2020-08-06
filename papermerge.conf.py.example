@@ -10,9 +10,10 @@
 #   Paths & Folders
 #######################
 
-# Override the default  SQLite database storage location.
-# The default location is /data/ within the install directory.
-# DB_DIR = "/path/to/papermerge/db"
+
+# You can specify where you want the SQLite database to be stored instead of
+# the default location of /data/ within the install directory.
+DBDIR = "/path/to/papermerge/db"
 
 # Override the default  MEDIA_ROOT. This is where all files are stored.
 # The default location is /media/documents/ within the install directory.

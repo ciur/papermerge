@@ -8,19 +8,30 @@ from django.urls import reverse
 from mglib.path import PagePath
 from mglib.step import Step
 
-from papermerge.core.models import (Page, Document, Folder)
+from papermerge.core.auth import create_access
+from papermerge.core.models import (
+    Page,
+    Document,
+    Folder,
+    Access
+)
 from papermerge.core.storage import default_storage
 from papermerge.core.models.kvstore import (
     TEXT,
     KVStorePage
 )
 
-
 from .utils import (
     create_root_user,
+    create_margaret_user,
+    create_elizabet_user,
     create_some_doc
 )
 
+
+READ = Access.PERM_READ
+WRITE = Access.PERM_WRITE
+DELETE = Access.PERM_DELETE
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -570,3 +581,97 @@ class TestDocumentAjaxOperationsView(TestCase):
 
         with self.assertRaises(Document.DoesNotExist):
             Document.objects.get(id=doc.id)
+
+
+class TestDocumentDownload(TestCase):
+
+    def setUp(self):
+
+        self.root_user = create_root_user()
+        self.margaret_user = create_margaret_user()
+        self.elizabet_user = create_elizabet_user()
+        self.client = Client()
+
+    def test_user_download_document(self):
+        """
+        If user has read access to the document
+        (even if he/she is not the owner of the document), then
+        he/she must be able to download it.
+
+        Scenario:
+            admin user creates a document and assigns
+            read only access for margaret
+            (thus, root is the owner of the document).
+
+        Expected:
+
+            Margaret and root user must be able to download the document.
+            Elizabet on the other hand - must not have access to the document
+            (she was not assigned permissions for that)
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.root_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        # copy document from its test/data place
+        # to the media storage, as if document was uploaded.
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc.path.url(),
+        )
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True
+            }  # allow read access to margaret
+        )
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        url = reverse(
+            'core:document_download', args=(doc.id,)
+        )
+
+        ret = self.client.get(url)
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        # also, root/admin must be able to download it
+        self.client.logout()
+        self.client.login(
+            testcase_user=self.root_user
+        )
+
+        ret = self.client.get(url)
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        self.client.logout()
+
+        # for elizabet on the other hand, access is forbidden.
+        self.client.login(testcase_user=self.elizabet_user)
+        ret = self.client.get(url)
+
+        self.assertEqual(
+            ret.status_code,
+            403
+        )
