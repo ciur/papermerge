@@ -12,7 +12,7 @@ the gaps.
     
 1a. Look at the config-file with your favorite text editor. Leave default settings or adjust to your needs:
     
-    * ``DB_DIR``: SQLite database storage location
+    * ``DBDIR``: SQLite database storage location
     * ``MEDIA_DIR``: your documents storage location
     * ``STATIC_DIR``: this is where all static files will be collected by ``collectstatic`` command
     * ``IMPORTER_DIR``: Papermerge is looking for new files here
