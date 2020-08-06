@@ -29,8 +29,8 @@ What It Does
  * Helps you fix scanned documents issues
 
 
-What It Does't Do
-=================
+What It Doesn't Do
+==================
  
  * It does **not** take control of your documents. Documents are **stored on filesystem** in a simple and intuitive manner so that you can take snapshot of your data at any time.
  * It does **not** stay in your way when you make decisions about your data. 
