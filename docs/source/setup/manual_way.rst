@@ -1,25 +1,30 @@
 Manual Way
 ************
 
-If you follow along in this document and still have trouble, please open an
+If you follow this document and still have troubles, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
 the gaps.
 
-1. Within extracted directory copy ``papermerge.conf.py.example`` to ``/etc/papermerge.conf.py`` and open it in editor. Set values for:
+1. Within extracted directory copy ``papermerge.conf.py.example`` to ``/etc/``::
+
+    $ cp papermerge.conf.py.example /etc/papermerge.conf.py
+    $ chmod 640 /etc/papermerge.conf.py
     
-    * ``IMPORTER_DIR``: this is local filesystem directory from where your documents will be imported
-    * ``DB_DIR``: this is local directory where sqlite database file will be stored
-    * ``MEDIA_DIR``: this is where all your document files will be saved
+1a. Look at the config-file with your favorite text editor. Leave default settings or adjust to your needs:
+    
+    * ``DB_DIR``: SQLite database storage location
+    * ``MEDIA_DIR``: your documents storage location
     * ``STATIC_DIR``: this is where all static files will be collected by ``collectstatic`` command
+    * ``IMPORTER_DIR``: Papermerge is looking for new files here
 
-2. Create and activate python virtual environment with::
+2. Create and Activate python virtual environment with::
 
-    $ python -m venv .venv
+    $ python3 -m venv .venv
     $ source .venv/bin/activate
 
-3. Install dependencies in requirements.txt::
+3. Install necessary dependencies::
 
-    $ pip install -r requirements.txt
+    $ pip install -r requirements/base.txt
 
 4. Initialize SQLite database with::
 
@@ -29,7 +34,7 @@ the gaps.
 
     $ ./manage.py collectstatic
 
-6. Create user for Papermerge instance::
+6. Create a user for Papermerge instance::
 
     $ ./manage.py createsuperuser
 
@@ -37,22 +42,21 @@ the gaps.
 
     $ ./manage.py runserver <IP>:<PORT>
 
-If no specific IP or port is given, the default is 127.0.0.1:8000 also known as http://localhost:8000/. 
-At this step, must be able to access login screen and it should look like in
-screenshot below. You can login with the user/pass you created in #6.
+If no specific IP or PORT is given, the default is 127.0.0.1:8000 also known as http://localhost:8000/. 
+It should look like in the screenshot below. Use the login credentials that you created in #6 to access Papermerge.
 
     .. figure:: ../img/login.png
 
-Also, you can upload some document and see their preview.
-
-    .. figure:: ../img/uploaded_docs.png
-
-But because there is no worker running yet, documents are basically plain images.
+You are almost there, but there is no worker running yet.
 
 8. In a separate window, change to the project's root directory again, but this time, you should start the worker script with ./manage.py worker.
 
-9. Scan something or put a file into the IMPORTER_DIR.
-10. Wait a few minutes
+9. Now put a JPEG, PNG or TIFF file into the IMPORTER_DIR.
+10. Wait a few minutes for Papermerge to run OCR.
+   Preview of the documents uploaded:
+
+    .. figure:: ../img/uploaded_docs.png
+
 11. Now you should be able to select text in OCRed document!
 
 

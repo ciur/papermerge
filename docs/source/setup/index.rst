@@ -8,8 +8,8 @@ by amount of effort required and purpose.
 .. toctree::
    :maxdepth: 4
    
-   download
    os_specific
+   download
    manual_way
    systemd
    docker
