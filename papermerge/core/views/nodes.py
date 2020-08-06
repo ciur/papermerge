@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
-from papermerge.core.models import BaseTreeNode, Access
+from papermerge.core.models import BaseTreeNode, Access, Folder
 from papermerge.core.models.utils import recursive_delete
 
 logger = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def browse_view(request, parent_id=None):
 
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id).exclude(
-        title="inbox"
+        title=Folder.INBOX_NAME
     )
     nodes_list = []
     parent_kv = []

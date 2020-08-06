@@ -10,7 +10,7 @@ def extras(request):
 
     try:
         inbox = Folder.objects.get(
-            title__iexact="inbox",
+            title=Folder.INBOX_NAME,
             user=request.user
         )
         count = inbox.get_children().count()
