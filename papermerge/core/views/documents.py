@@ -239,6 +239,14 @@ def create_folder(request):
     parent_id = data.get('parent_id', -1)
     title = data.get('title', False)
 
+    if title == Folder.INBOX_NAME:
+        return HttpResponseBadRequest(
+            json.dumps({
+                'msg': 'This title is not allowed'
+            }),
+            content_type="application/json"
+        )
+
     if not (parent_id or title):
         logger.info(
             "Invalid params for create_folder: parent=%s title=%s",

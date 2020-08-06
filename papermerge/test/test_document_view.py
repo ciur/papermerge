@@ -4,6 +4,7 @@ from unittest import skip
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+from django.http.response import HttpResponseBadRequest
 
 from mglib.path import PagePath
 from mglib.step import Step
@@ -582,6 +583,85 @@ class TestDocumentAjaxOperationsView(TestCase):
         with self.assertRaises(Document.DoesNotExist):
             Document.objects.get(id=doc.id)
 
+    def test_create_folder_basic(self):
+        data = {
+            "title": "XYZ"
+        }
+        ret = self.client.post(
+            reverse('core:create_folder'),
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        folder = Folder.objects.get(title="XYZ")
+
+        self.assertEqual(
+            folder.title,
+            "XYZ"
+        )
+
+    def test_refuse_to_create_inbox_folder(self):
+        """
+        Inbox is a special folder and must be unique
+        per user. This special folder is created for the
+        user upon user's creation (as signal).
+        But for tests this creations is disabled!
+
+        This test checks that attempt to create a folder
+        named Folder.INBOX_NAME via UI (ajax) - will
+        return HttpResponseBadRequest.
+        Note that folder's count for logged in user (within this test)
+        will be zero - because as I mentioned above,
+        automatic inbox creation is disabled during testing.
+        """
+        data = {
+            "title": Folder.INBOX_NAME
+        }
+
+        self.assertEqual(
+            Folder.objects.filter(
+                user=self.testcase_user
+            ).count(),
+            0
+        )
+        ret = self.client.post(
+            reverse('core:create_folder'),
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseBadRequest.status_code
+        )
+        # no folder was created
+        self.assertEqual(
+            Folder.objects.filter(
+                user=self.testcase_user
+            ).count(),
+            0
+        )
+        # However, any other title, will create a folder
+        ret = self.client.post(
+            reverse('core:create_folder'),
+            json.dumps({"title": "Other Title"}),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        self.assertEqual(
+            Folder.objects.filter(
+                user=self.testcase_user
+            ).count(),
+            1
+        )
 
 class TestDocumentDownload(TestCase):
 
