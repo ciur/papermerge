@@ -10,24 +10,24 @@
 #   Paths & Folders
 #######################
 
-# You can specify where you want the SQLite database to be stored instead of
-# the default location of /data/ within the install directory.
-DB_DIR = "/path/to/papermerge/db"
+# Override the default  SQLite database storage location.
+# The default location is /data/ within the install directory.
+# DB_DIR = "/path/to/papermerge/db"
 
-# Override the default MEDIA_ROOT here.  This is where all files are stored.
-# The default location is /media/documents/ within the install folder.
-MEDIA_DIR = "/path/to/media/dir"
+# Override the default  MEDIA_ROOT. This is where all files are stored.
+# The default location is /media/documents/ within the install directory.
+# MEDIA_DIR = "/path/to/media/dir"
 
-# Override the default STATIC_ROOT here.  This is where all static files
-# created using "collectstatic" manager command are stored.
-STATIC_DIR = "/path/to/static/dir"
+# Override the default  STATIC_ROOT. All static files created with
+# "collectstatic" manager-command, their default location is /.... ? 
+# STATIC_DIR = "/path/to/static/dir"
 
-# Override the MEDIA_URL here.  Unless you're hosting Paperless off a subdomain
-# like /paperless/, you probably don't need to change this.
+# Override the default  MEDIA_URL here.  Unless you're hosting Papermerge off a subdomain
+# like /papermerge/, you probably don't need to change this.
 MEDIA_URL = "/media/"
 
-# Override the STATIC_URL here.  Unless you're hosting Paperless off a
-# subdomain like /paperless/, you probably don't need to change this.
+# Override the  STATIC_URL here.  Unless you're hosting Papermerge off a
+# subdomain like /papermerge/, you probably don't need to change this.
 STATIC_URL = "/static/"
 
 
