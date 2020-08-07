@@ -41,6 +41,7 @@ What It Doesn't Do
    intro
    requirements
    setup/index
+   consumption
    languages
    file_formats
    rest_api
