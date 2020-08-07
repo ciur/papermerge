@@ -18,6 +18,9 @@ empty configuration file papermerge.conf.py in project root directory (right nex
 
 Configuration file uses python syntax.
 
+Some configuration variables are for worker only (the part which OCRs the documents, imports documents form local directory or fetches them from imap/email account).
+This distinction (variables for main app or variables for worker) become aparent in case you want to deploy main app and worker on separate hosts; another scenario when this distinction is important in case of containerized deployment via docker - it so, because usually main app and worker will run in different containers - and thus will have different copies of papermerge.conf.py file.
+
 
 Some of the most used configurations which you might be interest in:
   
@@ -85,7 +88,7 @@ from local directory.
  * ``/path/where/documents/will/be/imported/from/``
 
   Location on local file system where Papermerge 
-  will try to import documents from.
+  will try to import documents from. **Must be defined on worker.**
 
   IMPORTER_DIR = "/opt/papermerge/import/"
 
@@ -241,32 +244,33 @@ Default value is empty string.
 EMail
 #######
 
-You can import documents directly from email/IMAP account.
+You can import documents directly from email/IMAP account. All EMail importer settings must be defined in papermerge.conf.py on worker side.
+
 
 ``IMPORT_MAIL_HOST``
 ~~~~~~~~~~~~~~~~~~~~~
 
-IMAP Server host.
+IMAP Server host. Must be defined on worker.
 
 
 ``IMPORT_MAIL_USER``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Email account/IMAP user.
+Email account/IMAP user. Must be defined on worker.
 
 
 ``IMPORT_MAIL_PASS``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Email account/IMAP password
+Email account/IMAP password. Must be defined on worker.
 
 ``IMPORT_MAIL_INBOX``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 IMAP folder to read email from.
-Default value for this settings is INBOX.
+Default value for this settings is INBOX. Must be defined on worker.
 
 ``IMPORT_MAIL_SECRET``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Any email sent to the target account that does not contain this text will be ignored.
+Any email sent to the target account that does not contain this text will be ignored. Must be defined on worker.
