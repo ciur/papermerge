@@ -24,6 +24,13 @@ Directory pointed by IMPORTER_DIR must be readable by Papermerge application.
 
 	Notice that ``IMPORTER_DIR`` must be defined on worker side. For single deployments worker and main app will share same ``papermerge.conf.py`` configuration file, thus all configurations will be in same configuration file. In case of distributed deployment - or even in case when main app and worker run within different docker images - this distinction becomes important. ``IMPORTER_DIR`` should be defined in ``papermerge.conf.py`` of the host (or docker image) where worker runs.
 
+All imported documents will land in superuser's Inbox.
+
+.. note::
+
+	Papermerge is multi-user system. Very first system user is called superuser. Papermerge must have at least one superuser.
+	Regardless how many users there are in Papermerge DMS, imported documents will always end up in first superuser's inbox.
+
 IMAP (Email)
 ~~~~~~~~~~~~~
 
