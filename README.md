@@ -66,7 +66,7 @@ users, API tokens. Folders/documents with a red lock are read-only for guest use
 
 ## Resources
 
- * [Video Demo](https://www.youtube.com/watch?v=U_x8fOhuMTI)
+ * [Video Demo](https://www.youtube.com/watch?v=OpwTaEN5t2Y)
  * [Documentation](https://papermerge.readthedocs.io/)
  * [English Website](https://papermerge.com)
  * [German Website](https://papermerge.de)
