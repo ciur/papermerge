@@ -137,13 +137,13 @@ Default value is "deu" (German language).
 
 .. _ocr_binary:
 
-``OCR_BINARY``
+``BINARY_OCR``
 ~~~~~~~~~~~~~~~~
 
 Full path to tesseract binary/executable file.
 Default value is::
 
-  OCR_BINARY = "/usr/bin/tesseract"
+  BINARY_OCR = "/usr/bin/tesseract"
 
 .. _i18n:
 

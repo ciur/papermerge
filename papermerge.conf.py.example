@@ -144,7 +144,7 @@ OCR_LANGUAGES = {
     "rus": "Russian"
 }
 
-OCR_BINARY = "/usr/bin/tesseract"
+BINARY_OCR = "/usr/bin/tesseract"
 
 
 # Internationalization & Localization
