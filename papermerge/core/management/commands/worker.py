@@ -100,7 +100,11 @@ class Command(BaseCommand):
     help = """Async Celery Worker"""
 
     def add_arguments(self, parser):
-        pass
+        parser.add_argument(
+            '--pidfile',
+            type=str,
+            help='Optional file used to store the process pid.\nThe program won’t start if this file already exists and the pid is still alive.'
+        )
 
     def handle(self, *args, **options):
         celery_app.config_from_object(
@@ -117,4 +121,9 @@ class Command(BaseCommand):
             quiet=True,
             concurrency=1
         )
+
+        # Set pidfile if it the corresponding argument has been provided 
+        if options['pidfile']:
+            celery_worker.pidfile = options['pidfile']
+
         celery_worker.start()
