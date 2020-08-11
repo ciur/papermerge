@@ -128,9 +128,39 @@ PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
     }
 )
 
-PAPERMERGE_OCR_BINARY = cfg_papermerge.get(
-    "OCR_BINARY",
+BINARY_FILE = cfg_papermerge.get(
+    "BINARY_FILE",
+    "/usr/bin/file"
+)
+
+BINARY_CONVERT = cfg_papermerge.get(
+    "BINARY_CONVERT",
+    "/usr/bin/convert"
+)
+
+BINARY_PDFTOPPM = cfg_papermerge.get(
+    "BINARY_PDFTOPPM",
+    "/usr/bin/pdftoppm"
+)
+
+BINARY_PDFINFO = cfg_papermerge.get(
+    "BINARY_PDFINFO",
+    "/usr/bin/pdfinfo"
+)
+
+BINARY_IDENTIFY = cfg_papermerge.get(
+    "BINARY_IDENTIFY",
+    "/usr/bin/identify"
+)
+
+BINARY_OCR = cfg_papermerge.get(
+    "BINARY_OCR",
     "/usr/bin/tesseract"
+)
+
+BINARY_PDFTK = cfg_papermerge.get(
+    "BINARY_PDFTK",
+    "/usr/bin/pdftk"
 )
 
 AUTH_USER_MODEL = "core.User"

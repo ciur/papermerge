@@ -36,7 +36,11 @@ def binaries_check(app_configs, **kwargs):
     """
 
     msg = {
+        "file": "Without it, Papermerge won't be able to learn file mime type",
+        "convert": "Without it, image resizing is not possible",
+        "pdftoppm": "Without it, it not possible to extract images from PDF",
         "tesseract": "Without it, OCR of the documents is impossible",
+        "identify": "Without it, it is not possible to count pages in TIFF",
         "pdfinfo": "Without it, Papermerge won't function properly",
         "pdftk": "Without it, Papermerge won't be able to cut/paste PDF pages"
     }
