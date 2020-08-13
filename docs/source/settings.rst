@@ -135,16 +135,6 @@ By default Papermerge will use language specified with this option to perform OC
 
 Default value is "deu" (German language).
 
-.. _ocr_binary:
-
-``BINARY_OCR``
-~~~~~~~~~~~~~~~~
-
-Full path to tesseract binary/executable file.
-Default value is::
-
-  BINARY_OCR = "/usr/bin/tesseract"
-
 .. _i18n:
 
 I18n and Localization
@@ -170,6 +160,7 @@ You can :ref:`translate Papermerge <translate>` to your own language.
 Default value: ``en``
 
 .. _config_language_from_agent:
+
 ``LANGUAGE_FROM_AGENT``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -274,3 +265,72 @@ Default value for this settings is INBOX. Must be defined on worker.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Any email sent to the target account that does not contain this text will be ignored. Must be defined on worker.
+
+
+.. _binary_dependencies:
+
+Binary Dependencies
+######################
+
+Papermerge uses a number of open source 3rd parties for various purposes. One
+of the most obvious example is tesseract - used to OCR documents (extract text
+from binary image file). Another, less obvious example, is pdfinfo utility
+provided by poppler-utils package: pdfinfo is used to count number of pages in
+pdf document. Configurations listed below allow you to override path to
+specific dependency.
+
+
+``BINARY_OCR``
+~~~~~~~~~~~~~~~~
+
+Full path to tesseract binary/executable file. Tesseract is used for OCR operations - extracting of text from binary image files (jpeg, png, tiff).
+Default value is::
+
+  BINARY_OCR = "/usr/bin/tesseract"
+
+
+``BINARY_FILE``
+~~~~~~~~~~~~~~~~~
+
+File utility used to find out mime type of given file.
+Default value is::
+
+  BINARY_FILE = "/usr/bin/file"
+
+``BINARY_CONVERT``
+~~~~~~~~~~~~~~~~~~~
+
+Convert utility is provided by ImageMagick package.
+It is used for resizing images.
+Default value is::
+
+  BINARY_CONVERT = "/usr/bin/convert"
+
+
+``BINARY_PDFTOPPM``
+~~~~~~~~~~~~~~~~~~~~~
+
+Provided by Poppler Utils.
+Used to extract images from PDF file.
+Default value is::
+
+  BINARY_PDFTOPPM = "/usr/bin/pdftoppm"
+
+``BINARY_PDFINFO``
+~~~~~~~~~~~~~~~~~~~~
+
+Provided by Poppler Utils.
+Used to get page count in PDF file. Default value is::
+
+  BINARY_PDFINFO = "/usr/bin/pdfinfo"
+
+
+``BINARY_PDFTK``
+~~~~~~~~~~~~~~~~~~
+
+Provided by pdftk package (on Ubuntu 20.04 LTS).
+Used to reorder, cut/paste, delete pages within PDF document.
+Default value is::
+
+  BINARY_PDFTK = "/usr/bin/pdftk"
+
