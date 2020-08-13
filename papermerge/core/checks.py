@@ -25,7 +25,9 @@ USED_BINARIES = {
         "Without it, it is not possible to count pages in TIFF"
     ),
     default_settings.BINARY_PDFINFO: (
-        "Without it, Papermerge won't function properly"
+        "Without it, Papermerge won't function properly."
+        " "
+        "It won't be able to find out PDF files page count"
     ),
     default_settings.BINARY_PDFTK: (
         "Without it, Papermerge won't be able to cut/paste PDF pages"
