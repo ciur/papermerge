@@ -144,8 +144,6 @@ OCR_LANGUAGES = {
     "rus": "Russian"
 }
 
-BINARY_OCR = "/usr/bin/tesseract"
-
 
 # Internationalization & Localization
 ######################################
@@ -170,3 +168,50 @@ LANGUAGE_CODE = 'en'
 # If set to False - language code specified in LANGUAGE_CODE option will be used.
  
 LANGUAGE_FROM_AGENT = False
+
+
+# Binary Dependencies
+###########################
+#
+# Papermerge uses a number of open source 3rd parties for various purposes.
+# One of the most obvious example is tesseract - used to OCR documents (extract
+# text from binary image file). Another, less obvious example is pdfinfo
+# utility provided by poppler-utils package: pdfinfo is used to count number of
+# pages in pdf document.
+# 
+# Settings prefixed with BINARY_ are used to configure paths to those dependencies.
+# Here is the full list of all binary dependencies and their default values.
+
+# file utility used to find out mime type of a file
+
+BINARY_FILE = "/usr/bin/file"
+
+# Provided by ImageMagick package.
+# convert is used for resizing images.
+
+BINARY_CONVERT = "/usr/bin/convert"
+
+# Provided by Poppler Utils.
+# pdftoppm used to extract images from PDF file.
+
+BINARY_PDFTOPPM = "/usr/bin/pdftoppm"
+
+# Provided by Poppler Utils.
+# pdfinfo is used to get page count in PDF file
+
+BINARY_PDFINFO = "/usr/bin/pdfinfo"
+
+# Provided by ImageMagick package.
+# identity is used to get number of pages in TIFF file.
+
+BINARY_IDENTIFY = "/usr/bin/identify"
+
+# Provided by tesseract package.
+# tesseract is used to extract text from images/PDF files.
+
+BINARY_OCR = "/usr/bin/tesseract"
+
+# Provided by pdftk package
+# pdftok is used to reorder, cut/paste, delete pages withing PDF document
+
+BINARY_PDFTK = "/usr/bin/pdftk"
