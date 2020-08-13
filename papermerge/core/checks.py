@@ -1,12 +1,53 @@
+import os
 import shutil
 
 from django.conf import settings
 from django.core.checks import Warning, register
 
+from mglib.conf import default_settings
+
+USED_BINARIES = {
+    default_settings.BINARY_FILE: (
+        "Without it, Papermerge won't be"
+        " "
+        "able to learn file mime type"
+    ),
+    default_settings.BINARY_CONVERT: (
+        "Without it, image resizing is not possible"
+    ),
+    default_settings.BINARY_PDFTOPPM: (
+        "Without it, it not possible to extract images from PDF"
+    ),
+    default_settings.BINARY_OCR: (
+        "Without it, OCR of the documents is impossible"
+    ),
+    default_settings.BINARY_IDENTIFY: (
+        "Without it, it is not possible to count pages in TIFF"
+    ),
+    default_settings.BINARY_PDFINFO: (
+        "Without it, Papermerge won't function properly"
+    ),
+    default_settings.BINARY_PDFTK: (
+        "Without it, Papermerge won't be able to cut/paste PDF pages"
+    )
+}
+
 
 @register()
 def papermerge_configuration_file(app_configs, **kwargs):
+    """
+    Papermerge does not necessary require papermerge.conf.py file.
+    However, it is a good practice to have one available - even empty!
 
+    User/Admin defines an empty papermerge.conf.py file it means first of all
+    that user/admin is aware of .conf.py file existence.
+
+    Configuration file should be placed in projects directory, in
+    /etc/papermerge.conf.py or it is file pointed by environment variable
+    named PAPERMERGE_CONFIG.
+
+    If configuration file was not found - issue a warning.
+    """
     check_messages = []
     places = ''
 
@@ -31,28 +72,22 @@ def papermerge_configuration_file(app_configs, **kwargs):
 @register()
 def binaries_check(app_configs, **kwargs):
     """
-    Papermerge requires the existence of a few binaries, so we do some checks
-    for those here.
-    """
+    Papermerge requires the existence of a few binaries, so it checks
+    for if required binaries available.
 
-    msg = {
-        "file": "Without it, Papermerge won't be able to learn file mime type",
-        "convert": "Without it, image resizing is not possible",
-        "pdftoppm": "Without it, it not possible to extract images from PDF",
-        "tesseract": "Without it, OCR of the documents is impossible",
-        "identify": "Without it, it is not possible to count pages in TIFF",
-        "pdfinfo": "Without it, Papermerge won't function properly",
-        "pdftk": "Without it, Papermerge won't be able to cut/paste PDF pages"
-    }
+    See settings prefixed with BINARY_ defined in mglib.conf.default_settings
+    for full list of dependencies.
+    """
     error = "Papermerge can't find {}. {}."
     hint = "Either it's not in your PATH or it's not installed."
 
     check_messages = []
-    for binary in msg.keys():
+    for binary_path in USED_BINARIES.keys():
+        binary = os.path.basename(binary_path)
         if shutil.which(binary) is None:
             check_messages.append(
                 Warning(
-                    error.format(binary, msg[binary]),
+                    error.format(binary, USED_BINARIES[binary_path]),
                     hint
                 )
             )
