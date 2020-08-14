@@ -7,6 +7,7 @@ Documentation, notes and general info for developers (myself included).
    :maxdepth: 4
    
    contributing
+   storage_structure
    design
    branching
    language_support
