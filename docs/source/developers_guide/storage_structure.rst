@@ -41,6 +41,11 @@ with id=2 corresponding to user with id=1:
 
 .. figure:: img/storage_structure/02_results_dir.svg
 
+1. *docs* and *results* directories' document_2 contain information for same document (with id=2)
+2. Extracted plain text from documents - for each page.
+3. Image of the first page for 125% zoom.
+4. `hOCR <http://kba.cloud/hocr-spec/1.2/>`_ file of the first page for 125% zoom (matches file from 3.)
+
 Notice that point 1 in illustration above shows (arrow marked with red circle
 with number 1 on it) document_2 directory from *results* corresponds to
 document_2 directory from *docs*.
@@ -51,3 +56,20 @@ yellow letter E) you see that Papermege extracted text information and stores
 it in .txt files for each page. Thus, document in picture above, has 3 pages.
 Text from page_<xyz>.txt files will be copied into database and then later
 indexed. This allows users to perform searches per document's page.
+
+Next interesting area - is area B (blue square). There, Papermerge stores
+information per each page for specific zoom step.
+
+.. figure:: img/storage_structure/03_zoom_step.svg
+
+Area B contains information for specific page for each of those zoom level
+(zoom step) user can perform in UI. There are two files for each zoom step -
+one jpeg and one `hocr <http://kba.cloud/hocr-spec/1.2/>`_ file (area C -
+green square). The hocr file uses xml format to describe text coordinates.
+Hocr files are used to map text over image and enable users to select text.
+
+    .. note::
+
+        Copying text from a scanned document is an extremely useful feature!
+        Copying text feature relies entirely on hocr files.
+        
