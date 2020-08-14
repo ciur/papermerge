@@ -94,7 +94,7 @@ def papermerge_configuration_file(app_configs, **kwargs):
 def binaries_check(app_configs, **kwargs):
     """
     Papermerge requires the existence of a few binaries, so it checks
-    if required binaries available.
+    if required binaries are available.
 
     See settings prefixed with BINARY_ defined in mglib.conf.default_settings
     for full list of dependencies.
