@@ -11,14 +11,15 @@ Inside :ref:`media_dir` there two important folders:
 
 .. note::
 
-    If you didn't upload any document yet, then :ref:`media_dir` directory will be empty (*docs* and *results* will be missing as well).
+    If you didn't upload any document yet, then :ref:`media_dir` directory will be empty (*docs* and *results* will be missing as well). Even more - :ref:`media_dir` directory itself might not be created yet.
 
-    When you upload a document, :ref:`media_dir`/*docs* direcory is 
-    created.
+    Both *docs* and *results* directories are created for when you upload first document.
 
 Original documents are stored under following format:
 
     * :ref:`media_dir`/docs/user_<id>/document_<id>/<filename>
 
+The picture below illustrates show how :ref:`media_dir` (= media) looks like after two .pdf documents were uploaded:
 
+.. figure:: img/storage_structure/01_media_dir.png
 
