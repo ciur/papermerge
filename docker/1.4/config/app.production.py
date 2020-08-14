@@ -1,4 +1,7 @@
+import os
+
 from .base import *  # noqa
+
 
 DEBUG = False
 # debug variable in templates is available only if INTERNAL_IPS are set
@@ -16,11 +19,11 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbname',
-        'USER': 'dbuser',
-        'PASSWORD': 'dbpass',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': os.environ.get('POSTGRES_DB', 'dbname'),
+        'USER': os.environ.get('POSTGRES_USER', 'dbuser'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dbpass'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+        'PORT': os.environ.get('POSTGRES_PORT', 5432),
     },
 }
 
