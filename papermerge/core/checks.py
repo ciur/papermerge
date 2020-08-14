@@ -1,37 +1,56 @@
 import os
-import shutil
+import subprocess
 
 from django.conf import settings
 from django.core.checks import Warning, register
 
-from mglib.conf import default_settings
 
 USED_BINARIES = {
-    default_settings.BINARY_FILE: (
-        "Without it, Papermerge won't be"
-        " "
-        "able to learn file mime type"
-    ),
-    default_settings.BINARY_CONVERT: (
-        "Without it, image resizing is not possible"
-    ),
-    default_settings.BINARY_PDFTOPPM: (
-        "Without it, it not possible to extract images from PDF"
-    ),
-    default_settings.BINARY_OCR: (
-        "Without it, OCR of the documents is impossible"
-    ),
-    default_settings.BINARY_IDENTIFY: (
-        "Without it, it is not possible to count pages in TIFF"
-    ),
-    default_settings.BINARY_PDFINFO: (
-        "Without it, Papermerge won't function properly."
-        " "
-        "It won't be able to find out PDF files page count"
-    ),
-    default_settings.BINARY_PDFTK: (
-        "Without it, Papermerge won't be able to cut/paste PDF pages"
-    )
+    settings.BINARY_FILE: {
+        "msg": (
+            "Without it, Papermerge won't be"
+            " "
+            "able to learn file mime type"),
+        "option": "-v"
+    },
+    settings.BINARY_CONVERT: {
+        "msg": (
+            "Without it, image resizing is not possible"
+        ),
+        "option": "-v"
+    },
+    settings.BINARY_PDFTOPPM: {
+        "msg": (
+            "Without it, it not possible to extract images from PDF"
+        ),
+        "option": "-v"
+    },
+    settings.BINARY_OCR: {
+        "msg": (
+            "Without it, OCR of the documents is impossible"
+        ),
+        "option": "-v"
+    },
+    settings.BINARY_IDENTIFY: {
+        "msg": (
+            "Without it, it is not possible to count pages in TIFF"
+        ),
+        "option": "-v"
+    },
+    settings.BINARY_PDFINFO: {
+        "msg": (
+            "Without it, Papermerge won't function properly."
+            " "
+            "It won't be able to find out PDF files page count"
+        ),
+        "option": "-v"
+    },
+    settings.BINARY_PDFTK: {
+        "msg": (
+            "Without it, Papermerge won't be able to cut/paste PDF pages"
+        ),
+        "option": "-version"
+    }
 }
 
 
@@ -85,11 +104,19 @@ def binaries_check(app_configs, **kwargs):
 
     check_messages = []
     for binary_path in USED_BINARIES.keys():
+
         binary = os.path.basename(binary_path)
-        if shutil.which(binary) is None:
+        option = USED_BINARIES[binary_path]["option"]
+        try:
+            subprocess.run(
+                [binary_path, option],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
+        except FileNotFoundError:
             check_messages.append(
                 Warning(
-                    error.format(binary, USED_BINARIES[binary_path]),
+                    error.format(binary, USED_BINARIES[binary_path]["msg"]),
                     hint
                 )
             )
