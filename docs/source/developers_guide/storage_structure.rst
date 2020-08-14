@@ -1,8 +1,8 @@
 Storage Structure
 ==================
 
-The primary configuration which determines where uploaded documents
-are stored is :ref:`media_dir`. It must be a directory on your local filesystem.
+The primary configuration which determines where uploaded documents are stored
+is :ref:`media_dir`. It must be a directory on your local filesystem.
 
 Inside :ref:`media_dir` there two important folders:
 
@@ -11,7 +11,9 @@ Inside :ref:`media_dir` there two important folders:
 
 .. note::
 
-    If you didn't upload any document yet, then :ref:`media_dir` directory will be empty (*docs* and *results* will be missing as well). Even more - :ref:`media_dir` directory itself might not be created yet.
+    If you didn't upload any document yet, then :ref:`media_dir` directory
+    will be empty (*docs* and *results* will be missing as well). Even more -
+    :ref:`media_dir` directory itself might not be created yet.
 
     Both *docs* and *results* directories are created for when you upload first document.
 
@@ -19,17 +21,22 @@ Original documents are stored under following format:
 
     * :ref:`media_dir`/docs/user_<id>/document_<id>/<filename>
 
-The picture below illustrates show how :ref:`media_dir` (= media) looks like after two .pdf documents were uploaded:
+The picture below illustrates show how :ref:`media_dir` (= media) looks like
+after two .pdf documents were uploaded:
 
 .. figure:: img/storage_structure/01_media_dir.png
 
-Things start to be very interesting when it comes to second directory of :ref:`media_dir` - *results* directory. As its name suggests, *results* directory is where processed results are stored. Important information stored in *results* folder is following:
+Things start to be very interesting when it comes to second directory of
+:ref:`media_dir` - *results* directory. As its name suggests, *results*
+directory is where processed results are stored. Important information stored
+in *results* folder is following:
 
     1. Document's OCRed text - stored per page (as .txt).
     2. Document's OCRed information stored in hOCR format (as .hocr).
     3. Associated images of each document's page.
 
-Here is an example of how *results* directory look like for upload document with id=2 corresponding to user with id=1:
+Here is an example of how *results* directory look like for upload document
+with id=2 corresponding to user with id=1:
 
 
 .. figure:: img/storage_structure/02_results_dir.svg
