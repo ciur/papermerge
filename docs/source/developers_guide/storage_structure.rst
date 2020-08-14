@@ -26,6 +26,12 @@ after two .pdf documents were uploaded:
 
 .. figure:: img/storage_structure/01_media_dir.png
 
+.. note::
+    For sake of simplicity document version part is not mentioned.
+    Document version comes into the picture when user reorders/deletes/cuts
+    pages. For each change (e.g. a page is deleted) document version is incremented and corresponding content of results directory in placed in separate
+    directory.
+
 Things start to be very interesting when it comes to second directory of
 :ref:`media_dir` - *results* directory. As its name suggests, *results*
 directory is where processed results are stored. Important information stored
@@ -73,3 +79,18 @@ Hocr files are used to map text over image and enable users to select text.
         Copying text from a scanned document is an extremely useful feature!
         Copying text feature relies entirely on hocr files.
         
+
+Both ``Document`` and ``Page`` models are defined in ``papermerge.core.models`` module. Both ``Document`` and ``Page`` have a python property called path::
+
+
+    document = Document(...)
+    document.path  #  <- instance of DocumentPath
+    Page = Page(...)
+    page.path   #  <- instance of PagePath
+
+
+``DocumentPath`` and ``PagePath`` are defined in mglib.path module and they are responsible for managing paths like:
+
+  <user_id>/<doc_dir>/<version>/<file_name>
+
+A good place to start learning about ``DocumentPath`` and ``PagePath`` is corresponding ``test_path.py`` file in mglib's test directory.
