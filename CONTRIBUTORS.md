@@ -8,7 +8,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 
 ### Maintainer
 
-* Eugen Ciur <eugen@papermerge.com>
+* [Eugen Ciur](mailto:eugen@papermerge.com)
 
 ### Contributors
 
