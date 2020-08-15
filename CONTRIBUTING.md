@@ -9,8 +9,7 @@ valuable progress.
 
 Contribute to the project just by fixing documentation's typos. Like tis one. English is not [project maintainer's](https://github.com/ciur/) native lnguage so he makes lots of typoz.
 
-Fixing documentation typos is easiest and fastest way to contribute to the
-project.
+Fixing documentation typos is easiest and fastest way to value to the project.
 
 ## Open an Issue.
 
