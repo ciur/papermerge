@@ -34,3 +34,26 @@ You can check logs of each service with::
     docker-compose logs app
     docker-compose logs db
 
+
+Main App, Worker or Both?
+===========================
+
+The command ``docker-compose up`` starts three containers:
+
+* main app (exact container name is papermerge_app)
+* worker (exact container name is papermerge_worker)
+* postgres_db
+
+By default, both ``main app`` and ``worker`` container will have their own
+copy of ``papermerge.conf.py``. In case you want to change/adjust ``papermerge.conf.py``
+you need to take into account for whom that configuration applies.
+All :ref:`settings` have in their description a field *context* with one of three values:
+
+    1. main app
+    2. worker
+    3. main app, worker
+
+In first and second cases configuration needs to be changed only on main app or
+worker respectively. When *context* field states ``main app, worker`` - it
+means that respective configuration variable must be changed on both main app
+**AND** worker to function properly. 
