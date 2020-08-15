@@ -4,7 +4,7 @@ Thank you for taking your time to contribute to Papermerge. This guide will
 help you spend your time well, and help us keep Papermerge focused and making
 valuable progress.
 
-in general, for very small changes like fixing documentation typo, remove
+In general, for very small changes like fixing documentation typo, remove
 unused variable or just remove a redundant white space - just create a pull
 request and very likely that your change (if it is reasonable) will be
 accepted immediately.
