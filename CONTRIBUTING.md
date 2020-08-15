@@ -1,17 +1,16 @@
-# Contributing to Papermerge
+# We :heart: Your Contributions
 
-Here you will find general description about how you can contribute to papermerge project.
-A more detailed version of this document you can find in online [documentation](https://papermerge.readthedocs.io/en/latest/developers_guide/contributing.html).
+Thank you for taking your time to contribute to Papermerge. This guide will
+help you spend your time well, and help us keep Papermerge focused and making
+valuable progress.
+
 
 ## Fix a Typo
 
-Contribute to the project just by fixing text typos. Like tis one. Yes, English is not my
-native lnguage and I do lots of typoz.
+Contribute to the project just by fixing documentation's typos. Like tis one. English is not [project maintainer's](https://github.com/ciur/) native lnguage so he makes lots of typoz.
 
 Fixing documentation typos is easiest and fastest way to contribute to the
-project. Even even if you correct one minor typing mistake I will add you to
-the list of contributors.
-
+project.
 
 ## Open an Issue.
 
