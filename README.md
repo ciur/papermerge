@@ -83,7 +83,7 @@ handled immediately. Documentation issues have high priority.
 We welcome contributions! In general, if change is very small, like
 fixing a documentation typo, remove unused documentation or minor adjustments
 of docker related files - you can just right away create a pull request. It
-Small and reasonable changes will be (very likely) almost immediately
+your change is small and reasonable it will be (very likely) almost immediately
 accepted. 
 
 For bigger changes, like a new feature or even change/add/remove of
