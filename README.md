@@ -80,7 +80,19 @@ handled immediately. Documentation issues have high priority.
 
 ## Contributing
 
-We welcome contributions. For more information, see the [contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md) file.
+We :heart: love your contributions. In general, if change is very small, like
+fixing a documentation typo, remove unused documentation or minor adjustments
+of docker related files - you can just right away create a pull request. It
+Small and reasonable changes will be (very likely) almost immediately
+accepted. 
+
+For bigger changes, like a new feature or even change/add/remove of
+whole paragraph in documentation - please **first discuss the
+change** you wish to make via GitHub issue, pull request or [email](mailto:eugen@papermerge.com).
+
+For more information, see the
+[contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
+file.
 
 
 ## Screenshots
