@@ -70,7 +70,7 @@ Papermerge has high quality, up-to-date and to the point
 [documentation](https://papermerge.readthedocs.io/). Documentation contains
 lots of images, text and videos. It is regularly updated. If you spot
 outdated or incomplete article please open an issue on github - it will
-handled immediately. Documentation issues have high priority.
+be handled immediately. Documentation issues have high priority.
 
  * [Documentation URL](https://papermerge.readthedocs.io/)
  * [Video Demo](https://www.youtube.com/watch?v=OpwTaEN5t2Y)
