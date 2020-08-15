@@ -80,7 +80,7 @@ handled immediately. Documentation issues have high priority.
 
 ## Contributing
 
-We :heart: love your contributions. In general, if change is very small, like
+We welcome contributions! In general, if change is very small, like
 fixing a documentation typo, remove unused documentation or minor adjustments
 of docker related files - you can just right away create a pull request. It
 Small and reasonable changes will be (very likely) almost immediately
