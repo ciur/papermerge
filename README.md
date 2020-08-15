@@ -1,8 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/papermerge/badge/?version=latest)](https://papermerge.readthedocs.io/en/latest/?badge=latest)
 [![Travis](https://travis-ci.com/ciur/papermerge.svg?branch=master)](https://travis-ci.com/github/ciur/papermerge)
 [![Docker Pulls](https://img.shields.io/docker/pulls/eugenci/papermerge)](https://hub.docker.com/r/eugenci/papermerge)
-[![https://img.shields.io/badge/Thanks-Contributors-blueviolet
-[![Thanks](https://img.shields.io/badge/Thanks-Contributors-blueviolet)](https://github.com/ciur/papermerge/blob/master/CONTRIBUTORS.md)
+[![Contributors](https://img.shields.io/badge/-Contributors-success)](https://github.com/ciur/papermerge/blob/master/CONTRIBUTORS.md)
 ![Papermerge](./artwork/logo.png)
 
 # Papermerge - Document Management System
