@@ -18,8 +18,27 @@ empty configuration file papermerge.conf.py in project root directory (right nex
 
 Configuration file uses python syntax.
 
-Some configuration variables are for worker only (the part which OCRs the documents, imports documents form local directory or fetches them from imap/email account).
-This distinction (variables for main app or variables for worker) become aparent in case you want to deploy main app and worker on separate hosts; another scenario when this distinction is important in case of containerized deployment via docker - it so, because usually main app and worker will run in different containers - and thus will have different copies of papermerge.conf.py file.
+
+Main App, Worker or Both?
+###########################
+
+Some configuration variables are for worker only (the part which OCRs the
+documents, imports documents form local directory or fetches them from
+imap/email account), some configuration variables are for main app only and
+some are for both. This distinction becomes aparent in case you deploy
+main app and worker on separate hosts; another scenario when this distinction
+**is important in case of containerized deployment via docker** - it so,
+because usually main app and worker will run in different containers - and
+thus will have different copies of papermerge.conf.py file.
+
+The settings below specify for whom configuration settings is addressed. When
+it says: "context: ``worker``" - it means variable applies only in context
+of worker i.e. it needs to be changed in ``papermerge.conf.py`` on worker
+instance/host/container.
+
+When settings description states "context: ``main app, worker``" - it means
+configuration needs to be changed **on both - main app and worker** in order to
+function properly. 
 
 
 Some of the most used configurations which you might be interest in:
@@ -38,6 +57,7 @@ Paths and Folders
 ~~~~~~~~~~~
 
 * ``/path/to/papermerge/sqlite/db/``
+* context: ``main app``
 
 Defines location where db.sqlite3 will be saved.
 By default uses project's local directory.
@@ -52,6 +72,7 @@ Example::
 ~~~~~~~~~~~~~~
 
   * ``/path/to/media/``
+  * context: ``main app, worker``
 
   Defines directory where all uploaded documents will be stored.
 
@@ -63,6 +84,7 @@ Example::
 ~~~~~~~~~~~~~~~~
 
  * ``/path/to/collected/static/assets/``
+ * context: ``main app``
 
   Location where all static assets of the project Papermerge project (javascript files, css files) will be copied by ``./manage collectstatic`` command.
 
@@ -86,9 +108,10 @@ from local directory.
 ~~~~~~~~~~~~~~~~~
 
  * ``/path/where/documents/will/be/imported/from/``
+ * context: ``worker``
 
   Location on local file system where Papermerge 
-  will try to import documents from. **Must be defined on worker.**
+  will try to import documents from.
 
   IMPORTER_DIR = "/opt/papermerge/import/"
 
@@ -100,6 +123,8 @@ OCR
 
 ``OCR_LANGUAGES``
 ~~~~~~~~~~~~~~~~~
+
+* context: ``main app, worker``
 
   Addinational languages for text OCR. A dictionary where key is `ISO 639-2/T code <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_ and value human
   text name for language
@@ -127,6 +152,8 @@ Default value for OCR_LANGUAGES uses following value::
 ``OCR_DEFAULT_LANGUAGE``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+* context: ``main app, worker``
+
 By default Papermerge will use language specified with this option to perform OCR. Change this value for language used by majority of your documents.
 
   Example:
@@ -143,6 +170,8 @@ I18n and Localization
 
 ``LANGUAGE_CODE``
 ~~~~~~~~~~~~~~~~~~~
+
+* context: ``main app``
 
 This option specifies language of user interface.
 There are two options:
@@ -186,6 +215,8 @@ you can use PostgreSQL database. Following are options for PostgreSQL database c
 ``DBUSER``
 ~~~~~~~~~~~
 
+context: ``main app``
+
 DB user used for PostgreSQL database connection. If specified will automatically 'switch' from
 sqlite3 to PostgreSQL database.
 
@@ -198,6 +229,8 @@ sqlite3 to PostgreSQL database.
 ``DBNAME``
 ~~~~~~~~~~~
 
+context: ``main app``
+
 PostgreSQL database name.
 Default value is papermerge.
 
@@ -205,6 +238,8 @@ Default value is papermerge.
 
 ``DBHOST``
 ~~~~~~~~~~~
+
+context: ``main app``
  
 PostgreSQL database host.
 Default value is localhost.
@@ -213,6 +248,8 @@ Default value is localhost.
 
 ``DBPORT``
 ~~~~~~~~~~~
+
+context: ``main app``
    
 PostgreSQL database port. Port must be specified as integer number. No string quotes.
 
@@ -226,6 +263,8 @@ Default value is 5432.
 
 ``DBPASS``
 ~~~~~~~~~~~
+
+context: ``main app``
  
 Password for connecting to PostgreSQL database
 Default value is empty string.
@@ -241,25 +280,33 @@ You can import documents directly from email/IMAP account. All EMail importer se
 ``IMPORT_MAIL_HOST``
 ~~~~~~~~~~~~~~~~~~~~~
 
-IMAP Server host. Must be defined on worker.
+context: ``worker``
+
+IMAP Server host.
 
 
 ``IMPORT_MAIL_USER``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Email account/IMAP user. Must be defined on worker.
+context: ``worker``
+
+Email account/IMAP user.
 
 
 ``IMPORT_MAIL_PASS``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Email account/IMAP password. Must be defined on worker.
+context: ``worker``
+
+Email account/IMAP password.
 
 ``IMPORT_MAIL_INBOX``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+context: ``worker``
+
 IMAP folder to read email from.
-Default value for this settings is INBOX. Must be defined on worker.
+Default value for this settings is INBOX.
 
 ``IMPORT_MAIL_SECRET``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -283,6 +330,8 @@ specific dependency.
 ``BINARY_OCR``
 ~~~~~~~~~~~~~~~~
 
+context: ``worker``
+
 Full path to tesseract binary/executable file. Tesseract is used for OCR operations - extracting of text from binary image files (jpeg, png, tiff).
 Default value is::
 
@@ -292,6 +341,8 @@ Default value is::
 ``BINARY_FILE``
 ~~~~~~~~~~~~~~~~~
 
+context: ``main app, worker``
+
 File utility used to find out mime type of given file.
 Default value is::
 
@@ -299,6 +350,8 @@ Default value is::
 
 ``BINARY_CONVERT``
 ~~~~~~~~~~~~~~~~~~~
+
+context: ``main app, worker``
 
 Convert utility is provided by ImageMagick package.
 It is used for resizing images.
@@ -310,6 +363,8 @@ Default value is::
 ``BINARY_PDFTOPPM``
 ~~~~~~~~~~~~~~~~~~~~~
 
+context: ``main app, worker``
+
 Provided by Poppler Utils.
 Used to extract images from PDF file.
 Default value is::
@@ -319,6 +374,8 @@ Default value is::
 ``BINARY_PDFINFO``
 ~~~~~~~~~~~~~~~~~~~~
 
+context: ``main app, worker``
+
 Provided by Poppler Utils.
 Used to get page count in PDF file. Default value is::
 
@@ -327,6 +384,8 @@ Used to get page count in PDF file. Default value is::
 
 ``BINARY_PDFTK``
 ~~~~~~~~~~~~~~~~~~
+
+context: ``main app, worker``
 
 Provided by pdftk package (on Ubuntu 20.04 LTS).
 Used to reorder, cut/paste, delete pages within PDF document.
