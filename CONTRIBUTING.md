@@ -27,6 +27,15 @@ Another way to contribute is open issues. Obviously this means you need to at
 least run once application and test it.
 
 
-## Add Your Language Support
+## Translate
 
-Find detailed description on how to add language support in [documentation](https://papermerge.readthedocs.io/en/latest/developers_guide/language_support.html)
+Currently Papermerge's user interface is available in English and German.
+However, if your master another language (e.g French, Spanish, Russian etc)
+you can add great value to the project by translating it to your own native
+language. Because Papermerge is based on absolutely awesome [Django Web
+Framework](https://www.djangoproject.com/) all Django's documentation applies
+here as well. So it is a good idea to first go through [Django's i18n
+documentation](https://docs.djangoproject.com/en/3.1/topics/i18n/) and then
+come back to translation Papermerge specific topics. For detailed information
+check [Translators Guide in
+documentation](https://papermerge.readthedocs.io/en/latest/translators_guide/index.html).
