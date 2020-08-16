@@ -62,7 +62,7 @@ users, API tokens. Folders/documents with a red lock are read-only for guest use
 
 * [Live demo](https://demo.papermerge.com)
 * Username: ``guest``
-* Password: ``password77``
+* Password: ``password77a``
 
 
 ## Documentation and Other Resources
