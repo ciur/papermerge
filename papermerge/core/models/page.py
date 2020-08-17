@@ -276,3 +276,6 @@ class Page(models.Model, index.Indexed):
 
     def normalize_lang(self):
         pass
+
+    class Meta:
+        ordering = ['number']
