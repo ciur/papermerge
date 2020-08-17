@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 
-{% load i18n admin_tags %}
+{% load i18n static admin_tags %}
 
 {% block title %} Papermerge | {% trans "Documents" %} {% endblock %}
 
@@ -90,9 +90,13 @@
   <div class="row">
     <div class="col-lg-12">
         <div id="browse">
+
         </div>
     </div>
   </div>
   <!-- /.row -->
 </div><!-- /.container-fluid -->
+<div id="pre-loader">
+  <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
+</div>
 {% endblock %}
