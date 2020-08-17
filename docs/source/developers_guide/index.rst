@@ -10,5 +10,4 @@ Documentation, notes and general info for developers (myself included).
    storage_structure
    design
    branching
-   language_support
    
