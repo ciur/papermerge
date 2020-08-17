@@ -22975,6 +22975,8 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       this.browse.nodes.dynamic_sort_by(sort_field, sort_order);
       this.browse_grid_view.render(this.browse.nodes);
     }
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#pre-loader").hide();
   }
 
 }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="105px"
+   height="105px"
+   viewBox="0 0 100 100"
+   preserveAspectRatio="xMidYMid"
+   class="lds-ripple"
+   style="background: none;"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="loader-03.svg"
+   inkscape:version="1.0 (b51213c273, 2020-08-10)">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1867"
+     inkscape:window-height="1025"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="7.4658839"
+     inkscape:cx="52.5"
+     inkscape:cy="52.5"
+     inkscape:window-x="1973"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <circle
+     cx="50"
+     cy="50"
+     r="20.8341"
+     fill="none"
+     ng-attr-stroke="{{config.c1}}"
+     ng-attr-stroke-width="{{config.width}}"
+     stroke="#323232"
+     stroke-width="5"
+     id="circle2"
+     style="stroke:#268826;stroke-opacity:1">
+    <animate
+       attributeName="r"
+       calcMode="spline"
+       values="0;40"
+       keyTimes="0;1"
+       dur="2.6"
+       keySplines="0 0.2 0.8 1"
+       begin="-1.3s"
+       repeatCount="indefinite" />
+    <animate
+       attributeName="opacity"
+       calcMode="spline"
+       values="1;0"
+       keyTimes="0;1"
+       dur="2.6"
+       keySplines="0.2 0 0.8 1"
+       begin="-1.3s"
+       repeatCount="indefinite" />
+  </circle>
+  <circle
+     cx="50"
+     cy="50"
+     r="37.9523"
+     fill="none"
+     ng-attr-stroke="{{config.c2}}"
+     ng-attr-stroke-width="{{config.width}}"
+     stroke="#323232"
+     stroke-width="5"
+     id="circle4"
+     style="stroke:#3eb04f;stroke-opacity:1">
+    <animate
+       attributeName="r"
+       calcMode="spline"
+       values="0;40"
+       keyTimes="0;1"
+       dur="2.6"
+       keySplines="0 0.2 0.8 1"
+       begin="0s"
+       repeatCount="indefinite" />
+    <animate
+       attributeName="opacity"
+       calcMode="spline"
+       values="1;0"
+       keyTimes="0;1"
+       dur="2.6"
+       keySplines="0.2 0 0.8 1"
+       begin="0s"
+       repeatCount="indefinite" />
+  </circle>
+</svg>
