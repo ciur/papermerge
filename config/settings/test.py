@@ -86,3 +86,5 @@ LOGGING = {
 PAPERMERGE_METADATA_PLUGINS = [
     'papermerge.test.metaplugin.Dummy',
 ]
+
+MEDIA_ROOT = os.path.join(PROJ_ROOT, "media")

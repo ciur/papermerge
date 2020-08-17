@@ -277,7 +277,7 @@ class Document(BaseTreeNode):
     def create_pages(self):
         # Q: why doc.page_count is a valid value and yet there
         #  are no pages assigned to document model ?
-        # Because page count is retrieves not via models, but by invoking
+        # Because page count is retrieved not via models, but by invoking
         # an external utility on pdf file!
         page_count = self.page_count
 

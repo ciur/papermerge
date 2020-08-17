@@ -1,7 +1,9 @@
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 from django.test import TestCase
+
 from papermerge.core.models import (
     KV,
     Document,
@@ -488,3 +490,40 @@ class TestPage(TestCase):
             kvstore_set,
             set(["10,99", "rewe"])
         )
+
+    def test_pages_all_returns_pages_ordered(self):
+        """
+        document.pages.all() must always return ordered
+        pages (ordered by page.number attribute).
+        Otherwise frontend might sporadically display pages on left
+        side bar - randomly ordered
+        """
+        doc = create_some_doc(self.user, page_count=3)
+        # similar code to create_pages. However
+        # it forces random order page creation.
+        doc.pages.all().delete()
+
+        for page_index in [3, 2, 1]:
+            preview = reverse(
+                'core:preview',
+                args=[doc.id, 800, page_index]
+            )
+
+            doc.pages.create(
+                user=self.user,
+                number=page_index,
+                image=preview,
+                lang=doc.lang,
+                page_count=3
+            )
+
+        doc.refresh_from_db()
+        pages_numbers = [
+            page.number for page in doc.pages.all()
+        ]
+
+        self.assertEqual(
+            pages_numbers,
+            [1, 2, 3]
+        )
+

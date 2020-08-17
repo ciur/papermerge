@@ -278,4 +278,8 @@ class Page(models.Model, index.Indexed):
         pass
 
     class Meta:
+        # Guarantees that
+        # doc.pages.all() will return pages ordered by number.
+        # test by
+        # test_page.TestPage.test_pages_all_returns_pages_ordered
         ordering = ['number']
