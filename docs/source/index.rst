@@ -10,7 +10,7 @@ document in a fraction of a second, just by typing a few keywords.
 
 
 Papermerge is a document management system designed to work with scanned
-documents. As well as OCR with full text search, it provides the look and feel of
+documents. As well as :ref:`OCR <ocr>` with full text search, it provides the look and feel of
 major modern file browsers, with a hierarchical structure for files and folders,
 so that you can organize your documents in a similar way to Dropbox (via web)
 or Google Drive.
@@ -18,7 +18,7 @@ or Google Drive.
 What It Does
 ============
 
- * It OCRs your documents
+ * It :ref:`OCRs <ocrs>` your documents
  * Provides you nice user interface to easly browse your documents
  * Augments your documents with :doc:`metadata`
  * Helps you instantly find your documents:
@@ -57,6 +57,7 @@ What It Doesn't Do
    translators_guide/index
    developers_guide/index
    changelog
+   glossary
 
 
 
