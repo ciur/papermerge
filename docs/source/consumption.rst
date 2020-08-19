@@ -11,7 +11,7 @@ The Importer Directory
 You point Papermerge to a specific directory on your local system and
 :ref:`worker <worker_command>` script will import all documents from that
 directory. Getting stuff into this directory is up to you. If you’re running
-Paperless on your local computer, you might just want to drag and drop files
+Papermerge on your local computer, you might just want to drag and drop files
 there.  Imported documents will land in your Inbox folder.
 
 The configuration settings you are looking for is :ref:`IMPORTER_DIR <importer_dir>`. It points to directory where all documents will be imported from. Example::
