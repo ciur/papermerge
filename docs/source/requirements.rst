@@ -5,7 +5,7 @@ You need a Linux machine or Unix-like setup that has the following software inst
 
 * `Python <https://www.python.org/>`_ >= 3.7
 * `Django <https://www.djangoproject.com/>`_ >= 3.0
-* `Tesseract <https://github.com/tesseract-ocr/tesseract>`_ - because of OCR
+* `Tesseract <https://github.com/tesseract-ocr/tesseract>`_ - because of :ref:`OCR <ocr>`
 * `Imagemagick <https://imagemagick.org/script/index.php>`_ - Image operations
 * `Poppler <https://poppler.freedesktop.org/>`_ - PDF operations
 
