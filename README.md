@@ -129,7 +129,7 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |  Metric  | Papermerge | [MayanEDMS](https://www.mayan-edms.com/) | [Paperless](https://github.com/the-paperless-project/paperless)         
 |----------|:-----------:|:---------------------------------------:|:---------------:|
 |OCR   | Yes | Yes | Yes |
-|Metadata |  Yes (> 1.3.0) | Yes | No |
+|Metadata |  Yes | Yes | No |
 |Folders/Cabinets| Yes (Folders) | Yes (Cabinets) | No |
 |Advanced Permissions Management | Yes | Yes | No |
 |Documents Versioning| No | Yes | No | 
