@@ -38,23 +38,9 @@ def browse_view(request, parent_id=None):
         if request.user.has_perm(Access.PERM_READ, node):
             node_dict = node.to_dict()
 
-            node_dict['user_perms'] = {
-                'read': request.user.has_perm(
-                    Access.PERM_READ, node
-                ),
-                'write': request.user.has_perm(
-                    Access.PERM_WRITE, node
-                ),
-                'delete': request.user.has_perm(
-                    Access.PERM_DELETE, node
-                ),
-                'change_perm': request.user.has_perm(
-                    Access.PERM_CHANGE_PERM, node
-                ),
-                'take_ownership': request.user.has_perm(
-                    Access.PERM_TAKE_OWNERSHIP, node
-                ),
-            }
+            node_dict['user_perms'] = request.user.get_perms_dict(
+                node, Access.ALL_PERMS
+            )
 
             if node.is_document():
                 node_dict['img_src'] = reverse(

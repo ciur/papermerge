@@ -38,6 +38,14 @@ def _user_has_perm(user, perm, obj):
     return False
 
 
+def _get_perms_dict(user, perms, obj):
+    for backend in auth.get_backends():
+        if not hasattr(backend, 'get_perms_dict'):
+            continue
+
+        return backend.get_perms_dict(user, perms, obj)
+
+
 def _user_has_module_perms(user, app_label):
     """
     A backend can raise `PermissionDenied` to short-circuit permission
@@ -94,6 +102,9 @@ class User(AbstractUser):
         permissions for that object.
         """
         return _user_has_perm(self, perm, obj)
+
+    def get_perms_dict(self, obj, perms):
+        return _get_perms_dict(self, obj, perms)
 
     def has_perms(self, perm_list, obj=None):
         """

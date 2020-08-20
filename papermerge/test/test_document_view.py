@@ -755,3 +755,65 @@ class TestDocumentDownload(TestCase):
             ret.status_code,
             403
         )
+
+
+class TestBrowseView(TestCase):
+    """
+    Tests browsing of folders and documents.
+    """
+
+    def setUp(self):
+
+        self.testcase_user = create_root_user()
+        self.margaret_user = create_margaret_user()
+        self.client = Client()
+        self.client.login(testcase_user=self.testcase_user)
+
+    def test_browse(self):
+        """
+        Check that user can view only documnent he/she is allowed to
+        (has read access)
+        """
+        # Document owned by margaret
+        Document.create_document(
+            title="document_M",
+            file_name="document_M.pdf",
+            size='36',
+            lang='DEU',
+            user=self.margaret_user,
+            page_count=3,
+            parent_id=None
+        )
+        # This document is owned by testcase_user, not margaret.
+        Document.create_document(
+            title="document_X",
+            file_name="document_X.pdf",
+            size='36',
+            lang='DEU',
+            user=self.testcase_user,
+            page_count=3,
+            parent_id=None
+        )
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+        ret = self.client.get(
+            reverse('core:browse'),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
+        result = json.loads(ret.content)
+        # margeret will see only one document.
+        self.assertEqual(
+            len(result['nodes']),
+            1
+        )
+        self.assertEqual(
+            result['nodes'][0]['title'],
+            'document_M'
+        )

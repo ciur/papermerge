@@ -330,6 +330,38 @@ class NodeAuthBackend:
         permissions = self.django_get_all_permissions(user_obj)
         return perm in permissions
 
+    def get_perms_dict(self, user_obj, obj, perms):
+        """
+        Returns a dictionary with given perms as keys.
+
+        Input:
+
+        user_obj = user instance core.models.User
+        obj = instance of type core.models.node.BaseTreeNode
+        perms = a list of permissions e.g. ['read', 'write', delete]
+
+        Output:
+
+            a dictionary with given perms as keys. Example:
+
+            ret = user.get_perms_dict(obj, ['read', 'write', 'delete'])
+            ret = {
+                'read': True,
+                'delete': False,
+                'write': False
+            }
+        """
+        ret = {}
+        deny_perms = self._get_all_deny_permissions(user_obj, obj)
+        for perm in deny_perms:
+            ret[perm] = False
+
+        allow_perms = self._get_all_allow_permissions(user_obj, obj)
+        for perm in allow_perms:
+            ret[perm] = True
+
+        return True
+
     def has_perm(self, user_obj, perm, obj=None):
         """
         Main function. However it is optional in django auth backend.
@@ -372,13 +404,36 @@ class NodeAuthBackend:
         return set()
 
     def _get_all_allow_permissions(self, user_obj, obj):
+        """
+        Returns a set of permissions (python set())
+        """
+        all_user_perms = self._get_user_permissions(
+            user_obj, obj, Access.ALLOW
+        )
+        all_group_perms = self._get_group_permissions(
+            user_obj, obj, Access.ALLOW
+        )
+
         return {
-            *self._get_user_permissions(user_obj, obj, Access.ALLOW),
-            *self._get_group_permissions(user_obj, obj, Access.ALLOW),
+            *all_user_perms,
+            *all_group_perms,
         }
 
     def _get_all_deny_permissions(self, user_obj, obj):
+        """
+        Returns a set of permissions (python set())
+        """
+        all_user_perms = self._get_user_permissions(
+            user_obj,
+            obj,
+            Access.DENY
+        )
+        all_group_perms = self._get_group_permissions(
+            user_obj,
+            obj,
+            Access.DENY
+        )
         return {
-            *self._get_user_permissions(user_obj, obj, Access.DENY),
-            *self._get_group_permissions(user_obj, obj, Access.DENY),
+            *all_user_perms,
+            *all_group_perms,
         }

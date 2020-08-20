@@ -21,6 +21,15 @@ class Access(models.Model):
     PERM_DELETE = "delete"
     PERM_CHANGE_PERM = "change_perm"
     PERM_TAKE_OWNERSHIP = "take_ownership"
+
+    ALL_PERMS = [
+        PERM_READ,
+        PERM_WRITE,
+        PERM_DELETE,
+        PERM_CHANGE_PERM,
+        PERM_TAKE_OWNERSHIP
+    ]
+
     ALLOW = "allow"
     DENY = "deny"
     MODEL_USER = "user"
