@@ -360,7 +360,7 @@ class NodeAuthBackend:
         for perm in allow_perms:
             ret[perm] = True
 
-        return True
+        return ret
 
     def has_perm(self, user_obj, perm, obj=None):
         """
