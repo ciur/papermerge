@@ -262,8 +262,9 @@ access login screen::
 
     $ ./manage.py runserver
 
-``runserver`` command will start by default a web server on port ``8000``. You
+``runserver`` command will start web server on port ``8000``. You
 can access login screen via any web browser by pointing it to
 ``http://localhost:8000/``
 
 
+.. figure:: ../img/setup/02-login-screen.png
