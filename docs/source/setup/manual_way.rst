@@ -328,3 +328,18 @@ Step 4 - Superuser
 ####################
 
 
+It's time to create administrative (superuser) user for your Papermerge instance::
+
+$ ./manage.py createsuperuser
+
+The username and password you will type above you will use as login credentials.
+So, start server again (in case it is not running)::
+
+$ ./manage.py runserver
+
+Point your web browser to ``http://localhost`` and use superuser's
+username/password to login.
+
+
+Step 5 - Worker
+#################
