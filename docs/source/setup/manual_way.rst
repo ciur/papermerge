@@ -115,7 +115,7 @@ However, the command to invoke python interpreter is ``python3``::
         Make sure your python is at least version 3.7
 
 
-A clone python's friend is ``pip`` command. ``pip`` is python's package manager.
+A close python's friend is ``pip`` command. ``pip`` is python's package manager.
 Similar as with python interpreter story - there might be either pip or ``pip3`` - later is specifically for
 python version 3. We will use pip3::
 
