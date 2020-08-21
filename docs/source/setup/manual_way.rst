@@ -189,7 +189,7 @@ without which project won't start - are listed in ``requirements/base.txt``
 
 The command to do that is as simple as ``pip install -r
 requirements/base.txt`` - but please don't rush to type it yet. We need to
-clarify the concept of python virtual environment.
+clarify the concept of python virtual environment first.
 
 If you simply type ``pip insall -r requirements/base.txt`` - it will install
 packages **system-wide**. A better approach is to install dependencies **per
