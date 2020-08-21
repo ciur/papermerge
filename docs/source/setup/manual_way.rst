@@ -197,7 +197,7 @@ project**. So, *the place* designated for python packages specific for this
 project is called a *virtual environment*. Let's create a python virtual
 environment and name it ``.venv``::
 
-$ python3 -m venv .venv
+$ python3 -m venv .venv --system-site-packages
 
 
 .. note::
@@ -208,6 +208,11 @@ $ python3 -m venv .venv
     Unix/Linux dotted folders have special meaning - they are hidden so to
     speak.
 
+.. note::
+
+    ``--system-site-packages`` is necessary, it will install a package called ``wheel``.
+    Without ``wheel`` package, pip install later will issue warning.
+
 Next we need to *activate* virtual environment::
 
 $ source .venv/bin/activate
@@ -216,5 +221,20 @@ Terminal's prompt (bash - in Ubuntu) will change to indicate that python virtual
 
 .. figure:: ../img/setup/01-active-venv.png
 
+.. note::
 
+    Python virtual environment is just a directory where python packages will
+    be installed. Activating python environment is basically changing your
+    current ``PATH`` variable - this is exactly what ``source
+    .venv/bin/activate`` command does. If you will run ``echo $PATH`` you will
+    notice that ``PapermergeDMS/.venv/bin`` is first in path, this means that
+    python interpreter first of all will look up for its dependencies there.
 
+And now, with python virtual environment active, let's install Papermerge dependencies::
+
+    $ source .venv/bin/activate # a reminder to run this first
+    $ pip3 install -r requirements/base.txt
+
+At this point, all python packages were installed inside directory
+``.venv/lib/python3.8/site-packages`` and that directory is first one in your
+path.
