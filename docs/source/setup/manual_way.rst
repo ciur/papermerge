@@ -352,3 +352,33 @@ Now, you can start uploading documents. Remember that only PDF, TIFF, jpeg and
 png :ref:`file_formats` are supported.
 
 .. figure:: ../img/setup/03-main-browse-view.png
+
+
+Step 6 - Configurations
+#########################
+
+By default, you don't need configuration ``papermerge.conf.py`` file.
+However, if there is no configuration file - Papermerge will issue a warning.
+In one of previous steps we created an empty configuration file::
+
+    $ cd ~/PapermergeDMS
+    $ touch papermerge.conf.py # it is empty now
+
+By default, in language dropdown menu, two languages will be displayed German and English.
+You can change that with following configuration::
+
+    OCR_LANGUAGES = {
+        'eng': 'English',
+        'deu': 'Deutsch',
+        'spa': 'Español',
+        'fra': 'Français'
+    }
+
+Now four languages will be displayed in language dropdown.
+
+    .. note::
+        In previous steps we installed english, spanish, french and german tesseract language
+        packs (packages named tesseract-ocr-eng, tesseract-ocr-deu, tesseract-ocr-fra, tesseract-ocr-spa).
+        For each language you want to :ref:`ocr` you need to have tesseract language pack installed.
+
+Learn more Papermerge configurations in :ref:`settings`
