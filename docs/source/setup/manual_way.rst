@@ -238,3 +238,32 @@ And now, with python virtual environment active, let's install Papermerge depend
 At this point, all python packages were installed inside directory
 ``.venv/lib/python3.8/site-packages`` and that directory is first one in your
 path.
+
+Step 3 - Manage Command
+#########################
+
+Papermerge is based on `Django Web Framework <https://www.djangoproject.com/>`_.
+Django provides a ``manage.py`` script which is used to run all project related commands.
+``manage.py`` script is located in project's root directory.
+
+First let's run migrations::
+
+    $ ./manage.py migrate
+
+*run migrations* - in django's jargon means that you prepare the database. By
+default Papermerge (as any Django based project) uses `sqlite
+<https://sqlite.org/>`_ database - which is stored in a single file.
+``./manage.py migrate`` command will create that file (it is called db.sqlite3
+and is in project's root directory) and create database schema for the
+project.
+
+We are not ready yet, but at this point, you can built-in web server and
+access login screen::
+
+    $ ./manage.py runserver
+
+``runserver`` command will start by default a web server on port ``8000``. You
+can access login screen via any web browser by pointing it to
+``http://localhost:8000/``
+
+
