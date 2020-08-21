@@ -122,3 +122,31 @@ means that you need `gcc compiler <https://gcc.gnu.org/>`_ installed as well.
 In Ubuntu 20.04, ``gcc`` is available via ``built-essential`` package::
 
     sudo apt install build-essential
+
+Double check that ``gcc`` was installed::
+
+    $ gcc --version
+    gcc (Ubuntu 9.3.0-10ubuntu2) 9.3.0
+    Copyright (C) 2019 Free Software Foundation, Inc.
+    This is free software; see the source for copying conditions.  There is NO
+    warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Ok, great! We have to install one more utility - ``git``. Strictly speaking,
+you don't need ``git``, because you can :ref:`download` the tarball and unzip
+(or untar or extract) sources. But let's stick with git::
+
+    $ sudo apt install git
+
+Double check that ``git`` was installed::
+
+    $ git --version
+    git version 2.25.1
+
+And now clone the latest stable version of Papermerge directly from GitHub repository::
+
+    $ git clone --branch v1.4.0 https://github.com/ciur/papermerge.git  PapermergeDMS
+
+.. note::
+
+    As of writing this - latest stable version of Papermerge is 1.4.0.
+
