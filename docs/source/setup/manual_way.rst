@@ -115,6 +115,18 @@ However, the command to invoke python interpreter is ``python3``::
         Make sure your python is at least version 3.7
 
 
+A clone python's friend is ``pip`` command. ``pip`` is python's package manager.
+Similar as with python interpreter story - there might be either pip or ``pip3`` - later is specifically for
+python version 3. We will use pip3::
+
+    $ sudo apt install python3-pip
+
+Make sure it was installed::
+
+    $ pip3 --version
+    pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+
+
 Although Papermerge is written in python, it uses some *special*
 python modules which are compiled from C sources and used in binary form. This
 means that you need `gcc compiler <https://gcc.gnu.org/>`_ installed as well.
@@ -148,5 +160,12 @@ And now clone the latest stable version of Papermerge directly from GitHub repos
 
 .. note::
 
-    As of writing this - latest stable version of Papermerge is 1.4.0.
+    As of writing this - latest stable version of Papermerge is 1.4.0, thus the argument ``--branch``
+    with respective version. Also, notice that repository was cloned inside folder named PapermergeDMS, you
+    can choose whatever title for that folder suites you.
 
+From now on, I will refer to PapermergeDMS folder as *project root* or *top
+level folder of the project*
+
+Step 2 - Python Virtual Environment
+####################################
