@@ -115,7 +115,7 @@ However, the command to invoke python interpreter is ``python3``::
         Make sure your python is at least version 3.7
 
 
-A close python's friend is ``pip`` command. ``pip`` is python's package manager.
+A close python's friend is `pip <https://pip.pypa.io/en/stable/>`_ command. `pip <https://pip.pypa.io/en/stable/>`_ is python's package manager.
 Similar as with python interpreter story - there might be either pip or ``pip3`` - later is specifically for
 python version 3. We will use pip3::
 
@@ -125,6 +125,13 @@ Make sure it was installed::
 
     $ pip3 --version
     pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+
+
+Another package which you need to install is ``python3-venv``. This one will be
+used in Step 2  we'll learn and setup python virtual environment::
+
+
+    $ sudo apt install python3-venv
 
 
 Although Papermerge is written in python, it uses some *special*
@@ -169,3 +176,45 @@ level folder of the project*
 
 Step 2 - Python Virtual Environment
 ####################################
+
+Change directory to project's root (folder where you cloned/extracted sources)::
+
+    $ cd PapermergeDMS
+
+
+Our goal in this step is to install python dependencies - like `Django
+<https://www.djangoproject.com/>`_ for example. Most important dependencies -
+without which project won't start - are listed in ``requirements/base.txt``
+(relative to project's root).
+
+The command to do that is as simple as ``pip install -r
+requirements/base.txt`` - but please don't rush to type it yet. We need to
+clarify the concept of python virtual environment.
+
+If you simply type ``pip insall -r requirements/base.txt`` - it will install
+packages **system-wide**. A better approach is to install dependencies **per
+project**. So, *the place* designated for python packages specific for this
+project is called a *virtual environment*. Let's create a python virtual
+environment and name it ``.venv``::
+
+$ python3 -m venv .venv
+
+
+.. note::
+
+    For virtual environment you can choose whatever name you want. For example
+    you can choose to name your virtual environment py37, in that case command
+    will be ``python3 -m venv py37``. However, I chose *.venv* because in
+    Unix/Linux dotted folders have special meaning - they are hidden so to
+    speak.
+
+Next we need to *activate* virtual environment::
+
+$ source .venv/bin/activate
+
+Terminal's prompt (bash - in Ubuntu) will change to indicate that python virtual environment is active.
+
+.. figure:: ../img/setup/01-active-venv.png
+
+
+
