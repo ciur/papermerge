@@ -38,12 +38,16 @@ def _user_has_perm(user, perm, obj):
     return False
 
 
-def _get_perms_dict(user, perms, obj):
+def _get_perms_dict(user, perms, obj_list):
+    #
+    #  Bulk permissions return. Optimization measure
+    #  for case when folder contains many files.
+    #
     for backend in auth.get_backends():
         if not hasattr(backend, 'get_perms_dict'):
             continue
 
-        return backend.get_perms_dict(user, perms, obj)
+        return backend.get_perms_dict(user, perms, obj_list)
 
 
 def _user_has_module_perms(user, app_label):
