@@ -268,3 +268,63 @@ can access login screen via any web browser by pointing it to
 
 
 .. figure:: ../img/setup/02-login-screen.png
+
+But as I mentioned, we are not ready yet. First of all, when you run
+``./manage.py runserver`` command you probably noticed couple of warnings. To see
+if all binary dependencies were installed run following command::
+
+$ ./manage.py check
+
+On freshly installed Ubuntu 20.04 LTS you will see following warnings::
+
+    System check identified some issues:
+
+    WARNINGS:
+    ?: Papermerge can't find convert. Without it, image resizing is not possible.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: Papermerge can't find identify. Without it, it is not possible to count pages in TIFF.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: Papermerge can't find pdftk. Without it, Papermerge won't be able to cut/paste PDF pages.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: Papermerge can't find tesseract. Without it, OCR of the documents is impossible.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: papermerge.conf.py file was found. Following locations attempted /etc/papermerge.conf.py, papermerge.conf.py
+            HINT: Create one of those files or point PAPERMERGE_CONFIG environment name to it.
+
+    System check identified 5 issues (0 silenced).
+
+This means that you need to install all above dependencies. Let's install all
+of them in one shot::
+
+
+    sudo apt install imagemagick \
+        poppler-utils \
+        pdftk \
+        tesseract-ocr \
+        tesseract-ocr-eng \
+        tesseract-ocr-deu \
+        tesseract-ocr-fra \
+        tesseract-ocr-spa
+
+When installation is complete, run check again::
+
+    $ ./manage.py check
+
+    System check identified some issues:
+
+    WARNINGS:
+    ?: papermerge.conf.py file was found. Following locations attempted /etc/papermerge.conf.py, papermerge.conf.py
+            HINT: Create one of those files or point PAPERMERGE_CONFIG environment name to it.
+
+    System check identified 1 issue (0 silenced).
+
+To silence last warning, just create an empty ``papermerge.conf.py`` file in project's root,
+we will turn our attention to that file little bit later::
+
+    $ touch papermerge.conf.py
+
+
+Step 4 - Superuser
+####################
+
+
