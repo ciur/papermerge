@@ -343,3 +343,22 @@ username/password to login.
 
 Step 5 - Worker
 #################
+
+In a separate window, change to the project's root directory again, but this
+time, you should start the worker with ``./manage.py worker``.
+Remember to activate python virtual environment first::
+
+    $ cd ~/PapermergeDMS
+    $ source .venv/bin/activate
+    $ ./manage worker
+
+Worker is the part which performs :ref:`ocr` process. For correct function of Papermerge you must have both parts
+running:
+
+    * main app - the one which you start with ``./manage.py runserver``
+    * worker - the one which you start with ``./manage.py worker``
+
+Now, you can start uploading documents. Remember that only PDF, TIFF, jpeg and
+png :ref:`file_formats` are supported.
+
+.. figure:: ../img/setup/03-main-browse-view.png
