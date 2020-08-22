@@ -24,7 +24,7 @@ Configuration file uses python syntax.
 Main App, Worker or Both?
 ###########################
 
-Some configuration variables are for worker only (the part which OCRs the
+Some configuration variables are for worker only (the part which :ref:`OCRs <ocrs>` the
 documents, imports documents form local directory or fetches them from
 imap/email account), some configuration variables are for main app only and
 some are for both. This distinction becomes aparent in case you deploy
@@ -46,8 +46,8 @@ function properly.
 Some of the most used configurations which you might be interest in:
   
     * :ref:`media_dir` - location where all uploaded/imported documents are stored
-    * :ref:`ocr_languages` - user can select one of those languages to perform OCR
-    * :ref:`ocr_default_language` - default language for OCR
+    * :ref:`ocr_languages` - user can select one of those languages to perform :ref:`OCR <ocr>`
+    * :ref:`ocr_default_language` - default language for :ref:`OCR <ocr>`
   
 
 Paths and Folders
@@ -119,7 +119,7 @@ from local directory.
 
 
 OCR
-####
+#####
 
 .. _ocr_languages:
 
@@ -128,7 +128,7 @@ OCR
 
 * context: ``main app, worker``
 
-  Addinational languages for text OCR. A dictionary where key is `ISO 639-2/T code <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_ and value human
+  Addinational languages for text :ref:`OCR <ocr>`. A dictionary where key is `ISO 639-2/T code <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_ and value human
   text name for language
 
   Example::
@@ -156,7 +156,7 @@ Default value for OCR_LANGUAGES uses following value::
 
 * context: ``main app, worker``
 
-By default Papermerge will use language specified with this option to perform OCR. Change this value for language used by majority of your documents.
+By default Papermerge will use language specified with this option to perform :ref:`OCR <ocr>`. Change this value for language used by majority of your documents.
 
   Example:
 
@@ -322,7 +322,7 @@ Binary Dependencies
 ######################
 
 Papermerge uses a number of open source 3rd parties for various purposes. One
-of the most obvious example is tesseract - used to OCR documents (extract text
+of the most obvious example is tesseract - used to :ref:`OCR <ocr>` documents (extract text
 from binary image file). Another, less obvious example, is pdfinfo utility
 provided by poppler-utils package: pdfinfo is used to count number of pages in
 pdf document. Configurations listed below allow you to override path to
@@ -334,7 +334,7 @@ specific dependency.
 
 context: ``worker``
 
-Full path to tesseract binary/executable file. Tesseract is used for OCR operations - extracting of text from binary image files (jpeg, png, tiff).
+Full path to tesseract binary/executable file. Tesseract is used for :ref:`OCR <ocr>` operations - extracting of text from binary image files (jpeg, png, tiff).
 Default value is::
 
   BINARY_OCR = "/usr/bin/tesseract"

@@ -1,8 +1,4 @@
-..  note::
-
-	There is a critical bug in versions prior to 1.4.0, which made it impossible
-	to work with jpg and png files.
-
+.. _file_formats:
 
 File Formats
 ==============

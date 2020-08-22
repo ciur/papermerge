@@ -1,6 +1,16 @@
 Changelog
 ==========
 
+[1.4.0] - 19 August 2020
+############################
+
+Changed
+~~~~~~~~~
+    
+- Issue #72 - random changed order
+- Issue #63 - hardcoded OCR_BINARY settings
+- documentation updates
+
 [1.4.0.rc1] - 4 August 2020
 ############################
 
@@ -21,8 +31,6 @@ Removed
 ~~~~~~~~
 
 - Customized Django Admin app named boss. Thus, UI is no longer Django Admin based.
-
-
 
 
 [1.3.0] - 25 June 2020
@@ -90,6 +98,6 @@ Project open sourced (also with lots of refactoring)
 [0.0.1] - 10 Sept 2017
 #######################
 
-Initial commit. Project started as free time pet project.
+Initial commit. Project started as hobby project.
 It was named vermilion, digilette and only later papermerge.
 

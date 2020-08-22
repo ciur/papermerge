@@ -129,7 +129,7 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |  Metric  | Papermerge | [MayanEDMS](https://www.mayan-edms.com/) | [Paperless](https://github.com/the-paperless-project/paperless)         
 |----------|:-----------:|:---------------------------------------:|:---------------:|
 |OCR   | Yes | Yes | Yes |
-|Metadata |  Yes (> 1.3.0) | Yes | No |
+|Metadata |  Yes | Yes | No |
 |Folders/Cabinets| Yes (Folders) | Yes (Cabinets) | No |
 |Advanced Permissions Management | Yes | Yes | No |
 |Documents Versioning| No | Yes | No | 
@@ -139,7 +139,6 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |REST API | Yes | Yes | Yes |
 |License  | Apache-2.0 | Apache 2.0 | GPLv3 |
 |Status| Active Development | Active Development | Maintenance / No Development| 
-|Stable Release | 1.2.2 / May 16, 2020 | 3.4.7 / April 28, 2020 | 2.7.0 / January 27, 2019 |
 |Initial Release| February 9, 2020 | February 3, 2011 | ~ 2015 |
 |Python3?| Yes | Yes | Yes|
 |Django Version| 3.0 | 2.2 | 2.0|

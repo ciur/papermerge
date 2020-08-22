@@ -34,27 +34,24 @@ def browse_view(request, parent_id=None):
         for item in parent_node.kv.all():
             parent_kv.append(item.to_dict())
 
-    for node in nodes:
-        if request.user.has_perm(Access.PERM_READ, node):
-            node_dict = node.to_dict()
+    # Will returns a dictionary. Each key of the dictionary
+    # is the id of the node. Value of the key is permissions
+    # dictionary e.g.
+    # {
+    #   '23': {"read": True, "delete": False },
+    #   '24': {"read": True, "delete": False },
+    #   '25': {"read": False, "delete": False }
+    # }
+    nodes_perms = request.user.get_perms_dict(
+        nodes, Access.ALL_PERMS
+    )
 
-            node_dict['user_perms'] = {
-                'read': request.user.has_perm(
-                    Access.PERM_READ, node
-                ),
-                'write': request.user.has_perm(
-                    Access.PERM_WRITE, node
-                ),
-                'delete': request.user.has_perm(
-                    Access.PERM_DELETE, node
-                ),
-                'change_perm': request.user.has_perm(
-                    Access.PERM_CHANGE_PERM, node
-                ),
-                'take_ownership': request.user.has_perm(
-                    Access.PERM_TAKE_OWNERSHIP, node
-                ),
-            }
+    for node in nodes:
+        if nodes_perms[node.id].get(Access.PERM_READ, False):
+            node_dict = node.to_dict()
+            # and send user_perms to the frontend client
+
+            node_dict['user_perms'] = nodes_perms[node.id]
 
             if node.is_document():
                 node_dict['img_src'] = reverse(

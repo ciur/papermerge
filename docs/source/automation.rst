@@ -35,7 +35,11 @@ Invoices/CloudExpenses/2020.
 .. caution::
   
    It is crucial to understand that **matching is per Page**. Thus, statement *match a document* is not entirely correct. 
-   Automation processes is triggered every time when OCR for certain page completes. OCRed page is sent to automation module and Papermerge will try to match each automate instance on it. In case there is a match - it is considered that document matched automate criteria, although technically correct is - page of respective the document matched!
+   Automation processes is triggered every time when :ref:`OCR <ocr>` for
+   certain page completes. :ref:`OCRed <ocrs>` page is sent to automation module and
+   Papermerge will try to match each automate instance on it. In case there is
+   a match - it is considered that document matched automate criteria,
+   although technically correct is - page of respective the document matched!
 
 There are 4 different ways to match:
 

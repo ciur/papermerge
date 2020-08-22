@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 19 August 2020
+
+### Changed
+    
+- Issue #72 - random changed order
+- Issue #63 - hardcoded OCR_BINARY settings
+- documentation updates
+
 ## [1.4.0.rc1] - 4 August 2020
 
 ### Added 
