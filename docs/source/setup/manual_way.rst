@@ -25,67 +25,57 @@ instructions can be adopted easily for any Linux distribution.
 Short Version
 ~~~~~~~~~~~~~~~
 
-First :ref:`download` the sorce code.
+First :ref:`download` the sorce code. In this guide we clone latest stable version 1.4.0 into
+folder PapermergeDMS (located in home folder)::
+
+    $ git clone --branch v1.4.0 https://github.com/ciur/papermerge.git  PapermergeDMS
 
 
-1. Within extracted directory copy ``papermerge.conf.py.example`` to ``/etc/``::
+1. Install required Ubuntu 20.04 LTS deb packages::
 
-    $ cp papermerge.conf.py.example /etc/papermerge.conf.py
-    $ chmod 640 /etc/papermerge.conf.py
-    
-1a. Look at the config-file with your favorite text editor. Leave default settings or adjust to your needs:
-    
-    * ``DBDIR``: SQLite database storage location
-    * ``MEDIA_DIR``: your documents storage location
-    * ``STATIC_DIR``: this is where all static files will be collected by ``collectstatic`` command
-    * ``IMPORTER_DIR``: Papermerge is looking for new files here
+    $ sudo apt install build-essential \
+        python3-pip \
+        python3-venv \
+        git \
+        imagemagick \
+        poppler-utils \
+        pdftk \
+        tesseract-ocr \
+        tesseract-ocr-eng \
+        tesseract-ocr-deu \
+        tesseract-ocr-fra \
+        tesseract-ocr-spa
 
-2. Create and Activate python virtual environment with::
 
-    $ python3 -m venv .venv
+1. Create python virutal environment and activate it::
+
+    $ cd ~/PapermergeDMS
+    $ python3 -m venv .venv --system-site-packages
     $ source .venv/bin/activate
 
 3. Install necessary dependencies::
 
-    $ pip install -r requirements/base.txt
+    $ pip3 install -r requirements/base.txt
 
 4. Initialize SQLite database with::
 
     $ ./manage.py migrate
 
-5. Collect static files for webserver with::
-
-    $ ./manage.py collectstatic
-
-6. Create a user for Papermerge instance::
+5. Create a user for Papermerge instance::
 
     $ ./manage.py createsuperuser
 
-7. Start webserver with::
+6. Start webserver with::
 
     $ ./manage.py runserver <IP>:<PORT>
 
-If no specific IP or PORT is given, the default is 127.0.0.1:8000 also known as http://localhost:8000/. 
-It should look like in the screenshot below. Use the login credentials that you created in #6 to access Papermerge.
+If no specific IP or PORT is given, the default is 127.0.0.1:8000 also known
+as http://localhost:8000/. 
 
-    .. figure:: ../img/login.png
+7. In a separate window, change to the project's root directory again, but
+this time, you should start the worker script with::
 
-You are almost there, but there is no worker running yet.
-
-8. In a separate window, change to the project's root directory again, but this time, you should start the worker script with ./manage.py worker.
-
-9. Now put a JPEG, PNG or TIFF file into the IMPORTER_DIR.
-10. Wait a few minutes for Papermerge to run OCR.
-   Preview of the documents uploaded:
-
-    .. figure:: ../img/uploaded_docs.png
-
-11. Now you should be able to select text in OCRed document!
-
-
-.. figure:: ../img/select_text.png
-
-   Now you should be able to select text
+    $ ./manage.py worker
 
 .. _manual_way_detailed_version:
 
@@ -262,8 +252,133 @@ access login screen::
 
     $ ./manage.py runserver
 
-``runserver`` command will start by default a web server on port ``8000``. You
+``runserver`` command will start web server on port ``8000``. You
 can access login screen via any web browser by pointing it to
 ``http://localhost:8000/``
 
 
+.. figure:: ../img/setup/02-login-screen.png
+
+But as I mentioned, we are not ready yet. First of all, when you run
+``./manage.py runserver`` command you probably noticed couple of warnings. To see
+if all binary dependencies were installed run following command::
+
+$ ./manage.py check
+
+On freshly installed Ubuntu 20.04 LTS you will see following warnings::
+
+    System check identified some issues:
+
+    WARNINGS:
+    ?: Papermerge can't find convert. Without it, image resizing is not possible.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: Papermerge can't find identify. Without it, it is not possible to count pages in TIFF.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: Papermerge can't find pdftk. Without it, Papermerge won't be able to cut/paste PDF pages.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: Papermerge can't find tesseract. Without it, OCR of the documents is impossible.
+            HINT: Either it's not in your PATH or it's not installed.
+    ?: papermerge.conf.py file was found. Following locations attempted /etc/papermerge.conf.py, papermerge.conf.py
+            HINT: Create one of those files or point PAPERMERGE_CONFIG environment name to it.
+
+    System check identified 5 issues (0 silenced).
+
+This means that you need to install all above dependencies. Let's install all
+of them in one shot::
+
+
+    sudo apt install imagemagick \
+        poppler-utils \
+        pdftk \
+        tesseract-ocr \
+        tesseract-ocr-eng \
+        tesseract-ocr-deu \
+        tesseract-ocr-fra \
+        tesseract-ocr-spa
+
+When installation is complete, run check again::
+
+    $ ./manage.py check
+
+    System check identified some issues:
+
+    WARNINGS:
+    ?: papermerge.conf.py file was found. Following locations attempted /etc/papermerge.conf.py, papermerge.conf.py
+            HINT: Create one of those files or point PAPERMERGE_CONFIG environment name to it.
+
+    System check identified 1 issue (0 silenced).
+
+To silence last warning, just create an empty ``papermerge.conf.py`` file in project's root,
+we will turn our attention to that file little bit later::
+
+    $ touch papermerge.conf.py
+
+
+Step 4 - Superuser
+####################
+
+
+It's time to create administrative (superuser) user for your Papermerge instance::
+
+$ ./manage.py createsuperuser
+
+The username and password you will type above you will use as login credentials.
+So, start server again (in case it is not running)::
+
+$ ./manage.py runserver
+
+Point your web browser to ``http://localhost`` and use superuser's
+username/password to login.
+
+
+Step 5 - Worker
+#################
+
+In a separate window, change to the project's root directory again, but this
+time, you should start the worker with ``./manage.py worker``.
+Remember to activate python virtual environment first::
+
+    $ cd ~/PapermergeDMS
+    $ source .venv/bin/activate
+    $ ./manage worker
+
+Worker is the part which performs :ref:`ocr` process. For correct function of Papermerge you must have both parts
+running:
+
+    * main app - the one which you start with ``./manage.py runserver``
+    * worker - the one which you start with ``./manage.py worker``
+
+Now, you can start uploading documents. Remember that only PDF, TIFF, jpeg and
+png :ref:`file_formats` are supported.
+
+.. figure:: ../img/setup/03-main-browse-view.png
+
+
+Step 6 - Configurations
+#########################
+
+By default, you don't need configuration ``papermerge.conf.py`` file.
+However, if there is no configuration file - Papermerge will issue a warning.
+In one of previous steps we created an empty configuration file::
+
+    $ cd ~/PapermergeDMS
+    $ touch papermerge.conf.py # it is empty now
+
+By default, in language dropdown menu, two languages will be displayed German and English.
+You can change that with following configuration::
+
+    OCR_LANGUAGES = {
+        'eng': 'English',
+        'deu': 'Deutsch',
+        'spa': 'Español',
+        'fra': 'Français'
+    }
+
+Now four languages will be displayed in language dropdown.
+
+    .. note::
+        In previous steps we installed english, spanish, french and german tesseract language
+        packs (packages named tesseract-ocr-eng, tesseract-ocr-deu, tesseract-ocr-fra, tesseract-ocr-spa).
+        For each language you want to :ref:`ocr` you need to have tesseract language pack installed.
+
+Learn more Papermerge configurations in :ref:`settings`
