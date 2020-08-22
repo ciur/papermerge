@@ -374,7 +374,7 @@ In one of previous steps we created an empty configuration file::
 
     **What is the purpose of empty configuration file?** It has one - it raises
     awareness of administrator that such file exists. The logic is following -
-    if administrator created papermerge.conf.py => papermerge application
+    if administrator created papermerge.conf.py => Papermerge application
     immediately concludes admin is aware of such file and silence the warning
     message. Again - it is absolutely OK to leave papermerge.conf.py file
     empty.
