@@ -414,7 +414,9 @@ class NodeAuthBackend:
         if not isinstance(obj_or_list, models.Model):
             ret = {}
             obj_ids = [obj.id for obj in obj_or_list]
-            all_access_items = Access.objects.filter(
+            all_access_items = Access.objects.prefetch_related(
+                'permissions'
+            ).filter(
                 access_type=access_type
             ).filter(
                 node_id__in=obj_ids
@@ -452,11 +454,14 @@ class NodeAuthBackend:
         if not isinstance(obj_or_list, models.Model):
             ret = {}
             obj_ids = [obj.id for obj in obj_or_list]
-            all_access_items = Access.objects.filter(
+            all_access_items = Access.objects.prefetch_related(
+                'permissions'
+            ).filter(
                 access_type=access_type
             ).filter(
                 node_id__in=obj_ids
             )
+
             for access in all_access_items:
                 if access.user == user_obj:
                     ret[access.node_id] = {
