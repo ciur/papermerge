@@ -413,15 +413,20 @@ class NodeAuthBackend:
 
         if not isinstance(obj_or_list, models.Model):
             ret = {}
-            for obj in obj_or_list:
-                for access in obj.access_set.filter(access_type=access_type):
-                    if not access.group:
-                        continue
+            obj_ids = [obj.id for obj in obj_or_list]
+            all_access_items = Access.objects.filter(
+                access_type=access_type
+            ).filter(
+                node_id__in=obj_ids
+            )
+            for access in all_access_items:
+                if not access.group:
+                    continue
 
-                    if user_obj.groups.filter(name=access.group.name).exists():
-                        ret[obj.id] = {
-                            perm.codename for perm in access.permissions.all()
-                        }
+                if user_obj.groups.filter(name=access.group.name).exists():
+                    ret[access.node_id] = {
+                        perm.codename for perm in access.permissions.all()
+                    }
 
             return ret
 
@@ -446,12 +451,17 @@ class NodeAuthBackend:
 
         if not isinstance(obj_or_list, models.Model):
             ret = {}
-            for obj in obj_or_list:
-                for access in obj.access_set.filter(access_type=access_type):
-                    if access.user == user_obj:
-                        ret[obj.id] = {
-                            perm.codename for perm in access.permissions.all()
-                        }
+            obj_ids = [obj.id for obj in obj_or_list]
+            all_access_items = Access.objects.filter(
+                access_type=access_type
+            ).filter(
+                node_id__in=obj_ids
+            )
+            for access in all_access_items:
+                if access.user == user_obj:
+                    ret[access.node_id] = {
+                        perm.codename for perm in access.permissions.all()
+                    }
 
             return ret
 
