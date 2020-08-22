@@ -106,7 +106,7 @@ However, the command to invoke python interpreter is ``python3``::
 
 
 A close python's friend is `pip <https://pip.pypa.io/en/stable/>`_ command. `pip <https://pip.pypa.io/en/stable/>`_ is python's package manager.
-Similar as with python interpreter story - there might be either pip or ``pip3`` - later is specifically for
+Similar as with python interpreter story - there might be either pip or ``pip3`` - latter is specifically for
 python version 3. We will use pip3::
 
     $ sudo apt install python3-pip
@@ -239,6 +239,12 @@ Django provides a ``manage.py`` script which is used to run all project related 
 First let's run migrations::
 
     $ ./manage.py migrate
+
+.. note::
+
+    At this point you will see warnings about missing binary dependencies. We
+    deal with them little bit later when we will discuss ``./manage.py check``
+    command.
 
 *run migrations* - in django's jargon means that you prepare the database. By
 default Papermerge (as any Django based project) uses `sqlite
