@@ -21,6 +21,7 @@ from django.contrib.auth.decorators import login_required
 from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
 from mglib.shortcuts import extract_img
+from mglib import exceptions
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
@@ -323,8 +324,22 @@ class DocumentsUpload(views.View):
 
         lang = request.POST.get('language')
         notes = request.POST.get('notes')
-        page_count = get_pagecount(f.temporary_file_path())
-        logger.info("creating document {}".format(f.name))
+        try:
+            page_count = get_pagecount(f.temporary_file_path())
+        except exceptions.FileTypeNotSupported:
+            return HttpResponse(
+                json.dumps(
+                    {
+                        'msg': (
+                            "File type not supported."
+                            " Only pdf, tiff, png, jpeg files are supported"
+                        ),
+                    }
+                ),
+                content_type="application/json",
+                status=400
+            )
+        logger.debug("creating document {}".format(f.name))
 
         doc = Document.create_document(
             user=user,
@@ -378,7 +393,7 @@ class DocumentsUpload(views.View):
             'action_url': "",
             'preview_url': preview_url
         }
-        logger.info("and response is!")
+
         return HttpResponse(
             json.dumps(result),
             content_type="application/json"

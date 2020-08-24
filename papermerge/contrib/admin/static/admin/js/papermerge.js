@@ -20221,6 +20221,7 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       title: '',
       size: '',
       file: '',
+      msg: '',
       lang: '',
       status: '',
       file_type: '',
@@ -20330,6 +20331,7 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     }
 
     function transferComplete(e) {
+      let response = JSON.parse(e.currentTarget.response);
       console.log(`Complete? status = ${e.currentTarget.status}`);
 
       if (e.currentTarget.status == 200) {
@@ -20344,6 +20346,12 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
         that.set({
           'status': UploaderItem.UPLOAD_ERROR
         });
+
+        if (response && response.msg) {
+          that.set({
+            'msg': response.msg
+          });
+        }
       }
     }
 
@@ -21364,6 +21372,8 @@ __p+='\n                                <i class="fa fa-spinner"></i>\n         
  }  
 __p+='\n                        </div>\n                    </div>\n                    <div class="col-7">\n                        <div class="filename">'+
 ((__t=( file.get('title') ))==null?'':__t)+
+'</div>\n                        <div class="message">'+
+((__t=( file.get('msg') ))==null?'':__t)+
 '</div>\n                    </div>\n                    <div class="col-2 text-right">\n                        <div class="size">'+
 ((__t=( file.human_size ))==null?'':__t)+
 '</div>\n                    </div>\n                    <div class="col-2 text-right">\n                        <div class="lang">'+
