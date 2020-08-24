@@ -15,7 +15,6 @@ from django.http import (
     HttpResponseForbidden,
     Http404
 )
-from django import views
 from django.contrib.auth.decorators import login_required
 
 from mglib.pdfinfo import get_pagecount
@@ -25,6 +24,7 @@ from mglib import exceptions
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
+from .decorators import json_reponse
 
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
@@ -291,113 +291,100 @@ def create_folder(request):
     )
 
 
-class DocumentsUpload(views.View):
-    def post(self, request):
-        files = request.FILES.getlist('file')
-        if not files:
-            logger.warning(
-                "POST request.FILES is empty. Forgot adding file?"
-            )
-            return HttpResponseBadRequest(
-                "Missing input file"
-            )
-
-        if len(files) > 1:
-            logger.warning(
-                "More then one files per ajax? how come?"
-            )
-            return HttpResponse(
-                json.dumps({}),
-                content_type="application/json",
-                status_code=400
-            )
-
-        f = files[0]
-
-        logger.debug("upload for f=%s user=%s", f, request.user)
-
-        user = request.user
-        size = os.path.getsize(f.temporary_file_path())
-        parent_id = request.POST.get('parent', "-1")
-        if parent_id and "-1" in parent_id:
-            parent_id = None
-
-        lang = request.POST.get('language')
-        notes = request.POST.get('notes')
-        try:
-            page_count = get_pagecount(f.temporary_file_path())
-        except exceptions.FileTypeNotSupported:
-            return HttpResponse(
-                json.dumps(
-                    {
-                        'msg': (
-                            "File type not supported."
-                            " Only pdf, tiff, png, jpeg files are supported"
-                        ),
-                    }
-                ),
-                content_type="application/json",
-                status=400
-            )
-        logger.debug("creating document {}".format(f.name))
-
-        doc = Document.create_document(
-            user=user,
-            title=f.name,
-            size=size,
-            lang=lang,
-            file_name=f.name,
-            parent_id=parent_id,
-            notes=notes,
-            page_count=page_count
+@json_reponse
+@login_required
+@require_POST
+def upload(request):
+    """
+    To understand returned value, have a look at
+    papermerge.core.views.decorators.json_reponse decorator
+    """
+    files = request.FILES.getlist('file')
+    if not files:
+        logger.warning(
+            "POST request.FILES is empty. Forgot adding file?"
         )
-        logger.debug(
-            "uploading to {}".format(doc.path.url())
+        return "Missing input file", 400
+
+    if len(files) > 1:
+        msg = "More then one files per ajax? how come?"
+        logger.warning(msg)
+
+        return msg, 400
+
+    f = files[0]
+
+    logger.debug("upload for f=%s user=%s", f, request.user)
+
+    user = request.user
+    size = os.path.getsize(f.temporary_file_path())
+    parent_id = request.POST.get('parent', "-1")
+    if parent_id and "-1" in parent_id:
+        parent_id = None
+
+    lang = request.POST.get('language')
+    notes = request.POST.get('notes')
+    try:
+        page_count = get_pagecount(f.temporary_file_path())
+    except exceptions.FileTypeNotSupported:
+        status = 400
+        msg = _(
+            "File type not supported."
+            " Only pdf, tiff, png, jpeg files are supported"
         )
+        return msg, status
 
-        default_storage.copy_doc(
-            src=f.temporary_file_path(),
-            dst=doc.path.url()
-        )
-        for page_num in range(1, page_count + 1):
-            ocr_page.apply_async(kwargs={
-                'user_id': user.id,
-                'document_id': doc.id,
-                'file_name': f.name,
-                'page_num': page_num,
-                'lang': lang}
-            )
+    logger.debug("creating document {}".format(f.name))
 
-        # upload only one file at time.
-        # after each upload return a json object with
-        # following fields:
-        #
-        # - title
-        # - preview_url
-        # - doc_id
-        # - action_url  -> needed for renaming/deleting selected item
-        #
-        # with that info a new thumbnail will be created.
+    doc = Document.create_document(
+        user=user,
+        title=f.name,
+        size=size,
+        lang=lang,
+        file_name=f.name,
+        parent_id=parent_id,
+        notes=notes,
+        page_count=page_count
+    )
+    logger.debug(
+        "uploading to {}".format(doc.path.url())
+    )
 
-        # action_url = reverse(
-        #     'boss:core_basetreenode_change', args=(doc.id,)
-        # )
-
-        preview_url = reverse(
-            'core:preview', args=(doc.id, 200, 1)
+    default_storage.copy_doc(
+        src=f.temporary_file_path(),
+        dst=doc.path.url()
+    )
+    for page_num in range(1, page_count + 1):
+        ocr_page.apply_async(kwargs={
+            'user_id': user.id,
+            'document_id': doc.id,
+            'file_name': f.name,
+            'page_num': page_num,
+            'lang': lang}
         )
 
-        result = {
-            'title': doc.title,
-            'doc_id': doc.id,
-            'action_url': "",
-            'preview_url': preview_url
-        }
+    # upload only one file at time.
+    # after each upload return a json object with
+    # following fields:
+    #
+    # - title
+    # - preview_url
+    # - doc_id
+    # - action_url  -> needed for renaming/deleting selected item
+    #
+    # with that info a new thumbnail will be created.
+    preview_url = reverse(
+        'core:preview', args=(doc.id, 200, 1)
+    )
 
-        return HttpResponse(
-            json.dumps(result),
-            content_type="application/json"
-        )
+    result = {
+        'title': doc.title,
+        'doc_id': doc.id,
+        'action_url': "",
+        'preview_url': preview_url
+    }
+
+    return result
 
 
 @login_required

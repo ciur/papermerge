@@ -75,7 +75,7 @@ urlpatterns = [
     ),
     path(
         'upload/',
-        login_required(doc_views.DocumentsUpload.as_view()),
+        doc_views.upload,
         name="upload"
     ),
     path(
