@@ -8,10 +8,6 @@ from papermerge.core.views.decorators import (
 )
 
 
-
-
-
-
 class TestDecorators(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
