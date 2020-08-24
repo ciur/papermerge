@@ -24,7 +24,7 @@ from mglib import exceptions
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
-from .decorators import json_reponse
+from .decorators import json_response
 
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
@@ -291,7 +291,7 @@ def create_folder(request):
     )
 
 
-@json_reponse
+@json_response
 @login_required
 @require_POST
 def upload(request):

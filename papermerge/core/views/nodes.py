@@ -12,10 +12,12 @@ from django.shortcuts import get_object_or_404
 
 from papermerge.core.models import BaseTreeNode, Access, Folder
 from papermerge.core.models.utils import recursive_delete
+from .decorators import json_response
 
 logger = logging.getLogger(__name__)
 
 
+@json_response
 @login_required
 def browse_view(request, parent_id=None):
 
@@ -65,18 +67,14 @@ def browse_view(request, parent_id=None):
 
             nodes_list.append(node_dict)
 
-    return HttpResponse(
-        json.dumps(
-            {
-                'nodes': nodes_list,
-                'parent_id': parent_id,
-                'parent_kv': parent_kv
-            }
-        ),
-        content_type="application/json"
-    )
+    return {
+        'nodes': nodes_list,
+        'parent_id': parent_id,
+        'parent_kv': parent_kv
+    }
 
 
+@json_response
 @login_required
 def breadcrumb_view(request, parent_id=None):
 
@@ -93,14 +91,12 @@ def breadcrumb_view(request, parent_id=None):
             item.to_dict() for item in node.get_ancestors(include_self=True)
         ]
 
-    return HttpResponse(
-        json.dumps({
-            'nodes': nodes,
-        }),
-        content_type="application/json"
-    )
+    return {
+        'nodes': nodes,
+    }
 
 
+@json_response
 @login_required
 def node_by_title_view(request, title):
     """
@@ -113,15 +109,12 @@ def node_by_title_view(request, title):
         title__iexact=title
     )
 
-    return HttpResponse(
-        json.dumps({
-            'id': node.id,
-            'title': node.title,
-            'children_count': node.get_children().count(),
-            'url': reverse('node_by_title', args=('inbox',))
-        }),
-        content_type="application/json"
-    )
+    return {
+        'id': node.id,
+        'title': node.title,
+        'children_count': node.get_children().count(),
+        'url': reverse('node_by_title', args=('inbox',))
+    }
 
 
 @login_required
@@ -129,12 +122,10 @@ def node_view(request, node_id):
     try:
         node = BaseTreeNode.objects.get(id=node_id)
     except BaseTreeNode.DoesNotExist:
-        return HttpResponseBadRequest(
-            json.dumps({
-                'node': node.to_dict()
-            }),
-            content_type="application/json"
-        )
+        ret = {
+            'node': node.to_dict()
+        }
+        return ret, HttpResponseBadRequest.status_code
 
     if request.method == "DELETE":
         if request.user.has_perm(Access.PERM_DELETE, node):
@@ -142,26 +133,14 @@ def node_view(request, node_id):
         else:
             msg = f"{request.user.username} does not have" +\
                 f" permission to delete {node.title}"
-            return HttpResponseForbidden(
-                json.dumps({
-                    'msg': msg
-                }),
-                content_type="application/json"
-            )
 
-        return HttpResponse(
-            json.dumps({
-                'msg': 'OK'
-            }),
-            content_type="application/json"
-        )
+            return msg, HttpResponseForbidden.status_code
 
-    return HttpResponse(
-        json.dumps({
-            'node': node.to_dict()
-        }),
-        content_type="application/json"
-    )
+        return 'OK'
+
+    return {
+        'node': node.to_dict()
+    }
 
 
 @login_required
@@ -180,26 +159,12 @@ def nodes_view(request):
                 # one node - forbid entire operation!
                 msg = f"{request.user.username} does not have" +\
                     f" permission to delete {node.title}"
-                return HttpResponseForbidden(
-                    json.dumps({
-                        'msg': msg
-                    }),
-                    content_type="application/json"
-                )
+
+                return msg, HttpResponseForbidden.status_code
         # yes, user is allowed to delete all nodes,
         # proceed with delete opration
         recursive_delete(queryset)
 
-        return HttpResponse(
-            json.dumps({
-                'msg': 'OK'
-            }),
-            content_type="application/json"
-        )
+        return 'OK'
 
-    return HttpResponse(
-        json.dumps({
-            'msg': 'OK'
-        }),
-        content_type="application/json"
-    )
+    return 'OK'

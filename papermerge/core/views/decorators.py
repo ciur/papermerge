@@ -13,7 +13,7 @@ def smart_dump(value):
     return ""
 
 
-def json_reponse(func):
+def json_response(func):
     """
     Decorates view to return application/json type response.
     Argument function func is expected to return one of:
