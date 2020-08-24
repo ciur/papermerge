@@ -80,13 +80,14 @@ class TestDocumentView(TestCase):
     def test_upload_text_file(self):
         """
         Only png, jpeg, pdf, tiff files are supported.
-        User uploads for example a plain text file
+
+        Scenario: user uploads for example a plain text file.
         Expected:
             HTTP response 400.
             Response content type: application/json
             Messages: File type not supported
         """
-        # create inmemory plain text file
+        # create in-memory plain text file
         f_handle = io.StringIO("Plain text file")
 
         ret = self.client.post(
