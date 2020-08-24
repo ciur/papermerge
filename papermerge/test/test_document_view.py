@@ -1,4 +1,5 @@
 import os
+import io
 import json
 from unittest import skip
 from django.test import TestCase
@@ -74,6 +75,35 @@ class TestDocumentView(TestCase):
         self.assertEqual(
             Document.objects.count(),
             1
+        )
+
+    def test_upload_text_file(self):
+        """
+        Only png, jpeg, pdf, tiff files are supported.
+        User uploads for example a plain text file
+        Expected:
+            HTTP response 400.
+            Response content type: application/json
+            Messages: File type not supported
+        """
+        # create inmemory plain text file
+        f_handle = io.StringIO("Plain text file")
+
+        ret = self.client.post(
+            reverse('core:upload'),
+            {
+                'name': 'fred',
+                'file': f_handle,
+                'language': "eng",
+            },
+        )
+        self.assertEqual(
+            ret.status_code,
+            400
+        )
+        result = json.loads(ret.content)
+        self.assertTrue(
+            "File type not supported" in result['msg']
         )
 
     def test_preview_document_does_not_exist(self):
