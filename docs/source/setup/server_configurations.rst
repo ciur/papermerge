@@ -56,23 +56,40 @@ Step 4 - Nginx
 
 Worker
 ~~~~~~~~
-Here is worker.service unit kindly provided by `@lukyjay <https://github.com/lukyjay>`_::
+Here is worker.service unit::
 
     [Unit]
     Description=Papermerge Worker
     After=network.target
 
     [Service]
-    # Change and/or create the required user and group.
-    #User=<your-user>
-    #Group=<your-group>
-    ExecStart=/opt/papermerge/.venv/bin/python /opt/papermerge/manage.py worker
-
     Type=simple
-    TimeoutStopSec=20
-    KillMode=process
+    WorkingDirectory=/opt/papermerge
+    ExecStart=/opt/papermerge/.venv/bin/python /opt/papermerge/manage.py worker --pidfile /tmp/worker.pid
     Restart=on-failure
-    # Requires=papermerge-server.service
 
     [Install]
     WantedBy=multi-user.target
+
+.. note::
+
+    Notice that ``ExecStart`` is **absolute path to python interpreter inside
+    python virtual environment**. Absolute path to python interpreter inside
+    virtual environment is enough information for python to figure out the
+    rest of python dependencies from the same virtual environment. Thus, you
+    don't need to provide futher information about virtual environment.
+
+Systemd .service may be placed in one of several locations. One options is
+to place it in ``/etc/systemd/system`` together with other system level
+units. In this case you need root access permissions.
+
+Another option is to place .service file inside ``$HOME/.config/systemd/user/``
+In this case you can start/check status/stop systemd unit service with following commands::
+
+    systemctl --user start worker
+    systemctl --user status worker
+    systemctl --user stop worker
+
+.. note::
+
+    
