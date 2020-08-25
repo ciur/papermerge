@@ -21,10 +21,11 @@ Setting up a web server can sound daunting for folks who don't normally do
 that kind of thing. This guide will help you walk through the configuration
 for Apache or Nginx on Linux and OSX.
 
-If this all looks too overwhelming for you, we do offer `affordable hosted
-solutions <https://papermerge.com/pricing>`_ for folks who want to use
-Papermerge but don't know how to run a web server, or don't have time to keep
-up with updates.
+.. note::
+    If this all looks too overwhelming for you, we do offer `affordable hosted
+    solutions <https://papermerge.com/pricing>`_ for folks who want to use
+    Papermerge but don't know how to run a web server, or don't have time to keep
+    up with updates.
 
 
 Apache
@@ -33,6 +34,60 @@ Apache
 The most common setup for Papermerge on a linux server is to use Apache, so if
 you're not sure what to pick, Apache might be the best bet, as it's free, easy
 to configure, and well documented.
+
+In order use apache web server with Django (web framework used by Papermerge)
+you need to install so called module `mod_wsgi
+<https://modwsgi.readthedocs.io/en/develop/index.html>`_
+
+Step 1 - Install Apache Web Server
+####################################
+
+On Ubuntu 20.04 LTS you install apache web server with following command::
+
+    $ sudo apt install apache2
+
+Step 2 - Get mod_wsgi
+########################
+
+Get latest release of `mod_wsgi from here <https://github.com/GrahamDumpleton/mod_wsgi/releases>`_. Extract archive::
+
+    unzip mod_wsgi-4.7.1
+    cd mod_wsgi-4.7.1
+
+Step 3 - Build & Install mod_wsgi
+###################################
+
+In order to build mod_wsgi on Ubuntu Linux, you need three things:
+    
+        * ``build-essential`` ubuntu package with gcc compiler and friends
+        * ``apache2-dev`` package
+        * ``python interpreter`` from your **papermerge virtual environment**
+
+Let's first install required packages::
+
+$ sudo apt install build-essential apache2-dev
+
+Next, activate your Papermerge virtual environment (python virtual environment)::
+
+$ source /opt/papermerge/.venv/bin/activate
+
+.. warning::
+
+    Activating python virtual environment is very important step. Because when
+    compilying mod_wsgi it must find in $PATH **python interpreter** located
+    in same virtual environment with other python dependencies.
+    
+Switch to extracted directory mod_wsgi-4.7.1 and run following commands::
+
+    $ ./configure
+    $ make
+    $ sudo make install
+
+On Ubuntu 20.04 LTS ``sudo make install`` command will copy ``mod_wsgi.so``
+binary file to ``/usr/lib/apache2/modules/mod_wsgi.so``
+
+Apache Express
+~~~~~~~~~~~~~~~~
 
 Nginx + Gunicorn
 ~~~~~~~~~~~~~~~~~
@@ -92,4 +147,4 @@ In this case you can start/check status/stop systemd unit service with following
 
 .. note::
 
-    
+
