@@ -11,6 +11,6 @@ by amount of effort required and purpose.
    os_specific
    download
    manual_way
-   systemd
+   server_configurations
    docker
    

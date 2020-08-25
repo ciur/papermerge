@@ -1,5 +1,5 @@
-Manual Way
-************
+Manual Way (Bare Metal)
+*************************
 
 If you follow this document and still have troubles, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
@@ -398,3 +398,11 @@ Now four languages will be displayed in language dropdown.
         For each language you want to :ref:`ocr` you need to have tesseract language pack installed.
 
 Learn more Papermerge configurations in :ref:`settings`
+
+What's Next?
+~~~~~~~~~~~~~~~
+
+Once you’ve tested things and are happy with the work flow, you should secure
+the installation and automate the process of starting the webserver and
+worker. :ref:`server_configurations` explains different configuration
+scenarios of how you can make your bare metal setup - more stable.
