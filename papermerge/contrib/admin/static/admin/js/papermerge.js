@@ -20324,10 +20324,17 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     });
 
     function transferFailed(e) {
+      let response = JSON.parse(e.currentTarget.response);
       console.log(`Transfer failed for ${that.get('title')}`);
       that.set({
         'status': UploaderItem.UPLOAD_ERROR
       });
+
+      if (response && response.msg) {
+        that.set({
+          'msg': response.msg
+        });
+      }
     }
 
     function transferComplete(e) {
@@ -21381,20 +21388,20 @@ __p+='\n                        </div>\n                    </div>\n            
 '</div>\n                    </div>\n                </div>\n            ';
  } 
 __p+='\n            \n        </div>\n    </div>\n    <div id="upload_feedback_summary">\n        <div class="row my-2 align-items-center">\n            <div id="uploader_short_status" class="col-4 status">\n                ';
- if (files.is_summary_success()) { 
-__p+='\n                    <i class="fa fa-check-circle  text-success"></i>\n                ';
- } else { 
+ if (files.is_summary_error()) { 
 __p+='\n                    <i class="fa fa-times  text-danger"></i>\n                ';
+ } else { 
+__p+='\n                <i class="fa fa-check-circle  text-success"></i>\n                ';
   } 
 __p+='\n            </div>\n            <div id="uploader_text_status" class="col-4 filename padding-left-md">\n            </div>\n            <div class="col-4 text-right">\n                <button class="btn btn-neuter btn-bordered toggle-details">\n                    Details\n                </button>\n            </div>\n        </div>\n    </div>\n    <div class="progress progress-bar-animated progress-sm active">\n        <div class="progress-bar ';
- if (files.is_summary_success()) { 
-__p+='progress-bar-success ';
+ if (files.is_summary_error()) { 
+__p+='progress-bar-fail ';
  } else { 
-__p+=' progress-bar-fail ';
+__p+=' progress-bar-success ';
  } 
 __p+='" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: '+
 ((__t=( files.progress ))==null?'':__t)+
-'%">\n            <span class="sr-only">20% Complete</span>\n        </div>\n    </div>\n</div>';
+'%">\n            <span class="sr-only">0% Complete</span>\n        </div>\n    </div>\n</div>';
 }
 return __p;
 };
