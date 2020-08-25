@@ -133,6 +133,14 @@ Let's say papermerge.site. Here is configuration example for virtual host::
     WSGIScriptAlias / /opt/papermerge/config/wsgi.py
 
 
+The first bit in the WSGIScriptAlias line is the base URL path you want to
+serve your application at (/ indicates the root url), and the second is the
+location of a WSGI file, inside papermerge project as ``config/wsgi.py``. This
+tells Apache to serve any request below the given URL using the WSGI
+application defined in that file.
+
+``WSGIPythonHome`` is path to python's virtual environment.
+
 Nginx + Gunicorn
 ~~~~~~~~~~~~~~~~~
 
