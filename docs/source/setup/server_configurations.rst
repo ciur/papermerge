@@ -56,3 +56,23 @@ Step 4 - Nginx
 
 Worker
 ~~~~~~~~
+Here is worker.service unit kindly provided by `@lukyjay <https://github.com/lukyjay>`_::
+
+    [Unit]
+    Description=Papermerge Worker
+    After=network.target
+
+    [Service]
+    # Change and/or create the required user and group.
+    #User=<your-user>
+    #Group=<your-group>
+    ExecStart=/opt/papermerge/.venv/bin/python /opt/papermerge/manage.py worker
+
+    Type=simple
+    TimeoutStopSec=20
+    KillMode=process
+    Restart=on-failure
+    # Requires=papermerge-server.service
+
+    [Install]
+    WantedBy=multi-user.target
