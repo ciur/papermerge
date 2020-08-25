@@ -86,8 +86,52 @@ Switch to extracted directory mod_wsgi-4.7.1 and run following commands::
 On Ubuntu 20.04 LTS ``sudo make install`` command will copy ``mod_wsgi.so``
 binary file to ``/usr/lib/apache2/modules/mod_wsgi.so``
 
-Apache Express
-~~~~~~~~~~~~~~~~
+Next enable mod_wsgi module with following command::
+
+    $ a2enmod mod_wsgi
+
+You can double check if mod_wsgi module was enabled with::
+
+    $ apachectl -M
+
+It should display a list enabled modules. Among other should be::
+
+    ...
+    wsgi_module (shared)  
+    ...
+
+
+Step 4 - Configure Virtual Host
+################################
+
+In directory ``/etc/apache2/sites-available`` create a virtual configuration file for papermerge. 
+Let's say papermerge.site. Here is configuration example for virtual host::
+
+
+    <VirtualHost *:8060>
+        <Directory /opt/papermerge/config>
+            Require all granted
+        </Directory>
+
+        Alias /media/ /var/media/papermerge/
+        Alias /static/ /var/static/papermerge/
+
+        <Directory /var/media/papermerge>
+           Require all granted
+        </Directory>
+
+        <Directory /var/startic/papermerge>
+          Require all granted
+        </Directory>
+
+        ServerName papermerge.home
+        ServerRoot /opt/papermerge
+    </VirtualHost>
+
+    WSGIPythonHome /opt/papermerge/.venv/
+    WSGIPythonPath /opt/papermerge/
+    WSGIScriptAlias / /opt/papermerge/config/wsgi.py
+
 
 Nginx + Gunicorn
 ~~~~~~~~~~~~~~~~~
