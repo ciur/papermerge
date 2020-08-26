@@ -6,12 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.1] - Work in progress
 
+### Removed
+
+- startetc command was removed.
+
 ### Added
 
 - Optimizations/performance issues - browsing folder with many files (> 200)
  was improved significantly (5x). Also, /browse/ request time will not liniarely grow number
  of files in it.
-
 
 
 ## [1.4.0] - 19 August 2020

@@ -1,8 +1,0 @@
-{{notice}}
-[Unit]
-Description=NinX Web Server running for papermerge
-
-[Service]
-Type=forking
-ExecStart=/usr/bin/nginx -c {{proj_root}}/run/etc/nginx.conf
-ExecReload=/usr/bin/nginx -s reload
