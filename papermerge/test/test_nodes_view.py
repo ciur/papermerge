@@ -30,9 +30,7 @@ class TestNodesView(TestCase):
 
     def test_delete_node(self):
         """
-        POST /nodes/
-        with post data a list of dictionaries which should
-        contain at least doc ids
+        DELETE /node/<node_id>
         """
         doc = create_some_doc(
             self.testcase_user,
@@ -43,7 +41,6 @@ class TestNodesView(TestCase):
             1
         )
 
-        # update metadata for given page
         nodes_url = reverse(
             'core:node', args=(doc.id,)
         )
@@ -81,7 +78,6 @@ class TestNodesView(TestCase):
             2
         )
 
-        # update metadata for given page
         nodes_url = reverse(
             'core:nodes'
         )
@@ -105,5 +101,3 @@ class TestNodesView(TestCase):
             Document.objects.count(),
             0
         )
-
-
