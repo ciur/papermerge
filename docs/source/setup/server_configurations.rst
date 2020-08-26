@@ -164,17 +164,37 @@ Create gunicorn configuration file::
     $ cat /opt/etc/gunicorn.conf.py
 
     workers = 2
-    errorlog = /opt/log/gunicorn.error"
-    accesslog = /opt/log/gunicorn.access"
+    errorlog = "/opt/log/gunicorn.error"
+    accesslog = "/opt/log/gunicorn.access"
     loglevel = "debug"
 
     bind = ["127.0.0.1:9001"]
+
+.. note::
+  
+    Gunicorn configuration file must have .py extention and its syntax is
+    valid python syntax.
+
+.. important:: 
+        
+    Binding port is 9001. This same port will be later used to proxy http
+    requests from nginx to gunicorn.
 
 and environment variables file::
 
     $ cat /opt/etc/gunicorn.env
 
     DJANGO_SETTINGS_MODULE=config.settings.production
+
+You need to create a production.py file in /opt/papermerge/config/setting/ directory.
+Here is an example of production.py file content::
+
+    $ cat /opt/papermerge/config/settings/production.py
+
+    from .base import *  # noqa
+
+    DEBUG = False
+    ALLOW_HOSTS = ['*']
 
 
 Step 2 - Systemd Service for Gunicorn
