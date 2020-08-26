@@ -144,19 +144,54 @@ application defined in that file.
 Nginx + Gunicorn
 ~~~~~~~~~~~~~~~~~
 
-Step 1 - Gunicorn
-###################
+Another way to deploy Papermerge behind a real web server is by using ``Nginx
++ Gunicorn`` duo. `Gunicorn <https://gunicorn.org/>`_ is called application server - it serves WSGI
+(Papermerge/Django) application via HTTP protocol (in that sense Gunicorn is
+kind of web server). However, gunicorn cannot serve static content
+(JavaScript, CSS, images), this task falls on NginX shoulders.
+
+Step 1 - Install Gunicorn
+###########################
+
+`Gunicorn <https://gunicorn.org/>`_ is not provided in list of dependencies. Thus, you need to installed in your current
+virtual python environment::
+
+    $ source .venv/bin/activate
+    $ pip install gunicorn
+
+Create gunicorn configuration file::
+
+    $ cat /opt/etc/gunicorn.conf.py
+
+    workers = 2
+    errorlog = /opt/log/gunicorn.error"
+    accesslog = /opt/log/gunicorn.access"
+    loglevel = "debug"
+
+    bind = ["127.0.0.1:9001"]
+
+and environment variables file::
+
+    $ cat /opt/etc/gunicorn.env
+
+    DJANGO_SETTINGS_MODULE=config.settings.production
 
 
 Step 2 - Systemd Service for Gunicorn
 #######################################
 
+Example of systemd unit file for Gunicorn::
 
-Step 3 - Systemd Service for Worker
-#######################################
+    [Unit]
+    Description=Gunicorn Service
+
+    [Service]
+    WorkingDirectory=/opt/papermerge
+    EnvironmentFile=/opt/etc/gunicorn.env
+    ExecStart=/opt/papermerge/.venv/bin/gunicorn config.wsgi:application --config /opt/etc/gunicorn.conf.py
 
 
-Step 4 - Nginx
+Step 3 - Nginx
 ################
 
 
