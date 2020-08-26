@@ -333,7 +333,7 @@ So, start server again (in case it is not running)::
 
 $ ./manage.py runserver
 
-Point your web browser to ``http://localhost`` and use superuser's
+Point your web browser to ``http://localhost:8000`` and use superuser's
 username/password to login.
 
 
