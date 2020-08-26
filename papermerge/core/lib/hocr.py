@@ -1,3 +1,4 @@
+import lxml
 import lxml.html
 import re
 import logging
@@ -87,7 +88,13 @@ class Hocr:
         self.min_wconf = min_wconf
         self._width = 0
         self._height = 0
-        self.extract()
+        try:
+            self.extract()
+        except lxml.etree.ParserError:
+            logger.warning(
+                f"Hocr file {hocr_file_path}"
+                " is either empty of not of HOCR format"
+            )
 
     @property
     def width(self):
@@ -171,5 +178,6 @@ class Hocr:
             'count_good': meta['count_good'],
             'count_non_empty': meta['count_non_empty'],
             'count_low_wconf': meta['count_low_wconf'],
-            'bad_words': meta['bad_words']
+            'bad_words': meta['bad_words'],
+            'min_wconf': meta['min_wconf']
         }
