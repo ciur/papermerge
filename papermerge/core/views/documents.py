@@ -15,6 +15,8 @@ from django.http import (
     HttpResponseForbidden,
     Http404
 )
+from django.contrib.staticfiles import finders
+
 from django.contrib.auth.decorators import login_required
 
 from mglib.pdfinfo import get_pagecount
@@ -478,7 +480,14 @@ def preview(request, id, step=None, page="1"):
             with open(img_abs_path, "rb") as f:
                 return HttpResponse(f.read(), content_type="image/jpeg")
         except IOError:
-            raise
+            generic_file = "admin/img/document.png"
+            if Step(step).is_thumbnail:
+                generic_file = "admin/img/document_thumbnail.png"
+
+            file_path = finders.find(generic_file)
+
+            with open(file_path, "rb") as f:
+                return HttpResponse(f.read(), content_type="image/png")
 
     return redirect('core:index')
 
