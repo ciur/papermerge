@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Do not rise exception if preview image was not found. Return a generic image instead.
 - Fix: [issue #86](https://github.com/ciur/papermerge/issues/86) - UI uploader - confusing red color/warning during upload
 - Enhancement: in case of uploading unsupported format - a descriptive error message will be displayed in uploader
 - Documentation updates (especially [bare metal installation](https://papermerge.readthedocs.io/en/latest/setup/manual_way.html) + [server configuration](https://papermerge.readthedocs.io/en/latest/setup/server_configurations.html))
