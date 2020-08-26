@@ -119,6 +119,9 @@ def node_by_title_view(request, title):
 @json_response
 @login_required
 def node_view(request, node_id):
+    """
+    GET or DELETE /node/<node_id>
+    """
     try:
         node = BaseTreeNode.objects.get(id=node_id)
     except BaseTreeNode.DoesNotExist:
@@ -146,6 +149,9 @@ def node_view(request, node_id):
 @json_response
 @login_required
 def nodes_view(request):
+    """
+    GET or POST /nodes/
+    """
 
     if request.method == "POST":
 
