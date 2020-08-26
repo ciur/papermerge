@@ -214,41 +214,22 @@ Example of systemd unit file for Gunicorn::
 Step 3 - Nginx
 ################
 
-And finally *connect* nginx with gunicorn. Here is a sample configuration for nginx::
+And finally connect nginx with gunicorn. Here is a sample configuration for nginx::
 
-    events {}
+    server {
+        server_name papermerge.home;
+        listen 9000;
 
-    pid /opt/tmp/nginx.pid;
-
-    http {
-        error_log /opt/log/nginx.error.log warn;
-        access_log /opt/log/nginx.access.log;
-        client_body_temp_path /opt/tmp;
-        client_max_body_size 20M;
-
-        types {
-            text/css    css;
-            application/javascript js;
-            image/svg+xml     svg svgz;
-            image/png      png;
-            image/jpeg     jpg jpeg;
+        location /static/ {
+            alias /opt/static/;
         }
 
-        server {
-            server_name papermerge.home;
-            listen 9000;
+        location /media/ {
+            alias /opt/media/;
+        }
 
-            location /static/ {
-                alias /opt/static/;
-            }
-
-            location /media/ {
-                alias /opt/media/;
-            }
-
-            location / {
-                proxy_pass http://127.0.0.1:9001;
-            }
+        location / {
+            proxy_pass http://127.0.0.1:9001;
         }
     }
 
