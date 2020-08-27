@@ -185,7 +185,7 @@ def nodes_view(request):
         )
 
         for node in queryset:
-            if nodes_perms[node.id].get(Access.PERM_DELETE, False):
+            if not nodes_perms[node.id].get(Access.PERM_DELETE, False):
                 # if user does not have delete permission on
                 # one node - forbid entire operation!
                 msg = f"{request.user.username} does not have" +\
