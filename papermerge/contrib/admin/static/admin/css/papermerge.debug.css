@@ -7999,10 +7999,6 @@ fieldset.module.vertical .form-row div {
         display: inline-block; }
       .flex-table .ft-body .ft-col i.yellow-folder {
         background-image: url(../img/folder.svg); }
-      .flex-table .ft-body .ft-col i.file {
-        background-image: url(../img/file.svg); }
-      .flex-table .ft-body .ft-col i.file-empty {
-        background-image: url(../img/file_empty.svg); }
 
 .errorlist {
   margin: 0;
@@ -8476,15 +8472,6 @@ fieldset.module.vertical .form-row div {
     background-size: 100% 100%; }
     @media (max-width: 37.5em) {
       #result_list .node_grid .icon-folder {
-        width: 5rem;
-        height: 5rem; } }
-  #result_list .node_grid .icon-file {
-    width: 8rem;
-    height: 8rem;
-    background-image: url(../img/file.svg);
-    background-size: 100% 100%; }
-    @media (max-width: 37.5em) {
-      #result_list .node_grid .icon-file {
         width: 5rem;
         height: 5rem; } }
   #result_list .node_grid .title {
@@ -9854,15 +9841,6 @@ h1, h2, h3, h4 {
       background-size: 100% 100%; }
       @media (max-width: 37.5em) {
         #browse ul.grid .node .icon-folder {
-          width: 5rem;
-          height: 5rem; } }
-    #browse ul.grid .node .icon-file {
-      width: 8rem;
-      height: 8rem;
-      background-image: url(../img/file.svg);
-      background-size: 100% 100%; }
-      @media (max-width: 37.5em) {
-        #browse ul.grid .node .icon-file {
           width: 5rem;
           height: 5rem; } }
     #browse ul.grid .node .title {
