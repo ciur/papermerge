@@ -98,21 +98,32 @@ def document(request, doc_id):
     )
 
 
+@json_response
 @login_required
 @require_POST
 def cut_node(request):
     data = json.loads(request.body)
     node_ids = [item['id'] for item in data]
+    nodes = BaseTreeNode.objects.filter(
+        id__in=node_ids
+    )
+    nodes_perms = request.user.get_perms_dict(
+        nodes, Access.ALL_PERMS
+    )
+    for node in nodes:
+        if not nodes_perms[node.id].get(
+            Access.PERM_DELETE, False
+        ):
+            msg = _(
+                "%s does not have permission to cut %s"
+            ) % (request.user.username, node.title)
+
+            return msg, HttpResponseForbidden.status_code
 
     # request.clipboard.nodes = request.nodes
     request.nodes.add(node_ids)
 
-    return HttpResponse(
-        json.dumps({
-            'msg': 'OK'
-        }),
-        content_type="application/json"
-    )
+    return 'OK'
 
 
 @login_required
