@@ -19655,6 +19655,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
+
 
 
 
@@ -19876,7 +19878,10 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
       url: url,
       data: JSON.stringify(post_data),
       contentType: "application/json",
-      dataType: 'json'
+      dataType: 'json',
+      error: function (xhr, text, error) {
+        new _views_message__WEBPACK_IMPORTED_MODULE_3__["MessageView"]("Error", xhr.responseJSON['msg']);
+      }
     });
     request.done(options['success']);
   }
@@ -20992,6 +20997,28 @@ __p+='\n                  <i class="fa fa-check text-success"></i>\n            
 __p+='\n                '+
 ((__t=( gettext('Desc') ))==null?'':__t)+
 '\n              </a></li>\n            </ul>\n          </li>\n        </ul>\n    </div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/message.html":
+/*!***************************************!*\
+  !*** ./src/js/templates/message.html ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-dialog modal-lg modal-dialog-centered" tabindex="-1" role="dialog">\n    <div class="modal-content">\n      <div class="modal-header">\n        <h5 class="modal-title">'+
+((__t=( title ))==null?'':__t)+
+'</h5>\n        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n          <span aria-hidden="true">&times;</span>\n        </button>\n      </div>\n      <div class="modal-body">\n        <p>'+
+((__t=( message ))==null?'':__t)+
+'</p>\n      </div>\n      <div class="modal-footer">\n        <button type="button" class="btn btn-success ok">OK</button>\n      </div>\n    </div>\n  </div>\n';
 }
 return __p;
 };
@@ -23606,6 +23633,66 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     actions.add(paste_page_after_action);
     actions.add(apply_reorder_changes);
     return actions;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/message.js":
+/*!*********************************!*\
+  !*** ./src/js/views/message.js ***!
+  \*********************************/
+/*! exports provided: MessageView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageView", function() { return MessageView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/message.html */ "./src/js/templates/message.html");
+
+class MessageView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    // this element is defined in admin/_forms.js.html
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#message-modal');
+  }
+
+  initialize(title, message) {
+    this.title = title;
+    this.message = message;
+    this.render();
+  }
+
+  events() {
+    let event_map = {
+      'click .btn.ok': 'close'
+    };
+    return event_map;
+  }
+
+  close() {
+    this.$el.modal("hide");
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'title': this.title,
+      'message': this.message
+    }));
+    this.$el.html(compiled);
+    this.$el.modal("show");
   }
 
 }

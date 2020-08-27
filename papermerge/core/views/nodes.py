@@ -8,8 +8,14 @@ from django.http import (
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext as _
 
-from papermerge.core.models import BaseTreeNode, Access, Folder
+from papermerge.core.models import (
+    BaseTreeNode,
+    Access,
+    Folder,
+    Automate
+)
 from papermerge.core.models.utils import recursive_delete
 from .decorators import json_response
 
@@ -157,11 +163,29 @@ def nodes_view(request):
 
         data = json.loads(request.body)
         node_ids = [item['id'] for item in data]
-
         queryset = BaseTreeNode.objects.filter(id__in=node_ids)
+
+        automates = Automate.objects.filter(
+            dst_folder__in=queryset
+        )
+        if automates.count():
+            msg = _(
+                "Following Automates have references to folders "
+                "you are trying to delete: "
+            )
+            msg += ", ".join([auto.name for auto in automates])
+            msg += _(
+                ". Please delete mentioned Automates frist."
+            )
+
+            return msg, HttpResponseBadRequest.status_code
+
+        nodes_perms = request.user.get_perms_dict(
+            queryset, Access.ALL_PERMS
+        )
+
         for node in queryset:
-            # is used allowd to delete ?
-            if not request.user.has_perm(Access.PERM_DELETE, node):
+            if nodes_perms[node.id].get(Access.PERM_DELETE, False):
                 # if user does not have delete permission on
                 # one node - forbid entire operation!
                 msg = f"{request.user.username} does not have" +\
