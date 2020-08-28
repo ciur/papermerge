@@ -80,7 +80,7 @@ def document(request, doc_id):
             json.dumps(
                 {
                     'msg': "OK",
-                    'url': reverse('browse')
+                    'url': reverse('admin:browse')
                 }
             ),
             content_type="application/json",
@@ -523,7 +523,7 @@ def document_download(request, id):
             logger.error(
                 "Cannot open local version of %s" % doc.path.url()
             )
-            return redirect('browse')
+            return redirect('admin:browse')
 
         resp = HttpResponse(
             file_handle.read(),
