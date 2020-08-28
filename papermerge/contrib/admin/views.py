@@ -1,7 +1,9 @@
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ngettext
 from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 from papermerge.search.backends import get_search_backend
 from papermerge.core.models import (
@@ -10,6 +12,7 @@ from papermerge.core.models import (
     BaseTreeNode,
     Access
 )
+
 from .models import LogEntry
 from .forms import LogEntryForm
 
@@ -117,6 +120,7 @@ def logs_view(request):
 def log_view(request, id):
     log_entry = get_object_or_404(LogEntry, id=id)
     form = LogEntryForm(instance=log_entry)
+    action_url = reverse('admin:log', args=(id,))
 
     return render(
         request,
@@ -124,6 +128,6 @@ def log_view(request, id):
         {
             'form': form,
             'action_url': action_url,
-            'title': _('New Group')
+            'title': _('Log Entry')
         }
     )

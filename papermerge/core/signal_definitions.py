@@ -8,3 +8,12 @@ page_hocr_ready = Signal(
         "lang"
     ]
 )
+
+folder_created = Signal(
+    providing_args=[
+        "user_id",
+        "level",
+        "message",
+        "folder_id"
+    ]
+)

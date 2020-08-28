@@ -32,6 +32,7 @@ from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 from papermerge.core.tasks import ocr_page
+from papermerge.core import signal_definitions as signals
 
 logger = logging.getLogger(__name__)
 
@@ -295,6 +296,13 @@ def create_folder(request):
         title=title,
         parent=parent_folder,
         user=request.user
+    )
+    signals.folder_created.send(
+        sender='core.views.documents.create_folder',
+        user_id=request.user.id,
+        level=logging.INFO,
+        message=_("Folder created"),
+        folder_id=folder.id
     )
 
     return HttpResponse(
