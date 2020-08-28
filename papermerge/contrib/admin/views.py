@@ -97,7 +97,7 @@ def logs_view(request):
                     ngettext(msg_sg, msg_pl, count) % {'count': count}
                 )
 
-    if request.user.is_superuser():
+    if request.user.is_superuser:
         # superuser sees all logs
         logs = LogEntry.objects.all()
     else:
@@ -105,7 +105,7 @@ def logs_view(request):
 
     return render(
         request,
-        'admin/logs.html',
+        'admin/log_entries.html',
         {
             'logs': logs,
         }

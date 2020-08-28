@@ -1,6 +1,8 @@
 from django.urls import path
 from papermerge.contrib.admin import views
 
+app_name = 'admin'
+
 urlpatterns = [
     path(
         '', views.browse, name="index"
@@ -13,5 +15,8 @@ urlpatterns = [
     ),
     path(
         'search', views.search, name="search"
+    ),
+    path(
+        'logs', views.logs_view, name="logs"
     ),
 ]

@@ -1,7 +1,7 @@
 {% load static i18n admin_tags  %}
 
 <!-- Brand Logo -->
-<a href="{% url 'index' %}" class="brand-link">
+<a href="{% url 'admin:index' %}" class="brand-link">
   <img src="{% static 'admin/img/logo_bbg.svg' %}" alt="" class="brand-image"
        style="opacity: .8">
   <span class="brand-text font-weight-light">Papermerge</span>
@@ -13,7 +13,7 @@
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
       <li class="nav-item">
-        <a href="{% url 'browse' %}" class="nav-link {% activate_on 'index, browse' %}">
+        <a href="{% url 'admin:browse' %}" class="nav-link {% activate_on 'index, browse' %}">
           <i class="nav-icon fa fa-folder text-warning"></i>
           <p>
             {% trans "Documents" %}
@@ -21,7 +21,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'inbox' %}" class="nav-link  {% activate_on 'inbox' %}">
+        <a href="{% url 'admin:inbox' %}" class="nav-link  {% activate_on 'inbox' %}">
           <i class="nav-icon fa fa-inbox"></i>
           <p>
             {% trans "Inbox" %} ({{ inbox_count }})
@@ -33,6 +33,14 @@
           <i class="nav-icon fa fa-robot"></i>
           <p>
             {% trans "Automates" %}
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log' %}">
+          <i class="nav-icon fa fa-lightbulb"></i>
+          <p>
+            {% trans "Logs" %}
           </p>
         </a>
       </li>

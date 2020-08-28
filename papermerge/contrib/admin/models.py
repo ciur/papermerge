@@ -36,9 +36,9 @@ class LogEntry(models.Model):
     )
 
     user = models.ForeignKey(
-        'User',
+        'core.User',
         on_delete=models.SET_NULL,
-        bank=True,
+        blank=True,
         null=True
     )
 
