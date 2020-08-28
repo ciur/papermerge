@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from django.urls import reverse
 
 from papermerge.core.lib.lang import LANG_DICT
+from papermerge.contrib.admin.models import LogEntry
 
 
 register = Library()
@@ -175,5 +176,16 @@ def tree_path(node):
     )
 
 
+@register.filter
+def log_level(level_as_int):
+    """
+    Logging.INFO -> _("Info")
+    Logging.DEBUG -> _("Debug")
+    etc
+    """
 
+    for level in LogEntry.LEVELS:
+        if level_as_int == level[0]:
+            return level[1]
 
+    return None
