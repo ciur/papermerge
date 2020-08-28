@@ -8,4 +8,39 @@
     <div class="text-left">
         <h4 class="px-3">{% trans "Logs" %}</h4>
     </div>
+    <form action="{% url 'admin:logs' %}" method="post">
+      {% csrf_token %}
+        <div class="col-12 p-3">
+            <select name="action" required="">
+              <option value="" selected="">---------</option>
+              <option value="delete_selected">{% trans "Delete selected logs" %}</option>
+            </select>
+            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+        </div>
+
+        <div class="col-12 p-3">
+          {% if groups|length > 0 %}
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr class="text-uppercase">
+                  <th>{% trans "Time" %}</th>
+                  <th>{% trans "Message" %}</th>
+                  <th>{% trans "Level" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in logs %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ log.id }}" /></span><a href="{% url 'admin:log' log.id %}">{{ log.time}}</a></td>
+                    <td><span class="mr-2">{{ log.message}}</td>
+                    <td><span class="mr-2">{{ log.level}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            {% trans "No logs so far" %}
+          {% endif %}
+      </div>
+    </form>
 {% endblock %}

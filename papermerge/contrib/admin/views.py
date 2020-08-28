@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ngettext
 from django.contrib import messages
 
@@ -10,7 +10,8 @@ from papermerge.core.models import (
     BaseTreeNode,
     Access
 )
-from papermerge.contrib.admin.models import LogEntry
+from .models import LogEntry
+from .forms import LogEntryForm
 
 
 @login_required
@@ -108,5 +109,21 @@ def logs_view(request):
         'admin/log_entries.html',
         {
             'logs': logs,
+        }
+    )
+
+
+@login_required
+def log_view(request, id):
+    log_entry = get_object_or_404(LogEntry, id=id)
+    form = LogEntryForm(instance=log_entry)
+
+    return render(
+        request,
+        'admin/log_entry.html',
+        {
+            'form': form,
+            'action_url': action_url,
+            'title': _('New Group')
         }
     )

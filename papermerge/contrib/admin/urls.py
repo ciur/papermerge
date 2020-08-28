@@ -19,4 +19,7 @@ urlpatterns = [
     path(
         'logs', views.logs_view, name="logs"
     ),
+    path(
+        'log', views.log_view, name="log"
+    ),
 ]
