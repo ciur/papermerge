@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.utils.translation import ngettext
+from django.contrib import messages
 
 from papermerge.search.backends import get_search_backend
 from papermerge.core.models import (
@@ -8,6 +10,7 @@ from papermerge.core.models import (
     BaseTreeNode,
     Access
 )
+from papermerge.contrib.admin.models import LogEntry
 
 
 @login_required
@@ -69,5 +72,41 @@ def search(request):
             'results_docs': qs_docs,
             'results_folders': results_folders.results(),
             'search_term': search_term
+        }
+    )
+
+
+@login_required
+def logs_view(request):
+
+    if request.method == 'POST':
+        selected_action = request.POST.getlist('_selected_action')
+        go_action = request.POST['action']
+
+        if go_action == 'delete_selected':
+            deleted, row_count = LogEntry.objects.filter(
+                id__in=selected_action
+            ).delete()
+
+            if deleted:
+                count = row_count['papermerge.contrib.admin.LogEntry']
+                msg_sg = "%(count)s log was successfully deleted."
+                msg_pl = "%(count)s logs were successfully deleted."
+                messages.info(
+                    request,
+                    ngettext(msg_sg, msg_pl, count) % {'count': count}
+                )
+
+    if request.user.is_superuser():
+        # superuser sees all logs
+        logs = LogEntry.objects.all()
+    else:
+        logs = LogEntry.objects.filter(user=request.user)
+
+    return render(
+        request,
+        'admin/logs.html',
+        {
+            'logs': logs,
         }
     )
