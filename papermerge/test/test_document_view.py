@@ -5,7 +5,10 @@ from unittest import skip
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
-from django.http.response import HttpResponseBadRequest
+from django.http.response import (
+    HttpResponseBadRequest,
+    HttpResponseForbidden
+)
 
 from mglib.path import PagePath
 from mglib.step import Step
@@ -552,6 +555,7 @@ class TestDocumentAjaxOperationsView(TestCase):
     def setUp(self):
 
         self.testcase_user = create_root_user()
+        self.margaret_user = create_margaret_user()
         self.client = Client()
         self.client.login(testcase_user=self.testcase_user)
 
@@ -613,6 +617,123 @@ class TestDocumentAjaxOperationsView(TestCase):
 
         with self.assertRaises(Document.DoesNotExist):
             Document.objects.get(id=doc.id)
+
+    def test_deny_delete_for_restricted_document(self):
+        """
+        Deleting Document should be restricted only to users who have
+        PERM_DELETE permissions
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        nodes_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        nodes_data = [
+            {'id': doc.id},
+        ]
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.delete(
+            nodes_url,
+            json.dumps(nodes_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+        # because margaret does not have access to the
+        # document -> it should be still there
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+    def test_allow_delete_if_user_has_perm_document(self):
+        """
+        Deleting Document should be restricted only to users who have
+        PERM_DELETE permissions
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        nodes_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        nodes_data = [
+            {'id': doc.id},
+        ]
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True,
+                DELETE: True
+            }  # allow margaret to delete
+        )
+        #
+        # Margaret was assigned access to delete the document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.delete(
+            nodes_url,
+            json.dumps(nodes_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # because margaret does not have access to the
+        # document -> it should be still there
+        self.assertEqual(
+            Document.objects.count(),
+            0
+        )
 
     def test_create_folder_basic(self):
         data = {

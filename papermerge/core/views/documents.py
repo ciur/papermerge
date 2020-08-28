@@ -76,16 +76,26 @@ def document(request, doc_id):
     if request.method == 'DELETE':
         # test_document_view
         # TestDocumentAjaxOperationsView.test_delete_document
-        doc.delete()
-        return HttpResponse(
-            json.dumps(
-                {
-                    'msg': "OK",
-                    'url': reverse('admin:browse')
-                }
-            ),
-            content_type="application/json",
-        )
+        if request.user.has_perm(Access.PERM_DELETE, doc):
+            doc.delete()
+            return HttpResponse(
+                json.dumps(
+                    {
+                        'msg': "OK",
+                        'url': reverse('admin:browse')
+                    }
+                ),
+                content_type="application/json",
+            )
+        else:
+            return HttpResponseForbidden(
+                json.dumps(
+                    {
+                        'msg': "OK",
+                    }
+                ),
+                content_type="application/json",
+            )
 
     # so, ajax only here
     if request.method == 'POST':

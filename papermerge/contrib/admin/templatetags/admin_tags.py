@@ -179,8 +179,8 @@ def tree_path(node):
 @register.filter
 def log_level(level_as_int):
     """
-    Logging.INFO -> _("Info")
-    Logging.DEBUG -> _("Debug")
+    logging.INFO -> _("Info")
+    logging.DEBUG -> _("Debug")
     etc
     """
 

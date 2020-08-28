@@ -101,3 +101,4 @@ class TestNodesView(TestCase):
             Document.objects.count(),
             0
         )
+
