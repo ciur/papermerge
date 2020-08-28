@@ -59,17 +59,23 @@ def document(request, doc_id):
         # test_document_view
         # TestDocumentAjaxOperationsView.test_update_notes
         # test_update_notes
-        data = json.loads(request.body)
-        if 'notes' in data:
-            # dangerous user input. Escape it.
-            doc.notes = escape(data['notes'])
-            doc.save()
-            return HttpResponse(
-                json.dumps(
-                    {
-                        'msg': _("Notes saved!")
-                    }
-                ),
+        if request.user.has_perm(Access.PERM_WRITE, doc):
+            data = json.loads(request.body)
+            if 'notes' in data:
+                # dangerous user input. Escape it.
+                doc.notes = escape(data['notes'])
+                doc.save()
+                return HttpResponse(
+                    json.dumps(
+                        {
+                            'msg': _("Notes saved!")
+                        }
+                    ),
+                    content_type="application/json",
+                )
+        else:
+            return HttpResponseForbidden(
+                json.dumps({'msg': _("Access denied")}),
                 content_type="application/json",
             )
 
@@ -89,11 +95,7 @@ def document(request, doc_id):
             )
         else:
             return HttpResponseForbidden(
-                json.dumps(
-                    {
-                        'msg': "OK",
-                    }
-                ),
+                json.dumps(_("Access denied")),
                 content_type="application/json",
             )
 

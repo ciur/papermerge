@@ -671,7 +671,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             1
         )
 
-    def test_allow_delete_if_user_has_perm_document(self):
+    def test_allow_delete_if_user_has_perm(self):
         """
         Deleting Document should be restricted only to users who have
         PERM_DELETE permissions
@@ -733,6 +733,123 @@ class TestDocumentAjaxOperationsView(TestCase):
         self.assertEqual(
             Document.objects.count(),
             0
+        )
+
+    def test_deny_change_for_restricted_document(self):
+        """
+        Changing of the document should be restricted only to users who have
+        PERM_WRITE permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            notes="Margaret, stay away!",
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        document_data = {'notes': "It works!"}
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.patch(
+            document_url,
+            json.dumps(document_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+        # because margaret does not have access to the
+        doc.refresh_from_db()
+        self.assertEqual(
+            doc.notes,
+            "Margaret, stay away!"
+        )
+
+    def test_allow_change_if_user_has_perm(self):
+        """
+        Changing of the document should be restricted only to users who have
+        PERM_WRITE permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            notes="Margaret, you are allowed to change this.",
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        document_data = {'notes': "It works!"}
+
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True,
+                WRITE: True
+            }  # allow margaret to delete
+        )
+
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.patch(
+            document_url,
+            json.dumps(document_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # because margaret does not have access to the
+        doc.refresh_from_db()
+        self.assertEqual(
+            doc.notes,
+            "It works!"
         )
 
     def test_create_folder_basic(self):
