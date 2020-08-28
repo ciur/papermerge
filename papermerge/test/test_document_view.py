@@ -852,6 +852,84 @@ class TestDocumentAjaxOperationsView(TestCase):
             "It works!"
         )
 
+    def test_deny_view_for_restricted_document(self):
+        """
+        Viewing of the document should be restricted only to users who have
+        PERM_READ permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+        #
+        # Margaret does not have read access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.get(document_url)
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+
+    def test_allow_view_if_user_has_perm(self):
+        """
+        Changing of the document should be restricted only to users who have
+        PERM_WRITE permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True,
+            }  # allow margaret to read/view the document
+        )
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.get(document_url)
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+
     def test_create_folder_basic(self):
         data = {
             "title": "XYZ"

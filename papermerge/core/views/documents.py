@@ -45,14 +45,17 @@ def document(request, doc_id):
         return render(request, "admin/document_404.html")
 
     if not request.is_ajax():
-        return render(
-            request,
-            'admin/document.html',
-            {
-                'pages': doc.pages.all(),
-                'document': doc
-            }
-        )
+        if request.user.has_perm(Access.PERM_READ, doc):
+            return render(
+                request,
+                'admin/document.html',
+                {
+                    'pages': doc.pages.all(),
+                    'document': doc
+                }
+            )
+        else:
+            return HttpResponseForbidden()
 
     # ajax + PATCH
     if request.method == 'PATCH':
