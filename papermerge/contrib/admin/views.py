@@ -93,7 +93,7 @@ def logs_view(request):
             ).delete()
 
             if deleted:
-                count = row_count['papermerge.contrib.admin.LogEntry']
+                count = row_count['admin.LogEntry']
                 msg_sg = "%(count)s log was successfully deleted."
                 msg_pl = "%(count)s logs were successfully deleted."
                 messages.info(

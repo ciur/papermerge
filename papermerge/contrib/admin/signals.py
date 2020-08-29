@@ -1,10 +1,8 @@
 from django.dispatch import receiver
 
 
-from papermerge.core.models import (
-    Folder,
-    BaseTreeNode
-)
+from papermerge.core.models import Folder
+
 from papermerge.core.signal_definitions import (
     folder_created,
     nodes_deleted
