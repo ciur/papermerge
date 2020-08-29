@@ -9,6 +9,8 @@ page_hocr_ready = Signal(
     ]
 )
 
+# Sent by core.views.documents.create_folder
+# Sent AFTER one single folder was created
 folder_created = Signal(
     providing_args=[
         "user_id",
@@ -17,3 +19,15 @@ folder_created = Signal(
         "folder_id"
     ]
 )
+
+# Sent by core.views.nodes.nodes_view
+# Sent AFTER one of more nodes were batch deleted
+nodes_deleted = Signal(
+    providing_args=[
+        "user_id",
+        "level",
+        "message",
+        "node_ids"
+    ]
+)
+

@@ -17,6 +17,8 @@ from papermerge.core.models import (
     Automate
 )
 from papermerge.core.models.utils import recursive_delete
+from papermerge.core import signal_definitions as signals
+
 from .decorators import json_response
 
 logger = logging.getLogger(__name__)
@@ -195,6 +197,14 @@ def nodes_view(request):
         # yes, user is allowed to delete all nodes,
         # proceed with delete opration
         recursive_delete(queryset)
+
+        signals.nodes_deleted.send(
+            sender='core.views.nodes.nodes_view',
+            user_id=request.user.id,
+            level=logging.INFO,
+            message=_("Nodes deleted"),
+            node_ids=node_ids
+        )
 
         return 'OK'
 
