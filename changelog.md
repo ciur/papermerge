@@ -4,7 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.4.1] - Work in progress
+## [1.4.2] - Work in progress
+
+### Added
+
+- UI logs. A mini-feature. It helps user to troubleshoot/get feedback from not directly visible processes like running automates or background OCRing of the docs
+
+
+## [1.4.1] - 29 August 2020
 
 ### Removed
 
@@ -13,8 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Optimizations/performance issues - browsing folder with many files (> 200)
- was improved significantly (5x). Also, /browse/ request time will not linearly grow with increased number
- of files.
+ was improved significantly (5x). Also, /browse/ request time will not linearly grow with increased number of files.
 
 ### Changed
 
@@ -22,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix: [issue #86](https://github.com/ciur/papermerge/issues/86) - UI uploader - confusing red color/warning during upload
 - Enhancement: in case of uploading unsupported format - a descriptive error message will be displayed in uploader
 - Documentation updates (especially [bare metal installation](https://papermerge.readthedocs.io/en/latest/setup/manual_way.html) + [server configuration](https://papermerge.readthedocs.io/en/latest/setup/server_configurations.html))
+
 
 ## [1.4.0] - 19 August 2020
 
