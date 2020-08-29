@@ -27,7 +27,9 @@ nodes_deleted = Signal(
         "user_id",
         "level",
         "message",
-        "node_ids"
+        # node tags is a list of
+        # '<a href="{node.id}">{node.title}</a>'
+        "node_tags"
     ]
 )
 

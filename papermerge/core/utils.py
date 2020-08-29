@@ -2,6 +2,9 @@ import logging
 import re
 from datetime import datetime
 
+from django.utils.html import format_html
+from django.urls import reverse
+
 logger = logging.getLogger(__name__)
 
 
@@ -53,3 +56,15 @@ def number_2int(kv_format, str_value):
         return line
 
     return 0
+
+
+def node_tag(node):
+
+    node_url = reverse("core:node", args=(node.id,))
+    tag = format_html(
+        "<a href='{}'>{}</a>",
+        node_url,
+        node.title
+    )
+
+    return tag
