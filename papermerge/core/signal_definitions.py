@@ -1,11 +1,15 @@
 from django.dispatch import Signal
 
-page_hocr_ready = Signal(
+page_ocr = Signal(
     providing_args=[
         "user_id",
+        "level",
+        "message",
         "document_id",
         "page_num",
-        "lang"
+        "lang",
+        # status is a string: started, complete
+        "status"
     ]
 )
 

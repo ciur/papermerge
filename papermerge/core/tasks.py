@@ -2,9 +2,14 @@ import logging
 
 from celery import shared_task
 from papermerge.core.ocr.page import ocr_page as main_ocr_page
+from papermerge.core.ocr import (
+    COMPLETE,
+    STARTED
+)
 
 from .models import Document, Folder, Page
-from .signal_definitions import page_hocr_ready
+from .utils import Timer
+from . import signal_definitions as signals
 
 logger = logging.getLogger(__name__)
 
@@ -23,21 +28,42 @@ def ocr_page(
     # task instance (self).
     # https://celery.readthedocs.io/en/latest/userguide/tasks.html#bound-tasks
     logger.info(f"task_id={self.request.id}")
-    main_ocr_page(
+
+    # Inform everybody interested that OCR started
+    signals.page_hocr.send(
+        sender='worker',
+        level=logging.INFO,
+        message="",
         user_id=user_id,
         document_id=document_id,
-        file_name=file_name,
         page_num=page_num,
-        lang=lang
+        lang=lang,
+        status=STARTED
     )
 
-    page_hocr_ready.send(
-        'worker',
+    with Timer() as time:
+
+        main_ocr_page(
+            user_id=user_id,
+            document_id=document_id,
+            file_name=file_name,
+            page_num=page_num,
+            lang=lang
+        )
+
+    # Inform everybody interested that OCR completed/ended
+    msg = f"OCR took {time:.2f} seconds to complete."
+    signals.page_ocr.send(
+        sender='worker',
+        level=logging.INFO,
+        message=msg,
         user_id=user_id,
         document_id=document_id,
         page_num=page_num,
-        lang=lang
+        lang=lang,
+        status=COMPLETE
     )
+
     return True
 
 

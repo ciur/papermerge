@@ -1,3 +1,4 @@
+import time
 import logging
 import re
 from datetime import datetime
@@ -68,3 +69,36 @@ def node_tag(node):
     )
 
     return tag
+
+
+class Timer:
+    """
+    Timer class used to measure how much time
+    certain code block took to complete.
+
+    Example:
+
+        with Timer() as t:
+            main_ocr_page(...)
+
+        logger.info(
+            f"OCR took {t:.2f} seconds to complete"
+        )
+    """
+
+    def __init__(self):
+        self.total = None
+
+    def __enter__(self):
+        self.start = time.time()
+        # important, because 'as' variable
+        # is assigned only the result of __enter__()
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.end = time.time()
+        self.total = self.end - self.start
+
+    def __str__(self):
+        return f"{self.total:.2f}"
+
