@@ -30,7 +30,7 @@ def ocr_page(
     logger.info(f"task_id={self.request.id}")
 
     # Inform everybody interested that OCR started
-    signals.page_hocr.send(
+    signals.page_ocr.send(
         sender='worker',
         level=logging.INFO,
         message="",

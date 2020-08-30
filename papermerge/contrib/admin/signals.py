@@ -34,7 +34,7 @@ def page_ocr_handler(sender, **kwargs):
         human_status = _("started")
 
     try:
-        doc = Document.object.get(id=doc_id)
+        doc = Document.objects.get(id=doc_id)
     except Document.DoesNotExist:
         LogEntry.objects.create(
             user_id=user_id,
