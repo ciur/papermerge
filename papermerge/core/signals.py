@@ -13,12 +13,12 @@ from papermerge.core.tasks import normalize_pages
 from papermerge.core.ocr import COMPLETE
 
 from .automate import apply_automates
-from .signal_definitions import page_hocr
+from .signal_definitions import page_ocr
 
 logger = logging.getLogger(__name__)
 
 
-@receiver(page_hocr, sender="worker")
+@receiver(page_ocr, sender="worker")
 def apply_automates_handler(sender, **kwargs):
     """
     Signal sent when HOCR file is ready (i.e. OCR for page is complete).
