@@ -206,7 +206,8 @@ def nodes_view(request):
             user_id=request.user.id,
             level=logging.INFO,
             message=_("Nodes deleted"),
-            node_tags=node_tags
+            node_tags=node_tags,
+            node_ids=node_ids
         )
 
         return 'OK'

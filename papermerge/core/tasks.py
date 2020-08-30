@@ -52,7 +52,7 @@ def ocr_page(
         )
 
     # Inform everybody interested that OCR completed/ended
-    msg = f"OCR took {time:.2f} seconds to complete."
+    msg = f"Ocr took {time} seconds to complete."
     signals.page_ocr.send(
         sender='worker',
         level=logging.INFO,
