@@ -23,7 +23,11 @@
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
-                  <th>{% trans "Time" %}</th>
+                  <th>
+                    <div id="logs_view">
+                      <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Time" %}
+                    </div>
+                  </th>
                   <th>{% trans "Message" %}</th>
                   <th>{% trans "User" %}</th>
                   <th>{% trans "Level" %}</th>
