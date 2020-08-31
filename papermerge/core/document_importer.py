@@ -1,9 +1,16 @@
 import logging
 import os
 
-from papermerge.core.models import Document, Folder, User
-from papermerge.core.ocr.page import ocr_page
-from papermerge.core.storage import default_storage
+from .models import Document, Folder, User
+from .ocr.page import ocr_page
+from .utils import Timer
+from .storage import default_storage
+from .ocr import (
+    COMPLETE,
+    STARTED
+)
+from . import signal_definitions as signals
+
 from mglib.pdfinfo import get_pagecount
 
 logger = logging.getLogger(__name__)
@@ -110,10 +117,37 @@ class DocumentImporter:
         logger.debug(f"Document {document_id} has {page_count} pages")
 
         for page_num in range(1, page_count + 1):
-            ocr_page(
+            signals.page_ocr.send(
+                sender='worker',
+                level=logging.INFO,
+                message="",
                 user_id=user_id,
                 document_id=document_id,
-                file_name=file_name,
                 page_num=page_num,
                 lang=lang,
+                status=STARTED
+            )
+
+            with Timer() as time:
+                ocr_page(
+                    user_id=user_id,
+                    document_id=document_id,
+                    file_name=file_name,
+                    page_num=page_num,
+                    lang=lang,
+                )
+
+            msg = f"Ocr took {time} seconds to complete."
+            logging.debug(
+                f"Signal from document_importer document_id={document_id}"
+            )
+            signals.page_ocr.send(
+                sender='worker',
+                level=logging.INFO,
+                message=msg,
+                user_id=user_id,
+                document_id=document_id,
+                page_num=page_num,
+                lang=lang,
+                status=COMPLETE
             )

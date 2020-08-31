@@ -27,7 +27,7 @@ def apply_automates(document_id, page_num):
     )
     user = document.user
 
-    text_path = default_storage.abspath(page_path.text_url())
+    text_path = default_storage.abspath(page_path.txt_url())
     text = ""
     with open(text_path, "r") as f:
         text = f.read()
@@ -45,17 +45,18 @@ def apply_automates(document_id, page_num):
     for automate in automates:
         if automate.is_a_match(text):
             logger.debug(f"Automate {automate} matched document={document}")
+
             plugin_klass = get_plugin_by_module_name(
                 automate.plugin_name
             )
-            logger.debug(f"Found plugin module={plugin_klass.__module__}")
-            logger.debug(f"len(text)=={len(text)}")
+            plugin = plugin_klass() if plugin_klass else None
+
             automate.apply(
                 document=document,
                 page_num=page_num,
                 hocr=text,
                 # Notice () - plugin passed is instance of the class
-                plugin=plugin_klass()
+                plugin=plugin
             )
             matched.append(automate)
         else:

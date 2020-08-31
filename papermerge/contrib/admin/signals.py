@@ -36,7 +36,7 @@ def automates_matching_handler(sender, **kwargs):
     except Document.DoesNotExist:
         LogEntry.objects.create(
             user_id=user_id,
-            level=logging.WARGNING,
+            level=logging.WARNING,
             message=_(
                 "Running automates for doc_id=%(doc_id)s,"
                 " page %(page_num)s."
@@ -92,7 +92,7 @@ def page_ocr_handler(sender, **kwargs):
     except Document.DoesNotExist:
         LogEntry.objects.create(
             user_id=user_id,
-            level=logging.WARGNING,
+            level=logging.WARNING,
             message=_(
                 "%(human_status)s OCR for doc_id=%(doc_id)s,"
                 " page %(page_num)s."
