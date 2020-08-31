@@ -3,11 +3,14 @@ import logging
 from django.utils.translation import gettext as _
 
 from mglib.step import Step
+from mglib.path import PagePath, DocumentPath
+from mglib.pdfinfo import get_pagecount
 
 from .models import Document, Automate
 from .storage import default_storage
 from .metadata_plugins import get_plugin_by_module_name
 from .signal_definitions import automates_matching
+
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +24,18 @@ def apply_automates(document_id, page_num):
         logger.error(f"Provided document_id={document_id}, does not exists")
         return
 
-    page_path = document.get_page_path(
+    # use text files from the original version of the document
+    doc_path = DocumentPath.copy_from(
+        document.path,
+        version=0
+    )
+    page_count = get_pagecount(
+        default_storage.abspath(doc_path.url())
+    )
+    page_path = PagePath(
+        document_path=doc_path,
         page_num=page_num,
+        page_count=page_count,
         step=Step(),
     )
     user = document.user
