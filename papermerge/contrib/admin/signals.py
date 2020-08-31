@@ -13,7 +13,10 @@ from papermerge.core.signal_definitions import (
     nodes_deleted,
     page_ocr
 )
-from papermerge.core.utils import node_tag
+from papermerge.core.utils import (
+    node_tag,
+    document_tag
+)
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.ocr import COMPLETE
 
@@ -54,7 +57,7 @@ def page_ocr_handler(sender, **kwargs):
         )
         return
 
-    doc_tag = node_tag(doc)
+    doc_tag = document_tag(doc)
 
     log_entry_message = _(
         "%(human_status)s OCR for document %(doc_tag)s, page=%(page_num)s,"

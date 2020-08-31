@@ -70,6 +70,17 @@ def node_tag(node):
 
     return tag
 
+def document_tag(node):
+
+    node_url = reverse("core:document", args=(node.id,))
+    tag = format_html(
+        "<a href='{}'>{}</a>",
+        node_url,
+        node.title
+    )
+
+    return tag
+
 
 class Timer:
     """
