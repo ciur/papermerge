@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Log Entry" %}{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12 col-md-12">
+      <div class="text-left">
+        <h3 class="px-3">{{ title }}</h3>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="p-1 p-md-3">
+          {% for field in form %}
+              <div class="form-group">
+                  {{ field.label_tag }}
+                  {{ field }}
+              </div>
+          {% endfor %}
+          <a href="{% url 'admin:logs' %}" class="button btn btn-success mt-3">
+            <i class="fa fa-check"></i>
+            {% trans 'Close' %}
+          </a>
+        </div>
+    </div>
+{% endblock %}
