@@ -6,19 +6,29 @@
 
 {% block content %}
     <div class="text-left">
-        <h4 class="px-3">{% trans "Logs" %}</h4>
+        <h4 class="p-3">{% trans "Logs" %}</h4>
     </div>
     <form action="{% url 'admin:logs' %}" method="post">
       {% csrf_token %}
-        <div class="col-12 p-3">
-            <select name="action" required="">
-              <option value="" selected="">---------</option>
-              <option value="delete_selected">{% trans "Delete selected logs" %}</option>
-            </select>
-            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+
+        <div class="row px-3">
+          <div class="col-6">
+              <select name="action" required="">
+                <option value="" selected="">---------</option>
+                <option value="delete_selected">{% trans "Delete selected logs" %}</option>
+              </select>
+              <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+          </div>
+          <nav class="col-6" aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              {% for i in paginator.page_range %}
+                <li class="page-item {% if i == page_number %} active {% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+              {% endfor %}
+            </ul>
+          </nav>
         </div>
 
-        <div class="col-12 p-3">
+        <div class="col-12">
           {% if logs|length > 0 %}
             <table class="table table-striped">
               <thead class="thead-dark">

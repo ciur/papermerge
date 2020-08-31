@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
@@ -107,11 +108,17 @@ def logs_view(request):
     else:
         logs = LogEntry.objects.filter(user=request.user)
 
+    paginator = Paginator(logs, per_page=25)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         'admin/log_entries.html',
         {
-            'logs': logs,
+            'logs': page_obj.object_list,
+            'paginator': paginator,
+            'page_number': int(page_number)
         }
     )
 
