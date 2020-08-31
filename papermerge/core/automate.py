@@ -81,6 +81,7 @@ def apply_automates(document_id, page_num):
     automates_matching.send(
         sender="papermerge.core.automate",
         user_id=document.user.id,
+        document_id=document_id,
         level=logging.INFO,
         message=message,
         page_num=page_num,

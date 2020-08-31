@@ -138,9 +138,6 @@ class DocumentImporter:
                 )
 
             msg = f"Ocr took {time} seconds to complete."
-            logging.debug(
-                f"Signal from document_importer document_id={document_id}"
-            )
             signals.page_ocr.send(
                 sender='worker',
                 level=logging.INFO,

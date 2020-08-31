@@ -21,6 +21,8 @@ from papermerge.core.utils import (
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.ocr import COMPLETE
 
+logger = logging.getLogger(__name__)
+
 
 @receiver(automates_matching)
 def automates_matching_handler(sender, **kwargs):
