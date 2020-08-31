@@ -39,7 +39,7 @@
                     <td><span class="mr-2">{{automate.plugin_name}}</td>
                     <td><span class="mr-2">{% boolean_icon automate.extract_page%}</td>
                     <td><span class="mr-2">
-                      <a href="{% url 'browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>
+                      <a href="{% url 'admin:browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>
                     </td>
                   </tr>
                 {% endfor %}
