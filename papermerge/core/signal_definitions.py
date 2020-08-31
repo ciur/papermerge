@@ -1,5 +1,19 @@
 from django.dispatch import Signal
 
+
+automates_matching = Signal(
+    providing_args=[
+        "user_id",
+        "level",
+        "message",
+        "document_id",
+        "page_num",
+        # text against which matching is performed
+        # i.e. extracted text of the page
+        "text",
+    ]
+)
+
 page_ocr = Signal(
     providing_args=[
         "user_id",

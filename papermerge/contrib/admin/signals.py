@@ -9,6 +9,7 @@ from papermerge.core.models import (
 )
 
 from papermerge.core.signal_definitions import (
+    automates_matching,
     folder_created,
     nodes_deleted,
     page_ocr
@@ -19,6 +20,53 @@ from papermerge.core.utils import (
 )
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.ocr import COMPLETE
+
+
+@receiver(automates_matching)
+def automates_matching_handler(sender, **kwargs):
+    user_id = kwargs.get('user_id')
+    level = kwargs.get('level')
+    doc_id = kwargs.get('document_id')
+    message = kwargs.get('message')
+    page_num = kwargs.get('page_num')
+    text = kwargs.get('text')
+
+    try:
+        doc = Document.objects.get(id=doc_id)
+    except Document.DoesNotExist:
+        LogEntry.objects.create(
+            user_id=user_id,
+            level=logging.WARGNING,
+            message=_(
+                "Running automates for doc_id=%(doc_id)s,"
+                " page %(page_num)s."
+                "But in meantime document probably was deleted."
+            ) % {
+                'doc_id': doc_id,
+                'page_num': page_num
+            }
+        )
+        return
+
+    doc_tag = document_tag(doc)
+
+    log_entry_message = _(
+        "Running automates for document %(doc_tag)s, page=%(page_num)s,"
+        " doc_id=%(doc_id)s. text=%(text)s"
+    ) % {
+        'doc_tag': doc_tag,
+        'page_num': page_num,
+        'doc_id': doc_id,
+        'text': text
+    }
+
+    log_entry_message += message
+
+    LogEntry.objects.create(
+        user_id=user_id,
+        level=level,
+        message=log_entry_message
+    )
 
 
 @receiver(page_ocr)
