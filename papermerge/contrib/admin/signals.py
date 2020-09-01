@@ -14,10 +14,6 @@ from papermerge.core.signal_definitions import (
     nodes_deleted,
     page_ocr
 )
-from papermerge.core.utils import (
-    node_tag,
-    document_tag
-)
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.ocr import COMPLETE
 
@@ -50,13 +46,13 @@ def automates_matching_handler(sender, **kwargs):
         )
         return
 
-    doc_tag = document_tag(doc)
+    document_title = doc.title
 
     log_entry_message = _(
-        "Running automates for document %(doc_tag)s, page=%(page_num)s,"
+        "Running automates for document %(document_title)s, page=%(page_num)s,"
         " doc_id=%(doc_id)s. text=%(text)s"
     ) % {
-        'doc_tag': doc_tag,
+        'document_title': document_title,
         'page_num': page_num,
         'doc_id': doc_id,
         'text': text
@@ -107,14 +103,15 @@ def page_ocr_handler(sender, **kwargs):
         )
         return
 
-    doc_tag = document_tag(doc)
+    document_title = doc.title
 
     log_entry_message = _(
-        "%(human_status)s OCR for document %(doc_tag)s, page=%(page_num)s,"
+        "%(human_status)s OCR for document %(document_title)s,"
+        " page=%(page_num)s,"
         " language=%(lang)s, doc_id=%(doc_id)s."
     ) % {
         'human_status': human_status,
-        'doc_tag': doc_tag,
+        'document_title': document_title,
         'page_num': page_num,
         'lang': lang,
         'doc_id': doc_id,
@@ -140,12 +137,12 @@ def folder_created_handler(sender, **kwargs):
 
     folder = Folder.objects.get(id=folder_id)
 
-    folder_tag = node_tag(folder)
+    folder_title = folder.title
 
     msg = _(
-        "Node/Folder %(folder_tag)s created. Folder id=%(folder_id)s."
+        "Node/Folder %(folder_title)s created. Folder id=%(folder_id)s."
     ) % {
-        'folder_tag': folder_tag,
+        'folder_title': folder_title,
         'folder_id': folder_id
     }
 
@@ -158,14 +155,14 @@ def folder_created_handler(sender, **kwargs):
 
 @receiver(nodes_deleted)
 def nodes_deleted_handler(sender, **kwargs):
-    node_tags = kwargs.get('node_tags')
+    node_titles = kwargs.get('node_titles')
     user_id = kwargs.get('user_id')
     level = kwargs.get('level')
     node_ids = kwargs.get('node_ids')
     msg = _(
-        "Node(s) %(node_tags)s were deleted. Node ids=%(node_ids)s"
+        "Node(s) %(node_titles)s were deleted. Node ids=%(node_ids)s"
     ) % {
-        'node_tags': ','.join(node_tags),
+        'node_titles': ','.join(node_titles),
         'node_ids': node_ids
     }
 

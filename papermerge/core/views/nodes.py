@@ -17,7 +17,6 @@ from papermerge.core.models import (
     Automate
 )
 from papermerge.core.models.utils import recursive_delete
-from papermerge.core.utils import node_tag
 from papermerge.core import signal_definitions as signals
 
 from .decorators import json_response
@@ -186,10 +185,10 @@ def nodes_view(request):
         nodes_perms = request.user.get_perms_dict(
             queryset, Access.ALL_PERMS
         )
-        node_tags = []
+        node_titles = []
         for node in queryset:
-            node_tags.append(
-                node_tag(node)
+            node_titles.append(
+                node.title
             )
             if not nodes_perms[node.id].get(Access.PERM_DELETE, False):
                 # if user does not have delete permission on
@@ -206,7 +205,7 @@ def nodes_view(request):
             user_id=request.user.id,
             level=logging.INFO,
             message=_("Nodes deleted"),
-            node_tags=node_tags,
+            node_titles=node_titles,
             node_ids=node_ids
         )
 
