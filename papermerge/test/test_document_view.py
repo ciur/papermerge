@@ -80,6 +80,33 @@ class TestDocumentView(TestCase):
             1
         )
 
+    def test_upload_with_invalid_parent(self):
+        self.assertEqual(
+            Document.objects.count(),
+            0
+        )
+        file_path = os.path.join(
+            BASE_DIR,
+            "data",
+            "berlin.pdf"
+        )
+        with open(file_path, "rb") as fp:
+            self.client.post(
+                reverse('core:upload'),
+                {
+                    'name': 'fred',
+                    'file': fp,
+                    'language': "eng",
+                    'parent': '1duh12'
+                },
+            )
+
+        # Was a document instance created ?
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
     def test_upload_text_file(self):
         """
         Only png, jpeg, pdf, tiff files are supported.

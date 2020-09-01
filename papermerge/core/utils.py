@@ -185,3 +185,27 @@ def get_git_changeset():
     except ValueError:
         return None
     return timestamp.strftime('%Y%m%d%H%M%S')
+
+
+def filter_node_id(value):
+    """Invalid values of node id will be
+    filtered out (return None).
+
+    Valid values for node id will pass
+    and will be returned as integers.
+    """
+    if not value:
+        return None
+
+    if isinstance(value, str):
+        if value.isnumeric():
+            return int(value)
+        return None
+
+    if isinstance(value, int):
+        if value < 0:
+            return None
+
+        return value
+
+    return None

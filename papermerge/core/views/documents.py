@@ -32,6 +32,7 @@ from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 from papermerge.core.tasks import ocr_page
+from papermerge.core.utils import filter_node_id
 from papermerge.core import signal_definitions as signals
 
 logger = logging.getLogger(__name__)
@@ -355,8 +356,7 @@ def upload(request):
     user = request.user
     size = os.path.getsize(f.temporary_file_path())
     parent_id = request.POST.get('parent', "-1")
-    if parent_id and "-1" in parent_id:
-        parent_id = None
+    parent_id = filter_node_id(parent_id)
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
