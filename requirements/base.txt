@@ -1,5 +1,5 @@
 mglib == 1.2.8
-mgclipboard >= 0.2.0
+mgclipboard >= 0.3.0
 django == 3.0.8
 celery==4.4.0
 imapclient
