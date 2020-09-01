@@ -1,8 +1,6 @@
 import functools
 import os
 import subprocess
-import sys
-from distutils.version import LooseVersion
 import time
 import logging
 import re
@@ -179,8 +177,7 @@ def get_git_changeset():
     )
     git_log = subprocess.run(
         ['git', 'log', '--pretty=format:%ct', '--quiet', '-1', 'HEAD'],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        shell=True, cwd=repo_dir, universal_newlines=True,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=repo_dir,
     )
     timestamp = git_log.stdout
     try:
