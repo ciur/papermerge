@@ -38,18 +38,7 @@
                     {% endif %}
                 </div>
               {% endfor %}
-              <div class="form-group">
-                  <label for="id_plugin_name">{% trans "Meta Plugin name" %}:</label>
-                  <select name="plugin_name" class="form-control" id="id_plugin_name">
-                    <option value="">---</option>
-                    {% for plugin in plugin_choices %}
-                      <option {% if automate.plugin_name == plugin.0 %} selected {% endif %}value="{{plugin.0}}"> {{plugin.1}}
-                      </option>
-                    {% endfor %}
-              </select>
-                                  
-                              </div>
-                <button class="button btn btn-success mt-3" type="submit">
+                 <button class="button btn btn-success mt-3" type="submit">
                   <i class="fa fa-check"></i>
                   {% trans 'Save' %}
                 </button>

@@ -8,23 +8,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ngettext
 
 from papermerge.core.models import Automate
-from papermerge.core.metadata_plugins import MetadataPlugins
 from papermerge.core.forms import AutomateForm
 
 logger = logging.getLogger(__name__)
-
-
-def _plugin_choices():
-    choices = []
-
-    metadata_plugins = MetadataPlugins()
-
-    for plugin in metadata_plugins:
-        choices.append(
-            (plugin.__module__, plugin.__name__)
-        )
-
-    return choices
 
 
 @login_required
@@ -76,14 +62,9 @@ def automate_view(request):
                 matching_algorithm=form.cleaned_data['matching_algorithm'],
                 is_case_sensitive=form.cleaned_data['is_case_sensitive'],
                 dst_folder=form.cleaned_data['dst_folder'],
-                extract_page=form.cleaned_data['extract_page'],
                 user=request.user
             )
             if automate:
-                # plugin_name is not part of the form
-                automate.plugin_name = request.POST.get(
-                    'plugin_name'
-                )
                 automate.save()
                 msg = "Automate %(name)s was successfully created."
                 messages.info(
@@ -99,7 +80,6 @@ def automate_view(request):
             'form': form,
             'action_url': action_url,
             'title': _('New Automate'),
-            'plugin_choices': _plugin_choices()
         }
     )
 
@@ -120,10 +100,6 @@ def automate_change_view(request, id):
         if form.is_valid():
             automate = form.save()
             if automate:
-                # plugin_name is not part of the form
-                automate.plugin_name = request.POST.get(
-                    'plugin_name'
-                )
                 automate.save()
             return redirect('core:automates')
 
@@ -134,7 +110,6 @@ def automate_change_view(request, id):
             'form': form,
             'action_url': action_url,
             'title': _('Edit Automate'),
-            'plugin_choices': _plugin_choices(),
             'automate': automate
         }
     )

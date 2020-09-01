@@ -181,53 +181,16 @@ class Automate(models.Model):
         hocr,
         plugin=None
     ):
-        new_document = None
         logger.debug("automate.Apply begin")
 
         if not self.is_automate_applicable(document):
             logger.debug("Automate not applicable. Quit.")
             return
 
-        if document.page_count == 1:
-            # i.e if this is last page
-            # move entire document to the destination folder
-            self.move_to(
-                document,
-                self.dst_folder
-            )
-        elif self.extract_page:
-            # dealing with case when this is not
-            # last page of the document AND extraction
-            # of the page is wanted.
-            if self.dst_folder != document.parent:
-                new_document = Document.paste_pages(
-                    user=document.user,
-                    parent_id=self.dst_folder.id,
-                    doc_pages={
-                        document.id: [page_num]
-                    }
-
-                )
-        else:
-            # it is not last page in the document AND
-            # page extraction is NOT wanted.
-            # just move document to destination folder.
-            self.move_to(
-                document,
-                self.dst_folder
-            )
-
-        if plugin:
-            logger.debug("Plugin is provided, extracting hocr")
-            metadata = plugin.extract(hocr)
-            logger.debug(
-                f"Metadata Extracted with Automate={metadata}"
-            )
-            doc = new_document if new_document else document
-
-            doc.assign_kv_values(
-                metadata['simple_keys']
-            )
+        self.move_to(
+            document,
+            self.dst_folder
+        )
 
     def _match_any(self, hocr, search_kwargs):
 
