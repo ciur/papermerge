@@ -81,6 +81,10 @@ class TestDocumentView(TestCase):
         )
 
     def test_upload_with_invalid_parent(self):
+        """
+        If invalid parent id is given - document will
+        be added to the root folder.
+        """
         self.assertEqual(
             Document.objects.count(),
             0

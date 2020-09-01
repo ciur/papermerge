@@ -351,7 +351,6 @@ class Document(BaseTreeNode):
         dst_document=None,
         after=False,
         before=False,
-        version=None
     ):
         # parent_node is an instance of BaseTreeNode
         # doc_pages is a dictionary of format:
@@ -366,23 +365,6 @@ class Document(BaseTreeNode):
         # 3. for each document with ids in doc_pages.keys() (DOC):
         #     a. copy pages data from DOC to NEWDOC
         #     b. deletes pages from DOC (pages mentioned in doc_page[key] list)
-        #
-        # version argument is a hack.
-        # Context:
-        # In automates, if user checks "extract page",
-        # then for each matching page
-        # will be cutted from the document and pasted into destination.
-        # The problem is that page is cutted from 'last version'
-        # of the document - which with each match get's smaller and smaller.
-        # If automate matched 5 times document X, which has 5 pages
-        # (batch of 1 page receipts)
-        # then during 4th match last version of the document will
-        # have 2 pages left => in its context "page 4" does not make
-        # any more.
-        # Here it comes version argument.
-        # if version = None: code is same as before
-        # if version = 0 => copy all pages from version 0 of the document.
-
         new_page_count = sum(
             [
                 len(pages) for pages in doc_pages.values()
@@ -420,14 +402,8 @@ class Document(BaseTreeNode):
                 )
                 return
 
-            # hack: during automation, pages are extracted from
-            # version 0 of the document
-            if version == 0:
-                src = default_storage.abspath(doc.vpath(version=0))
-                doc_path = doc.vpath(version=0)
-            else:
-                src = default_storage.abspath(doc.path)
-                doc_path = doc.path
+            src = default_storage.abspath(doc.path)
+            doc_path = doc.path
 
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
             data_list.append(
