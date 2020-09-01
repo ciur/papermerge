@@ -10,13 +10,12 @@ from pathlib import PurePath
 from django.core.files.temp import NamedTemporaryFile
 from mglib.pdfinfo import get_pagecount
 
+import papermerge
 from papermerge.core.models import Document, User, Folder
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import ocr_page
 
 logger = logging.getLogger()
-
-_supported_versions = ["1.3.0", "1.4.0"]
 
 
 def backup_documents(
@@ -27,26 +26,36 @@ def backup_documents(
     """
     Backup all documents for specific user.
     """
-    documents = Document.objects.filter(user=user)
+
     current_backup = dict()
     current_backup['created'] = datetime.datetime.now()
-    current_backup['version'] = "1.3.0"
-    current_backup['documents'] = list()
+    current_backup['version'] = papermerge.__version__
 
     with tarfile.open(fileobj=backup_file, mode="w") as backup_archive:
-        for current_document_object in documents:  # type: Document
-            current_document = dict()
-            targetPath = _createTargetPath(current_document_object)
 
-            backup_archive.add(
-                current_document_object.absfilepath, arcname=targetPath
+        if user:
+            current_backup['documents'] = list()
+            _add_user_documents(
+                user,
+                current_backup,
+                backup_archive,
+                include_user_in_path=False
             )
-
-            current_document['path'] = targetPath
-            current_document['lang'] = current_document_object.lang
-            current_backup['documents'].append(
-                current_document
-            )
+        else:
+            current_backup['users'] = list()
+            for user in User.objects.all():
+                current_user = {
+                    'username': user.username,
+                    'email': user.email,
+                    'documents': []
+                }
+                _add_user_documents(
+                    user,
+                    current_user,
+                    backup_archive,
+                    include_user_in_path=True
+                )
+                current_backup['users'].append(current_user)
 
         json_bytes = json.dumps(
             current_backup,
@@ -157,7 +166,7 @@ def _can_restore(restore_file: io.BytesIO):
             return False
         current_backup = json.load(backup_json)
 
-        if current_backup.get('version') is not None and current_backup.get('version') in _supported_versions:
+        if current_backup.get('version') is not None:
             return True
 
 
@@ -169,7 +178,7 @@ def _is_valid_user(username: str):
         return False
 
 
-def _createTargetPath(document: Document):
+def _createTargetPath(document: Document, include_user_in_path=False):
     """
     Takes a document and traverses the tree to the root noting the path
     :param document: the document you want the path of
@@ -182,4 +191,49 @@ def _createTargetPath(document: Document):
         currentNode = currentNode.parent
         targetPath = os.path.join(currentNode.title, targetPath)
 
+    if include_user_in_path:
+        targetPath = os.path.join(document.user.username, targetPath)
+
     return targetPath
+
+
+def _add_current_document_entry(
+    document,
+    include_user_in_path=False
+):
+    current_document = {}
+
+    targetPath = _createTargetPath(
+        document,
+        include_user_in_path=include_user_in_path
+    )
+
+    current_document['path'] = targetPath
+    current_document['lang'] = document.lang
+
+    return current_document
+
+
+def _add_user_documents(
+    user,
+    current_backup,
+    backup_archive,
+    include_user_in_path=False
+):
+    documents = Document.objects.filter(user=user)
+
+    for current_document_object in documents:  # type: Document
+        current_document = _add_current_document_entry(
+            current_document_object,
+            include_user_in_path=include_user_in_path
+        )
+        current_backup['documents'].append(
+            current_document
+        )
+        backup_archive.add(
+            current_document_object.absfilepath,
+            arcname=_createTargetPath(
+                current_document_object,
+                include_user_in_path=include_user_in_path
+            )
+        )
