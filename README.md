@@ -78,7 +78,6 @@ be handled immediately. Documentation issues have high priority.
  * [English Website](https://papermerge.com)
  * [German Website](https://papermerge.de)
 
-
 ## Contributing
 
 We welcome contributions! In general, if change is very small, like fixing a
@@ -93,7 +92,6 @@ change** you wish to make via GitHub issue, pull request or [email](mailto:eugen
 For more information, see the
 [contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
 file.
-
 
 ## Screenshots
 
@@ -141,8 +139,6 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |Status| Active Development | Active Development | Maintenance / No Development| 
 |Initial Release| February 9, 2020 | February 3, 2011 | ~ 2015 |
 |Python3?| Yes | Yes | Yes|
-|Django Version| 3.0 | 2.2 | 2.0|
-
 
 ### Contact 
 
