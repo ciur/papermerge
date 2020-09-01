@@ -162,7 +162,7 @@ def nodes_deleted_handler(sender, **kwargs):
     msg = _(
         "Node(s) %(node_titles)s were deleted. Node ids=%(node_ids)s"
     ) % {
-        'node_titles': ','.join(node_titles),
+        'node_titles': ', '.join(node_titles),
         'node_ids': node_ids
     }
 
