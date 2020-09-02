@@ -6,6 +6,7 @@ from papermerge.core.backup_restore import (
     _is_valid_user,
     restore_documents
 )
+from papermerge.core.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,9 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = """
         Restore all Documents and their folder structure from an archive.
-        If you don't pass a username with --user you will be asked for it.
+        If you pass a username with --user it will restore 'per user backup'.
+        If you don't pass username with --user/-u - it is assumend that you
+        want to restore "all users" backup.
 
         By default will trigger OCR for each imported document.
         Use --skip-ocr if you wish to OCR documents later.
@@ -32,10 +35,10 @@ class Command(BaseCommand):
         #  can be skipped (that is the point of full backup - not to perform
         # OCR operation again).
         parser.add_argument(
-            's',
+            '-s',
             '--skip-ocr',
             action='store_true',
-            help="will skip ",
+            help="will skip OCR process",
         )
 
         parser.add_argument('location', nargs='?', type=str)
@@ -43,30 +46,28 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         skip_ocr = options.get('skip_ocr')
+        username = options.get('user')
+
+        user = None
+        if username:
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                logger.error(
+                    f"Username {username} not found."
+                )
+                return
 
         if options.get('location') is None:
             logger.error("Please add the path to your backup.tar")
         else:
             with open(options.get('location'), 'rb') as restore_file:
                 if _can_restore(restore_file):
-                    if options.get('user') is None:
-                        username = input("Username:")
-                    else:
-                        username = options.get('user')
-                    logging.info(
-                        "Archive can be handled."
-                        "Please enter the user (username of) that should"
-                        " own the restored documents."
+                    restore_documents(
+                        restore_file=restore_file,
+                        user=user,
+                        skip_ocr=skip_ocr
                     )
-
-                    if _is_valid_user(username):
-                        restore_documents(
-                            restore_file=restore_file,
-                            username=username,
-                            skip_ocr=skip_ocr
-                        )
-                    else:
-                        logging.error("User %s was not valid", username)
                 else:
                     logging.error(
                         "Archive cannot be restored because of"

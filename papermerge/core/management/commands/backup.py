@@ -22,18 +22,10 @@ def list_users_and_exit():
 class Command(BaseCommand):
     help = """
         Backup all documents and their folder structure to an archive.
-        Backup is per specific user.
+        If --user/-u is specified - will backup all documents of
+        the specific user.
 
-        By default backups only what is most important - your document files.
-
-        You can trigger a full backup with --full-backup option
-        (not yet implemented).
-
-        Full backup will include:
-
-            * OCRed text of each document/page (so that there
-                 is no need to trigger an OCR during resoration)
-            * metadata of each document
+        If --user/u is NOT specified - will backup documents of all users.
     """
 
     def add_arguments(self, parser):
