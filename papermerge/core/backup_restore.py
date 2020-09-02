@@ -85,114 +85,117 @@ def restore_documents(
         backup_json = restore_archive.extractfile('backup.json')
         backup_info = json.load(backup_json)
 
-        users = []
+        leading_user_in_path = False
+        _user = user
         if not user:
+            leading_user_in_path = True
             # user was not specified. It is assument that
             # backup.json contains a list of users.
             # Thus recreate users first.
             for backup_user in backup_info['users']:
-                u = User.objects.create(
+                User.objects.create(
                     username=backup_user['username'],
                     email=backup_user['email'],
                     is_active=backup_user['is_active'],
                     is_superuser=backup_user['is_superuser']
                 )
-                users.append(u)
-        else:
-            users = [user]
 
-        for _user in users:
-            for restore_file in restore_archive.getnames():
-                leading_user_in_path = False
+        for restore_file in restore_archive.getnames():
 
-                if backup_info.get('documents', False):
-                    backup_info_documents = backup_info['documents']
-                else:
-                    for _u in backup_info['users']:
-                        if _u['username'] == _user.username:
-                            backup_info_documents = _u['documents']
-                            leading_user_in_path = True
+            if restore_file == "backup.json":
+                continue
 
-                if restore_file == "backup.json":
-                    continue
+            splitted_path = PurePath(restore_file).parts
+            base, ext = os.path.splitext(splitted_path[-1])
 
-                for info in backup_info_documents:
-                    document_info = info
-                    if info['path'] == restore_file:
-                        break
+            # if there is leading username, remove it.
+            if leading_user_in_path:
+                username = splitted_path[0]
+                _user = User.objects.get(username=username)
+                splitted_path = splitted_path[1:]
 
-                splitted_path = PurePath(restore_file).parts
-                base, ext = os.path.splitext(splitted_path[-1])
-                # if there is leading username, remove it.
-                if leading_user_in_path:
-                    splitted_path = splitted_path[1:]
+            if backup_info.get('documents', False):
+                backup_info_documents = backup_info['documents']
+            else:
+                backup_info_documents = _get_json_user_documents_list(
+                    backup_info,
+                    _user
+                )
+                leading_user_in_path = True
 
-                parent = None
-                # we first have to create a folder structure
+            for info in backup_info_documents:
+                document_info = info
+                if info['path'] == restore_file:
+                    break
 
-                if len(splitted_path) > 1:
-                    for folder in splitted_path[:-1]:
+            parent = None
+            # we first have to create a folder structure
 
-                        folder_object = Folder.objects.filter(
-                            title=folder
-                        ).filter(parent=parent).first()
+            if len(splitted_path) > 1:
+                for folder in splitted_path[:-1]:
 
-                        if folder_object is None:
-                            new_folder = Folder.objects.create(
-                                title=folder,
-                                parent=parent, user=_user
-                            )
-                            parent = new_folder
-                        else:
-                            parent = folder_object
+                    folder_object = Folder.objects.filter(
+                        title=folder,
+                        user=_user
+                    ).filter(parent=parent).first()
 
-                document_object = Document.objects.filter(
-                    title=splitted_path[-1]
-                ).filter(parent=parent).first()
+                    if folder_object is None:
+                        new_folder = Folder.objects.create(
+                            title=folder,
+                            parent=parent,
+                            user=_user
+                        )
+                        parent = new_folder
+                    else:
+                        parent = folder_object
 
-                if document_object is not None:
-                    logger.error(
-                        "Document %s already exists, skipping", restore_file
+            document_object = Document.objects.filter(
+                title=splitted_path[-1], user=_user
+            ).filter(parent=parent).first()
+
+            if document_object is not None:
+                logger.error(
+                    "Document %s already exists, skipping", restore_file
+                )
+            else:
+
+                with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
+
+                    temp_output.write(
+                        restore_archive.extractfile(restore_file).read()
                     )
-                else:
+                    temp_output.seek(0)
+                    size = os.path.getsize(temp_output.name)
 
-                    with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
+                    page_count = get_pagecount(temp_output.name)
 
-                        temp_output.write(
-                            restore_archive.extractfile(restore_file).read()
+                    if parent:
+                        parent_id = parent.id
+                    else:
+                        parent_id = None
+                    new_doc = Document.create_document(
+                        user=_user,
+                        title=splitted_path[-1],
+                        size=size,
+                        lang=document_info['lang'],
+                        file_name=splitted_path[-1],
+                        parent_id=parent_id,
+                        notes="",
+                        page_count=page_count)
+                    default_storage.copy_doc(
+                        src=temp_output.name,
+                        dst=new_doc.path.url()
+                    )
+
+                for page_num in range(1, page_count + 1):
+                    if not skip_ocr:
+                        ocr_page.apply_async(kwargs={
+                            'user_id': _user.id,
+                            'document_id': new_doc.id,
+                            'file_name': splitted_path[-1],
+                            'page_num': page_num,
+                            'lang': document_info['lang']}
                         )
-                        temp_output.seek(0)
-                        size = os.path.getsize(temp_output.name)
-
-                        page_count = get_pagecount(temp_output.name)
-
-                        if parent:
-                            parent_id = parent.id
-                        else:
-                            parent_id = None
-                        new_doc = Document.create_document(
-                            user=_user,
-                            title=splitted_path[-1],
-                            size=size,
-                            lang=document_info['lang'],
-                            file_name=splitted_path[-1],
-                            parent_id=parent_id,
-                            notes="",
-                            page_count=page_count)
-                        default_storage.copy_doc(
-                            src=temp_output.name,
-                            dst=new_doc.path.url()
-                        )
-
-                    for page_num in range(1, page_count + 1):
-                        if not skip_ocr:
-                            ocr_page.apply_async(kwargs={
-                                'user_id': _user.id,
-                                'document_id': new_doc.id,
-                                'file_name': splitted_path[-1],
-                                'page_num': page_num,
-                                'lang': document_info['lang']}
-                            )
 
 
 def _can_restore(restore_file: io.BytesIO):
@@ -248,6 +251,14 @@ def _add_current_document_entry(
     current_document['lang'] = document.lang
 
     return current_document
+
+
+def _get_json_user_documents_list(json_backup: dict, user: User):
+    for _u in json_backup['users']:
+        if _u['username'] == user.username:
+            return _u['documents']
+
+    return None
 
 
 def _add_user_documents(
