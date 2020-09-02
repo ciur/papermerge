@@ -47,11 +47,18 @@ folder PapermergeDMS (located in home folder)::
         tesseract-ocr-spa
 
 
-1. Create python virutal environment and activate it::
+2. Create python virutal environment and activate it::
 
     $ cd ~/PapermergeDMS
     $ python3 -m venv .venv --system-site-packages
     $ source .venv/bin/activate
+
+Alternativelly you can create python virtual environment with command::
+
+    $ virtualenv .venv -p python3.7
+
+Advantage of last command is that you can specify exact python version.
+Papermerge requires python version >= 3.7
 
 3. Install necessary dependencies::
 
@@ -202,6 +209,15 @@ $ python3 -m venv .venv --system-site-packages
 
     ``--system-site-packages`` is necessary, it will install a package called ``wheel``.
     Without ``wheel`` package, pip install later will issue warning.
+
+Alternatively you can create python virtual environment with following command::
+
+    $ virtualenv .venv -p python3.7
+
+Advantage of last command is that it specifies exact python version.
+
+.. note::
+    Papermerge requires python version >= 3.7
 
 Next we need to *activate* virtual environment::
 
