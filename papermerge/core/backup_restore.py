@@ -122,6 +122,7 @@ def restore_documents(
                         break
 
                 splitted_path = PurePath(restore_file).parts
+                base, ext = os.path.splitext(splitted_path[-1])
                 # if there is leading username, remove it.
                 if leading_user_in_path:
                     splitted_path = splitted_path[1:]
@@ -139,7 +140,7 @@ def restore_documents(
                         if folder_object is None:
                             new_folder = Folder.objects.create(
                                 title=folder,
-                                parent=parent, user=user
+                                parent=parent, user=_user
                             )
                             parent = new_folder
                         else:
@@ -155,20 +156,22 @@ def restore_documents(
                     )
                 else:
 
-                    with NamedTemporaryFile("w+b") as temp_output:
+                    with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
 
                         temp_output.write(
                             restore_archive.extractfile(restore_file).read()
                         )
                         temp_output.seek(0)
                         size = os.path.getsize(temp_output.name)
+
                         page_count = get_pagecount(temp_output.name)
+
                         if parent:
                             parent_id = parent.id
                         else:
                             parent_id = None
                         new_doc = Document.create_document(
-                            user=user,
+                            user=_user,
                             title=splitted_path[-1],
                             size=size,
                             lang=document_info['lang'],
@@ -184,7 +187,7 @@ def restore_documents(
                     for page_num in range(1, page_count + 1):
                         if not skip_ocr:
                             ocr_page.apply_async(kwargs={
-                                'user_id': user.id,
+                                'user_id': _user.id,
                                 'document_id': new_doc.id,
                                 'file_name': splitted_path[-1],
                                 'page_num': page_num,
