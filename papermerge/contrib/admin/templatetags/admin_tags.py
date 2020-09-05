@@ -22,7 +22,7 @@ def build_url_for_index(
     html_class_attr='',
     title=''
 ):
-    url = reverse('index')
+    url = reverse('admin:index')
 
     link = format_html(
         '<a href="{}" class="{}" alt="{}">'
