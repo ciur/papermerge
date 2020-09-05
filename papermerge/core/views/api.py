@@ -1,5 +1,5 @@
 from django.http import Http404
-
+from django.utils.translation import gettext as _
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -92,7 +92,15 @@ class PagesCutView(APIView):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        return Response(status=status.HTTP_403_FORBIDDEN)
+        return Response(
+            status=status.HTTP_403_FORBIDDEN,
+            data={
+                'msg': _(
+                    "You don't have permissions to cut pages"
+                    " in this document."
+                )
+            }
+        )
 
 
 class PagesPasteView(APIView):
