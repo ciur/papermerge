@@ -92,7 +92,7 @@ class PagesCutView(APIView):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class PagesPasteView(APIView):
