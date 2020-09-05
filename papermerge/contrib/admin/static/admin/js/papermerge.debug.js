@@ -23523,7 +23523,12 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
           url: url,
           type: 'POST',
           dataType: "json",
-          contentType: "application/json; charset=utf-8"
+          contentType: "application/json; charset=utf-8",
+          error: function (response) {
+            if (response.status == 403) {
+              new _views_message__WEBPACK_IMPORTED_MODULE_15__["MessageView"]("Error", response.responseJSON['msg']);
+            }
+          }
         });
       }
     });
