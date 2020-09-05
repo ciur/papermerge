@@ -45,6 +45,10 @@ def document(request, doc_id):
     except Document.DoesNotExist:
         return render(request, "admin/document_404.html")
 
+    nodes_perms = request.user.get_perms_dict(
+        [doc], Access.ALL_PERMS
+    )
+
     if not request.is_ajax():
         if request.user.has_perm(Access.PERM_READ, doc):
             return render(
@@ -52,7 +56,10 @@ def document(request, doc_id):
                 'admin/document.html',
                 {
                     'pages': doc.pages.all(),
-                    'document': doc
+                    'document': doc,
+                    'has_perm_write': nodes_perms.get(
+                        'write', False
+                    ),
                 }
             )
         else:
@@ -109,8 +116,11 @@ def document(request, doc_id):
         pass
 
     # ajax + GET here
+    result_dict = doc.to_dict()
+    result_dict['user_perms'] = nodes_perms[doc.id]
+
     return HttpResponse(
-        json.dumps({'document': doc.to_dict()}),
+        json.dumps({'document': result_dict}),
         content_type="application/json",
     )
 
