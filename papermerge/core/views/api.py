@@ -122,18 +122,31 @@ class PagesPasteView(APIView):
         except Document.DoesNotExist:
             raise Http404("Document does not exists")
 
-        Document.paste_pages(
-            user=request.user,
-            parent_id=document.parent,
-            dst_document=document,
-            doc_pages=request.pages.all(),
-            before=before,
-            after=after
+        if request.user.has_perm(
+            Access.PERM_WRITE, document
+        ):
+            Document.paste_pages(
+                user=request.user,
+                parent_id=document.parent,
+                dst_document=document,
+                doc_pages=request.pages.all(),
+                before=before,
+                after=after
+            )
+
+            request.pages.clear()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(
+            status=status.HTTP_403_FORBIDDEN,
+            data={
+                'msg': _(
+                    "You don't have permissions to paste pages"
+                    " in this document."
+                )
+            }
         )
-
-        request.pages.clear()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class DocumentsView(APIView):

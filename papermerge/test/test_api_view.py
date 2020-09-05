@@ -86,3 +86,33 @@ class TestApiView(TestCase):
             ret.status_code,
             HttpResponseForbidden.status_code
         )
+
+    def test_paste_view_access_forbidden(self):
+        """
+        Access forbidden for margaret
+        """
+        doc = Document.create_document(
+            title="berlin.pdf",
+            user=self.testcase_user,
+            lang="ENG",
+            file_name="berlin.pdf",
+            size=1222,
+            page_count=3,
+        )
+
+        # margaret does not have access to the document
+        self.client.login(testcase_user=self.margaret_user)
+
+        post_data = [1, 2]
+
+        ret = self.client.post(
+            reverse('core:api_pages_paste', args=(doc.id, )),
+            json.dumps(post_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEquals(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )

@@ -1,15 +1,14 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import include, path
-from papermerge.core.views import access as access_views
-from papermerge.core.views import api as api_views
-from papermerge.core.views import documents as doc_views
-from papermerge.core.views import nodes as node_views
-from papermerge.core.views import metadata as metadata_views
-from papermerge.core.views import preferences as preferences_views
-from papermerge.core.views import tokens as tokens_views
-from papermerge.core.views import users as users_views
-from papermerge.core.views import groups as groups_views
-from papermerge.core.views import automates as automates_views
+from .views import access as access_views
+from .views import api as api_views
+from .views import documents as doc_views
+from .views import nodes as node_views
+from .views import metadata as metadata_views
+from .views import preferences as preferences_views
+from .views import tokens as tokens_views
+from .views import users as users_views
+from .views import groups as groups_views
+from .views import automates as automates_views
 
 document_patterns = [
     path(
