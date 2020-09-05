@@ -239,6 +239,7 @@ def paste_node(request):
     )
 
 
+@json_response
 @login_required
 def rename_node(request, id):
     """
@@ -247,22 +248,21 @@ def rename_node(request, id):
 
     data = json.loads(request.body)
     title = data.get('title', None)
+    node = get_object_or_404(BaseTreeNode, id=id)
+
+    if not request.user.has_perm(Access.PERM_WRITE, node):
+        msg = _(
+            "You don't have permissions to rename this document"
+        )
+        return msg, HttpResponseForbidden.status_code
 
     if not title:
-        return HttpResponse(
-            json.dumps({'msg': 'Missing title'}),
-            content_type="application/json",
-        )
-
-    node = get_object_or_404(BaseTreeNode, id=id)
+        return _('Missing title')
 
     node.title = title
     node.save()
 
-    return HttpResponse(
-        json.dumps({'msg': "OK"}),
-        content_type="application/json",
-    )
+    return 'OK'
 
 
 @login_required

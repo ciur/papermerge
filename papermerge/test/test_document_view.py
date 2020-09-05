@@ -1041,6 +1041,40 @@ class TestDocumentAjaxOperationsView(TestCase):
             1
         )
 
+    def test_deny_access_to_rename_document_is_user(self):
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        rename_url = reverse(
+            'core:rename_node', args=(doc.id, )
+        )
+        #
+        # Margaret does not have read access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.post(
+            rename_url,
+            data=json.dumps({'title': "new_title.pdf"}),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+
 class TestDocumentDownload(TestCase):
 
     def setUp(self):
