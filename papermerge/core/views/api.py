@@ -39,6 +39,18 @@ class PagesView(APIView):
     def post(self, request, doc_id):
         """
         Reorders pages from doc_id document
+
+        request.data is expected to be a list of dictionaries:
+        Example:
+            [
+                {page_num: 2, page_order: 1},
+                {page_num: 1, page_order: 2},
+                {page_num: 3, page_order: 3}
+            ]
+        which reads:
+            page number 2, must become page number 1
+            page number 1, must become page number 2
+            page number 3 stays same.
         """
         try:
             doc = Document.objects.get(id=doc_id)
@@ -52,7 +64,7 @@ class PagesView(APIView):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class PagesCutView(APIView):
