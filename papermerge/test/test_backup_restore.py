@@ -177,7 +177,7 @@ class TestBackupRestore(TestCase):
         )
 
         with open(restore_path, 'rb') as restore_archive:
-            restore_documents(restore_archive, self.testcase_user.username)
+            restore_documents(restore_archive, self.testcase_user)
 
         folder_1 = Folder.objects.filter(title='1', parent=None).first()
         self.assertIsNotNone(folder_1, 'Folder "1" was not restored')
@@ -219,4 +219,4 @@ class TestBackupRestore(TestCase):
 
         with open(restore_path, 'rb') as restore_archive:
             # should not throw an exception
-            restore_documents(restore_archive, self.testcase_user.username)
+            restore_documents(restore_archive, self.testcase_user)
