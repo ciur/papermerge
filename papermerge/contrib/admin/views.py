@@ -118,7 +118,8 @@ def logs_view(request):
         {
             'logs': page_obj.object_list,
             'paginator': paginator,
-            'page_number': int(page_number)
+            'page_number': int(page_number),
+            'page': page_obj
         }
     )
 
