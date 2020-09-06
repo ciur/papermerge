@@ -29,23 +29,11 @@ class Command(BaseCommand):
             help="user (username of) the restored documents should belong to",
             default=None
         )
-        # 1. Very useful option
-        # during tests/development/maintenance of this module
-        # 2. In case archive is full backup (i.e. includes OCR text info)
-        #  can be skipped (that is the point of full backup - not to perform
-        # OCR operation again).
-        parser.add_argument(
-            '-s',
-            '--skip-ocr',
-            action='store_true',
-            help="will skip OCR process",
-        )
 
         parser.add_argument('location', nargs='?', type=str)
 
     def handle(self, *args, **options):
 
-        skip_ocr = options.get('skip_ocr')
         username = options.get('user')
 
         user = None
@@ -66,7 +54,7 @@ class Command(BaseCommand):
                     restore_documents(
                         restore_file=restore_file,
                         user=user,
-                        skip_ocr=skip_ocr
+                        skip_ocr=True
                     )
                 else:
                     logging.error(

@@ -13,6 +13,7 @@ from mglib.pdfinfo import get_pagecount
 import papermerge
 from papermerge.core.models import Document, User, Folder
 from papermerge.core.storage import default_storage
+from papermerge.core.utils import remove_backup_filename_id
 from papermerge.core.tasks import ocr_page
 
 logger = logging.getLogger()
@@ -81,7 +82,6 @@ def restore_documents(
     restore_file.seek(0)
 
     with tarfile.open(fileobj=restore_file, mode="r") as restore_archive:
-
         backup_json = restore_archive.extractfile('backup.json')
         backup_info = json.load(backup_json)
 
@@ -106,7 +106,9 @@ def restore_documents(
                 continue
 
             splitted_path = PurePath(restore_file).parts
-            base, ext = os.path.splitext(splitted_path[-1])
+            base, ext = os.path.splitext(
+                remove_backup_filename_id(splitted_path[-1])
+            )
 
             # if there is leading username, remove it.
             if leading_user_in_path:
@@ -149,18 +151,7 @@ def restore_documents(
                     else:
                         parent = folder_object
 
-            document_object = Document.objects.filter(
-                title=splitted_path[-1], user=_user
-            ).filter(parent=parent).first()
-
-            if document_object is not None:
-                logger.error(
-                    "Document %s already exists, skipping", restore_file
-                )
-            else:
-
                 with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
-
                     temp_output.write(
                         restore_archive.extractfile(restore_file).read()
                     )
@@ -173,26 +164,30 @@ def restore_documents(
                         parent_id = parent.id
                     else:
                         parent_id = None
+
                     new_doc = Document.create_document(
                         user=_user,
-                        title=splitted_path[-1],
+                        title=document_info['title'],
                         size=size,
                         lang=document_info['lang'],
-                        file_name=splitted_path[-1],
+                        file_name=remove_backup_filename_id(splitted_path[-1]),
                         parent_id=parent_id,
                         notes="",
-                        page_count=page_count)
+                        page_count=page_count,
+                        rebuild_tree=False  # speeds up 100x
+                    )
+
                     default_storage.copy_doc(
                         src=temp_output.name,
                         dst=new_doc.path.url()
                     )
 
-                for page_num in range(1, page_count + 1):
-                    if not skip_ocr:
+                if not skip_ocr:
+                    for page_num in range(1, page_count + 1):
                         ocr_page.apply_async(kwargs={
                             'user_id': _user.id,
                             'document_id': new_doc.id,
-                            'file_name': splitted_path[-1],
+                            'file_name': new_doc.file_name,
                             'page_num': page_num,
                             'lang': document_info['lang']}
                         )

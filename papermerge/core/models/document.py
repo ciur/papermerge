@@ -451,6 +451,7 @@ class Document(BaseTreeNode):
         file_name,
         notes=None,
         parent_id=None,
+        rebuild_tree=True
     ):
         """
         Arguments:
@@ -486,7 +487,8 @@ class Document(BaseTreeNode):
         # to the created pages.
         doc.create_pages()
         # https://github.com/django-mptt/django-mptt/issues/568
-        doc._tree_manager.rebuild()
+        if rebuild_tree:
+            doc._tree_manager.rebuild()
 
         return doc
 
