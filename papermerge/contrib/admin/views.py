@@ -109,16 +109,30 @@ def logs_view(request):
         logs = LogEntry.objects.filter(user=request.user)
 
     paginator = Paginator(logs, per_page=25)
-    page_number = request.GET.get('page', 1)
+    page_number = int(request.GET.get('page', 1))
+    num_pages = paginator.num_pages
     page_obj = paginator.get_page(page_number)
+
+    # 1.   Number of pages < 7: show all pages;
+    # 2.   Current page <= 4: show first 7 pages;
+    # 3.   Current page > 4 and < (number of pages - 4): show current page,
+    #       3 before and 3 after;
+    # 4.   Current page >= (number of pages - 4): show the last 7 pages.
+
+    if num_pages <= 7 or page_number <= 4:  # case 1 and 2
+        pages = [x for x in range(1, min(num_pages + 1, 7))]
+    elif page_number > num_pages - 4:  # case 4
+        pages = [x for x in range(num_pages - 6, num_pages + 1)]
+    else:  # case 3
+        pages = [x for x in range(page_number - 3, page_number + 4)]
 
     return render(
         request,
         'admin/log_entries.html',
         {
             'logs': page_obj.object_list,
-            'paginator': paginator,
-            'page_number': int(page_number),
+            'pages': pages,
+            'page_number': page_number,
             'page': page_obj
         }
     )
