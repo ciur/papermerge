@@ -228,10 +228,15 @@ def _createTargetPath(document: Document, include_user_in_path=False):
     currentNode = document
     while currentNode.parent is not None:
         currentNode = currentNode.parent
-        targetPath = os.path.join(currentNode.title, targetPath)
+        targetPath = os.path.join(
+            f"{currentNode.title}__{currentNode.id}",
+            targetPath
+        )
 
     if include_user_in_path:
-        targetPath = os.path.join(document.user.username, targetPath)
+        targetPath = os.path.join(
+            document.user.username, targetPath
+        )
 
     return targetPath
 
@@ -249,6 +254,7 @@ def _add_current_document_entry(
 
     current_document['path'] = targetPath
     current_document['lang'] = document.lang
+    current_document['title'] = document.title
 
     return current_document
 
