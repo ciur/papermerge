@@ -224,12 +224,13 @@ def _createTargetPath(document: Document, include_user_in_path=False):
     :return: the full path from root to the document including filename
     :rtype str
     """
-    targetPath = document.file_name
+    # make filename unique
+    targetPath = f"{document.file_name}__{document.id}"
     currentNode = document
     while currentNode.parent is not None:
         currentNode = currentNode.parent
         targetPath = os.path.join(
-            f"{currentNode.title}__{currentNode.id}",
+            currentNode.title,
             targetPath
         )
 
