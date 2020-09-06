@@ -71,7 +71,7 @@ class TestBackupRestore(TestCase):
                 'backup.tar had more or less than 2 entries'
             )
             self.assertTrue(
-                'berlin.pdf' in backup_file.getnames(),
+                f"berlin.pdf__{doc.id}" in backup_file.getnames(),
                 'berlin.pdf was not in the backup.tar'
             )
 
@@ -159,11 +159,11 @@ class TestBackupRestore(TestCase):
                 'backup.tar had more or less than 2 entries'
             )
             self.assertTrue(
-                '1/2/berlin.pdf' in backup_file.getnames(),
+                f"1/2/berlin.pdf__{doc_1.id}" in backup_file.getnames(),
                 'berlin.pdf was not in the backup.tar at folder 1/2/'
             )
             self.assertTrue(
-                '1/3/berlin.pdf' in backup_file.getnames(),
+                f"1/3/berlin.pdf__{doc_2.id}" in backup_file.getnames(),
                 'berlin.pdf was not in the backup.tar at folder 1/3/'
             )
             self.assertFalse(
