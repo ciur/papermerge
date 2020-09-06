@@ -2,13 +2,19 @@ Changelog
 ==========
 
 
-[1.4.2] - Work in progress
-################################
+[1.4.2] - 7 September 2020
+###########################
 
 Added
 ~~~~~~~
 
-- UI logs. A mini-feature. It helps user to troubleshoot/get feedback from not directly visible processes like running automates or background OCRing of the docs
+- UI logs. A mini-feature. It helps user to troubleshoot/get feedback from not
+    directly visible processes like running automates or background OCRing of
+    the docs
+- Automates match by txt not by hocr file
+- Clipboard bugfixes
+- Display current version at the lower/right bottom
+- Bug fixes
 
 
 [1.4.1] - 29 August 2020
