@@ -13,6 +13,7 @@ from mglib.pdfinfo import get_pagecount
 import papermerge
 from papermerge.core.models import Document, User, Folder
 from papermerge.core.storage import default_storage
+from papermerge.core.utils import remove_backup_filename_id
 from papermerge.core.tasks import ocr_page
 
 logger = logging.getLogger()
@@ -81,7 +82,6 @@ def restore_documents(
     restore_file.seek(0)
 
     with tarfile.open(fileobj=restore_file, mode="r") as restore_archive:
-
         backup_json = restore_archive.extractfile('backup.json')
         backup_info = json.load(backup_json)
 
@@ -106,7 +106,9 @@ def restore_documents(
                 continue
 
             splitted_path = PurePath(restore_file).parts
-            base, ext = os.path.splitext(splitted_path[-1])
+            base, ext = os.path.splitext(
+                remove_backup_filename_id(splitted_path[-1])
+            )
 
             # if there is leading username, remove it.
             if leading_user_in_path:
@@ -149,20 +151,10 @@ def restore_documents(
                     else:
                         parent = folder_object
 
-            document_object = Document.objects.filter(
-                title=splitted_path[-1], user=_user
-            ).filter(parent=parent).first()
-
-            if document_object is not None:
-                logger.error(
-                    "Document %s already exists, skipping", restore_file
-                )
-            else:
-
                 with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
-
+                    ff = restore_archive.extractfile(restore_file)
                     temp_output.write(
-                        restore_archive.extractfile(restore_file).read()
+                        ff.read()
                     )
                     temp_output.seek(0)
                     size = os.path.getsize(temp_output.name)
@@ -173,26 +165,30 @@ def restore_documents(
                         parent_id = parent.id
                     else:
                         parent_id = None
+
                     new_doc = Document.create_document(
                         user=_user,
-                        title=splitted_path[-1],
+                        title=document_info['title'],
                         size=size,
                         lang=document_info['lang'],
-                        file_name=splitted_path[-1],
+                        file_name=remove_backup_filename_id(splitted_path[-1]),
                         parent_id=parent_id,
                         notes="",
-                        page_count=page_count)
+                        page_count=page_count,
+                        rebuild_tree=False  # speeds up 100x
+                    )
+
                     default_storage.copy_doc(
                         src=temp_output.name,
                         dst=new_doc.path.url()
                     )
 
-                for page_num in range(1, page_count + 1):
-                    if not skip_ocr:
+                if not skip_ocr:
+                    for page_num in range(1, page_count + 1):
                         ocr_page.apply_async(kwargs={
                             'user_id': _user.id,
                             'document_id': new_doc.id,
-                            'file_name': splitted_path[-1],
+                            'file_name': new_doc.file_name,
                             'page_num': page_num,
                             'lang': document_info['lang']}
                         )
@@ -224,14 +220,20 @@ def _createTargetPath(document: Document, include_user_in_path=False):
     :return: the full path from root to the document including filename
     :rtype str
     """
-    targetPath = document.file_name
+    # make filename unique
+    targetPath = f"{document.file_name}__{document.id}"
     currentNode = document
     while currentNode.parent is not None:
         currentNode = currentNode.parent
-        targetPath = os.path.join(currentNode.title, targetPath)
+        targetPath = os.path.join(
+            currentNode.title,
+            targetPath
+        )
 
     if include_user_in_path:
-        targetPath = os.path.join(document.user.username, targetPath)
+        targetPath = os.path.join(
+            document.user.username, targetPath
+        )
 
     return targetPath
 
@@ -249,6 +251,7 @@ def _add_current_document_entry(
 
     current_document['path'] = targetPath
     current_document['lang'] = document.lang
+    current_document['title'] = document.title
 
     return current_document
 
@@ -270,17 +273,24 @@ def _add_user_documents(
     documents = Document.objects.filter(user=user)
 
     for current_document_object in documents:  # type: Document
-        current_document = _add_current_document_entry(
-            current_document_object,
-            include_user_in_path=include_user_in_path
-        )
-        current_backup['documents'].append(
-            current_document
-        )
-        backup_archive.add(
-            current_document_object.absfilepath,
-            arcname=_createTargetPath(
+        try:
+            backup_archive.add(
+                current_document_object.absfilepath,
+                arcname=_createTargetPath(
+                    current_document_object,
+                    include_user_in_path=include_user_in_path
+                )
+            )
+            current_document = _add_current_document_entry(
                 current_document_object,
                 include_user_in_path=include_user_in_path
             )
-        )
+            current_backup['documents'].append(
+                current_document
+            )
+        except Exception as e:
+            # Log error, but continue backup process
+            logger.exception(
+                f"Error {e} occurred."
+            )
+

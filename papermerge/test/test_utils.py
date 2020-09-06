@@ -3,7 +3,8 @@ from django.test import TestCase
 
 from papermerge.core.utils import (
     Timer,
-    filter_node_id
+    filter_node_id,
+    remove_backup_filename_id
 )
 
 class TestTimer(TestCase):
@@ -50,3 +51,35 @@ class TestTimer(TestCase):
             filter_node_id(100),
             100
         )
+
+    def test_remove_backup_filename_id(self):
+        self.assertEqual(
+            remove_backup_filename_id("boox__100"),
+            "boox"
+        )
+
+        self.assertEqual(
+            remove_backup_filename_id("boox_123"),
+            "boox"
+        )
+
+        self.assertEqual(
+            remove_backup_filename_id("60_000_000_years_ago.pdf__123"),
+            "60_000_000_years_ago.pdf"
+        )
+
+        self.assertEqual(
+            remove_backup_filename_id("60____years__ago.pdf__123"),
+            "60____years__ago.pdf"
+        )
+
+        self.assertEqual(
+            remove_backup_filename_id(123),
+            123
+        )
+
+        self.assertEqual(
+            remove_backup_filename_id(None),
+            None
+        )
+

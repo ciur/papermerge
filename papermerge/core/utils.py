@@ -209,3 +209,41 @@ def filter_node_id(value):
         return value
 
     return None
+
+
+def remove_backup_filename_id(value: str) -> str:
+    """
+    value is a string that looks like something__number,
+    i.e. consists of two parts separated by double underscore.
+    Second part (__number) is a number.
+    Examples:
+
+        blah.pdf__23
+        boo__1
+        asdlaksd__100
+
+    This function returns first part of the string:
+
+    value: blah.pdf__23 => result: blah.pdf
+           boo__1  => boo
+
+    Other examples:
+
+        boox_1       => boox
+        boox         => boox
+        boox_____100 => boox
+        None         => None
+    """
+    # works only with string input
+    if not value:
+        return None
+
+    if not isinstance(value, str):
+        return value
+
+    result = value.split('_')
+
+    if len(result) <= 2:
+        return result[0]
+
+    return "_".join(result[0:-2])
