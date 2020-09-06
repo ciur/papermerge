@@ -270,17 +270,24 @@ def _add_user_documents(
     documents = Document.objects.filter(user=user)
 
     for current_document_object in documents:  # type: Document
-        current_document = _add_current_document_entry(
-            current_document_object,
-            include_user_in_path=include_user_in_path
-        )
-        current_backup['documents'].append(
-            current_document
-        )
-        backup_archive.add(
-            current_document_object.absfilepath,
-            arcname=_createTargetPath(
+        try:
+            backup_archive.add(
+                current_document_object.absfilepath,
+                arcname=_createTargetPath(
+                    current_document_object,
+                    include_user_in_path=include_user_in_path
+                )
+            )
+            current_document = _add_current_document_entry(
                 current_document_object,
                 include_user_in_path=include_user_in_path
             )
-        )
+            current_backup['documents'].append(
+                current_document
+            )
+        except Exception as e:
+            # Log error, but continue backup process
+            logger.exception(
+                f"Error {e} occurred."
+            )
+
