@@ -17,7 +17,7 @@ def preferences_view(request):
         form = Form(request.POST)
         if form.is_valid():
             form.update_preferences()
-            return redirect('index')
+            return redirect('admin:index')
 
     return render(
         request,

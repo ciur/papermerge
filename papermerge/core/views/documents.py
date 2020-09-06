@@ -15,20 +15,25 @@ from django.http import (
     HttpResponseForbidden,
     Http404
 )
-from django import views
+from django.contrib.staticfiles import finders
+
 from django.contrib.auth.decorators import login_required
 
 from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
 from mglib.shortcuts import extract_img
+from mglib import exceptions
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
+from .decorators import json_response
 
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 from papermerge.core.tasks import ocr_page
+from papermerge.core.utils import filter_node_id
+from papermerge.core import signal_definitions as signals
 
 logger = logging.getLogger(__name__)
 
@@ -40,48 +45,70 @@ def document(request, doc_id):
     except Document.DoesNotExist:
         return render(request, "admin/document_404.html")
 
+    nodes_perms = request.user.get_perms_dict(
+        [doc], Access.ALL_PERMS
+    )
+
     if not request.is_ajax():
-        return render(
-            request,
-            'admin/document.html',
-            {
-                'pages': doc.pages.all(),
-                'document': doc
-            }
-        )
+        if request.user.has_perm(Access.PERM_READ, doc):
+            return render(
+                request,
+                'admin/document.html',
+                {
+                    'pages': doc.pages.all(),
+                    'document': doc,
+                    'has_perm_write': nodes_perms.get(
+                        'write', False
+                    ),
+                }
+            )
+        else:
+            return HttpResponseForbidden()
 
     # ajax + PATCH
     if request.method == 'PATCH':
         # test_document_view
         # TestDocumentAjaxOperationsView.test_update_notes
         # test_update_notes
-        data = json.loads(request.body)
-        if 'notes' in data:
-            # dangerous user input. Escape it.
-            doc.notes = escape(data['notes'])
-            doc.save()
-            return HttpResponse(
-                json.dumps(
-                    {
-                        'msg': _("Notes saved!")
-                    }
-                ),
+        if request.user.has_perm(Access.PERM_WRITE, doc):
+            data = json.loads(request.body)
+            if 'notes' in data:
+                # dangerous user input. Escape it.
+                doc.notes = escape(data['notes'])
+                doc.save()
+                return HttpResponse(
+                    json.dumps(
+                        {
+                            'msg': _("Notes saved!")
+                        }
+                    ),
+                    content_type="application/json",
+                )
+        else:
+            return HttpResponseForbidden(
+                json.dumps({'msg': _("Access denied")}),
                 content_type="application/json",
             )
 
     if request.method == 'DELETE':
         # test_document_view
         # TestDocumentAjaxOperationsView.test_delete_document
-        doc.delete()
-        return HttpResponse(
-            json.dumps(
-                {
-                    'msg': "OK",
-                    'url': reverse('browse')
-                }
-            ),
-            content_type="application/json",
-        )
+        if request.user.has_perm(Access.PERM_DELETE, doc):
+            doc.delete()
+            return HttpResponse(
+                json.dumps(
+                    {
+                        'msg': "OK",
+                        'url': reverse('admin:browse')
+                    }
+                ),
+                content_type="application/json",
+            )
+        else:
+            return HttpResponseForbidden(
+                json.dumps(_("Access denied")),
+                content_type="application/json",
+            )
 
     # so, ajax only here
     if request.method == 'POST':
@@ -89,27 +116,41 @@ def document(request, doc_id):
         pass
 
     # ajax + GET here
+    result_dict = doc.to_dict()
+    result_dict['user_perms'] = nodes_perms[doc.id]
+
     return HttpResponse(
-        json.dumps({'document': doc.to_dict()}),
+        json.dumps({'document': result_dict}),
         content_type="application/json",
     )
 
 
+@json_response
 @login_required
 @require_POST
 def cut_node(request):
     data = json.loads(request.body)
     node_ids = [item['id'] for item in data]
+    nodes = BaseTreeNode.objects.filter(
+        id__in=node_ids
+    )
+    nodes_perms = request.user.get_perms_dict(
+        nodes, Access.ALL_PERMS
+    )
+    for node in nodes:
+        if not nodes_perms[node.id].get(
+            Access.PERM_DELETE, False
+        ):
+            msg = _(
+                "%s does not have permission to cut %s"
+            ) % (request.user.username, node.title)
+
+            return msg, HttpResponseForbidden.status_code
 
     # request.clipboard.nodes = request.nodes
     request.nodes.add(node_ids)
 
-    return HttpResponse(
-        json.dumps({
-            'msg': 'OK'
-        }),
-        content_type="application/json"
-    )
+    return 'OK'
 
 
 @login_required
@@ -198,6 +239,7 @@ def paste_node(request):
     )
 
 
+@json_response
 @login_required
 def rename_node(request, id):
     """
@@ -206,22 +248,21 @@ def rename_node(request, id):
 
     data = json.loads(request.body)
     title = data.get('title', None)
+    node = get_object_or_404(BaseTreeNode, id=id)
+
+    if not request.user.has_perm(Access.PERM_WRITE, node):
+        msg = _(
+            "You don't have permissions to rename this document"
+        )
+        return msg, HttpResponseForbidden.status_code
 
     if not title:
-        return HttpResponse(
-            json.dumps({'msg': 'Missing title'}),
-            content_type="application/json",
-        )
-
-    node = get_object_or_404(BaseTreeNode, id=id)
+        return _('Missing title')
 
     node.title = title
     node.save()
 
-    return HttpResponse(
-        json.dumps({'msg': "OK"}),
-        content_type="application/json",
-    )
+    return 'OK'
 
 
 @login_required
@@ -282,6 +323,13 @@ def create_folder(request):
         parent=parent_folder,
         user=request.user
     )
+    signals.folder_created.send(
+        sender='core.views.documents.create_folder',
+        user_id=request.user.id,
+        level=logging.INFO,
+        message=_("Folder created"),
+        folder_id=folder.id
+    )
 
     return HttpResponse(
         json.dumps(
@@ -290,99 +338,99 @@ def create_folder(request):
     )
 
 
-class DocumentsUpload(views.View):
-    def post(self, request):
-        files = request.FILES.getlist('file')
-        if not files:
-            logger.warning(
-                "POST request.FILES is empty. Forgot adding file?"
-            )
-            return HttpResponseBadRequest(
-                "Missing input file"
-            )
+@json_response
+@login_required
+@require_POST
+def upload(request):
+    """
+    To understand returned value, have a look at
+    papermerge.core.views.decorators.json_reponse decorator
+    """
+    files = request.FILES.getlist('file')
+    if not files:
+        logger.warning(
+            "POST request.FILES is empty. Forgot adding file?"
+        )
+        return "Missing input file", 400
 
-        if len(files) > 1:
-            logger.warning(
-                "More then one files per ajax? how come?"
-            )
-            return HttpResponse(
-                json.dumps({}),
-                content_type="application/json",
-                status_code=400
-            )
+    if len(files) > 1:
+        msg = "More then one files per ajax? how come?"
+        logger.warning(msg)
 
-        f = files[0]
+        return msg, 400
 
-        logger.debug("upload for f=%s user=%s", f, request.user)
+    f = files[0]
 
-        user = request.user
-        size = os.path.getsize(f.temporary_file_path())
-        parent_id = request.POST.get('parent', "-1")
-        if parent_id and "-1" in parent_id:
-            parent_id = None
+    logger.debug("upload for f=%s user=%s", f, request.user)
 
-        lang = request.POST.get('language')
-        notes = request.POST.get('notes')
+    user = request.user
+    size = os.path.getsize(f.temporary_file_path())
+    parent_id = request.POST.get('parent', "-1")
+    parent_id = filter_node_id(parent_id)
+
+    lang = request.POST.get('language')
+    notes = request.POST.get('notes')
+    try:
         page_count = get_pagecount(f.temporary_file_path())
-        logger.info("creating document {}".format(f.name))
-
-        doc = Document.create_document(
-            user=user,
-            title=f.name,
-            size=size,
-            lang=lang,
-            file_name=f.name,
-            parent_id=parent_id,
-            notes=notes,
-            page_count=page_count
+    except exceptions.FileTypeNotSupported:
+        status = 400
+        msg = _(
+            "File type not supported."
+            " Only pdf, tiff, png, jpeg files are supported"
         )
-        logger.debug(
-            "uploading to {}".format(doc.path.url())
-        )
+        return msg, status
 
-        default_storage.copy_doc(
-            src=f.temporary_file_path(),
-            dst=doc.path.url()
-        )
-        for page_num in range(1, page_count + 1):
-            ocr_page.apply_async(kwargs={
-                'user_id': user.id,
-                'document_id': doc.id,
-                'file_name': f.name,
-                'page_num': page_num,
-                'lang': lang}
-            )
+    logger.debug("creating document {}".format(f.name))
 
-        # upload only one file at time.
-        # after each upload return a json object with
-        # following fields:
-        #
-        # - title
-        # - preview_url
-        # - doc_id
-        # - action_url  -> needed for renaming/deleting selected item
-        #
-        # with that info a new thumbnail will be created.
+    doc = Document.create_document(
+        user=user,
+        title=f.name,
+        size=size,
+        lang=lang,
+        file_name=f.name,
+        parent_id=parent_id,
+        notes=notes,
+        page_count=page_count
+    )
+    logger.debug(
+        "uploading to {}".format(doc.path.url())
+    )
 
-        # action_url = reverse(
-        #     'boss:core_basetreenode_change', args=(doc.id,)
-        # )
-
-        preview_url = reverse(
-            'core:preview', args=(doc.id, 200, 1)
+    default_storage.copy_doc(
+        src=f.temporary_file_path(),
+        dst=doc.path.url()
+    )
+    for page_num in range(1, page_count + 1):
+        ocr_page.apply_async(kwargs={
+            'user_id': user.id,
+            'document_id': doc.id,
+            'file_name': f.name,
+            'page_num': page_num,
+            'lang': lang}
         )
 
-        result = {
-            'title': doc.title,
-            'doc_id': doc.id,
-            'action_url': "",
-            'preview_url': preview_url
-        }
-        logger.info("and response is!")
-        return HttpResponse(
-            json.dumps(result),
-            content_type="application/json"
-        )
+    # upload only one file at time.
+    # after each upload return a json object with
+    # following fields:
+    #
+    # - title
+    # - preview_url
+    # - doc_id
+    # - action_url  -> needed for renaming/deleting selected item
+    #
+    # with that info a new thumbnail will be created.
+    preview_url = reverse(
+        'core:preview', args=(doc.id, 200, 1)
+    )
+
+    result = {
+        'title': doc.title,
+        'doc_id': doc.id,
+        'action_url': "",
+        'preview_url': preview_url
+    }
+
+    return result
 
 
 @login_required
@@ -476,7 +524,14 @@ def preview(request, id, step=None, page="1"):
             with open(img_abs_path, "rb") as f:
                 return HttpResponse(f.read(), content_type="image/jpeg")
         except IOError:
-            raise
+            generic_file = "admin/img/document.png"
+            if Step(step).is_thumbnail:
+                generic_file = "admin/img/document_thumbnail.png"
+
+            file_path = finders.find(generic_file)
+
+            with open(file_path, "rb") as f:
+                return HttpResponse(f.read(), content_type="image/png")
 
     return redirect('core:index')
 
@@ -501,7 +556,7 @@ def document_download(request, id):
             logger.error(
                 "Cannot open local version of %s" % doc.path.url()
             )
-            return redirect('browse')
+            return redirect('admin:browse')
 
         resp = HttpResponse(
             file_handle.read(),

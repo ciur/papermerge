@@ -1,3 +1,4 @@
+import tempfile
 import json
 import os
 from pathlib import Path
@@ -82,3 +83,33 @@ class TestHocr(TestCase):
             word.wconf,
             38
         )
+
+    def test_empty_file_hocr(self):
+        """
+        If empty or invalid file is provided then
+        json_good_words() and get_meta()
+        will return empty list.
+        """
+        file = tempfile.NamedTemporaryFile(mode="r+t")
+        hocr = Hocr(hocr_file_path=file.name)
+
+        self.assertEqual(
+            hocr.good_json_words(),
+            []
+        )
+        meta = hocr.get_meta()
+        self.assertEqual(
+            meta,
+            {
+                'count_all': 0,
+                'bad_words': [],
+                'count_good': 0,
+                'count_bad': 0,
+                'count_non_empty': 0,
+                'count_low_wconf': 0,
+                'width': 0,
+                'height': 0,
+                'min_wconf': 30
+            }
+        )
+        file.close()

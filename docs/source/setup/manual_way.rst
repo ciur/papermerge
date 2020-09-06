@@ -1,5 +1,5 @@
-Manual Way
-************
+Manual Way (Bare Metal)
+*************************
 
 If you follow this document and still have troubles, please open an
 `issue on GitHub: <https://github.com/ciur/papermerge/issues>`_ so I can fill in
@@ -47,11 +47,18 @@ folder PapermergeDMS (located in home folder)::
         tesseract-ocr-spa
 
 
-1. Create python virutal environment and activate it::
+2. Create python virutal environment and activate it::
 
     $ cd ~/PapermergeDMS
     $ python3 -m venv .venv --system-site-packages
     $ source .venv/bin/activate
+
+Alternativelly you can create python virtual environment with command::
+
+    $ virtualenv .venv -p python3.7
+
+Advantage of last command is that you can specify exact python version.
+Papermerge requires python version >= 3.7
 
 3. Install necessary dependencies::
 
@@ -203,6 +210,15 @@ $ python3 -m venv .venv --system-site-packages
     ``--system-site-packages`` is necessary, it will install a package called ``wheel``.
     Without ``wheel`` package, pip install later will issue warning.
 
+Alternatively you can create python virtual environment with following command::
+
+    $ virtualenv .venv -p python3.7
+
+Advantage of last command is that it specifies exact python version.
+
+.. note::
+    Papermerge requires python version >= 3.7
+
 Next we need to *activate* virtual environment::
 
 $ source .venv/bin/activate
@@ -333,7 +349,7 @@ So, start server again (in case it is not running)::
 
 $ ./manage.py runserver
 
-Point your web browser to ``http://localhost`` and use superuser's
+Point your web browser to ``http://localhost:8000`` and use superuser's
 username/password to login.
 
 
@@ -370,6 +386,16 @@ In one of previous steps we created an empty configuration file::
     $ cd ~/PapermergeDMS
     $ touch papermerge.conf.py # it is empty now
 
+.. note::
+
+    **What is the purpose of empty configuration file?** It has one - it raises
+    awareness of administrator that such file exists. The logic is following -
+    if administrator created papermerge.conf.py => Papermerge application
+    immediately concludes admin is aware of such file and silence the warning
+    message. Again - it is absolutely OK to leave papermerge.conf.py file
+    empty.
+
+
 By default, in language dropdown menu, two languages will be displayed German and English.
 You can change that with following configuration::
 
@@ -388,3 +414,11 @@ Now four languages will be displayed in language dropdown.
         For each language you want to :ref:`ocr` you need to have tesseract language pack installed.
 
 Learn more Papermerge configurations in :ref:`settings`
+
+What's Next?
+~~~~~~~~~~~~~~~
+
+Once you’ve tested things and are happy with the work flow, you should secure
+the installation and automate the process of starting the webserver and
+worker. :ref:`server_configurations` explains different configuration
+scenarios of how you can make your bare metal setup - more stable.

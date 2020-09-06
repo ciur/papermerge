@@ -10,29 +10,32 @@ from papermerge.core.auth import create_access
 from papermerge.core.models import Access, Diff, Document, Folder, User
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import normalize_pages
+from papermerge.core.ocr import COMPLETE
 
 from .automate import apply_automates
-from .signal_definitions import page_hocr_ready
+from .signal_definitions import page_ocr
 
 logger = logging.getLogger(__name__)
 
 
-@receiver(page_hocr_ready, sender="worker")
+@receiver(page_ocr, sender="worker")
 def apply_automates_handler(sender, **kwargs):
     """
     Signal sent when HOCR file is ready (i.e. OCR for page is complete).
     """
     document_id = kwargs.get('document_id', False)
     page_num = kwargs.get('page_num', False)
+    status = kwargs.get('status')
 
-    logger.debug(
-        f"Page hocr ready: document_id={document_id} page_num={page_num}"
-    )
+    if status == COMPLETE:
+        logger.debug(
+            f"Page hocr ready: document_id={document_id} page_num={page_num}"
+        )
 
-    apply_automates(
-        document_id=document_id,
-        page_num=page_num
-    )
+        apply_automates(
+            document_id=document_id,
+            page_num=page_num
+        )
 
 
 @receiver(pre_delete, sender=Document)

@@ -1,9 +1,0 @@
-{{notice}}
-
-[Unit]
-Description=Papermerge Service
-
-[Service]
-WorkingDirectory={{proj_root}}
-EnvironmentFile={{proj_root}}/run/etc/papermerge.env
-ExecStart={{virt_env}}/bin/gunicorn config.wsgi:application --config {{proj_root}}/run/etc/gunicorn.conf.py

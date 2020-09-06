@@ -2,20 +2,29 @@ import json
 import logging
 
 from django.http import (
-    HttpResponse,
     HttpResponseBadRequest,
     HttpResponseForbidden
 )
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext as _
 
-from papermerge.core.models import BaseTreeNode, Access, Folder
+from papermerge.core.models import (
+    BaseTreeNode,
+    Access,
+    Folder,
+    Automate
+)
 from papermerge.core.models.utils import recursive_delete
+from papermerge.core import signal_definitions as signals
+
+from .decorators import json_response
 
 logger = logging.getLogger(__name__)
 
 
+@json_response
 @login_required
 def browse_view(request, parent_id=None):
 
@@ -65,18 +74,14 @@ def browse_view(request, parent_id=None):
 
             nodes_list.append(node_dict)
 
-    return HttpResponse(
-        json.dumps(
-            {
-                'nodes': nodes_list,
-                'parent_id': parent_id,
-                'parent_kv': parent_kv
-            }
-        ),
-        content_type="application/json"
-    )
+    return {
+        'nodes': nodes_list,
+        'parent_id': parent_id,
+        'parent_kv': parent_kv
+    }
 
 
+@json_response
 @login_required
 def breadcrumb_view(request, parent_id=None):
 
@@ -93,14 +98,12 @@ def breadcrumb_view(request, parent_id=None):
             item.to_dict() for item in node.get_ancestors(include_self=True)
         ]
 
-    return HttpResponse(
-        json.dumps({
-            'nodes': nodes,
-        }),
-        content_type="application/json"
-    )
+    return {
+        'nodes': nodes,
+    }
 
 
+@json_response
 @login_required
 def node_by_title_view(request, title):
     """
@@ -113,28 +116,27 @@ def node_by_title_view(request, title):
         title__iexact=title
     )
 
-    return HttpResponse(
-        json.dumps({
-            'id': node.id,
-            'title': node.title,
-            'children_count': node.get_children().count(),
-            'url': reverse('node_by_title', args=('inbox',))
-        }),
-        content_type="application/json"
-    )
+    return {
+        'id': node.id,
+        'title': node.title,
+        'children_count': node.get_children().count(),
+        'url': reverse('node_by_title', args=('inbox',))
+    }
 
 
+@json_response
 @login_required
 def node_view(request, node_id):
+    """
+    GET or DELETE /node/<node_id>
+    """
     try:
         node = BaseTreeNode.objects.get(id=node_id)
     except BaseTreeNode.DoesNotExist:
-        return HttpResponseBadRequest(
-            json.dumps({
-                'node': node.to_dict()
-            }),
-            content_type="application/json"
-        )
+        ret = {
+            'node': node.to_dict()
+        }
+        return ret, HttpResponseBadRequest.status_code
 
     if request.method == "DELETE":
         if request.user.has_perm(Access.PERM_DELETE, node):
@@ -142,64 +144,71 @@ def node_view(request, node_id):
         else:
             msg = f"{request.user.username} does not have" +\
                 f" permission to delete {node.title}"
-            return HttpResponseForbidden(
-                json.dumps({
-                    'msg': msg
-                }),
-                content_type="application/json"
-            )
 
-        return HttpResponse(
-            json.dumps({
-                'msg': 'OK'
-            }),
-            content_type="application/json"
-        )
+            return msg, HttpResponseForbidden.status_code
 
-    return HttpResponse(
-        json.dumps({
-            'node': node.to_dict()
-        }),
-        content_type="application/json"
-    )
+        return 'OK'
+
+    return {
+        'node': node.to_dict()
+    }
 
 
+@json_response
 @login_required
 def nodes_view(request):
+    """
+    GET or POST /nodes/
+    """
 
     if request.method == "POST":
 
         data = json.loads(request.body)
         node_ids = [item['id'] for item in data]
-
         queryset = BaseTreeNode.objects.filter(id__in=node_ids)
+
+        automates = Automate.objects.filter(
+            dst_folder__in=queryset
+        )
+        if automates.count():
+            msg = _(
+                "Following Automates have references to folders "
+                "you are trying to delete: "
+            )
+            msg += ", ".join([auto.name for auto in automates])
+            msg += _(
+                ". Please delete mentioned Automates frist."
+            )
+
+            return msg, HttpResponseBadRequest.status_code
+
+        nodes_perms = request.user.get_perms_dict(
+            queryset, Access.ALL_PERMS
+        )
+        node_titles = []
         for node in queryset:
-            # is used allowd to delete ?
-            if not request.user.has_perm(Access.PERM_DELETE, node):
+            node_titles.append(
+                node.title
+            )
+            if not nodes_perms[node.id].get(Access.PERM_DELETE, False):
                 # if user does not have delete permission on
                 # one node - forbid entire operation!
                 msg = f"{request.user.username} does not have" +\
                     f" permission to delete {node.title}"
-                return HttpResponseForbidden(
-                    json.dumps({
-                        'msg': msg
-                    }),
-                    content_type="application/json"
-                )
+
+                return msg, HttpResponseForbidden.status_code
         # yes, user is allowed to delete all nodes,
         # proceed with delete opration
         recursive_delete(queryset)
-
-        return HttpResponse(
-            json.dumps({
-                'msg': 'OK'
-            }),
-            content_type="application/json"
+        signals.nodes_deleted.send(
+            sender='core.views.nodes.nodes_view',
+            user_id=request.user.id,
+            level=logging.INFO,
+            message=_("Nodes deleted"),
+            node_titles=node_titles,
+            node_ids=node_ids
         )
 
-    return HttpResponse(
-        json.dumps({
-            'msg': 'OK'
-        }),
-        content_type="application/json"
-    )
+        return 'OK'
+
+    return 'OK'

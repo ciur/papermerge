@@ -1,10 +1,14 @@
 import os
+import io
 import json
 from unittest import skip
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
-from django.http.response import HttpResponseBadRequest
+from django.http.response import (
+    HttpResponseBadRequest,
+    HttpResponseForbidden
+)
 
 from mglib.path import PagePath
 from mglib.step import Step
@@ -47,7 +51,7 @@ class TestDocumentView(TestCase):
 
     def test_index(self):
         self.client.get(
-            reverse('index')
+            reverse('admin:index')
         )
 
     def test_upload(self):
@@ -74,6 +78,67 @@ class TestDocumentView(TestCase):
         self.assertEqual(
             Document.objects.count(),
             1
+        )
+
+    def test_upload_with_invalid_parent(self):
+        """
+        If invalid parent id is given - document will
+        be added to the root folder.
+        """
+        self.assertEqual(
+            Document.objects.count(),
+            0
+        )
+        file_path = os.path.join(
+            BASE_DIR,
+            "data",
+            "berlin.pdf"
+        )
+        with open(file_path, "rb") as fp:
+            self.client.post(
+                reverse('core:upload'),
+                {
+                    'name': 'fred',
+                    'file': fp,
+                    'language': "eng",
+                    'parent': '1duh12'
+                },
+            )
+
+        # Was a document instance created ?
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+    def test_upload_text_file(self):
+        """
+        Only png, jpeg, pdf, tiff files are supported.
+
+        Scenario: user uploads for example a plain text file.
+        Expected:
+            HTTP response 400.
+            Response content type: application/json
+            Messages: File type not supported
+        """
+        # create in-memory plain text file
+        f_handle = io.StringIO("Plain text file")
+
+        ret = self.client.post(
+            reverse('core:upload'),
+            {
+                'name': 'fred',
+                'file': f_handle,
+                'language': "eng",
+            },
+        )
+        self.assertEqual(
+            ret.status_code,
+            400
+        )
+        result = json.loads(ret.content)
+        self.assertTrue(
+            "File type not supported" in result['msg']
         )
 
     def test_preview_document_does_not_exist(self):
@@ -521,6 +586,7 @@ class TestDocumentAjaxOperationsView(TestCase):
     def setUp(self):
 
         self.testcase_user = create_root_user()
+        self.margaret_user = create_margaret_user()
         self.client = Client()
         self.client.login(testcase_user=self.testcase_user)
 
@@ -582,6 +648,318 @@ class TestDocumentAjaxOperationsView(TestCase):
 
         with self.assertRaises(Document.DoesNotExist):
             Document.objects.get(id=doc.id)
+
+    def test_deny_delete_for_restricted_document(self):
+        """
+        Deleting Document should be restricted only to users who have
+        PERM_DELETE permissions
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        nodes_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        nodes_data = [
+            {'id': doc.id},
+        ]
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.delete(
+            nodes_url,
+            json.dumps(nodes_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+        # because margaret does not have access to the
+        # document -> it should be still there
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+    def test_allow_delete_if_user_has_perm(self):
+        """
+        Deleting Document should be restricted only to users who have
+        PERM_DELETE permissions
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        nodes_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        nodes_data = [
+            {'id': doc.id},
+        ]
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True,
+                DELETE: True
+            }  # allow margaret to delete
+        )
+        #
+        # Margaret was assigned access to delete the document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.delete(
+            nodes_url,
+            json.dumps(nodes_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # because margaret does not have access to the
+        # document -> it should be still there
+        self.assertEqual(
+            Document.objects.count(),
+            0
+        )
+
+    def test_deny_change_for_restricted_document(self):
+        """
+        Changing of the document should be restricted only to users who have
+        PERM_WRITE permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            notes="Margaret, stay away!",
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        document_data = {'notes': "It works!"}
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.patch(
+            document_url,
+            json.dumps(document_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+        # because margaret does not have access to the
+        doc.refresh_from_db()
+        self.assertEqual(
+            doc.notes,
+            "Margaret, stay away!"
+        )
+
+    def test_allow_change_if_user_has_perm(self):
+        """
+        Changing of the document should be restricted only to users who have
+        PERM_WRITE permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            notes="Margaret, you are allowed to change this.",
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        self.assertEqual(
+            Document.objects.count(),
+            1
+        )
+
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        document_data = {'notes': "It works!"}
+
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True,
+                WRITE: True
+            }  # allow margaret to delete
+        )
+
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.patch(
+            document_url,
+            json.dumps(document_data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # because margaret does not have access to the
+        doc.refresh_from_db()
+        self.assertEqual(
+            doc.notes,
+            "It works!"
+        )
+
+    def test_deny_view_for_restricted_document(self):
+        """
+        Viewing of the document should be restricted only to users who have
+        PERM_READ permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+        #
+        # Margaret does not have read access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.get(document_url)
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+
+    def test_allow_view_if_user_has_perm(self):
+        """
+        Changing of the document should be restricted only to users who have
+        PERM_WRITE permissions for respective document.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+
+        document_url = reverse(
+            'core:document', args=(doc.id, )
+        )
+
+        create_access(
+            node=doc,
+            name=self.margaret_user.username,
+            model_type=Access.MODEL_USER,
+            access_type=Access.ALLOW,
+            access_inherited=False,
+            permissions={
+                READ: True,
+            }  # allow margaret to read/view the document
+        )
+        #
+        # Margaret does not have access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.get(document_url)
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
 
     def test_create_folder_basic(self):
         data = {
@@ -661,6 +1039,40 @@ class TestDocumentAjaxOperationsView(TestCase):
                 user=self.testcase_user
             ).count(),
             1
+        )
+
+    def test_deny_access_to_rename_document_is_user(self):
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc = Document.create_document(
+            user=self.testcase_user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            page_count=3
+        )
+        rename_url = reverse(
+            'core:rename_node', args=(doc.id, )
+        )
+        #
+        # Margaret does not have read access to document
+        # berlin.pdf
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        ret = self.client.post(
+            rename_url,
+            data=json.dumps({'title': "new_title.pdf"}),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
         )
 
 class TestDocumentDownload(TestCase):

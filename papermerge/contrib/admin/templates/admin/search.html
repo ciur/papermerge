@@ -13,7 +13,7 @@
   <div id="search_breadcrumb" class="col-sm-12">
     <ol class="breadcrumb float-sm-left">
         <li class="breadcrumb-item">
-            <a href="{% url 'index' %}"><i class="fa fa-home px-1"></i>{% trans "Home" %}</a>
+            <a href="{% url 'admin:index' %}"><i class="fa fa-home px-1"></i>{% trans "Home" %}</a>
         </li>
         <li class="breadcrumb-item">
             {% trans "Search results" %}: {{search_term}}
@@ -35,7 +35,7 @@
           {% for item in results_folders %}
             <li>
               <h4>
-                <a href="{% url 'index' %}">
+                <a href="{% url 'admin:index' %}">
                   <i class="fa fa-folder text-warning"></i>
                   {% search_folder_path item %}
                 </a>

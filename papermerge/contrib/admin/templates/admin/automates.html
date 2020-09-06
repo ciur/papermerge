@@ -26,8 +26,6 @@
                 <tr class="text-uppercase">
                   <th>{% trans "Name" %}</th>
                   <th>{% trans "Match" %}</th>
-                  <th>{% trans "Meta Plugin" %}</th>
-                  <th>{% trans "Extract Page" %}</th>
                   <th><i class="fa fa-folder text-warning mr-2"></i>{% trans "Destination Folder" %}</th>
                 </tr>
               </thead>
@@ -36,10 +34,8 @@
                   <tr>
                     <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ automate.id }}" /></span><a href="{% url 'core:automate_change' automate.id %}">{{ automate.name}}</a></td>
                     <td><span class="mr-2">{{automate.match}}</td>
-                    <td><span class="mr-2">{{automate.plugin_name}}</td>
-                    <td><span class="mr-2">{% boolean_icon automate.extract_page%}</td>
                     <td><span class="mr-2">
-                      <a href="{% url 'browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>
+                      <a href="{% url 'admin:browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>
                     </td>
                   </tr>
                 {% endfor %}

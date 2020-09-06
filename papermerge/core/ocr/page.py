@@ -20,6 +20,9 @@ from mglib.tiff import convert_tiff2pdf
 
 logger = logging.getLogger(__name__)
 
+STARTED = "started"
+COMPLETE = "complete"
+
 
 def ocr_page_pdf(
     doc_path,

@@ -10,21 +10,22 @@ from papermerge.core.models import User
 logger = logging.getLogger(__name__)
 
 
+def list_users_and_exit():
+    print("id\tusername\temail")
+    print("----------------------------------")
+    for user in User.objects.all():
+        print(f"{user.id}\t{user.username}\t{user.email}")
+
+    return True
+
+
 class Command(BaseCommand):
     help = """
         Backup all documents and their folder structure to an archive.
-        Backup is per specific user.
+        If --user/-u is specified - will backup all documents of
+        the specific user.
 
-        By default backups only what is most important - your document files.
-
-        You can trigger a full backup with --full-backup option
-        (not yet implemented).
-
-        Full backup will include:
-
-            * OCRed text of each document/page (so that there
-                 is no need to trigger an OCR during resoration)
-            * metadata of each document
+        If --user/u is NOT specified - will backup documents of all users.
     """
 
     def add_arguments(self, parser):
@@ -40,16 +41,26 @@ class Command(BaseCommand):
         parser.add_argument(
             "-u",
             "--user",
-            help="username of the user to perform backup for."
+            help="""
+            username of the user to perform backup for. If not given
+            will perform backup for all users.
+            """
         )
         parser.add_argument(
             '--full-backup',
             action='store_true',
             help="triggers full backup. Not yet implemented."
         )
+        parser.add_argument(
+            "-l",
+            "--list-users",
+            action='store_true',
+            help="List exiting users and quit."
+        )
 
     def handle(self, *args, **options):
 
+        options.get('list_users')
         date_string = datetime.datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
         default_filename = f"backup_{date_string}.tar"
 
@@ -57,13 +68,19 @@ class Command(BaseCommand):
         username = options.get('user')
         location = options.get('location') or default_filename
 
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            logger.error(
-                f"Username {username} not found."
-            )
+        if options.get('list_users'):
+            list_users_and_exit()
             return
+
+        user = None
+        if username:
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                logger.error(
+                    f"Username {username} not found."
+                )
+                return
 
         # consider the case when user provides directory location i.e.
         # ./manage.py backup /backup/papermerge/

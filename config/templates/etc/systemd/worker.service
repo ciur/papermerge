@@ -1,9 +1,0 @@
-{{notice}}
-
-[Unit]
-Description=Worker Service
-
-[Service]
-WorkingDirectory={{proj_root}}
-EnvironmentFile={{proj_root}}/run/etc/papermerge.env
-ExecStart={{virt_env}}/bin/python manage.py worker

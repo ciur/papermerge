@@ -350,7 +350,7 @@ class Document(BaseTreeNode):
         doc_pages,
         dst_document=None,
         after=False,
-        before=False
+        before=False,
     ):
         # parent_node is an instance of BaseTreeNode
         # doc_pages is a dictionary of format:
@@ -401,11 +401,15 @@ class Document(BaseTreeNode):
                     f"While pasting, doc_id={doc_id} was not found"
                 )
                 return
+
+            src = default_storage.abspath(doc.path)
+            doc_path = doc.path
+
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
             data_list.append(
                 {
-                    'src': default_storage.abspath(doc.path),
-                    'doc_path': doc.path,
+                    'src': src,
+                    'doc_path': doc_path,
                     'page_nums': doc_pages[doc_id]
                 }
             )
@@ -491,6 +495,16 @@ class Document(BaseTreeNode):
         return default_storage.abspath(
             self.path.url()
         )
+
+    def vpath(self, version=0):
+        result = DocumentPath(
+            user_id=self.user.id,
+            document_id=self.id,
+            version=version,
+            file_name=self.file_name,
+        )
+
+        return result
 
     @property
     def path(self):

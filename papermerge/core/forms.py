@@ -50,7 +50,6 @@ class AutomateForm(ControlForm):
             'matching_algorithm',
             'is_case_sensitive',
             'dst_folder',
-            'extract_page'
         )
         field_classes = {
             'dst_folder': TreeNodeChoiceField,

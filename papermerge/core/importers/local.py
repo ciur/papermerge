@@ -1,6 +1,9 @@
 import os
 import time
 import logging
+import tempfile
+import shutil
+
 from django.conf import settings
 from operator import itemgetter
 from papermerge.core.document_importer import DocumentImporter
@@ -31,5 +34,12 @@ def import_documents(directory):
         if mtime == os.path.getmtime(file):
             # File has not been modified and can be consumed
             logger.info(f"Importing file {file}...")
-            imp = DocumentImporter(file)
-            imp.import_file()
+            basename = os.path.basename(file)
+            with tempfile.TemporaryDirectory() as tempdirname:
+                shutil.move(file, tempdirname)
+                temp_file_name = os.path.join(
+                    tempdirname, basename
+                )
+                logger.info(f"Same as temp_file_name={temp_file_name}...")
+                imp = DocumentImporter(temp_file_name)
+                imp.import_file()

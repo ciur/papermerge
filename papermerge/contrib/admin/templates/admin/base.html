@@ -15,7 +15,11 @@
   <link rel="stylesheet" href="{% static 'admin/css/icheck-bootstrap.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'admin/css/adminlte.min.css' %}">
-  <link rel="stylesheet" href="{% static 'admin/css/papermerge.css' %}">
+  {% if debug %}
+    <link rel="stylesheet" href="{% static 'admin/css/papermerge.debug.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'admin/css/papermerge.css' %}">
+  {% endif  %}
 </head>
 
 <div class="toasts top-right">
@@ -113,7 +117,12 @@
   <script src="{% static 'admin/js/bootstrap.bundle.min.js' %}"></script>
   <!-- AdminLTE App -->
   <script src="{% static 'admin/js/adminlte.js' %}"></script>
-  <script src="{% static 'admin/js/papermerge.js' %}"></script>
+  {% if debug %}
+    <script src="{% static 'admin/js/papermerge.debug.js' %}"></script>
+  {% else %}
+    <script src="{% static 'admin/js/papermerge.js' %}"></script>
+  {% endif %}
+  
   <script src="{% url 'javascript-catalog' %}"></script>
 
   <!-- see comments in PapermergeJS/src/js/routers/browse.js:browse -->

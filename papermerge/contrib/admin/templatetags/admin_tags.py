@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from django.urls import reverse
 
 from papermerge.core.lib.lang import LANG_DICT
+from papermerge.contrib.admin.models import LogEntry
 
 
 register = Library()
@@ -21,7 +22,7 @@ def build_url_for_index(
     html_class_attr='',
     title=''
 ):
-    url = reverse('index')
+    url = reverse('admin:index')
 
     link = format_html(
         '<a href="{}" class="{}" alt="{}">'
@@ -175,5 +176,16 @@ def tree_path(node):
     )
 
 
+@register.filter
+def log_level(level_as_int):
+    """
+    logging.INFO -> _("Info")
+    logging.DEBUG -> _("Debug")
+    etc
+    """
 
+    for level in LogEntry.LEVELS:
+        if level_as_int == level[0]:
+            return level[1]
 
+    return None

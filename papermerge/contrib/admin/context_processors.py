@@ -1,3 +1,5 @@
+
+import papermerge
 from papermerge.core.models import Folder
 
 
@@ -19,6 +21,7 @@ def extras(request):
 
     return {
         'inbox_count': count,
+        'papermerge_version': papermerge.__version__
     }
 
 

@@ -1,9 +1,11 @@
 <ul class="page_thumbnails">
     {% for page in pages %}
         <li class="page_thumbnail {% if forloop.first %} first {% endif %} {% if forloop.last %} last {% endif %}">
-          <div class="arrow-up-control">
-              <a href="#"><i class="fa fa-arrow-circle-up"></i></a>
-          </div>
+          {% if has_perm_write %}
+            <div class="arrow-up-control">
+                <a href="#"><i class="fa fa-arrow-circle-up"></i></a>
+            </div>
+          {% endif %}
           <img src="/document/{{document.id}}/preview/4/page/{{page.number}}">
           <div class="document page" 
                data-page_num="{{page.number}}"
@@ -14,9 +16,11 @@
                data-step="4">
                <input type="checkbox" name="_selected_action" value="{{ page.number }}" />
             </div>
-          <div class="arrow-down-control">
-              <a href="#"><i class="fa fa-arrow-circle-down"></i></a>
-          </div>
+          {% if has_perm_write %}
+            <div class="arrow-down-control">
+                <a href="#"><i class="fa fa-arrow-circle-down"></i></a>
+            </div>
+          {% endif %}
           <div class="page_number">{{ page.number }}</div>
         </li>
     {% endfor %}

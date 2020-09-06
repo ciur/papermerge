@@ -1,7 +1,0 @@
-{{notice}}
-
-[Unit]
-Description=Papermerge Targets
-Requires=papermerge.service \
-     mg_nginx.service \
-     worker.service \
