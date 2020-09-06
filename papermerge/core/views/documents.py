@@ -57,8 +57,8 @@ def document(request, doc_id):
                 {
                     'pages': doc.pages.all(),
                     'document': doc,
-                    'has_perm_write': nodes_perms.get(
-                        'write', False
+                    'has_perm_write': nodes_perms[doc.id].get(
+                        Access.PERM_WRITE, False
                     ),
                 }
             )
