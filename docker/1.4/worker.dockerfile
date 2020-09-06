@@ -38,7 +38,7 @@ RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 
-RUN git clone https://github.com/ciur/papermerge --branch v1.4.0 -q --depth 1 /opt/app
+RUN git clone https://github.com/ciur/papermerge --branch v1.4.2 -q --depth 1 /opt/app
 
 RUN mkdir -p /opt/media
 
