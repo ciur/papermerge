@@ -152,8 +152,9 @@ def restore_documents(
                         parent = folder_object
 
                 with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
+                    ff = restore_archive.extractfile(restore_file)
                     temp_output.write(
-                        restore_archive.extractfile(restore_file).read()
+                        ff.read()
                     )
                     temp_output.seek(0)
                     size = os.path.getsize(temp_output.name)
