@@ -53,3 +53,26 @@ class TestDocument(TestCase):
             found_docs.first().title,
             "document_c"
         )
+
+    def test_basic_folder_tagging(self):
+        folder = Folder.objects.create(
+            title="Markus",
+            user=self.user
+        )
+        folder.tags.add(
+            "invoices",
+            tag_kwargs={"user": self.user}
+        )
+        found_folders = Folder.objects.filter(
+            tags__name__in=["invoices"]
+        )
+
+        self.assertEquals(
+            found_folders.count(),
+            1
+        )
+
+        self.assertEquals(
+            found_folders.first().title,
+            "Markus"
+        )
