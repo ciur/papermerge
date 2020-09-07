@@ -10393,6 +10393,25 @@ aside a.download {
   background-color: #ececec;
   outline: None; }
 
+.tags-container {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 2px; }
+  .tags-container .tag {
+    padding: 0.25rem;
+    border: 1px solid #ccc;
+    margin: 0.25rem;
+    border-radius: 3px; }
+    .tags-container .tag span {
+      margin-left: 0.5rem; }
+    .tags-container .tag i {
+      margin-left: 0.5rem;
+      margin-right: 0.3rem; }
+  .tags-container input {
+    flex: 1;
+    outline: none;
+    border: 0; }
+
 #pre-loader {
   position: absolute;
   z-index: 3000;

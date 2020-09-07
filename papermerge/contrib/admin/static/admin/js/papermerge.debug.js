@@ -20153,18 +20153,19 @@ class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*******************************!*\
   !*** ./src/js/models/tags.js ***!
   \*******************************/
-/*! exports provided: Tags */
+/*! exports provided: Tag, Tags */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag", function() { return Tag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tags", function() { return Tags; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
 
 
-class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+class Tag extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   /**
       Used to tag folder/document.
   */
@@ -20178,6 +20179,16 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       tag: this.get('tags')
     };
     return dict;
+  }
+
+}
+class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return Tag;
+  }
+
+  urlRoot() {
+    return '/tags/';
   }
 
 }
@@ -21411,13 +21422,37 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
+__p+=' ';
+ for (let i=0; i < tags.models.length; i++) { 
+__p+='\n    ';
+ model = tags.models[i] 
+__p+='\n     <div class="tag d-flex align-items-center">\n       <span>'+
+((__t=( model.get('name') ))==null?'':__t)+
+'</span>\n       <i class="fa fa-times tag-remove"></i>\n     </div>\n ';
+ } 
+__p+='\n<input class="tag-input" />\n\n';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/tags_modal.html":
+/*!******************************************!*\
+  !*** ./src/js/templates/tags_modal.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
 __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          '+
 ((__t=( gettext('Tags') ))==null?'':__t)+
 '\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="tags">'+
 ((__t=( gettext('Tags Editor') ))==null?'':__t)+
-':</label>\n                    <input type="text" class="form-control" value="'+
-((__t=( tags ))==null?'':__t)+
-'" name="tags" />\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs tags">'+
+':</label>\n                    <div class="tags-container d-flex">\n                     \n                    </div>\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs tags">'+
 ((__t=( gettext('Submit') ))==null?'':__t)+
 '</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
@@ -22132,7 +22167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
 /* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
 /* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _views_tags__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/tags */ "./src/js/views/tags.js");
+/* harmony import */ var _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/tags_modal */ "./src/js/views/tags_modal.js");
 /* harmony import */ var _views_access__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/access */ "./src/js/views/access.js");
 /* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
 
@@ -22175,7 +22210,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       'click #access': 'click_access',
       'click #paste_pages': 'paste_pages',
       'click #rename': 'rename_node',
-      'click #tag-menu-item': 'tag_node',
+      'click #tags-menu-item': 'tag_node',
       // will proxy event to #id_file_name
       'click #id_btn_upload': 'upload_clicked',
       'change #id_file_name': 'upload'
@@ -22299,7 +22334,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         tags_view;
 
     if (node) {
-      tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_7__["TagsView"](node);
+      tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__["TagsModalView"](node);
     }
   }
 
@@ -22344,6 +22379,16 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       'id': "#rename",
       'cond': function (selection, clipboard, parent_id) {
         if (selection.length == 1) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+    result.add({
+      'id': "#tags-menu-item",
+      'cond': function (selection, clipboard, parent_id) {
+        if (selection.length > 0) {
           return true;
         }
 
@@ -24367,8 +24412,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-
 
 
 
@@ -24377,16 +24420,90 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/tags.html */ "./src/js/templates/tags.html");
 
+let ENTER_KEY = 13;
 class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.tags-container');
+  }
+
+  initialize(tags) {
+    this.tags = tags || new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]();
+    this.render();
+  }
+
+  events() {
+    let event_map = {
+      "keyup .tag-input": 'on_keyup',
+      "click .tag-remove": "on_remove"
+    };
+    return event_map;
+  }
+
+  on_keyup(event) {
+    let tag, value;
+    event.preventDefault();
+
+    if (event.which == ENTER_KEY || event.key == ',') {
+      value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).val();
+      value = value.replace(',', '');
+      tag = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
+        'name': value
+      });
+      this.tags.add(tag);
+      this.render();
+      this.$el.find("input").focus();
+    }
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'tags': this.tags
+    }));
+    this.$el.html(compiled);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/tags_modal.js":
+/*!************************************!*\
+  !*** ./src/js/views/tags_modal.js ***!
+  \************************************/
+/*! exports provided: TagsModalView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagsModalView", function() { return TagsModalView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _views_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/tags */ "./src/js/views/tags.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
+
+
+
+
+
+
+let TEMPLATE = __webpack_require__(/*! ../templates/tags_modal.html */ "./src/js/templates/tags_modal.html");
+
+class TagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   el() {
     // this element is defined in admin/_forms.js.html
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#tags-modal');
   }
 
   initialize(node) {
-    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](node);
     this.node = node;
     this.render();
+    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"]();
   }
 
   events() {
@@ -24398,11 +24515,10 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   on_form_submit(event) {
-    event.preventDefault();
-    this.on_rename(event); // otherwise it will continue renaming
+    event.preventDefault(); //this.on_rename(event);
+    // otherwise it will continue renaming
     // renaming same folder/file over and over!
-
-    this.undelegateEvents();
+    //this.undelegateEvents();
   }
 
   on_rename(event) {
