@@ -10,6 +10,7 @@ from papermerge.core.models.folder import Folder
 from papermerge.core.models.kvstore import KV, KVPage, KVStoreNode, KVStorePage
 from papermerge.core.models.node import BaseTreeNode
 from papermerge.core.models.page import Page
+from papermerge.core.models.tags import ColoredTag
 
 
 # A few helper functions for common logic between User and AnonymousUser.
@@ -141,5 +142,6 @@ __all__ = [
     'KV',
     'KVPage',
     'KVStoreNode',
-    'KVStorePage'
+    'KVStorePage',
+    'ColoredTag'
 ]
