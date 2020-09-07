@@ -10406,7 +10406,8 @@ aside a.download {
       margin-left: 0.5rem; }
     .tags-container .tag i {
       margin-left: 0.5rem;
-      margin-right: 0.3rem; }
+      margin-right: 0.3rem;
+      cursor: pointer; }
   .tags-container input {
     flex: 1;
     outline: none;

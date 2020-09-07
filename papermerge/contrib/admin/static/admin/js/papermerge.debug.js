@@ -20173,10 +20173,13 @@ class Tag extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return '/tag-node/';
   }
 
+  modelId() {
+    return this.get('name');
+  }
+
   toJSON() {
     let dict = {
-      id: this.get('id'),
-      tag: this.get('tags')
+      name: this.get('name')
     };
     return dict;
   }
@@ -20189,6 +20192,16 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
 
   urlRoot() {
     return '/tags/';
+  }
+
+  remove(model) {
+    for (var i = 0; i < this.models.length; i++) {
+      if (this.models[i].get('title') == model.get('title')) {
+        this.models.splice(i, 1);
+        this.length--;
+        break;
+      }
+    }
   }
 
 }
@@ -21428,7 +21441,9 @@ __p+='\n    ';
  model = tags.models[i] 
 __p+='\n     <div class="tag d-flex align-items-center">\n       <span>'+
 ((__t=( model.get('name') ))==null?'':__t)+
-'</span>\n       <i class="fa fa-times tag-remove"></i>\n     </div>\n ';
+'</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
+((__t=( model.get('name') ))==null?'':__t)+
+'">\n        </i>\n     </div>\n ';
  } 
 __p+='\n<input class="tag-input" />\n\n';
 }
@@ -24439,17 +24454,27 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     return event_map;
   }
 
+  on_remove(event) {
+    let value, model;
+    value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).data('name');
+    model = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
+      'name': value
+    });
+    this.tags.remove(model);
+    this.render();
+  }
+
   on_keyup(event) {
-    let tag, value;
+    let value, model;
     event.preventDefault();
 
     if (event.which == ENTER_KEY || event.key == ',') {
       value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).val();
       value = value.replace(',', '');
-      tag = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
+      model = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
         'name': value
       });
-      this.tags.add(tag);
+      this.tags.add(model);
       this.render();
       this.$el.find("input").focus();
     }
