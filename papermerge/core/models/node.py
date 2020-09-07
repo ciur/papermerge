@@ -3,8 +3,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
+from taggit.managers import TaggableManager
+
 from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
+from papermerge.core.models.tags import ColoredTag
 from papermerge.core.models.kvstore import KVStoreCompNode, KVStoreNode
 from polymorphic_tree.models import (PolymorphicMPTTModel,
                                      PolymorphicTreeForeignKey)
@@ -46,6 +49,8 @@ class BaseTreeNode(PolymorphicMPTTModel):
     updated_at = models.DateTimeField(
         auto_now=True,
     )
+
+    tags = TaggableManager(through=ColoredTag)
 
     # Obsolete columns. Replaced by ancestors_fts
     ancestors_deu = SearchVectorField(null=True)

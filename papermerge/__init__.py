@@ -1,5 +1,10 @@
 from papermerge.core.utils import get_version
 
-VERSION = (1, 4, 2, 'final', 0)
+FINAL = 'final'
+ALPHA = 'alpha'
+BETA = 'beta'
+RC = 'rc'
+
+VERSION = (1, 5, 0, ALPHA, 0)
 
 __version__ = get_version(VERSION)
