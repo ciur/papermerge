@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "New Group" %}{% endblock %}
+{% block title %}{% trans "Tag" %}{% endblock %}
 
 {% block content %}
     <div class="col-lg-12 col-md-12">
@@ -26,22 +26,31 @@
               </ul>
             {% endif %}
             <!-- form error messages -->
-            <form class="group" method="POST" action="{{ action_url }}">
+            <form id="tag_editor" class="group" method="POST" action="{{ action_url }}">
               {% csrf_token %}
-              {% for field in form %}
-                <div class="form-group">
-                    {{ field.errors }}
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.help_text %}
-                      <small class="form-text text-muted">{{ field.help_text|safe }}</small>
-                    {% endif %}
+              <!-- backbone view -->
+              <div class="form-group" id="tag_editor_preview">
+              </div>
+
+              <div class="form-row">
+                <div class="col-sm-12 col-md-4">
+                  {{ form.name.label_tag }}
+                  {{ form.name }}
                 </div>
-              {% endfor %}
-                <button class="button btn btn-success mt-3" type="submit">
-                  <i class="fa fa-check"></i>
-                  {% trans 'Save' %}
-                </button>
+                <div class="col-sm-12 col-md-4">
+                  {{ form.fg_color.label_tag }}
+                  {{ form.fg_color }}
+                </div>
+                <div class="col-sm-12 col-md-4">
+                  {{ form.bg_color.label_tag }}
+                  {{ form.bg_color }}
+                </div>
+              </div>
+
+              <button class="button btn btn-success mt-3" type="submit">
+                <i class="fa fa-check"></i>
+                {% trans 'Save' %}
+              </button>
             </form>
         </div>
     </div>

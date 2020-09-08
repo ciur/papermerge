@@ -29,4 +29,8 @@ urlpatterns = [
     path(
         'tag/<int:id>/', views.tag_view, name="tag"
     ),
+    path(
+        'tag/<int:id>/change',
+        views.tag_change_view, name='tag_change'
+    ),
 ]

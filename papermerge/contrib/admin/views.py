@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ngettext
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
@@ -208,6 +208,31 @@ def tags_view(request):
             'pages': pages,
             'page_number': page_number,
             'page': page_obj
+        }
+    )
+
+
+@login_required
+def tag_change_view(request, id):
+    tag = get_object_or_404(Tag, id=id)
+
+    action_url = reverse('admin:tag_change', args=(id,))
+    form = TagForm(
+        request.POST or None,
+        instance=tag
+    )
+
+    if form.is_valid():
+        form.save()
+        return redirect("admin:tags")
+
+    return render(
+        request,
+        'admin/tag.html',
+        {
+            'form': form,
+            'action_url': action_url,
+            'title': _('Edit Tag')
         }
     )
 

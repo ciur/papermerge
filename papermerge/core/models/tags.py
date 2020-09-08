@@ -6,16 +6,19 @@ from taggit.models import TagBase, GenericTaggedItemBase
 
 class Tag(TagBase):
     bg_color = models.CharField(
-        max_length=6,     # RGB color in hex notation
-        default='00FF00'  # green
+        _("Background Color"),
+        max_length=7,     # RGB color in hex notation
+        default='#00FF00',  # green,
     )
 
     fg_color = models.CharField(
-        max_length=6,     # RGB color in hex notation
-        default='FFFFFF'  # white
+        _("Foreground Color"),
+        max_length=7,     # RGB color in hex notation
+        default='#FFFFFF'  # white
     )
 
     description = models.TextField(
+        _("Description (optional)"),
         max_length=1024,
         blank=True,
         null=True
