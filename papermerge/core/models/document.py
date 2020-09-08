@@ -117,6 +117,11 @@ class Document(BaseTreeNode):
         item['ctype'] = 'document'
         item['pages'] = pages
 
+        tags = []
+        for tag in self.tags.all():
+            tags.append(tag.to_dict())
+        item['tags'] = tags
+
         return item
 
     def assign_kv_values(self, kv_dict):

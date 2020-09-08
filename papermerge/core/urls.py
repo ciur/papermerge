@@ -1,5 +1,6 @@
 from django.urls import include, path
 from .views import access as access_views
+from .views import tags as tags_views
 from .views import api as api_views
 from .views import documents as doc_views
 from .views import nodes as node_views
@@ -65,6 +66,9 @@ urlpatterns = [
     path('nodes/', node_views.nodes_view, name="nodes"),
     path(
         'node/<int:id>/access', access_views.access_view, name="access"
+    ),
+    path(
+        'node/<int:node_id>/tags/', tags_views.tags_view, name="tags"
     ),
     path(
         'metadata/<model>/<int:id>', metadata_views.metadata, name="metadata"

@@ -29,6 +29,11 @@ class Folder(BaseTreeNode, index.Indexed):
             item['parent_id'] = ''
         item['ctype'] = 'folder'
 
+        tags = []
+        for tag in self.tags.all():
+            tags.append(tag.to_dict())
+        item['tags'] = tags
+
         return item
 
     @property

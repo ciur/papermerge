@@ -22,6 +22,13 @@ class Tag(TagBase):
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
 
+    def to_dict(self):
+        return {
+            'bg_color': self.bg_color,
+            'fg_color': self.fg_color,
+            'name': self.name,
+        }
+
 
 class ColoredTag(GenericTaggedItemBase):
     tag = models.ForeignKey(
