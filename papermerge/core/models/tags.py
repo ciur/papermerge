@@ -8,12 +8,12 @@ class Tag(TagBase):
     bg_color = models.CharField(
         _("Background Color"),
         max_length=7,     # RGB color in hex notation
-        default='#00FF00',  # green,
+        default='#c41fff',  # purple,
     )
 
     fg_color = models.CharField(
         _("Foreground Color"),
-        max_length=7,     # RGB color in hex notation
+        max_length=7,      # RGB color in hex notation
         default='#FFFFFF'  # white
     )
 

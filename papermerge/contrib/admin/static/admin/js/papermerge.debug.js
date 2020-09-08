@@ -20940,9 +20940,13 @@ __p+='\n                ';
  for (t=0; t < tags.length; t++) { 
 __p+='\n                    ';
  tag = tags[t]; 
-__p+='\n                    <li class="tag">'+
+__p+='\n                    <li class="tag"  style="background: '+
+((__t=( tag['bg_color'] ))==null?'':__t)+
+';color: '+
+((__t=( tag['fg_color'] ))==null?'':__t)+
+'" >\n                        '+
 ((__t=( tag['name'] ))==null?'':__t)+
-'</li>\n                ';
+'\n                    </li>\n                ';
  } 
 __p+='\n            </ul>\n            <div class="icons">\n                ';
  if (node.is_readonly()) {  

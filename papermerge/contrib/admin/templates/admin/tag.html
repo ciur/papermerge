@@ -38,15 +38,18 @@
                   {{ form.name }}
                 </div>
                 <div class="col-sm-12 col-md-4">
-                  {{ form.fg_color.label_tag }}
-                  {{ form.fg_color }}
-                </div>
-                <div class="col-sm-12 col-md-4">
                   {{ form.bg_color.label_tag }}
                   {{ form.bg_color }}
                 </div>
+                <div class="col-sm-12 col-md-4">
+                  {{ form.fg_color.label_tag }}
+                  {{ form.fg_color }}
+                </div>
               </div>
-
+              <div class="form-group mt-3">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+              </div>
               <button class="button btn btn-success mt-3" type="submit">
                 <i class="fa fa-check"></i>
                 {% trans 'Save' %}
