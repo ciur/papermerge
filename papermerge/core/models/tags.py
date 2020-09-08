@@ -15,6 +15,12 @@ class Tag(TagBase):
         default='FFFFFF'  # white
     )
 
+    description = models.TextField(
+        max_length=1024,
+        blank=True,
+        null=True
+    )
+
     # each user has his/her set of tags
     user = models.ForeignKey('User', models.CASCADE)
 

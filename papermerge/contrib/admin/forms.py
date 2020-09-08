@@ -5,8 +5,11 @@ from django.forms.widgets import (
     Textarea
 )
 
+from papermerge.core.models import Tag
 
-from .models import LogEntry
+from .models import (
+    LogEntry,
+)
 
 
 class LogEntryForm(forms.ModelForm):
@@ -26,5 +29,25 @@ class LogEntryForm(forms.ModelForm):
         fields = (
             'message',
             'level',
+        )
+
+class ColoredTagForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for visible in self.visible_fields():
+            if isinstance(
+                visible.field.widget,
+                (TextInput, Textarea, ChoiceWidget)
+            ):
+                visible.field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Tag
+        fields = (
+            'name',
+            'fg_color',
+            'bg_color',
         )
 

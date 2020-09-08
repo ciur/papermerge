@@ -19,7 +19,14 @@ urlpatterns = [
     path(
         'logs', views.logs_view, name="logs"
     ),
+
     path(
         'log/<int:id>/', views.log_view, name="log"
+    ),
+    path(
+        'tags', views.tags_view, name="tags"
+    ),
+    path(
+        'tag/<int:id>/', views.tag_view, name="tag"
     ),
 ]

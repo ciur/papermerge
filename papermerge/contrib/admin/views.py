@@ -11,11 +11,15 @@ from papermerge.core.models import (
     Page,
     Folder,
     BaseTreeNode,
-    Access
+    Access,
+    Tag
 )
 
 from .models import LogEntry
-from .forms import LogEntryForm
+from .forms import (
+    LogEntryForm,
+    ColoredTagForm
+)
 
 
 @login_required
@@ -151,5 +155,75 @@ def log_view(request, id):
             'form': form,
             'action_url': action_url,
             'title': _('Log Entry')
+        }
+    )
+
+
+@login_required
+def tags_view(request):
+
+    if request.method == 'POST':
+        selected_action = request.POST.getlist('_selected_action')
+        go_action = request.POST['action']
+
+        if go_action == 'delete_selected':
+            deleted, row_count = ColoredTag.objects.filter(
+                id__in=selected_action
+            ).delete()
+
+            if deleted:
+                count = row_count['admin.ColoredTag']
+                msg_sg = "%(count)s tag was successfully deleted."
+                msg_pl = "%(count)s tags were successfully deleted."
+                messages.info(
+                    request,
+                    ngettext(msg_sg, msg_pl, count) % {'count': count}
+                )
+
+    tags = Tag.objects.filter(user=request.user)
+
+    paginator = Paginator(tags, per_page=25)
+    page_number = int(request.GET.get('page', 1))
+    num_pages = paginator.num_pages
+    page_obj = paginator.get_page(page_number)
+
+    # 1.   Number of pages < 7: show all pages;
+    # 2.   Current page <= 4: show first 7 pages;
+    # 3.   Current page > 4 and < (number of pages - 4): show current page,
+    #       3 before and 3 after;
+    # 4.   Current page >= (number of pages - 4): show the last 7 pages.
+
+    if num_pages <= 7 or page_number <= 4:  # case 1 and 2
+        pages = [x for x in range(1, min(num_pages + 1, 7))]
+    elif page_number > num_pages - 4:  # case 4
+        pages = [x for x in range(num_pages - 6, num_pages + 1)]
+    else:  # case 3
+        pages = [x for x in range(page_number - 3, page_number + 4)]
+
+    return render(
+        request,
+        'admin/tags.html',
+        {
+            'tags': page_obj.object_list,
+            'pages': pages,
+            'page_number': page_number,
+            'page': page_obj
+        }
+    )
+
+
+@login_required
+def tag_view(request, id):
+    tag = get_object_or_404(ColoredTag, id=id)
+    form = ColoredTagForm(instance=tag)
+    action_url = reverse('admin:tag', args=(id,))
+
+    return render(
+        request,
+        'admin/tag.html',
+        {
+            'form': form,
+            'action_url': action_url,
+            'title': _('Tag')
         }
     )

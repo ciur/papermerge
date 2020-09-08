@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+
+{% load i18n admin_tags %}
+
+{% block title %}{% trans "Tags" %}{% endblock %}
+
+{% block content %}
+    <div class="text-left">
+        <h4 class="p-3">{% trans "Tags" %}</h4>
+    </div>
+    <form action="{% url 'admin:tags' %}" method="post">
+      {% csrf_token %}
+
+        <div class="row px-3">
+          <div class="col-6">
+              <select name="action" required="">
+                <option value="" selected="">---------</option>
+                <option value="delete_selected">{% trans "Delete selected tags" %}</option>
+              </select>
+              <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+          </div>
+          <nav class="col-6" aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              {% if page.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+              {% endif %}
+              {% for i in pages %}
+                <li class="page-item {% if i == page_number %} active {% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+              {% endfor %}
+              {% if page.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+
+        <div class="col-12">
+          {% if tags|length > 0 %}
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr class="text-uppercase">
+                  <th>
+                    <div id="logs_view">
+                      <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Tag Name" %}
+                    </div>
+                  </th>
+                  <th>{% trans "Description" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for tag in tags %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ tag.id }}" /></span><a href="{% url 'admin:tag' tag.id %}">{{ tag.name }}</a></td>
+                    <td><span class="mr-2">{{ tag.description | safe | truncatechars:64}}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            {% trans "No tag so far" %}
+          {% endif %}
+      </div>
+    </form>
+{% endblock %}

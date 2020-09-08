@@ -37,6 +37,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{% url 'admin:tags' %}" class="nav-link  {% activate_on 'tags, tag' %}">
+          <i class="nav-icon fa fa-tag"></i>
+          <p>
+            {% trans "Tags" %}
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log' %}">
           <i class="nav-icon fa fa-lightbulb"></i>
           <p>
