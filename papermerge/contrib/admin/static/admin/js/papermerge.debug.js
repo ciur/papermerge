@@ -24635,7 +24635,12 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   initialize(node) {
-    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([], {
+    tags = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(node.get('tags') || [], function (item) {
+      return new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
+        'name': item['name']
+      });
+    });
+    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](tags, {
       'node': node
     });
     this.render();
@@ -24756,7 +24761,7 @@ class TagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   render() {
-    let compiled, context;
+    let compiled, context, node;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'tags': this.node.get('tags')

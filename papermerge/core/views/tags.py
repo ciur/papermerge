@@ -26,7 +26,7 @@ def tags_view(request, node_id):
     if request.user.has_perm(Access.PERM_WRITE, node):
         data = json.loads(request.body)
         tags = [item['name'] for item in data['tags']]
-        node.tags.add(
+        node.tags.set(
             *tags,
             tag_kwargs={"user": request.user}
         )
