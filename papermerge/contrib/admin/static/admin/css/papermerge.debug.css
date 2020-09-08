@@ -9788,6 +9788,9 @@ h1, h2, h3, h4 {
   background-color: #e6f5ff;
   outline: 1px solid #A6DAFF; }
 
+#browse .fa.fa-folder, #browse .fa.fa-file {
+  font-size: 1.5rem; }
+
 #browse .table a.sort.header:hover {
   text-decoration: none; }
 
@@ -10422,6 +10425,11 @@ aside a.download {
     flex: 1;
     outline: none;
     border: 0; }
+
+.tag {
+  padding: 0.25rem;
+  border-radius: 3px;
+  margin-right: 0.2rem; }
 
 #pre-loader {
   position: absolute;
