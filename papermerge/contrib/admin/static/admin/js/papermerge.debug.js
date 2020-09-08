@@ -19670,7 +19670,8 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
       selected: false,
       img_src: '',
       created_at: '',
-      user_perms: {}
+      user_perms: {},
+      tags: []
     };
   }
 
@@ -19685,7 +19686,8 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
       id: this.get('id'),
       parent_id: this.get('parent_id'),
       title: this.get('title'),
-      created_at: this.get('created_at')
+      created_at: this.get('created_at'),
+      tags: this.get('tags')
     };
     return dict;
   }
@@ -20929,7 +20931,17 @@ __p+='\n                <div class="placeholder document">\n                    
  } 
 __p+='\n            <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
-'">\n            </div>\n            <div class="icons">\n                ';
+'">\n\n            </div>\n            <ul class="node-tags d-flex flex-column align-items-end">\n                ';
+ tags = node.get('tags'); 
+__p+='\n                ';
+ for (t=0; t < tags.length; t++) { 
+__p+='\n                    ';
+ tag = tags[t]; 
+__p+='\n                    <li class="tag">'+
+((__t=( tag['name'] ))==null?'':__t)+
+'</li>\n                ';
+ } 
+__p+='\n            </ul>\n            <div class="icons">\n                ';
  if (node.is_readonly()) {  
 __p+='\n                    <i class="fa fa-lock"></i>\n                ';
  } 
@@ -20945,7 +20957,7 @@ __p+='\n            </div>\n            <input type="checkbox" name="_selected_a
 ((__t=( node.short_title(20) ))==null?'':__t)+
 '</a>\n                <span class="tooltiptext">'+
 ((__t=( node.full_title()  ))==null?'':__t)+
-'</span>\n            </div>\n        </li>\n    ';
+'</span>\n            </div>\n\n        </li>\n    ';
  } 
 __p+='\n</ul>';
 }

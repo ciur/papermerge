@@ -9816,6 +9816,16 @@ h1, h2, h3, h4 {
       font-size: 1.8rem; }
       #browse ul.grid .node .icons .fa-lock {
         color: #f00; }
+    #browse ul.grid .node ul.node-tags {
+      position: absolute;
+      right: 0; }
+      #browse ul.grid .node ul.node-tags li.tag {
+        color: white;
+        background-color: green;
+        padding: 0.1rem 0.5rem;
+        margin-right: -0.2rem;
+        margin-top: 0.25rem;
+        border-radius: 0.5rem; }
     #browse ul.grid .node .placeholder.document {
       position: relative;
       overflow: hidden;
