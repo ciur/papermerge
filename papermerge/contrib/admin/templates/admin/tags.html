@@ -59,7 +59,7 @@
                 {% for tag in tags %}
                   <tr>
                     <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ tag.id }}" /></span><a href="{% url 'admin:tag' tag.id %}">{{ tag.name }}</a></td>
-                    <td><span class="mr-2">{{ tag.description | safe | truncatechars:64}}
+                    <td><span class="mr-2">{{ tag.description |default:'' | safe | truncatechars:64}}
                     </td>
                   </tr>
                 {% endfor %}

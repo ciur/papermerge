@@ -31,7 +31,7 @@ class LogEntryForm(forms.ModelForm):
             'level',
         )
 
-class ColoredTagForm(forms.ModelForm):
+class TagForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -49,5 +49,6 @@ class ColoredTagForm(forms.ModelForm):
             'name',
             'fg_color',
             'bg_color',
+            'description'
         )
 

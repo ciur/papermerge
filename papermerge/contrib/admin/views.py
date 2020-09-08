@@ -18,7 +18,7 @@ from papermerge.core.models import (
 from .models import LogEntry
 from .forms import (
     LogEntryForm,
-    ColoredTagForm
+    TagForm
 )
 
 
@@ -167,12 +167,12 @@ def tags_view(request):
         go_action = request.POST['action']
 
         if go_action == 'delete_selected':
-            deleted, row_count = ColoredTag.objects.filter(
+            deleted, row_count = Tag.objects.filter(
                 id__in=selected_action
             ).delete()
 
             if deleted:
-                count = row_count['admin.ColoredTag']
+                count = row_count['admin.Tag']
                 msg_sg = "%(count)s tag was successfully deleted."
                 msg_pl = "%(count)s tags were successfully deleted."
                 messages.info(
@@ -214,8 +214,8 @@ def tags_view(request):
 
 @login_required
 def tag_view(request, id):
-    tag = get_object_or_404(ColoredTag, id=id)
-    form = ColoredTagForm(instance=tag)
+    tag = get_object_or_404(Tag, id=id)
+    form = TagForm(instance=tag)
     action_url = reverse('admin:tag', args=(id,))
 
     return render(
