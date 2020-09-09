@@ -21618,9 +21618,11 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          '+
 ((__t=( gettext('Tags') ))==null?'':__t)+
-'\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <div class="form-group">\n                    <label for="tags">'+
+'\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                <div class="form-group">\n                  <label for="tags">'+
 ((__t=( gettext('Tags Editor') ))==null?'':__t)+
-':</label>\n                    <div class="tags-container d-flex">\n                     \n                    </div>\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
+':</label>\n                  <div class="tags-container d-flex">\n                   \n                  </div>\n                  <p class="text-muted">\n                    '+
+((__t=( gettext('Use comma(,) or Enter as tags separator') ))==null?'':__t)+
+'\n                  </p>\n                </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
 ((__t=( gettext('Submit') ))==null?'':__t)+
 '</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
@@ -24827,7 +24829,7 @@ class BaseModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
     tags = this.tags_container.tags;
     this.$el.modal('hide');
-    tags.save({}, options);
+    tags.save(options);
   }
 
   _get_shared_tags(nodes) {
