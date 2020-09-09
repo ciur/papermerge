@@ -47,6 +47,7 @@ class TagForm(forms.ModelForm):
         model = Tag
         fields = (
             'name',
+            'pinned',
             'fg_color',
             'bg_color',
             'description'

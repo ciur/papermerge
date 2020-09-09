@@ -28,7 +28,12 @@ class Tag(TagBase):
     # of left side bar. It serves as shortcut for user to quickly filter
     # folders/documents with that particular tag.
     pinned = models.BooleanField(
-        default=False
+        default=False,
+        help_text=_(
+            "Pinned tag will be displayed under Documents menu. "
+            "It serves as shortcut to quickly filter "
+            "folders/documents associated with this tag"
+        )
     )
 
     # each user has his/her set of tags

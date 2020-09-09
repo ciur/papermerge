@@ -54,6 +54,7 @@
                       <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Tag Name" %}
                     </div>
                   </th>
+                  <th>{% trans "Pinned?" %}</th>
                   <th>{% trans "Description" %}</th>
                 </tr>
               </thead>
@@ -67,6 +68,9 @@
                       <a href="{% url 'admin:tag_change' tag.id %}" style="background: {{ tag.bg_color }};color: {{ tag.fg_color }}; margin: 1rem 0; padding: 0.25rem 0.5rem; border-radius: 0.5rem;">
                            {{ tag.name }}
                       </a></td>
+                    <td><span class="mr-2">
+                      {% boolean_icon tag.pinned %}
+                    </td>                      
                     <td><span class="mr-2">{{ tag.description |default:'' | safe | truncatechars:96}}
                     </td>
                   </tr>
