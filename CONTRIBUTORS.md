@@ -19,6 +19,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [Reto](https://github.com/tido-) - for very useful feedback and testing
 * [Michael Nikitochkin](https://github.com/miry) - for fixing docker and docker compose files
 * [@FutureCow](https://github.com/FutureCow) - for valuable documentation updates
+* [Jesse Cureton](https://github.com/jessecureton) - Docker integration improved
 
 ### Sponsors
 
