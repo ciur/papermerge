@@ -24,6 +24,13 @@ class Tag(TagBase):
         null=True
     )
 
+    # a pinned tag may be displayed for example under "Documents" menu
+    # of left side bar. It serves as shortcut for user to quickly filter
+    # folders/documents with that particular tag.
+    pinned = models.BooleanField(
+        default=False
+    )
+
     # each user has his/her set of tags
     user = models.ForeignKey('User', models.CASCADE)
 
