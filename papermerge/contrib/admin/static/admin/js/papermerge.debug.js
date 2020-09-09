@@ -24742,14 +24742,26 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
     if (event.which == ENTER_KEY || event.key == ',') {
       value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).val();
-      value = value.replace(',', '');
-      model = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
-        'name': value
-      });
-      this.tags.add(model);
-      this.render();
-      this.$el.find("input").focus();
-    }
+
+      if (!underscore__WEBPACK_IMPORTED_MODULE_1__["default"].isEmpty(value)) {
+        // whitespace is not a tag!
+        value = value.replace(',', ''); // maybe user just pressed enter key after
+        // whitespace. Make sure there is some non-white space
+        // after comma removal.
+
+        if (!underscore__WEBPACK_IMPORTED_MODULE_1__["default"].isEmpty(value)) {
+          model = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
+            'name': value
+          });
+          this.tags.add(model);
+          this.render();
+          this.$el.find("input").focus();
+        } // is not empty IF
+
+      } // is not empty IF
+
+    } // enter or comma IF
+
   }
 
   render() {
