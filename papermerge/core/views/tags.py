@@ -17,6 +17,9 @@ logger = logging.getLogger(__name__)
 @json_response
 @login_required
 def tags_view(request, node_id):
+    """
+    Add/remove tags per single node
+    """
     try:
         node = BaseTreeNode.objects.get(id=node_id)
     except BaseTreeNode.DoesNotExist:
@@ -40,5 +43,56 @@ def tags_view(request, node_id):
         }
 
         return msg, HttpResponseForbidden.status_code
+
+    return 'OK'
+
+
+@json_response
+@login_required
+def nodes_tags_view(request):
+    """
+    Add/remove tags per bulk of nodes.
+
+    Example of valid input:
+        {"tags":[{"name":"test"}],"nodes":[92,52]}
+
+    There must be at least one node, otherwise
+    HttpReponseBadRequest will be returned.
+    Tags however, can be empty. In case of empty tag list -
+    all given nodes will be "stripped" from all tags - sort
+    of bulk remove.
+    """
+    data = json.loads(request.body)
+    node_ids = data.get('nodes', [])
+    tags = data.get('tags', [])
+
+    if not node_ids:
+        msg = _("No nodes provided")
+        return msg, HttpResponseBadRequest.status_code
+
+    tags = [item['name'] for item in tags]
+
+    nodes = BaseTreeNode.objects.filter(id__in=node_ids)
+
+    nodes_perms = request.user.get_perms_dict(
+        nodes, Access.ALL_PERMS
+    )
+
+    for node in nodes:
+        if nodes_perms[node.id].get(Access.PERM_WRITE, False):
+            node.tags.set(
+                *tags,
+                tag_kwargs={"user": request.user}
+            )
+        else:
+            msg = _(
+                "%(username)s does not have "
+                "write permission on node %(title)s"
+            ) % {
+                'username': request.user.username,
+                'title': node.title
+            }
+
+            return msg, HttpResponseForbidden.status_code
 
     return 'OK'

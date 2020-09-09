@@ -21382,7 +21382,9 @@ __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div c
 ((__t=( gettext('If you add/remove tags here, they will be added/removed on all selected items.') ))==null?'':__t)+
 '</p>\n                  <div class="form-group">\n                    <label for="tags">'+
 ((__t=( gettext('Multi-tags Editor') ))==null?'':__t)+
-':</label>\n                    <div class="tags-container d-flex">\n                     \n                    </div>\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
+':</label>\n                    <div class="tags-container d-flex">\n                     \n                    </div>\n                    <p class="text-muted">\n                      '+
+((__t=( gettext('Use comma(,) or Enter as tags separator') ))==null?'':__t)+
+'\n                    </p>\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
 ((__t=( gettext('Submit') ))==null?'':__t)+
 '</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
@@ -24850,12 +24852,48 @@ class BaseModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     */
   }
 
+  _nodes2tag_collection(nodes) {
+    /*
+    * For given nodes returns a backbone collection of tags 
+    * (of model.tags.Tag instances) shared among all of them.
+    */
+    let tags, tag_collection, shared, keys;
+    shared = {};
+    tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
+      'nodes': nodes
+    });
+
+    for (let x = 0; x < nodes.length; x++) {
+      tags = nodes[x].get('tags') || [];
+
+      for (let i = 0; i < tags.length; i++) {
+        if (!shared[tags[i]['name']]) {
+          shared[tags[i]['name']] = 1;
+        } else {
+          shared[tags[i]['name']] += 1;
+        }
+      }
+    }
+
+    keys = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].uniq(underscore__WEBPACK_IMPORTED_MODULE_1__["default"].keys(shared)); // add only tags with nodes.length counter
+
+    for (let x = 0; x < keys.length; x++) {
+      if (shared[keys[x]] == nodes.length) {
+        tag_collection.add({
+          'name': keys[x]
+        });
+      }
+    }
+
+    return tag_collection;
+  }
+
   _node2tag_collection(node) {
     /*
     * For given node returns a backbone collection of tags 
     * (of model.tags.Tag instances)
     */
-    let result, tags, tag_collection;
+    let tags, tag_collection;
     tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
       'node': node
     });
@@ -24892,7 +24930,7 @@ class TagsModalView extends BaseModalView {
   }
 
 }
-class MultiTagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+class MultiTagsModalView extends BaseModalView {
   /***
   * Modal dialog displayed when user selected multiple nodes
   ***/
@@ -24900,14 +24938,16 @@ class MultiTagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     // notice plural here
     this.nodes = nodes;
     this.render();
-    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](this._get_shared_tags(nodes));
+    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"]( // notice 'nodes' is in plural
+    this._nodes2tag_collection(nodes));
   }
 
   render() {
     let compiled, context, node;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(MULTI_TEMPLATE({
-      'tags': this._get_shared_tags(this.nodes)
+      // notice 'nodes' is in plural
+      'tags': this._nodes2tag_collection(this.nodes)
     }));
     this.$el.html(compiled);
     this.$el.modal();
