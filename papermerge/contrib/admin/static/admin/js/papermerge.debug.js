@@ -20221,13 +20221,19 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
 
   initialize(model, options) {
     if (options) {
-      this.node = options.node;
+      if (options.node) {
+        this.node = options.node;
+      } else if (options.nodes) {
+        this.nodes = options.nodes;
+      }
     }
   }
 
   urlRoot() {
     if (this.node) {
       return `/node/${this.node.id}/tags/`;
+    } else if (this.nodes) {
+      return `/nodes/tags/`;
     }
   }
 
@@ -20242,13 +20248,27 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
   }
 
   save(options) {
-    let token, request, tags, post_data;
+    let token,
+        request,
+        tags,
+        post_data,
+        nodes = [];
     token = $("[name=csrfmiddlewaretoken]").val();
     tags = this.models.map(function (models) {
       return models.attributes;
     });
+
+    if (this.node) {
+      nodes = [node.id];
+    } else if (this.nodes) {
+      nodes = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].map(this.nodes, function (item) {
+        return item.id;
+      });
+    }
+
     post_data = {
-      'tags': tags
+      'tags': tags,
+      'nodes': nodes
     };
     $.ajaxSetup({
       headers: {
@@ -21337,6 +21357,36 @@ __p+='\n                        </select>\n                    ';
 __p+='\n                </div>\n            </div>\n           \n        </li>\n    ';
  } 
 __p+='\n </ul>\n <button id="save-metadata" type=\'hidden\' class=\'btn btn-success btn-flat save key mx-1\'>\n     Save\n </button>\n';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/multi_tags_modal.html":
+/*!************************************************!*\
+  !*** ./src/js/templates/multi_tags_modal.html ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          '+
+((__t=( gettext('Multi-Tags') ))==null?'':__t)+
+'\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <p>'+
+((__t=( gettext('You selected multiple documents/folders.') ))==null?'':__t)+
+'</p>\n                  <p>'+
+((__t=( gettext('If you add/remove tags here, they will be added/removed on all selected items.') ))==null?'':__t)+
+'</p>\n                  <div class="form-group">\n                    <label for="tags">'+
+((__t=( gettext('Multi-tags Editor') ))==null?'':__t)+
+':</label>\n                    <div class="tags-container d-flex">\n                     \n                    </div>\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
+((__t=( gettext('Submit') ))==null?'':__t)+
+'</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
+((__t=( gettext('Cancel') ))==null?'':__t)+
+'</button></a>\n      </div>\n  </div>\n</div>';
 }
 return __p;
 };
@@ -22448,11 +22498,13 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   tag_node(event) {
-    let node = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(this.selection.models),
+    let models = this.selection.models,
         tags_view;
 
-    if (node) {
-      tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__["TagsModalView"](node);
+    if (models.length == 1) {
+      tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__["TagsModalView"](underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(models));
+    } else if (models.length > 1) {
+      tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__["MultiTagsModalView"](models);
     }
   }
 
@@ -24656,15 +24708,11 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.tags-container');
   }
 
-  initialize(node) {
-    tags = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(node.get('tags') || [], function (item) {
-      return new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
-        'name': item['name']
-      });
-    });
-    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](tags, {
-      'node': node
-    });
+  initialize(tags) {
+    /*
+    * Backbone collection of tags
+    */
+    this.tags = tags;
     this.render();
   }
 
@@ -24719,19 +24767,23 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 /*!************************************!*\
   !*** ./src/js/views/tags_modal.js ***!
   \************************************/
-/*! exports provided: TagsModalView */
+/*! exports provided: BaseModalView, TagsModalView, MultiTagsModalView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BaseModalView", function() { return BaseModalView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagsModalView", function() { return TagsModalView; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiTagsModalView", function() { return MultiTagsModalView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _views_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/tags */ "./src/js/views/tags.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -24741,16 +24793,15 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE = __webpack_require__(/*! ../templates/tags_modal.html */ "./src/js/templates/tags_modal.html");
 
-class TagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+let MULTI_TEMPLATE = __webpack_require__(/*! ../templates/multi_tags_modal.html */ "./src/js/templates/multi_tags_modal.html");
+
+class BaseModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+  /***
+  * Modal dialog displayed when user selected a single node
+  ***/
   el() {
     // this element is defined in admin/_forms.js.html
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#tags-modal');
-  }
-
-  initialize(node) {
-    this.node = node;
-    this.render();
-    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](node);
   }
 
   events() {
@@ -24762,10 +24813,7 @@ class TagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
   on_form_submit(event) {
-    event.preventDefault(); //this.on_rename(event);
-    // otherwise it will continue renaming
-    // renaming same folder/file over and over!
-    //this.undelegateEvents();
+    event.preventDefault();
   }
 
   on_click_submit(event) {
@@ -24774,7 +24822,7 @@ class TagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
         options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
     };
 
     tags = this.tags_container.tags;
@@ -24782,11 +24830,70 @@ class TagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     tags.save({}, options);
   }
 
+  _get_shared_tags(nodes) {
+    /*
+    * Returns a (backbone) collection  of shared tags across given nodes
+    */
+  }
+
+  _node2tag_collection(node) {
+    /*
+    * For given node returns a backbone collection of tags 
+    * (of model.tags.Tag instances)
+    */
+    let result, tags, tag_collection;
+    tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
+      'node': node
+    });
+    tags = node.get('tags') || [];
+
+    for (let i = 0; i < tags.length; i++) {
+      tag_collection.add({
+        'name': tags[i]['name']
+      });
+    }
+
+    return tag_collection;
+  }
+
+}
+class TagsModalView extends BaseModalView {
+  /***
+  * Modal dialog displayed when user selected a single node
+  ***/
+  initialize(node) {
+    this.node = node;
+    this.render();
+    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](this._node2tag_collection(node));
+  }
+
   render() {
     let compiled, context, node;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'tags': this.node.get('tags')
+    }));
+    this.$el.html(compiled);
+    this.$el.modal();
+  }
+
+}
+class MultiTagsModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+  /***
+  * Modal dialog displayed when user selected multiple nodes
+  ***/
+  initialize(nodes) {
+    // notice plural here
+    this.nodes = nodes;
+    this.render();
+    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](this._get_shared_tags(nodes));
+  }
+
+  render() {
+    let compiled, context, node;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(MULTI_TEMPLATE({
+      'tags': this._get_shared_tags(this.nodes)
     }));
     this.$el.html(compiled);
     this.$el.modal();
