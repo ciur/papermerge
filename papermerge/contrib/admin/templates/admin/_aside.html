@@ -11,7 +11,7 @@
 <div class="sidebar sidebar_collapse_remember">
   <!-- Sidebar Menu -->
   <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       <li class="nav-item">
         <a href="{% url 'admin:browse' %}" class="nav-link {% activate_on 'index, browse' %}">
           <i class="nav-icon fa fa-folder text-warning"></i>
@@ -19,7 +19,15 @@
             {% trans "Documents" %}
           </p>
         </a>
+        <ul class="pinned_tags">
+          {% for tag in pinned_tags %}
+            <li class="my-1">
+              <a class="tag" href="#" style="background-color:{{tag.bg_color}}; color: {{tag.fg_color}};">{{tag.name}}</a>
+            </li>
+          {% endfor %}
+        </ul>
       </li>
+  
       <li class="nav-item">
         <a href="{% url 'admin:inbox' %}" class="nav-link  {% activate_on 'inbox' %}">
           <i class="nav-icon fa fa-inbox"></i>

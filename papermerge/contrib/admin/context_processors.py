@@ -1,6 +1,9 @@
 
 import papermerge
-from papermerge.core.models import Folder
+from papermerge.core.models import (
+    Folder,
+    Tag
+)
 
 
 def extras(request):
@@ -16,11 +19,16 @@ def extras(request):
             user=request.user
         )
         count = inbox.get_children().count()
+        pinned_tags = Tag.objects.filter(
+            pinned=True,
+            user=request.user
+        )
     except Folder.DoesNotExist:
         count = -1
 
     return {
         'inbox_count': count,
+        'pinned_tags': pinned_tags,
         'papermerge_version': papermerge.__version__
     }
 

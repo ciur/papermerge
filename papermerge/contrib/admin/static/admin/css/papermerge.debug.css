@@ -9563,6 +9563,13 @@ h1, h2, h3, h4 {
   .control-sidebar .border-bottom {
     border-bottom: 1px solid white; }
 
+/*
+    Left menu (Documents, Tags, Logs, Users, Groups)
+*/
+ul.pinned_tags li a.tag {
+  padding-top: 0rem;
+  padding-bottom: 0rem; }
+
 #search_results h4 {
   font-weight: 400; }
   #search_results h4 a {
