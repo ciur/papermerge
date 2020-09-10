@@ -20239,7 +20239,7 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
 
   remove(model) {
     for (var i = 0; i < this.models.length; i++) {
-      if (this.models[i].get('title') == model.get('title')) {
+      if (this.models[i].get('name') == model.get('name')) {
         this.models.splice(i, 1);
         this.length--;
         break;
