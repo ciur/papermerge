@@ -31,6 +31,13 @@ def browse_view(request, parent_id=None):
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id).exclude(
         title=Folder.INBOX_NAME
     )
+    tag = request.GET.get('tag', None)
+
+    if tag:
+        nodes = BaseTreeNode.objects.filter(tags__name__in=[tag]).exclude(
+            title=Folder.INBOX_NAME
+        )
+
     nodes_list = []
     parent_kv = []
 

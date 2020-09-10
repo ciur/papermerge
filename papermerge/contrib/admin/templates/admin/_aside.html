@@ -19,10 +19,10 @@
             {% trans "Documents" %}
           </p>
         </a>
-        <ul class="pinned_tags">
+        <ul id="pinned_tags_view" class="pinned_tags">
           {% for tag in pinned_tags %}
             <li class="my-1">
-              <a class="tag" href="#" style="background-color:{{tag.bg_color}}; color: {{tag.fg_color}};">{{tag.name}}</a>
+              <a class="tag" href="{% url 'admin:browse' %}#tagged/{{tag.name}}" style="background-color:{{tag.bg_color}}; color: {{tag.fg_color}};">{{tag.name}}</a>
             </li>
           {% endfor %}
         </ul>

@@ -19147,13 +19147,22 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   urlRoot() {
-    let parent_id = this.get('parent_id');
+    let parent_id = this.get('parent_id'),
+        base_url,
+        tag;
 
     if (parent_id) {
-      return `/browse/${parent_id}/`;
+      base_url = `/browse/${parent_id}/`;
     }
 
-    return '/browse/';
+    base_url = '/browse/';
+    tag = this.get('tag');
+
+    if (tag) {
+      base_url = base_url + `?tag=${tag}`;
+    }
+
+    return base_url;
   }
 
   toJSON() {
@@ -20776,8 +20785,15 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_2__["Router"] {
   routes() {
     return {
       ":node_id": "browse",
+      "tagged/:name": "tagged",
       "*path": "browse"
     };
+  }
+
+  tagged(name) {
+    this.browse_view.open(undefined, // node_id
+    name // tagname
+    );
   }
 
   browse(node_id) {
@@ -23177,10 +23193,11 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     window.location = node.get('document_url');
   }
 
-  open(node_id) {
+  open(node_id, tagname) {
     let parent_id = node_id;
     this.browse.set({
-      'parent_id': node_id
+      'parent_id': node_id,
+      'tag': tagname
     });
     this.browse.fetch();
   }
