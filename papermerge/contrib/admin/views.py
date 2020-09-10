@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ngettext
 from django.contrib import messages
@@ -142,6 +143,8 @@ def logs_view(request):
         }
     )
 
+
+@method_decorator(login_required, name='dispatch')
 class FormView(View):
 
     def get(self, request, id, **kwargs):

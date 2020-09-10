@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 from papermerge.contrib.admin import views
 from papermerge.contrib.admin.views import (
@@ -27,7 +26,7 @@ urlpatterns = [
 
     path(
         'log/<int:id>/',
-        login_required(LogFormView.as_view()),
+        LogFormView.as_view(),
         name="log"
     ),
     path(
@@ -35,7 +34,7 @@ urlpatterns = [
     ),
     path(
         'tag/<int:id>/',
-        login_required(TagFormView.as_view()),
+        TagFormView.as_view(),
         name="tag"
     ),
     path(
