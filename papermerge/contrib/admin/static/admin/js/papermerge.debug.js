@@ -19153,9 +19153,10 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
     if (parent_id) {
       base_url = `/browse/${parent_id}/`;
+    } else {
+      base_url = '/browse/';
     }
 
-    base_url = '/browse/';
     tag = this.get('tag');
 
     if (tag) {

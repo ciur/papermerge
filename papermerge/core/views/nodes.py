@@ -27,7 +27,6 @@ logger = logging.getLogger(__name__)
 @json_response
 @login_required
 def browse_view(request, parent_id=None):
-
     nodes = BaseTreeNode.objects.filter(parent_id=parent_id).exclude(
         title=Folder.INBOX_NAME
     )
