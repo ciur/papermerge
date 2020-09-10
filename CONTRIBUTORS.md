@@ -1,4 +1,4 @@
-Open source is awesome! Any person on the planed, with Internet connection and
+Open source is awesome! Any person on the planet, with Internet connection and
 with reasonable knowledge can bring value for humanity and push forward
 technological progress. Open source encourages collaboration, openness and
 kindness.
