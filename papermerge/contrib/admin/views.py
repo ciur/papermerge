@@ -170,9 +170,8 @@ def tags_view(request):
             deleted, row_count = Tag.objects.filter(
                 id__in=selected_action
             ).delete()
-
             if deleted:
-                count = row_count['admin.Tag']
+                count = row_count['core.Tag']
                 msg_sg = "%(count)s tag was successfully deleted."
                 msg_pl = "%(count)s tags were successfully deleted."
                 messages.info(
