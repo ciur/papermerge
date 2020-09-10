@@ -19,7 +19,7 @@ Most of the modern office scanners will output scanned files in PDF/A format. Th
 What is Not a Document?
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Out of scope (at least for near future) are Office documents (ODT, DOCX, spreadsheets, presentations etc), text files (notes); these files are usually editable. In future Papermerge **might support Office documents** (ODT etc) in future. In such case support for office documents will be provided as external plugins/Addon.
+Out of scope (at least for near future) are Office documents (ODT, DOCX, spreadsheets, presentations etc), text files (notes); these files are usually editable. In the future, Papermerge **might support Office documents** (ODT etc). In such case support for office documents will be provided as external plugins/Addon.
 
 Papermerge is simply **not designed to store books**. Yes, you can scan a book and import it in Papermege, but again - this is not what Papermerge was designed for.
 
