@@ -2,12 +2,36 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.http.response import HttpResponseRedirect
 
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.models import Tag
 
 User = get_user_model()
 
+
+class TestLogViewsAuthReq(TestCase):
+    def setUp(self):
+        self.user = _create_user(
+            username="john",
+            password="test"
+        )
+
+    def test_log_view(self):
+        """
+        If user is not authenticated reponse must
+        be HttpReponseRedirect (302)
+        """
+        log = LogEntry.objects.create(
+            user=self.user, message="test"
+        )
+        ret = self.client.post(
+            reverse('admin:log', args=(log.id,)),
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseRedirect.status_code
+        )
 
 class TestLogViews(TestCase):
 
@@ -38,6 +62,29 @@ class TestLogViews(TestCase):
         )
         self.assertEqual(ret.status_code, 404)
 
+
+class TestTagsViewsAuthReq(TestCase):
+    def setUp(self):
+        self.user = _create_user(
+            username="john",
+            password="test"
+        )
+
+    def test_tag_view(self):
+        """
+        If user is not authenticated reponse must
+        be HttpReponseRedirect (302)
+        """
+        log = Tag.objects.create(
+            user=self.user, name="test"
+        )
+        ret = self.client.post(
+            reverse('admin:tag', args=(log.id,)),
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseRedirect.status_code
+        )
 
 class TestTagViews(TestCase):
 
