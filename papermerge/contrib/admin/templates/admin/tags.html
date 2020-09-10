@@ -45,7 +45,7 @@
         </div>
 
         <div class="col-12">
-          {% if tags|length > 0 %}
+          {% if object_list|length > 0 %}
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
@@ -59,7 +59,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for tag in tags %}
+                {% for tag in object_list %}
                   <tr>
                     <td>
                       <span class="mr-2">

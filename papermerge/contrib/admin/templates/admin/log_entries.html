@@ -43,7 +43,7 @@
         </div>
 
         <div class="col-12">
-          {% if logs|length > 0 %}
+          {% if object_list|length > 0 %}
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
@@ -58,7 +58,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for log in logs %}
+                {% for log in object_list %}
                   <tr>
                     <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ log.id }}" /></span><a href="{% url 'admin:log' log.id %}">{{ log.action_time | date:"d.m.y G:i:s" }}</a></td>
                     <td><span class="mr-2">{{ log.message | safe | truncatechars:64}}</td>

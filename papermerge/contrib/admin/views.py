@@ -87,65 +87,8 @@ def search(request):
     )
 
 
-@login_required
-def logs_view(request):
-
-    if request.method == 'POST':
-        selected_action = request.POST.getlist('_selected_action')
-        go_action = request.POST['action']
-
-        if go_action == 'delete_selected':
-            deleted, row_count = LogEntry.objects.filter(
-                id__in=selected_action
-            ).delete()
-
-            if deleted:
-                count = row_count['admin.LogEntry']
-                msg_sg = "%(count)s log was successfully deleted."
-                msg_pl = "%(count)s logs were successfully deleted."
-                messages.info(
-                    request,
-                    ngettext(msg_sg, msg_pl, count) % {'count': count}
-                )
-
-    if request.user.is_superuser:
-        # superuser sees all logs
-        logs = LogEntry.objects.all()
-    else:
-        logs = LogEntry.objects.filter(user=request.user)
-
-    paginator = Paginator(logs, per_page=25)
-    page_number = int(request.GET.get('page', 1))
-    num_pages = paginator.num_pages
-    page_obj = paginator.get_page(page_number)
-
-    # 1.   Number of pages < 7: show all pages;
-    # 2.   Current page <= 4: show first 7 pages;
-    # 3.   Current page > 4 and < (number of pages - 4): show current page,
-    #       3 before and 3 after;
-    # 4.   Current page >= (number of pages - 4): show the last 7 pages.
-
-    if num_pages <= 7 or page_number <= 4:  # case 1 and 2
-        pages = [x for x in range(1, min(num_pages + 1, 7))]
-    elif page_number > num_pages - 4:  # case 4
-        pages = [x for x in range(num_pages - 6, num_pages + 1)]
-    else:  # case 3
-        pages = [x for x in range(page_number - 3, page_number + 4)]
-
-    return render(
-        request,
-        'admin/log_entries.html',
-        {
-            'logs': page_obj.object_list,
-            'pages': pages,
-            'page_number': page_number,
-            'page': page_obj
-        }
-    )
-
-
 @method_decorator(login_required, name='dispatch')
-class FormView(View):
+class AdminView(View):
 
     def get(self, request, id, **kwargs):
         entry = get_object_or_404(
@@ -169,7 +112,108 @@ class FormView(View):
         )
 
 
-class LogFormView(FormView):
+@method_decorator(login_required, name='dispatch')
+class AdminListView(View):
+
+    def render_with_pagination(self, request, page_number):
+        objs = self.get_queryset(request)
+
+        paginator = Paginator(objs, per_page=25)
+        num_pages = paginator.num_pages
+        page_obj = paginator.get_page(page_number)
+
+        # 1.   Number of pages < 7: show all pages;
+        # 2.   Current page <= 4: show first 7 pages;
+        # 3.   Current page > 4 and < (number of pages - 4): show current page,
+        #       3 before and 3 after;
+        # 4.   Current page >= (number of pages - 4): show the last 7 pages.
+
+        if num_pages <= 7 or page_number <= 4:  # case 1 and 2
+            pages = [x for x in range(1, min(num_pages + 1, 7))]
+        elif page_number > num_pages - 4:  # case 4
+            pages = [x for x in range(num_pages - 6, num_pages + 1)]
+        else:  # case 3
+            pages = [x for x in range(page_number - 3, page_number + 4)]
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'object_list': page_obj.object_list,
+                'pages': pages,
+                'page_number': page_number,
+                'page': page_obj
+            }
+        )
+
+    def post(self, request, *args, **kwargs):
+        selected_action = request.POST.getlist('_selected_action')
+        go_action = request.POST['action']
+
+        if go_action == 'delete_selected':
+            deleted, row_count = self.model_class.objects.filter(
+                id__in=selected_action
+            ).delete()
+
+            if deleted:
+                count = row_count[self.model_label]
+
+                if count == 1:
+                    name = self.model_class._meta.verbose_name
+                else:
+                    name = self.model_class._meta.verbose_name_plural
+
+                msg_sg = "%(count)s %(name)s was successfully deleted."
+                msg_pl = "%(count)s %(name)s were successfully deleted."
+                messages.info(
+                    request,
+                    ngettext(msg_sg, msg_pl, count) % {
+                        'count': count,
+                        'name': name
+                    }
+                )
+
+        page_number = int(request.GET.get('page', 1))
+
+        return self.render_with_pagination(
+            request,
+            page_number
+        )
+
+    def get(self, request, *args, **kwargs):
+        page_number = int(request.GET.get('page', 1))
+
+        return self.render_with_pagination(
+            request,
+            page_number
+        )
+
+
+class LogsListView(AdminListView):
+    model_class = LogEntry
+    model_label = 'admin.LogEntry'
+    template_name = 'admin/log_entries.html'
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            # superuser sees all logs
+            return LogEntry.objects.all()
+
+        logs = LogEntry.objects.filter(user=request.user)
+
+        return logs
+
+
+class TagsListView(AdminListView):
+    model_class = Tag
+    model_label = 'core.Tag'
+    template_name = 'admin/tags.html'
+
+    def get_queryset(self, request):
+        return Tag.objects.filter(user=request.user)
+
+
+class LogFormView(AdminView):
     model = LogEntry
     form_class = LogEntryForm
     url = 'admin:log'
@@ -177,64 +221,12 @@ class LogFormView(FormView):
     title = _('Log Entry')
 
 
-class TagFormView(FormView):
+class TagFormView(AdminView):
     model = Tag
     form_class = TagForm
     url = 'admin:tag'
     template_name = 'admin/tag.html'
     title = _('Tag')
-
-
-@login_required
-def tags_view(request):
-
-    if request.method == 'POST':
-        selected_action = request.POST.getlist('_selected_action')
-        go_action = request.POST['action']
-
-        if go_action == 'delete_selected':
-            deleted, row_count = Tag.objects.filter(
-                id__in=selected_action
-            ).delete()
-            if deleted:
-                count = row_count['core.Tag']
-                msg_sg = "%(count)s tag was successfully deleted."
-                msg_pl = "%(count)s tags were successfully deleted."
-                messages.info(
-                    request,
-                    ngettext(msg_sg, msg_pl, count) % {'count': count}
-                )
-
-    tags = Tag.objects.filter(user=request.user)
-
-    paginator = Paginator(tags, per_page=25)
-    page_number = int(request.GET.get('page', 1))
-    num_pages = paginator.num_pages
-    page_obj = paginator.get_page(page_number)
-
-    # 1.   Number of pages < 7: show all pages;
-    # 2.   Current page <= 4: show first 7 pages;
-    # 3.   Current page > 4 and < (number of pages - 4): show current page,
-    #       3 before and 3 after;
-    # 4.   Current page >= (number of pages - 4): show the last 7 pages.
-
-    if num_pages <= 7 or page_number <= 4:  # case 1 and 2
-        pages = [x for x in range(1, min(num_pages + 1, 7))]
-    elif page_number > num_pages - 4:  # case 4
-        pages = [x for x in range(num_pages - 6, num_pages + 1)]
-    else:  # case 3
-        pages = [x for x in range(page_number - 3, page_number + 4)]
-
-    return render(
-        request,
-        'admin/tags.html',
-        {
-            'tags': page_obj.object_list,
-            'pages': pages,
-            'page_number': page_number,
-            'page': page_obj
-        }
-    )
 
 
 @login_required

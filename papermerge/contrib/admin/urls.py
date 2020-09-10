@@ -2,7 +2,9 @@ from django.urls import path
 from papermerge.contrib.admin import views
 from papermerge.contrib.admin.views import (
     LogFormView,
-    TagFormView
+    TagFormView,
+    LogsListView,
+    TagsListView
 )
 
 app_name = 'admin'
@@ -21,7 +23,7 @@ urlpatterns = [
         'search', views.search, name="search"
     ),
     path(
-        'logs', views.logs_view, name="logs"
+        'logs', LogsListView.as_view(), name="logs"
     ),
 
     path(
@@ -30,7 +32,7 @@ urlpatterns = [
         name="log"
     ),
     path(
-        'tags', views.tags_view, name="tags"
+        'tags', TagsListView.as_view(), name="tags"
     ),
     path(
         'tag/<int:id>/',
