@@ -17311,19 +17311,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
 /* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
 /* harmony import */ var _views_tag_preview__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/tag_preview */ "./src/js/views/tag_preview.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/pinned_tags_view */ "./src/js/views/pinned_tags_view.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__);
 
 
 
@@ -17339,10 +17340,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync;
 
-backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_10___default()("[name=csrfmiddlewaretoken]").val();
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync;
+
+backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_11___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17360,27 +17362,28 @@ backbone__WEBPACK_IMPORTED_MODULE_9___default.a.sync = function (method, model, 
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view;
+  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view, pinned_tags_view;
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_2__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_4__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_3__["BreadcrumbView"]();
   control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_5__["ControlSidebarView"]();
   tag_preview_view = new _views_tag_preview__WEBPACK_IMPORTED_MODULE_7__["TagPreviewView"]();
+  pinned_tags_view = new _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_8__["PinnedTagsView"]();
 
-  if (jquery__WEBPACK_IMPORTED_MODULE_10___default()("#document").length == 1) {
+  if (jquery__WEBPACK_IMPORTED_MODULE_11___default()("#document").length == 1) {
     // we in document view. Document view and browser view
     // are exclusive.
     document_view = new _views_document__WEBPACK_IMPORTED_MODULE_6__["DocumentView"]();
     document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_6__["DocumentActionsView"]();
   } else {
-    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_8__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
-    backbone__WEBPACK_IMPORTED_MODULE_9___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
+    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_9__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
+    backbone__WEBPACK_IMPORTED_MODULE_10___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
     // They serve as widgets for django's messages
 
-    jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast({
+    jquery__WEBPACK_IMPORTED_MODULE_11___default()('.toast').toast({
       'autohide': false
     });
-    jquery__WEBPACK_IMPORTED_MODULE_10___default()('.toast').toast('show');
+    jquery__WEBPACK_IMPORTED_MODULE_11___default()('.toast').toast('show');
   }
 };
 
@@ -24494,6 +24497,48 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
 
 }
 ;
+
+/***/ }),
+
+/***/ "./src/js/views/pinned_tags_view.js":
+/*!******************************************!*\
+  !*** ./src/js/views/pinned_tags_view.js ***!
+  \******************************************/
+/*! exports provided: PinnedTagsView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PinnedTagsView", function() { return PinnedTagsView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+class PinnedTagsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#pinned_tags_view');
+  }
+
+  events() {
+    let event_map = {
+      "click .tag": "on_click"
+    };
+    return event_map;
+  }
+
+  on_click(event) {
+    let $el = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget),
+        parent = $el.parent();
+    parent.siblings().removeClass('active');
+    parent.addClass('active');
+  }
+
+}
 
 /***/ }),
 
