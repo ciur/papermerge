@@ -20,7 +20,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [Michael Nikitochkin](https://github.com/miry) - for fixing docker and docker compose files
 * [@FutureCow](https://github.com/FutureCow) - for valuable documentation updates
 * [Jesse Cureton](https://github.com/jessecureton) - Docker integration improved
-* [@pvinis][https://github.com/pvinis] - fixed typo in README file
+* [@pvinis](https://github.com/pvinis) - fixed typo in README file
 
 ### Sponsors
 
