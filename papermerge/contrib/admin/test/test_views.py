@@ -50,14 +50,14 @@ class TestLogViews(TestCase):
         log = LogEntry.objects.create(
             user=self.user, message="test"
         )
-        ret = self.client.post(
+        ret = self.client.get(
             reverse('admin:log', args=(log.id,)),
         )
         self.assertEqual(ret.status_code, 200)
 
         # try to see a non existing log entry
         # must return 404 status code
-        ret = self.client.post(
+        ret = self.client.get(
             reverse('admin:log', args=(log.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
@@ -78,7 +78,7 @@ class TestTagsViewsAuthReq(TestCase):
         log = Tag.objects.create(
             user=self.user, name="test"
         )
-        ret = self.client.post(
+        ret = self.client.get(
             reverse('admin:tag', args=(log.id,)),
         )
         self.assertEqual(
@@ -103,14 +103,14 @@ class TestTagViews(TestCase):
         log = Tag.objects.create(
             user=self.user, name="test"
         )
-        ret = self.client.post(
+        ret = self.client.get(
             reverse('admin:tag', args=(log.id,)),
         )
         self.assertEqual(ret.status_code, 200)
 
         # try to see a non existing log entry
         # must return 404 status code
-        ret = self.client.post(
+        ret = self.client.get(
             reverse('admin:tag', args=(log.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)

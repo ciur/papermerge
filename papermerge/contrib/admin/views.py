@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ngettext
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from django.views import View
 
 from papermerge.search.backends import get_search_backend
 from papermerge.core.models import (
@@ -141,22 +142,44 @@ def logs_view(request):
         }
     )
 
+class FormView(View):
 
-@login_required
-def log_view(request, id):
-    log_entry = get_object_or_404(LogEntry, id=id)
-    form = LogEntryForm(instance=log_entry)
-    action_url = reverse('admin:log', args=(id,))
+    def get(self, request, id, **kwargs):
+        entry = get_object_or_404(
+            self.model, id=id
+        )
+        form = self.form_class(
+            instance=entry
+        )
+        action_url = reverse(
+            self.url, args=(id,)
+        )
 
-    return render(
-        request,
-        'admin/log_entry.html',
-        {
-            'form': form,
-            'action_url': action_url,
-            'title': _('Log Entry')
-        }
-    )
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'action_url': action_url,
+                'title': self.title
+            }
+        )
+
+
+class LogFormView(FormView):
+    model = LogEntry
+    form_class = LogEntryForm
+    url = 'admin:log'
+    template_name = 'admin/log_entry.html'
+    title = _('Log Entry')
+
+
+class TagFormView(FormView):
+    model = Tag
+    form_class = TagForm
+    url = 'admin:tag'
+    template_name = 'admin/tag.html'
+    title = _('Tag')
 
 
 @login_required
@@ -232,22 +255,5 @@ def tag_change_view(request, id):
             'form': form,
             'action_url': action_url,
             'title': _('Edit Tag')
-        }
-    )
-
-
-@login_required
-def tag_view(request, id):
-    tag = get_object_or_404(Tag, id=id)
-    form = TagForm(instance=tag)
-    action_url = reverse('admin:tag', args=(id,))
-
-    return render(
-        request,
-        'admin/tag.html',
-        {
-            'form': form,
-            'action_url': action_url,
-            'title': _('Tag')
         }
     )
