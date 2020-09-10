@@ -19,6 +19,12 @@ RUN apt-get update \
                     apache2 \
                     apache2-dev \
                     locales \
+                    tesseract-ocr \
+                    tesseract-ocr-deu \
+                    tesseract-ocr-eng \
+                    tesseract-ocr-fra \
+                    tesseract-ocr-spa \
+ && rm -rf /var/lib/apt/lists/* \
  && rm -rf /var/lib/apt/lists/* \
  && pip3 install --upgrade pip
 
