@@ -19,12 +19,13 @@ def extras(request):
             user=request.user
         )
         count = inbox.get_children().count()
-        pinned_tags = Tag.objects.filter(
-            pinned=True,
-            user=request.user
-        )
     except Folder.DoesNotExist:
         count = -1
+
+    pinned_tags = Tag.objects.filter(
+        pinned=True,
+        user=request.user
+    )
 
     return {
         'inbox_count': count,
