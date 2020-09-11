@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
     
 - Tag management
-
+- Better selection. Selection All/Folders/Documents/Invert Selection/Deselect menu.
 
 ## [1.4.2] - 6 September 2020
 
