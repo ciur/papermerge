@@ -10440,6 +10440,14 @@ aside a.download {
     outline: none;
     border: 0; }
 
+/* BEGIN Pinned tags are not displayed in case of collapsed sidebar */
+body.sidebar-mini.sidebar-collapse #pinned_tags_view {
+  display: none; }
+
+body.sidebar-mini #pinned_tags_view {
+  display: block; }
+
+/* END Pinned tags are not displayed in case of collapsed sidebar */
 .tag {
   padding: 0.25rem;
   border-radius: 3px;
