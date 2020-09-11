@@ -23317,9 +23317,33 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     this.browse.fetch();
   }
 
+  _get_tagname_from_location() {
+    /**
+    * Checks window.location if there is a "tag" filter:
+    * /browse#tagged/employer
+    * In case there is a tag filter, returns tagname.
+    *
+    * Relevant in case when user clicks on pinned tag, and then
+    * performs add/remove tags action on currently filted 
+    * nodes -> will refresh nodes considernig current tag
+    */
+    let regexp = /tagged\/(\w+)$/,
+        url = location.href,
+        match;
+    match = url.match(regexp);
+
+    if (match) {
+      return match[1];
+    }
+
+    return undefined;
+  }
+
   refresh() {
-    let parent_id = this.browse.get('parent_id');
-    this.open(parent_id);
+    let parent_id = this.browse.get('parent_id'),
+        tagname;
+    tagname = this._get_tagname_from_location();
+    this.open(parent_id, tagname);
   }
 
   render() {
