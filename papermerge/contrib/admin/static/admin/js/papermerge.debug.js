@@ -19226,7 +19226,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*************************************!*\
   !*** ./src/js/models/dispatcher.js ***!
   \*************************************/
-/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED */
+/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED, SELECT_ALL, SELECT_FOLDERS, SELECT_DOCUMENTS, DESELECT, INVERT_SELECTION */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19237,6 +19237,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_SELECTION_CHANGED", function() { return PAGE_SELECTION_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BROWSER_REFRESH", function() { return BROWSER_REFRESH; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PERMISSION_CHANGED", function() { return PERMISSION_CHANGED; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_ALL", function() { return SELECT_ALL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_FOLDERS", function() { return SELECT_FOLDERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_DOCUMENTS", function() { return SELECT_DOCUMENTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DESELECT", function() { return DESELECT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INVERT_SELECTION", function() { return INVERT_SELECTION; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -19252,7 +19257,13 @@ let SELECTION_CHANGED = "selection_changed"; // page_selection_changed event is 
 
 let PAGE_SELECTION_CHANGED = "page_selection_changed";
 let BROWSER_REFRESH = "browser_refresh";
-let PERMISSION_CHANGED = "permission_changed";
+let PERMISSION_CHANGED = "permission_changed"; // sent by menu items of "select" menu to browser module
+
+let SELECT_ALL = "select_all";
+let SELECT_FOLDERS = "select_folders";
+let SELECT_DOCUMENTS = "select_documents";
+let DESELECT = "deselect";
+let INVERT_SELECTION = "invert_selection";
 
 /***/ }),
 
@@ -19757,6 +19768,37 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     }
 
     return result;
+  }
+
+  select() {
+    this.set({
+      'selected': true
+    }); // mark checked actual DOM element.
+
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).addClass('checked');
+  }
+
+  deselect() {
+    this.set({
+      'selected': false
+    }); // mark checked actual DOM element.
+
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).removeClass('checked');
+  }
+
+  toggle_selection() {
+    let state;
+    state = this.get('selected');
+    this.set({
+      'selected': !state
+    }); // toggle check state of actual DOM element.
+
+    if (state) {
+      // i.e. if selected
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).removeClass('checked');
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).addClass('checked');
+    }
   }
 
   is_document() {
@@ -22405,9 +22447,35 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       'click #tags-menu-item': 'tag_node',
       // will proxy event to #id_file_name
       'click #id_btn_upload': 'upload_clicked',
-      'change #id_file_name': 'upload'
+      'change #id_file_name': 'upload',
+      // selection related
+      'click #select_all_menu_item': 'on_select_all',
+      'click #select_folders_menu_item': 'on_select_folders',
+      'click #select_documents_menu_item': 'on_select_documents',
+      'click #deselect_menu_item': 'on_deselect',
+      'click #invert_selection_menu_item': 'on_invert_selection'
     };
     return event_map;
+  }
+
+  on_select_all(event) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECT_ALL"]);
+  }
+
+  on_select_folders(event) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECT_FOLDERS"]);
+  }
+
+  on_select_documents(event) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECT_DOCUMENTS"]);
+  }
+
+  on_deselect(event) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["DESELECT"]);
+  }
+
+  on_invert_selection(event) {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["INVERT_SELECTION"]);
   }
 
   click_access(event) {
@@ -22480,7 +22548,6 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
     };
 
-    console.log(`paste: current parent_id=${this.parent_id}`);
     this.selection.paste(options, this.parent_id);
   }
 
@@ -23132,6 +23199,11 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     this.listenTo(this.display_mode, 'change', this.render);
     this.listenTo(this.browse_list_view, 'change', this.render);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"], this.refresh, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_ALL"], this.select_all, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_FOLDERS"], this.select_folders, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_DOCUMENTS"], this.select_documents, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["DESELECT"], this.deselect, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["INVERT_SELECTION"], this.invert_selection, this);
   }
 
   events() {
@@ -23140,6 +23212,45 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       'click .node': 'select_node'
     };
     return event_map;
+  }
+
+  select_all() {
+    this.browse.nodes.each(function (node) {
+      node.select();
+    });
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
+  }
+
+  select_folders() {
+    this.browse.nodes.each(function (node) {
+      if (node.is_folder()) {
+        node.select();
+      }
+    });
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
+  }
+
+  select_documents() {
+    this.browse.nodes.each(function (node) {
+      if (node.is_document()) {
+        node.select();
+      }
+    });
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
+  }
+
+  deselect() {
+    this.browse.nodes.each(function (node) {
+      node.deselect();
+    });
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
+  }
+
+  invert_selection() {
+    this.browse.nodes.each(function (node) {
+      node.toggle_selection();
+    });
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
   }
 
   select_node(event) {

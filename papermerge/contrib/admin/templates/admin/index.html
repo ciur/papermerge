@@ -71,6 +71,30 @@
             </ul>
           </div>
       </li>
+      <li class="mx-1">
+          <div class="dropdown actions">
+            <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-expand mr-1 text-success"></i>{% trans "Select" %}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+               <li class="dropdown-item" id="select_all_menu_item">
+                   <a>{% trans "All" %}</a>
+               </li>
+               <li id="select_folders_menu_item" class="dropdown-item">
+                   <a>{% trans "Folders" %}</a>
+               </li>
+               <li id="select_documents_menu_item" class="dropdown-item">
+                   <a>{% trans "Documents" %}</a>
+               </li>
+               <li id="deselect_menu_item" class="dropdown-item">
+                   <a></i>{% trans "Deselect" %}</a>
+               </li>
+               <li id="invert_selection_menu_item" class="dropdown-item">
+                   <a></i>{% trans "Invert Selection" %}</a>
+               </li>
+            </ul>
+          </div>
+      </li>
   </ul>
   </div> <!-- #actions -->
   <div id="display-mode" class="d-flex flex-row">
