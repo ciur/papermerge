@@ -1,4 +1,6 @@
+import os
 import json
+from datetime import timedelta
 
 from django.test import TestCase
 from django.test import Client
@@ -6,14 +8,24 @@ from django.urls import reverse
 from django.http.response import (
     HttpResponseForbidden
 )
+from django.test.client import (
+    RequestFactory,
+    encode_multipart
+)
+
+from rest_framework.test import APIClient
+from knox.models import AuthToken
 
 from papermerge.core.models import Document
+from papermerge.core.views.api import DocumentUploadView
 
 
 from .utils import (
     create_root_user,
     create_margaret_user
 )
+
+BASE_DIR = os.path.dirname(__file__)
 
 
 class TestApiView(TestCase):
@@ -115,4 +127,62 @@ class TestApiView(TestCase):
         self.assertEquals(
             ret.status_code,
             HttpResponseForbidden.status_code
+        )
+
+
+class TestRestApiWithValidToken(TestCase):
+    """
+    Tests for REST API assuming a valid
+    token
+    """
+
+    def setUp(self):
+
+        self.testcase_user = create_root_user()
+        self.token = self._create_token(
+            self.testcase_user
+        )
+        self.client = APIClient(
+            HTTP_AUTHORIZATION=f"Token {self.token}",
+        )
+
+    def _create_token(self, user):
+        instance, token = AuthToken.objects.create(
+            user=user,
+            expiry=timedelta(hours=32)
+        )
+
+        return token
+
+    def test_basic_upload(self):
+        """
+        Upload a document given a valid token
+        """
+        # notice, there was no login
+        file_path = os.path.join(
+            BASE_DIR,
+            "data",
+            "berlin.pdf"
+        )
+
+        with open(file_path, "rb") as fp:
+            data = {
+                'file': fp
+            }
+            ret = self.client.put(
+                reverse(
+                    'core:api_document_upload', args=(
+                        'berlin.pdf',
+                    )
+                ),
+                data,
+                format='multipart'
+            )
+            self.assertEqual(
+                ret.status_code, 200
+            )
+
+        self.assertEquals(
+            Document.objects.count(),
+            1
         )

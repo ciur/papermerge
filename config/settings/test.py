@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 
 from .base import *
 
@@ -87,4 +86,9 @@ PAPERMERGE_METADATA_PLUGINS = [
     'papermerge.test.metaplugin.Dummy',
 ]
 
-MEDIA_ROOT = os.path.join(PROJ_ROOT, "media")
+MEDIA_ROOT = os.path.join(
+    PROJ_ROOT,
+    "papermerge",
+    "test",
+    "media"
+)

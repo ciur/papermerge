@@ -46,7 +46,6 @@ def ocr_page_pdf(
             step=Step(1),
             page_count=page_count
         )
-
         for step in Steps():
             page_url.step = step
             extract_img(
@@ -141,7 +140,6 @@ def ocr_page(
     )
     t1 = time.time()
     lang = lang.lower()
-
     doc_path = DocumentPath(
         user_id=user_id,
         document_id=document_id,
@@ -151,10 +149,10 @@ def ocr_page(
     mime_type = mime.Mime(
         default_storage.abspath(doc_path.url())
     )
-
     logger.debug(f"Mime Type = {mime_type}")
 
     page_type = ''
+
     if mime_type.is_pdf():
         ocr_page_pdf(
             doc_path=doc_path,

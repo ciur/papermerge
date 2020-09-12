@@ -5,12 +5,18 @@ from celery import Celery
 from celery.apps.worker import Worker as CeleryWorker
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from papermerge.core.models import Document
+from papermerge.core.models import Document, BaseTreeNode
 from papermerge.core.importers.imap import import_attachment
 from papermerge.core.importers.local import import_documents
 
 logger = logging.getLogger(__name__)
 celery_app = Celery('papermerge')
+
+
+@celery_app.task
+def rebuild_the_tree():
+    # https://github.com/django-mptt/django-mptt/issues/568
+    BaseTreeNode.objects.rebuild()
 
 
 @celery_app.task
@@ -52,6 +58,10 @@ def setup_periodic_tasks(sender, **kwargs):
     # Calls every 64 seconds txt2db
     sender.add_periodic_task(
         64.0, txt2db.s(), name='txt2db'
+    )
+    # once every 5 minutes rebuild the whole tree
+    sender.add_periodic_task(
+        300, rebuild_the_tree.s(), name='rebuild_the_tree'
     )
 
     imp_dir_exists = None
