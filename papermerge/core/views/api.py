@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.utils.translation import gettext as _
+
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -154,10 +155,21 @@ class DocumentsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        documents = Document.objects.all()
-        serializer = DocumentSerializer(documents, many=True)
+        docs_list = []
+        docs = Document.objects.all()
 
-        return Response(serializer.data)
+        docs_perms = request.user.get_perms_dict(
+            docs, Access.ALL_PERMS
+        )
+
+        for doc in docs:
+            if docs_perms[doc.id].get(Access.PERM_READ, False):
+                doc_dict = doc.to_dict()
+                docs_list.append(
+                    doc_dict
+                )
+
+        return Response(docs_list)
 
 
 class DocumentUploadView(APIView):
@@ -201,28 +213,37 @@ class DocumentView(APIView):
         """
         document = self.get_object(pk)
 
-        serializer = DocumentSerializer(document)
+        if request.user.has_perm(Access.PERM_READ, document):
+            serializer = DocumentSerializer(document)
+            return Response(serializer.data)
 
-        return Response(serializer.data)
+        return Response(
+            status=status.HTTP_403_FORBIDDEN
+        )
 
     def put(self, request, pk):
         data = JSONParser().parse(request)
         document = self.get_object(pk)
 
-        serializer = DocumentSerializer(document, data=data)
+        if request.user.has_perm(Access.PERM_WRITE, document):
+            serializer = DocumentSerializer(document, data=data)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
 
         return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_403_FORBIDDEN
         )
 
     def delete(self, request, pk):
 
         document = self.get_object(pk)
-        document.delete()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user.has_perm(Access.PERM_DELETE, document):
+            document.delete()
+            return Response(status=status.HTTP_200_OK)
+
+        return Response(
+            status=status.HTTP_403_FORBIDDEN
+        )
