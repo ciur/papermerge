@@ -10,6 +10,7 @@ from papermerge.core.models import (
     Document, Access
 )
 from papermerge.core.serializers import DocumentSerializer
+from papermerge.core.document_importer import DocumentImporter
 
 
 class PagesView(APIView):
@@ -168,13 +169,15 @@ class DocumentUploadView(APIView):
 
     def put(self, request, filename):
         file_obj = request.data['file']
-
-        doc = Document.import_file(
-            file_obj.temporary_file_path(),
+        imp = DocumentImporter(
+            file=file_obj.temporary_file_path(),
             username=request.user.username,
-            file_title=filename
         )
-
+        doc = imp.import_file(
+            file_title=filename,
+            apply_async=True,
+            delete_after_import=False
+        )
         if isinstance(doc, Document):
             serializer = DocumentSerializer(doc)
             return Response(serializer.data)

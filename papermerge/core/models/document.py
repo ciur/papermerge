@@ -451,7 +451,7 @@ class Document(BaseTreeNode):
         file_name,
         notes=None,
         parent_id=None,
-        rebuild_tree=True
+        rebuild_tree=True  # obsolete
     ):
         """
         Arguments:
@@ -486,9 +486,6 @@ class Document(BaseTreeNode):
         # create_pages will trigger metadata keys from document
         # to the created pages.
         doc.create_pages()
-        # https://github.com/django-mptt/django-mptt/issues/568
-        if rebuild_tree:
-            doc._tree_manager.rebuild()
 
         return doc
 

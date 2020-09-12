@@ -3,6 +3,7 @@ import os
 
 from .models import Document, Folder, User
 from .ocr.page import ocr_page
+from papermerge.core.tasks import ocr_page as ocr_page_task
 from .utils import Timer
 from .storage import default_storage
 from .ocr import (
@@ -27,7 +28,9 @@ class DocumentImporter:
                 is_superuser=True
             ).first()
         else:
-            self.user = User.objects.first(username=self.username)
+            self.user = User.objects.filter(
+                username=username
+            ).first()
 
         if self.user is None:
             raise Exception("Papermerge has no users defined")
@@ -41,7 +44,8 @@ class DocumentImporter:
         file_title=None,
         inbox_title=Folder.INBOX_NAME,
         delete_after_import=True,
-        skip_ocr=False
+        skip_ocr=False,
+        apply_async=False
     ):
         """
         Gets as input a path to a file on a local file system and:
@@ -77,7 +81,8 @@ class DocumentImporter:
             lang=self.user_ocr_language,
             file_name=file_title,
             parent_id=inbox.id,
-            page_count=page_count
+            page_count=page_count,
+            rebuild_tree=False
         )
         logger.debug(
             f"Uploading file {self.filepath} to {doc.path.url()}"
@@ -86,12 +91,23 @@ class DocumentImporter:
             src=self.filepath,
             dst=doc.path.url(),
         )
+
         if not skip_ocr:
-            DocumentImporter.ocr_document(
-                document=doc,
-                page_count=page_count,
-                lang=self.user_ocr_language,
-            )
+            if apply_async:
+                for page_num in range(1, page_count + 1):
+                    ocr_page_task.apply_async(kwargs={
+                        'user_id': self.user.id,
+                        'document_id': doc.id,
+                        'file_name': file_title,
+                        'page_num': page_num,
+                        'lang': self.user_ocr_language}
+                    )
+            else:
+                DocumentImporter.ocr_document(
+                    document=doc,
+                    page_count=page_count,
+                    lang=self.user_ocr_language,
+                )
 
         if delete_after_import:
             # Usually we want to delete files when importing
@@ -115,7 +131,6 @@ class DocumentImporter:
         document_id = document.id
         file_name = document.file_name
         logger.debug(f"Document {document_id} has {page_count} pages")
-
         for page_num in range(1, page_count + 1):
             signals.page_ocr.send(
                 sender='worker',
