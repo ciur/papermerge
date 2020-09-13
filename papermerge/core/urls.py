@@ -177,7 +177,7 @@ urlpatterns = [
     ),
     path(
         'groups/',
-        groups_views.groups_view, name='groups'
+        groups_views.GroupListView.as_view(), name='groups'
     ),
     path(
         'group/',

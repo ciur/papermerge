@@ -18,12 +18,19 @@ class TestSearchView(TestCase):
         self.client.login(testcase_user=self.testcase_user)
 
     def test_basic_group_list(self):
+        Group.objects.create(name="test1")
+        Group.objects.create(name="test2")
+
         ret = self.client.get(
             reverse('core:groups'),
         )
         self.assertEquals(
             ret.status_code,
             200
+        )
+        self.assertEquals(
+            ret.context['object_list'].count(),
+            2
         )
 
     def test_basic_groups_delete(self):

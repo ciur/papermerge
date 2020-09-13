@@ -6,43 +6,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ngettext
 
 from papermerge.core.forms import GroupForm
+from papermerge.core.views import AdminListView
 
 logger = logging.getLogger(__name__)
 
 
-@login_required
-def groups_view(request):
+class GroupListView(AdminListView):
+    model_class = Group
+    model_label = 'auth.Group'
+    template_name = 'admin/groups.html'
 
-    if request.method == 'POST':
-        selected_action = request.POST.getlist('_selected_action')
-        go_action = request.POST['action']
-
-        if go_action == 'delete_selected':
-            deleted, row_count = Group.objects.filter(
-                id__in=selected_action
-            ).delete()
-
-            if deleted:
-                count = row_count['auth.Group']
-                msg_sg = "%(count)s group was successfully deleted."
-                msg_pl = "%(count)s groups were successfully deleted."
-                messages.info(
-                    request,
-                    ngettext(msg_sg, msg_pl, count) % {'count': count}
-                )
-
-    groups = Group.objects.all()
-
-    return render(
-        request,
-        'admin/groups.html',
-        {
-            'groups': groups,
-        }
-    )
+    def get_queryset(self, request):
+        return self.model_class.objects.order_by('name')
 
 
 @login_required
