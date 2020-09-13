@@ -24,7 +24,11 @@
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
-                  <th>{% trans "Name" %}</th>
+                  <th>
+                      <div id="checkbox_view">
+                        <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Name" %}
+                      </div>
+                  </th>
                   <th>{% trans "Match" %}</th>
                   <th><i class="fa fa-folder text-warning mr-2"></i>{% trans "Destination Folder" %}</th>
                 </tr>

@@ -29,7 +29,11 @@
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
-                  <th>{% trans "Group Name" %}</th>
+                  <th>
+                    <div id="checkbox_view">
+                      <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Group Name" %}
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>

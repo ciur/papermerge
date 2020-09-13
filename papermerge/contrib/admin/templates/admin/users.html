@@ -30,7 +30,11 @@
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
-                  <th>{% trans "Username" %}</th>
+                  <th>
+                      <div id="checkbox_view">
+                        <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Username" %}
+                      </div>
+                  </th>
                   <th>{% trans "Email Address" %}</th>
                   <th>{% trans "Superuser Status" %}</th>
                   <th>{% trans "Staff Status" %}</th>

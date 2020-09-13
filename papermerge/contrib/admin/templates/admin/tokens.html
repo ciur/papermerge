@@ -28,7 +28,11 @@
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr>
-                  <th>{% trans "Digest" %}</th>
+                  <th>
+                      <div id="checkbox_view">
+                        <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Digest" %}
+                      </div>
+                  </th>
                   <th>{% trans "Created At" %}</th>
                   <th>{% trans "Expires At" %}</th>
                 </tr>
