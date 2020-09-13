@@ -26,7 +26,7 @@ class TestLogViewsAuthReq(TestCase):
             user=self.user, message="test"
         )
         ret = self.client.post(
-            reverse('admin:log', args=(log.id,)),
+            reverse('admin:log_change', args=(log.id,)),
         )
         self.assertEqual(
             ret.status_code,
@@ -75,14 +75,14 @@ class TestLogViews(TestCase):
             user=self.user, message="test"
         )
         ret = self.client.get(
-            reverse('admin:log', args=(log.id,)),
+            reverse('admin:log_change', args=(log.id,)),
         )
         self.assertEqual(ret.status_code, 200)
 
         # try to see a non existing log entry
         # must return 404 status code
         ret = self.client.get(
-            reverse('admin:log', args=(log.id + 1,)),
+            reverse('admin:log_change', args=(log.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
 
@@ -177,7 +177,7 @@ class TestTagsViewsAuthReq(TestCase):
             user=self.user, name="test"
         )
         ret = self.client.get(
-            reverse('admin:tag', args=(log.id,)),
+            reverse('admin:tag_change', args=(log.id,)),
         )
         self.assertEqual(
             ret.status_code,
@@ -226,14 +226,14 @@ class TestTagViews(TestCase):
             user=self.user, name="test"
         )
         ret = self.client.get(
-            reverse('admin:tag', args=(log.id,)),
+            reverse('admin:tag_change', args=(log.id,)),
         )
         self.assertEqual(ret.status_code, 200)
 
         # try to see a non existing log entry
         # must return 404 status code
         ret = self.client.get(
-            reverse('admin:tag', args=(log.id + 1,)),
+            reverse('admin:tag_change', args=(log.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
 

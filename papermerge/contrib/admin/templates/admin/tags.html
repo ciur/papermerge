@@ -8,7 +8,7 @@
     <div class="text-left">
         <h4 class="p-3">{% trans "Tags" %}</h4>
     </div>
-    <form action="{% url 'admin:tags' %}" method="post">
+    <form action="{{ list_url }}" method="post">
       {% csrf_token %}
 
         <div class="row px-3">

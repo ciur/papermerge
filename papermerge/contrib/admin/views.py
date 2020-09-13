@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 
 from papermerge.search.backends import get_search_backend
@@ -11,7 +10,11 @@ from papermerge.core.models import (
     Access,
     Tag
 )
-from papermerge.core.views import AdminListView, AdminView
+from papermerge.core.views import (
+    AdminListView,
+    AdminView,
+    AdminChangeView
+)
 
 from .models import LogEntry
 from .forms import (
@@ -87,6 +90,7 @@ class LogsListView(AdminListView):
     model_class = LogEntry
     model_label = 'admin.LogEntry'
     template_name = 'admin/log_entries.html'
+    list_url = 'admin:logs'
 
     def get_queryset(self, request):
         if request.user.is_superuser:
@@ -98,51 +102,38 @@ class LogsListView(AdminListView):
         return logs
 
 
+class LogChangeView(AdminChangeView):
+    title = _('Log Entry')
+    model_class = LogEntry
+    form_class = LogEntryForm
+    template_name = 'admin/log_entry.html'
+    change_url = 'admin:log_change'
+    list_url = 'admin:logs'
+
+
 class TagsListView(AdminListView):
     model_class = Tag
     model_label = 'core.Tag'
     template_name = 'admin/tags.html'
+    list_url = 'core:tags'
 
     def get_queryset(self, request):
         return Tag.objects.filter(user=request.user)
 
 
-class LogFormView(AdminView):
-    model = LogEntry
-    form_class = LogEntryForm
-    url = 'admin:log'
-    template_name = 'admin/log_entry.html'
-    title = _('Log Entry')
-
-
-class TagFormView(AdminView):
-    model = Tag
+class TagView(AdminView):
+    title = _('New Tag')
+    model_class = Tag
     form_class = TagForm
-    url = 'admin:tag'
     template_name = 'admin/tag.html'
-    title = _('Tag')
+    action_url = 'admin:tag'
+    list_url = 'admin:tags'
 
 
-@login_required
-def tag_change_view(request, id):
-    tag = get_object_or_404(Tag, id=id)
-
-    action_url = reverse('admin:tag_change', args=(id,))
-    form = TagForm(
-        request.POST or None,
-        instance=tag
-    )
-
-    if form.is_valid():
-        form.save()
-        return redirect("admin:tags")
-
-    return render(
-        request,
-        'admin/tag.html',
-        {
-            'form': form,
-            'action_url': action_url,
-            'title': _('Edit Tag')
-        }
-    )
+class TagChangeView(AdminChangeView):
+    title = _('Edit Tag')
+    model_class = Tag
+    form_class = TagForm
+    template_name = 'admin/tag.html'
+    change_url = 'admin:tag_change'
+    list_url = 'admin:tags'

@@ -1,10 +1,11 @@
 from django.urls import path
 from papermerge.contrib.admin import views
 from papermerge.contrib.admin.views import (
-    LogFormView,
-    TagFormView,
+    LogChangeView,
     LogsListView,
-    TagsListView
+    TagView,
+    TagsListView,
+    TagChangeView,
 )
 
 app_name = 'admin'
@@ -27,20 +28,20 @@ urlpatterns = [
     ),
 
     path(
-        'log/<int:id>/',
-        LogFormView.as_view(),
-        name="log"
+        'log/<int:id>/change',
+        LogChangeView.as_view(),
+        name="log_change"
     ),
     path(
         'tags', TagsListView.as_view(), name="tags"
     ),
     path(
-        'tag/<int:id>/',
-        TagFormView.as_view(),
+        'tag/',
+        TagView.as_view(),
         name="tag"
     ),
     path(
         'tag/<int:id>/change',
-        views.tag_change_view, name='tag_change'
+        TagChangeView.as_view(), name='tag_change'
     ),
 ]

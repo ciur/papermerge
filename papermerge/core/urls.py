@@ -177,15 +177,18 @@ urlpatterns = [
     ),
     path(
         'groups/',
-        groups_views.GroupListView.as_view(), name='groups'
+        groups_views.GroupListView.as_view(),
+        name='groups'
     ),
     path(
         'group/',
-        groups_views.group_view, name='group'
+        groups_views.GroupView.as_view(),
+        name='group'
     ),
     path(
         'group/<int:id>/change',
-        groups_views.group_change_view, name='group_change'
+        groups_views.GroupChangeView.as_view(),
+        name='group_change'
     ),
     path(
         'automates/',

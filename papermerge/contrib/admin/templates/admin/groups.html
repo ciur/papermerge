@@ -13,7 +13,7 @@
           {% endblocktrans %}
         </p>
     </div>
-    <form action="{% url 'core:groups' %}" method="post">
+    <form action="{{ list_url }}" method="post">
       {% csrf_token %}
         <div class="col-12 p-3">
             <a href="{% url 'core:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>

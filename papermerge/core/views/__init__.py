@@ -1,7 +1,11 @@
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404
+)
 from django.utils.translation import ngettext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,18 +13,61 @@ from django.views import View
 
 
 @method_decorator(login_required, name='dispatch')
-class AdminView(View):
+class AdminChangeView(View):
+    """
+    View/Update exising entries
+    """
 
     def get(self, request, id, **kwargs):
         entry = get_object_or_404(
-            self.model, id=id
+            self.model_class, id=id
         )
         form = self.form_class(
             instance=entry
         )
-        action_url = reverse(
-            self.url, args=(id,)
+        change_url = reverse(
+            self.change_url, args=(id,)
         )
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'action_url': change_url,
+                'title': self.title
+            }
+        )
+
+    def post(self, request, id, **kwargs):
+        form = self.form_class(request.POST)
+        change_url = reverse(
+            self.change_url, args=(id,)
+        )
+        if form.is_valid():
+            form.save()
+            return redirect(self.list_url)
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'action_url': change_url,
+                'title': self.title
+            }
+        )
+
+
+@method_decorator(login_required, name='dispatch')
+class AdminView(View):
+    """
+    View/Create new entry
+    """
+
+    def get(self, request, **kwargs):
+        form = self.form_class()
+        action_url = reverse(self.action_url)
 
         return render(
             request,
@@ -32,9 +79,31 @@ class AdminView(View):
             }
         )
 
+    def post(self, request, **kwargs):
+        form = self.form_class(
+            request.POST
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect(self.list_url)
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'form': form,
+                'action_url': self.action_url,
+                'title': self.title
+            }
+        )
+
 
 @method_decorator(login_required, name='dispatch')
 class AdminListView(View):
+    """
+    List entries (with pagination)
+    """
 
     def render_with_pagination(self, request, page_number):
         objs = self.get_queryset(request)
@@ -63,14 +132,14 @@ class AdminListView(View):
                 'object_list': page_obj.object_list,
                 'pages': pages,
                 'page_number': page_number,
-                'page': page_obj
+                'page': page_obj,
+                'list_url': self.list_url
             }
         )
 
     def post(self, request, *args, **kwargs):
         selected_action = request.POST.getlist('_selected_action')
         go_action = request.POST['action']
-
         if go_action == 'delete_selected':
             deleted, row_count = self.model_class.objects.filter(
                 id__in=selected_action
