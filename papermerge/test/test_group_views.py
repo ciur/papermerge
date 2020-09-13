@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import Group
 
@@ -9,7 +10,29 @@ from .utils import (
 )
 
 
-class TestSearchView(TestCase):
+class TestGroupViewUserNotAuth(TestCase):
+    """
+    Basic test to make sure that unauthorized users do not
+    have access to group list
+    """
+
+    def test_basic_group_list(self):
+        """
+        No user is authenticated/signed in
+        """
+        Group.objects.create(name="test1")
+        Group.objects.create(name="test2")
+
+        ret = self.client.get(
+            reverse('core:groups'),
+        )
+        self.assertEquals(
+            ret.status_code,
+            HttpResponseRedirect.status_code
+        )
+
+
+class TestGroupView(TestCase):
 
     def setUp(self):
 
