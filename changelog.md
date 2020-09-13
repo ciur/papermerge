@@ -5,16 +5,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.0] - (Work in Progress)
 
-## Added
+### Added
     
 - Tag management (colored tags)
 - Pinnable tags
 - Better selection. Selection All/Folders/Documents/Invert Selection/Deselect menu.
 
-## Changed
+
+### Changed
 
 - Upgrade to django 3.0.10
 - Dynamic preferences upgraded to latest 1.10.1 version
+- Fixes issue #120 REST API fails when uploading a document
+- Issue #114 Worker container use environment variables for DB
+- For backup/restore scripts --user argument is optional
+
+## [1.4.3] - (Work in Progress)
+
+### Changed
+
+- Fixes issue #120 REST API fails when uploading a document
+- Issue #114 Worker container use environment variables for DB
+- For backup/restore scripts --user argument is optional
 
 ## [1.4.2] - 6 September 2020
 
