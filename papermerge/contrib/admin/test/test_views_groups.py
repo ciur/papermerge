@@ -101,3 +101,29 @@ class TestGroupView(TestCase):
             200
         )
 
+    def test_change_group(self):
+        """
+        When updating a group, should not create a new
+        entry, but update existing one!
+        """
+        gr = Group.objects.create(name="XXX")
+        self.assertEquals(
+            Group.objects.count(),
+            1
+        )
+
+        self.client.post(
+            reverse('admin:group_change', args=(gr.id,)),
+            {
+                'name': "XXX2"
+            }
+        )
+        self.assertEquals(
+            Group.objects.count(),
+            1
+        )
+        gr.refresh_from_db()
+        self.assertEquals(
+            gr.name,
+            "XXX2"
+        )
