@@ -13,7 +13,7 @@ class TagsListView(AdminListView):
     model_class = Tag
     model_label = 'core.Tag'
     template_name = 'admin/tags.html'
-    list_url = 'core:tags'
+    list_url = 'admin:tags'
 
     def get_queryset(self, request):
         return Tag.objects.filter(user=request.user)

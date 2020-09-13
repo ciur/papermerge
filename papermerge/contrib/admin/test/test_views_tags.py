@@ -69,7 +69,7 @@ class TestTagViews(TestCase):
             password='test'
         )
 
-    def test_tag_view(self):
+    def test_tag_change_view(self):
         log = Tag.objects.create(
             user=self.user, name="test"
         )
@@ -84,6 +84,43 @@ class TestTagViews(TestCase):
             reverse('admin:tag_change', args=(log.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
+
+    def test_tags_view(self):
+        ret = self.client.get(
+            reverse('admin:tags')
+        )
+        self.assertEquals(
+            ret.status_code, 200
+        )
+
+    def test_delete_tags(self):
+        tag1 = Tag.objects.create(
+            user=self.user, name="test1"
+        )
+        tag2 = Tag.objects.create(
+            user=self.user, name="test2"
+        )
+        Tag.objects.create(
+            user=self.user, name="test3"
+        )
+        ret = self.client.post(
+            reverse('admin:tags'),
+            {
+                'action': 'delete_selected',
+                '_selected_action': [tag1.id, tag2.id],
+            }
+        )
+        self.assertEquals(
+            ret.status_code, 200
+        )
+        # two log entries were deleted
+        # only one should remain
+        self.assertEqual(
+            Tag.objects.filter(
+                user=self.user
+            ).count(),
+            1
+        )
 
 
 def _create_user(username, password):
