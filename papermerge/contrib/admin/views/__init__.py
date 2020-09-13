@@ -8,6 +8,11 @@ from .tags import (
     TagView,
     TagChangeView
 )
+from .automates import (
+    AutomatesListView,
+    AutomateView,
+    AutomateChangeView
+)
 from .logs import (
     LogsListView,
     LogChangeView
@@ -25,6 +30,9 @@ __all__ = [
     'TagsListView',
     'TagView',
     'TagChangeView',
+    'AutomatesListView',
+    'AutomateView',
+    'AutomateChangeView',
     'LogsListView',
     'LogChangeView',
     'search',

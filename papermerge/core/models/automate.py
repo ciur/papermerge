@@ -78,7 +78,7 @@ class Automate(models.Model):
     dst_folder = models.ForeignKey(
         'Folder',
         on_delete=models.DO_NOTHING,
-        verbose_name=_('Destination Folder')
+        verbose_name=_('Destination Folder'),
     )
 
     # Should this page be cutted and pasted as separate document?

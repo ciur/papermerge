@@ -8,7 +8,6 @@ from .views import metadata as metadata_views
 from .views import preferences as preferences_views
 from .views import tokens as tokens_views
 from .views import users as users_views
-from .views import automates as automates_views
 
 document_patterns = [
     path(
@@ -173,18 +172,5 @@ urlpatterns = [
     path(
         'user/<int:id>/change-password',
         users_views.user_change_password_view, name='user_change_password'
-    ),
-
-    path(
-        'automates/',
-        automates_views.automates_view, name='automates'
-    ),
-    path(
-        'automate/',
-        automates_views.automate_view, name='automate'
-    ),
-    path(
-        'automate/<int:id>/change',
-        automates_views.automate_change_view, name='automate_change'
     ),
 ]

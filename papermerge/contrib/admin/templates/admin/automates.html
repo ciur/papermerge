@@ -8,10 +8,10 @@
     <div class="text-left">
         <h4 class="px-3">{% trans "Automates" %}</h4>
     </div>
-    <form action="{% url 'core:automates' %}" method="post">
+    <form action="{% url list_url %}" method="post">
       {% csrf_token %}
         <div class="col-12 p-3">
-            <a href="{% url 'core:automate' %}" class="btn btn-success" role="button">{% trans "New" %}</a>
+            <a href="{% url 'admin:automate' %}" class="btn btn-success" role="button">{% trans "New" %}</a>
               <select name="action" required="">
                 <option value="" selected="">---------</option>
                 <option value="delete_selected">{% trans "Delete selected automates" %}</option>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-12 p-3">
-          {% if automates|length > 0 %}
+          {% if object_list|length > 0 %}
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
@@ -34,9 +34,9 @@
                 </tr>
               </thead>
               <tbody>
-                {% for automate in automates %}
+                {% for automate in object_list %}
                   <tr>
-                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ automate.id }}" /></span><a href="{% url 'core:automate_change' automate.id %}">{{ automate.name}}</a></td>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ automate.id }}" /></span><a href="{% url 'admin:automate_change' automate.id %}">{{ automate.name}}</a></td>
                     <td><span class="mr-2">{{automate.match}}</td>
                     <td><span class="mr-2">
                       <a href="{% url 'admin:browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>

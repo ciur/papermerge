@@ -52,4 +52,19 @@ urlpatterns = [
         views.GroupChangeView.as_view(),
         name='group_change'
     ),
+    path(
+        'automates/',
+        views.AutomatesListView.as_view(),
+        name='automates'
+    ),
+    path(
+        'automate/',
+        views.AutomateView.as_view(),
+        name='automate'
+    ),
+    path(
+        'automate/<int:id>/change',
+        views.AutomateChangeView.as_view(),
+        name='automate_change'
+    ),
 ]
