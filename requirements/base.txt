@@ -1,6 +1,6 @@
 mglib == 1.2.8
 mgclipboard >= 0.3.0
-django == 3.0.8
+django == 3.0.10
 celery==4.4.0
 django-taggit
 imapclient
@@ -10,6 +10,6 @@ pyyaml
 lxml
 django-celery-results
 django-allauth
-django-dynamic-preferences
+django-dynamic-preferences == 1.10.1
 django-polymorphic-tree
 django-modelcluster
