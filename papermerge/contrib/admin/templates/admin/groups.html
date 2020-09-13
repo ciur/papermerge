@@ -16,7 +16,7 @@
     <form action="{{ list_url }}" method="post">
       {% csrf_token %}
         <div class="col-12 p-3">
-            <a href="{% url 'core:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>
+            <a href="{% url 'admin:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>
               <select name="action" required="">
                 <option value="" selected="">---------</option>
                 <option value="delete_selected">{% trans "Delete selected groups" %}</option>
@@ -39,7 +39,7 @@
               <tbody>
                 {% for group in object_list %}
                   <tr>
-                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ group.id }}" /></span><a href="{% url 'core:group_change' group.id %}">{{ group.name}}</a></td>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ group.id }}" /></span><a href="{% url 'admin:group_change' group.id %}">{{ group.name}}</a></td>
                   </tr>
                 {% endfor %}
               </tbody>

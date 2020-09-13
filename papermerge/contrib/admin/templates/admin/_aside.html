@@ -63,7 +63,7 @@
       </li>
       {% if request.user.is_superuser %}
         <li class="nav-item">
-          <a href="{% url 'core:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
+          <a href="{% url 'admin:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
             <i class="nav-icon fa fa-users"></i>
             <p>
               {% trans "Groups" %}

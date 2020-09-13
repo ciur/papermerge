@@ -8,7 +8,6 @@ from .views import metadata as metadata_views
 from .views import preferences as preferences_views
 from .views import tokens as tokens_views
 from .views import users as users_views
-from .views import groups as groups_views
 from .views import automates as automates_views
 
 document_patterns = [
@@ -175,21 +174,7 @@ urlpatterns = [
         'user/<int:id>/change-password',
         users_views.user_change_password_view, name='user_change_password'
     ),
-    path(
-        'groups/',
-        groups_views.GroupListView.as_view(),
-        name='groups'
-    ),
-    path(
-        'group/',
-        groups_views.GroupView.as_view(),
-        name='group'
-    ),
-    path(
-        'group/<int:id>/change',
-        groups_views.GroupChangeView.as_view(),
-        name='group_change'
-    ),
+
     path(
         'automates/',
         automates_views.automates_view, name='automates'

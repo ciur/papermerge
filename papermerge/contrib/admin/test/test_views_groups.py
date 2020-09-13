@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import Group
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
 )
 
@@ -24,7 +24,7 @@ class TestGroupViewUserNotAuth(TestCase):
         Group.objects.create(name="test2")
 
         ret = self.client.get(
-            reverse('core:groups'),
+            reverse('admin:groups'),
         )
         self.assertEquals(
             ret.status_code,
@@ -45,7 +45,7 @@ class TestGroupView(TestCase):
         Group.objects.create(name="test2")
 
         ret = self.client.get(
-            reverse('core:groups'),
+            reverse('admin:groups'),
         )
         self.assertEquals(
             ret.status_code,
@@ -66,7 +66,7 @@ class TestGroupView(TestCase):
         )
 
         ret = self.client.post(
-            reverse('core:groups'),
+            reverse('admin:groups'),
             {
                 'action': 'delete_selected',
                 '_selected_action': [gr1.id, gr2.id]
@@ -85,7 +85,7 @@ class TestGroupView(TestCase):
         gr = Group.objects.create(name="test")
 
         ret = self.client.get(
-            reverse('core:group_change', args=(gr.id,)),
+            reverse('admin:group_change', args=(gr.id,)),
         )
         self.assertEquals(
             ret.status_code,
@@ -94,7 +94,7 @@ class TestGroupView(TestCase):
 
     def test_basic_group_new(self):
         ret = self.client.get(
-            reverse('core:group'),
+            reverse('admin:group'),
         )
         self.assertEquals(
             ret.status_code,
