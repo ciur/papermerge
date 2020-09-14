@@ -10420,6 +10420,9 @@ aside a.download {
   background-color: #ececec;
   outline: None; }
 
+.av-tags-container {
+  width: 100%; }
+
 .tags-container, .av-tags-container {
   border: 1px solid #ccc;
   padding: 0.5rem 1rem;
