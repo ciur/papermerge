@@ -44,7 +44,7 @@ You can opt for *per user backup strategy* with ``--user <username>`` switch.
 
     Term **system-wide** here refers to Papermerge system - which is same as saying **for all users in Papermerge database**. Don't confuse usage of term system here with operating system, or Linux system.
 
-Per user backup strategy is very convinient when there is only one user in Papermerge. This strategy will
+Per user backup strategy is very convenient when there is only one user in Papermerge. This strategy will
 backup all documents and preserve their folder structure. No user information will be stored in backup file.
 
 System-wide (for all accounts in Papermerge) strategy will backup data per each user in Papermerge instance. Along with documents, it will save information like username, email and if that user is superuser or not. Not however that **users's passwords won't be saved.**. 
