@@ -24,6 +24,31 @@ Short Version
 Detailed Version
 ~~~~~~~~~~~~~~~~~~~
 
+System-wide or Per User?
+#########################
+
+There are at two different backup strategies:
+
+    * System-wide - will backup/restore all documents of all users in Papermerge instance
+    * Per User - will backup/restore all documents **only for specific user**
+
+You can opt for *per user backup strategy* with ``--user <username>`` switch.
+
+..  important::
+
+    If backup file was created with ``--user <username>`` switch, **it must** be restored with same
+    ``--user <username>``. If you forget to add ``--user`` option, ``./manage.py restore`` command will
+    complain with an error.
+
+.. important::
+
+    Term **system-wide** here refers to Papermerge system - which is same as saying **for all users in Papermerge database**. Don't confuse usage of term system here with operating system, or Linux system.
+
+Per user backup strategy is very convinient when there is only one user in Papermerge. This strategy will
+backup all documents and preserve their folder structure. No user information will be stored in backup file.
+
+System-wide (for all accounts in Papermerge) strategy will backup data per each user in Papermerge instance. Along with documents, it will save information like username, email and if that user is superuser or not. Not however that **users's passwords won't be saved.**. 
+
 Backup
 ########
 
@@ -43,16 +68,18 @@ Finally you can provide as argument an existing directory::
 
     ./manage.py backup /data/backups/papermerge/
 
-In example above, file named `/data/backups/papermerge/backup_<current-datetime>.tar` will be created.
+In example above, file named
+`/data/backups/papermerge/backup_<current-datetime>.tar` will be created.
 
-For full reference see :ref:`backup <backup_command>` and :ref:`restore <restore_command>` commands in utils documentation.
+For full reference see :ref:`backup <backup_command>` and :ref:`restore
+<restore_command>` commands in utils documentation.
 
 Restore
 #########
 
 To restore documents from tar archive, use following command::
 
-    ./manage.py restore <path-to-tar-file> --user <username>
+    ./manage.py restore <path-to-tar-file>
 
 As main argument for `restore` command use provide path to tar archive.
 
@@ -60,8 +87,7 @@ As main argument for `restore` command use provide path to tar archive.
     
     Keep in mind that `restore` command expects tar archive - **not zipped** tar archive. In case your backup solution pipeline compressed tar archive provided by `backup` command - you will need to first uncompress it manually, and then provide it as argument to restore command.
 
-User argument expects a *username* - not an id.
 Example of usage::
 
-    ./manage.py restore papermerge_13_07_2020.tar --user admin
+    ./manage.py restore papermerge_13_07_2020.tar
 
