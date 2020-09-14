@@ -21044,7 +21044,7 @@ __p+='\n            <div class="icon-'+
 '">\n\n            </div>\n            <ul class="node-tags d-flex flex-column align-items-end">\n                ';
  tags = node.get('tags'); 
 __p+='\n                ';
- for (t=0; t < tags.length; t++) { 
+ for (t=0; t < tags.length && t < 3; t++) { 
 __p+='\n                    ';
  tag = tags[t]; 
 __p+='\n                    <li class="tag"  style="background: '+
@@ -21054,6 +21054,10 @@ __p+='\n                    <li class="tag"  style="background: '+
 '" >\n                        '+
 ((__t=( tag['name'] ))==null?'':__t)+
 '\n                    </li>\n                ';
+ } 
+__p+='\n                ';
+ if (tags.length > 3) { 
+__p+='\n                    <li>...</li>\n                ';
  } 
 __p+='\n            </ul>\n            <div class="icons">\n                ';
  if (node.is_readonly()) {  
