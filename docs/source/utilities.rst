@@ -13,18 +13,33 @@ Backup
 
 Command to run::
 	
-	./manage.py backup <location>
+	./manage.py backup <location> [--user <username>] [--list]
 
-Backups/Exports all docs
+Backups/Exports all documents. With ``--user <username>`` option will perform **per user** backup.
+If you want to list all users in Papermerge use ``--list`` option::
+
+    $ ./manage.py backup --list
+    id      username        email
+    ----------------------------------
+    1       john
+
 
 .. _restore_command:
 
 Restore
 ##########
 
-Restores docs. Command to run::
+Restores documents from backup tarball. Command to run::
 
-	./manage.py restore <location>
+	./manage.py restore <tar-file> [--user <username>]
+
+If backup archive was created with ``--user`` option then you need to use
+``--user`` flag to restoration was well (otherwise ``restore`` command will
+complain with an error). Restore command takes as mandatory argument tarball
+(.tar archive) file created by ``./manage.py backup`` command.
+
+When restoring from system-wide backup (i.e. without ``--user`` option) please make sure
+that Papermerge is freshly installed i.e. there are no other user accounts in Papermerge database and that :ref:`media_dir` folder is empty.
 
 .. _importer_command:
 
