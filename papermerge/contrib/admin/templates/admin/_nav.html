@@ -26,14 +26,12 @@
             <label for="id_tags">{% trans "By Tags" %}</label>
             <div class="av-tags-container d-flex">
               <input type="text" class="form-control" list="all_tags" class="tag-input" />
-              <datalist id="all_tags">
-                {{alltags}}
-                XXX
-                {% for tag in alltags %}
-                     <option value="{{ tag.name }}">
-                {% endfor %}
-              </datalist>
             </div>
+            <datalist id="all_tags">
+              {% for tag in alltags %}
+                   <option value="{{ tag.name }}">
+              {% endfor %}
+            </datalist>
           </div>
           <div class="py-2">
             <button type="submit" class="btn btn-success">{% trans "Search" %}</button>
