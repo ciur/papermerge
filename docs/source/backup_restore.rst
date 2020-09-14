@@ -77,6 +77,11 @@ For full reference see :ref:`backup <backup_command>` and :ref:`restore
 Restore
 #########
 
+.. note::
+    Before restoring a system-wide backup, please make sure that
+    :ref:`media_dir` is empty and you don't have any user account created
+    i.e. your Papermerge system was just freshly installed.
+
 To restore documents from tar archive, use following command::
 
     ./manage.py restore <path-to-tar-file>
@@ -85,9 +90,16 @@ As main argument for `restore` command use provide path to tar archive.
 
 .. warning::
     
-    Keep in mind that `restore` command expects tar archive - **not zipped** tar archive. In case your backup solution pipeline compressed tar archive provided by `backup` command - you will need to first uncompress it manually, and then provide it as argument to restore command.
+    Keep in mind that `restore` command expects tar archive - **not zipped**
+    tar archive. In case your backup solution pipeline compressed tar archive
+    provided by `backup` command - you will need to first uncompress it
+    manually, and then provide it as argument to restore command.
 
 Example of usage::
 
     ./manage.py restore papermerge_13_07_2020.tar
 
+Because system-wide **backups don't store users passwords**, you will need to set superuser
+password anew::
+
+    $ ./manage changepassword <superuser-username>
