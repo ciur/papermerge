@@ -52,7 +52,7 @@ What It Doesn't Do
    user_management
    access_permissions
    utilities
-   migrations
+   updates
    settings
    translators_guide/index
    developers_guide/index
