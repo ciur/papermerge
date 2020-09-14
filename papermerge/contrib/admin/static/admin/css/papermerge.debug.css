@@ -10423,7 +10423,8 @@ aside a.download {
 .tags-container {
   border: 1px solid #ccc;
   padding: 0.5rem 1rem;
-  border-radius: 2px; }
+  border-radius: 2px;
+  flex-wrap: wrap; }
   .tags-container .tag {
     padding: 0.25rem;
     border: 1px solid #ccc;
@@ -10436,9 +10437,9 @@ aside a.download {
       margin-right: 0.3rem;
       cursor: pointer; }
   .tags-container input {
-    flex: 1;
     outline: none;
-    border: 0; }
+    border: 0;
+    width: 7rem; }
 
 /* BEGIN Pinned tags are not displayed in case of collapsed sidebar */
 body.sidebar-mini.sidebar-collapse #pinned_tags_view {
