@@ -10,6 +10,28 @@
 <!-- SEARCH FORM -->
 <form action="{% url 'admin:search' %}" class="form-inline ml-3">
   <div class="input-group input-group-sm">
+    <div class="dropdown input-group-prepend">
+      <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20"></button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+        <div class="p-3">
+          <div class="form-group">
+            <label for="search">{% trans "Content" %}</label>
+            <input type="search" name="qa" class="form-control" placeholder="{% trans 'Search' %}">
+          </div>
+          <div class="form-group">
+            <label for="id_folder">{% trans "In Folder" %}</label>
+            <input type="text" name="folder" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="id_tags">{% trans "By Tags" %}</label>
+            <input type="text" class="form-control" name="tags">
+          </div>
+          <div class="py-2">
+            <button type="submit" class="btn btn-success">{% trans "Search" %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <input class="form-control form-control-navbar" type="search" name="q" placeholder="{% trans 'Search' %}" aria-label="Search">
     <div class="input-group-append">
       <button class="btn btn-navbar" type="submit">
