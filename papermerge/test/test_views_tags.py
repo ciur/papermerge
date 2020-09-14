@@ -12,11 +12,6 @@ from .utils import (
 
 
 class TestNodesView(TestCase):
-    """
-    Tests operations on the document via Ajax e.g.
-    edit fields, delete document.
-    """
-
     def setUp(self):
 
         self.testcase_user = create_root_user()
