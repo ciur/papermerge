@@ -125,6 +125,16 @@
   
   <script src="{% url 'javascript-catalog' %}"></script>
 
+  <script>
+    /* 
+      small hack which prevents advanced search dropdown to close
+      if user clicks inside/dropdown
+     */
+    $('.advanced-search .dropdown-menu').on('click',function (e) {
+      e.stopPropagation();
+    });
+  </script>
+
   <!-- see comments in PapermergeJS/src/js/routers/browse.js:browse -->
   <input type="hidden" id="root_node_id" name="root_node_id" value="{{root_node_id}}" />
 </body>

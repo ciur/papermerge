@@ -4,6 +4,7 @@ from papermerge.core.models import (
     Folder,
     Tag
 )
+from papermerge.core.forms import AdvancedSearchForm
 
 
 def extras(request):
@@ -26,11 +27,17 @@ def extras(request):
         pinned=True,
         user=request.user
     )
+    alltags = Tag.objects.filter(
+        user=request.user
+    )
+    form = AdvancedSearchForm(user=request.user)
 
     return {
         'inbox_count': count,
         'pinned_tags': pinned_tags,
-        'papermerge_version': papermerge.__version__
+        'papermerge_version': papermerge.__version__,
+        'form': form,
+        'alltags': alltags
     }
 
 

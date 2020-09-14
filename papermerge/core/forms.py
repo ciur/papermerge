@@ -83,6 +83,34 @@ class AutomateForm(ControlForm):
                 id__in=folder_choice_ids
             )
 
+
+class AdvancedSearchForm(forms.Form):
+    folder = TreeNodeChoiceField(
+        queryset=None,
+        required=False
+    )
+    text = forms.CharField()
+    tags = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+
+        super().__init__(*args, **kwargs)
+
+        if user:
+            all_folders = Folder.objects.exclude(
+                title=Folder.INBOX_NAME
+            )
+            folder_choice_ids = []
+
+            for folder in all_folders:
+                if user.has_perm(Access.PERM_READ, folder):
+                    folder_choice_ids.append(folder.id)
+
+            self.fields['folder'].queryset = Folder.objects.filter(
+                id__in=folder_choice_ids
+            )
+
 class UserFormWithoutPassword(ControlForm):
 
     class Meta:

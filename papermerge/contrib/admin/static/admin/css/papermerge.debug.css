@@ -10420,23 +10420,23 @@ aside a.download {
   background-color: #ececec;
   outline: None; }
 
-.tags-container {
+.tags-container, .av-tags-container {
   border: 1px solid #ccc;
   padding: 0.5rem 1rem;
   border-radius: 2px;
   flex-wrap: wrap; }
-  .tags-container .tag {
+  .tags-container .tag, .av-tags-container .tag {
     padding: 0.25rem;
     border: 1px solid #ccc;
     margin: 0.25rem;
     border-radius: 3px; }
-    .tags-container .tag span {
+    .tags-container .tag span, .av-tags-container .tag span {
       margin-left: 0.5rem; }
-    .tags-container .tag i {
+    .tags-container .tag i, .av-tags-container .tag i {
       margin-left: 0.5rem;
       margin-right: 0.3rem;
       cursor: pointer; }
-  .tags-container input {
+  .tags-container input, .av-tags-container input {
     outline: none;
     border: 0;
     width: 7rem; }

@@ -10,7 +10,7 @@
 <!-- SEARCH FORM -->
 <form action="{% url 'admin:search' %}" class="form-inline ml-3">
   <div class="input-group input-group-sm">
-    <div class="dropdown input-group-prepend">
+    <div class="dropdown input-group-prepend advanced-search">
       <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20"></button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
         <div class="p-3">
@@ -20,11 +20,20 @@
           </div>
           <div class="form-group">
             <label for="id_folder">{% trans "In Folder" %}</label>
-            <input type="text" name="folder" class="form-control">
+            {{ form.folder }}
           </div>
           <div class="form-group">
             <label for="id_tags">{% trans "By Tags" %}</label>
-            <input type="text" class="form-control" name="tags">
+            <div class="av-tags-container">
+              <input type="text" class="form-control" list="all_tags" class="tag-input" />
+              <datalist id="all_tags">
+                {{alltags}}
+                XXX
+                {% for tag in alltags %}
+                     <option value="{{ tag.name }}">
+                {% endfor %}
+              </datalist>
+            </div>
           </div>
           <div class="py-2">
             <button type="submit" class="btn btn-success">{% trans "Search" %}</button>
