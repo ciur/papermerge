@@ -18,8 +18,58 @@ Following sections describes the process of updating/migration to newer
 version of Papermerge. It is addressed to **system administrators** or maintainers
 of Papermerge instances.
 
-Updating Papermerge is three fold operation:
+Updating Papermerge is three step operation:
 
-    * update code (backend i.e. python code)
-    * update/migrate database
-    * update/static content (frontend i.e. javascript, css, images)
+    1. update code (backend i.e. python code)
+    2. run database migrations
+    3. update/static content (frontend i.e. javascript, css, images)
+
+
+Step 1 - Update Code
+~~~~~~~~~~~~~~~~~~~~~~
+
+First of all you need to update application code. You need to either :ref:`download <download>` the `latest tarball <https://github.com/ciur/papermerge/releases>`_ or checkout directly from repository with following git command::
+
+    $ git checkout -b <latest-stable-release>
+
+For example::
+
+    $ git checkout -b v1.4.2
+
+.. danger::
+    
+    Never use git **master branch** in production
+
+With latest code available, you need to activate your python's current virtual environment::
+
+    source .venv/bin/activate
+
+And then run::
+
+    pip3 install -r requirements/base.txt
+
+This will upgrade all 3rd party modules dependencies.
+
+
+Step 2 - Run Database Migrations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now it is time to apply changes to the database.
+With your python virtual environment active, run following command::
+
+    $ ./manage.py migrate
+
+The above command will run so called database migrations. This means that
+database schema (i.e. database used by Papermerge instance) will be updated to
+match latest python code changes e.g. new column will be added, maybe a column
+rename etc.
+
+
+Step 3 - Update Static Content
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Last step is to copy new static content into :ref:`static_dir` folder::
+
+    $ ./manage collectstatic
+
+Above command will take latest version of javascript, css, images i.e. static content and copy it to :ref:`static_dir`.
