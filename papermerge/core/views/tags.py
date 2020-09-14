@@ -8,7 +8,7 @@ from django.http import (
 )
 from django.utils.translation import gettext as _
 
-from papermerge.core.models import Access, BaseTreeNode
+from papermerge.core.models import Access, BaseTreeNode, Tag
 from .decorators import json_response
 
 logger = logging.getLogger(__name__)
@@ -96,3 +96,15 @@ def nodes_tags_view(request):
             return msg, HttpResponseForbidden.status_code
 
     return 'OK'
+
+
+@json_response
+@login_required
+def alltags_view(request):
+
+    all_tags = [
+        {'name': tag.name}
+        for tag in Tag.objects.filter(user=request.user)
+    ]
+
+    return {'tags': all_tags}

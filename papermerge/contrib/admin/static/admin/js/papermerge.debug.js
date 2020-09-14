@@ -20238,13 +20238,14 @@ class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*******************************!*\
   !*** ./src/js/models/tags.js ***!
   \*******************************/
-/*! exports provided: Tag, Tags */
+/*! exports provided: Tag, Tags, AllTags */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag", function() { return Tag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tags", function() { return Tags; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AllTags", function() { return AllTags; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -20344,6 +20345,16 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
       }
     });
     request.done(options['success']);
+  }
+
+}
+class AllTags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return Tag;
+  }
+
+  parse(response) {
+    return response.tags;
   }
 
 }
@@ -21669,7 +21680,15 @@ __p+='\n     <div class="tag d-flex align-items-center">\n       <span>'+
 ((__t=( model.get('name') ))==null?'':__t)+
 '">\n        </i>\n     </div>\n ';
  } 
-__p+='\n<input class="tag-input" />\n\n';
+__p+='\n<input list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
+ for (let i=0; i < all_tags.models.length; i++) { 
+__p+='\n    ';
+ model = all_tags.models[i] 
+__p+='\n     <option value="'+
+((__t=( model.get('name') ))==null?'':__t)+
+'">\n';
+ } 
+__p+='\n</datalist>\n\n';
 }
 return __p;
 };
@@ -22405,12 +22424,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _models_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/node */ "./src/js/models/node.js");
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
-/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/tags_modal */ "./src/js/views/tags_modal.js");
-/* harmony import */ var _views_access__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/access */ "./src/js/views/access.js");
-/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _views_tags_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/tags_modal */ "./src/js/views/tags_modal.js");
+/* harmony import */ var _views_access__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/access */ "./src/js/views/access.js");
+/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
+
 
 
 
@@ -22434,8 +22455,8 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.selection = new _models_node__WEBPACK_IMPORTED_MODULE_3__["NodeCollection"](); // collection of nodes
 
     this.clipboard = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], this.parent_changed, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PARENT_CHANGED"], this.parent_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
   set_parent(parent_id) {
@@ -22466,23 +22487,23 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   on_select_all(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECT_ALL"]);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_ALL"]);
   }
 
   on_select_folders(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECT_FOLDERS"]);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_FOLDERS"]);
   }
 
   on_select_documents(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECT_DOCUMENTS"]);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_DOCUMENTS"]);
   }
 
   on_deselect(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["DESELECT"]);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["DESELECT"]);
   }
 
   on_invert_selection(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["INVERT_SELECTION"]);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["INVERT_SELECTION"]);
   }
 
   click_access(event) {
@@ -22490,7 +22511,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         access_view;
 
     if (node) {
-      access_view = new _views_access__WEBPACK_IMPORTED_MODULE_8__["AccessView"](node);
+      access_view = new _views_access__WEBPACK_IMPORTED_MODULE_9__["AccessView"](node);
     }
   }
 
@@ -22500,7 +22521,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
         uploader_view;
     files = $target[0].files;
-    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_9__["UploaderView"](files, lang, this.parent_id);
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_10__["UploaderView"](files, lang, this.parent_id);
   }
 
   upload_clicked(event) {
@@ -22518,7 +22539,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         titles_str;
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
     }; // https://stackoverflow.com/questions/10858935/cleanest-way-to-destroy-every-model-in-a-collection-in-backbone
     //_.each(_.clone(this.selection.models), function(model){
     //  model.destroy(options);
@@ -22542,7 +22563,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
     };
 
     this.selection.cut(options);
@@ -22552,7 +22573,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
     };
 
     this.selection.paste(options, this.parent_id);
@@ -22562,7 +22583,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
     };
 
     this.selection.paste_pages(options, this.parent_id);
@@ -22591,25 +22612,40 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         rename_view;
 
     if (node) {
-      rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_6__["RenameView"](node);
+      rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_7__["RenameView"](node);
     }
   }
 
   tag_node(event) {
     let models = this.selection.models,
-        tags_view;
+        tags_view,
+        all_tags,
+        that,
+        success; // first get all tags available for current user
+    // and pass them to TagsModalView (or MultiTagsModalView)
+    // to enable autocompletion.
 
-    if (models.length == 1) {
-      tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__["TagsModalView"](underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(models));
-    } else if (models.length > 1) {
-      tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_7__["MultiTagsModalView"](models);
-    }
+    that = this;
+    all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_4__["AllTags"]();
+    all_tags.url = '/alltags/';
+
+    success = function (collection, response, options) {
+      if (models.length == 1) {
+        tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_8__["TagsModalView"](underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(models), collection);
+      } else if (models.length > 1) {
+        tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_8__["MultiTagsModalView"](models, collection);
+      }
+    };
+
+    all_tags.fetch({
+      'success': success
+    });
   }
 
   new_folder(event) {
     let new_folder_view, parent_id;
     parent_id = this.parent_id;
-    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_5__["NewFolderView"](parent_id);
+    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_6__["NewFolderView"](parent_id);
   }
 
   enable_action(item) {
@@ -24966,11 +25002,12 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.tags-container');
   }
 
-  initialize(tags) {
+  initialize(tags, all_tags) {
     /*
     * Backbone collection of tags
     */
     this.tags = tags;
+    this.all_tags = all_tags;
     this.render();
   }
 
@@ -25024,7 +25061,8 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'tags': this.tags
+      'tags': this.tags,
+      'all_tags': this.all_tags
     }));
     this.$el.html(compiled);
   }
@@ -25167,10 +25205,14 @@ class TagsModalView extends BaseModalView {
   /***
   * Modal dialog displayed when user selected a single node
   ***/
-  initialize(node) {
+  initialize(node, all_tags_collection) {
+    /* 
+      all_tags_collection is tags collection of all tags of
+      given user (used for autocomplete).
+     */
     this.node = node;
     this.render();
-    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](this._node2tag_collection(node));
+    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](this._node2tag_collection(node), all_tags_collection);
   }
 
   render() {
@@ -25188,12 +25230,16 @@ class MultiTagsModalView extends BaseModalView {
   /***
   * Modal dialog displayed when user selected multiple nodes
   ***/
-  initialize(nodes) {
+  initialize(nodes, all_tags_collection) {
+    /* 
+      all_tags_collection is tags collection of all tags of
+      given user (used for autocomplete).
+     */
     // notice plural here
     this.nodes = nodes;
     this.render();
     this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"]( // notice 'nodes' is in plural
-    this._nodes2tag_collection(nodes));
+    this._nodes2tag_collection(nodes), all_tags_collection);
   }
 
   render() {

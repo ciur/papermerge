@@ -72,6 +72,9 @@ urlpatterns = [
         'nodes/tags/', tags_views.nodes_tags_view, name="nodes_tags"
     ),
     path(
+        'alltags/', tags_views.alltags_view, name="alltags"
+    ),
+    path(
         'metadata/<model>/<int:id>', metadata_views.metadata, name="metadata"
     ),
     path(
