@@ -38,7 +38,7 @@ For example::
 
 .. danger::
     
-    Never use git **master branch** in production
+    Never use git **master branch** in production. Master branch contains latest development version of Papermerge - which makes it highly unstable. Stable versions are tagged. For example ``v1.4.2`` is the latest tagged version of ``stable/1.4.x`` branch.
 
 With latest code available, you need to activate your python's current virtual environment::
 
