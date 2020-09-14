@@ -23,7 +23,7 @@
             {{ form.folder }}
           </div>
           <div class="form-group">
-            <label for="id_tags">{% trans "By Tags" %}</label>
+            <label for="id_tags">{% trans "With Tags" %}</label>
             <div class="av-tags-container d-flex">
               <input type="text" class="form-control" list="all_tags" class="tag-input" />
             </div>
@@ -34,7 +34,10 @@
             </datalist>
           </div>
           <div class="py-2">
-            <button type="submit" class="btn btn-success">{% trans "Search" %}</button>
+            <button type="submit" class="btn btn-success w-100">
+              {% trans "Advanced Search" %}
+              <i class="fas fa-search-plus ml-1"></i>
+            </button>
           </div>
         </div>
       </div>
