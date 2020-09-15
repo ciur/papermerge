@@ -69,8 +69,10 @@ def search(request):
                 p.document.basetreenode_ptr_id for p in results_docs
             ]
         )
-    else:
+    elif search_term:
         qs_docs = BaseTreeNode.objects.none()
+    else:
+        qs_docs = BaseTreeNode.objects.all()
 
     if descendant_ids:
         qs_docs = qs_docs.filter(id__in=descendant_ids)
