@@ -70,7 +70,7 @@ def search(request):
             ]
         )
     else:
-        qs_docs = BaseTreeNode.objects
+        qs_docs = BaseTreeNode.objects.none()
 
     if descendant_ids:
         qs_docs = qs_docs.filter(id__in=descendant_ids)
