@@ -14,22 +14,22 @@
       <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20"></button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
         <div class="p-3">
-          <div class="form-group">
+          <div class="form-group p-1">
             <label for="search">{% trans "Content" %}</label>
             <input type="search" name="qa" class="form-control" placeholder="{% trans 'Search' %}">
           </div>
-          <div class="form-group">
+          <div class="form-group p-1">
             <label for="id_folder">{% trans "In Folder" %}</label>
             {{ form.folder }}
           </div>
-          <div class="form-group">
+          <div class="form-group p-1">
             <label>{% trans "With" %}</label>
             <select name="tags_op" class="ml-2 mr-2">
                 <option value="all" selected>{% trans "All" %}</option>
                 <option value="any">{% trans "Any" %}</option>
             </select>
             <label>{% trans "Tags" %}</label>
-            <div class="av-tags-container d-flex">
+            <div class="av-tags-container d-flex my-1">
               <input type="text" class="form-control" list="all_tags" class="tag-input" />
             </div>
             <datalist id="all_tags">
