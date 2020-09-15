@@ -176,6 +176,27 @@ def tree_path(node):
     )
 
 
+@register.simple_tag()
+def search_tags_line(node):
+    li = "<li class='tag' style='color:{}; background-color:{}'>{}</li>"
+    li_items = [
+        format_html(
+            mark_safe(
+                li
+            ),
+            tag.fg_color,
+            tag.bg_color,
+            tag.name
+        )
+        for tag in node.tags.all()
+    ]
+    result = format_html(
+        mark_safe(''.join(li_items))
+    )
+
+    return result
+
+
 @register.filter
 def log_level(level_as_int):
     """

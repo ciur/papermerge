@@ -42,21 +42,35 @@ def inbox_view(request):
 
 @login_required
 def search(request):
-    search_term = request.GET.get('q')
+    # 'qa' is search term from "advanced search form"
+    search_term = request.GET.get('q') or request.GET.get('qa')
+    tags_list = request.GET.getlist('tag')
     backend = get_search_backend()
 
     results_folders = backend.search(search_term, Folder)
     results_docs = backend.search(search_term, Page)
 
-    qs_docs = BaseTreeNode.objects.filter(
-        id__in=[
-            p.document.basetreenode_ptr_id for p in results_docs
-        ]
+    if results_docs:
+        qs_docs = BaseTreeNode.objects.filter(
+            id__in=[
+                p.document.basetreenode_ptr_id for p in results_docs
+            ]
+        )
+    else:
+        qs_docs = BaseTreeNode.objects
+
+    if tags_list:
+        qs_docs = qs_docs.filter(
+            tags__name__in=tags_list
+        ).distinct()
+
+    nodes_perms = request.user.get_perms_dict(
+        qs_docs, Access.ALL_PERMS
     )
 
     qs_docs = [
-        node for node in qs_docs.all()
-        if request.user.has_perm(Access.PERM_READ, node)
+        node for node in qs_docs.prefetch_related('tags')
+        if nodes_perms[node.id].get(Access.PERM_READ, False)
     ]
 
     # filter out all documents for which current user
@@ -68,7 +82,8 @@ def search(request):
         {
             'results_docs': qs_docs,
             'results_folders': results_folders.results(),
-            'search_term': search_term
+            'search_term': search_term,
+            'tags_list': tags_list
         }
     )
 

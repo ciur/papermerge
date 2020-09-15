@@ -9577,10 +9577,20 @@ ul.pinned_tags li.active {
   background-color: rgba(0, 0, 0, 0.2);
   border-left: 2px solid white; }
 
+.search-tag {
+  border: 1px solid #ccc;
+  margin: 0 0.2rem;
+  padding: 0 0.2rem;
+  border-radius: 0.25rem; }
+
 #search_results h4 {
   font-weight: 400; }
   #search_results h4 a {
     color: #444; }
+  #search_results h4 ul li.tag {
+    padding: 0rem 0.2rem;
+    margin: 0;
+    margin-left: 1rem; }
 
 #search_results ul {
   margin: 0;

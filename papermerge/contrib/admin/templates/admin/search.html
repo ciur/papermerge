@@ -16,8 +16,17 @@
             <a href="{% url 'admin:index' %}"><i class="fa fa-home px-1"></i>{% trans "Home" %}</a>
         </li>
         <li class="breadcrumb-item">
-            {% trans "Search results" %}: {{search_term}}
+            {% trans "Term" %}: {{search_term}}
         </li>
+        {% if tags_list|length > 0 %}
+          <li  class="breadcrumb-item">
+            {% trans "Tags" %}:
+          {% for tagname in tags_list %}
+              <span class="ml-2 search-tag">{{ tagname }}</span>
+          {% endfor %}
+          </li>
+        {% endif %}
+
     </ol>
   </div><!-- /.col -->
 {% endblock %}
@@ -46,11 +55,14 @@
           <ul class="documents">
             {% for item in results_docs %}
               <li>
-                <h4>
+                <h4 class="d-flex flex-row">
                   <a href="{% url 'core:document' item.id %}">
                     <i class="fa fa-file"></i>
                     {{ item.title }}
                   </a>
+                  <ul class="d-flex flex-row">
+                    {% search_tags_line item %}
+                  </ul>
                 </h4>
                 <div class="my-1">
                   <i class="fa fa-folder text-warning"></i> {% search_document_path item %}
