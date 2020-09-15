@@ -45,10 +45,22 @@ def search(request):
     # 'qa' is search term from "advanced search form"
     search_term = request.GET.get('q') or request.GET.get('qa')
     tags_list = request.GET.getlist('tag')
+    folder_id = request.GET.get('folder', None)
+    folder = None
+    descendant_ids = []
     backend = get_search_backend()
 
     results_folders = backend.search(search_term, Folder)
     results_docs = backend.search(search_term, Page)
+
+    if folder_id:
+        try:
+            folder = BaseTreeNode.objects.get(id=folder_id)
+        except BaseTreeNode.DoesNotExist:
+            pass
+
+    if folder:
+        descendant_ids = [node.id for node in folder.get_descendants()]
 
     if results_docs:
         qs_docs = BaseTreeNode.objects.filter(
@@ -58,6 +70,9 @@ def search(request):
         )
     else:
         qs_docs = BaseTreeNode.objects
+
+    if descendant_ids:
+        qs_docs = qs_docs.filter(id__in=descendant_ids)
 
     if tags_list:
         qs_docs = qs_docs.filter(
@@ -83,7 +98,8 @@ def search(request):
             'results_docs': qs_docs,
             'results_folders': results_folders.results(),
             'search_term': search_term,
-            'tags_list': tags_list
+            'tags_list': tags_list,
+            'folder': folder
         }
     )
 

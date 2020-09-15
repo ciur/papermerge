@@ -26,6 +26,11 @@
           {% endfor %}
           </li>
         {% endif %}
+        {% if folder %}
+          <li  class="breadcrumb-item">
+            {% trans "Folder" %}: {{folder.title}}
+          </li>
+        {% endif %}
 
     </ol>
   </div><!-- /.col -->
