@@ -23,6 +23,13 @@
             {% trans "Tags" %}:
           {% for tagname in tags_list %}
               <span class="ml-2 search-tag">{{ tagname }}</span>
+              {% if not forloop.last %}
+                {% if tags_op == 'any' %}
+                  <span class="ml-2">{% trans "OR" %}</span>
+                {% else %}
+                  <span class="ml-2">{% trans "AND" %}</span>
+                {% endif  %}
+              {% endif %}
           {% endfor %}
           </li>
         {% endif %}

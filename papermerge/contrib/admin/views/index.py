@@ -45,6 +45,7 @@ def search(request):
     # 'qa' is search term from "advanced search form"
     search_term = request.GET.get('q') or request.GET.get('qa')
     tags_list = request.GET.getlist('tag')
+    tags_op = request.GET.get('tags_op')
     folder_id = request.GET.get('folder', None)
     folder = None
     descendant_ids = []
@@ -75,9 +76,16 @@ def search(request):
         qs_docs = qs_docs.filter(id__in=descendant_ids)
 
     if tags_list:
-        qs_docs = qs_docs.filter(
-            tags__name__in=tags_list
-        ).distinct()
+        # all tags
+        if tags_op == 'any':
+            qs_docs = qs_docs.filter(
+                tags__name__in=tags_list
+            ).distinct()
+        else:  # tags_op == all
+            for tag in tags_list:
+                qs_docs = qs_docs.filter(
+                    tags__name__in=[tag]
+                ).distinct()
 
     nodes_perms = request.user.get_perms_dict(
         qs_docs, Access.ALL_PERMS
@@ -99,7 +107,8 @@ def search(request):
             'results_folders': results_folders.results(),
             'search_term': search_term,
             'tags_list': tags_list,
-            'folder': folder
+            'folder': folder,
+            'tags_op': tags_op
         }
     )
 
