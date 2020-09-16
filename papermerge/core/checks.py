@@ -4,6 +4,8 @@ import subprocess
 from django.conf import settings
 from django.core.checks import Warning, register
 
+from papermerge.core.importers.imap import login as imap_login
+
 
 USED_BINARIES = {
     settings.BINARY_FILE: {
@@ -117,6 +119,42 @@ def binaries_check(app_configs, **kwargs):
             check_messages.append(
                 Warning(
                     error.format(binary, USED_BINARIES[binary_path]["msg"]),
+                    hint
+                )
+            )
+
+    return check_messages
+
+
+@register()
+def imap_login_check(app_configs, **kwargs):
+
+    host = settings.PAPERMERGE_IMPORT_MAIL_HOST
+    user = settings.PAPERMERGE_IMPORT_MAIL_USER
+    password = settings.PAPERMERGE_IMPORT_MAIL_PASS
+
+    check_messages = []
+    msg = f"Failed to login to IMAP server '{host}'"
+    hint = """
+        Please double check that IMPORT_MAIL_HOST,
+        IMPORT_MAIL_USER, IMPORT_MAIL_PASS settings
+        are correct.
+    """
+
+    if all([host, user, password]):
+        try:
+            server = imap_login(
+                imap_server=host,
+                username=user,
+                password=password
+            )
+        except Exception:
+            server = None
+
+        if not server:
+            check_messages.append(
+                Warning(
+                    msg,
                     hint
                 )
             )

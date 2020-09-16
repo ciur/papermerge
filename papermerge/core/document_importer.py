@@ -58,7 +58,7 @@ class DocumentImporter:
             ./manage.py imap_importer
         command
         """
-        logger.debug(f"Importing file {self.filepath}")
+        logger.debug(f"Importing file {self.filepath}.")
 
         if file_title is None:
             file_title = os.path.basename(self.filepath)
