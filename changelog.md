@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tag management (colored tags)
 - Pinnable tags
 - Better selection. Selection All/Folders/Documents/Invert Selection/Deselect menu.
+- Extra check (./manage.py check) for IMAP credentials. In case IMAP settings are not correct, ./manage.py check will issue a warning message. Also imap import will complain if IMAP credentials are incorrect. Extra detailed debugging messages for IMAP import.
 
 
 ### Changed
@@ -18,15 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dynamic preferences upgraded to latest 1.10.1 version
 - Fixes issue #120 REST API fails when uploading a document
 - Issue #114 Worker container use environment variables for DB
-- For backup/restore scripts --user argument is optional
+- For backup/restore scripts --user argument is optional. Without --user argument backup command will backup all users' documents.
 
-## [1.4.3] - (Work in Progress)
+
+## [1.4.3] - 16 September 2020
 
 ### Changed
 
 - Fixes issue #120 REST API fails when uploading a document
 - Issue #114 Worker container use environment variables for DB
-- For backup/restore scripts --user argument is optional
+- For backup/restore scripts --user argument is optional. Without --user argument backup command will backup all users' documents.
+- Extra check (./manage.py check) for IMAP credentials. In case IMAP settings are not correct, ./manage.py check will issue a warning message. Also imap import will complain if IMAP credentials are incorrect. Extra detailed debugging messages for IMAP import.
 
 ## [1.4.2] - 6 September 2020
 
