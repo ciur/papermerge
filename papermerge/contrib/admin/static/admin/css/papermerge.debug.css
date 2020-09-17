@@ -10433,6 +10433,17 @@ aside a.download {
 .av-tags-container {
   width: 100%; }
 
+.document.tags-container {
+  /*
+  * tags in documents right panel are readonly
+  */ }
+  .document.tags-container .tag span {
+    margin-right: 0.5rem; }
+  .document.tags-container input {
+    display: none; }
+  .document.tags-container i {
+    display: none; }
+
 .tags-container, .av-tags-container {
   border: 1px solid #ccc;
   padding: 0.5rem 1rem;

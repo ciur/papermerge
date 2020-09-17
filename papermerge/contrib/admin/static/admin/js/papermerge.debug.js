@@ -21713,7 +21713,13 @@ __p+=' ';
  for (let i=0; i < tags.models.length; i++) { 
 __p+='\n    ';
  model = tags.models[i] 
-__p+='\n     <div class="tag d-flex align-items-center">\n       <span>'+
+__p+='\n     <div class="tag d-flex align-items-center" style="color: '+
+((__t=( model.get('fg_color') ))==null?'':__t)+
+'; background:  '+
+((__t=( model.get('bg_color') ))==null?'':__t)+
+';">\n       <span style="color: '+
+((__t=( model.get('fg_color') ))==null?'':__t)+
+';">'+
 ((__t=( model.get('name') ))==null?'':__t)+
 '</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
 ((__t=( model.get('name') ))==null?'':__t)+
@@ -23809,19 +23815,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
-/* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
-/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
-/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../document_form/zoom */ "./src/js/document_form/zoom.js");
-/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../document_form/page_list */ "./src/js/document_form/page_list.js");
-/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../document_form/common */ "./src/js/document_form/common.js");
-/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
-/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
-/* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
+/* harmony import */ var _models_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/node */ "./src/js/models/node.js");
+/* harmony import */ var _views_tags_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/tags_modal */ "./src/js/views/tags_modal.js");
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
+/* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
+/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
+/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../document_form/zoom */ "./src/js/document_form/zoom.js");
+/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../document_form/page_list */ "./src/js/document_form/page_list.js");
+/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../document_form/common */ "./src/js/document_form/common.js");
+/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
+/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
+/* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
+
+
 
 
 
@@ -23889,20 +23899,20 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   initialize() {
     let dom_actual_pages = document.querySelector('.actual_pages'),
         document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val();
-    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__["MgThumbnailList"]();
-    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__["DgZoom"]();
-    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__["MgPageList"](this._zoom);
+    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_7__["MgThumbnailList"]();
+    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_9__["DgZoom"]();
+    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_10__["MgPageList"](this._zoom);
 
     this._thumbnail_list.load();
 
     this._page_list.load(this.zoom.get_value());
 
-    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_10__["DgMainSpinner"]();
+    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_12__["DgMainSpinner"]();
     this._actions = this.build_actions();
-    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_12__["BreadcrumbView"](document_id);
+    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_14__["BreadcrumbView"](document_id);
 
     if (dom_actual_pages) {
-      new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
+      new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_5__["DgPageScroll"](dom_actual_pages);
     }
 
     this.configEvents();
@@ -23963,9 +23973,9 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     this._thumbnail_list.onclick(this.on_thumbnail_click, this);
 
-    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_8__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
 
-    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_8__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
 
     this.zoom.subscribe("zoom", this.on_zoom_change, this);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).resize(function () {
@@ -23979,16 +23989,17 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     /**
     Actions dropdown menu of changeform view.
     */
-    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
+    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
         rename_action,
         delete_page_action,
         cut_page_action,
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
+        tags_action,
         apply_reorder_changes,
         that = this;
-    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       // Achtung! #rename id is same for rename action
       // in changeform view and changelist view.
       id: "#rename",
@@ -23999,21 +24010,21 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         let rename_view,
             node,
             options = {};
-        node = new _models_document__WEBPACK_IMPORTED_MODULE_14__["Document"](current_node.id);
+        node = new _models_document__WEBPACK_IMPORTED_MODULE_16__["Document"](current_node.id);
 
         function update_breadcrumb() {
           that._breadcrumb_view.breadcrumb.fetch();
         }
 
         options['success'] = function (model, response, options) {
-          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_13__["RenameView"](model);
+          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_15__["RenameView"](model);
           rename_view.rename.on("change", update_breadcrumb);
         };
 
         node.fetch(options);
       }
     });
-    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       id: "#delete-page",
       enabled: function (selection, clipboard) {
         let order_changed = false; // User cannot delete pages if he changed their
@@ -24057,7 +24068,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         page_list.delete_selected(selection);
       }
     });
-    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       id: "#cut-page",
       enabled: function (selection, clipboard) {
         return selection.length > 0;
@@ -24081,13 +24092,13 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
           contentType: "application/json; charset=utf-8",
           error: function (response) {
             if (response.status == 403) {
-              new _views_message__WEBPACK_IMPORTED_MODULE_15__["MessageView"]("Error", response.responseJSON['msg']);
+              new _views_message__WEBPACK_IMPORTED_MODULE_17__["MessageView"]("Error", response.responseJSON['msg']);
             }
           }
         });
       }
     });
-    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       id: "#paste-page",
       enabled: function (selection, clipboard) {
         return true;
@@ -24102,13 +24113,13 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
           contentType: "application/json; charset=utf-8",
           error: function (response) {
             if (response.status == 403) {
-              new _views_message__WEBPACK_IMPORTED_MODULE_15__["MessageView"]("Error", response.responseJSON['msg']);
+              new _views_message__WEBPACK_IMPORTED_MODULE_17__["MessageView"]("Error", response.responseJSON['msg']);
             }
           }
         });
       }
     });
-    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       id: "#paste-page-before",
       enabled: function (selection, clipboard) {
         return selection.length == 1;
@@ -24135,7 +24146,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       id: "#paste-page-after",
       enabled: function (selection, clipboard) {
         return selection.length == 1;
@@ -24162,7 +24173,41 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
+    tags_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
+      id: "#tags-menu-item",
+      enabled: function (selection, clipboard) {
+        return true;
+      },
+      action: function (selection, clipboard, current_node) {
+        let tags_view,
+            node,
+            that = this,
+            success;
+        node = new _models_node__WEBPACK_IMPORTED_MODULE_3__["Node"]({
+          'id': current_node.id,
+          'ctype': 'document',
+          'document_url': `/node/${current_node.id}`
+        });
+
+        success = function (model, response, options) {
+          let correct_node,
+              n = model.get('node'); // small hack
+
+          correct_node = new _models_node__WEBPACK_IMPORTED_MODULE_3__["Node"]({
+            'id': n['id'],
+            'title': n['title'],
+            'tags': n['tags'],
+            'alltags': n['alltags']
+          });
+          tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_4__["TagsModalView"](correct_node, Object(_views_tags_modal__WEBPACK_IMPORTED_MODULE_4__["node2tag_collection"])(correct_node));
+        };
+
+        node.fetch({
+          'success': success
+        });
+      }
+    });
+    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_13__["MgChangeFormAction"]({
       id: "#apply-reorder-changes",
       enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
         // if any page has page_num != page_order
@@ -24173,7 +24218,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         }
 
         for (let thumb of thumbnail_list.all()) {
-          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_8__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
 
           if (data['page_num'] != data['page_order']) {
             return true;
@@ -24195,7 +24240,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         }
 
         for (let thumb of thumbnail_list.all()) {
-          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_8__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
           doc_id = thumb.doc_id;
           pages.push({
             'page_num': data['page_num'],
@@ -24220,6 +24265,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     actions.add(paste_page_before_action);
     actions.add(paste_page_after_action);
     actions.add(apply_reorder_changes);
+    actions.add(tags_action);
     return actions;
   }
 
@@ -25140,11 +25186,12 @@ class AdvancedSearchTagsView extends TagsView {
 /*!************************************!*\
   !*** ./src/js/views/tags_modal.js ***!
   \************************************/
-/*! exports provided: BaseModalView, TagsModalView, MultiTagsModalView */
+/*! exports provided: node2tag_collection, BaseModalView, TagsModalView, MultiTagsModalView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "node2tag_collection", function() { return node2tag_collection; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BaseModalView", function() { return BaseModalView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagsModalView", function() { return TagsModalView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiTagsModalView", function() { return MultiTagsModalView; });
@@ -25168,6 +25215,27 @@ let TEMPLATE = __webpack_require__(/*! ../templates/tags_modal.html */ "./src/js
 
 let MULTI_TEMPLATE = __webpack_require__(/*! ../templates/multi_tags_modal.html */ "./src/js/templates/multi_tags_modal.html");
 
+function node2tag_collection(node) {
+  /*
+  * For given node returns a backbone collection of tags 
+  * (of model.tags.Tag instances)
+  */
+  let tags, tag_collection;
+  tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
+    'node': node
+  });
+  tags = node.get('tags') || [];
+
+  for (let i = 0; i < tags.length; i++) {
+    tag_collection.add({
+      'name': tags[i]['name'],
+      'fg_color': tags[i]['fg_color'],
+      'bg_color': tags[i]['bg_color']
+    });
+  }
+
+  return tag_collection;
+}
 class BaseModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   /***
   * Modal dialog displayed when user selected a single node
@@ -25245,26 +25313,6 @@ class BaseModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     return tag_collection;
   }
 
-  _node2tag_collection(node) {
-    /*
-    * For given node returns a backbone collection of tags 
-    * (of model.tags.Tag instances)
-    */
-    let tags, tag_collection;
-    tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
-      'node': node
-    });
-    tags = node.get('tags') || [];
-
-    for (let i = 0; i < tags.length; i++) {
-      tag_collection.add({
-        'name': tags[i]['name']
-      });
-    }
-
-    return tag_collection;
-  }
-
 }
 class TagsModalView extends BaseModalView {
   /***
@@ -25277,7 +25325,7 @@ class TagsModalView extends BaseModalView {
      */
     this.node = node;
     this.render();
-    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](this._node2tag_collection(node), all_tags_collection);
+    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](node2tag_collection(node), all_tags_collection);
   }
 
   render() {

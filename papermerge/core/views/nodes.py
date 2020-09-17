@@ -14,7 +14,8 @@ from papermerge.core.models import (
     BaseTreeNode,
     Access,
     Folder,
-    Automate
+    Automate,
+    Tag
 )
 from papermerge.core.models.utils import recursive_delete
 from papermerge.core import signal_definitions as signals
@@ -155,8 +156,20 @@ def node_view(request, node_id):
 
         return 'OK'
 
+    if not request.user.has_perm(Access.PERM_READ, node):
+        return "Permission denied", HttpResponseForbidden.status_code
+
+    node_dict = node.to_dict()
+
+    # minor hack to enable autocomplete for tag editor
+    # in document view
+    node_dict['alltags'] = [
+        tag.to_dict()
+        for tag in Tag.objects.filter(user=request.user)
+    ]
+
     return {
-        'node': node.to_dict()
+        'node': node_dict
     }
 
 
