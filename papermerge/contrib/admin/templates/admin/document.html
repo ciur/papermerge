@@ -14,6 +14,19 @@
     <button id="save" type="button" class="btn btn-block btn-light save">
     {% trans "Save" %}</button>
     <div class="form-group">
+      <label for="tags">{% trans "Tags" %}</label>
+      <div class="tags-container d-flex">
+        {% for tag in tags %}
+          <div style="background: {{tag.bg_color}}; color: {{ tag.fg_color }}; border-color: {{tag.bg_color}}" class="tag d-flex align-items-center">
+            <span style="color: {{tag.fg_color}}">{{ tag.name }}</span>
+            <i class="fa fa-times tag-remove"
+             data-name="{{ tag.name }}">
+             </i>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-group">
       <label for="language">{% trans "Language" %}</label>
       <span class="form-control">{{document.lang}} </span>
     </div>

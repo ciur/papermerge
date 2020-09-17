@@ -56,6 +56,7 @@ def document(request, doc_id):
                 'admin/document.html',
                 {
                     'pages': doc.pages.all(),
+                    'tags': doc.tags.all(),
                     'document': doc,
                     'has_perm_write': nodes_perms[doc.id].get(
                         Access.PERM_WRITE, False

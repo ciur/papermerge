@@ -10444,7 +10444,8 @@ aside a.download {
     margin: 0.25rem;
     border-radius: 3px; }
     .tags-container .tag span, .av-tags-container .tag span {
-      margin-left: 0.5rem; }
+      margin-left: 0.5rem;
+      border: 0px; }
     .tags-container .tag i, .av-tags-container .tag i {
       margin-left: 0.5rem;
       margin-right: 0.3rem;
