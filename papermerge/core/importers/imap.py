@@ -32,6 +32,41 @@ def login(imap_server, username, password):
     return server
 
 
+def is_payload_supported(maintype: str, subtype: str) -> bool:
+    """
+    Papermerge supports pdf, tiff, jpeg and png formats.
+    Returns true if mimetype (maintype + subtype) is one of
+    supported types:
+
+    PDF => maintype=application, subtype=pdf
+    TIFF => maintype=image, subtype=tiff
+    Jpeg => maintype=image, subtype=jpeg
+    png => maintype=image, subtype=png
+    Also will return true in case of 'application/octed-stream'.
+    """
+    if not maintype:
+        return False
+
+    if not subtype:
+        return False
+
+    duo = (maintype.lower(), subtype.lower())
+
+    supported = (
+        ('application', 'octed-stream'),
+        ('application', 'pdf'),
+        ('image', 'png'),
+        ('image', 'jpeg'),
+        ('image', 'jpg'),
+        ('image', 'tiff'),
+    )
+
+    if duo in supported:
+        return True
+
+    return False
+
+
 def read_email_message(message):
     """
     message is an instance of python's module email.message
@@ -44,7 +79,7 @@ def read_email_message(message):
             f"IMAP import: payload {index} maintype={maintype}"
             f" subtype={subtype}."
         )
-        if maintype == 'application' and subtype == 'pdf':
+        if is_payload_supported(maintype=maintype, subtype=subtype):
             logger.debug(
                 f"IMAP import: importing..."
             )
