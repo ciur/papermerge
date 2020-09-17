@@ -25119,6 +25119,27 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     this.render();
   }
 
+  get_tag(name) {
+    /*
+    * Given a tagname - return an instance of models.Tag
+    (with name, fg_color and bg_color)
+    */
+    let tag;
+    tag = this.all_tags.find({
+      'name': name
+    });
+
+    if (tag) {
+      return tag; // existing colored tag;
+    }
+
+    return new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
+      'name': name,
+      'fg_color': '#ffffff',
+      'bg_color': '#c41fff'
+    });
+  }
+
   on_keyup(event) {
     let value, model;
     event.preventDefault();
@@ -25133,9 +25154,7 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
         // after comma removal.
 
         if (!underscore__WEBPACK_IMPORTED_MODULE_1__["default"].isEmpty(value)) {
-          model = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
-            'name': value
-          });
+          model = this.get_tag(value);
           this.tags.add(model);
           this.render();
           this.$el.find("input").focus();
