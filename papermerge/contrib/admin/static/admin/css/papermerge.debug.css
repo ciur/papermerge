@@ -10436,7 +10436,8 @@ aside a.download {
 .document.tags-container {
   /*
   * tags in documents right panel are readonly
-  */ }
+  */
+  padding: 0.25rem 0.5rem; }
   .document.tags-container .tag span {
     margin-right: 0.5rem; }
   .document.tags-container input {

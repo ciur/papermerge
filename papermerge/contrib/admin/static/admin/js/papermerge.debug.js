@@ -21717,6 +21717,8 @@ __p+='\n     <div class="tag d-flex align-items-center" style="color: '+
 ((__t=( model.get('fg_color') ))==null?'':__t)+
 '; background:  '+
 ((__t=( model.get('bg_color') ))==null?'':__t)+
+'; border-color: '+
+((__t=( model.get('bg_color') ))==null?'':__t)+
 ';">\n       <span style="color: '+
 ((__t=( model.get('fg_color') ))==null?'':__t)+
 ';">'+
