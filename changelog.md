@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - For backup/restore scripts --user argument is optional. Without --user argument backup command will backup all users' documents.
 
 
+## [1.4.4] - Work in Progress
+
+### Changed
+
+- Fixes issue #118 - Email Import does not reach INBOX.
+
+
 ## [1.4.3] - 16 September 2020
 
 ### Changed
