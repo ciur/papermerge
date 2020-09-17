@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Better selection. Selection All/Folders/Documents/Invert Selection/Deselect menu.
 - Extra check (./manage.py check) for IMAP credentials. In case IMAP settings are not correct, ./manage.py check will issue a warning message. Also imap import will complain if IMAP credentials are incorrect. Extra detailed debugging messages for IMAP import.
 
-
 ### Changed
 
 - Upgrade to django 3.0.10
@@ -20,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixes issue #120 REST API fails when uploading a document
 - Issue #114 Worker container use environment variables for DB
 - For backup/restore scripts --user argument is optional. Without --user argument backup command will backup all users' documents.
+- Fixes issue #118 - Email Import does not reach INBOX.
 
 
 ## [1.4.4] - Work in Progress
