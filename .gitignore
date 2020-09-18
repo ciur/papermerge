@@ -27,3 +27,4 @@ media/
 ./static/
 queue/
 celerybeat-schedule
+launch.json
