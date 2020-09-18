@@ -28,3 +28,4 @@ media/
 queue/
 celerybeat-schedule
 launch.json
+.vscode
