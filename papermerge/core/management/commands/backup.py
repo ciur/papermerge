@@ -60,7 +60,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        options.get('list_users')
         date_string = datetime.datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
         default_filename = f"backup_{date_string}.tar"
 
