@@ -25,6 +25,7 @@ def automate_view(request):
 
     return response
 
+
 @json_response
 @login_required
 def automate_change_view(request, automate_id):
@@ -37,7 +38,7 @@ def automate_change_view(request, automate_id):
 
     response = {
         'name': automate.name,
-        'id': id,
+        'id': automate_id,
         'tags': [tag.to_dict() for tag in tags],
         'alltags': [tag.to_dict() for tag in alltags],
     }

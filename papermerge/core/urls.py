@@ -178,7 +178,7 @@ urlpatterns = [
         users_views.user_change_password_view, name='user_change_password'
     ),
     path(
-        'automate/<int:automate_id>/',
+        'automate/',
         automate_views.automate_view,
         name="automate_view"
     ),
