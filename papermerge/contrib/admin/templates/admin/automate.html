@@ -29,14 +29,26 @@
             <form class="group" method="POST" action="{{ action_url }}">
               {% csrf_token %}
               {% for field in form %}
-                <div class="form-group">
-                    {{ field.errors }}
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.help_text %}
-                      <small class="form-text text-muted">{{ field.help_text|safe }}</small>
-                    {% endif %}
-                </div>
+                {% if field.name != 'tags' %}
+                  <div class="form-group">
+                      {{ field.errors }}
+                      {{ field.label_tag }}
+                      {{ field }}
+                      {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                      {% endif %}
+                  </div>
+                {% else %}
+                  <div class="form-group">
+                    <label for="id_name">{% trans "Tags" %}:</label>
+                    <div class="tags-container d-flex">
+                      <input list="all_tags" class="tag-input">
+                    </div>
+                    <small class="form-text text-muted">
+                      {% trans "These tags will be assignet to matched document." %}
+                    </small>
+                  </div>
+                {% endif %}
               {% endfor %}
                  <button class="button btn btn-success mt-3" type="submit">
                   <i class="fa fa-check"></i>
