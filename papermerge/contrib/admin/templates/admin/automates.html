@@ -42,9 +42,10 @@
                     <td><span class="mr-2">
                       <a href="{% url 'admin:browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>
                     </td>
-                    <td><span class="mr-2">
-                      {% tags_list automate %}
-                      </span>
+                    <td>
+                      <ul class="d-flex flex-row mb-0">
+                        {% tags_line automate %}
+                      </ul>
                     </td>
                   </tr>
                 {% endfor %}

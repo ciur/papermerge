@@ -177,14 +177,10 @@ def tree_path(node):
 
 
 @register.simple_tag()
-def tags_list(automate):
-    return " ".join(
-        [tag.name for tag in automate.tags.all()]        
-    )
-
-
-@register.simple_tag()
-def search_tags_line(node):
+def tags_line(item):
+    """
+    item must have tags attribute (item.tags.all() iteratable)
+    """
     li = "<li class='tag' style='color:{}; background-color:{}'>{}</li>"
     li_items = [
         format_html(
@@ -195,7 +191,7 @@ def search_tags_line(node):
             tag.bg_color,
             tag.name
         )
-        for tag in node.tags.all()
+        for tag in item.tags.all()
     ]
     result = format_html(
         mark_safe(''.join(li_items))
