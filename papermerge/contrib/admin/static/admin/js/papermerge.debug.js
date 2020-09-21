@@ -17345,6 +17345,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync;
 
 backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model, options) {
@@ -17366,7 +17367,7 @@ backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model,
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view;
+  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view, automate_tags_view;
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_2__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_4__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_3__["BreadcrumbView"]();
@@ -17375,6 +17376,7 @@ let App = function () {
   pinned_tags_view = new _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_9__["PinnedTagsView"]();
   changelist_checkbox = new _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_10__["ChangelistCheckboxView"]();
   av_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_8__["AdvancedSearchTagsView"]();
+  automate_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_8__["AutomateTagsView"]();
 
   if (jquery__WEBPACK_IMPORTED_MODULE_13___default()("#document").length == 1) {
     // we in document view. Document view and browser view
@@ -20241,7 +20243,7 @@ class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*******************************!*\
   !*** ./src/js/models/tags.js ***!
   \*******************************/
-/*! exports provided: Tag, Tags, AllTags */
+/*! exports provided: Tag, Tags, AllTags, AutomateTags */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20249,6 +20251,7 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag", function() { return Tag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tags", function() { return Tags; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AllTags", function() { return AllTags; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AutomateTags", function() { return AutomateTags; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -20358,6 +20361,72 @@ class AllTags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
 
   parse(response) {
     return response.tags;
+  }
+
+}
+class AutomateTags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
+  get model() {
+    return Tag;
+  }
+
+  initialize(model, options) {
+    if (options) {
+      if (options.automate) {
+        this.automate = options.automate;
+      }
+    }
+  }
+
+  urlRoot() {
+    if (this.automate) {
+      // returns automate tags
+      return `/automate/${this.automate.id}/tags/`;
+    } else {
+      // returns all tags of specific user.
+      return `/automate/tags/`;
+    }
+  }
+
+  remove(model) {
+    for (var i = 0; i < this.models.length; i++) {
+      if (this.models[i].get('name') == model.get('name')) {
+        this.models.splice(i, 1);
+        this.length--;
+        break;
+      }
+    }
+  }
+
+  save(options) {
+    let token,
+        request,
+        tags,
+        post_data,
+        nodes = [];
+    token = $("[name=csrfmiddlewaretoken]").val();
+    tags = this.models.map(function (models) {
+      return models.attributes;
+    });
+    post_data = {
+      'tags': tags,
+      'automate': this.automate.id
+    };
+    $.ajaxSetup({
+      headers: {
+        'X-CSRFToken': token
+      }
+    });
+    request = $.ajax({
+      method: "POST",
+      url: this.urlRoot(),
+      data: JSON.stringify(post_data),
+      contentType: "application/json",
+      dataType: 'json',
+      error: function (xhr, text, error) {
+        new _views_message__WEBPACK_IMPORTED_MODULE_2__["MessageView"]("Error", xhr.responseJSON['msg']);
+      }
+    });
+    request.done(options['success']);
   }
 
 }
@@ -25076,13 +25145,14 @@ class TagPreviewView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 /*!******************************!*\
   !*** ./src/js/views/tags.js ***!
   \******************************/
-/*! exports provided: TagsView, AdvancedSearchTagsView */
+/*! exports provided: TagsView, AdvancedSearchTagsView, AutomateTagsView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagsView", function() { return TagsView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancedSearchTagsView", function() { return AdvancedSearchTagsView; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AutomateTagsView", function() { return AutomateTagsView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
@@ -25220,6 +25290,37 @@ class AdvancedSearchTagsView extends TagsView {
       'tags': this.tags
     }));
     this.$el.html(compiled);
+  }
+
+}
+class AutomateTagsView extends TagsView {
+  /*
+  *  Tags view in New/Edit Automate form. Tags here are loaded
+  from automate, not from a node.
+  */
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.automate-tags-container');
+  }
+
+  initialize() {
+    /*
+    * Loads tags from hidden automate who's is loaded from hidden
+    input named "automate_id"
+    */
+    let all_tags,
+        that = this;
+    this.all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["AllTags"]();
+    this.all_tags.url = '/alltags/';
+
+    success = function (collection, response, options) {
+      that = new TagsModalView(underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(models), collection);
+    };
+
+    this.all_tags.fetch({
+      'success': success
+    });
+    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([]);
+    this.render();
   }
 
 }

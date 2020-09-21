@@ -41,7 +41,7 @@
                 {% else %}
                   <div class="form-group">
                     <label for="id_name">{% trans "Tags" %}:</label>
-                    <div class="tags-container d-flex">
+                    <div class="tags-container automate-tags-container d-flex">
                       <input list="all_tags" class="tag-input">
                     </div>
                     <small class="form-text text-muted">
@@ -57,4 +57,5 @@
             </form>
         </div>
     </div>
+    <input name="automate_id" type="hidden" value="{{form.instance.id|default_if_none:''}}" />
 {% endblock %}
