@@ -177,6 +177,13 @@ def tree_path(node):
 
 
 @register.simple_tag()
+def tags_list(automate):
+    return " ".join(
+        [tag.name for tag in automate.tags.all()]        
+    )
+
+
+@register.simple_tag()
 def search_tags_line(node):
     li = "<li class='tag' style='color:{}; background-color:{}'>{}</li>"
     li_items = [
