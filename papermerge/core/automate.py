@@ -8,7 +8,6 @@ from mglib.pdfinfo import get_pagecount
 
 from .models import Document, Automate
 from .storage import default_storage
-from .metadata_plugins import get_plugin_by_module_name
 from .signal_definitions import automates_matching
 
 
@@ -59,17 +58,10 @@ def apply_automates(document_id, page_num):
         if automate.is_a_match(text):
             logger.debug(f"Automate {automate} matched document={document}")
 
-            plugin_klass = get_plugin_by_module_name(
-                automate.plugin_name
-            )
-            plugin = plugin_klass() if plugin_klass else None
-
             automate.apply(
                 document=document,
                 page_num=page_num,
-                hocr=text,
-                # Notice () - plugin passed is instance of the class
-                plugin=plugin
+                text=text,
             )
             matched.append(automate)
         else:

@@ -52,14 +52,3 @@ With ``Any`` matching algorithm, document matches **if any of mentioned keyword 
 With ``All``, document matches **if all mentioned keywords are found in document**. Keywords order does not matter.
 With ``Literal``, match means that the text you enter must appear in the document exactly as you've entered it.
 You can use ``Regular Expression`` for matching criteria. Regular expressions is a general programming method of text matching. Computer programmers usually know what it means.  
-
-Move to Destination Folder
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Extract Metadata and Meta-Plugins
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Extract Page
-~~~~~~~~~~~~~

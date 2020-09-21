@@ -9,8 +9,10 @@ from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.tags import ColoredTag
 from papermerge.core.models.kvstore import KVStoreCompNode, KVStoreNode
-from polymorphic_tree.models import (PolymorphicMPTTModel,
-                                     PolymorphicTreeForeignKey)
+from polymorphic_tree.models import (
+    PolymorphicMPTTModel,
+    PolymorphicTreeForeignKey
+)
 
 # things you can propagate from parent node to
 # child node

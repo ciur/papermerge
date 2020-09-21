@@ -90,21 +90,6 @@
 # Metadata
 ####################
 
-# Metadata plugins. These are external applications (very simple ones), that will
-# extract and populate metadata fields.
-#
-#   METADATA_PLUGINS = [
-#       "lidl_receipts_de.Lidl",             # (1)
-#       "deutschlandradio.Deutschlandradio"  # (2)
-#    ]
-#  
-# (1) check:
-#     https://github.com/papermerge/lidl-receipts-de
-# (2) check:
-#     https://github.com/papermerge/papermerge-meta-plugin-ard-zdf-deutschlandradio
-
-# METADATA_PLUGINS = []
-
 # METADATA_DATE_FORMATS = [
 #     'dd.mm.yy',
 #     'dd.mm.yyyy',

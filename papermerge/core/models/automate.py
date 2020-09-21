@@ -4,8 +4,11 @@ import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from taggit.managers import TaggableManager
+
 from .document import Document
 from .folder import Folder
+from .tags import ColoredTag
 
 
 logger = logging.getLogger(__name__)
@@ -63,18 +66,8 @@ class Automate(models.Model):
         default=True
     )
 
-    # name of plugin used to extract metadata, if any.
-    # Must match metadata associated with dst_folder
-    plugin_name = models.CharField(
-        _('Plugin Name'),
-        max_length=256,
-        blank=True,
-        null=True,
-        choices=(),
-        default=None,
-    )
+    tags = TaggableManager(through=ColoredTag)
 
-    # Must match correct plugin (in case you wish automate metadta extract)
     dst_folder = models.ForeignKey(
         'Folder',
         on_delete=models.DO_NOTHING,
@@ -142,10 +135,8 @@ class Automate(models.Model):
         this case:
 
             -> a. 5 page document D matches automate criteria on all pages.
-            -> b. document has a meta plugin assiciated
-            -> c. no page extraction
-            -> d. metadata will be found only on the first page
-            -> e. first page is OCRed last
+            -> b. metadata will be found only on the first page
+            -> c. first page is OCRed last
 
         Let's assume that second page is processed first and it matches
         automation criteria.
@@ -178,8 +169,7 @@ class Automate(models.Model):
         self,
         document,
         page_num,
-        hocr,
-        plugin=None
+        text
     ):
         logger.debug("automate.Apply begin")
 
