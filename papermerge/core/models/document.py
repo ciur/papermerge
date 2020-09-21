@@ -5,13 +5,18 @@ from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+
 from mglib import step
 from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
-from papermerge.core.models.kvstore import KVCompNode, KVNode
-from papermerge.core.models.node import BaseTreeNode
-from papermerge.core.models.access import Access
+
 from papermerge.core.storage import default_storage
+from .kvstore import KVCompNode, KVNode
+from .node import BaseTreeNode
+from .access import Access
+from .tags import Tag, ColoredTag
+
+
 from papermerge.search import index
 
 logger = logging.getLogger(__name__)
@@ -601,3 +606,13 @@ class Document(BaseTreeNode):
     def name(self):
         root, ext = os.path.splitext(self.file_name)
         return root
+
+    def add_tags(self, tags):
+        """
+        tags is an iteratable of papermerge.core.models.Tag instances
+        """
+        for tag in tags:
+            self.tags.add(
+                tag,
+                tag_kwargs={'user': self.user}
+            )

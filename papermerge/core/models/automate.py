@@ -185,6 +185,8 @@ class Automate(models.Model):
             self.dst_folder
         )
 
+        document.tags.add(self.tags.all())
+
     def _match_any(self, hocr, search_kwargs):
 
         for word in self._split_match():

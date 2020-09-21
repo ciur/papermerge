@@ -3,7 +3,7 @@ from pathlib import Path
 
 from django.test import TestCase
 from papermerge.core.document_importer import DocumentImporter
-from papermerge.core.models import Document, Folder
+from papermerge.core.models import Document, Folder, Automate, Tag
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
@@ -310,4 +310,47 @@ class TestDocument(TestCase):
             set(
                 page.kv.keys()
             )
+        )
+
+    def test_assign_tags_from_automate_instance(self):
+        doc = Document.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            page_count=5,
+        )
+        doc.save()
+
+        dst_folder = Folder.objects.create(
+            title="destination Folder",
+            user=self.user
+        )
+
+        auto = Automate.objects.create(
+            name="whatever",
+            match="XYZ",
+            matching_algorithm=Automate.MATCH_ALL,
+            is_case_sensitive=False,  # i.e. ignore case
+            user=self.user,
+            dst_folder=dst_folder
+        )
+
+        auto.tags.add(
+            'invoice',
+            'tags',
+            tag_kwargs={'user': self.user}
+        )
+
+        doc.add_tags(auto.tags.all())
+
+        self.assertEquals(
+            doc.tags.count(),
+            2
+        )
+
+        self.assertEquals(
+            set([tag.name for tag in doc.tags.all()]),
+            set([tag.name for tag in auto.tags.all()])
         )
