@@ -66,7 +66,10 @@ class Automate(models.Model):
         default=True
     )
 
-    tags = TaggableManager(through=ColoredTag)
+    tags = TaggableManager(
+        through=ColoredTag,
+        blank=True  # tags are optional
+    )
 
     dst_folder = models.ForeignKey(
         'Folder',

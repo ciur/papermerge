@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render
 
 from papermerge.contrib.admin.forms import AutomateForm
 from papermerge.core.models import Automate
@@ -34,4 +35,4 @@ class AutomateChangeView(AdminChangeView):
     form_class = AutomateForm
     template_name = 'admin/automate.html'
     change_url = 'admin:automate_change'
-    list_url = 'admin:automate'
+    list_url = 'admin:automates'

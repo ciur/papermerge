@@ -20323,6 +20323,16 @@ class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
     }
   }
 
+  comma_sep_tags() {
+    let result = "";
+
+    for (let i = 0; i < this.models.length; i++) {
+      result += `${this.models[i].get('name')}, `;
+    }
+
+    return result;
+  }
+
   remove(model) {
     for (var i = 0; i < this.models.length; i++) {
       if (this.models[i].get('name') == model.get('name')) {
@@ -21019,6 +21029,52 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/automate_tags.html":
+/*!*********************************************!*\
+  !*** ./src/js/templates/automate_tags.html ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+=' ';
+ for (let i=0; i < tags.models.length; i++) { 
+__p+='\n    ';
+ model = tags.models[i] 
+__p+='\n     <div class="tag d-flex align-items-center" \n     style="color: '+
+((__t=( model.get('fg_color') ))==null?'':__t)+
+'; background:  '+
+((__t=( model.get('bg_color') ))==null?'':__t)+
+'; border-color: '+
+((__t=( model.get('bg_color') ))==null?'':__t)+
+';">\n       <span style="color: '+
+((__t=( model.get('fg_color') ))==null?'':__t)+
+';">'+
+((__t=( model.get('name') ))==null?'':__t)+
+'</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
+((__t=( model.get('name') ))==null?'':__t)+
+'">\n        </i>\n     </div>\n ';
+ } 
+__p+='\n<input id="tag-input" name="tag-input" list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
+ for (let i=0; i < all_tags.models.length; i++) { 
+__p+='\n    ';
+ model = all_tags.models[i] 
+__p+='\n     <option value="'+
+((__t=( model.get('name') ))==null?'':__t)+
+'">\n';
+ } 
+__p+='\n</datalist>\n<input type="hidden" name="tags" value="'+
+((__t=( tags.comma_sep_tags() ))==null?'':__t)+
+'" />\n';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/av_tags.html":
 /*!***************************************!*\
   !*** ./src/js/templates/av_tags.html ***!
@@ -21033,13 +21089,29 @@ __p+=' ';
  for (let i=0; i < tags.models.length; i++) { 
 __p+='\n    ';
  model = tags.models[i] 
-__p+='\n     <div class="tag d-flex align-items-center">\n       <span>'+
+__p+='\n     <div class="tag d-flex align-items-center" \n     style="color: '+
+((__t=( model.get('fg_color') ))==null?'':__t)+
+'; background:  '+
+((__t=( model.get('bg_color') ))==null?'':__t)+
+'; border-color: '+
+((__t=( model.get('bg_color') ))==null?'':__t)+
+';">\n       <span style="color: '+
+((__t=( model.get('fg_color') ))==null?'':__t)+
+';">'+
 ((__t=( model.get('name') ))==null?'':__t)+
 '</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
 ((__t=( model.get('name') ))==null?'':__t)+
 '">\n        </i>\n     </div>\n ';
  } 
-__p+='\n<input list="all_tags" class="tag-input" />\n';
+__p+='\n<input id="tag-input" name="tag-input" list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
+ for (let i=0; i < all_tags.models.length; i++) { 
+__p+='\n    ';
+ model = all_tags.models[i] 
+__p+='\n     <option value="'+
+((__t=( model.get('name') ))==null?'':__t)+
+'">\n';
+ } 
+__p+='\n</datalist>\n';
  for (let i=0; i < tags.models.length; i++) { 
 __p+='\n   ';
  model = tags.models[i] 
@@ -25126,6 +25198,8 @@ let TEMPLATE = __webpack_require__(/*! ../templates/tags.html */ "./src/js/templ
 
 let AV_TEMPLATE = __webpack_require__(/*! ../templates/av_tags.html */ "./src/js/templates/av_tags.html");
 
+let AT_TEMPLATE = __webpack_require__(/*! ../templates/automate_tags.html */ "./src/js/templates/automate_tags.html");
+
 let ENTER_KEY = 13;
 class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
@@ -25244,7 +25318,8 @@ class AdvancedSearchTagsView extends TagsView {
     let compiled, context;
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(AV_TEMPLATE({
-      'tags': this.tags
+      'tags': this.tags,
+      'all_tags': new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([])
     }));
     this.$el.html(compiled);
   }
@@ -25288,7 +25363,7 @@ class AutomateTagsView extends TagsView {
   render() {
     let compiled, context;
     context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(AT_TEMPLATE({
       'tags': this.tags,
       'all_tags': this.all_tags
     }));
