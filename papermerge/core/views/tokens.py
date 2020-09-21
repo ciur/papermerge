@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 
 from knox.models import AuthToken
-from papermerge.core.forms import AuthTokenForm
+from papermerge.contrib.admin.forms import AuthTokenForm
 
 logger = logging.getLogger(__name__)
 

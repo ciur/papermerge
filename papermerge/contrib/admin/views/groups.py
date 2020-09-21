@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
 
-from papermerge.core.forms import GroupForm
+from papermerge.contrib.admin.forms import GroupForm
 from papermerge.core.views import (
     AdminListView,
     AdminView,

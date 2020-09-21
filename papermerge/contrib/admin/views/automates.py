@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 
-from papermerge.core.forms import AutomateForm
+from papermerge.contrib.admin.forms import AutomateForm
 from papermerge.core.models import Automate
 from papermerge.core.views import (
     AdminListView,

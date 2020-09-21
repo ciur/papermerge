@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from papermerge.core.models import Automate, Folder
-from papermerge.core.forms import AutomateForm
+from papermerge.contrib.admin.forms import AutomateForm
 from papermerge.test.utils import create_root_user
 
 

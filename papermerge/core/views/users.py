@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from papermerge.core.models import User
-from papermerge.core.forms import (
+from papermerge.contrib.admin.forms import (
     UserFormWithoutPassword,
     UserFormWithPassword
 )

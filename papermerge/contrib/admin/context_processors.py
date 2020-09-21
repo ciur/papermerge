@@ -4,7 +4,7 @@ from papermerge.core.models import (
     Folder,
     Tag
 )
-from papermerge.core.forms import AdvancedSearchForm
+from papermerge.contrib.admin.forms import AdvancedSearchForm
 
 
 def extras(request):
