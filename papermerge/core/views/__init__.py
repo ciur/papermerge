@@ -93,7 +93,12 @@ class AdminView(View):
         )
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            if request.user:
+                if hasattr(obj, 'user'):
+                    obj.user = request.user
+                    obj.save()
+
             return redirect(self.list_url)
 
         return render(

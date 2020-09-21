@@ -64,6 +64,7 @@ class TestAutomateViewsAuthReq(TestCase):
             HttpResponseRedirect.status_code
         )
 
+
 class TestAutomateViews(TestCase):
 
     def setUp(self):
@@ -108,6 +109,35 @@ class TestAutomateViews(TestCase):
         )
         self.assertEquals(
             ret.status_code, 200
+        )
+
+    def test_create_new_automate_view(self):
+
+        self.assertEquals(
+            Automate.objects.count(),
+            0
+        )
+
+        ret = self.client.post(
+            reverse('admin:automate'),
+            {
+                'name': "XYZ",
+                'matching_algorithm': Automate.MATCH_ANY,
+                'match': 'XYZ',
+                'is_case_sensitive': True,
+                'dst_folder': self.dst_folder.id
+            }
+        )
+        self.assertEquals(
+            ret.status_code, 302
+        )
+        self.assertEquals(
+            Automate.objects.count(),
+            1
+        )
+        self.assertEquals(
+            Automate.objects.first().user,
+            self.user
         )
 
     def test_delete_automates(self):
