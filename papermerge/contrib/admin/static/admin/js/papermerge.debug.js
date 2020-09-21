@@ -19032,6 +19032,28 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
 
 /***/ }),
 
+/***/ "./src/js/models/automate.js":
+/*!***********************************!*\
+  !*** ./src/js/models/automate.js ***!
+  \***********************************/
+/*! exports provided: Automate */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Automate", function() { return Automate; });
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+
+class Automate extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
+  urlRoot() {
+    return '/automate/';
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/models/breadcrumb.js":
 /*!*************************************!*\
   !*** ./src/js/models/breadcrumb.js ***!
@@ -20243,7 +20265,7 @@ class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*******************************!*\
   !*** ./src/js/models/tags.js ***!
   \*******************************/
-/*! exports provided: Tag, Tags, AllTags, AutomateTags */
+/*! exports provided: Tag, Tags, AllTags */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20251,7 +20273,6 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag", function() { return Tag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tags", function() { return Tags; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AllTags", function() { return AllTags; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AutomateTags", function() { return AutomateTags; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -20361,72 +20382,6 @@ class AllTags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
 
   parse(response) {
     return response.tags;
-  }
-
-}
-class AutomateTags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
-  get model() {
-    return Tag;
-  }
-
-  initialize(model, options) {
-    if (options) {
-      if (options.automate) {
-        this.automate = options.automate;
-      }
-    }
-  }
-
-  urlRoot() {
-    if (this.automate) {
-      // returns automate tags
-      return `/automate/${this.automate.id}/tags/`;
-    } else {
-      // returns all tags of specific user.
-      return `/automate/tags/`;
-    }
-  }
-
-  remove(model) {
-    for (var i = 0; i < this.models.length; i++) {
-      if (this.models[i].get('name') == model.get('name')) {
-        this.models.splice(i, 1);
-        this.length--;
-        break;
-      }
-    }
-  }
-
-  save(options) {
-    let token,
-        request,
-        tags,
-        post_data,
-        nodes = [];
-    token = $("[name=csrfmiddlewaretoken]").val();
-    tags = this.models.map(function (models) {
-      return models.attributes;
-    });
-    post_data = {
-      'tags': tags,
-      'automate': this.automate.id
-    };
-    $.ajaxSetup({
-      headers: {
-        'X-CSRFToken': token
-      }
-    });
-    request = $.ajax({
-      method: "POST",
-      url: this.urlRoot(),
-      data: JSON.stringify(post_data),
-      contentType: "application/json",
-      dataType: 'json',
-      error: function (xhr, text, error) {
-        new _views_message__WEBPACK_IMPORTED_MODULE_2__["MessageView"]("Error", xhr.responseJSON['msg']);
-      }
-    });
-    request.done(options['success']);
   }
 
 }
@@ -25157,8 +25112,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _models_automate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/automate */ "./src/js/models/automate.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -25170,7 +25127,7 @@ let TEMPLATE = __webpack_require__(/*! ../templates/tags.html */ "./src/js/templ
 let AV_TEMPLATE = __webpack_require__(/*! ../templates/av_tags.html */ "./src/js/templates/av_tags.html");
 
 let ENTER_KEY = 13;
-class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
+class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.tags-container');
   }
@@ -25308,19 +25265,34 @@ class AutomateTagsView extends TagsView {
     input named "automate_id"
     */
     let all_tags,
+        automate,
+        success,
+        automate_id,
         that = this;
-    this.all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["AllTags"]();
-    this.all_tags.url = '/alltags/';
+    automate_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=automate_id]").val();
+    this.automate = new _models_automate__WEBPACK_IMPORTED_MODULE_3__["Automate"]({
+      'id': automate_id
+    });
 
-    success = function (collection, response, options) {
-      that = new TagsModalView(underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(models), collection);
+    success = function (model, response, options) {
+      that.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](response.tags);
+      that.all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](response.alltags);
+      that.render();
     };
 
-    this.all_tags.fetch({
+    this.automate.fetch({
       'success': success
     });
-    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([]);
-    this.render();
+  }
+
+  render() {
+    let compiled, context;
+    context = {};
+    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
+      'tags': this.tags,
+      'all_tags': this.all_tags
+    }));
+    this.$el.html(compiled);
   }
 
 }

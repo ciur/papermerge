@@ -1,115 +1,45 @@
 import logging
 
-from django.urls import reverse
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ngettext
+from django.shortcuts import get_object_or_404
 
-from papermerge.core.models import Automate
-from papermerge.core.forms import AutomateForm
+from papermerge.core.models import Automate, Tag
+from .decorators import json_response
 
 logger = logging.getLogger(__name__)
 
 
-@login_required
-def automates_view(request):
-
-    if request.method == 'POST':
-        selected_action = request.POST.getlist('_selected_action')
-        go_action = request.POST['action']
-
-        if go_action == 'delete_selected':
-            deleted, row_count = Automate.objects.filter(
-                id__in=selected_action
-            ).delete()
-
-            if deleted:
-                count = row_count['core.Automate']
-                msg_sg = "%(count)s Automate was successfully deleted."
-                msg_pl = "%(count)s Automates were successfully deleted."
-                messages.info(
-                    request,
-                    ngettext(msg_sg, msg_pl, count) % {'count': count}
-                )
-
-    automates = Automate.objects.filter(user=request.user)
-
-    return render(
-        request,
-        'admin/automates.html',
-        {
-            'automates': automates,
-        }
-    )
-
-
+@json_response
 @login_required
 def automate_view(request):
+    """
+    If no particular automate is asked for, just return
+    list of all tags (which might be associated to the new automate)
+    """
+    tags = Tag.objects.filter(user=request.user)
 
-    action_url = reverse('core:automate')
+    response = {
+        'tags': [],
+        'alltags': [tag.to_dict() for tag in tags]
+    }
 
-    form = AutomateForm(user=request.user)
+    return response
 
-    if request.method == 'POST':
-
-        form = AutomateForm(request.POST)
-        if form.is_valid():
-            automate = Automate.objects.create(
-                name=form.cleaned_data['name'],
-                match=form.cleaned_data['match'],
-                matching_algorithm=form.cleaned_data['matching_algorithm'],
-                is_case_sensitive=form.cleaned_data['is_case_sensitive'],
-                dst_folder=form.cleaned_data['dst_folder'],
-                user=request.user
-            )
-            if automate:
-                automate.save()
-                msg = "Automate %(name)s was successfully created."
-                messages.info(
-                    request,
-                    _(msg) % {'name': automate.name}
-                )
-            return redirect('core:automates')
-
-    return render(
-        request,
-        'admin/automate.html',
-        {
-            'form': form,
-            'action_url': action_url,
-            'title': _('New Automate'),
-        }
-    )
-
-
+@json_response
 @login_required
-def automate_change_view(request, id):
+def automate_change_view(request, automate_id):
     """
-    Used to edit existing automates
+    Returns details of the automate specified with given id
     """
-    automate = get_object_or_404(Automate, id=id)
-    action_url = reverse('core:automate_change', args=(id,))
+    automate = get_object_or_404(Automate, id=automate_id)
+    tags = automate.tags.all()
+    alltags = Tag.objects.filter(user=request.user)
 
-    form = AutomateForm(
-        request.POST or None, instance=automate
-    )
+    response = {
+        'name': automate.name,
+        'id': id,
+        'tags': [tag.to_dict() for tag in tags],
+        'alltags': [tag.to_dict() for tag in alltags],
+    }
 
-    if request.method == 'POST':
-        if form.is_valid():
-            automate = form.save()
-            if automate:
-                automate.save()
-            return redirect('core:automates')
-
-    return render(
-        request,
-        'admin/automate.html',
-        {
-            'form': form,
-            'action_url': action_url,
-            'title': _('Edit Automate'),
-            'automate': automate
-        }
-    )
+    return response

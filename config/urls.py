@@ -7,6 +7,8 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from papermerge.contrib.admin.views import browse as index_view
+
 
 js_info_dict = {
     'domain': 'django',
@@ -28,8 +30,9 @@ urlpatterns = [
         js_info_dict,
         name='javascript-catalog'
     ),
-    path('', include('papermerge.contrib.admin.urls')),
+    path('admin/', include('papermerge.contrib.admin.urls')),
     path('', include('papermerge.core.urls')),
+    path('', index_view, name='index')
 ]
 
 if settings.DEBUG:
