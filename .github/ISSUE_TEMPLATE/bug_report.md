@@ -2,16 +2,23 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
-assignees: ''
+labels: bug
+assignees: ciur
 
 ---
 
-**Describe the bug**
+**Bug Description**
 A clear and concise description of what the bug is.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
+
+*Docker Image*
+Do you Papermerge via Docker Image ?
+If yes, which docker image you use?
+Default one: https://hub.docker.com/repository/docker/eugenci/papermerge
+Or one provided by linuxserver.io: https://fleet.linuxserver.io/image?name=linuxserver/papermerge
+
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 10, Ubuntu 20.04 LTS]
