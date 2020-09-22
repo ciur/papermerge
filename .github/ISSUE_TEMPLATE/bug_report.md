@@ -13,11 +13,9 @@ A clear and concise description of what the bug is.
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-*Docker Image*
-Do you Papermerge via Docker Image ?
+**Do you Papermerge via Docker Image ?**
 If yes, which docker image you use?
-Default one: https://hub.docker.com/repository/docker/eugenci/papermerge
-Or one provided by linuxserver.io: https://fleet.linuxserver.io/image?name=linuxserver/papermerge
+[Default one](https://hub.docker.com/repository/docker/eugenci/papermerge)  or the one [provided by linuxserver.io](https://fleet.linuxserver.io/image?name=linuxserver/papermerge)
 
 
 **Desktop (please complete the following information):**
