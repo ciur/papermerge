@@ -7,16 +7,14 @@ assignees: ciur
 
 ---
 
+**In case you experience issues with docker image provided by [linuxserver.io/papermerge, please open bug report in their repository.](https://github.com/linuxserver/docker-papermerge/issues)**
+I will close automatically any bug related to linuxserver.io/papermerge docker image as I don't provide support for 3rd parties.
+
 **Bug Description**
 A clear and concise description of what the bug is.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
-
-**Do you Papermerge via Docker Image ?**
-If yes, which docker image you use?
-[Default one](https://hub.docker.com/repository/docker/eugenci/papermerge)  or the one [provided by linuxserver.io](https://fleet.linuxserver.io/image?name=linuxserver/papermerge)
-
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 10, Ubuntu 20.04 LTS]
