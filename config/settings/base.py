@@ -231,6 +231,7 @@ TEMPLATES = [
                 'dynamic_preferences.processors.global_preferences',
                 'papermerge.contrib.admin.context_processors.extras',
                 'papermerge.contrib.admin.context_processors.user_perms',
+                'papermerge.contrib.admin.context_processors.user_menu',
             ],
         },
     },

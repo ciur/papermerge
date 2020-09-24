@@ -4,7 +4,16 @@ from papermerge.core.models import (
     Folder,
     Tag
 )
-from papermerge.contrib.admin.forms import AdvancedSearchForm
+from .forms import AdvancedSearchForm
+from .registries import user_menu_registry
+
+
+def user_menu(request):
+    values = list(user_menu_registry.values())
+
+    return {
+        'user_menu': values
+    }
 
 
 def extras(request):
