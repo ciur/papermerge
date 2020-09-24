@@ -77,7 +77,7 @@ def papermerge_configuration_file(app_configs, **kwargs):
     if settings.DEFAULT_CONFIG_PLACES:
         places = ', '.join(settings.DEFAULT_CONFIG_PLACES)
 
-    warn_message = "papermerge.conf.py file was found." +\
+    warn_message = "papermerge.conf.py file was not found." +\
         f" Following locations attempted {places}"
 
     hint_msg = "Create one of those files or point" +\
