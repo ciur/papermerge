@@ -209,6 +209,9 @@ Example of systemd unit file for Gunicorn::
     WorkingDirectory=/opt/papermerge
     EnvironmentFile=/opt/etc/gunicorn.env
     ExecStart=/opt/papermerge/.venv/bin/gunicorn config.wsgi:application --config /opt/etc/gunicorn.conf.py
+    
+    [Install]
+    WantedBy=multi-user.target
 
 
 Step 3 - Nginx
