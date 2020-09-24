@@ -20,6 +20,9 @@
   {% else %}
     <link rel="stylesheet" href="{% static 'admin/css/papermerge.css' %}">
   {% endif  %}
+
+  {% block extra_css %}
+  {% endblock extra_css %}
 </head>
 
 <div class="toasts top-right">
@@ -134,6 +137,9 @@
       e.stopPropagation();
     });
   </script>
+
+  {% block extra_js %}
+  {% endblock extra_js %}
 
   <!-- see comments in PapermergeJS/src/js/routers/browse.js:browse -->
   <input type="hidden" id="root_node_id" name="root_node_id" value="{{root_node_id}}" />
