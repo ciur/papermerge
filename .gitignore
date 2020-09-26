@@ -1,4 +1,4 @@
-config/settings/development.py
+config/settings/local/*
 papermerge.conf.py
 env_dev.sh
 env_test.sh
@@ -27,3 +27,5 @@ media/
 ./static/
 queue/
 celerybeat-schedule
+launch.json
+.vscode
