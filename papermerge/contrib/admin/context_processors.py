@@ -2,6 +2,16 @@
 import papermerge
 from papermerge.core.models import Folder
 
+from .registries import user_menu_registry
+
+
+def user_menu(request):
+    values = list(user_menu_registry.values())
+
+    return {
+        'user_menu': values
+    }
+
 
 def extras(request):
 
