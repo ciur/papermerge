@@ -45,6 +45,13 @@
           {% trans 'Preferences' %}
         </a>
       </li>
+      {% for item in user_menu %}
+          <li class="dropdown-item">
+            <a href="{{item.url}}"><i class="{{item.icon_css_class}} mx-2"></i>
+              {{item.title}}
+            </a>
+          </li>
+      {% endfor %} 
       <div class="dropdown-divider"></div>
       <li class="dropdown-item">
         <a target="_blank" href="https://papermerge.readthedocs.io/en/latest/"><i class="fa fa-book-open mx-2"></i>

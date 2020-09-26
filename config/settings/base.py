@@ -168,6 +168,9 @@ AUTH_USER_MODEL = "core.User"
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
 
+# defines extra URL conf to be included
+EXTRA_URLCONF = []
+
 
 INSTALLED_APPS = [
     'rest_framework',
@@ -231,6 +234,7 @@ TEMPLATES = [
                 'dynamic_preferences.processors.global_preferences',
                 'papermerge.contrib.admin.context_processors.extras',
                 'papermerge.contrib.admin.context_processors.user_perms',
+                'papermerge.contrib.admin.context_processors.user_menu',
             ],
         },
     },

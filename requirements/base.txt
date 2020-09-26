@@ -12,3 +12,4 @@ django-allauth
 django-dynamic-preferences
 django-polymorphic-tree
 django-modelcluster
+persisting-theory

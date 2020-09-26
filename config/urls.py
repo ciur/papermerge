@@ -32,6 +32,11 @@ urlpatterns = [
     path('', include('papermerge.core.urls')),
 ]
 
+for extra_urls in settings.EXTRA_URLCONF:
+    urlpatterns.append(
+        path('', include(extra_urls)),
+    )
+
 if settings.DEBUG:
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
