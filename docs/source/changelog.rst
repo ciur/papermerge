@@ -1,6 +1,16 @@
 Changelog
 ==========
 
+[1.4.4] - 28 September 2020
+############################
+
+Changed
+~~~~~~~~
+
+- Fixes issue #118 - Email Import does not reach INBOX.
+- 3rd party apps/plugins can extend user menu
+
+
 [1.4.3] - 16 September 2020
 #############################
 
