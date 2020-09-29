@@ -1,5 +1,4 @@
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render
 
 from papermerge.contrib.admin.forms import AutomateForm
 from papermerge.core.models import Automate
