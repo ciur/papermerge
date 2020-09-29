@@ -36,6 +36,15 @@ For example::
 
     $ git checkout -b v1.4.2
 
+.. note::
+
+    In case you update via git command, you need to invoke first ``git pull``
+    command, which will retrieve latest code changes from github.
+    Only after ``git pull`` you can ``git checkout`` to latest version.
+    To see all available local versions, use command ``git tag``. Similarly 
+    you need to ``git pull`` before ``git tag`` to see latest versions.
+    ``git pull`` brings latest changes from github to your local computer.
+
 .. danger::
     
     Never use git **master branch** in production. Master branch contains latest development version of Papermerge - which makes it highly unstable. Stable versions are tagged. For example ``v1.4.2`` is the latest tagged version of ``stable/1.4.x`` branch.
