@@ -42,7 +42,7 @@ def is_payload_supported(maintype: str, subtype: str) -> bool:
     TIFF => maintype=image, subtype=tiff
     Jpeg => maintype=image, subtype=jpeg
     png => maintype=image, subtype=png
-    Also will return true in case of 'application/octed-stream'.
+    Also will return true in case of 'application/octet-stream'.
     """
     if not maintype:
         return False
@@ -53,7 +53,7 @@ def is_payload_supported(maintype: str, subtype: str) -> bool:
     duo = (maintype.lower(), subtype.lower())
 
     supported = (
-        ('application', 'octed-stream'),
+        ('application', 'octet-stream'),
         ('application', 'pdf'),
         ('image', 'png'),
         ('image', 'jpeg'),
