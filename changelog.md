@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.4.5] - 29 September 2020
+
+### Changed
+
+- Fix for issue #142 (checkbox -> select all)
+- Fix for issue #118 (octe*t* instead of octe*d* for mimetype -> application/octet-stream)
+
+
 ## [1.4.4] - 28 September 2020
 
 ### Added
