@@ -26,7 +26,7 @@ class TestImapImporter(TestCase):
             is_payload_supported("image", "TIFF")
         )
         self.assertTrue(
-            is_payload_supported("application", "octed-stream")
+            is_payload_supported("application", "octet-stream")
         )
 
         # not supported
