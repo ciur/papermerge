@@ -6,7 +6,7 @@ from django.forms.widgets import (
     TextInput,
     ChoiceWidget,
     EmailInput,
-    Textarea
+    Textarea,
 )
 
 

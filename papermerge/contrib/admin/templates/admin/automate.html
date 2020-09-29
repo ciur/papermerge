@@ -30,14 +30,14 @@
               {% csrf_token %}
               {% for field in form %}
                 {% if field.name != 'tags' %}
-                  <div class="form-group">
-                      {{ field.errors }}
-                      {{ field.label_tag }}
-                      {{ field }}
-                      {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
-                      {% endif %}
-                  </div>
+                    <div class="form-group">
+                        {{ field.errors }}
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.help_text %}
+                          <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                        {% endif %}
+                    </div>
                 {% else %}
                   <div class="form-group">
                     <label for="id_name">{% trans "Tags" %}:</label>

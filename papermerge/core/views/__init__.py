@@ -93,11 +93,17 @@ class AdminView(View):
         )
 
         if form.is_valid():
-            obj = form.save()
+            # When saving a form with commit=False option you
+            # need to call save_m2m() on the form
+            # after you save the object, just as you would for a
+            # form with normal many to many fields on
+            # it.
+            obj = form.save(commit=False)
             if request.user:
                 if hasattr(obj, 'user'):
                     obj.user = request.user
                     obj.save()
+            form.save_m2m()
 
             return redirect(self.list_url)
 

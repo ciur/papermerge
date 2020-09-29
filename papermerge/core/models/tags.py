@@ -2,6 +2,45 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.models import TagBase, GenericTaggedItemBase
+from taggit.managers import TaggableManager
+
+
+class UserTaggableManager(TaggableManager):
+    """
+    Taggable manager for models with user attribute.
+
+    Model with user attribute means following: that model (say MO) is per user.
+    Because tags are per User as well - they (tags) will need to get
+    (inherit) user instance from respective model (MO). For this reason,
+    save_from_data method is overriden - it passes user attribut to the newly
+    saved tag model.
+
+    Example: automate model is per user:
+
+        class Automate(models.Model):
+            ...
+            tags = UserTaggableManager(
+                through=ColoredTag,
+                blank=True  # tags are optional
+            )
+            ...
+            user = models.ForeignKey(
+                'User',
+                models.CASCADE,
+                blank=True,
+                null=True
+            )
+            ...
+    )
+    """
+
+    def save_form_data(self, instance, value):
+        rel = getattr(instance, self.name)
+
+        if hasattr(instance, 'user'):
+            rel.set(*value, tag_kwargs={'user': instance.user})
+        else:
+            rel.set(*value)
 
 
 class Tag(TagBase):

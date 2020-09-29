@@ -4,11 +4,9 @@ import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from taggit.managers import TaggableManager
-
 from .document import Document
 from .folder import Folder
-from .tags import ColoredTag
+from .tags import ColoredTag, UserTaggableManager
 
 
 logger = logging.getLogger(__name__)
@@ -66,7 +64,7 @@ class Automate(models.Model):
         default=True
     )
 
-    tags = TaggableManager(
+    tags = UserTaggableManager(
         through=ColoredTag,
         blank=True  # tags are optional
     )

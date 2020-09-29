@@ -4,7 +4,11 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.http.response import HttpResponseRedirect
 
-from papermerge.core.models import Automate, Folder
+from papermerge.core.models import (
+    Automate,
+    Folder,
+    Tag
+)
 
 User = get_user_model()
 
@@ -137,6 +141,56 @@ class TestAutomateViews(TestCase):
         )
         self.assertEquals(
             Automate.objects.first().user,
+            self.user
+        )
+
+    def test_create_new_automate_with_new_tag_assigned_view(self):
+        """
+        Creates a new automate with a new tag.
+
+        In this scenario it is very important that tag with same name won't
+        exist before (i.e. tag is new). It is expected that automate
+        will create a new tag instance. Tag will be assigned to same user as
+        corresponding automate.
+        """
+        self.assertEquals(
+            Automate.objects.count(),
+            0
+        )
+        self.assertEquals(
+            Tag.objects.count(),
+            0
+        )
+
+        ret = self.client.post(
+            reverse('admin:automate'),
+            {
+                "name": "XYZ",
+                "matching_algorithm": Automate.MATCH_ANY,
+                "match": "XYZ",
+                "is_case_sensitive": True,
+                "dst_folder": self.dst_folder.id,
+                "tags": "groceries,"
+            }
+        )
+        self.assertEquals(
+            ret.status_code, 302
+        )
+        self.assertEquals(
+            Automate.objects.count(),
+            1
+        )
+        self.assertEquals(
+            Automate.objects.first().user,
+            self.user
+        )
+        self.assertEquals(
+            Tag.objects.count(),
+            1
+        )
+        # create tag belongs to same user as automate
+        self.assertEquals(
+            Tag.objects.first().user,
             self.user
         )
 
