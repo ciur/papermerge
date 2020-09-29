@@ -182,8 +182,11 @@ class Automate(models.Model):
             document,
             self.dst_folder
         )
-
-        document.tags.add(self.tags.all())
+        _tags = [tag.name for tag in self.tags.all()]
+        document.tags.add(
+            *_tags,
+            tag_kwargs={'user': self.user}
+        )
 
     def _match_any(self, hocr, search_kwargs):
 

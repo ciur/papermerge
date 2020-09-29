@@ -1,6 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from papermerge.core.models import Automate, Folder
+from papermerge.core.models import (
+    Automate,
+    Folder,
+    Document
+)
 
 User = get_user_model()
 
@@ -100,6 +104,56 @@ class TestAutomateModel(TestCase):
         )
         self.assertFalse(
             am_2.is_a_match(TEXT)
+        )
+
+    def test_automate_apply(self):
+        """
+        test automate.apply method
+        """
+
+        # automates are applicable only for documents
+        # in inbox folder
+        folder, _ = Folder.objects.get_or_create(
+            title=Folder.INBOX_NAME,
+            user=self.user
+        )
+        document = Document.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=folder.id,
+            page_count=5,
+        )
+        document2 = Document.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=folder.id,
+            page_count=5,
+        )
+        # automate with tags
+        automate = _create_am_any("test", "test", self.user)
+        automate.tags.set(
+            "test", "one", tag_kwargs={'user': self.user}
+        )
+        # make sure no exception is rised
+        automate.apply(
+            document=document,
+            page_num=1,
+            text="test",
+        )
+        # without tags
+        automate2 = _create_am_any("test2", "test", self.user)
+
+        # make sure no exception is rised
+        automate2.apply(
+            document=document2,
+            page_num=1,
+            text="test",
         )
 
 
