@@ -17305,28 +17305,26 @@ class MgChangeFormActions {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
 /* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
-/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
-/* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
-/* harmony import */ var _views_tag_preview__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/tag_preview */ "./src/js/views/tag_preview.js");
-/* harmony import */ var _views_tags__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/tags */ "./src/js/views/tags.js");
-/* harmony import */ var _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/pinned_tags_view */ "./src/js/views/pinned_tags_view.js");
-/* harmony import */ var _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/changelist_checkbox_view */ "./src/js/views/changelist_checkbox_view.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
-/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _views_logs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/logs */ "./src/js/views/logs.js");
+/* harmony import */ var _views_browse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/browse */ "./src/js/views/browse.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/actions */ "./src/js/views/actions.js");
+/* harmony import */ var _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/control_sidebar */ "./src/js/views/control_sidebar.js");
+/* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
+/* harmony import */ var _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/changelist_checkbox_view */ "./src/js/views/changelist_checkbox_view.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap/js/dist/toast */ "./node_modules/bootstrap/js/dist/toast.js");
+/* harmony import */ var bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_toast__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_15__);
 
 
 
@@ -17343,13 +17341,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync;
 
-
-
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync;
-
-backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_13___default()("[name=csrfmiddlewaretoken]").val();
+backbone__WEBPACK_IMPORTED_MODULE_10___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_11___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -17367,31 +17362,28 @@ backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model,
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view, automate_tags_view;
-  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_2__["BrowseView"]();
-  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_4__["ActionsView"]();
-  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_3__["BreadcrumbView"]();
-  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_5__["ControlSidebarView"]();
-  tag_preview_view = new _views_tag_preview__WEBPACK_IMPORTED_MODULE_7__["TagPreviewView"]();
-  pinned_tags_view = new _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_9__["PinnedTagsView"]();
-  changelist_checkbox = new _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_10__["ChangelistCheckboxView"]();
-  av_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_8__["AdvancedSearchTagsView"]();
-  automate_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_8__["AutomateTagsView"]();
+  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, changelist_checkbox, logs_view;
+  logs_view = new _views_logs__WEBPACK_IMPORTED_MODULE_2__["LogsView"]();
+  browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_3__["BrowseView"]();
+  actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_5__["ActionsView"]();
+  breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_4__["BreadcrumbView"]();
+  control_sidebar = new _views_control_sidebar__WEBPACK_IMPORTED_MODULE_6__["ControlSidebarView"]();
+  changelist_checkbox = new _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_8__["ChangelistCheckboxView"]();
 
-  if (jquery__WEBPACK_IMPORTED_MODULE_13___default()("#document").length == 1) {
+  if (jquery__WEBPACK_IMPORTED_MODULE_11___default()("#document").length == 1) {
     // we in document view. Document view and browser view
     // are exclusive.
-    document_view = new _views_document__WEBPACK_IMPORTED_MODULE_6__["DocumentView"]();
-    document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_6__["DocumentActionsView"]();
+    document_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentView"]();
+    document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_7__["DocumentActionsView"]();
   } else {
-    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_11__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
-    backbone__WEBPACK_IMPORTED_MODULE_12___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
+    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_9__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
+    backbone__WEBPACK_IMPORTED_MODULE_10___default.a.history.start(); // Small notofication popups on top-right corner of the screen.
     // They serve as widgets for django's messages
 
-    jquery__WEBPACK_IMPORTED_MODULE_13___default()('.toast').toast({
+    jquery__WEBPACK_IMPORTED_MODULE_11___default()('.toast').toast({
       'autohide': false
     });
-    jquery__WEBPACK_IMPORTED_MODULE_13___default()('.toast').toast('show');
+    jquery__WEBPACK_IMPORTED_MODULE_11___default()('.toast').toast('show');
   }
 };
 
@@ -19032,28 +19024,6 @@ class AccessCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection
 
 /***/ }),
 
-/***/ "./src/js/models/automate.js":
-/*!***********************************!*\
-  !*** ./src/js/models/automate.js ***!
-  \***********************************/
-/*! exports provided: Automate */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Automate", function() { return Automate; });
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
-
-class Automate extends backbone__WEBPACK_IMPORTED_MODULE_0__["Model"] {
-  urlRoot() {
-    return '/automate/';
-  }
-
-}
-
-/***/ }),
-
 /***/ "./src/js/models/breadcrumb.js":
 /*!*************************************!*\
   !*** ./src/js/models/breadcrumb.js ***!
@@ -19180,23 +19150,13 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   urlRoot() {
-    let parent_id = this.get('parent_id'),
-        base_url,
-        tag;
+    let parent_id = this.get('parent_id');
 
     if (parent_id) {
-      base_url = `/browse/${parent_id}/`;
-    } else {
-      base_url = '/browse/';
+      return `/browse/${parent_id}/`;
     }
 
-    tag = this.get('tag');
-
-    if (tag) {
-      base_url = base_url + `?tag=${tag}`;
-    }
-
-    return base_url;
+    return '/browse/';
   }
 
   toJSON() {
@@ -19256,7 +19216,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*************************************!*\
   !*** ./src/js/models/dispatcher.js ***!
   \*************************************/
-/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED, SELECT_ALL, SELECT_FOLDERS, SELECT_DOCUMENTS, DESELECT, INVERT_SELECTION */
+/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19267,11 +19227,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PAGE_SELECTION_CHANGED", function() { return PAGE_SELECTION_CHANGED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BROWSER_REFRESH", function() { return BROWSER_REFRESH; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PERMISSION_CHANGED", function() { return PERMISSION_CHANGED; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_ALL", function() { return SELECT_ALL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_FOLDERS", function() { return SELECT_FOLDERS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_DOCUMENTS", function() { return SELECT_DOCUMENTS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DESELECT", function() { return DESELECT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INVERT_SELECTION", function() { return INVERT_SELECTION; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -19287,13 +19242,7 @@ let SELECTION_CHANGED = "selection_changed"; // page_selection_changed event is 
 
 let PAGE_SELECTION_CHANGED = "page_selection_changed";
 let BROWSER_REFRESH = "browser_refresh";
-let PERMISSION_CHANGED = "permission_changed"; // sent by menu items of "select" menu to browser module
-
-let SELECT_ALL = "select_all";
-let SELECT_FOLDERS = "select_folders";
-let SELECT_DOCUMENTS = "select_documents";
-let DESELECT = "deselect";
-let INVERT_SELECTION = "invert_selection";
+let PERMISSION_CHANGED = "permission_changed";
 
 /***/ }),
 
@@ -19426,15 +19375,20 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   toJSON() {
-    let dict = {
+    let dict = {};
+    dict = {
       id: this.get('id'),
       key: this.get('key'),
-      value: this.get('value'),
       virtual_value: this.get('virtual_value'),
       kv_inherited: this.get('kv_inherited'),
       kv_type: this.get('kv_type'),
       kv_format: this.get('kv_format')
-    };
+    }; // set 'value' only of there is actually a value
+
+    if (this.get('value')) {
+      dict['value'] = this.get('value');
+    }
+
     return dict;
   }
 
@@ -19727,8 +19681,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
       selected: false,
       img_src: '',
       created_at: '',
-      user_perms: {},
-      tags: []
+      user_perms: {}
     };
   }
 
@@ -19743,8 +19696,7 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
       id: this.get('id'),
       parent_id: this.get('parent_id'),
       title: this.get('title'),
-      created_at: this.get('created_at'),
-      tags: this.get('tags')
+      created_at: this.get('created_at')
     };
     return dict;
   }
@@ -19765,28 +19717,6 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     return this.get('title');
   }
 
-  full_title_list_mode() {
-    let tags = this.get('tags'),
-        tag,
-        title_and_tags;
-    title_and_tags = `<ul class="d-flex flex-row align-items-center">`;
-    title_and_tags += `<li class="mx-2">${this.get('title')}</li>`;
-
-    for (let t = 0; t < tags.length; t++) {
-      tag = tags[t];
-
-      if (tag) {
-        title_and_tags += `<li class="tag"  style="background:  ${tag['bg_color']}`;
-        title_and_tags += `;color: ${tag['fg_color']}" >`;
-        title_and_tags += tag['name'];
-        title_and_tags += `</li>`;
-      }
-    }
-
-    title_and_tags += `</ul>`;
-    return title_and_tags;
-  }
-
   short_title(len) {
     let result,
         text = this.get('title');
@@ -19798,37 +19728,6 @@ class Node extends backbone__WEBPACK_IMPORTED_MODULE_2__["Model"] {
     }
 
     return result;
-  }
-
-  select() {
-    this.set({
-      'selected': true
-    }); // mark checked actual DOM element.
-
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).addClass('checked');
-  }
-
-  deselect() {
-    this.set({
-      'selected': false
-    }); // mark checked actual DOM element.
-
-    jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).removeClass('checked');
-  }
-
-  toggle_selection() {
-    let state;
-    state = this.get('selected');
-    this.set({
-      'selected': !state
-    }); // toggle check state of actual DOM element.
-
-    if (state) {
-      // i.e. if selected
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).removeClass('checked');
-    } else {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()(`.node[data-cid=${this.cid}]`).addClass('checked');
-    }
   }
 
   is_document() {
@@ -20258,144 +20157,6 @@ class Rename extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
 }
-
-/***/ }),
-
-/***/ "./src/js/models/tags.js":
-/*!*******************************!*\
-  !*** ./src/js/models/tags.js ***!
-  \*******************************/
-/*! exports provided: Tag, Tags, AllTags */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag", function() { return Tag; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tags", function() { return Tags; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AllTags", function() { return AllTags; });
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
-
-
-
-class Tag extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
-  /**
-      Used to tag folder/document.
-  */
-  urlRoot() {
-    return '/tag-node/';
-  }
-
-  modelId() {
-    return this.get('name');
-  }
-
-  toJSON() {
-    let dict = {
-      name: this.get('name')
-    };
-    return dict;
-  }
-
-}
-class Tags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
-  get model() {
-    return Tag;
-  }
-
-  initialize(model, options) {
-    if (options) {
-      if (options.node) {
-        this.node = options.node;
-      } else if (options.nodes) {
-        this.nodes = options.nodes;
-      }
-    }
-  }
-
-  urlRoot() {
-    if (this.node) {
-      return `/node/${this.node.id}/tags/`;
-    } else if (this.nodes) {
-      return `/nodes/tags/`;
-    }
-  }
-
-  comma_sep_tags() {
-    let result = "";
-
-    for (let i = 0; i < this.models.length; i++) {
-      result += `${this.models[i].get('name')}, `;
-    }
-
-    return result;
-  }
-
-  remove(model) {
-    for (var i = 0; i < this.models.length; i++) {
-      if (this.models[i].get('name') == model.get('name')) {
-        this.models.splice(i, 1);
-        this.length--;
-        break;
-      }
-    }
-  }
-
-  save(options) {
-    let token,
-        request,
-        tags,
-        post_data,
-        nodes = [];
-    token = $("[name=csrfmiddlewaretoken]").val();
-    tags = this.models.map(function (models) {
-      return models.attributes;
-    });
-
-    if (this.node) {
-      nodes = [node.id];
-    } else if (this.nodes) {
-      nodes = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].map(this.nodes, function (item) {
-        return item.id;
-      });
-    }
-
-    post_data = {
-      'tags': tags,
-      'nodes': nodes
-    };
-    $.ajaxSetup({
-      headers: {
-        'X-CSRFToken': token
-      }
-    });
-    request = $.ajax({
-      method: "POST",
-      url: this.urlRoot(),
-      data: JSON.stringify(post_data),
-      contentType: "application/json",
-      dataType: 'json',
-      error: function (xhr, text, error) {
-        new _views_message__WEBPACK_IMPORTED_MODULE_2__["MessageView"]("Error", xhr.responseJSON['msg']);
-      }
-    });
-    request.done(options['success']);
-  }
-
-}
-class AllTags extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
-  get model() {
-    return Tag;
-  }
-
-  parse(response) {
-    return response.tags;
-  }
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -20882,15 +20643,8 @@ class BrowseRouter extends backbone__WEBPACK_IMPORTED_MODULE_2__["Router"] {
   routes() {
     return {
       ":node_id": "browse",
-      "tagged/:name": "tagged",
       "*path": "browse"
     };
-  }
-
-  tagged(name) {
-    this.browse_view.open(undefined, // node_id
-    name // tagname
-    );
   }
 
   browse(node_id) {
@@ -21029,104 +20783,6 @@ return __p;
 
 /***/ }),
 
-/***/ "./src/js/templates/automate_tags.html":
-/*!*********************************************!*\
-  !*** ./src/js/templates/automate_tags.html ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+=' ';
- for (let i=0; i < tags.models.length; i++) { 
-__p+='\n    ';
- model = tags.models[i] 
-__p+='\n     <div class="tag d-flex align-items-center" \n     style="color: '+
-((__t=( model.get('fg_color') ))==null?'':__t)+
-'; background:  '+
-((__t=( model.get('bg_color') ))==null?'':__t)+
-'; border-color: '+
-((__t=( model.get('bg_color') ))==null?'':__t)+
-';">\n       <span style="color: '+
-((__t=( model.get('fg_color') ))==null?'':__t)+
-';">'+
-((__t=( model.get('name') ))==null?'':__t)+
-'</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'">\n        </i>\n     </div>\n ';
- } 
-__p+='\n<input id="tag-input" name="tag-input" list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
- for (let i=0; i < all_tags.models.length; i++) { 
-__p+='\n    ';
- model = all_tags.models[i] 
-__p+='\n     <option value="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'">\n';
- } 
-__p+='\n</datalist>\n<input type="hidden" name="tags" value="'+
-((__t=( tags.comma_sep_tags() ))==null?'':__t)+
-'" />\n';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/av_tags.html":
-/*!***************************************!*\
-  !*** ./src/js/templates/av_tags.html ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+=' ';
- for (let i=0; i < tags.models.length; i++) { 
-__p+='\n    ';
- model = tags.models[i] 
-__p+='\n     <div class="tag d-flex align-items-center" \n     style="color: '+
-((__t=( model.get('fg_color') ))==null?'':__t)+
-'; background:  '+
-((__t=( model.get('bg_color') ))==null?'':__t)+
-'; border-color: '+
-((__t=( model.get('bg_color') ))==null?'':__t)+
-';">\n       <span style="color: '+
-((__t=( model.get('fg_color') ))==null?'':__t)+
-';">'+
-((__t=( model.get('name') ))==null?'':__t)+
-'</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'">\n        </i>\n     </div>\n ';
- } 
-__p+='\n<input id="tag-input" name="tag-input" list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
- for (let i=0; i < all_tags.models.length; i++) { 
-__p+='\n    ';
- model = all_tags.models[i] 
-__p+='\n     <option value="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'">\n';
- } 
-__p+='\n</datalist>\n';
- for (let i=0; i < tags.models.length; i++) { 
-__p+='\n   ';
- model = tags.models[i] 
-__p+='\n   <input type="hidden" name="tag" value="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'" />\n';
- } 
-__p+='\n';
-}
-return __p;
-};
-
-
-/***/ }),
-
 /***/ "./src/js/templates/breadcrumb.html":
 /*!******************************************!*\
   !*** ./src/js/templates/breadcrumb.html ***!
@@ -21187,25 +20843,7 @@ __p+='\n                <div class="placeholder document">\n                    
  } 
 __p+='\n            <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
-'">\n\n            </div>\n            <ul class="node-tags d-flex flex-column align-items-end">\n                ';
- tags = node.get('tags'); 
-__p+='\n                ';
- for (t=0; t < tags.length && t < 3; t++) { 
-__p+='\n                    ';
- tag = tags[t]; 
-__p+='\n                    <li class="tag"  style="background: '+
-((__t=( tag['bg_color'] ))==null?'':__t)+
-';color: '+
-((__t=( tag['fg_color'] ))==null?'':__t)+
-'" >\n                        '+
-((__t=( tag['name'] ))==null?'':__t)+
-'\n                    </li>\n                ';
- } 
-__p+='\n                ';
- if (tags.length > 3) { 
-__p+='\n                    <li>...</li>\n                ';
- } 
-__p+='\n            </ul>\n            <div class="icons">\n                ';
+'">\n            </div>\n            <div class="icons">\n                ';
  if (node.is_readonly()) {  
 __p+='\n                    <i class="fa fa-lock"></i>\n                ';
  } 
@@ -21221,7 +20859,7 @@ __p+='\n            </div>\n            <input type="checkbox" name="_selected_a
 ((__t=( node.short_title(20) ))==null?'':__t)+
 '</a>\n                <span class="tooltiptext">'+
 ((__t=( node.full_title()  ))==null?'':__t)+
-'</span>\n            </div>\n\n        </li>\n    ';
+'</span>\n            </div>\n        </li>\n    ';
  } 
 __p+='\n</ul>';
 }
@@ -21579,38 +21217,6 @@ return __p;
 
 /***/ }),
 
-/***/ "./src/js/templates/multi_tags_modal.html":
-/*!************************************************!*\
-  !*** ./src/js/templates/multi_tags_modal.html ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          '+
-((__t=( gettext('Multi-Tags') ))==null?'':__t)+
-'\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                  <p>'+
-((__t=( gettext('You selected multiple documents/folders.') ))==null?'':__t)+
-'</p>\n                  <p>'+
-((__t=( gettext('If you add/remove tags here, they will be added/removed on all selected items.') ))==null?'':__t)+
-'</p>\n                  <div class="form-group">\n                    <label for="tags">'+
-((__t=( gettext('Multi-tags Editor') ))==null?'':__t)+
-':</label>\n                    <div class="tags-container d-flex">\n                     \n                    </div>\n                    <p class="text-muted">\n                      '+
-((__t=( gettext('Use comma(,) or Enter as tags separator') ))==null?'':__t)+
-'\n                    </p>\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
-((__t=( gettext('Submit') ))==null?'':__t)+
-'</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
-((__t=( gettext('Cancel') ))==null?'':__t)+
-'</button></a>\n      </div>\n  </div>\n</div>';
-}
-return __p;
-};
-
-
-/***/ }),
-
 /***/ "./src/js/templates/new_folder.html":
 /*!******************************************!*\
   !*** ./src/js/templates/new_folder.html ***!
@@ -21761,102 +21367,6 @@ __p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div c
 ((__t=( title ))==null?'':__t)+
 '" name="title" />\n                  </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs rename">'+
 ((__t=( gettext('Rename') ))==null?'':__t)+
-'</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
-((__t=( gettext('Cancel') ))==null?'':__t)+
-'</button></a>\n      </div>\n  </div>\n</div>';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/tag_preview.html":
-/*!*******************************************!*\
-  !*** ./src/js/templates/tag_preview.html ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<label class="tag" style="background: '+
-((__t=( bg_color ))==null?'':__t)+
-';color: '+
-((__t=( fg_color ))==null?'':__t)+
-'; margin: 1rem 0; padding: 0.25rem 0.5rem; border-radius: 0.5rem;">\n    '+
-((__t=( name ))==null?'':__t)+
-'\n</label>';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/tags.html":
-/*!************************************!*\
-  !*** ./src/js/templates/tags.html ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+=' ';
- for (let i=0; i < tags.models.length; i++) { 
-__p+='\n    ';
- model = tags.models[i] 
-__p+='\n     <div class="tag d-flex align-items-center" style="color: '+
-((__t=( model.get('fg_color') ))==null?'':__t)+
-'; background:  '+
-((__t=( model.get('bg_color') ))==null?'':__t)+
-'; border-color: '+
-((__t=( model.get('bg_color') ))==null?'':__t)+
-';">\n       <span style="color: '+
-((__t=( model.get('fg_color') ))==null?'':__t)+
-';">'+
-((__t=( model.get('name') ))==null?'':__t)+
-'</span>\n       <i \n        class="fa fa-times tag-remove"\n        data-name="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'">\n        </i>\n     </div>\n ';
- } 
-__p+='\n<input list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
- for (let i=0; i < all_tags.models.length; i++) { 
-__p+='\n    ';
- model = all_tags.models[i] 
-__p+='\n     <option value="'+
-((__t=( model.get('name') ))==null?'':__t)+
-'">\n';
- } 
-__p+='\n</datalist>\n\n';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/tags_modal.html":
-/*!******************************************!*\
-  !*** ./src/js/templates/tags_modal.html ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<div class="modal-dialog modal-dialog-centered" role="document">\n  <div class="modal-content">\n    <div class="modal-header">\n      <h5 class="modal-title">\n          '+
-((__t=( gettext('Tags') ))==null?'':__t)+
-'\n      </h5>\n      <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>\n    </div>\n      <div class="modal-body">\n            <div class="modal-body vertical">\n              <form id="new-folder-form" method="POST">\n                <div class="form-group">\n                  <label for="tags">'+
-((__t=( gettext('Tags Editor') ))==null?'':__t)+
-':</label>\n                  <div class="tags-container d-flex">\n                  </div>\n                  <p class="text-muted">\n                    '+
-((__t=( gettext('Use comma(,) or Enter as tags separator') ))==null?'':__t)+
-'\n                  </p>\n                </div>\n              </form>\n            </div>\n      </div>\n      <div class="modal-footer">\n            <button type="submit" class="btn btn-success action margin-xs submit_tags">'+
-((__t=( gettext('Submit') ))==null?'':__t)+
 '</button>\n            <button data-dismiss="modal" class="btn margin-xs btn-secondary cancel">'+
 ((__t=( gettext('Cancel') ))==null?'':__t)+
 '</button></a>\n      </div>\n  </div>\n</div>';
@@ -22567,15 +22077,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _models_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/node */ "./src/js/models/node.js");
-/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
-/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _views_tags_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/tags_modal */ "./src/js/views/tags_modal.js");
-/* harmony import */ var _views_access__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/access */ "./src/js/views/access.js");
-/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
-
-
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _views_new_folder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/new_folder */ "./src/js/views/new_folder.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _views_access__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/access */ "./src/js/views/access.js");
+/* harmony import */ var _views_uploader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/uploader */ "./src/js/views/uploader.js");
 
 
 
@@ -22598,8 +22104,8 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.selection = new _models_node__WEBPACK_IMPORTED_MODULE_3__["NodeCollection"](); // collection of nodes
 
     this.clipboard = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PARENT_CHANGED"], this.parent_changed, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], this.parent_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
   set_parent(parent_id) {
@@ -22615,38 +22121,11 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       'click #access': 'click_access',
       'click #paste_pages': 'paste_pages',
       'click #rename': 'rename_node',
-      'click #tags-menu-item': 'tag_node',
       // will proxy event to #id_file_name
       'click #id_btn_upload': 'upload_clicked',
-      'change #id_file_name': 'upload',
-      // selection related
-      'click #select_all_menu_item': 'on_select_all',
-      'click #select_folders_menu_item': 'on_select_folders',
-      'click #select_documents_menu_item': 'on_select_documents',
-      'click #deselect_menu_item': 'on_deselect',
-      'click #invert_selection_menu_item': 'on_invert_selection'
+      'change #id_file_name': 'upload'
     };
     return event_map;
-  }
-
-  on_select_all(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_ALL"]);
-  }
-
-  on_select_folders(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_FOLDERS"]);
-  }
-
-  on_select_documents(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_DOCUMENTS"]);
-  }
-
-  on_deselect(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["DESELECT"]);
-  }
-
-  on_invert_selection(event) {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["INVERT_SELECTION"]);
   }
 
   click_access(event) {
@@ -22654,7 +22133,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         access_view;
 
     if (node) {
-      access_view = new _views_access__WEBPACK_IMPORTED_MODULE_9__["AccessView"](node);
+      access_view = new _views_access__WEBPACK_IMPORTED_MODULE_7__["AccessView"](node);
     }
   }
 
@@ -22664,7 +22143,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         lang = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#lang").val(),
         uploader_view;
     files = $target[0].files;
-    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_10__["UploaderView"](files, lang, this.parent_id);
+    uploader_view = new _views_uploader__WEBPACK_IMPORTED_MODULE_8__["UploaderView"](files, lang, this.parent_id);
   }
 
   upload_clicked(event) {
@@ -22682,7 +22161,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         titles_str;
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
     }; // https://stackoverflow.com/questions/10858935/cleanest-way-to-destroy-every-model-in-a-collection-in-backbone
     //_.each(_.clone(this.selection.models), function(model){
     //  model.destroy(options);
@@ -22706,7 +22185,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
     };
 
     this.selection.cut(options);
@@ -22716,9 +22195,10 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
     };
 
+    console.log(`paste: current parent_id=${this.parent_id}`);
     this.selection.paste(options, this.parent_id);
   }
 
@@ -22726,7 +22206,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let options = {};
 
     options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
     };
 
     this.selection.paste_pages(options, this.parent_id);
@@ -22755,40 +22235,14 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         rename_view;
 
     if (node) {
-      rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_7__["RenameView"](node);
+      rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_6__["RenameView"](node);
     }
-  }
-
-  tag_node(event) {
-    let models = this.selection.models,
-        tags_view,
-        all_tags,
-        that,
-        success; // first get all tags available for current user
-    // and pass them to TagsModalView (or MultiTagsModalView)
-    // to enable autocompletion.
-
-    that = this;
-    all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_4__["AllTags"]();
-    all_tags.url = '/alltags/';
-
-    success = function (collection, response, options) {
-      if (models.length == 1) {
-        tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_8__["TagsModalView"](underscore__WEBPACK_IMPORTED_MODULE_1__["default"].first(models), collection);
-      } else if (models.length > 1) {
-        tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_8__["MultiTagsModalView"](models, collection);
-      }
-    };
-
-    all_tags.fetch({
-      'success': success
-    });
   }
 
   new_folder(event) {
     let new_folder_view, parent_id;
     parent_id = this.parent_id;
-    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_6__["NewFolderView"](parent_id);
+    new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_5__["NewFolderView"](parent_id);
   }
 
   enable_action(item) {
@@ -22826,16 +22280,6 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       'id': "#rename",
       'cond': function (selection, clipboard, parent_id) {
         if (selection.length == 1) {
-          return true;
-        }
-
-        return false;
-      }
-    });
-    result.add({
-      'id': "#tags-menu-item",
-      'cond': function (selection, clipboard, parent_id) {
-        if (selection.length > 0) {
           return true;
         }
 
@@ -23174,7 +22618,7 @@ class Table {
       'cid': node.cid,
       'url': node.url,
       'col': 'title',
-      'value': node.full_title_list_mode(),
+      'value': node.full_title(),
       'virtual_value': node.full_title(),
       'virtual_type': 'str'
     };
@@ -23385,11 +22829,6 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     this.listenTo(this.display_mode, 'change', this.render);
     this.listenTo(this.browse_list_view, 'change', this.render);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"], this.refresh, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_ALL"], this.select_all, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_FOLDERS"], this.select_folders, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECT_DOCUMENTS"], this.select_documents, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["DESELECT"], this.deselect, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["INVERT_SELECTION"], this.invert_selection, this);
   }
 
   events() {
@@ -23398,45 +22837,6 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
       'click .node': 'select_node'
     };
     return event_map;
-  }
-
-  select_all() {
-    this.browse.nodes.each(function (node) {
-      node.select();
-    });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
-  }
-
-  select_folders() {
-    this.browse.nodes.each(function (node) {
-      if (node.is_folder()) {
-        node.select();
-      }
-    });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
-  }
-
-  select_documents() {
-    this.browse.nodes.each(function (node) {
-      if (node.is_document()) {
-        node.select();
-      }
-    });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
-  }
-
-  deselect() {
-    this.browse.nodes.each(function (node) {
-      node.deselect();
-    });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
-  }
-
-  invert_selection() {
-    this.browse.nodes.each(function (node) {
-      node.toggle_selection();
-    });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["SELECTION_CHANGED"], this.get_selection());
   }
 
   select_node(event) {
@@ -23494,42 +22894,17 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
     window.location = node.get('document_url');
   }
 
-  open(node_id, tagname) {
+  open(node_id) {
     let parent_id = node_id;
     this.browse.set({
-      'parent_id': node_id,
-      'tag': tagname
+      'parent_id': node_id
     });
     this.browse.fetch();
   }
 
-  _get_tagname_from_location() {
-    /**
-    * Checks window.location if there is a "tag" filter:
-    * /browse#tagged/employer
-    * In case there is a tag filter, returns tagname.
-    *
-    * Relevant in case when user clicks on pinned tag, and then
-    * performs add/remove tags action on currently filted 
-    * nodes -> will refresh nodes considernig current tag
-    */
-    let regexp = /tagged\/(\w+)$/,
-        url = location.href,
-        match;
-    match = url.match(regexp);
-
-    if (match) {
-      return match[1];
-    }
-
-    return undefined;
-  }
-
   refresh() {
-    let parent_id = this.browse.get('parent_id'),
-        tagname;
-    tagname = this._get_tagname_from_location();
-    this.open(parent_id, tagname);
+    let parent_id = this.browse.get('parent_id');
+    this.open(parent_id);
   }
 
   render() {
@@ -23913,25 +23288,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _models_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/node */ "./src/js/models/node.js");
-/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
-/* harmony import */ var _views_tags_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/tags_modal */ "./src/js/views/tags_modal.js");
-/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
-/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
-/* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
-/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
-/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../document_form/zoom */ "./src/js/document_form/zoom.js");
-/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../document_form/page_list */ "./src/js/document_form/page_list.js");
-/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../document_form/common */ "./src/js/document_form/common.js");
-/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
-/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
-/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
-/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
-/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
-/* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
-
-
-
+/* harmony import */ var _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../document_form/page_scroll */ "./src/js/document_form/page_scroll.js");
+/* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
+/* harmony import */ var _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../document_form/thumbnail_list */ "./src/js/document_form/thumbnail_list.js");
+/* harmony import */ var _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../document_form/thumbnail */ "./src/js/document_form/thumbnail.js");
+/* harmony import */ var _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../document_form/zoom */ "./src/js/document_form/zoom.js");
+/* harmony import */ var _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../document_form/page_list */ "./src/js/document_form/page_list.js");
+/* harmony import */ var _document_form_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../document_form/common */ "./src/js/document_form/common.js");
+/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../spinner */ "./src/js/spinner.js");
+/* harmony import */ var _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../actions/changeform_actions */ "./src/js/actions/changeform_actions.js");
+/* harmony import */ var _views_breadcrumb__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/breadcrumb */ "./src/js/views/breadcrumb.js");
+/* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
+/* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
+/* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
 
 
 
@@ -23999,20 +23368,20 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   initialize() {
     let dom_actual_pages = document.querySelector('.actual_pages'),
         document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val();
-    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_8__["MgThumbnailList"]();
-    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_10__["DgZoom"]();
-    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_11__["MgPageList"](this._zoom);
+    this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_5__["MgThumbnailList"]();
+    this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_7__["DgZoom"]();
+    this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_8__["MgPageList"](this._zoom);
 
     this._thumbnail_list.load();
 
     this._page_list.load(this.zoom.get_value());
 
-    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_13__["DgMainSpinner"]();
+    this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_10__["DgMainSpinner"]();
     this._actions = this.build_actions();
-    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_15__["BreadcrumbView"](document_id);
+    this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_12__["BreadcrumbView"](document_id);
 
     if (dom_actual_pages) {
-      new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__["DgPageScroll"](dom_actual_pages);
+      new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_3__["DgPageScroll"](dom_actual_pages);
     }
 
     this.configEvents();
@@ -24073,9 +23442,9 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     this._thumbnail_list.onclick(this.on_thumbnail_click, this);
 
-    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_9__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].MOVE_UP, that.on_page_move_up, that);
 
-    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_9__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
+    this._thumbnail_list.subscribe(_document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].MOVE_DOWN, that.on_page_move_down, that);
 
     this.zoom.subscribe("zoom", this.on_zoom_change, this);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).resize(function () {
@@ -24089,17 +23458,16 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     /**
     Actions dropdown menu of changeform view.
     */
-    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
+    let actions = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormActions"](this._thumbnail_list, this._page_list),
         rename_action,
         delete_page_action,
         cut_page_action,
         paste_page_action,
         paste_page_before_action,
         paste_page_after_action,
-        tags_action,
         apply_reorder_changes,
         that = this;
-    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    rename_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       // Achtung! #rename id is same for rename action
       // in changeform view and changelist view.
       id: "#rename",
@@ -24110,21 +23478,21 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         let rename_view,
             node,
             options = {};
-        node = new _models_document__WEBPACK_IMPORTED_MODULE_17__["Document"](current_node.id);
+        node = new _models_document__WEBPACK_IMPORTED_MODULE_14__["Document"](current_node.id);
 
         function update_breadcrumb() {
           that._breadcrumb_view.breadcrumb.fetch();
         }
 
         options['success'] = function (model, response, options) {
-          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_16__["RenameView"](model);
+          rename_view = new _views_rename__WEBPACK_IMPORTED_MODULE_13__["RenameView"](model);
           rename_view.rename.on("change", update_breadcrumb);
         };
 
         node.fetch(options);
       }
     });
-    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    delete_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#delete-page",
       enabled: function (selection, clipboard) {
         let order_changed = false; // User cannot delete pages if he changed their
@@ -24168,7 +23536,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         page_list.delete_selected(selection);
       }
     });
-    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    cut_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#cut-page",
       enabled: function (selection, clipboard) {
         return selection.length > 0;
@@ -24192,13 +23560,13 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
           contentType: "application/json; charset=utf-8",
           error: function (response) {
             if (response.status == 403) {
-              new _views_message__WEBPACK_IMPORTED_MODULE_18__["MessageView"]("Error", response.responseJSON['msg']);
+              new _views_message__WEBPACK_IMPORTED_MODULE_15__["MessageView"]("Error", response.responseJSON['msg']);
             }
           }
         });
       }
     });
-    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    paste_page_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#paste-page",
       enabled: function (selection, clipboard) {
         return true;
@@ -24213,13 +23581,13 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
           contentType: "application/json; charset=utf-8",
           error: function (response) {
             if (response.status == 403) {
-              new _views_message__WEBPACK_IMPORTED_MODULE_18__["MessageView"]("Error", response.responseJSON['msg']);
+              new _views_message__WEBPACK_IMPORTED_MODULE_15__["MessageView"]("Error", response.responseJSON['msg']);
             }
           }
         });
       }
     });
-    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    paste_page_before_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#paste-page-before",
       enabled: function (selection, clipboard) {
         return selection.length == 1;
@@ -24246,7 +23614,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    paste_page_after_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#paste-page-after",
       enabled: function (selection, clipboard) {
         return selection.length == 1;
@@ -24273,52 +23641,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         });
       }
     });
-    tags_action = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
-      id: "#tags-menu-item",
-      enabled: function (selection, clipboard) {
-        return true;
-      },
-      action: function (selection, clipboard, current_node) {
-        let tags_view,
-            node,
-            that = this,
-            success;
-        node = new _models_node__WEBPACK_IMPORTED_MODULE_3__["Node"]({
-          'id': current_node.id,
-          'ctype': 'document',
-          'document_url': `/node/${current_node.id}`
-        });
-
-        success = function (model, response, options) {
-          let correct_node,
-              n = model.get('node'),
-              tags_collection;
-          tags_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_4__["Tags"]([]);
-
-          for (let i = 0; i < n['alltags'].length; i++) {
-            tags_collection.add({
-              'name': n['alltags'][i]['name'],
-              'fg_color': n['alltags'][i]['fg_color'],
-              'bg_color': n['alltags'][i]['bg_color']
-            });
-          } // small hack
-
-
-          correct_node = new _models_node__WEBPACK_IMPORTED_MODULE_3__["Node"]({
-            'id': n['id'],
-            'title': n['title'],
-            'tags': n['tags'],
-            'alltags': n['alltags']
-          });
-          tags_view = new _views_tags_modal__WEBPACK_IMPORTED_MODULE_5__["TagsModalView"](correct_node, tags_collection);
-        };
-
-        node.fetch({
-          'success': success
-        });
-      }
-    });
-    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_14__["MgChangeFormAction"]({
+    apply_reorder_changes = new _actions_changeform_actions__WEBPACK_IMPORTED_MODULE_11__["MgChangeFormAction"]({
       id: "#apply-reorder-changes",
       enabled: function (selection, clipboard, current_node, thumbnail_list, page_list) {
         // if any page has page_num != page_order
@@ -24329,7 +23652,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         }
 
         for (let thumb of thumbnail_list.all()) {
-          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_9__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+          let data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
 
           if (data['page_num'] != data['page_order']) {
             return true;
@@ -24351,7 +23674,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         }
 
         for (let thumb of thumbnail_list.all()) {
-          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_9__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
+          data = _document_form_thumbnail__WEBPACK_IMPORTED_MODULE_6__["MgThumbnail"].get_data_from_dom(thumb.dom_ref);
           doc_id = thumb.doc_id;
           pages.push({
             'page_num': data['page_num'],
@@ -24376,8 +23699,50 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     actions.add(paste_page_before_action);
     actions.add(paste_page_after_action);
     actions.add(apply_reorder_changes);
-    actions.add(tags_action);
     return actions;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/logs.js":
+/*!******************************!*\
+  !*** ./src/js/views/logs.js ***!
+  \******************************/
+/*! exports provided: LogsView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogsView", function() { return LogsView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+class LogsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#logs_view');
+  }
+
+  events() {
+    let event_map = {
+      'click #action_toggle': 'action_toggle'
+    };
+    return event_map;
+  }
+
+  action_toggle() {
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#action_toggle').prop('checked')) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name='_selected_action']").prop('checked', true);
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("[name='_selected_action']").prop('checked', false);
+    }
   }
 
 }
@@ -24918,53 +24283,6 @@ class PermissionEditorView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"]
 
 /***/ }),
 
-/***/ "./src/js/views/pinned_tags_view.js":
-/*!******************************************!*\
-  !*** ./src/js/views/pinned_tags_view.js ***!
-  \******************************************/
-/*! exports provided: PinnedTagsView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PinnedTagsView", function() { return PinnedTagsView; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-
-class PinnedTagsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
-  /**
-    View on the left side navigation menu. If user
-    clicks a tag - it adds to it 'active' class 
-    (and removes active class from other pinned tags).
-  */
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#pinned_tags_view');
-  }
-
-  events() {
-    let event_map = {
-      "click .tag": "on_click"
-    };
-    return event_map;
-  }
-
-  on_click(event) {
-    let $el = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget),
-        parent = $el.parent();
-    parent.siblings().removeClass('active');
-    parent.addClass('active');
-  }
-
-}
-
-/***/ }),
-
 /***/ "./src/js/views/rename.js":
 /*!********************************!*\
   !*** ./src/js/views/rename.js ***!
@@ -25047,512 +24365,6 @@ class RenameView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'title': this.node.get('title')
-    }));
-    this.$el.html(compiled);
-    this.$el.modal();
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/views/tag_preview.js":
-/*!*************************************!*\
-  !*** ./src/js/views/tag_preview.js ***!
-  \*************************************/
-/*! exports provided: TagPreviewView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagPreviewView", function() { return TagPreviewView; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-
-let TEMPLATE = __webpack_require__(/*! ../templates/tag_preview.html */ "./src/js/templates/tag_preview.html");
-
-let ENTER_KEY = 13;
-class TagPreviewView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#tag_editor');
-  }
-
-  initialize() {
-    this.name = undefined;
-    this.fg_color = undefined;
-    this.bg_color = undefined;
-    this.setup();
-    this.render();
-  }
-
-  events() {
-    let event_map = {
-      "change #id_fg_color": "on_fg_change",
-      "change #id_bg_color": "on_bg_change",
-      "keyup #id_name": "on_name_change"
-    };
-    return event_map;
-  }
-
-  setup() {
-    this._set_fg_color();
-
-    this._set_bg_color();
-
-    this._set_name_change();
-  }
-
-  _set_fg_color() {
-    let el = document.getElementById("id_fg_color");
-
-    if (el) {
-      this.fg_color = el.value;
-    }
-  }
-
-  _set_bg_color() {
-    let el = document.getElementById("id_bg_color");
-
-    if (el) {
-      this.bg_color = el.value;
-    }
-  }
-
-  _set_name_change() {
-    let el = document.getElementById("id_name");
-
-    if (el) {
-      this.name = el.value;
-    }
-  }
-
-  on_fg_change(event) {
-    this._set_fg_color();
-
-    this.render();
-  }
-
-  on_bg_change(event) {
-    this._set_bg_color();
-
-    this.render();
-  }
-
-  on_name_change(event) {
-    this._set_name_change();
-
-    this.render();
-  }
-
-  render() {
-    let compiled, context;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'name': this.name,
-      'fg_color': this.fg_color,
-      'bg_color': this.bg_color
-    }));
-    this.$el.find("#tag_editor_preview").html(compiled);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/views/tags.js":
-/*!******************************!*\
-  !*** ./src/js/views/tags.js ***!
-  \******************************/
-/*! exports provided: TagsView, AdvancedSearchTagsView, AutomateTagsView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagsView", function() { return TagsView; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancedSearchTagsView", function() { return AdvancedSearchTagsView; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AutomateTagsView", function() { return AutomateTagsView; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
-/* harmony import */ var _models_automate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/automate */ "./src/js/models/automate.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-
-
-let TEMPLATE = __webpack_require__(/*! ../templates/tags.html */ "./src/js/templates/tags.html");
-
-let AV_TEMPLATE = __webpack_require__(/*! ../templates/av_tags.html */ "./src/js/templates/av_tags.html");
-
-let AT_TEMPLATE = __webpack_require__(/*! ../templates/automate_tags.html */ "./src/js/templates/automate_tags.html");
-
-let ENTER_KEY = 13;
-class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.tags-container');
-  }
-
-  initialize(tags, all_tags) {
-    /*
-    * Backbone collection of tags
-    */
-    this.tags = tags;
-    this.all_tags = all_tags;
-    this.render();
-  }
-
-  events() {
-    let event_map = {
-      "keyup .tag-input": 'on_keyup',
-      "click .tag-remove": "on_remove"
-    };
-    return event_map;
-  }
-
-  on_remove(event) {
-    let value, model;
-    value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).data('name');
-    model = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
-      'name': value
-    });
-    this.tags.remove(model);
-    this.render();
-  }
-
-  get_tag(name) {
-    /*
-    * Given a tagname - return an instance of models.Tag
-    (with name, fg_color and bg_color)
-    */
-    let tag,
-        model,
-        found = undefined;
-
-    if (this.all_tags) {
-      for (let i = 0; i < this.all_tags.models.length; i++) {
-        model = this.all_tags.models[i];
-
-        if (model.get('name') == name) {
-          found = model;
-          break;
-        }
-      }
-
-      if (found) {
-        return found; // existing colored tag;
-      }
-    }
-
-    return new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tag"]({
-      'name': name,
-      'fg_color': '#ffffff',
-      'bg_color': '#c41fff'
-    });
-  }
-
-  on_keyup(event) {
-    let value, model;
-    event.preventDefault();
-
-    if (event.which == ENTER_KEY || event.key == ',') {
-      value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).val();
-
-      if (!underscore__WEBPACK_IMPORTED_MODULE_1__["default"].isEmpty(value)) {
-        // whitespace is not a tag!
-        value = value.replace(',', ''); // maybe user just pressed enter key after
-        // whitespace. Make sure there is some non-white space
-        // after comma removal.
-
-        if (!underscore__WEBPACK_IMPORTED_MODULE_1__["default"].isEmpty(value)) {
-          model = this.get_tag(value);
-          this.tags.add(model);
-          this.render();
-          this.$el.find("input").focus();
-        } // is not empty IF
-
-      } // is not empty IF
-
-    } // enter or comma IF
-
-  }
-
-  render() {
-    let compiled, context;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'tags': this.tags,
-      'all_tags': this.all_tags
-    }));
-    this.$el.html(compiled);
-  }
-
-}
-class AdvancedSearchTagsView extends TagsView {
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.av-tags-container');
-  }
-
-  initialize() {
-    /*
-    * Backbone collection of tags
-    */
-    this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([]);
-    this.render();
-  }
-
-  render() {
-    let compiled, context;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(AV_TEMPLATE({
-      'tags': this.tags,
-      'all_tags': new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([])
-    }));
-    this.$el.html(compiled);
-  }
-
-}
-class AutomateTagsView extends TagsView {
-  /*
-  *  Tags view in New/Edit Automate form. Tags here are loaded
-  from automate, not from a node.
-  */
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.automate-tags-container');
-  }
-
-  initialize() {
-    /*
-    * Loads tags from hidden automate who's is loaded from hidden
-    input named "automate_id"
-    */
-    let all_tags,
-        automate,
-        success,
-        automate_id,
-        that = this;
-    automate_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=automate_id]").val();
-    this.automate = new _models_automate__WEBPACK_IMPORTED_MODULE_3__["Automate"]({
-      'id': automate_id
-    });
-
-    success = function (model, response, options) {
-      that.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](response.tags);
-      that.all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"](response.alltags);
-      that.render();
-    };
-
-    this.automate.fetch({
-      'success': success
-    });
-  }
-
-  render() {
-    let compiled, context;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(AT_TEMPLATE({
-      'tags': this.tags,
-      'all_tags': this.all_tags
-    }));
-    this.$el.html(compiled);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/views/tags_modal.js":
-/*!************************************!*\
-  !*** ./src/js/views/tags_modal.js ***!
-  \************************************/
-/*! exports provided: node2tag_collection, BaseModalView, TagsModalView, MultiTagsModalView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "node2tag_collection", function() { return node2tag_collection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BaseModalView", function() { return BaseModalView; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TagsModalView", function() { return TagsModalView; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultiTagsModalView", function() { return MultiTagsModalView; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var _views_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/tags */ "./src/js/views/tags.js");
-/* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-
-
-
-
-
-
-
-
-let TEMPLATE = __webpack_require__(/*! ../templates/tags_modal.html */ "./src/js/templates/tags_modal.html");
-
-let MULTI_TEMPLATE = __webpack_require__(/*! ../templates/multi_tags_modal.html */ "./src/js/templates/multi_tags_modal.html");
-
-function node2tag_collection(node) {
-  /*
-  * For given node returns a backbone collection of tags 
-  * (of model.tags.Tag instances)
-  */
-  let tags, tag_collection;
-  tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
-    'node': node
-  });
-  tags = node.get('tags') || [];
-
-  for (let i = 0; i < tags.length; i++) {
-    tag_collection.add({
-      'name': tags[i]['name'],
-      'fg_color': tags[i]['fg_color'],
-      'bg_color': tags[i]['bg_color']
-    });
-  }
-
-  return tag_collection;
-}
-class BaseModalView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
-  /***
-  * Modal dialog displayed when user selected a single node
-  ***/
-  el() {
-    // this element is defined in admin/_forms.js.html
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#tags-modal');
-  }
-
-  events() {
-    let event_map = {
-      "click button.submit_tags": "on_click_submit",
-      "submit": "on_form_submit"
-    };
-    return event_map;
-  }
-
-  on_form_submit(event) {
-    event.preventDefault();
-  }
-
-  on_click_submit(event) {
-    let tags,
-        parent_id,
-        options = {};
-
-    options['success'] = function () {
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_5__["BROWSER_REFRESH"]);
-    };
-
-    tags = this.tags_container.tags;
-    this.$el.modal('hide');
-    tags.save(options);
-  }
-
-  _get_shared_tags(nodes) {
-    /*
-    * Returns a (backbone) collection  of shared tags across given nodes
-    */
-  }
-
-  _nodes2tag_collection(nodes) {
-    /*
-    * For given nodes returns a backbone collection of tags 
-    * (of model.tags.Tag instances) shared among all of them.
-    */
-    let tags, tag_collection, shared, keys;
-    shared = {};
-    tag_collection = new _models_tags__WEBPACK_IMPORTED_MODULE_3__["Tags"]([], {
-      'nodes': nodes
-    });
-
-    for (let x = 0; x < nodes.length; x++) {
-      tags = nodes[x].get('tags') || [];
-
-      for (let i = 0; i < tags.length; i++) {
-        if (!shared[tags[i]['name']]) {
-          shared[tags[i]['name']] = 1;
-        } else {
-          shared[tags[i]['name']] += 1;
-        }
-      }
-    }
-
-    keys = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].uniq(underscore__WEBPACK_IMPORTED_MODULE_1__["default"].keys(shared)); // add only tags with nodes.length counter
-
-    for (let x = 0; x < keys.length; x++) {
-      if (shared[keys[x]] == nodes.length) {
-        tag_collection.add({
-          'name': keys[x]
-        });
-      }
-    }
-
-    return tag_collection;
-  }
-
-}
-class TagsModalView extends BaseModalView {
-  /***
-  * Modal dialog displayed when user selected a single node
-  ***/
-  initialize(node, all_tags_collection) {
-    /* 
-      all_tags_collection is tags collection of all tags of
-      given user (used for autocomplete).
-     */
-    this.node = node;
-    this.render();
-    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"](node2tag_collection(node), all_tags_collection);
-  }
-
-  render() {
-    let compiled, context, node;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
-      'tags': this.node.get('tags')
-    }));
-    this.$el.html(compiled);
-    this.$el.modal();
-  }
-
-}
-class MultiTagsModalView extends BaseModalView {
-  /***
-  * Modal dialog displayed when user selected multiple nodes
-  ***/
-  initialize(nodes, all_tags_collection) {
-    /* 
-      all_tags_collection is tags collection of all tags of
-      given user (used for autocomplete).
-     */
-    // notice plural here
-    this.nodes = nodes;
-    this.render();
-    this.tags_container = new _views_tags__WEBPACK_IMPORTED_MODULE_2__["TagsView"]( // notice 'nodes' is in plural
-    this._nodes2tag_collection(nodes), all_tags_collection);
-  }
-
-  render() {
-    let compiled, context, node;
-    context = {};
-    compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(MULTI_TEMPLATE({
-      // notice 'nodes' is in plural
-      'tags': this._nodes2tag_collection(this.nodes)
     }));
     this.$el.html(compiled);
     this.$el.modal();

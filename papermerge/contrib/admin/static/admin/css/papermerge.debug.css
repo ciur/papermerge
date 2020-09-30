@@ -7915,7 +7915,7 @@ h1, h2, h3, h4 {
   .input-group input {
     width: 100%; }
 
-form.change_password, form.token, form.user, form.group, form.generic {
+form.change_password, form.token, form.user, form.group {
   padding: 2rem;
   border: 1px solid #ccc; }
 
@@ -9563,34 +9563,10 @@ h1, h2, h3, h4 {
   .control-sidebar .border-bottom {
     border-bottom: 1px solid white; }
 
-/*
-    Left menu (Documents, Tags, Logs, Users, Groups)
-*/
-ul.pinned_tags li {
-  padding: 0.2rem;
-  padding-left: 0.5rem; }
-  ul.pinned_tags li a.tag {
-    padding-top: 0rem;
-    padding-bottom: 0rem; }
-
-ul.pinned_tags li.active {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-left: 2px solid white; }
-
-.search-tag {
-  border: 1px solid #ccc;
-  margin: 0 0.2rem;
-  padding: 0 0.2rem;
-  border-radius: 0.25rem; }
-
 #search_results h4 {
   font-weight: 400; }
   #search_results h4 a {
     color: #444; }
-  #search_results h4 ul li.tag {
-    padding: 0rem 0.2rem;
-    margin: 0;
-    margin-left: 1rem; }
 
 #search_results ul {
   margin: 0;
@@ -9812,9 +9788,6 @@ ul.pinned_tags li.active {
   background-color: #e6f5ff;
   outline: 1px solid #A6DAFF; }
 
-#browse .fa.fa-folder, #browse .fa.fa-file {
-  font-size: 1.5rem; }
-
 #browse .table a.sort.header:hover {
   text-decoration: none; }
 
@@ -9843,16 +9816,6 @@ ul.pinned_tags li.active {
       font-size: 1.8rem; }
       #browse ul.grid .node .icons .fa-lock {
         color: #f00; }
-    #browse ul.grid .node ul.node-tags {
-      position: absolute;
-      right: 0;
-      margin-top: 0.75rem; }
-      #browse ul.grid .node ul.node-tags li.tag {
-        color: white;
-        background-color: green;
-        padding: 0.1rem 0.5rem;
-        margin-top: 0.25rem;
-        border-radius: 0.5rem; }
     #browse ul.grid .node .placeholder.document {
       position: relative;
       overflow: hidden;
@@ -10429,59 +10392,6 @@ aside a.download {
 #access_items tr.disabled:hover {
   background-color: #ececec;
   outline: None; }
-
-.av-tags-container {
-  width: 100%; }
-
-.document.tags-container {
-  /*
-  * tags in documents right panel are readonly
-  */
-  padding: 0.25rem 0.5rem;
-  border-bottom: 0;
-  border-left: 0;
-  border-right: 0; }
-  .document.tags-container .tag span {
-    margin-right: 0.5rem; }
-  .document.tags-container input {
-    display: none; }
-  .document.tags-container i {
-    display: none; }
-
-.tags-container, .av-tags-container {
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 2px;
-  flex-wrap: wrap; }
-  .tags-container .tag, .av-tags-container .tag {
-    padding: 0.25rem;
-    border: 1px solid #ccc;
-    margin: 0.25rem;
-    border-radius: 3px; }
-    .tags-container .tag span, .av-tags-container .tag span {
-      margin-left: 0.5rem;
-      border: 0px; }
-    .tags-container .tag i, .av-tags-container .tag i {
-      margin-left: 0.5rem;
-      margin-right: 0.3rem;
-      cursor: pointer; }
-  .tags-container input, .av-tags-container input {
-    outline: none;
-    border: 0;
-    width: 7rem; }
-
-/* BEGIN Pinned tags are not displayed in case of collapsed sidebar */
-body.sidebar-mini.sidebar-collapse #pinned_tags_view {
-  display: none; }
-
-body.sidebar-mini #pinned_tags_view {
-  display: block; }
-
-/* END Pinned tags are not displayed in case of collapsed sidebar */
-.tag {
-  padding: 0.25rem;
-  border-radius: 3px;
-  margin-right: 0.2rem; }
 
 #pre-loader {
   position: absolute;
