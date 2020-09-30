@@ -47,6 +47,14 @@ class Command(BaseCommand):
             """
         )
         parser.add_argument(
+            "-p",
+            "--include-user-password",
+            help="""
+            Include user's password field (digest of user's password) into backup
+            archive.
+            """
+        )
+        parser.add_argument(
             '--full-backup',
             action='store_true',
             help="triggers full backup. Not yet implemented."
@@ -66,6 +74,7 @@ class Command(BaseCommand):
         full_backup = options.get('full_backup')
         username = options.get('user')
         location = options.get('location') or default_filename
+        include_user_password = options.get('include_user_password')
 
         if options.get('list_users'):
             list_users_and_exit()
@@ -96,6 +105,7 @@ class Command(BaseCommand):
                 backup_documents(
                     backup_file=backup_file,
                     user=user,
+                    include_user_password=include_user_password,
                     full_backup=full_backup
                 )
         except IsADirectoryError:

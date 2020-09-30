@@ -22,10 +22,14 @@ logger = logging.getLogger()
 def backup_documents(
     backup_file: io.BytesIO,
     user: User,
+    include_user_password=False,
     full_backup=False
 ):
     """
     Backup all documents for specific user.
+
+    :include_user_password: if set to True,  will add to backup archive digest
+        of user password.
     """
 
     current_backup = dict()
@@ -52,6 +56,9 @@ def backup_documents(
                     'is_active': user.is_active,
                     'documents': []
                 }
+                if include_user_password:
+                    # raw digest of user's password
+                    current_user['password'] = user.password
                 _add_user_documents(
                     user,
                     current_user,
@@ -93,12 +100,18 @@ def restore_documents(
             # backup.json contains a list of users.
             # Thus recreate users first.
             for backup_user in backup_info['users']:
-                User.objects.create(
+                user, _ = User.objects.create(
                     username=backup_user['username'],
                     email=backup_user['email'],
                     is_active=backup_user['is_active'],
                     is_superuser=backup_user['is_superuser']
                 )
+                # in case --include-user-password switch was used
+                # update user (raw digest of) password field
+                password = backup_user.get('password')
+                if password:
+                    user.password = password
+                    user.save()
 
         for restore_file in restore_archive.getnames():
 
@@ -178,6 +191,19 @@ def restore_documents(
                         rebuild_tree=False  # speeds up 100x
                     )
 
+                    tags = document_info.get('tags', [])
+                    for tag in tags:
+                        new_doc.tags.add(
+                            tag,
+                            tag_kwargs={
+                                'user': _user,
+                                'bg_color': tag['bg_color'],
+                                'fg_color': tag['fg_color'],
+                                'description': tag['description'],
+                                'pinned': tag['pinned'],
+                            }
+                        )
+
                     default_storage.copy_doc(
                         src=temp_output.name,
                         dst=new_doc.path.url()
@@ -248,10 +274,12 @@ def _add_current_document_entry(
         document,
         include_user_in_path=include_user_in_path
     )
+    tags = [tag.to_dict() for tag in document.tags.all()]
 
     current_document['path'] = targetPath
     current_document['lang'] = document.lang
     current_document['title'] = document.title
+    current_document['tags'] = tags
 
     return current_document
 

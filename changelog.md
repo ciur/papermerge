@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] - (Work in Progress)
 
 ### Added
-    
+
+- add "--include-user-password" switch to backup scripts
+- include tags into backups    
 - Tag management (colored tags)
 - Pinnable tags
 - Better selection. Selection All/Folders/Documents/Invert Selection/Deselect menu.

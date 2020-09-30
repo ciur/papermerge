@@ -88,6 +88,8 @@ class Tag(TagBase):
             'bg_color': self.bg_color,
             'fg_color': self.fg_color,
             'name': self.name,
+            'description': self.description,
+            'pinned': self.pinned
         }
 
 
