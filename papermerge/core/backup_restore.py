@@ -22,8 +22,7 @@ logger = logging.getLogger()
 def backup_documents(
     backup_file: io.BytesIO,
     user: User,
-    include_user_password=False,
-    full_backup=False
+    include_user_password=False
 ):
     """
     Backup all documents for specific user.

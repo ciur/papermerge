@@ -3,7 +3,6 @@ import logging
 from django.core.management import BaseCommand
 from papermerge.core.backup_restore import (
     _can_restore,
-    _is_valid_user,
     restore_documents
 )
 from papermerge.core.models import User

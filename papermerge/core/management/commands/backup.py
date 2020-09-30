@@ -26,6 +26,8 @@ class Command(BaseCommand):
         the specific user.
 
         If --user/u is NOT specified - will backup documents of all users.
+        --include-user-password will include user's password digest into backup
+        archive
     """
 
     def add_arguments(self, parser):
@@ -58,11 +60,6 @@ class Command(BaseCommand):
             """
         )
         parser.add_argument(
-            '--full-backup',
-            action='store_true',
-            help="triggers full backup. Not yet implemented."
-        )
-        parser.add_argument(
             "-l",
             "--list-users",
             action='store_true',
@@ -74,7 +71,6 @@ class Command(BaseCommand):
         date_string = datetime.datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
         default_filename = f"backup_{date_string}.tar"
 
-        full_backup = options.get('full_backup')
         username = options.get('user')
         location = options.get('location') or default_filename
         include_user_password = options.get('include_user_password')
@@ -108,8 +104,7 @@ class Command(BaseCommand):
                 backup_documents(
                     backup_file=backup_file,
                     user=user,
-                    include_user_password=include_user_password,
-                    full_backup=full_backup
+                    include_user_password=include_user_password
                 )
         except IsADirectoryError:
             logger.error(
