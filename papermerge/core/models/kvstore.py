@@ -110,7 +110,7 @@ def compute_virtual_value(kv_type, kv_format, value):
         # virtual_value is not used for kv_type=TEXT
         result = 0
     else:
-        logger.error(f"Unknown kv_type value")
+        logger.error("Unknown kv_type value")
         return 0
 
     return result
