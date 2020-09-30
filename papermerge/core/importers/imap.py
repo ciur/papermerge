@@ -25,7 +25,7 @@ def login(imap_server, username, password):
         server.login(username, password)
     except LoginError:
         logger.error(
-            f"IMAP Import: ERROR. Login failed."
+            "IMAP Import: ERROR. Login failed."
         )
         return None
 
@@ -81,7 +81,7 @@ def read_email_message(message):
         )
         if is_payload_supported(maintype=maintype, subtype=subtype):
             logger.debug(
-                f"IMAP import: importing..."
+                "IMAP import: importing..."
             )
             with tempfile.NamedTemporaryFile() as temp:
                 temp.write(part.get_payload(decode=True))
@@ -92,7 +92,7 @@ def read_email_message(message):
                 )
         else:
             logger.debug(
-                f"IMAP import: ignoring payload."
+                "IMAP import: ignoring payload."
             )
 
 
