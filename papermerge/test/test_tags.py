@@ -4,7 +4,7 @@ from django.test import TestCase
 from papermerge.core.models import (
     Document,
     Folder,
-    ColoredTag
+    Tag
 )
 from papermerge.test.utils import create_root_user
 
@@ -52,6 +52,55 @@ class TestDocument(TestCase):
         self.assertEquals(
             found_docs.first().title,
             "document_c"
+        )
+
+    def test_restore_multiple_tags(self):
+        """
+        Given a list of dictionaries with tag
+        attributes - add those tags to the document
+            (eventually create core.models.Tag instances).
+
+        Keep in mind that tag instances need to belong to same user as the
+        document owner.
+
+        This scenario is used in restore script (restore from backup).
+        """
+        tag_attributes = [
+            {
+                "bg_color": "#ff1f1f",
+                "fg_color": "#ffffff",
+                "name": "important",
+                "description": "",
+                "pinned": True
+            },
+            {
+                "bg_color": "#c41fff",
+                "fg_color": "#FFFFFF",
+                "name": "receipts",
+                "description": None,
+                "pinned": False
+            }
+        ]
+        doc = Document.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            page_count=5,
+        )
+        doc.save()
+
+        for attrs in tag_attributes:
+            attrs['user'] = self.user
+            tag = Tag.objects.create(**attrs)
+            doc.tags.add(tag)
+
+        doc.refresh_from_db()
+
+        self.assertEquals(
+            set([tag.name for tag in doc.tags.all()]),
+            {"receipts", "important"}
         )
 
     def test_basic_folder_tagging(self):

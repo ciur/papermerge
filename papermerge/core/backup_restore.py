@@ -11,7 +11,7 @@ from django.core.files.temp import NamedTemporaryFile
 from mglib.pdfinfo import get_pagecount
 
 import papermerge
-from papermerge.core.models import Document, User, Folder
+from papermerge.core.models import Document, User, Folder, Tag
 from papermerge.core.storage import default_storage
 from papermerge.core.utils import remove_backup_filename_id
 from papermerge.core.tasks import ocr_page
@@ -100,7 +100,7 @@ def restore_documents(
             # backup.json contains a list of users.
             # Thus recreate users first.
             for backup_user in backup_info['users']:
-                user, _ = User.objects.create(
+                user = User.objects.create(
                     username=backup_user['username'],
                     email=backup_user['email'],
                     is_active=backup_user['is_active'],
@@ -191,18 +191,12 @@ def restore_documents(
                         rebuild_tree=False  # speeds up 100x
                     )
 
-                    tags = document_info.get('tags', [])
-                    for tag in tags:
-                        new_doc.tags.add(
-                            tag,
-                            tag_kwargs={
-                                'user': _user,
-                                'bg_color': tag['bg_color'],
-                                'fg_color': tag['fg_color'],
-                                'description': tag['description'],
-                                'pinned': tag['pinned'],
-                            }
-                        )
+                    tag_attributes = document_info.get('tags', [])
+
+                    for attrs in tag_attributes:
+                        attrs['user'] = _user
+                        tag, created = Tag.objects.get_or_create(**attrs)
+                        new_doc.tags.add(tag)
 
                     default_storage.copy_doc(
                         src=temp_output.name,
@@ -321,4 +315,3 @@ def _add_user_documents(
             logger.exception(
                 f"Error {e} occurred."
             )
-
