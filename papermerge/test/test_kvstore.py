@@ -6,6 +6,7 @@ from papermerge.core.models import Document, Folder
 from papermerge.test.utils import create_root_user
 from papermerge.core.models.kvstore import (
     compute_virtual_value,
+    TEXT,
     MONEY,
     NUMERIC,
     DATE
@@ -290,4 +291,80 @@ class TestKVPropagation(TestCase):
             '23.07.20'
         )
 
+    def test_update_kv_on_folder(self):
+        """
+        Folder with X has one metadata key=x of type text.
+        Folder X contains one document - doc.
+        doc1 has value for the key x => 1:
 
+            doc.kv[x] == 1
+            doc.kv[y] - does not exist at this point!
+
+        When user adds new key=y on folder X, document doc1 must preserve
+        existing values for key x:
+
+            doc.kv[x] == 1 must still be true
+            doc.kv[y] -> exists, but it is empty!
+        """
+        folder_X = Folder.objects.create(
+            title="X",
+            user=self.user
+        )
+        doc = Document.create_document(
+            title="document.pdf",
+            file_name="document.pdf",
+            size='1989',
+            lang='DEU',
+            user=self.user,
+            page_count=5,
+            parent_id=folder_X.id
+        )
+        doc.save()
+
+        folder_X.refresh_from_db()
+
+        folder_X.kv.update(
+            [
+                {
+                    'key': 'x',
+                    'kv_type': TEXT,
+                }
+            ]
+        )
+        self.assertEqual(
+            folder_X.kv.all().count(),
+            1
+        )
+
+        self.assertEqual(
+            doc.kv.all().count(),
+            1
+        )
+        doc.assign_kv_values({'x': '10'})
+
+        self.assertEqual(doc.kv['x'], '10')
+
+        folder_X.refresh_from_db()
+        folder_X.kv.update(
+            [
+                {
+                    'key': 'y',
+                    'kv_type': TEXT,
+                },
+                {
+                    'key': 'x',
+                    'kv_type': TEXT,
+                }
+            ]
+        )
+        self.assertEqual(
+            folder_X.kv.all().count(),
+            2
+        )
+
+        self.assertEqual(
+            doc.kv.all().count(),
+            2
+        )
+        doc.refresh_from_db()
+        self.assertEqual(doc.kv['x'], '10')
