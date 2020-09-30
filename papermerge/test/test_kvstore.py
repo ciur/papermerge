@@ -2,7 +2,7 @@ from pathlib import Path
 
 from django.test import TestCase
 
-from papermerge.core.models import Document, Folder
+from papermerge.core.models import Document, Folder, KV
 from papermerge.test.utils import create_root_user
 from papermerge.core.models.kvstore import (
     compute_virtual_value,
@@ -368,3 +368,10 @@ class TestKVPropagation(TestCase):
         )
         doc.refresh_from_db()
         self.assertEqual(doc.kv['x'], '10')
+
+        # key 'y' exists but it is empty/None
+        self.assertIsNone(doc.kv['y'])
+
+        # key 'z' does not exits
+        with self.assertRaises(KV.MetadataKeyDoesNotExist):
+            self.assertIsNone(doc.kv['z'])
