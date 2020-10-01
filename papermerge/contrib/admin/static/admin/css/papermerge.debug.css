@@ -9563,6 +9563,15 @@ h1, h2, h3, h4 {
   .control-sidebar .border-bottom {
     border-bottom: 1px solid white; }
 
+.control-sidebar::before {
+  content: '';
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  overflow: auto; }
+
 /*
     Left menu (Documents, Tags, Logs, Users, Groups)
 */
