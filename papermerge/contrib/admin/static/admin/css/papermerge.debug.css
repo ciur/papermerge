@@ -10122,7 +10122,7 @@ aside a.download {
   #document ul.page_thumbnails {
     width: 10rem;
     height: 100vh;
-    overflow: scroll;
+    overflow: auto;
     border-right: 1px solid #d7d7d7;
     padding: 0;
     border-right: 3px solid #666666; }
@@ -10174,7 +10174,7 @@ aside a.download {
           color: #00b000; }
   #document ul.actual_pages {
     height: 100vh;
-    overflow: scroll;
+    overflow: auto;
     padding: 0; }
     #document ul.actual_pages li.actual_page {
       background-color: #666666;
