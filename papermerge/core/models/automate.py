@@ -98,7 +98,7 @@ class Automate(models.Model):
             return False
 
         search_kwargs = {}
-        if self.is_case_sensitive:
+        if not self.is_case_sensitive:
             search_kwargs = {"flags": re.IGNORECASE}
 
         if self.matching_algorithm == Automate.MATCH_ANY:
@@ -189,7 +189,6 @@ class Automate(models.Model):
         )
 
     def _match_any(self, hocr, search_kwargs):
-
         for word in self._split_match():
             regexp = r"\b{}\b".format(word)
             if re.search(regexp, hocr, **search_kwargs):

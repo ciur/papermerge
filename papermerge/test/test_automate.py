@@ -66,6 +66,7 @@ class TestAutomateModel(TestCase):
 
     def test_automate_match_any(self):
         # should match by word 'granted'
+
         am_1 = _create_am_any(
             "1",
             "what if granted usecase test",
@@ -84,6 +85,43 @@ class TestAutomateModel(TestCase):
         self.assertFalse(
             am_2.is_a_match(TEXT)
         )
+
+    def test_automate_match_any2(self):
+
+        am_1 = _create_am_any(
+            "schnell",
+            "schnell",
+            self.user,
+            is_case_sensitive=False
+        )
+        result = am_1.is_a_match(
+            """
+            SCHNELL
+
+            IHRE FAMILIENBÄCKEREI
+            """
+        )
+        self.assertTrue(result)
+
+    def test_automate_match_any3(self):
+
+        am_1 = _create_am_any(
+            "schnell",
+            "schnell",
+            self.user,
+            is_case_sensitive=True
+        )
+        result = am_1.is_a_match(
+            """
+            SCHNELL
+
+            IHRE FAMILIENBÄCKEREI
+            """
+        )
+        # will not match because text contains
+        # uppercase version, while text to match is expected
+        # to be lowercase as is_case_sensitive=True
+        self.assertFalse(result)
 
     def test_automate_match_regex(self):
         # should match by word life.
@@ -157,7 +195,7 @@ class TestAutomateModel(TestCase):
         )
 
 
-def _create_am(name, match, alg, user, is_sensitive):
+def _create_am(name, match, alg, user, **kwargs):
     dst_folder = Folder.objects.create(
         title="destination Folder",
         user=user
@@ -166,19 +204,19 @@ def _create_am(name, match, alg, user, is_sensitive):
         name=name,
         match=match,
         matching_algorithm=alg,
-        is_case_sensitive=is_sensitive,  # i.e. ignore case
         user=user,
-        dst_folder=dst_folder
+        dst_folder=dst_folder,
+        **kwargs
     )
 
 
-def _create_am_any(name, match, user):
+def _create_am_any(name, match, user, **kwargs):
     return _create_am(
         name=name,
         match=match,
         alg=Automate.MATCH_ANY,
         user=user,
-        is_sensitive=False
+        **kwargs
     )
 
 
@@ -188,7 +226,7 @@ def _create_am_all(name, match, user):
         match=match,
         alg=Automate.MATCH_ALL,
         user=user,
-        is_sensitive=False
+        is_case_sensitive=False
     )
 
 
@@ -198,7 +236,7 @@ def _create_am_literal(name, match, user):
         match=match,
         alg=Automate.MATCH_LITERAL,
         user=user,
-        is_sensitive=False
+        is_case_sensitive=False
     )
 
 
@@ -208,5 +246,5 @@ def _create_am_regex(name, match, user):
         match=match,
         alg=Automate.MATCH_REGEX,
         user=user,
-        is_sensitive=False
+        is_case_sensitive=False
     )
