@@ -25628,7 +25628,12 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     }
 
     this.listenTo(this.uploader, 'change', this.render);
+    this.listenTo(this.uploader, 'change', this.refresh_node_list);
     this.render();
+  }
+
+  refresh_node_list() {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["BROWSER_REFRESH"]);
   }
 
   events() {
