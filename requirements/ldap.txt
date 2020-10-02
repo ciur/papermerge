@@ -1,0 +1,2 @@
+django-auth-ldap
+python-ldap >= 3.0
