@@ -2,6 +2,10 @@
 import os
 from pathlib import Path
 from mglib.utils import try_load_config
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_CONFIG_PLACES = [
     "/etc/papermerge.conf.py",
@@ -304,50 +308,62 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
+_auth_mechanism = cfg_papermerge.get("AUTH_MECHANISM", "NodeAuthBackend")
+logger.info("Using %s for user authentication." % _auth_mechanism)
+
+if _auth_mechanism == "LdapAuthBackend":
+    try:
+        import ldap
+        from django_auth_ldap.config import LDAPSearch, PosixGroupType, MemberDNGroupType, NestedMemberDNGroupType
+
+        AUTH_LDAP_SERVER_URI = cfg_papermerge.get("LDAP_SERVER_URI")
+        AUTH_LDAP_BIND_DN = cfg_papermerge.get("LDAP_BIND_DN")
+        AUTH_LDAP_BIND_PASSWORD = cfg_papermerge.get("LDAP_BIND_PASSWORD")
+        AUTH_LDAP_USER_SEARCH = LDAPSearch(
+            cfg_papermerge.get("LDAP_USER_SEARCH_BASE"), ldap.SCOPE_SUBTREE, cfg_papermerge.get("LDAP_USER_SEARCH_FILTER")
+        )
+
+        _user_attr_map = cfg_papermerge.get("LDAP_USER_ATTR_MAP")
+        if _user_attr_map is not None:
+            AUTH_LDAP_USER_ATTR_MAP = _user_attr_map
+
+        AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+            cfg_papermerge.get("LDAP_GROUP_SEARCH_BASE"),
+            ldap.SCOPE_SUBTREE,
+            cfg_papermerge.get("LDAP_GROUP_SEARCH_FILTER"),
+        )
+        AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+            "is_active": cfg_papermerge.get("LDAP_GROUP_ACTIVE"),
+            "is_staff": cfg_papermerge.get("LDAP_GROUP_STAFF"),
+            "is_superuser": cfg_papermerge.get("LDAP_GROUP_SUPERUSER"),
+        }
+
+        _group_type = cfg_papermerge.get("LDAP_GROUP_TYPE", "PosixGroupType")
+        _group_type_name_attr = cfg_papermerge.get("LDAP_GROUP_TYPE_NAME_ATTR", "cn")
+        _group_type_member_attr = cfg_papermerge.get("LDAP_GROUP_TYPE_MEMBER_ATTR", "cn")
+
+        AUTH_LDAP_FIND_GROUP_PERMS = True
+
+        if _group_type == "PosixGroupType":
+            AUTH_LDAP_GROUP_TYPE = PosixGroupType(name_attr= _group_type_name_attr)
+        elif _group_type == "MemberDNGroupType":
+            AUTH_LDAP_GROUP_TYPE = MemberDNGroupType(name_attr = _group_type_name_attr, member_attr = _group_type_member_attr)
+        elif _group_type == "NestedMemberDNGroupType":
+            AUTH_LDAP_GROUP_TYPE = NestedMemberDNGroupType(name_attr = _group_type_name_attr, member_attr = _group_type_member_attr)
+
+    except ModuleNotFoundError as e:
+        # As not all users want to use LDAP as their authentication provider, we need to wrap the imports (as they might not be available)
+        logger.warning(
+            "Could not import module '%s'. LDAP authentication is configured but couldn't be enabled. "
+            "Please check whether you installed the ldap.txt requirements file. "
+            "The authentication will be set to NodeAuthBackend." % e.name)
+        _auth_mechanism = "NodeAuthBackend"
+
+
 AUTHENTICATION_BACKENDS = (
-    'papermerge.core.auth.LdapAuthBackend',
-    'papermerge.core.auth.NodeAuthBackend',
+    'papermerge.core.auth.' + _auth_mechanism,
     'allauth.account.auth_backends.AuthenticationBackend'
 )
-
-if cfg_papermerge.get("LDAP_SERVER_URI") is not None:
-    import ldap
-    from django_auth_ldap.config import LDAPSearch, PosixGroupType, MemberDNGroupType, NestedMemberDNGroupType
-
-    AUTH_LDAP_SERVER_URI = cfg_papermerge.get("LDAP_SERVER_URI")
-    AUTH_LDAP_BIND_DN = cfg_papermerge.get("LDAP_BIND_DN")
-    AUTH_LDAP_BIND_PASSWORD = cfg_papermerge.get("LDAP_BIND_PASSWORD")
-    AUTH_LDAP_USER_SEARCH = LDAPSearch(
-        cfg_papermerge.get("LDAP_USER_SEARCH_BASE"), ldap.SCOPE_SUBTREE, cfg_papermerge.get("LDAP_USER_SEARCH_FILTER")
-    )
-
-    _user_attr_map = cfg_papermerge.get("LDAP_USER_ATTR_MAP")
-    if _user_attr_map is not None:
-        AUTH_LDAP_USER_ATTR_MAP = _user_attr_map
-
-    AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-        cfg_papermerge.get("LDAP_GROUP_SEARCH_BASE"),
-        ldap.SCOPE_SUBTREE,
-        cfg_papermerge.get("LDAP_GROUP_SEARCH_FILTER"),
-    )
-    AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-        "is_active": cfg_papermerge.get("LDAP_GROUP_ACTIVE"),
-        "is_staff": cfg_papermerge.get("LDAP_GROUP_STAFF"),
-        "is_superuser": cfg_papermerge.get("LDAP_GROUP_SUPERUSER"),
-    }
-
-    _group_type = cfg_papermerge.get("LDAP_GROUP_TYPE", "PosixGroupType")
-    _group_type_name_attr = cfg_papermerge.get("LDAP_GROUP_TYPE_NAME_ATTR", "cn")
-    _group_type_member_attr = cfg_papermerge.get("LDAP_GROUP_TYPE_MEMBER_ATTR", "cn")
-
-    AUTH_LDAP_FIND_GROUP_PERMS = True
-
-    if _group_type == "PosixGroupType":
-        AUTH_LDAP_GROUP_TYPE = PosixGroupType(name_attr= _group_type_name_attr)
-    elif _group_type == "MemberDNGroupType":
-        AUTH_LDAP_GROUP_TYPE = MemberDNGroupType(name_attr = _group_type_name_attr, member_attr = _group_type_member_attr)
-    elif _group_type == "NestedMemberDNGroupType":
-        AUTH_LDAP_GROUP_TYPE = NestedMemberDNGroupType(name_attr = _group_type_name_attr, member_attr = _group_type_member_attr)
 
 
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'

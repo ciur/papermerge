@@ -76,8 +76,13 @@
 # TASK_QUEUE_DIR = "/var/tmp/papermerge/queue"
 
 
+#   Authentication
+####################
+
+# AUTH_MECHANISM = "NodeAuthBackend"
+
 #   LDAP-Login Backend
-#####################
+########################
 
 # LDAP_SERVER_URI = "ldap://localhost"
 # LDAP_BIND_DN = "cn=admin,dc=example,dc=com"
