@@ -11,9 +11,15 @@
 
           <p class="p-3 bg-light">
             <i class="fa fa-info-circle text-success"></i>
-            {% blocktrans %}
-              Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password (of the user your are editing right now) using
-            {% endblocktrans %}<a class="" href="{% url 'core:user_change_password' user_id %}"> {% trans "this form" %}</a>.
+            {% if can_change_user_data %}
+                {% blocktrans %}
+                  Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password (of the user your are editing right now) using
+                {% endblocktrans %}<a class="" href="{% url 'core:user_change_password' user_id %}"> {% trans "this form" %}</a>.
+            {% else %}
+                {% blocktrans %}
+                  This user cannot be edited as it was imported from
+                {% endblocktrans %} {{ user_authentication_source }}
+            {% endif %}
           </p>
       </div>
     </div>
@@ -52,10 +58,12 @@
                     {% endif %}
                 </div>
               {% endfor %}
+              {% if can_change_user_data %}
                 <button class="button btn btn-success mt-3" type="submit">
                   <i class="fa fa-check"></i>
                   {% trans 'Save' %}
                 </button>
+              {% endif %}
             </form>
         </div>
     </div>

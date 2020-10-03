@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from papermerge.core.models import User
+from papermerge.core.models import User, UserAuthenticationSource
 from papermerge.contrib.admin.forms import (
     UserFormWithoutPassword,
     UserFormWithPassword
@@ -84,6 +84,7 @@ def user_change_view(request, id):
     """
     user = get_object_or_404(User, id=id)
     action_url = reverse('core:user_change', args=(id,))
+    user.can_change_data = UserAuthenticationSource.can_change_data(user.authentication_source)
 
     form = UserFormWithoutPassword(
         request.POST or None, instance=user
@@ -100,7 +101,9 @@ def user_change_view(request, id):
             'form': form,
             'action_url': action_url,
             'title': _('Edit User'),
-            'user_id': id
+            'user_id': id,
+            'can_change_user_data': user.can_change_data,
+            'user_authentication_source': user.authentication_source,
         }
     )
 
@@ -112,12 +115,21 @@ def user_change_password_view(request, id):
     system. As result, 'current password' won't be asked.
     """
     user = get_object_or_404(User, id=id)
+    user.can_change_data = UserAuthenticationSource.can_change_data(user.authentication_source)
     action_url = reverse('core:user_change_password', args=(id,))
 
     if request.method == 'POST':
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        if password1 == password2:
+        if not user.can_change_data:
+            messages.error(
+                request,
+                _("Password of user cannot be changed, because it was imported from %s." % user.authentication_source)
+            )
+            return redirect(
+                reverse('core:user_change', args=(id,))
+            )
+        elif password1 == password2:
             user.set_password(password1)
             user.save()
             messages.success(

@@ -18,7 +18,7 @@ from papermerge.core.models import (
     User,
     Automate,
     Folder,
-    Access
+    Access, UserAuthenticationSource
 )
 
 from .models import (
@@ -167,6 +167,15 @@ class AdvancedSearchForm(forms.Form):
 
 
 class UserFormWithoutPassword(ControlForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        user = getattr(self, 'instance', None)
+        if user and hasattr(user, "can_change_data") and user.can_change_data == False:
+            # Disable all fields if the user cannot be altered
+            for field in self.fields:
+                self.fields[field].widget.attrs['readonly'] = True
+                self.fields[field].widget.attrs['disabled'] = True
 
     class Meta:
         model = User
@@ -184,6 +193,10 @@ class UserFormWithoutPassword(ControlForm):
 
 
 class UserFormWithPassword(UserFormWithoutPassword):
+    def save (self, commit = True):
+        # Set the authentication_source to Internal as the user was created within the application.
+        getattr(self, 'instance', None).authentication_source = UserAuthenticationSource.INTERNAL
+        return super().save(commit)
 
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
