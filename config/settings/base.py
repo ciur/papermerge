@@ -308,10 +308,10 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-_auth_mechanism = cfg_papermerge.get("AUTH_MECHANISM", "NodeAuthBackend")
-logger.info("Using %s for user authentication." % _auth_mechanism)
+AUTH_MECHANISM = cfg_papermerge.get("AUTH_MECHANISM", "NodeAuthBackend")
+logger.info("Using %s for user authentication." % AUTH_MECHANISM)
 
-if _auth_mechanism == "LdapAuthBackend":
+if AUTH_MECHANISM == "LdapAuthBackend":
     try:
         import ldap
         from django_auth_ldap.config import LDAPSearch, PosixGroupType, MemberDNGroupType, NestedMemberDNGroupType
@@ -357,11 +357,11 @@ if _auth_mechanism == "LdapAuthBackend":
             "Could not import module '%s'. LDAP authentication is configured but couldn't be enabled. "
             "Please check whether you installed the ldap.txt requirements file. "
             "The authentication will be set to NodeAuthBackend." % e.name)
-        _auth_mechanism = "NodeAuthBackend"
+        AUTH_MECHANISM = "NodeAuthBackend"
 
 
 AUTHENTICATION_BACKENDS = (
-    'papermerge.core.auth.' + _auth_mechanism,
+    'papermerge.core.auth.' + AUTH_MECHANISM,
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 

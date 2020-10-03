@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 from papermerge.core.models.automate import Automate
 from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
@@ -70,12 +71,27 @@ def _user_has_module_perms(user, app_label):
     return False
 
 
+class UserAuthenticationSource(models.TextChoices):
+    INTERNAL = "Internal",
+    LDAP = "LDAP",
+
+
 class User(AbstractUser):
     # increases with every imported document
     # decreases with every deleted document
     # when reaches settings.USER_PROFILE_USER_STORAGE_SIZE
     # no more documents can be imported
     current_storage_size = models.BigIntegerField(default=0)
+
+    # indicates the source from which the user was created or imported
+    # this is necessary to prevent the user from being able to change their password
+    authentication_source = models.CharField(
+        choices = UserAuthenticationSource.choices,
+        max_length = 15,
+        null = False,
+        blank = False,
+        default = UserAuthenticationSource.LDAP if settings.AUTH_MECHANISM == "LdapAuthBackend" else UserAuthenticationSource.INTERNAL,
+    )
 
     def update_current_storage(self):
         user_docs = Document.objects.filter(user=self)
