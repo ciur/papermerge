@@ -1,5 +1,5 @@
 import logging
-from papermerge.core.models import UserAuthenticationSource
+# from papermerge.core.models import UserAuthenticationSource
 
 logger = logging.getLogger(__name__)
 
@@ -8,11 +8,13 @@ try:
 
     class LdapAuthBackend(LDAPBackend):
         def authenticate(self, request, username=None, password=None, **kwargs):
-            return super(LdapAuthBackend, self).authenticate(request, username, password, **kwargs)
+            user = super(LdapAuthBackend, self).authenticate(request, username, password, **kwargs)
+            # user.authentication_source = UserAuthenticationSource.LDAP
+            return user
 
         def get_user(self, user_id):
             user = super(LdapAuthBackend, self).get_user(user_id)
-            user.authentication_source = UserAuthenticationSource.LDAP
+            # user.authentication_source = UserAuthenticationSource.LDAP
             return user
 
 except ModuleNotFoundError as e:
