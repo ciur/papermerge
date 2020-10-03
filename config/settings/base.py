@@ -412,11 +412,20 @@ UPLOAD_FILE_SIZE_MAX = 12 * 1024 * 1024
 UPLOAD_FILE_SIZE_MIN = 1
 UPLOAD_ALLOWED_MIMETYPES = ['application/pdf']
 
+
+# TASK_QUEUE_DIR is used
+# in conjunction with CELERY_BROKER_URL = "filesystem://"
+# This settings (TASK_QUEUE_DIR + filesystem as broker) is very convinient
+# in development environment.
 PAPERMERGE_TASK_QUEUE_DIR = cfg_papermerge.get(
     "TASK_QUEUE_DIR",
     os.path.join(PROJ_ROOT, "queue")
 )
 
+# even if other than filesystem message brokers will be used
+# TASK_QUEUE_DIR queue dir will be created. This is because, at this point
+# django cannot tell if CELERY_BROKER_URL will stay filesystem:// or it
+# will change later (e.g. in production.py which inherits from base.py)
 if not os.path.exists(
     PAPERMERGE_TASK_QUEUE_DIR
 ):
