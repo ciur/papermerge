@@ -54,6 +54,7 @@ What It Doesn't Do
    utilities
    updates
    settings
+   known_issues
    translators_guide/index
    developers_guide/index
    changelog
