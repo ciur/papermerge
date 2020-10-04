@@ -17,4 +17,5 @@ mod_wsgi-express start-server \
     --url-alias /media /opt/media \
     --port 8000 --user www --group www \
     --log-to-terminal \
+    --limit-request-body 20971520 \  # max upload size = 20 MB
     config/wsgi.py
