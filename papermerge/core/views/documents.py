@@ -32,7 +32,7 @@ from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 from papermerge.core.tasks import ocr_page
-from papermerge.core.utils import filter_node_id
+from papermerge.core.utils import filter_node_id, build_tar_archive
 from papermerge.core import signal_definitions as signals
 
 logger = logging.getLogger(__name__)
@@ -569,3 +569,43 @@ def document_download(request, id):
         return resp
 
     return HttpResponseForbidden()
+
+
+@login_required
+@require_POST
+def documents_download(request):
+    """
+    Download multiple nodes (documents and folders) packed
+    as tar.gz archive.
+    """
+    data = json.loads(request.body)
+    node_ids = [item['id'] for item in data]
+    nodes = BaseTreeNode.objects.filter(
+        id__in=node_ids
+    )
+    nodes_perms = request.user.get_perms_dict(
+        nodes, Access.ALL_PERMS
+    )
+    for node in nodes:
+        if not nodes_perms[node.id].get(
+            Access.PERM_READ, False
+        ):
+            msg = _(
+                "%s does not have permission to read %s"
+            ) % (request.user.username, node.title)
+
+            return msg, HttpResponseForbidden.status_code
+
+    # TODO:
+    # pack node_ids nodes into tar.gz archive
+    tar_handle = build_tar_archive(node_ids)
+
+    resp = HttpResponse(
+        tar_handle.read(),
+        content_type="application/gzip"
+    )
+    disposition = "attachment; filename=download.tar.gz"
+    resp['Content-Disposition'] = disposition
+    tar_handle.close()
+
+    return resp
