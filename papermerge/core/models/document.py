@@ -14,7 +14,6 @@ from papermerge.core.storage import default_storage
 from .kvstore import KVCompNode, KVNode
 from .node import BaseTreeNode
 from .access import Access
-from .tags import Tag, ColoredTag
 
 
 from papermerge.search import index
