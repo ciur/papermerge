@@ -573,14 +573,13 @@ def document_download(request, id):
 
 
 @login_required
-@require_POST
 def documents_download(request):
     """
     Download multiple nodes (documents and folders) packed
     as tar.gz archive.
     """
-    data = json.loads(request.body)
-    node_ids = [item['id'] for item in data]
+
+    node_ids = request.GET.getlist('node_ids[]')
     nodes = BaseTreeNode.objects.filter(
         id__in=node_ids
     )
