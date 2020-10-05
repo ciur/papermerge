@@ -220,20 +220,21 @@ def restore_documents(
                         )
 
 
-def build_tar_archive(node_ids: list, gzip=True):
+def build_tar_archive(
+    fileobj: io.BytesIO,
+    node_ids: list,
+    gzip=True
+):
     """
     builds a tar archive with given node ids documents
     """
-    handle = tempfile.TemporaryFile('w+b')
-    with tarfile.open(fileobj=handle, mode="w") as backup_archive:
+    with tarfile.open(fileobj=fileobj, mode="w") as archive:
         for node in BaseTreeNode.objects.filter(id__in=node_ids):
             if node.is_document():
-                backup_archive.add(
+                archive.add(
                     node.absfilepath,
                     arcname=node.title
                 )
-
-    return handle
 
 
 def _can_restore(restore_file: io.BytesIO):

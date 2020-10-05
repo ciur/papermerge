@@ -16,7 +16,7 @@ from django.http import (
     Http404
 )
 from django.contrib.staticfiles import finders
-
+from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth.decorators import login_required
 
 from mglib.pdfinfo import get_pagecount
@@ -597,16 +597,20 @@ def documents_download(request):
 
             return msg, HttpResponseForbidden.status_code
 
-    # TODO:
-    # pack node_ids nodes into tar.gz archive
-    tar_handle = build_tar_archive(node_ids, gzip=True)
+    with NamedTemporaryFile(prefix="download_") as fileobj:
+        build_tar_archive(
+            fileobj=fileobj,
+            node_ids=node_ids,
+            gzip=True
+        )
+        # reset fileobj to initial position
+        fileobj.seek(0)
+        data = fileobj.read()
+        resp = HttpResponse(
+            data,
+            content_type="application/tar"
+        )
+        disposition = "attachment; filename=download.tar"
+        resp['Content-Disposition'] = disposition
 
-    resp = HttpResponse(
-        tar_handle.read(),
-        content_type="application/gzip"
-    )
-    disposition = "attachment; filename=download.tar.gz"
-    resp['Content-Disposition'] = disposition
-    tar_handle.close()
-
-    return resp
+        return resp
