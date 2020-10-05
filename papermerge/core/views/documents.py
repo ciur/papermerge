@@ -599,15 +599,14 @@ def documents_download(request):
     with NamedTemporaryFile(prefix="download_") as fileobj:
         build_tar_archive(
             fileobj=fileobj,
-            node_ids=node_ids,
-            gzip=True
+            node_ids=node_ids
         )
         # reset fileobj to initial position
         fileobj.seek(0)
         data = fileobj.read()
         resp = HttpResponse(
             data,
-            content_type="application/tar"
+            content_type="application/x-tar"
         )
         disposition = "attachment; filename=download.tar"
         resp['Content-Disposition'] = disposition

@@ -1,4 +1,3 @@
-import tempfile
 import datetime
 import logging
 import time
@@ -222,19 +221,61 @@ def restore_documents(
 
 def build_tar_archive(
     fileobj: io.BytesIO,
-    node_ids: list,
-    gzip=True
+    node_ids: list
 ):
     """
     builds a tar archive with given node ids documents
     """
     with tarfile.open(fileobj=fileobj, mode="w") as archive:
-        for node in BaseTreeNode.objects.filter(id__in=node_ids):
-            if node.is_document():
-                archive.add(
-                    node.absfilepath,
-                    arcname=node.title
-                )
+        _rec_tar_archive(
+            archive=archive,
+            node_ids=node_ids,
+            # at the beginning the list of parent names is
+            # emtpy
+            abspath=[]
+        )
+
+
+def _rec_tar_archive(
+    archive,
+    node_ids,
+    abspath
+):
+    """
+    Recursively builds a tar archive based on folder structure of
+    BaseTreeNode instances.
+
+    :node_ids: a list of node ids (node = instance of BaseTreeNode)
+    :abspath: a list of folder parent names
+    """
+
+    # abspath list is modified by in-depth recursion
+    # local_abspath is copy of abspath original state at current depth
+    local_abspath = abspath[:]
+
+    for node in BaseTreeNode.objects.filter(id__in=node_ids):
+        if node.is_document():
+            arc_path = os.path.join(
+                # add document to the current_depth
+                *local_abspath,
+                node.title
+            )
+            archive.add(
+                node.absfilepath,
+                arcname=arc_path
+            )
+        elif node.is_folder():
+
+            abspath.append(node.title)
+
+            child_ids = [
+                child.id for child in node.get_children()
+            ]
+            _rec_tar_archive(
+                archive,
+                child_ids,
+                abspath
+            )
 
 
 def _can_restore(restore_file: io.BytesIO):
