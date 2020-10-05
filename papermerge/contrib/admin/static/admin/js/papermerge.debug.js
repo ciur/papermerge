@@ -20078,7 +20078,6 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     node_ids = this.models.map(function (model) {
       return model.get('id');
     });
-    console.log(node_ids);
     downloader = new _downloader__WEBPACK_IMPORTED_MODULE_4__["Downloader"]('/download-nodes/', node_ids);
     downloader.download();
   }
