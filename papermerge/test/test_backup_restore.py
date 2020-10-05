@@ -12,7 +12,8 @@ from papermerge.test.utils import create_root_user
 from papermerge.core.backup_restore import (
     backup_documents,
     _can_restore,
-    restore_documents
+    restore_documents,
+    build_tar_archive
 )
 
 # points to papermerge.testing folder
@@ -220,3 +221,116 @@ class TestBackupRestore(TestCase):
         with open(restore_path, 'rb') as restore_archive:
             # should not throw an exception
             restore_documents(restore_archive, self.testcase_user)
+
+
+class TestBuildTarArchive(TestCase):
+    """
+    Test functionality which builds downloaded tar archive with
+    selected nodes (documents and folders)
+    """
+
+    def setUp(self):
+        self.testcase_user = create_root_user()
+
+    def test_basic(self):
+
+        acc = Folder.objects.create(
+            title='Accounting',
+            parent=None,
+            user=self.testcase_user
+        )
+        ex = Folder.objects.create(
+            title='Expenses',
+            parent=acc,
+            user=self.testcase_user
+        )
+
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc_in_root_1 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_root_1.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin_root_1.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_root_1.path.url(),
+        )
+
+        doc_in_root_2 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_root_2.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin_root_2.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_root_2.path.url(),
+        )
+
+        doc_in_ex_1 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_ex_1.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            parent_id=ex.id,
+            file_name='berlin_ex_1.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_ex_1.path.url(),
+        )
+
+        doc_in_ex_2 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_ex_2.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            parent_id=ex.id,
+            file_name='berlin_ex_2.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_ex_2.path.url(),
+        )
+
+        # user selected two documents in the root dir
+        # and accounting folder (which is in root dir as well)
+        selected_ids = [
+            doc_in_root_1.id, doc_in_root_2.id, acc.id
+        ]
+
+        with io.BytesIO() as memoryfile:
+            build_tar_archive(
+                fileobj=memoryfile,
+                node_ids=selected_ids
+            )
+            memoryfile.seek(0)
+            archive_file = tarfile.open(fileobj=memoryfile, mode='r')
+            berlin_root_1_handle = archive_file.extractfile(
+                'berlin_root_1.pdf'
+            )
+            data = berlin_root_1_handle.read()
+            self.assertTrue(len(data) > 0)
+
+            berlin_ex_1_handle = archive_file.extractfile(
+                'Accounting/Expenses/berlin_ex_1.pdf'
+            )
+            data = berlin_ex_1_handle.read()
+            self.assertTrue(len(data) > 0)
+
+            with self.assertRaises(KeyError):
+                # there is no file Accounting/Expenses/Paris.pdf
+                # in archive, thus, KeyError exception is expected
+                archive_file.extractfile(
+                    'Accounting/Expenses/Paris.pdf'
+                )
