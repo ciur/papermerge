@@ -224,7 +224,11 @@ def build_tar_archive(
     node_ids: list
 ):
     """
-    builds a tar archive with given node ids documents
+    Builds a tar archive with given node ids documents.
+
+    This function is used to download selected documents and folders.
+    :fileobj: is a file which will be sent to the client side as
+        content disposition.
     """
     with tarfile.open(fileobj=fileobj, mode="w") as archive:
         _rec_tar_archive(
