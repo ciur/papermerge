@@ -1,3 +1,4 @@
+import tempfile
 import datetime
 import logging
 import time
@@ -11,7 +12,13 @@ from django.core.files.temp import NamedTemporaryFile
 from mglib.pdfinfo import get_pagecount
 
 import papermerge
-from papermerge.core.models import Document, User, Folder, Tag
+from papermerge.core.models import (
+    Document,
+    User,
+    Folder,
+    Tag,
+    BaseTreeNode
+)
 from papermerge.core.storage import default_storage
 from papermerge.core.utils import remove_backup_filename_id
 from papermerge.core.tasks import ocr_page
@@ -211,6 +218,22 @@ def restore_documents(
                             'page_num': page_num,
                             'lang': document_info['lang']}
                         )
+
+
+def build_tar_archive(node_ids: list, gzip=True):
+    """
+    builds a tar archive with given node ids documents
+    """
+    handle = tempfile.TemporaryFile('w+b')
+    with tarfile.open(fileobj=handle, mode="w") as backup_archive:
+        for node in BaseTreeNode.objects.filter(id__in=node_ids):
+            if node.is_document():
+                backup_archive.add(
+                    node.absfilepath,
+                    arcname=node.title
+                )
+
+    return handle
 
 
 def _can_restore(restore_file: io.BytesIO):

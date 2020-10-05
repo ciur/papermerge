@@ -32,7 +32,8 @@ from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 from papermerge.core.tasks import ocr_page
-from papermerge.core.utils import filter_node_id, build_tar_archive
+from papermerge.core.utils import filter_node_id
+from papermerge.core.backup_restore import build_tar_archive
 from papermerge.core import signal_definitions as signals
 
 logger = logging.getLogger(__name__)
@@ -598,7 +599,7 @@ def documents_download(request):
 
     # TODO:
     # pack node_ids nodes into tar.gz archive
-    tar_handle = build_tar_archive(node_ids)
+    tar_handle = build_tar_archive(node_ids, gzip=True)
 
     resp = HttpResponse(
         tar_handle.read(),

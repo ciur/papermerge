@@ -36,8 +36,9 @@
               <i class="fa fa-bolt mr-1  text-success"></i>{% trans "Actions" %}
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li class="dropdown-item">
-                  <a href="#"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+                <!-- download one or multiple nodes -->
+                <li class="dropdown-item disabled" id="download-nodes">
+                  <a><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
                 </li>
                <li class="dropdown-item disabled" id="cut">
                    <a><i class="fa fa-cut mx-2 "></i>{% trans "Cut" %}</a>

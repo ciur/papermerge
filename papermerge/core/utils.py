@@ -9,6 +9,7 @@ from datetime import datetime
 from django.utils.html import format_html
 from django.urls import reverse
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -72,6 +73,7 @@ def node_tag(node):
     )
 
     return tag
+
 
 def document_tag(node):
 
@@ -247,10 +249,3 @@ def remove_backup_filename_id(value: str) -> str:
         return result[0]
 
     return "_".join(result[0:-2])
-
-
-def build_tar_archive(node_ids):
-    """
-    builds a tar.tz arhive with given node ids documents
-    """
-    pass
