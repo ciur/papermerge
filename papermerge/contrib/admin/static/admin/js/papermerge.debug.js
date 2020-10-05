@@ -19375,6 +19375,72 @@ class Document extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
 /***/ }),
 
+/***/ "./src/js/models/downloader.js":
+/*!*************************************!*\
+  !*** ./src/js/models/downloader.js ***!
+  \*************************************/
+/*! exports provided: Downloader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Downloader", function() { return Downloader; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+class Downloader {
+  constructor(url, node_ids) {
+    this._url = url;
+    this._node_ids = node_ids;
+    this._param = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.param({
+      'node_ids': node_ids
+    });
+  }
+
+  get url() {
+    /*
+    * URL with node_ids as parameters
+    */
+    return `${this._url}?${this._param}`;
+  }
+
+  download() {
+    let req = new XMLHttpRequest();
+    req.responseType = "arraybuffer";
+
+    req.onload = function () {
+      let type = this.getResponseHeader('Content-Type');
+      let data = this.response;
+      let blob = new Blob([data], {
+        type
+      });
+      let reader = new FileReader();
+
+      reader.onload = function (e) {
+        let anchor = document.createElement('a');
+        anchor.style.display = 'none';
+        anchor.href = e.target.result;
+        anchor.download = 'download.tar';
+        anchor.click();
+      };
+
+      reader.readAsDataURL(blob);
+    };
+
+    req.onreadystatechange = function () {
+      if (req.readyState === XMLHttpRequest.OPENED) {
+        req.setRequestHeader('Accept', 'application/tar');
+        req.send();
+      }
+    };
+
+    req.open('get', this.url);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/models/kvstore.js":
 /*!**********************************!*\
   !*** ./src/js/models/kvstore.js ***!
@@ -19715,6 +19781,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
+/* harmony import */ var _downloader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./downloader */ "./src/js/models/downloader.js");
+
 
 
 
@@ -20005,7 +20073,14 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
   }
 
   download(options) {
-    this.collection_post_action('/download-nodes/', options);
+    let node_ids = [],
+        downloader;
+    node_ids = this.models.map(function (model) {
+      return model.get('id');
+    });
+    console.log(node_ids);
+    downloader = new _downloader__WEBPACK_IMPORTED_MODULE_4__["Downloader"]('/download-nodes/', node_ids);
+    downloader.download();
   }
 
   cut(options) {
