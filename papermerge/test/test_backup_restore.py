@@ -233,7 +233,16 @@ class TestBuildTarArchive(TestCase):
         self.testcase_user = create_root_user()
 
     def test_basic(self):
+        """
+        Creates following hierarchy:
 
+            + Accounting
+            +   Expenses
+            +       berlin_ex_1.pdf
+            +       berlin_ex_2.pdf
+            + berlin_root_1.pdf
+            + berlin_root_2.pdf
+        """
         acc = Folder.objects.create(
             title='Accounting',
             parent=None,
@@ -303,14 +312,24 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_ex_2.path.url(),
         )
 
-        # user selected two documents in the root dir
-        # and accounting folder (which is in root dir as well)
+        """
+        User selected two documents in the root dir berlin_root_1.pdf,
+        and berlin_root_1.pdf and the Accounting folder.
+        Selection is marked with square brackets [...]
+
+            + [Accounting]
+            +   Expenses
+            +       berlin_ex_1.pdf
+            +       berlin_ex_2.pdf
+            + [berlin_root_1.pdf]
+            + [berlin_root_2.pdf]
+        """
         selected_ids = [
             doc_in_root_1.id, doc_in_root_2.id, acc.id
         ]
 
         with io.BytesIO() as memoryfile:
-            build_tar_archive(
+            build_tar_archive(  # <-- THIS IS WHAT WE ARE TESTING
                 fileobj=memoryfile,
                 node_ids=selected_ids
             )
