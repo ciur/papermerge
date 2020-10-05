@@ -20004,6 +20004,10 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     this.collection_post_action(this.urlRoot(), options);
   }
 
+  download(options) {
+    this.collection_post_action('/download-nodes/', options);
+  }
+
   cut(options) {
     this.collection_post_action('/cut-node/', options);
   }
@@ -22606,6 +22610,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   events() {
     let event_map = {
       'click #new-folder': 'new_folder',
+      'click #download-nodes': 'download_nodes',
       'click #delete': 'delete_node',
       'click #cut': 'cut_node',
       'click #paste': 'paste',
@@ -22697,6 +22702,15 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     }
 
     this.selection.delete(options);
+  }
+
+  download_nodes(event) {
+    let options = {};
+
+    options['success'] = function () {// pass
+    };
+
+    this.selection.download(options);
   }
 
   cut_node(event) {
@@ -22801,6 +22815,16 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         result = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
     result.add({
       'id': "#delete",
+      'cond': function (selection, clipboard, parent_id) {
+        if (selection.length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+    result.add({
+      'id': "#download-nodes",
       'cond': function (selection, clipboard, parent_id) {
         if (selection.length > 0) {
           return true;
