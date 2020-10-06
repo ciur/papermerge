@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
+from django.http import HttpResponseForbidden
+
 from papermerge.core.models import User
 from papermerge.contrib.admin.forms import (
     UserFormWithoutPassword,
@@ -16,6 +18,9 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def users_view(request):
+
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         selected_action = request.POST.getlist('_selected_action')
@@ -44,6 +49,10 @@ def user_view(request):
     username + password and then he/she will be able to edit further
     details.
     """
+
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
     form = UserFormWithPassword()
 
     if request.method == 'POST':
@@ -82,6 +91,10 @@ def user_change_view(request, id):
     """
     Used to edit existing users
     """
+
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
     user = get_object_or_404(User, id=id)
     action_url = reverse('core:user_change', args=(id,))
 
@@ -111,6 +124,10 @@ def user_change_password_view(request, id):
     This view is used by administrator to change password of ANY user in the
     system. As result, 'current password' won't be asked.
     """
+
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
     user = get_object_or_404(User, id=id)
     action_url = reverse('core:user_change_password', args=(id,))
 
