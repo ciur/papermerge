@@ -543,7 +543,7 @@ class TestPage(TestCase):
         Important!
 
         In document browser and document viewer
-        if user does not explicitely select a document, by default
+        if user does not explicitely select a page, by default
         metadata associated with first page of respective document
         is returned.
         """
