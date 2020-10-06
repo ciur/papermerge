@@ -1,5 +1,6 @@
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
+from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import (
     render,
@@ -12,13 +13,25 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 
 
+class CommonView(View):
+    def is_allowed(self, request):
+        if hasattr(self, 'only_superuser'):
+            if getattr(self, 'only_superuser'):
+                return request.user.is_superuser
+
+        return True
+
+
 @method_decorator(login_required, name='dispatch')
-class AdminChangeView(View):
+class AdminChangeView(CommonView):
     """
     View/Update exising entries
     """
 
     def get(self, request, id, **kwargs):
+        if not self.is_allowed(request):
+            return HttpResponseForbidden()
+
         entry = get_object_or_404(
             self.model_class, id=id
         )
@@ -40,6 +53,9 @@ class AdminChangeView(View):
         )
 
     def post(self, request, id, **kwargs):
+        if not self.is_allowed(request):
+            return HttpResponseForbidden()
+
         entry = get_object_or_404(
             self.model_class, id=id
         )
@@ -68,12 +84,15 @@ class AdminChangeView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-class AdminView(View):
+class AdminView(CommonView):
     """
     View/Create new entry
     """
 
     def get(self, request, **kwargs):
+        if not self.is_allowed(request):
+            return HttpResponseForbidden()
+
         form = self.form_class()
         action_url = reverse(self.action_url)
 
@@ -88,6 +107,9 @@ class AdminView(View):
         )
 
     def post(self, request, **kwargs):
+        if not self.is_allowed(request):
+            return HttpResponseForbidden()
+
         form = self.form_class(
             request.POST
         )
@@ -119,7 +141,7 @@ class AdminView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-class AdminListView(View):
+class AdminListView(CommonView):
     """
     List entries (with pagination)
     """
@@ -157,6 +179,9 @@ class AdminListView(View):
         )
 
     def post(self, request, *args, **kwargs):
+        if not self.is_allowed(request):
+            return HttpResponseForbidden()
+
         selected_action = request.POST.getlist('_selected_action')
         go_action = request.POST['action']
         if go_action == 'delete_selected':
@@ -190,6 +215,9 @@ class AdminListView(View):
         )
 
     def get(self, request, *args, **kwargs):
+        if not self.is_allowed(request):
+            return HttpResponseForbidden()
+
         page_number = int(request.GET.get('page', 1))
 
         return self.render_with_pagination(
