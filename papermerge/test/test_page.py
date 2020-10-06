@@ -1,8 +1,10 @@
+import os
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
+from django.conf import settings
 
 from papermerge.core.models import (
     KV,
@@ -14,6 +16,7 @@ from papermerge.core.models import (
 )
 from papermerge.core.models.kvstore import MONEY, TEXT, DATE
 from papermerge.core.tasks import normalize_pages
+from papermerge.core.storage import default_storage
 
 from .utils import (
     create_root_user,
@@ -527,3 +530,105 @@ class TestPage(TestCase):
             [1, 2, 3]
         )
 
+    def test_documents_retains_per_page_metadata_after_page_delete(self):
+        """
+        DocM is a document with 3 pages. DocM has two metadata fields
+        associated X and Y. Field has a value x=10 and y=20.
+
+        Second page of the document DocM is deleted.
+        Expected:
+            document values of metadata fields X and Y should be preserverd:
+            DocX.M is still 10 and DocM.Y is still 20.
+
+        Important!
+
+        In document browser and document viewer
+        if user does not explicitely select a document, by default
+        metadata associated with first page of respective document
+        is returned.
+        """
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+        docm = Document.create_document(
+            user=self.user,
+            title='berlin.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin.pdf',
+            parent_id=None,
+            page_count=3
+        )
+
+        default_storage.copy_doc(
+            src=document_path,
+            dst=docm.path.url(),
+        )
+
+        for number in range(1, 4):
+            page = docm.pages.get(number=number)
+            # filesystem absolute path /home/eugen/x/y/
+            fs_abs_path = default_storage.abspath(
+                page.path.url()
+            )
+            # filesystem absolute dir
+            fs_abs_dir = os.path.dirname(
+                fs_abs_path
+            )
+            Path(
+                fs_abs_dir
+            ).mkdir(parents=True, exist_ok=True)
+            # create an empty file
+            open(fs_abs_path, "w+")
+
+        # indeed, docm has 3 pages
+        self.assertEqual(
+            docm.pages.count(),
+            3
+        )
+        docm.kv.update([
+            {
+                'key': 'X',
+                'kv_type': TEXT,
+            },
+            {
+                'key': 'Y',
+                'kv_type': TEXT,
+            }
+
+        ])
+        # In document browser and document viewer
+        # if user does not explicitely select a document, by default
+        # metadata associated with first page of respective document
+        # is returned
+        page = docm.pages.get(number=1)
+        page.kv['X'] = 10
+        page.kv['Y'] = 20
+
+        page.refresh_from_db()
+
+        self.assertEqual(
+            page.kv['X'],
+            '10'
+        )
+
+        self.assertEqual(
+            page.kv['Y'],
+            '20'
+        )
+
+        # Even if user deletes second page, all data (incl. metadata)
+        # associated ramaining page (first and last)
+        # MUST be preserved!
+        docm.delete_pages([2])
+
+        page = docm.pages.get(number=1)
+
+        self.assertEqual(
+            page.kv['X'],
+            '10'
+        )
+        self.assertEqual(
+            page.kv['Y'],
+            '20'
+        )

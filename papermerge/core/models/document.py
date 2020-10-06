@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from mglib import step
 from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
+from mglib.utils import get_assigns_after_delete
 
 from papermerge.core.storage import default_storage
 from .kvstore import KVCompNode, KVNode
@@ -246,7 +247,7 @@ class Document(BaseTreeNode):
 
     def delete_pages(
         self,
-        page_numbers,
+        page_numbers: list,
         skip_migration=False
     ):
         """
@@ -268,14 +269,41 @@ class Document(BaseTreeNode):
             raise Exception("Expecting version to be incremented")
 
         self.version = new_version
+
+        # total pages before delete
+        total_page_count = self.pages.count()
+        self.pages.filter(number__in=page_numbers).delete()
+        # update self.page_count attribute
+        self.page_count = self.pages.count()
         self.save()
-        # update pages model
-        self.recreate_pages()
+
+        self.reassign_page_nums_after_delete(
+            page_count=total_page_count,
+            deleted_pages=page_numbers
+        )
+
+    def reassign_page_nums_after_delete(
+        self,
+        deleted_pages: list,
+        page_count: int
+    ):
+        """
+        :page_count: page count BEFORE delete operation
+        """
+        pairs = get_assigns_after_delete(
+            total_pages=page_count,
+            deleted_pages=deleted_pages
+        )
+        for new_version_page_num, old_version_page_num in pairs:
+            page = self.pages.get(number=old_version_page_num)
+            page.number = new_version_page_num
+            page.save()
 
     def recreate_pages(self):
         """
-        Recreate page models
+        Recreate page models.
         """
+
         self.pages.all().delete()
         self.page_count = get_pagecount(
             default_storage.abspath(self.path.url())
