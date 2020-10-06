@@ -10,6 +10,8 @@ from papermerge.core.views import (
 
 
 class GroupsListView(AdminListView):
+    # only superuser can list groups
+    only_superuser = True
     model_class = Group
     model_label = 'auth.Group'
     template_name = 'admin/groups.html'
@@ -20,6 +22,8 @@ class GroupsListView(AdminListView):
 
 
 class GroupView(AdminView):
+    # only superuser can view group(s)
+    only_superuser = True
     title = _('New Group')
     model_class = Group
     form_class = GroupForm
@@ -29,6 +33,8 @@ class GroupView(AdminView):
 
 
 class GroupChangeView(AdminChangeView):
+    # only superuser can edit group(s)
+    only_superuser = True
     title = _('Edit Group')
     model_class = Group
     form_class = GroupForm
