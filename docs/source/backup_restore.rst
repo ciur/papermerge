@@ -19,7 +19,12 @@ Short Version
 
 .. important::
 
-    Backup **does not save users' passwords**. This means that after restoring the backup, system administrator need to set superuser password with ``./manage changepassword`` command. Superuser in turn, will need to set passwords for other Papermerge accounts.
+    Backup does not save users' passwords unless option
+    ``--include-user-password`` is specified. For papermerge system-wide
+    backups created without ``--include-user-password`` option after restoring
+    the backup, system administrator need to set superuser password with
+    ``./manage changepassword`` command. Superuser in turn, will need to set
+    passwords for other Papermerge accounts.
 
 Detailed Version
 ~~~~~~~~~~~~~~~~~~~
