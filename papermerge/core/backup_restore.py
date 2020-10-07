@@ -253,15 +253,13 @@ def _rec_tar_archive(
     :abspath: a list of folder parent names
     """
 
-    # abspath list is modified by in-depth recursion
-    # local_abspath is copy of abspath original state at current depth
-    local_abspath = abspath[:]
-
     for node in BaseTreeNode.objects.filter(id__in=node_ids):
+
         if node.is_document():
+
             arc_path = os.path.join(
                 # add document to the current_depth
-                *local_abspath,
+                *abspath,
                 node.title
             )
             archive.add(
@@ -270,15 +268,13 @@ def _rec_tar_archive(
             )
         elif node.is_folder():
 
-            abspath.append(node.title)
-
             child_ids = [
                 child.id for child in node.get_children()
             ]
             _rec_tar_archive(
                 archive,
                 child_ids,
-                abspath
+                abspath + [node.title]
             )
 
 
