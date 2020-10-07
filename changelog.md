@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Fixes #150 (Directory Navigation)
 - Download multiple documents and folders. Fixes #84.
 - Auto-refresh on upload fixes #126
 - add "--include-user-password" switch to backup scripts
