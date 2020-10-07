@@ -21291,7 +21291,9 @@ __p+='\n                    <i class="fa fa-lock"></i>\n                ';
  } 
 __p+='\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
 ((__t=( node.get('id') ))==null?'':__t)+
-'" class="action-select" />\n            <div class="title tooltip">\n                <a href="#" class="'+
+'" class="action-select" />\n            <div class="title tooltip">\n                <a href="'+
+((__t=( node.url ))==null?'':__t)+
+'" class="'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
 '" data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
