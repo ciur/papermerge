@@ -47,12 +47,19 @@ You can opt for *per user backup strategy* with ``--user <username>`` switch.
 
 .. important::
 
-    Term **system-wide** here refers to Papermerge system - which is same as saying **for all users in Papermerge database**. Don't confuse usage of term system here with operating system, or Linux system.
+    Term **system-wide** here refers to Papermerge system - which is same as
+    saying **for all users in Papermerge database**. Don't confuse usage of
+    term system here with operating system, or Linux system.
 
-Per user backup strategy is very convenient when there is only one user in Papermerge. This strategy will
-backup all documents and preserve their folder structure. No user information will be stored in backup file.
+Per user backup strategy is very convenient when there is only one user in
+Papermerge. This strategy will backup all documents and preserve their folder
+structure. No user information will be stored in backup file.
 
-System-wide (for all accounts in Papermerge) strategy will backup data per each user in Papermerge instance. Along with documents, it will save information like username, email and if that user is superuser or not. Not however that **users's passwords won't be saved.**. 
+System-wide (for all accounts in Papermerge) strategy will backup data per
+each user in Papermerge instance. Along with documents, it will save
+information like username, email and if that user is superuser or not. Not
+however that users's passwords won't be saved unless you explicitely ask for
+it with ``--include-user-password`` option.
 
 Backup
 ########
@@ -67,8 +74,8 @@ You can provide a file name as well::
 
     ./manage.py backup papermerge.tar
 
-Notice tar extension. You can provide any file name (or path to a file) but keep in mind that backup command creates a tar archive for you
-.
+Notice tar extension. You can provide any file name (or path to a file) but keep in mind that backup command creates a tar archive for you.
+
 Finally you can provide as argument an existing directory::
 
     ./manage.py backup /data/backups/papermerge/
