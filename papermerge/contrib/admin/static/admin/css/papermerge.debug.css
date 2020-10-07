@@ -9897,6 +9897,9 @@ ul.pinned_tags li.active {
 #display-mode .dropdown-submenu > .dropdown-menu {
   left: -100%; }
 
+.content-wrapper.dragover {
+  border: 3px dotted green; }
+
 #metadata button[type=hidden] {
   visibility: hidden; }
 
