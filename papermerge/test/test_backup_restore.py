@@ -353,3 +353,133 @@ class TestBuildTarArchive(TestCase):
                 archive_file.extractfile(
                     'Accounting/Expenses/Paris.pdf'
                 )
+
+
+    def test_basic_two_folders(self):
+        """
+        Creates following hierarchy:
+
+            + Folder_1
+            +   berlin_f_1.pdf
+            + Folder_2
+            +   berlin_f_2.pdf
+            + berlin_root_1.pdf
+            + berlin_root_2.pdf
+        """
+        f1 = Folder.objects.create(
+            title='Folder_1',
+            parent=None,
+            user=self.testcase_user
+        )
+        f2 = Folder.objects.create(
+            title='Folder_2',
+            parent=None,
+            user=self.testcase_user
+        )
+
+        document_path = os.path.join(
+            BASE_DIR, "data", "berlin.pdf"
+        )
+
+        doc_in_root_1 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_root_1.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin_root_1.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_root_1.path.url(),
+        )
+
+        doc_in_root_2 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_root_2.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            file_name='berlin_root_2.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_root_2.path.url(),
+        )
+
+        doc_in_f_1 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_f_1.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            parent_id=f1.id,
+            file_name='berlin_f_1.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_f_1.path.url(),
+        )
+
+        doc_in_f_2 = Document.create_document(
+            user=self.testcase_user,
+            title='berlin_f_2.pdf',
+            size=os.path.getsize(document_path),
+            lang='deu',
+            parent_id=f2.id,
+            file_name='berlin_f_2.pdf',
+            page_count=3
+        )
+        default_storage.copy_doc(
+            src=document_path,
+            dst=doc_in_f_2.path.url(),
+        )
+
+        """
+        User selected two documents in the root dir berlin_root_1.pdf,
+        and berlin_root_1.pdf plus Folder_1 and Folder_2.
+        Selection is marked with square brackets [...]
+
+            + [Folder_1]
+            +   berlin_f_1.pdf
+            + [Folder_2]
+            +   berlin_f_2.pdf
+            + [berlin_root_1.pdf]
+            + [berlin_root_2.pdf]
+        """
+        selected_ids = [
+            doc_in_root_1.id, doc_in_root_2.id, f1.id, f2.id
+        ]
+
+        with io.BytesIO() as memoryfile:
+            build_tar_archive(  # <-- THIS IS WHAT WE ARE TESTING
+                fileobj=memoryfile,
+                node_ids=selected_ids
+            )
+            memoryfile.seek(0)
+            archive_file = tarfile.open(fileobj=memoryfile, mode='r')
+            berlin_root_1_handle = archive_file.extractfile(
+                'berlin_root_1.pdf'
+            )
+            data = berlin_root_1_handle.read()
+            self.assertTrue(len(data) > 0)
+
+            berlin_f_1_handle = archive_file.extractfile(
+                'Folder_1/berlin_f_1.pdf'
+            )
+            data = berlin_f_1_handle.read()
+            self.assertTrue(len(data) > 0)
+
+
+            berlin_f_2_handle = archive_file.extractfile(
+                'Folder_2/berlin_f_2.pdf'
+            )
+            data = berlin_f_2_handle.read()
+            self.assertTrue(len(data) > 0)
+
+            with self.assertRaises(KeyError):
+                # there is no file Accounting/Expenses/Paris.pdf
+                # in archive, thus, KeyError exception is expected
+                archive_file.extractfile(
+                    'Accounting/Expenses/Paris.pdf'
+                )
