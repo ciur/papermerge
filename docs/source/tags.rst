@@ -15,3 +15,8 @@ with "insurance" and/or "car" tags.
 
 Main Concepts
 ~~~~~~~~~~~~~~
+
+Tags are kind of labels. You can associate (add) tags to a document or to a
+folder. Tags have a color and a name:
+
+.. figure:: img/tags/01-tags.png
