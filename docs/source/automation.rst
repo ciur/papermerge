@@ -25,9 +25,9 @@ Matching
 ~~~~~~~~~
 
 In order to decide if automate instance applies to current document - it will look for certain
-keywords in the document. For example if document contains capital case AWO and number 2020, then this document
-must be routed to folder AWO/2020; if document contains word Linode and year 2020, then it will be routed to
-Invoices/CloudExpenses/2020.
+keywords in the document. For example if document contains capital case REWE, then this document
+must be routed to folder Expenses/Groceries; if document contains word Deutschlandradio (german word which translates to english as German radio), then it will be routed to
+ARD ZDF Briefe
 
 .. caution::
   
