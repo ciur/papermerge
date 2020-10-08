@@ -3,7 +3,7 @@
 Automation
 ============
 
-`Watch here a youtube screencast <https://www.youtube.com/watch?v=5adbHHmNcEw>`_ showing automation feature in action.
+`Watch here an youtube screencast <https://www.youtube.com/watch?v=5adbHHmNcEw>`_ showing automation feature in action.
 
 With Automation feature you can automate repetitive tasks like:
 
@@ -15,8 +15,9 @@ With Automation feature you can automate repetitive tasks like:
 
 
 Each automate instance consists of:
-    
-* matching - what documents it applies to?
+
+* name or a title - give it whatever name you like    
+* match - what documents it applies to?
 * destination folder - where shall it move the matched document? 
 * (optionally) tags - which tags shall it associate to the matched document?
 
