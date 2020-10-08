@@ -30,3 +30,10 @@ Tags can be **pinned on the left bar** for quick access. It is easier to explain
 .. figure:: img/tags/02-pinned-tags.png
 
 .. figure:: img/tags/03-quick-access.png
+
+In order to pin a tag, you need check "Pinned" checkbox. You can do that in
+edit form of respective tag. Also, in edit form of the tag, you can change
+tag's color (foreground and background). *Foreground color* is color of the text
+which is written on the tag.
+
+.. figure:: img/tags/04-tag-form.png
