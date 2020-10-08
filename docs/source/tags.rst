@@ -37,3 +37,12 @@ tag's color (foreground and background). *Foreground color* is color of the text
 which is written on the tag.
 
 .. figure:: img/tags/04-tag-form.png
+
+Remember the Comma (,)
+~~~~~~~~~~~~~~~~~~~~~~
+
+Comma, that is the "," character is used as tags separator. So whenever you
+add tags (even if you are adding only one) - you need to **press comma at the
+end of each tag name**; if you forget to do that - whatever text you entered
+will be discarded and tag will not be created.
+
