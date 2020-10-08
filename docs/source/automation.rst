@@ -54,9 +54,10 @@ You can use ``Regular Expression`` for matching criteria. Regular expressions is
 Inbox + Automates
 ~~~~~~~~~~~~~~~~~~~
 
-Automates run only for documents in ``Inbox`` folder. Imported documents from
-:ref:`local watch directory <importer_directory>` or :ref:`from email account
-<importer_imap>` end up in your ``Inbox`` folder.
+Automates run only for documents in ``Inbox`` folder.
+
+Imported documents from :ref:`local watch directory <importer_directory>` or
+:ref:`from email account <importer_imap>` end up in your ``Inbox`` folder.
 Papermerge will apply automates only on the documents in ``Inbox`` -
 regardless where those documents were imported from. The side effect of this
 feature is that **automates will run on documents in** ``Inbox`` **even if you
@@ -74,3 +75,11 @@ automates.
     how confused you might be if documents would unexpectedly disappear from
     your current folder (due to automation match)!
 
+
+Automates and UI Logs
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can check which automate matched specific document by looking at UI Logs:
+
+
+.. figure:: img/automates/02-ui-logs.png
