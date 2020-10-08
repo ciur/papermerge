@@ -22,7 +22,7 @@ from papermerge.core.storage import default_storage
 from papermerge.core.utils import remove_backup_filename_id
 from papermerge.core.tasks import ocr_page
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 def backup_documents(
@@ -123,6 +123,8 @@ def restore_documents(
             if restore_file == "backup.json":
                 continue
 
+            logger.debug(f"Restoring file {restore_file}...")
+
             splitted_path = PurePath(restore_file).parts
             base, ext = os.path.splitext(
                 remove_backup_filename_id(splitted_path[-1])
@@ -170,6 +172,8 @@ def restore_documents(
                         parent = folder_object
 
                 with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
+                    logger.debug(f"Extracting {restore_file}...")
+
                     ff = restore_archive.extractfile(restore_file)
                     temp_output.write(
                         ff.read()
