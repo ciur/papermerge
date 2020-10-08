@@ -67,10 +67,10 @@ automates.
 .. note::
 
     There is a good reason why automates apply only on the documents from
-    ``Inbox``. The reason is that in ``Inbox`` documents may disappear, in
-    other words -  it is acceptable for documents to suddenly move to another
-    folder - due to automation match. Imagine if automates would be applied on
-    any document in any folder - then documents may unexpectedly disappear
-    from any folder (due to automation match)!
+    ``Inbox``. The reason is that in ``Inbox`` documents may disappear. In
+    other words -  it is acceptable for documents to suddenly move from
+    ``Inbox`` to another folder - due to automation match. 
+    If automates would be applied on any folder - then imagine
+    how confused you might be if documents would unexpectedly disappear from
+    your current folder (due to automation match)!
 
-    
