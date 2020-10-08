@@ -5,10 +5,13 @@ Once you’ve got Papermerge set up, you need to start feeding documents into it
 
 Uploading document via web interface won't be explained here as it is very obvious. Uploading via REST API along with how to register a token is explained in :ref:`REST API <rest_api>`. Here we will focus on importing from a local directory and importing documents from an email account (imap).
 
+
+.. _importer_directory:
+
 The Importer Directory
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You point Papermerge to a specific directory on your local system and
+You can point Papermerge to a specific directory on your local system and
 :ref:`worker <worker_command>` script will import all documents from that
 directory. Getting stuff into this directory is up to you. If you’re running
 Papermerge on your local computer, you might just want to drag and drop files
@@ -30,6 +33,8 @@ All imported documents will land in superuser's Inbox.
 
     Papermerge is a multi-user system. The very first system user is called superuser. Papermerge must have at least one superuser.
     Regardless of how many users there are in Papermerge DMS, imported documents will always end up in first superuser's inbox.
+
+.. _importer_imap:
 
 IMAP (Email)
 ~~~~~~~~~~~~~
