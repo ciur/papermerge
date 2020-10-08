@@ -3,6 +3,8 @@
 Automation
 ============
 
+`Watch here a youtube screencast <https://www.youtube.com/watch?v=5adbHHmNcEw>`_ showing automation feature in action.
+
 With Automation feature you can automate repetitive tasks like:
 
 1. moving documents into their destination folder
