@@ -1,6 +1,8 @@
 Tags
 ============
 
+`Watch here an youtube screencast <https://www.youtube.com/watch?v=bshUowL57t8>`_ showing tags in action.
+
 Organizing your documents in folders may serve you well for the beginning. However as
 number of folders grow it starts to be very challenging to keep organized. 
 
@@ -17,6 +19,10 @@ Main Concepts
 ~~~~~~~~~~~~~~
 
 Tags are kind of labels. You can associate (add) tags to a document or to a
-folder. Tags have a color and a name:
+folder. Tags have a color and a name.
+Once tagged, documents can be searched by their tags. Conversely, is it also
+possible to show all the documents tagged with a particular tag(s).
 
 .. figure:: img/tags/01-tags.png
+
+Tags can be pinned on the left bar for quick access. It is easier to explain pinning with help of images:
