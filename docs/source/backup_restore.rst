@@ -57,7 +57,7 @@ structure. No user information will be stored in backup file.
 
 System-wide (for all accounts in Papermerge) strategy will backup data per
 each user in Papermerge instance. Along with documents, it will save
-information like username, email and if that user is superuser or not. Not
+information like username, email and if that user is superuser or not. Note
 however that users's passwords won't be saved unless you explicitely ask for
 it with ``--include-user-password`` option.
 

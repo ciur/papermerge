@@ -3,26 +3,20 @@
 Automation
 ============
 
-.. note::
+With Automation feature you can automate repetitive tasks like:
 
-    This is new feature which will be part of 1.4.0 release (available in August 2020). 
-
-With Automation feature you can do 3 things:
-
-1. automatically moving (cut/paste) of documents into their destination folder
-2. automatically extract metadata from the document
-3. and please forgive me for repetition - automatically extract pages
-
-The whole idea is to remove boring and repetitive tasks.
+1. moving documents into their destination folder
+2. assigning specific tags to the document
 
 
 .. figure:: img/automates/01-automates.png
 
 
-Each automate instance consists of two very important parts:
+Each automate instance consists of:
     
 * matching - what documents it applies to?
-* action - what shall it do with matched document? 
+* destination folder - where shall it move the matched document? 
+* (optionally) tags - which tags shall it associate to the matched document?
 
 Matching
 ~~~~~~~~~
