@@ -25,4 +25,8 @@ possible to show all the documents tagged with a particular tag(s).
 
 .. figure:: img/tags/01-tags.png
 
-Tags can be pinned on the left bar for quick access. It is easier to explain pinning with help of images:
+Tags can be **pinned on the left bar** for quick access. It is easier to explain pinning with help of images:
+
+.. figure:: img/tags/02-pinned-tags.png
+
+.. figure:: img/tags/03-quick-access.png
