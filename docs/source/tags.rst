@@ -46,3 +46,5 @@ add tags (even if you are adding only one) - you need to **press comma at the
 end of each tag name**; if you forget to do that - whatever text you entered
 will be discarded and tag will not be created.
 
+
+.. figure:: img/tags/05-remember-the-comma.png
