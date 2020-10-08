@@ -151,8 +151,14 @@ def restore_documents(
                     break
 
             parent = None
-            # we first have to create a folder structure
 
+            # variables used only to shorten debug message
+            _sp = splitted_path
+            _rf = restore_file
+            logger.debug(
+                f"{_rf}: splitted_path={_sp} len(splitted_path)={len(_sp)}"
+            )
+            # we first have to create a folder structure
             if len(splitted_path) > 1:
                 for folder in splitted_path[:-1]:
 
@@ -171,56 +177,56 @@ def restore_documents(
                     else:
                         parent = folder_object
 
-                with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
-                    logger.debug(f"Extracting {restore_file}...")
+            with NamedTemporaryFile("w+b", suffix=ext) as temp_output:
+                logger.debug(f"Extracting {restore_file}...")
 
-                    ff = restore_archive.extractfile(restore_file)
-                    temp_output.write(
-                        ff.read()
+                ff = restore_archive.extractfile(restore_file)
+                temp_output.write(
+                    ff.read()
+                )
+                temp_output.seek(0)
+                size = os.path.getsize(temp_output.name)
+
+                page_count = get_pagecount(temp_output.name)
+
+                if parent:
+                    parent_id = parent.id
+                else:
+                    parent_id = None
+
+                new_doc = Document.create_document(
+                    user=_user,
+                    title=document_info['title'],
+                    size=size,
+                    lang=document_info['lang'],
+                    file_name=remove_backup_filename_id(splitted_path[-1]),
+                    parent_id=parent_id,
+                    notes="",
+                    page_count=page_count,
+                    rebuild_tree=False  # speeds up 100x
+                )
+
+                tag_attributes = document_info.get('tags', [])
+
+                for attrs in tag_attributes:
+                    attrs['user'] = _user
+                    tag, created = Tag.objects.get_or_create(**attrs)
+                    new_doc.tags.add(tag)
+
+                default_storage.copy_doc(
+                    src=temp_output.name,
+                    dst=new_doc.path.url()
+                )
+
+            if not skip_ocr:
+                for page_num in range(1, page_count + 1):
+                    ocr_page.apply_async(kwargs={
+                        'user_id': _user.id,
+                        'document_id': new_doc.id,
+                        'file_name': new_doc.file_name,
+                        'page_num': page_num,
+                        'lang': document_info['lang']}
                     )
-                    temp_output.seek(0)
-                    size = os.path.getsize(temp_output.name)
-
-                    page_count = get_pagecount(temp_output.name)
-
-                    if parent:
-                        parent_id = parent.id
-                    else:
-                        parent_id = None
-
-                    new_doc = Document.create_document(
-                        user=_user,
-                        title=document_info['title'],
-                        size=size,
-                        lang=document_info['lang'],
-                        file_name=remove_backup_filename_id(splitted_path[-1]),
-                        parent_id=parent_id,
-                        notes="",
-                        page_count=page_count,
-                        rebuild_tree=False  # speeds up 100x
-                    )
-
-                    tag_attributes = document_info.get('tags', [])
-
-                    for attrs in tag_attributes:
-                        attrs['user'] = _user
-                        tag, created = Tag.objects.get_or_create(**attrs)
-                        new_doc.tags.add(tag)
-
-                    default_storage.copy_doc(
-                        src=temp_output.name,
-                        dst=new_doc.path.url()
-                    )
-
-                if not skip_ocr:
-                    for page_num in range(1, page_count + 1):
-                        ocr_page.apply_async(kwargs={
-                            'user_id': _user.id,
-                            'document_id': new_doc.id,
-                            'file_name': new_doc.file_name,
-                            'page_num': page_num,
-                            'lang': document_info['lang']}
-                        )
 
 
 def build_tar_archive(
