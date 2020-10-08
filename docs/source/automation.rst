@@ -49,3 +49,28 @@ With ``Any`` matching algorithm, document matches **if any of mentioned keyword 
 With ``All``, document matches **if all mentioned keywords are found in document**. Keywords order does not matter.
 With ``Literal``, match means that the text you enter must appear in the document exactly as you've entered it.
 You can use ``Regular Expression`` for matching criteria. Regular expressions is a general programming method of text matching. Computer programmers usually know what it means.  
+
+
+Inbox + Automates
+~~~~~~~~~~~~~~~~~~~
+
+Automates run only for documents in ``Inbox`` folder. Imported documents from
+:ref:`local watch directory <importer_directory>` or :ref:`from email account
+<importer_imap>` end up in your ``Inbox`` folder.
+Papermerge will apply automates only on the documents in ``Inbox`` -
+regardless where those documents were imported from. The side effect of this
+feature is that **automates will run on documents in** ``Inbox`` **even if you
+uploaded them manually** - this one is a very useful trick to test your
+automates.
+
+
+.. note::
+
+    There is a good reason why automates apply only on the documents from
+    ``Inbox``. The reason is that in ``Inbox`` documents may disappear, in
+    other words -  it is acceptable for documents to suddenly move to another
+    folder - due to automation match. Imagine if automates would be applied on
+    any document in any folder - then documents may unexpectedly disappear
+    from any folder (due to automation match)!
+
+    
