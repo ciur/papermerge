@@ -86,6 +86,11 @@ You can check which automate matched specific document by looking at UI Logs:
 
 In UI Log entry you can see document's name, page number and document id on which
 Automates were applied (remember, automates are applied per Page!). 
-Also, you can see that text which was extracted from that document.
+Also, you can see that text which was extracted from that document:
 
 .. figure:: img/automates/03-ui-logs.png
+
+In order to check which Automate matched this document/page, you need to **scroll to the
+very bottom of the message**:
+
+.. figure:: img/automates/04-ui-logs.png
