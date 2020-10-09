@@ -21137,7 +21137,7 @@ __p+='\n     <div class="tag d-flex align-items-center" \n     style="color: '+
 ((__t=( model.get('name') ))==null?'':__t)+
 '">\n        </i>\n     </div>\n ';
  } 
-__p+='\n<input id="tag-input" name="tag-input" list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
+__p+='\n<input id="tag-input" name="tag-input" list="all_tags3" class="tag-input" />\n<datalist id="all_tags3">\n';
  for (let i=0; i < all_tags.models.length; i++) { 
 __p+='\n    ';
  model = all_tags.models[i] 
