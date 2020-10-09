@@ -21905,7 +21905,7 @@ __p+='\n     <div class="tag d-flex align-items-center" style="color: '+
 ((__t=( model.get('name') ))==null?'':__t)+
 '">\n        </i>\n     </div>\n ';
  } 
-__p+='\n<input list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
+__p+='\n<input list="all_tags2" class="tag-input"/>\n<datalist id="all_tags2">\n';
  for (let i=0; i < all_tags.models.length; i++) { 
 __p+='\n    ';
  model = all_tags.models[i] 
@@ -25460,7 +25460,6 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
 
   on_keyup(event) {
     let value, model;
-    event.preventDefault();
 
     if (event.which == ENTER_KEY || event.key == ',') {
       value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).val();

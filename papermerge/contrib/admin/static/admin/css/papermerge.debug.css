@@ -10442,6 +10442,12 @@ aside a.download {
   background-color: #ececec;
   outline: None; }
 
+/*
+  Remove Datalist Dropdown Arrow in Chrome
+*/
+[list]::-webkit-calendar-picker-indicator {
+  display: none; }
+
 .av-tags-container {
   width: 100%; }
 
@@ -10480,7 +10486,7 @@ aside a.download {
   .tags-container input, .av-tags-container input {
     outline: none;
     border: 0;
-    width: 7rem; }
+    width: 12rem; }
 
 /* BEGIN Pinned tags are not displayed in case of collapsed sidebar */
 body.sidebar-mini.sidebar-collapse #pinned_tags_view {
