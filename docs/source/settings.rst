@@ -210,7 +210,20 @@ Database
 ###########
 
 By default, Papermerge uses SQLite3 database (which is a file located in :ref:`db_dir`). Alternatively
-you can use PostgreSQL database. Following are options for PostgreSQL database connections.
+you can use a PostgreSQL or MySQL database. Following are options for PostgreSQL and MySQL database connections.
+
+ .. _dbtype:
+
+``DBTYPE``
+~~~~~~~~~~~
+
+context: ``main app``
+
+DB type (if different from SQLITE3). Can be either "postgresql" for PostgreSQL or "mysql" for MySQL/MariaDB.
+
+  Example:
+
+    DBTYPE = "mysql"
 
  .. _dbuser:
 
@@ -219,8 +232,7 @@ you can use PostgreSQL database. Following are options for PostgreSQL database c
 
 context: ``main app``
 
-DB user used for PostgreSQL database connection. If specified will automatically 'switch' from
-sqlite3 to PostgreSQL database.
+DB user used for database connection.
 
   Example:
 
@@ -233,7 +245,7 @@ sqlite3 to PostgreSQL database.
 
 context: ``main app``
 
-PostgreSQL database name.
+Database name.
 Default value is papermerge.
 
 .. _dbhost:
@@ -243,7 +255,7 @@ Default value is papermerge.
 
 context: ``main app``
  
-PostgreSQL database host.
+Database host.
 Default value is localhost.
 
 .. _dbport:
@@ -253,13 +265,13 @@ Default value is localhost.
 
 context: ``main app``
    
-PostgreSQL database port. Port must be specified as integer number. No string quotes.
+Database port. Port must be specified as integer number. No string quotes.
 
   Example:
 
     DBPORT = 5432
 
-Default value is 5432.
+Default value is 5432 for PostgreSQL and 3306 for MySQL.
 
 .. _dbpass:
 
@@ -268,7 +280,7 @@ Default value is 5432.
 
 context: ``main app``
  
-Password for connecting to PostgreSQL database
+Password for connecting to database
 Default value is empty string.
 
 .. _settings_email:
