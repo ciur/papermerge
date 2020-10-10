@@ -275,6 +275,8 @@ elif cfg_papermerge.get("DBTYPE", False) == "mysql":
     DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
     DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
     DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 3306)
+    # Requires MySQL > 5.7.7 or innodb_large_prefix set to on
+    SILENCED_SYSTEM_CHECKS = ['mysql.E001']
 
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.TemporaryFileUploadHandler'
