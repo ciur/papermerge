@@ -14,6 +14,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 
 * [@frenos](https://github.com/frenos) - Backup and Restore Feature
 * [@mtonnie](https://github.com/mtonnie) - Packaging for Synology NAS devices
+* [@francescocarzaniga](https://github.com/francescocarzaniga) - PR for MySQL support
 * [@defaultroute-eu](https://github.com/defaultroute-eu) - Reported a bug, provided a fix/PR.
 * [@hactar](https://github.com/hactar) - Documentation updates    
 * [Reto](https://github.com/tido-) - for very useful feedback and testing
@@ -25,4 +26,8 @@ list maintainers, contributors and sponsors of Papermerge project.
 
 ### Sponsors
 
+A special *Thank you* goes to GitHub Sponsors!
+
 * [Alexander](https://github.com/alex1702)
+* [hactar](https://github.com/hactar)
+* [Maximilian Schieder](https://github.com/schiederme)
