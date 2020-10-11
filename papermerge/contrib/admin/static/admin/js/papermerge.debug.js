@@ -25506,7 +25506,7 @@ class AdvancedSearchTagsView extends TagsView {
     this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([]);
     this.all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["AllTags"]();
     this.all_tags.url = '/alltags/';
-    this.listenTo(this.all_tags, 'change', this.render);
+    this.listenTo(this.all_tags, 'add', this.render);
     this.all_tags.fetch();
   }
 
