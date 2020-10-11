@@ -262,7 +262,7 @@ if cfg_papermerge.get("DBTYPE", False) == "postgresql":
     DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
     DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
     DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 5432)
-elif cfg_papermerge.get("DBTYPE", False) == "mysql":
+elif cfg_papermerge.get("DBTYPE", False) in ("mysql", "mariadb"):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
