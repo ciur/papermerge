@@ -253,16 +253,26 @@ DATABASES = {
     }
 }
 
-if cfg_papermerge.get("DBUSER", False):
+if cfg_papermerge.get("DBTYPE", False) == "postgresql":
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
-        "USER": cfg_papermerge.get("DBUSER"),
+        "USER": cfg_papermerge.get("DBUSER", "papermerge"),
     }
     DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
     DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
     DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 5432)
-
+elif cfg_papermerge.get("DBTYPE", False) == "mysql":
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
+        "USER": cfg_papermerge.get("DBUSER", "papermerge"),
+    }
+    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
+    DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
+    DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 3306)
+    # Requires MySQL > 5.7.7 or innodb_large_prefix set to on
+    SILENCED_SYSTEM_CHECKS = ['mysql.E001']
 
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.TemporaryFileUploadHandler'
