@@ -19,18 +19,20 @@ logger = logging.getLogger(__name__)
 
 class DocumentImporter:
 
-    def __init__(self, file, username=None):
+    def __init__(self, file, username=None, user_object=None):
         self.filepath = file
 
-        if username is None:
+        if username is None and user_object is None:
             # get superuser
             self.user = User.objects.filter(
                 is_superuser=True
             ).first()
-        else:
+        elif username:
             self.user = User.objects.filter(
                 username=username
             ).first()
+        elif user_object:
+            self.user = user_object
 
         if self.user is None:
             raise Exception("Papermerge has no users defined")

@@ -14,6 +14,7 @@ from papermerge.core.models.tags import (
     ColoredTag,
     Tag
 )
+from django.utils.translation import gettext_lazy as _
 
 
 # A few helper functions for common logic between User and AnonymousUser.
@@ -76,6 +77,17 @@ class User(AbstractUser):
     # when reaches settings.USER_PROFILE_USER_STORAGE_SIZE
     # no more documents can be imported
     current_storage_size = models.BigIntegerField(default=0)
+    mail_secret = models.CharField(_('email secret'), max_length=150, blank=True)
+    mail_by_user = models.BooleanField(
+        _('mail import user'),
+        default=False,
+        help_text=_('Designates whether the mail import should consider the email address'),
+    ) 
+    mail_by_secret = models.BooleanField(
+        _('mail import secret'),
+        default=False,
+        help_text=_('Designates whether the mail import should consider the secret'),
+    )
 
     def update_current_storage(self):
         user_docs = Document.objects.filter(user=self)
