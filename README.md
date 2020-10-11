@@ -48,12 +48,14 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 * Documents of pdf, jpg, png, tiff formats are supported
 * Per page OCR of the documents
 * Full Text Search of the scanned documents
-* Files and Folders - users can organize documents in folders
+* Tags - assign colored tags to documents or folders ([screencast demo](https://www.youtube.com/watch?v=bshUowL57t8))
+* Documents and Folders - users can organize documents in folders
 * Multi-User
 * User permissions management
 * Document permissions management
 * REST API ([screencast demo](https://vimeo.com/391436134))
 * Page Management - delete, reorder, cut & paste pages ([screencast demo](https://www.youtube.com/watch?v=CRhUpPqCI64))
+* Basic automation ([screencast demo](https://www.youtube.com/watch?v=5adbHHmNcEw))
 
 ## Live Demo
 
@@ -132,8 +134,8 @@ From my own reasearch I found another two very similar projects - [Paperless](ht
 |Advanced Permissions Management | Yes | Yes | No |
 |Documents Versioning| No | Yes | No | 
 |Digital Signatures | No | Yes | No |
-|Workflows| No | Yes | No |
-|Tags     | Not yet [Will add in 1.5](https://github.com/ciur/papermerge/issues/21) | Yes | Yes |
+|Workflows| Partial (Automation) | Yes | No |
+|Tags     | Yes | Yes | Yes |
 |REST API | Yes | Yes | Yes |
 |License  | Apache-2.0 | Apache 2.0 | GPLv3 |
 |Status| Active Development | Active Development | Maintenance / No Development| 
