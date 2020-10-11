@@ -10,18 +10,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='page',
-            name='text_deu',
-        ),
-        migrations.RemoveField(
-            model_name='page',
-            name='text_eng',
-        ),
-        migrations.RemoveField(
-            model_name='page',
-            name='text_fts',
-        ),
+        #migrations.RemoveField(
+        #    model_name='page',
+        #    name='text_deu',
+        #),
+        #migrations.RemoveField(
+        #    model_name='page',
+        #    name='text_eng',
+        #),
+        #migrations.RemoveField(
+        #    model_name='page',
+        #    name='text_fts',
+        #),
         migrations.AddField(
             model_name='page',
             name='norm_breadcrump',
