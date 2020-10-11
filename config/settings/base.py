@@ -257,7 +257,9 @@ DATABASES = {
     }
 }
 
-if cfg_papermerge.get("DBTYPE", False) == "postgresql":
+if cfg_papermerge.get("DBTYPE", False) in (
+    "pg", "postgre", "postgres", "postgresql"
+):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
@@ -266,7 +268,9 @@ if cfg_papermerge.get("DBTYPE", False) == "postgresql":
     DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
     DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
     DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 5432)
-elif cfg_papermerge.get("DBTYPE", False) in ("mysql", "mariadb"):
+elif cfg_papermerge.get("DBTYPE", False) in (
+    "my", "mysql", "maria", "mariadb"
+):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": cfg_papermerge.get("DBNAME", "papermerge"),

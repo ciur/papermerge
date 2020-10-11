@@ -210,7 +210,7 @@ Database
 ###########
 
 By default, Papermerge uses SQLite3 database (which is a file located in :ref:`db_dir`). Alternatively
-you can use a PostgreSQL or MySQL database. Following are options for PostgreSQL and MySQL database connections.
+you can use a PostgreSQL or MySQL/MariaDB database. Following are options for PostgreSQL and MySQL/MariaDB database connections.
 
  .. _dbtype:
 
@@ -219,7 +219,20 @@ you can use a PostgreSQL or MySQL database. Following are options for PostgreSQL
 
 context: ``main app``
 
-DB type (if different from SQLITE3). Can be either "postgresql" for PostgreSQL or "mysql" for MySQL/MariaDB.
+DB type (if different from SQLite3).
+For PostgreSQL database use one of following values:
+
+* pg
+* postgre
+* postgres
+* postgresql
+
+For MySQL/MariaDB database (they share same database backend) use one of following values:
+
+* my
+* mysql
+* maria
+* mariadb
 
   Example:
 
@@ -271,7 +284,7 @@ Database port. Port must be specified as integer number. No string quotes.
 
     DBPORT = 5432
 
-Default value is 5432 for PostgreSQL and 3306 for MySQL.
+Default value is 5432 for PostgreSQL and 3306 for MySQL/MariaDB.
 
 .. _dbpass:
 
