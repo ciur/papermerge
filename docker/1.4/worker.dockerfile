@@ -21,6 +21,8 @@ RUN apt-get update \
                     tesseract-ocr-deu \
                     tesseract-ocr-eng \
                     tesseract-ocr-fra \
+                    tesseract-ocr-rus \
+                    tesseract-ocr-ron \
                     tesseract-ocr-spa \
  && rm -rf /var/lib/apt/lists/* \
  && pip3 install --upgrade pip
@@ -38,7 +40,7 @@ RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 
-RUN git clone https://github.com/ciur/papermerge --branch v1.4.5 -q --depth 1 /opt/app
+RUN git clone https://github.com/ciur/papermerge --branch v1.5.0.rc1 -q --depth 1 /opt/app
 
 RUN mkdir -p /opt/media
 
@@ -65,6 +67,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
 RUN pip3 install -r requirements/base.txt --no-cache-dir
-RUN pip3 install -r requirements/extra.txt --no-cache-dir
+RUN pip3 install -r requirements/extra/pg.txt --no-cache-dir
 
 CMD ["/opt/app/startup.sh"]
