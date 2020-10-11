@@ -3,10 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.0] - (Work in Progress)
+## [1.5.0.rc1] - 11 October 2020
 
 ### Added
 
+- Additional languages included in default configuration of official docker image.
 - MySQL Support. Fixes #76.
 - Fixes #150 (Directory Navigation)
 - Download multiple documents and folders. Fixes #84.
