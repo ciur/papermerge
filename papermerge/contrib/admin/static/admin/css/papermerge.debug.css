@@ -8537,12 +8537,6 @@ fieldset.module.vertical .form-row div {
   left: 100%;
   width: 13rem; }
 
-@media (max-width: 992px) {
-  .dropdown-menu {
-    width: 50%; }
-  .dropdown-menu .dropdown-submenu {
-    width: auto; } }
-
 .gray_1 {
   background-color: #ffffff; }
 
