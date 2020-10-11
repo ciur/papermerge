@@ -3,7 +3,6 @@
 from django.conf import settings
 import django.contrib.auth.models
 import django.contrib.auth.validators
-import django.contrib.postgres.search
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
@@ -56,10 +55,6 @@ class Migration(migrations.Migration):
                 ('lang', models.CharField(default='deu', max_length=8, verbose_name='Language')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('ancestors_deu', django.contrib.postgres.search.SearchVectorField(null=True)),
-                ('ancestors_eng', django.contrib.postgres.search.SearchVectorField(null=True)),
-                ('title_deu', django.contrib.postgres.search.SearchVectorField(null=True)),
-                ('title_eng', django.contrib.postgres.search.SearchVectorField(null=True)),
                 ('lft', models.PositiveIntegerField(editable=False)),
                 ('rght', models.PositiveIntegerField(editable=False)),
                 ('tree_id', models.PositiveIntegerField(db_index=True, editable=False)),
@@ -88,8 +83,6 @@ class Migration(migrations.Migration):
                 ('page_count', models.IntegerField(default=1)),
                 ('text', models.TextField()),
                 ('celery_task_id', models.UUIDField(blank=True, default=None, null=True)),
-                ('text_deu', django.contrib.postgres.search.SearchVectorField(null=True)),
-                ('text_eng', django.contrib.postgres.search.SearchVectorField(null=True)),
             ],
             options={
                 'verbose_name': 'Document',
@@ -131,8 +124,6 @@ class Migration(migrations.Migration):
                 ('page_count', models.IntegerField(default=1)),
                 ('text', models.TextField(default='')),
                 ('lang', models.CharField(default='deu', max_length=8)),
-                ('text_deu', django.contrib.postgres.search.SearchVectorField(null=True)),
-                ('text_eng', django.contrib.postgres.search.SearchVectorField(null=True)),
                 ('image', models.CharField(default='', max_length=1024)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Document')),

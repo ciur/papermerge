@@ -1,7 +1,6 @@
 import logging
 import os
 
-from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -82,12 +81,6 @@ class Document(BaseTreeNode):
     # file is the next version of the document.
 
     text = models.TextField()
-
-    # Obsolete column, replaced by text_fts column.
-    text_deu = SearchVectorField(null=True)
-    text_eng = SearchVectorField(null=True)
-
-    text_fts = SearchVectorField(null=True)
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 

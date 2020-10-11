@@ -1,4 +1,3 @@
-from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
@@ -53,17 +52,6 @@ class BaseTreeNode(PolymorphicMPTTModel):
     )
 
     tags = TaggableManager(through=ColoredTag)
-
-    # Obsolete columns. Replaced by ancestors_fts
-    ancestors_deu = SearchVectorField(null=True)
-    ancestors_eng = SearchVectorField(null=True)
-    # Obsolete columns. Replaced by title_fts
-    title_deu = SearchVectorField(null=True)
-    title_eng = SearchVectorField(null=True)
-
-    # this column is updated by update_fts command
-    ancestors_fts = SearchVectorField(null=True)
-    title_fts = SearchVectorField(null=True)
 
     def is_folder(self):
         folder_ct = ContentType.objects.get(
