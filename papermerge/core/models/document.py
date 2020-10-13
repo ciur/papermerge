@@ -644,6 +644,7 @@ class Document(BaseTreeNode):
         """
         check if user already uploaded this file
         """
-        same_documents = Document.objects.filter(digest=self.digest)
-        if same_documents.filter(user=self.user).exists():
-            raise ValidationError("{} already has this document".format(self.user))
+        if self.digest:
+            same_documents = Document.objects.filter(digest=self.digest)
+            if same_documents.filter(user=self.user).exists():
+                raise ValidationError("{} already has this document".format(self.user))

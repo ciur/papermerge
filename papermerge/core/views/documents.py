@@ -383,7 +383,7 @@ def upload(request):
         return msg, status
 
     logger.debug("creating document {}".format(f.name))
-
+    
     doc = Document.create_document(
         user=user,
         title=f.name,
