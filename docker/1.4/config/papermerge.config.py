@@ -13,5 +13,9 @@ OCR_DEFAULT_LANGUAGE = "deu"
 
 OCR_LANGUAGES = {
     "deu": "Deutsch",
-    "spa": "Spanish",
+    "spa": "Español",
+    "eng": "English",
+    "fra": "Français",
+    "rus": "Русский",
+    "ron": "Română"
 }

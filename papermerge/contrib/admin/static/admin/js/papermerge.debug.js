@@ -21183,7 +21183,7 @@ __p+='\n     <div class="tag d-flex align-items-center" \n     style="color: '+
 ((__t=( model.get('name') ))==null?'':__t)+
 '">\n        </i>\n     </div>\n ';
  } 
-__p+='\n<input id="tag-input" name="tag-input" list="all_tags" class="tag-input" />\n<datalist id="all_tags">\n';
+__p+='\n<input id="tag-input" name="tag-input" list="all_tags4" class="tag-input" />\n<datalist id="all_tags4">\n';
  for (let i=0; i < all_tags.models.length; i++) { 
 __p+='\n    ';
  model = all_tags.models[i] 
@@ -25504,7 +25504,10 @@ class AdvancedSearchTagsView extends TagsView {
     * Backbone collection of tags
     */
     this.tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([]);
-    this.render();
+    this.all_tags = new _models_tags__WEBPACK_IMPORTED_MODULE_2__["AllTags"]();
+    this.all_tags.url = '/alltags/';
+    this.listenTo(this.all_tags, 'add', this.render);
+    this.all_tags.fetch();
   }
 
   render() {
@@ -25512,7 +25515,7 @@ class AdvancedSearchTagsView extends TagsView {
     context = {};
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(AV_TEMPLATE({
       'tags': this.tags,
-      'all_tags': new _models_tags__WEBPACK_IMPORTED_MODULE_2__["Tags"]([])
+      'all_tags': this.all_tags
     }));
     this.$el.html(compiled);
   }
