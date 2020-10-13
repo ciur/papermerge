@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
                 ('file_name', models.CharField(default='', max_length=1024)),
                 ('notes', models.TextField(blank=True, null=True, verbose_name='Notes')),
                 ('size', models.BigIntegerField(help_text='Size of file_orig attached. Size is in Bytes')),
-                ('digest', models.CharField(blank=True, help_text='Digest of file_orig attached. Size is in Bytes.It is used to figure out if file was already processed.', max_length=512, null=True, unique=True)),
+                ('digest', models.CharField(blank=True, help_text='Digest of file_orig attached. Size is in Bytes.It is used to figure out if file was already processed.', max_length=70, null=True)),
                 ('page_count', models.IntegerField(default=1)),
                 ('text', models.TextField()),
                 ('celery_task_id', models.UUIDField(blank=True, default=None, null=True)),

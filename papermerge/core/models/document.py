@@ -4,6 +4,7 @@ import os
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from mglib import step
 from mglib.path import DocumentPath, PagePath
@@ -52,8 +53,7 @@ class Document(BaseTreeNode):
     )
 
     digest = models.CharField(
-        max_length=512,
-        unique=True,
+        max_length=70,
         help_text="Digest of file_orig attached. Size is in Bytes."
         "It is used to figure out if file was already processed.",
         blank=True,
@@ -481,6 +481,7 @@ class Document(BaseTreeNode):
         file_name,
         notes=None,
         parent_id=None,
+        digest=None,
         rebuild_tree=True  # obsolete
     ):
         """
@@ -495,6 +496,7 @@ class Document(BaseTreeNode):
                 parent = BaseTreeNode.objects.get(id=parent_id)
             except BaseTreeNode.DoesNotExist:
                 parent = None
+        
         doc = Document(
             title=title,
             size=size,
@@ -504,8 +506,10 @@ class Document(BaseTreeNode):
             notes=notes,
             file_name=file_name,
             page_count=page_count,
+            digest=digest
         )
-
+        
+        doc.validate_unique()
         doc.save()
         # Important! - first document must inherit metakeys from
         # parent folder
@@ -636,3 +640,10 @@ class Document(BaseTreeNode):
                 tag,
                 tag_kwargs={'user': self.user}
             )
+    def validate_unique(self, exclude=None):
+        """
+        check if user already uploaded this file
+        """
+        same_documents = Document.objects.filter(digest=self.digest)
+        if same_documents.filter(user=self.user).exists():
+            raise ValidationError("{} already has this document".format(self.user))
