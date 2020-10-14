@@ -120,7 +120,6 @@ There are couple options:
 * [From docker container](https://papermerge.readthedocs.io/en/latest/setup/docker.html)
 * [Using systemd](https://papermerge.readthedocs.io/en/latest/setup/systemd.html)
 * [Manual way - detailed step by step instructions](https://papermerge.readthedocs.io/en/latest/setup/manual_way.html)
-* Deploy it with ansible... coming soon!
 
 ### Comparison With Other DMS
 
