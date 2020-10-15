@@ -1,6 +1,43 @@
 Changelog
 ==========
 
+[1.5.0] - 14 October 2020
+##############################
+
+Added
+~~~~~~
+
+- Additional languages included in default configuration of official docker image.
+- MySQL Support. Fixes #76.
+- Fixes #150 (Directory Navigation)
+- Download multiple documents and folders. Fixes #84.
+- Auto-refresh on upload fixes #126
+- add "--include-user-password" switch to backup scripts
+- include tags into backups    
+- Tag management (colored tags)
+- Pinnable tags
+- Better selection. Selection All/Folders/Documents/Invert Selection/Deselect menu.
+- Extra check (./manage.py check) for IMAP credentials. In case IMAP settings are not correct, ./manage.py check will issue a warning message. Also imap import will complain if IMAP credentials are incorrect. Extra detailed debugging messages for IMAP import.
+- Tags per Automate (matching docs will be assigned automate's tags)
+
+Changed
+~~~~~~~~~
+
+- Upgrade to django 3.0.10
+- Dynamic preferences upgraded to latest 1.10.1 version
+- Fixes issue #120 REST API fails when uploading a document
+- Issue #114 Worker container use environment variables for DB
+- For backup/restore scripts --user argument is optional. Without --user argument backup command will backup all users' documents.
+- Fixes issue #118 - Email Import does not reach INBOX.
+
+Removed
+~~~~~~~~~~
+
+- Metadata plugins as Python modules. In future will be replaced with yml templates.
+
+
+
+
 [1.4.4] - 28 September 2020
 ############################
 
