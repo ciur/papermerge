@@ -483,7 +483,7 @@ class Document(BaseTreeNode):
         # 2. Build new pages for newly created document
         dst_doc_is_new = False
         if not dst_document:
-            dst_document = Document.create_document(
+            dst_document = Document.objects.create_document(
                 user=user,
                 parent_id=parent_id,
                 lang=user.preferences['ocr__OCR_Language'],
@@ -544,8 +544,6 @@ class Document(BaseTreeNode):
 
         return dst_document
         # TODO: update size of the new document (changed doc)
-
-
 
     @property
     def absfilepath(self):
