@@ -290,6 +290,7 @@ STATICFILES_FINDERS = [
 LANGUAGES = [
     ('de', 'Deutsch'),
     ('en', 'English'),
+    ('fr', 'Français'),
 ]
 TIME_ZONE = 'UTC'
 USE_I18N = True
