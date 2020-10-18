@@ -384,7 +384,7 @@ def upload(request):
 
     logger.debug("creating document {}".format(f.name))
 
-    doc = Document.create_document(
+    doc = Document.objects.create_document(
         user=user,
         title=f.name,
         size=size,

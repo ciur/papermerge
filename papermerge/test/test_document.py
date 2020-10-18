@@ -3,7 +3,7 @@ from pathlib import Path
 
 from django.test import TestCase
 from papermerge.core.document_importer import DocumentImporter
-from papermerge.core.models import Document, Folder, Automate, Tag
+from papermerge.core.models import Document, Folder, Automate
 from papermerge.test.utils import create_root_user
 
 # points to papermerge.testing folder
@@ -36,7 +36,7 @@ class TestDocument(TestCase):
         )
         folder_b.save()
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -45,7 +45,6 @@ class TestDocument(TestCase):
             parent_id=folder_b.id,
             page_count=5,
         )
-        doc.save()
         ancestors = [
             [node.title, node.id]
             for node in doc.get_ancestors(include_self=True)
@@ -74,7 +73,7 @@ class TestDocument(TestCase):
             title="F"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="andromeda.pdf",
             user=self.user,
             lang="ENG",
@@ -148,7 +147,7 @@ class TestDocument(TestCase):
         """
         basic test for doc.update_text_field()
         """
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -157,7 +156,6 @@ class TestDocument(TestCase):
             parent_id=None,
             page_count=5,
         )
-        doc.save()
         doc.update_text_field()
 
     def test_delete_pages(self):
@@ -230,7 +228,7 @@ class TestDocument(TestCase):
                 }
             ]
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -272,7 +270,7 @@ class TestDocument(TestCase):
         f2.kv.update(
             [{'key': 'shop'}, {'key': 'total'}]
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -313,7 +311,7 @@ class TestDocument(TestCase):
         )
 
     def test_assign_tags_from_automate_instance(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -321,7 +319,6 @@ class TestDocument(TestCase):
             user=self.user,
             page_count=5,
         )
-        doc.save()
 
         dst_folder = Folder.objects.create(
             title="destination Folder",

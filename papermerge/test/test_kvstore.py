@@ -143,7 +143,7 @@ class TestKVPropagation(TestCase):
             title="folder_A",
             user=self.user
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document.pdf",
             file_name="document.pdf",
             size='1989',
@@ -310,7 +310,7 @@ class TestKVPropagation(TestCase):
             title="X",
             user=self.user
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document.pdf",
             file_name="document.pdf",
             size='1989',

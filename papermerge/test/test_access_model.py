@@ -716,7 +716,7 @@ class TestAccessModel(TestCase):
             title="for_margaret",
             user=self.root_user
         )
-        doc_1 = Document.create_document(
+        doc_1 = Document.objects.create_document(
             title="doc_1",
             file_name="doc_1.pdf",
             size='36',
@@ -725,7 +725,7 @@ class TestAccessModel(TestCase):
             page_count=4,
             parent_id=for_margaret.id
         )
-        doc_2 = Document.create_document(
+        doc_2 = Document.objects.create_document(
             title="doc_2",
             file_name="doc_2.pdf",
             size='36',
@@ -734,7 +734,7 @@ class TestAccessModel(TestCase):
             page_count=4,
             parent_id=for_margaret.id
         )
-        doc_3 = Document.create_document(
+        doc_3 = Document.objects.create_document(
             title="doc_3",
             file_name="doc_3.pdf",
             size='36',

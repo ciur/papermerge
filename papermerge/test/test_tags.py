@@ -18,7 +18,7 @@ class TestDocument(TestCase):
         self.user = create_root_user()
 
     def test_basic_document_tagging(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -81,7 +81,7 @@ class TestDocument(TestCase):
                 "pinned": False
             }
         ]
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',

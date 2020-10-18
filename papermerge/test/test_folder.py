@@ -173,7 +173,7 @@ class TestFolder(TestCase):
             user=self.user
         )
         sub.save()
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_in_sub",
             file_name="document_sub.pdf",
             size='1212',

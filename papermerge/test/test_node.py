@@ -30,7 +30,7 @@ class TestNode(TestCase):
         )
 
     def test_node_is_document(self):
-        node = Document.create_document(
+        node = Document.objects.create_document(
             title="document_node",
             file_name="document_node.pdf",
             size='1212',
@@ -90,7 +90,7 @@ class TestRecursiveDelete(TestCase):
             user=self.user,
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document.pdf",
             file_name="document.pdf",
             size='1212',
@@ -205,7 +205,7 @@ class TestRecursiveDelete(TestCase):
             parent_id=folder_A.id
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document.pdf",
             file_name="document.pdf",
             size='1212',
@@ -222,7 +222,7 @@ class TestRecursiveDelete(TestCase):
             parent_id=subfolder.id
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document.pdf",
             file_name="document.pdf",
             size='1212',

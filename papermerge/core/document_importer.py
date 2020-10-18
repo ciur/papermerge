@@ -74,7 +74,7 @@ class DocumentImporter:
             parent=None,
             user=self.user
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.user,
             title=file_title,
             size=os.path.getsize(self.filepath),
@@ -82,7 +82,6 @@ class DocumentImporter:
             file_name=file_title,
             parent_id=inbox.id,
             page_count=page_count,
-            rebuild_tree=False
         )
         logger.debug(
             f"Uploading file {self.filepath} to {doc.path.url()}"

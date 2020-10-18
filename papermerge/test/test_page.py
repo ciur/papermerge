@@ -39,7 +39,7 @@ class TestPage(TestCase):
         Whatever document model has in doc.lang field
         will be inherited by the related page models.
         """
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="kyuss.pdf",
             user=self.user,
             lang="ENG",
@@ -110,7 +110,7 @@ class TestPage(TestCase):
         )
 
     def test_normalize_doc_title(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="kyuss.pdf",
             user=self.user,
             lang="ENG",
@@ -185,7 +185,7 @@ class TestPage(TestCase):
                 }
             ]
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="kyuss.pdf",
             user=self.user,
             lang="ENG",
@@ -550,7 +550,7 @@ class TestPage(TestCase):
         document_path = os.path.join(
             BASE_DIR, "data", "berlin.pdf"
         )
-        docm = Document.create_document(
+        docm = Document.objects.create_document(
             user=self.user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),

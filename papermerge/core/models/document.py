@@ -8,6 +8,8 @@ from django.apps import apps
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
+from polymorphic_tree.managers import PolymorphicMPTTModelManager
+
 from mglib import step
 from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
@@ -24,13 +26,27 @@ from papermerge.search import index
 logger = logging.getLogger(__name__)
 
 
-class DocumentManager(models.Manager):
+class DocumentManager(PolymorphicMPTTModelManager):
 
     @transaction.atomic
-    def create_document(self, **kwargs):
+    def create_document(
+        self,
+        user,
+        title,
+        lang,
+        size,
+        page_count,
+        file_name,
+        notes=None,
+        parent_id=None,
+        **kwargs
+    ):
         """
         Creates a document
         """
+
+        parent = self._get_parent(parent_id=parent_id)
+
         # 1. figure out document parts
         # document_parts = [
         #    app1.Document,
@@ -45,8 +61,23 @@ class DocumentManager(models.Manager):
         #    app3.Document: {}
         # }
         grouped_args = _group_per_model(doc_parts, **kwargs)
-        doc = Document(**grouped_args[Document])
+
+        doc = Document(
+            title=title,
+            size=size,
+            lang=lang,
+            user=user,
+            parent=parent,
+            notes=notes,
+            file_name=file_name,
+            page_count=page_count
+        )
         doc.save()
+        # Important! - first document must inherit metakeys from
+        # parent folder
+        if parent:
+            doc.inherit_kv_from(parent)
+
         doc.create_pages()
         doc.full_clean()
 
@@ -60,18 +91,28 @@ class DocumentManager(models.Manager):
 
         return doc
 
+    def _get_parent(self, parent_id):
+        """
+        Returns parent node instance based on parent_id
+        """
+        parent = None
+
+        if parent_id is None or parent_id == '':
+            parent = None
+        else:
+            try:
+                parent = BaseTreeNode.objects.get(id=parent_id)
+            except BaseTreeNode.DoesNotExist:
+                parent = None
+
+        return parent
+
 
 class Document(BaseTreeNode):
 
     class CannotUpload(Exception):
         pass
 
-    #: reference to original file, usually a pdf document with
-    #: no post-processing performed on this file.
-    file_orig = models.FileField(
-        max_length=512,
-        help_text="Reference to originaly imported file"
-    )
     #: basename + ext of uploaded file.
     #: other path details are deducted from user_id and document_id
     file_name = models.CharField(
@@ -111,7 +152,9 @@ class Document(BaseTreeNode):
     # A: pdftk on every operation creates a new file... well, that new
     # file is the next version of the document.
 
-    text = models.TextField()
+    text = models.TextField(blank=True)
+
+    objects = DocumentManager()
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 
@@ -502,53 +545,7 @@ class Document(BaseTreeNode):
         return dst_document
         # TODO: update size of the new document (changed doc)
 
-    @staticmethod
-    def create_document(
-        user,
-        title,
-        lang,
-        size,
-        page_count,
-        file_name,
-        notes=None,
-        parent_id=None,
-        rebuild_tree=True  # obsolete
-    ):
-        """
-        Arguments:
-            tmp_uploaded_file = an instance of
-                django.core.files.uploadedfile.TemporaryUploadedFile
-        """
-        if parent_id is None or parent_id == '':
-            parent = None
-        else:
-            try:
-                parent = BaseTreeNode.objects.get(id=parent_id)
-            except BaseTreeNode.DoesNotExist:
-                parent = None
-        doc = Document(
-            title=title,
-            size=size,
-            lang=lang,
-            user=user,
-            parent=parent,
-            notes=notes,
-            file_name=file_name,
-            page_count=page_count,
-        )
 
-        doc.save()
-        # Important! - first document must inherit metakeys from
-        # parent folder
-        if parent:
-            doc.inherit_kv_from(parent)
-
-        # and only afterwards create pages must be called.
-        # create_pages will trigger metadata keys from document
-        # to the created pages.
-        doc.create_pages()
-
-        return doc
 
     @property
     def absfilepath(self):

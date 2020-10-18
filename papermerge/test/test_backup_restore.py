@@ -29,7 +29,7 @@ class TestBackupRestore(TestCase):
         document_path = os.path.join(
             BASE_DIR, "data", "berlin.pdf"
         )
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -102,7 +102,7 @@ class TestBackupRestore(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc_1 = Document.create_document(
+        doc_1 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -117,7 +117,7 @@ class TestBackupRestore(TestCase):
             dst=doc_1.path.url(),
         )
 
-        doc_2 = Document.create_document(
+        doc_2 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -258,7 +258,7 @@ class TestBuildTarArchive(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc_in_root_1 = Document.create_document(
+        doc_in_root_1 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_root_1.pdf',
             size=os.path.getsize(document_path),
@@ -271,7 +271,7 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_root_1.path.url(),
         )
 
-        doc_in_root_2 = Document.create_document(
+        doc_in_root_2 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_root_2.pdf',
             size=os.path.getsize(document_path),
@@ -284,7 +284,7 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_root_2.path.url(),
         )
 
-        doc_in_ex_1 = Document.create_document(
+        doc_in_ex_1 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_ex_1.pdf',
             size=os.path.getsize(document_path),
@@ -298,7 +298,7 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_ex_1.path.url(),
         )
 
-        doc_in_ex_2 = Document.create_document(
+        doc_in_ex_2 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_ex_2.pdf',
             size=os.path.getsize(document_path),
@@ -354,7 +354,6 @@ class TestBuildTarArchive(TestCase):
                     'Accounting/Expenses/Paris.pdf'
                 )
 
-
     def test_basic_two_folders(self):
         """
         Creates following hierarchy:
@@ -381,7 +380,7 @@ class TestBuildTarArchive(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc_in_root_1 = Document.create_document(
+        doc_in_root_1 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_root_1.pdf',
             size=os.path.getsize(document_path),
@@ -394,7 +393,7 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_root_1.path.url(),
         )
 
-        doc_in_root_2 = Document.create_document(
+        doc_in_root_2 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_root_2.pdf',
             size=os.path.getsize(document_path),
@@ -407,7 +406,7 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_root_2.path.url(),
         )
 
-        doc_in_f_1 = Document.create_document(
+        doc_in_f_1 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_f_1.pdf',
             size=os.path.getsize(document_path),
@@ -421,7 +420,7 @@ class TestBuildTarArchive(TestCase):
             dst=doc_in_f_1.path.url(),
         )
 
-        doc_in_f_2 = Document.create_document(
+        doc_in_f_2 = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin_f_2.pdf',
             size=os.path.getsize(document_path),
@@ -469,7 +468,6 @@ class TestBuildTarArchive(TestCase):
             )
             data = berlin_f_1_handle.read()
             self.assertTrue(len(data) > 0)
-
 
             berlin_f_2_handle = archive_file.extractfile(
                 'Folder_2/berlin_f_2.pdf'
