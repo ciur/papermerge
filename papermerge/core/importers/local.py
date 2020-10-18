@@ -13,6 +13,10 @@ logger = logging.getLogger(__name__)
 
 def import_documents(directory):
     files = []
+
+    if not directory:
+        raise ValueError("Import directory value is None")
+
     for entry in os.scandir(directory):
         if entry.is_file():
             file = (entry.path, entry.stat().st_mtime)
