@@ -91,15 +91,6 @@ class Document(BaseTreeNode):
         null=False,
     )
 
-    digest = models.CharField(
-        max_length=512,
-        unique=True,
-        help_text="Digest of file_orig attached. Size is in Bytes."
-        "It is used to figure out if file was already processed.",
-        blank=True,
-        null=True
-    )
-
     page_count = models.IntegerField(
         blank=False,
         default=1
