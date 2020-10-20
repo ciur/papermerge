@@ -3,6 +3,7 @@ import json
 import logging
 
 from django.utils.translation import gettext as _
+from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -384,16 +385,21 @@ def upload(request):
 
     logger.debug("creating document {}".format(f.name))
 
-    doc = Document.objects.create_document(
-        user=user,
-        title=f.name,
-        size=size,
-        lang=lang,
-        file_name=f.name,
-        parent_id=parent_id,
-        notes=notes,
-        page_count=page_count
-    )
+    try:
+        doc = Document.objects.create_document(
+            user=user,
+            title=f.name,
+            size=size,
+            lang=lang,
+            file_name=f.name,
+            parent_id=parent_id,
+            notes=notes,
+            page_count=page_count
+        )
+    except ValidationError as e:
+        status = 400
+        return ','.join(e.messages), status
+
     logger.debug(
         "uploading to {}".format(doc.path.url())
     )
