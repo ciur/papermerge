@@ -691,6 +691,13 @@ class AbstractDocument(models.Model):
     def get_document_fields(self):
         return self.base_ptr.get_document_fields()
 
+    def get_absfilepath(self):
+        """
+        Returns absolute file path of the latest version
+        of the associated file.
+        """
+        return self.base_ptr.absfilepath
+
 
 def _descents_from_abstract_document(klass):
     return AbstractDocument in inspect.getmro(klass)
