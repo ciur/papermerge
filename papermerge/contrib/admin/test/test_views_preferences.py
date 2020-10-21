@@ -38,5 +38,5 @@ class TestPreferencesView(TestCase):
         )
         self.assertEquals(
             ret.status_code,
-            HttpResponseRedirect.status_code
+            200
         )
