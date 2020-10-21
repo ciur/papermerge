@@ -9,7 +9,7 @@
 {% block content %}
     <div class="col-lg-12 col-md-12">
       <div class="text-left">
-          <h3>{% trans "Preferences" %}</h3>
+          <h3>{% trans "Preferences" %} - {{ section }}</h3>
       </div>
     </div>
     <div class="col-lg-12 col-md-12">
@@ -28,7 +28,7 @@
               </ul>
             {% endif %}
             <!-- form error messages -->
-            <form class="change_password" method="POST" action="{% url 'core:preferences' %}">
+            <form class="change_password" method="POST" action="{% url 'admin:preferences_section' section %}">
               {% csrf_token %}
               {% for field in form %}
                 <div class="form-group">
