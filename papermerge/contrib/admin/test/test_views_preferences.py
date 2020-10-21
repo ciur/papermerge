@@ -6,7 +6,7 @@ from django.http.response import (
 )
 
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
 )
 
@@ -21,7 +21,7 @@ class TestPreferencesView(TestCase):
 
     def test_preferences_get(self):
         ret = self.client.get(
-            reverse('core:preferences'),
+            reverse('admin:preferences'),
         )
         self.assertEquals(
             ret.status_code,
@@ -30,7 +30,7 @@ class TestPreferencesView(TestCase):
 
     def test_preferences_post(self):
         ret = self.client.post(
-            reverse('core:preferences'),
+            reverse('admin:preferences'),
             {
                 'views__documents_view': 'list',
                 'ocr__OCR_Language': 'eng'
