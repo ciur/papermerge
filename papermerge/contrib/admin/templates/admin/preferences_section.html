@@ -9,7 +9,7 @@
 {% block content %}
     <div class="col-lg-12 col-md-12">
       <div class="text-left">
-          <h3>{% trans "Preferences" %} - {{ section }}</h3>
+          <h3><a href="{% url 'admin:preferences' %}">{% trans "Preferences" %}</a> - {{ section }}</h3>
       </div>
     </div>
     <div class="col-lg-12 col-md-12">
