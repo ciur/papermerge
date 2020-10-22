@@ -3,10 +3,27 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from dynamic_preferences.users.forms import user_preference_form_builder
-from dynamic_preferences.settings import preferences_settings
 
 
 logger = logging.getLogger(__name__)
+
+
+def uniq_sections(user):
+    """
+    Returns number of unique instances of Sections.
+
+    I.e. returns unique instances of
+        papermerge.core.preferences.Section
+    """
+    preferences = user.preferences
+    sections = []
+
+    for key in preferences:
+        section, name = preferences.parse_lookup(key)
+        pref = preferences.registry.get(section=section, name=name)
+        sections.append(pref.section)
+
+    return sections
 
 
 @login_required
@@ -36,14 +53,10 @@ def preferences_section_view(request, section):
 @login_required
 def preferences_view(request):
 
-    sections = [
-        val.split(preferences_settings.SECTION_KEY_SEPARATOR)[0]
-        for val in request.user.preferences.all()
-    ]
     return render(
         request,
         'admin/preferences.html',
         {
-            'sections': sections,
+            'sections': uniq_sections(request.user),
         }
     )

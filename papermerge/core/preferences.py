@@ -1,9 +1,26 @@
-from dynamic_preferences.preferences import Section
+from dynamic_preferences.preferences import Section as OrigSection
 from dynamic_preferences.registries import global_preferences_registry
 from dynamic_preferences.types import ChoicePreference, IntegerPreference
 from dynamic_preferences.users.registries import user_preferences_registry
 
 from .lib.lang import get_ocr_lang_choices, get_default_ocr_lang
+
+
+class Section(OrigSection):
+    def __init__(
+        self,
+        name,
+        verbose_name=None,
+        help_text=None,
+        icon_name=None
+    ):
+        super().__init__(
+            name=name,
+            verbose_name=verbose_name
+        )
+        self.help_text = help_text
+        self.icon_name = icon_name
+
 
 ocr = Section('ocr')
 system_settings = Section('system_settings')

@@ -10495,6 +10495,10 @@ body.sidebar-mini #pinned_tags_view {
   border-radius: 3px;
   margin-right: 0.2rem; }
 
+.preferences .card {
+  box-shadow: none;
+  border-top: 3px solid #d2d6de; }
+
 #pre-loader {
   position: absolute;
   z-index: 3000;
