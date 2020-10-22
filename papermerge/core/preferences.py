@@ -22,9 +22,19 @@ class Section(OrigSection):
         self.icon_name = icon_name
 
 
-ocr = Section('ocr')
+ocr = Section(
+    'ocr',
+    verbose_name="Opical Character Recognition",
+    icon_name="eye",
+    help_text='Choose default OCR Language'
+)
 system_settings = Section('system_settings')
-user_views = Section('views')
+user_views = Section(
+    'views',
+    verbose_name="Default views",
+    help_text="Default views settings",
+    icon_name="bars"
+)
 
 
 @global_preferences_registry.register
