@@ -10497,7 +10497,15 @@ body.sidebar-mini #pinned_tags_view {
 
 .preferences .card {
   box-shadow: none;
-  border-top: 3px solid #d2d6de; }
+  border-top: 3px solid #0dac00;
+  background-color: #f8f8f8; }
+  .preferences .card i {
+    display: block; }
+  .preferences .card a {
+    color: #0c1f0b;
+    font-size: 1.4rem; }
+  .preferences .card a:hover {
+    text-decoration: none; }
 
 #pre-loader {
   position: absolute;

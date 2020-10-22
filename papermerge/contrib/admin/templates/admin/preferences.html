@@ -17,14 +17,14 @@
         {% for section in sections %}
         <div class="col-md-4 col-lg-3 col-sm-6">
           <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">
-                    <a href="{% url 'admin:preferences_section' section.name %}">
-                        {{section}}
-                    </a>
-                    <i class="fa fa-{{section.icon_name}}"></i>
-                    <p>{{section.help_text}}</p>
-                </h4>
+              <div class="card-body text-center">
+                <h1>
+                  <a href="{% url 'admin:preferences_section' section.name %}">
+                  <i class="fa fa-{{section.icon_name}}"></i>
+                  {{section}}
+                </a>
+                </h1>
+              <p class="m-2">{{section.help_text}}</p>
               </div>
           </div>
         </div>
