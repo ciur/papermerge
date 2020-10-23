@@ -1,7 +1,7 @@
 mglib == 1.2.8
 mgclipboard >= 0.3.0
-django == 3.0.10
-celery==4.4.0
+django
+celery
 django-taggit
 imapclient
 djangorestframework  # DRF stores tokens clear text in DB
