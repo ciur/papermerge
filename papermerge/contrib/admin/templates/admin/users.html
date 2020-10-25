@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="text-left">
-        <h3 class="px-3">{% trans "Users" %}</h3>
+        <h4 class="p-3">{% trans "Users" %}</h4>
     </div>
     <form action="{% url 'core:users' %}" method="post">
       {% csrf_token %}
@@ -15,11 +15,13 @@
                 <a href="{% url 'core:user' %}" class="btn btn-success" role="button">{% trans "New User" %}</a>
             {% endif %}
             {% if can_delete_users %}
-              <select name="action" required="">
-                <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected users" %}</option>
-              </select>
-              {% if can_delete_users %}<button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>{% endif %}
+              <div class="col-6">
+                <select name="action" required="">
+                  <option value="" selected="">---------</option>
+                  {% if can_delete_users %}<option value="delete_selected">{% trans "Delete selected users" %}</option>{% endif %}
+                </select>
+                <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+              </div>
             {% endif %}
         </div>
         <div class="col-12">
@@ -29,43 +31,45 @@
             {% endfor %}
           </ul>
         </div>
-        <div class="col-12 p-3">
-            <table class="table table-striped">
-              <thead class="thead-dark">
-                <tr class="text-uppercase">
-                  <th>
-                      <div id="checkbox_view">
-                        <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Username" %}
-                      </div>
-                  </th>
-                  <th>{% trans "Email Address" %}</th>
-                  <th>{% trans "Superuser Status" %}</th>
-                  <th>{% trans "Staff Status" %}</th>
-                  <th>{% trans "Active Status" %}</th>
-                  <th>{% trans "Last Login" %}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for user in users %}
-                  <tr>
-                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ user.id }}" /></span><a href="{% url 'core:user_change' user.id %}">{{ user.username }}</a></td>
-                    <td>{{ user.email }}</td>
-                    <td>
-                      {% boolean_icon user.is_superuser %}
-                    </td>
-                    <td>
-                      {% boolean_icon user.is_staff %}
-                    </td>
-                    <td>
-                      {% boolean_icon user.is_active %}
-                    </td>
-                    <td>
-                      {{ user.last_login }}
-                    </td>
+        {% if has_perm_view_users %}
+          <div class="col-12 p-3">
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr class="text-uppercase">
+                    <th>
+                        <div id="checkbox_view">
+                          <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Username" %}
+                        </div>
+                    </th>
+                    <th>{% trans "Email Address" %}</th>
+                    <th>{% trans "Superuser Status" %}</th>
+                    <th>{% trans "Staff Status" %}</th>
+                    <th>{% trans "Active Status" %}</th>
+                    <th>{% trans "Last Login" %}</th>
                   </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-      </div>
+                </thead>
+                <tbody>
+                  {% for user in users %}
+                    <tr>
+                      <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ user.id }}" /></span><a href="{% url 'core:user_change' user.id %}">{{ user.username }}</a></td>
+                      <td>{{ user.email }}</td>
+                      <td>
+                        {% boolean_icon user.is_superuser %}
+                      </td>
+                      <td>
+                        {% boolean_icon user.is_staff %}
+                      </td>
+                      <td>
+                        {% boolean_icon user.is_active %}
+                      </td>
+                      <td>
+                        {{ user.last_login }}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      {% endif %}
     </form>
 {% endblock %}

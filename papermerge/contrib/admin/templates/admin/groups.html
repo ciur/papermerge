@@ -16,7 +16,7 @@
     <form action="{% url list_url %}" method="post">
       {% csrf_token %}
 
-        <div class="row px-3">
+        <div class="col-12 p-3">
           {% if can_change or can_delete %}
             <a href="{% url 'admin:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>
               <select name="action" required="">
