@@ -14,6 +14,12 @@ class AutomatesListView(AdminListView):
     model_label = 'core.Automate'
     template_name = 'admin/automates.html'
     list_url = 'admin:automates'
+    permissions = {
+        'can_add': lambda user: user.has_perm('admin.add_automate'),
+        'can_change': lambda user: user.has_perm('admin.change_automate'),
+        'can_delete': lambda user: user.has_perm('admin.delete_automate'),
+        'can_view': lambda user: user.has_perm('admin.view_automate'),
+    }
 
     def get_queryset(self, request):
         return self.model_class.objects.order_by('name')

@@ -37,47 +37,57 @@
           </p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="{% url 'admin:automates' %}" class="nav-link  {% activate_on 'automates, automate'  %}">
-          <i class="nav-icon fa fa-robot"></i>
-          <p>
-            {% trans "Automates" %}
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{% url 'admin:tags' %}" class="nav-link  {% activate_on 'tags, tag' %}">
-          <i class="nav-icon fa fa-tag"></i>
-          <p>
-            {% trans "Tags" %}
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log_change' %}">
-          <i class="nav-icon fa fa-lightbulb"></i>
-          <p>
-            {% trans "Logs" %}
-          </p>
-        </a>
-      </li>
+      {% if has_perm_view_automates %}
+        <li class="nav-item">
+          <a href="{% url 'admin:automates' %}" class="nav-link  {% activate_on 'automates, automate'  %}">
+            <i class="nav-icon fa fa-robot"></i>
+            <p>
+              {% trans "Automates" %}
+            </p>
+          </a>
+        </li>
+      {% endif %}
+      {% if has_perm_view_tags %}
+        <li class="nav-item">
+          <a href="{% url 'admin:tags' %}" class="nav-link  {% activate_on 'tags, tag' %}">
+            <i class="nav-icon fa fa-tag"></i>
+            <p>
+              {% trans "Tags" %}
+            </p>
+          </a>
+        </li>
+      {% endif %}
+      {% if has_perm_view_logs %}
+        <li class="nav-item">
+          <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log_change' %}">
+            <i class="nav-icon fa fa-lightbulb"></i>
+            <p>
+              {% trans "Logs" %}
+            </p>
+          </a>
+        </li>
+      {% endif %}
       {% if request.user.is_superuser %}
-        <li class="nav-item">
-          <a href="{% url 'admin:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
-            <i class="nav-icon fa fa-users"></i>
-            <p>
-              {% trans "Groups" %}
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'core:users' %}" class="nav-link {% activate_on 'users, user' %}">
-            <i class="nav-icon fa fa-user-friends"></i>
-            <p>
-              {% trans "Users" %}
-            </p>
-          </a>
-        </li>
+        {% if has_perm_view_groups %}
+          <li class="nav-item">
+            <a href="{% url 'admin:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
+              <i class="nav-icon fa fa-users"></i>
+              <p>
+                {% trans "Groups" %}
+              </p>
+            </a>
+          </li>
+        {% endif %}
+        {% if has_perm_view_users %}
+          <li class="nav-item">
+            <a href="{% url 'core:users' %}" class="nav-link {% activate_on 'users, user' %}">
+              <i class="nav-icon fa fa-user-friends"></i>
+              <p>
+                {% trans "Users" %}
+              </p>
+            </a>
+          </li>
+        {% endif %}
       {% endif %}
     </ul>
   </nav>

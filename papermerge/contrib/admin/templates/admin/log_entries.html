@@ -12,14 +12,16 @@
       {% csrf_token %}
 
         <div class="row px-3">
-          <div class="col-6">
+          {% if can_change or can_delete %}
+            <div class="col-6">
               <select name="action" required="">
                 <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected logs" %}</option>
+                {% if can_delete %}<option value="delete_selected">{% trans "Delete selected logs" %}</option>{% endif %}
               </select>
               <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
-          </div>
-          {% if pages|length > 1  %}
+            </div>
+          {% endif %}
+          {% if pages|length > 1 and can_view %}
             <nav class="col-6" aria-label="Page navigation example">
               <ul class="pagination justify-content-end">
                 {% if page.has_previous %}

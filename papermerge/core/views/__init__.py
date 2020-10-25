@@ -174,7 +174,11 @@ class AdminListView(CommonView):
                 'pages': pages,
                 'page_number': page_number,
                 'page': page_obj,
-                'list_url': self.list_url
+                'list_url': self.list_url,
+                'can_add': self.permissions['can_add'](request.user),
+                'can_change': self.permissions['can_change'](request.user),
+                'can_delete': self.permissions['can_delete'](request.user),
+                'can_view': self.permissions['can_view'](request.user),
             }
         )
 

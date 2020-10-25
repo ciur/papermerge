@@ -6,28 +6,31 @@
 
 {% block content %}
     <div class="text-left">
-        <h4 class="px-3">{% trans "Automates" %}</h4>
+        <h4 class="p-3">{% trans "Automates" %}</h4>
     </div>
     <form action="{% url list_url %}" method="post">
       {% csrf_token %}
-        <div class="col-12 p-3">
+
+        <div class="row px-3">
+          {% if can_change or can_delete %}
             <a href="{% url 'admin:automate' %}" class="btn btn-success" role="button">{% trans "New" %}</a>
               <select name="action" required="">
                 <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected automates" %}</option>
+                {% if can_delete %}<option value="delete_selected">{% trans "Delete selected automates" %}</option>{% endif %}
               </select>
             <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+          {% endif %}
         </div>
 
-        <div class="col-12 p-3">
-          {% if object_list|length > 0 %}
+        <div class="col-12">
+          {% if object_list|length > 0 and can_view %}
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">
                   <th>
-                      <div id="checkbox_view">
-                        <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Name" %}
-                      </div>
+                    <div id="checkbox_view">
+                      <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Name" %}
+                    </div>
                   </th>
                   <th>{% trans "Match" %}</th>
                   <th><i class="fa fa-folder text-warning mr-2"></i>{% trans "Destination Folder" %}</th>

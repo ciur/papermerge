@@ -53,12 +53,39 @@ def extras(request):
 def user_perms(request):
     if request.user.is_anonymous:
         return {
-            'has_perm_change_user': False
+            'has_perm_change_user': False,
+            'has_perm_view_users': False,
+            'has_perm_view_groups': False,
+            'has_perm_view_automates': False,
+            'has_perm_view_tags': False,
+            'has_perm_view_logs': False,
         }
 
     change_user = request.user.has_perm(
         'core.change_user',
     )
+
+    if request.user.is_superuser:
+        return {
+            'has_perm_change_user': change_user,
+            'has_perm_view_users': True,
+            'has_perm_view_groups': True,
+            'has_perm_view_automates': True,
+            'has_perm_view_tags': True,
+            'has_perm_view_logs': True,
+        }
+
+    view_users = request.user.has_perm('admin.view_user')
+    view_groups = request.user.has_perm('admin.view_group')
+    view_automates = request.user.has_perm('admin.view_automate')
+    view_tags = request.user.has_perm('admin.view_tag')
+    view_logs = request.user.has_perm('admin.view_log')
+
     return {
-        'has_perm_change_user': change_user
+        'has_perm_change_user': change_user,
+        'has_perm_view_users': view_users,
+        'has_perm_view_groups': view_groups,
+        'has_perm_view_automates': view_automates,
+        'has_perm_view_tags': view_tags,
+        'has_perm_view_logs': view_logs,
     }

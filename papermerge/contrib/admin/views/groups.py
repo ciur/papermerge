@@ -16,6 +16,12 @@ class GroupsListView(AdminListView):
     model_label = 'auth.Group'
     template_name = 'admin/groups.html'
     list_url = 'admin:groups'
+    permissions = {
+        'can_add': lambda user: user.has_perm('admin.add_group'),
+        'can_change': lambda user: user.has_perm('admin.change_group'),
+        'can_delete': lambda user: user.has_perm('admin.delete_group'),
+        'can_view': lambda user: user.has_perm('admin.view_group'),
+    }
 
     def get_queryset(self, request):
         return self.model_class.objects.order_by('name')

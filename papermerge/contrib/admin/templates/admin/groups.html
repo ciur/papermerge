@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="text-left">
-        <h4 class="px-3">{% trans "Groups" %}</h4>
+        <h4 class="p-3">{% trans "Groups" %}</h4>
         <p class="bg-light p-3">
           {% blocktrans %}
             A group - is a collection of users. A groups is a convinient model to group/associate a number of users together. For example only users belonging to accounting group might be allowed to access Accounting-2020 folder.
@@ -15,17 +15,20 @@
     </div>
     <form action="{% url list_url %}" method="post">
       {% csrf_token %}
-        <div class="col-12 p-3">
+
+        <div class="row px-3">
+          {% if can_change or can_delete %}
             <a href="{% url 'admin:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>
               <select name="action" required="">
                 <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected groups" %}</option>
+                {% if can_delete %}<option value="delete_selected">{% trans "Delete selected groups" %}</option>{% endif %}
               </select>
             <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+          {% endif %}
         </div>
 
-        <div class="col-12 p-3">
-          {% if object_list|length > 0 %}
+        <div class="col-12">
+          {% if object_list|length > 0 and can_view %}
             <table class="table table-striped">
               <thead class="thead-dark">
                 <tr class="text-uppercase">

@@ -14,6 +14,12 @@ class TagsListView(AdminListView):
     model_label = 'core.Tag'
     template_name = 'admin/tags.html'
     list_url = 'admin:tags'
+    permissions = {
+        'can_add': lambda user: user.has_perm('admin.add_tag'),
+        'can_change': lambda user: user.has_perm('admin.change_tag'),
+        'can_delete': lambda user: user.has_perm('admin.delete_tag'),
+        'can_view': lambda user: user.has_perm('admin.view_tag'),
+    }
 
     def get_queryset(self, request):
         return Tag.objects.filter(user=request.user)

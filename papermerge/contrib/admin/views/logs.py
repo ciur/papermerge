@@ -14,6 +14,12 @@ class LogsListView(AdminListView):
     model_label = 'admin.LogEntry'
     template_name = 'admin/log_entries.html'
     list_url = 'admin:logs'
+    permissions = {
+        'can_add': lambda user: user.has_perm('admin.add_logentry'),
+        'can_change': lambda user: user.has_perm('admin.change_logentry'),
+        'can_delete': lambda user: user.has_perm('admin.delete_logentry'),
+        'can_view': lambda user: user.has_perm('admin.view_logentry'),
+    }
 
     def get_queryset(self, request):
         if request.user.is_superuser:
