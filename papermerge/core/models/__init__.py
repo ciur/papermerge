@@ -129,6 +129,8 @@ class User(AbstractUser):
         assumed to have permission in general. If an object is provided, check
         permissions for that object.
         """
+        if self.is_superuser:
+            return True
         return _user_has_perm(self, perm, obj)
 
     def get_perms_dict(self, obj, perms):
