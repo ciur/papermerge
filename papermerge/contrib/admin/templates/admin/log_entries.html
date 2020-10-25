@@ -19,27 +19,29 @@
               </select>
               <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
           </div>
-          <nav class="col-6" aria-label="Page navigation example">
-            <ul class="pagination justify-content-end">
-              {% if page.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-              {% endif %}
-              {% for i in pages %}
-                <li class="page-item {% if i == page_number %} active {% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
-              {% endfor %}
-              {% if page.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              {% endif %}
-            </ul>
-          </nav>
+          {% if pages|length > 1  %}
+            <nav class="col-6" aria-label="Page navigation example">
+              <ul class="pagination justify-content-end">
+                {% if page.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+                {% for i in pages %}
+                  <li class="page-item {% if i == page_number %} active {% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+                {% endfor %}
+                {% if page.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+          {% endif %}
         </div>
 
         <div class="col-12">
