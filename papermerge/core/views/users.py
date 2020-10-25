@@ -22,6 +22,8 @@ def users_view(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
+    can_add_users = UserAuthenticationSource.can_change_data(request.user.authentication_source)
+
     if request.method == 'POST':
         selected_action = request.POST.getlist('_selected_action')
         go_action = request.POST['action']
@@ -38,6 +40,7 @@ def users_view(request):
         'admin/users.html',
         {
             'users': users,
+            'can_add_users': can_add_users,
         }
     )
 
