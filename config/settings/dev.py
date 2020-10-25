@@ -6,6 +6,8 @@ DEBUG = True
 #     ['django_extensions']
 # )
 
+AUTH_LDAP_MIRROR_GROUPS = True
+
 INTERNAL_IPS = ['127.0.0.1', ]
 
 # LOGGING = {

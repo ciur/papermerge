@@ -14,12 +14,13 @@
             {% if can_add_users %}
                 <a href="{% url 'core:user' %}" class="btn btn-success" role="button">{% trans "New User" %}</a>
             {% endif %}
-
+            {% if can_delete_users %}
               <select name="action" required="">
                 <option value="" selected="">---------</option>
                 <option value="delete_selected">{% trans "Delete selected users" %}</option>
               </select>
-            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+              {% if can_delete_users %}<button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>{% endif %}
+            {% endif %}
         </div>
         <div class="col-12">
           <ul class="list-unstyled">
@@ -47,7 +48,7 @@
               <tbody>
                 {% for user in users %}
                   <tr>
-                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ user.id }}" /></span><a href="{% url 'core:user_change' user.id %}">{{ user.username}}</a></td>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ user.id }}" /></span><a href="{% url 'core:user_change' user.id %}">{{ user.username }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>
                       {% boolean_icon user.is_superuser %}

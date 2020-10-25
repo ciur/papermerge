@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseForbidden
 
-from papermerge.core.models import User, UserAuthenticationSource
+from papermerge.core.models import User, AuthenticationSource
 from papermerge.contrib.admin.forms import (
     UserFormWithoutPassword,
     UserFormWithPassword
@@ -22,13 +22,14 @@ def users_view(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    can_add_users = UserAuthenticationSource.can_change_data(request.user.authentication_source)
+    can_add_users = AuthenticationSource.can_change_data(request.user.authentication_source) and request.user.has_perm('core.add_user')
+    can_delete_users = request.user.has_perm('core.delete_user')
 
     if request.method == 'POST':
         selected_action = request.POST.getlist('_selected_action')
         go_action = request.POST['action']
 
-        if go_action == 'delete_selected':
+        if go_action == 'delete_selected' and can_delete_users:
             User.objects.filter(
                 id__in=selected_action
             ).delete()
@@ -41,6 +42,7 @@ def users_view(request):
         {
             'users': users,
             'can_add_users': can_add_users,
+            'can_delete_users': can_delete_users,
         }
     )
 
@@ -100,7 +102,7 @@ def user_change_view(request, id):
 
     user = get_object_or_404(User, id=id)
     action_url = reverse('core:user_change', args=(id,))
-    user.can_change_data = UserAuthenticationSource.can_change_data(user.authentication_source)
+    user.can_change_data = AuthenticationSource.can_change_data(user.authentication_source) and request.user.has_perm('core.change_user')
 
     form = UserFormWithoutPassword(
         request.POST or None, instance=user
@@ -135,7 +137,7 @@ def user_change_password_view(request, id):
         return HttpResponseForbidden()
 
     user = get_object_or_404(User, id=id)
-    user.can_change_data = UserAuthenticationSource.can_change_data(user.authentication_source)
+    user.can_change_data = AuthenticationSource.can_change_data(user.authentication_source) and request.user.has_perm('core:change_user')
     action_url = reverse('core:user_change_password', args=(id,))
 
     if request.method == 'POST':

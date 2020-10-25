@@ -18,7 +18,7 @@ from papermerge.core.models import (
     User,
     Automate,
     Folder,
-    Access, UserAuthenticationSource
+    Access, AuthenticationSource
 )
 
 from .models import (
@@ -195,7 +195,7 @@ class UserFormWithoutPassword(ControlForm):
 class UserFormWithPassword(UserFormWithoutPassword):
     def save (self, commit = True):
         # Set the authentication_source to Internal as the user was created within the application.
-        getattr(self, 'instance', None).authentication_source = UserAuthenticationSource.INTERNAL
+        getattr(self, 'instance', None).authentication_source = AuthenticationSource.INTERNAL
         return super().save(commit)
 
     password1 = forms.CharField(
@@ -246,6 +246,7 @@ class GroupForm(forms.ModelForm):
         model = Group
         fields = (
             'name',
+            'permissions'
         )
 
 

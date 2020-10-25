@@ -376,7 +376,7 @@ if AUTH_MECHANISM == "LdapAuthBackend":
 
 AUTHENTICATION_BACKENDS = (
     'papermerge.core.auth.' + AUTH_MECHANISM,
-    'allauth.account.auth_backends.AuthenticationBackend'
+#    'allauth.account.auth_backends.AuthenticationBackend'
 )
 
 

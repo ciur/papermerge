@@ -71,13 +71,13 @@ def _user_has_module_perms(user, app_label):
     return False
 
 
-class UserAuthenticationSource(models.TextChoices):
+class AuthenticationSource(models.TextChoices):
     INTERNAL = "Internal",
     LDAP = "LDAP",
 
     @staticmethod
     def can_change_data(authentication_source):
-        return authentication_source == UserAuthenticationSource.INTERNAL
+        return authentication_source == AuthenticationSource.INTERNAL
 
 
 class User(AbstractUser):
@@ -90,11 +90,11 @@ class User(AbstractUser):
     # indicates the source from which the user was created or imported
     # this is necessary to prevent the user from being able to change their password
     authentication_source = models.CharField(
-        choices = UserAuthenticationSource.choices,
+        choices = AuthenticationSource.choices,
         max_length = 15,
         null = False,
         blank = False,
-        default = UserAuthenticationSource.LDAP if settings.AUTH_MECHANISM == "LdapAuthBackend" else UserAuthenticationSource.INTERNAL,
+        default = AuthenticationSource.LDAP if settings.AUTH_MECHANISM == "LdapAuthBackend" else AuthenticationSource.INTERNAL,
     )
 
     def update_current_storage(self):
@@ -153,13 +153,13 @@ class User(AbstractUser):
         return _user_has_module_perms(self, app_label)
 
     def save (self, *args, **kwargs):
-        if UserAuthenticationSource.can_change_data(self.authentication_source):
+        if AuthenticationSource.can_change_data(self.authentication_source):
             # We need to prevent saving of meta data for non-modifiable users
             return False
         super().save(*args, **kwargs)
 
     def set_password (self, raw_password):
-        if UserAuthenticationSource.can_change_data(self.authentication_source):
+        if AuthenticationSource.can_change_data(self.authentication_source):
             # We need to prevent saving of password for non-modifiable users
             return False
         super().set_password(raw_password)
