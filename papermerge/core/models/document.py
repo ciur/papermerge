@@ -1,9 +1,14 @@
 import logging
+import inspect
 import os
 
 from django.db import models
 from django.urls import reverse
+from django.apps import apps
+from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
+
+from polymorphic_tree.managers import PolymorphicMPTTModelManager
 
 from mglib import step
 from mglib.path import DocumentPath, PagePath
@@ -21,17 +26,93 @@ from papermerge.search import index
 logger = logging.getLogger(__name__)
 
 
+class DocumentManager(PolymorphicMPTTModelManager):
+
+    @transaction.atomic
+    def create_document(
+        self,
+        user,
+        title,
+        lang,
+        size,
+        page_count,
+        file_name,
+        notes=None,
+        parent_id=None,
+        **kwargs
+    ):
+        """
+        Creates a document
+        """
+
+        parent = self._get_parent(parent_id=parent_id)
+
+        # 1. figure out document parts
+        # document_parts = [
+        #    app1.Document,
+        #    app2.Document,
+        #    app3.Document
+        # ]
+        doc_parts = _all_document_parts()
+        # 2. group arguments by document_parts
+        # grouped_args = {
+        #    app1.Document: {},
+        #    app2.Document: {},
+        #    app3.Document: {}
+        # }
+        grouped_args = _group_per_model(doc_parts, **kwargs)
+
+        doc = Document(
+            title=title,
+            size=size,
+            lang=lang,
+            user=user,
+            parent=parent,
+            notes=notes,
+            file_name=file_name,
+            page_count=page_count
+        )
+        doc.save()
+        # Important! - first document must inherit metakeys from
+        # parent folder
+        if parent:
+            doc.inherit_kv_from(parent)
+
+        doc.create_pages()
+        doc.full_clean()
+
+        for model in doc_parts:
+            if model != Document:
+                args = grouped_args.get(model, {})
+                instance = model(**args)
+                instance.base_ptr = doc
+                instance.save()
+                instance.clean()
+
+        return doc
+
+    def _get_parent(self, parent_id):
+        """
+        Returns parent node instance based on parent_id
+        """
+        parent = None
+
+        if parent_id is None or parent_id == '':
+            parent = None
+        else:
+            try:
+                parent = BaseTreeNode.objects.get(id=parent_id)
+            except BaseTreeNode.DoesNotExist:
+                parent = None
+
+        return parent
+
+
 class Document(BaseTreeNode):
 
     class CannotUpload(Exception):
         pass
 
-    #: reference to original file, usually a pdf document with
-    #: no post-processing performed on this file.
-    file_orig = models.FileField(
-        max_length=512,
-        help_text="Reference to originaly imported file"
-    )
     #: basename + ext of uploaded file.
     #: other path details are deducted from user_id and document_id
     file_name = models.CharField(
@@ -49,15 +130,6 @@ class Document(BaseTreeNode):
         help_text="Size of file_orig attached. Size is in Bytes",
         blank=False,
         null=False,
-    )
-
-    digest = models.CharField(
-        max_length=512,
-        unique=True,
-        help_text="Digest of file_orig attached. Size is in Bytes."
-        "It is used to figure out if file was already processed.",
-        blank=True,
-        null=True
     )
 
     page_count = models.IntegerField(
@@ -80,7 +152,9 @@ class Document(BaseTreeNode):
     # A: pdftk on every operation creates a new file... well, that new
     # file is the next version of the document.
 
-    text = models.TextField()
+    text = models.TextField(blank=True)
+
+    objects = DocumentManager()
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 
@@ -409,7 +483,7 @@ class Document(BaseTreeNode):
         # 2. Build new pages for newly created document
         dst_doc_is_new = False
         if not dst_document:
-            dst_document = Document.create_document(
+            dst_document = Document.objects.create_document(
                 user=user,
                 parent_id=parent_id,
                 lang=user.preferences['ocr__OCR_Language'],
@@ -470,54 +544,6 @@ class Document(BaseTreeNode):
 
         return dst_document
         # TODO: update size of the new document (changed doc)
-
-    @staticmethod
-    def create_document(
-        user,
-        title,
-        lang,
-        size,
-        page_count,
-        file_name,
-        notes=None,
-        parent_id=None,
-        rebuild_tree=True  # obsolete
-    ):
-        """
-        Arguments:
-            tmp_uploaded_file = an instance of
-                django.core.files.uploadedfile.TemporaryUploadedFile
-        """
-        if parent_id is None or parent_id == '':
-            parent = None
-        else:
-            try:
-                parent = BaseTreeNode.objects.get(id=parent_id)
-            except BaseTreeNode.DoesNotExist:
-                parent = None
-        doc = Document(
-            title=title,
-            size=size,
-            lang=lang,
-            user=user,
-            parent=parent,
-            notes=notes,
-            file_name=file_name,
-            page_count=page_count,
-        )
-
-        doc.save()
-        # Important! - first document must inherit metakeys from
-        # parent folder
-        if parent:
-            doc.inherit_kv_from(parent)
-
-        # and only afterwards create pages must be called.
-        # create_pages will trigger metadata keys from document
-        # to the created pages.
-        doc.create_pages()
-
-        return doc
 
     @property
     def absfilepath(self):
@@ -636,3 +662,90 @@ class Document(BaseTreeNode):
                 tag,
                 tag_kwargs={'user': self.user}
             )
+
+
+class AbstractDocument(models.Model):
+    """
+    Common class apps need to inherit from in order
+    to extend Document model.
+    """
+    base_ptr = models.OneToOneField(
+        Document,
+        related_name="%(app_label)s_%(class)s_related",
+        related_query_name="%(app_label)s_%(class)ss",
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = True
+
+    def get_page_count(self):
+        return self.base_ptr.pages.count()
+
+    def get_title(self):
+        return self.base_ptr.title
+
+    def get_file_name(self):
+        return self.base_ptr.file_name
+
+    def get_document_fields(self):
+        return self.base_ptr.get_document_fields()
+
+    def get_absfilepath(self):
+        """
+        Returns absolute file path of the latest version
+        of the associated file.
+        """
+        return self.base_ptr.absfilepath
+
+
+def _descents_from_abstract_document(klass):
+    return AbstractDocument in inspect.getmro(klass)
+
+
+def _all_document_parts():
+    """
+    returns all models descendent from AbstractDocument PLUS
+    papermerge.code.models.Document
+    """
+    doc_parts = list(_document_parts())
+    doc_parts.append(
+        Document
+    )
+    return doc_parts
+
+
+def _document_parts():
+    """
+    Returns all models descendent from AbstractDocument.
+    """
+
+    app_configs = apps.get_app_configs()
+
+    for app_config in app_configs:
+        app_models = app_config.get_models()
+
+        for model in app_models:
+            if _descents_from_abstract_document(model):
+                yield model
+
+
+def _group_per_model(models, **kwargs):
+    """
+    groups kwargs per model
+    """
+    ret = {}
+
+    for model in models:
+        fields = _get_fields(model)
+        for field in fields:
+            if field.name in kwargs.keys():
+                ret.setdefault(model, {}).update(
+                    {field.name: kwargs[field.name]}
+                )
+
+    return ret
+
+
+def _get_fields(model):
+    return model._meta.get_fields(include_parents=False)

@@ -23,6 +23,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [Jesse Cureton](https://github.com/jessecureton) - Docker integration improved
 * [@pvinis](https://github.com/pvinis) - fixed typo in README file
 * [@amo13](https://github.com/amo13) - typo + systemd unit file fix
+* [@dani](https://github.com/dani) - French i18n; github issues.
 
 ### Sponsors
 

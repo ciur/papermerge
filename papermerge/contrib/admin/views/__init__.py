@@ -22,6 +22,10 @@ from .index import (
     browse,
     inbox_view
 )
+from .preferences import (
+    preferences_view,
+    preferences_section_view
+)
 
 __all__ = [
     'GroupsListView',
@@ -37,5 +41,7 @@ __all__ = [
     'LogChangeView',
     'search',
     'browse',
-    'inbox_view'
+    'inbox_view',
+    'preferences_view',
+    'preferences_section_view'
 ]

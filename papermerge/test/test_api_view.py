@@ -37,7 +37,7 @@ class TestApiView(TestCase):
 
     def test_pages_view(self):
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -69,7 +69,7 @@ class TestApiView(TestCase):
 
     def test_cut_view(self):
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -99,7 +99,7 @@ class TestApiView(TestCase):
         """
         Access forbidden for margaret
         """
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -187,7 +187,7 @@ class TestRestApiWithValidToken(TestCase):
     def test_basic_documents_view(self):
         # create a basic document and assert
         # that api/documents returns it
-        Document.create_document(
+        Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -214,7 +214,7 @@ class TestRestApiWithValidToken(TestCase):
         """
         # create a basic document and assert
         # that api/documents returns it
-        Document.create_document(
+        Document.objects.create_document(
             title="berlin.pdf",
             user=self.margaret_user,
             lang="ENG",
@@ -243,7 +243,7 @@ class TestRestApiWithValidToken(TestCase):
         """
         # create a basic document and assert
         # that api/documents returns it
-        Document.create_document(
+        Document.objects.create_document(
             title="berlin.pdf",
             user=self.margaret_user,
             lang="ENG",
@@ -251,7 +251,7 @@ class TestRestApiWithValidToken(TestCase):
             size=1222,
             page_count=3
         )
-        Document.create_document(
+        Document.objects.create_document(
             title="doc1.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -259,7 +259,7 @@ class TestRestApiWithValidToken(TestCase):
             size=1222,
             page_count=3
         )
-        Document.create_document(
+        Document.objects.create_document(
             title="doc2.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -297,7 +297,7 @@ class TestRestApiWithValidToken(TestCase):
         """
         User can view via API only document he/she has access READ_ACCESS
         """
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.margaret_user,
             lang="ENG",
@@ -318,7 +318,7 @@ class TestRestApiWithValidToken(TestCase):
         """
         User can view via API only document he/she has access READ_ACCESS
         """
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -343,7 +343,7 @@ class TestRestApiWithValidToken(TestCase):
 
     def test_delete_denied_if_no_perm_granted(self):
         # document owned by margaret
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.margaret_user,
             lang="ENG",
@@ -368,7 +368,7 @@ class TestRestApiWithValidToken(TestCase):
 
     def test_edit_denied_if_no_perm_granted(self):
         # document owned by margaret
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.margaret_user,
             lang="ENG",
@@ -395,7 +395,7 @@ class TestRestApiWithValidToken(TestCase):
 
     def test_can_edit_own_doc(self):
         # document owned by margaret
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -433,7 +433,7 @@ class TestRestApiValidToken_With_InvalidToken(TestCase):
     def test_basic_documents_view(self):
         # create a basic document and assert
         # that api/documents returns it
-        Document.create_document(
+        Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",

@@ -24,7 +24,7 @@ class TestPage(TestCase):
         """
         backend = get_search_backend()
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',

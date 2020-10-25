@@ -67,4 +67,14 @@ urlpatterns = [
         views.AutomateChangeView.as_view(),
         name='automate_change'
     ),
+    path(
+        'preferences/',
+        views.preferences_view,
+        name='preferences'
+    ),
+    path(
+        'preferences/<str:section>/',
+        views.preferences_section_view,
+        name='preferences_section'
+    ),
 ]

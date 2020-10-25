@@ -24,7 +24,7 @@ class TestAdvancedSearchView(TestCase):
         """
         In advaced search user can search by tag(s)
         """
-        doc1 = Document.create_document(
+        doc1 = Document.objects.create_document(
             title="doc1",
             user=self.testcase_user,
             page_count=2,
@@ -32,7 +32,7 @@ class TestAdvancedSearchView(TestCase):
             size='1111',
             lang='ENG',
         )
-        doc2 = Document.create_document(
+        doc2 = Document.objects.create_document(
             title="doc2",
             user=self.testcase_user,
             page_count=2,
@@ -74,7 +74,7 @@ class TestAdvancedSearchView(TestCase):
         tags_op can be 'all' or 'any'.
         tags_op=all: find all documents which contain all tags
         """
-        doc1 = Document.create_document(
+        doc1 = Document.objects.create_document(
             title="doc1",
             user=self.testcase_user,
             page_count=2,
@@ -82,7 +82,7 @@ class TestAdvancedSearchView(TestCase):
             size='1111',
             lang='ENG',
         )
-        doc2 = Document.create_document(
+        doc2 = Document.objects.create_document(
             title="doc2",
             user=self.testcase_user,
             page_count=2,
@@ -90,7 +90,7 @@ class TestAdvancedSearchView(TestCase):
             size='1111',
             lang='ENG',
         )
-        doc3 = Document.create_document(
+        doc3 = Document.objects.create_document(
             title="doc3",
             user=self.testcase_user,
             page_count=2,
@@ -143,7 +143,7 @@ class TestAdvancedSearchView(TestCase):
         tags_op=any: find all documents which contain any tags
         of the mentioned tags
         """
-        doc1 = Document.create_document(
+        doc1 = Document.objects.create_document(
             title="doc1",
             user=self.testcase_user,
             page_count=2,
@@ -151,7 +151,7 @@ class TestAdvancedSearchView(TestCase):
             size='1111',
             lang='ENG',
         )
-        doc2 = Document.create_document(
+        doc2 = Document.objects.create_document(
             title="doc2",
             user=self.testcase_user,
             page_count=2,
@@ -159,7 +159,7 @@ class TestAdvancedSearchView(TestCase):
             size='1111',
             lang='ENG',
         )
-        doc3 = Document.create_document(
+        doc3 = Document.objects.create_document(
             title="doc3",
             user=self.testcase_user,
             page_count=2,

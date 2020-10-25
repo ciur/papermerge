@@ -150,7 +150,7 @@ class TestDocumentView(TestCase):
         )
 
     def test_preview(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -204,7 +204,7 @@ class TestDocumentView(TestCase):
         )
         doc_ids = []
         for index in range(1, 11):
-            doc = Document.create_document(
+            doc = Document.objects.create_document(
                 title=f"andromeda-{index}.pdf",
                 user=self.testcase_user,
                 lang="ENG",
@@ -256,7 +256,7 @@ class TestDocumentView(TestCase):
 
     @skip("This test fails on Travis-CI only. Investigating...")
     def test_download(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -292,7 +292,7 @@ class TestDocumentView(TestCase):
         )
 
     def test_download_hocr(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -337,7 +337,7 @@ class TestDocumentView(TestCase):
 
         Missing HCOR file => HTTP 404 return code is expected.
         """
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="ENG",
@@ -371,7 +371,7 @@ class TestDocumentView(TestCase):
         """
     )
     def test_change_document_notes(self):
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             title="berlin.pdf",
             user=self.testcase_user,
             lang="eng",
@@ -658,7 +658,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -711,7 +711,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -775,7 +775,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -827,7 +827,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -892,7 +892,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -925,7 +925,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -1046,7 +1046,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.testcase_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -1105,7 +1105,7 @@ class TestDocumentDownload(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        doc = Document.create_document(
+        doc = Document.objects.create_document(
             user=self.root_user,
             title='berlin.pdf',
             size=os.path.getsize(document_path),
@@ -1187,7 +1187,7 @@ class TestBrowseView(TestCase):
         (has read access)
         """
         # Document owned by margaret
-        Document.create_document(
+        Document.objects.create_document(
             title="document_M",
             file_name="document_M.pdf",
             size='36',
@@ -1197,7 +1197,7 @@ class TestBrowseView(TestCase):
             parent_id=None
         )
         # This document is owned by testcase_user, not margaret.
-        Document.create_document(
+        Document.objects.create_document(
             title="document_X",
             file_name="document_X.pdf",
             size='36',

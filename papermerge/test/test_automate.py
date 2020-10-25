@@ -155,7 +155,7 @@ class TestAutomateModel(TestCase):
             title=Folder.INBOX_NAME,
             user=self.user
         )
-        document = Document.create_document(
+        document = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -164,7 +164,7 @@ class TestAutomateModel(TestCase):
             parent_id=folder.id,
             page_count=5,
         )
-        document2 = Document.create_document(
+        document2 = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',

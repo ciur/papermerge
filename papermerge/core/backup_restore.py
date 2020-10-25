@@ -194,7 +194,7 @@ def restore_documents(
                 else:
                     parent_id = None
 
-                new_doc = Document.create_document(
+                new_doc = Document.objects.create_document(
                     user=_user,
                     title=document_info['title'],
                     size=size,

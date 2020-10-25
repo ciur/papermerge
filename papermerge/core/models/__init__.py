@@ -6,7 +6,7 @@ from django.conf import settings
 from papermerge.core.models.automate import Automate
 from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
-from papermerge.core.models.document import Document
+from papermerge.core.models.document import Document, AbstractDocument
 from papermerge.core.models.folder import Folder
 from papermerge.core.models.kvstore import KV, KVPage, KVStoreNode, KVStorePage
 from papermerge.core.models.node import BaseTreeNode
@@ -171,6 +171,7 @@ __all__ = [
     'User',
     'Folder',
     'Document',
+    'AbstractDocument',
     'Page',
     'BaseTreeNode',
     'Access',

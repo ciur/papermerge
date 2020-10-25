@@ -1,13 +1,40 @@
-from dynamic_preferences.preferences import Section
+from dynamic_preferences.preferences import Section as OrigSection
 from dynamic_preferences.registries import global_preferences_registry
 from dynamic_preferences.types import ChoicePreference, IntegerPreference
 from dynamic_preferences.users.registries import user_preferences_registry
 
 from .lib.lang import get_ocr_lang_choices, get_default_ocr_lang
 
-ocr = Section('ocr')
+
+class Section(OrigSection):
+    def __init__(
+        self,
+        name,
+        verbose_name=None,
+        help_text=None,
+        icon_name=None
+    ):
+        super().__init__(
+            name=name,
+            verbose_name=verbose_name
+        )
+        self.help_text = help_text
+        self.icon_name = icon_name
+
+
+ocr = Section(
+    'ocr',
+    verbose_name="Opical Character Recognition",
+    icon_name="eye",
+    help_text='Choose default OCR Language'
+)
 system_settings = Section('system_settings')
-user_views = Section('views')
+user_views = Section(
+    'views',
+    verbose_name="Default views",
+    help_text="Default views settings",
+    icon_name="bars"
+)
 
 
 @global_preferences_registry.register
