@@ -7,7 +7,7 @@ import papermerge.core.models.tags
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0025_auto_20201002_1814'),
+        ('core', '0029_auto_20201023_0702'),
     ]
 
     operations = [
