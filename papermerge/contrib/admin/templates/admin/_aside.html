@@ -82,7 +82,7 @@
       {% if request.user.is_superuser %}
         {% for nav_item in leftside_navigation %}
           <li class="nav-item">
-            <a href="{{ nav_item.url }}" class="nav-link">
+            <a href="{{ nav_item.url }}" class="nav-link {% activate_on nav_item.activate_on %}">
               <i class="nav-icon {{nav_item.icon_css_class}}"></i>
               <p>
                 {{nav_item.title}}
