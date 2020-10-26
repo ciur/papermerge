@@ -23,7 +23,7 @@ def uniq_sections(user):
         pref = preferences.registry.get(section=section, name=name)
         sections.append(pref.section)
 
-    return sections
+    return set(sections)
 
 
 @login_required
