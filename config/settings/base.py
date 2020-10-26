@@ -235,6 +235,7 @@ TEMPLATES = [
                 'papermerge.contrib.admin.context_processors.extras',
                 'papermerge.contrib.admin.context_processors.user_perms',
                 'papermerge.contrib.admin.context_processors.user_menu',
+                'papermerge.contrib.admin.context_processors.leftside_navigation', # noqa
             ],
         },
     },

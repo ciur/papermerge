@@ -32,7 +32,8 @@ urlpatterns = [
     ),
     path('admin/', include('papermerge.contrib.admin.urls')),
     path('', include('papermerge.core.urls')),
-    path('', index_view, name='index')
+    path('', index_view, name='index'),
+    path('retention/', include('data_retention.urls')),
 ]
 
 for extra_urls in settings.EXTRA_URLCONF:

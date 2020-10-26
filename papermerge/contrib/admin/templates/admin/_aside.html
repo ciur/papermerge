@@ -79,6 +79,18 @@
           </a>
         </li>
       {% endif %}
+      {% if request.user.is_superuser %}
+        {% for nav_item in leftside_navigation %}
+          <li class="nav-item">
+            <a href="{{ nav_item.url }}" class="nav-link">
+              <i class="nav-icon {{nav_item.icon_css_class}}"></i>
+              <p>
+                {{nav_item.title}}
+              </p>
+            </a>
+          </li>
+        {% endfor %}
+      {% endif %}
     </ul>
   </nav>
   <!-- /.sidebar-menu -->

@@ -5,7 +5,10 @@ from papermerge.core.models import (
     Tag
 )
 from .forms import AdvancedSearchForm
-from .registries import user_menu_registry
+from .registries import (
+    user_menu_registry,
+    navigation
+)
 
 
 def user_menu(request):
@@ -13,6 +16,15 @@ def user_menu(request):
 
     return {
         'user_menu': values
+    }
+
+
+def leftside_navigation(request):
+
+    values = list(navigation.values())
+
+    return {
+        'leftside_navigation': values
     }
 
 
