@@ -1,5 +1,5 @@
 
-import papermerge
+from papermerge.core import __version__ as PAPERMERGE_VERSION
 from papermerge.core.models import (
     Folder,
     Tag
@@ -56,7 +56,7 @@ def extras(request):
     return {
         'inbox_count': count,
         'pinned_tags': pinned_tags,
-        'papermerge_version': papermerge.__version__,
+        'papermerge_version': PAPERMERGE_VERSION,
         'form': form,
         'alltags': alltags
     }
