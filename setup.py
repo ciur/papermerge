@@ -12,7 +12,7 @@ short_description = "Open source document management system (DMS)"
 setup(
     name='papermerge',
     version="1.4.2",
-    packages=find_packages(),
+    packages=find_packages(include=['papermerge.*']),
     include_package_data=True,
     license='Apache 2.0 License',
     description=short_description,
