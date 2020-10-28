@@ -10,7 +10,7 @@ from pathlib import PurePath
 from django.core.files.temp import NamedTemporaryFile
 from mglib.pdfinfo import get_pagecount
 
-import papermerge
+from papermerge.core import __version__ as PAPERMERGE_VERSION
 from papermerge.core.models import (
     Document,
     User,
@@ -39,7 +39,7 @@ def backup_documents(
 
     current_backup = dict()
     current_backup['created'] = datetime.datetime.now()
-    current_backup['version'] = papermerge.__version__
+    current_backup['version'] = PAPERMERGE_VERSION
 
     with tarfile.open(fileobj=backup_file, mode="w") as backup_archive:
 
