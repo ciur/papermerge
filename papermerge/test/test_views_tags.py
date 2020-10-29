@@ -46,7 +46,7 @@ class TestNodesView(TestCase):
         )
         tags = json.loads(ret.content)
 
-        self.assertEquals(
+        self.assertEqual(
             set([
                 tag['name'] for tag in tags['tags']
             ]),

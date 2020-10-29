@@ -44,12 +44,12 @@ class TestDocument(TestCase):
             tags__name__in=["paid", "invoice"]
         ).distinct()
 
-        self.assertEquals(
+        self.assertEqual(
             found_docs.count(),
             1
         )
 
-        self.assertEquals(
+        self.assertEqual(
             found_docs.first().title,
             "document_c"
         )
@@ -98,7 +98,7 @@ class TestDocument(TestCase):
 
         doc.refresh_from_db()
 
-        self.assertEquals(
+        self.assertEqual(
             set([tag.name for tag in doc.tags.all()]),
             {"receipts", "important"}
         )
@@ -116,12 +116,12 @@ class TestDocument(TestCase):
             tags__name__in=["invoices"]
         )
 
-        self.assertEquals(
+        self.assertEqual(
             found_folders.count(),
             1
         )
 
-        self.assertEquals(
+        self.assertEqual(
             found_folders.first().title,
             "Markus"
         )
