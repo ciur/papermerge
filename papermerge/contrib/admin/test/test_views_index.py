@@ -53,17 +53,17 @@ class TestAdvancedSearchView(TestCase):
         ret = self.client.get(
             reverse('admin:search'), {'tag': 'green'}
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
-        self.assertEquals(
+        self.assertEqual(
             len(ret.context['results_docs']),
             1
         )
         doc_ = ret.context['results_docs'][0]
 
-        self.assertEquals(
+        self.assertEqual(
             doc_.id,
             doc1.id
         )
@@ -120,18 +120,18 @@ class TestAdvancedSearchView(TestCase):
 
         ret = self.client.get(url)
 
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
-        self.assertEquals(
+        self.assertEqual(
             len(ret.context['results_docs']),
             2
         )
         result_ids = set(
             [doc_.id for doc_ in ret.context['results_docs']]
         )
-        self.assertEquals(
+        self.assertEqual(
             result_ids,
             set([doc1.id, doc3.id])
         )
@@ -186,18 +186,18 @@ class TestAdvancedSearchView(TestCase):
 
         ret = self.client.get(url)
 
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
-        self.assertEquals(
+        self.assertEqual(
             len(ret.context['results_docs']),
             2
         )
         result_ids = set(
             [doc_.id for doc_ in ret.context['results_docs']]
         )
-        self.assertEquals(
+        self.assertEqual(
             result_ids,
             set([doc1.id, doc2.id])
         )

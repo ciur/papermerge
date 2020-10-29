@@ -4,7 +4,6 @@ from pathlib import Path
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
-from django.conf import settings
 
 from papermerge.core.models import (
     KV,
@@ -89,7 +88,7 @@ class TestPage(TestCase):
         page.save()
         result = Page.objects.search("cool")
 
-        self.assertEquals(
+        self.assertEqual(
             result.count(),
             1
         )
@@ -104,7 +103,7 @@ class TestPage(TestCase):
         page.save()
         result = Page.objects.search("andromeda")
 
-        self.assertEquals(
+        self.assertEqual(
             result.count(),
             0
         )
