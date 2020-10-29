@@ -7,6 +7,7 @@ from .registries import (
 
 class AdminConfig(AppConfig):
     name = 'papermerge.contrib.admin'
+    label = 'admin'
 
     def ready(self):
         from papermerge.contrib.admin import signals  # noqa
