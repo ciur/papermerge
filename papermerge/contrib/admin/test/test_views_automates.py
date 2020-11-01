@@ -111,13 +111,13 @@ class TestAutomateViews(TestCase):
         ret = self.client.get(
             reverse('admin:automates')
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code, 200
         )
 
     def test_create_new_automate_view(self):
 
-        self.assertEquals(
+        self.assertEqual(
             Automate.objects.count(),
             0
         )
@@ -132,14 +132,14 @@ class TestAutomateViews(TestCase):
                 'dst_folder': self.dst_folder.id
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code, 302
         )
-        self.assertEquals(
+        self.assertEqual(
             Automate.objects.count(),
             1
         )
-        self.assertEquals(
+        self.assertEqual(
             Automate.objects.first().user,
             self.user
         )
@@ -153,11 +153,11 @@ class TestAutomateViews(TestCase):
         will create a new tag instance. Tag will be assigned to same user as
         corresponding automate.
         """
-        self.assertEquals(
+        self.assertEqual(
             Automate.objects.count(),
             0
         )
-        self.assertEquals(
+        self.assertEqual(
             Tag.objects.count(),
             0
         )
@@ -173,23 +173,23 @@ class TestAutomateViews(TestCase):
                 "tags": "groceries,"
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code, 302
         )
-        self.assertEquals(
+        self.assertEqual(
             Automate.objects.count(),
             1
         )
-        self.assertEquals(
+        self.assertEqual(
             Automate.objects.first().user,
             self.user
         )
-        self.assertEquals(
+        self.assertEqual(
             Tag.objects.count(),
             1
         )
         # create tag belongs to same user as automate
-        self.assertEquals(
+        self.assertEqual(
             Tag.objects.first().user,
             self.user
         )
@@ -223,7 +223,7 @@ class TestAutomateViews(TestCase):
                 '_selected_action': [a1.id, a2.id],
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code, 200
         )
         # two log entries were deleted
