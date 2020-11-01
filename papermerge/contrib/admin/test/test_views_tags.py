@@ -89,7 +89,7 @@ class TestTagViews(TestCase):
         ret = self.client.get(
             reverse('admin:tags')
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code, 200
         )
 
@@ -110,7 +110,7 @@ class TestTagViews(TestCase):
                 '_selected_action': [tag1.id, tag2.id],
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code, 200
         )
         # two log entries were deleted

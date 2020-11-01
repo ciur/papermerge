@@ -28,7 +28,7 @@ class TestGroupViewUserNotAuth(TestCase):
         ret = self.client.get(
             reverse('admin:groups'),
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             HttpResponseRedirect.status_code
         )
@@ -51,11 +51,11 @@ class TestGroupView(TestCase):
         ret = self.client.get(
             reverse('admin:groups'),
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.context['object_list'].count(),
             2
         )
@@ -78,7 +78,7 @@ class TestGroupView(TestCase):
                 '_selected_action': [gr1.id, gr2.id]
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
@@ -95,7 +95,7 @@ class TestGroupView(TestCase):
         ret = self.client.get(
             reverse('admin:group_change', args=(gr.id,)),
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
@@ -106,7 +106,7 @@ class TestGroupView(TestCase):
         ret = self.client.get(
             reverse('admin:group'),
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
@@ -119,7 +119,7 @@ class TestGroupView(TestCase):
         self.client.login(testcase_user=self.testcase_user)
 
         gr = Group.objects.create(name="XXX")
-        self.assertEquals(
+        self.assertEqual(
             Group.objects.count(),
             1
         )
@@ -130,12 +130,12 @@ class TestGroupView(TestCase):
                 'name': "XXX2"
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             Group.objects.count(),
             1
         )
         gr.refresh_from_db()
-        self.assertEquals(
+        self.assertEqual(
             gr.name,
             "XXX2"
         )
@@ -147,7 +147,7 @@ class TestGroupView(TestCase):
         ret = self.client.get(
             reverse('admin:groups'),
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             HttpResponseForbidden.status_code
         )
@@ -159,7 +159,7 @@ class TestGroupView(TestCase):
         ret = self.client.get(
             reverse('admin:group'),
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             HttpResponseForbidden.status_code
         )
@@ -176,12 +176,12 @@ class TestGroupView(TestCase):
                 'name': "XXX2"
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             HttpResponseForbidden.status_code
         )
         gr.refresh_from_db()
-        self.assertEquals(
+        self.assertEqual(
             gr.name,
             "XXX"
         )
