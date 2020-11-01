@@ -192,7 +192,8 @@ INSTALLED_APPS = [
     'polymorphic_tree',
     'polymorphic',
     'mptt',
-    'mgclipboard'
+    'mgclipboard',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [

@@ -14,3 +14,4 @@ django-dynamic-preferences == 1.10.1
 django-polymorphic-tree
 django-modelcluster
 persisting-theory
+django-bootstrap4
