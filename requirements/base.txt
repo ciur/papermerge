@@ -11,6 +11,8 @@ lxml
 django-celery-results
 django-allauth
 django-dynamic-preferences == 1.10.1
+django-polymorphic
+django-mptt
 django-polymorphic-tree
 django-modelcluster
 persisting-theory
