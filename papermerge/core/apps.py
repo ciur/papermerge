@@ -6,5 +6,5 @@ class CoreConfig(AppConfig):
     label = 'core'
 
     def ready(self):
-        from papermerge.core import signals
-        from papermerge.core import checks
+        from papermerge.core import signals  # noqa
+        from papermerge.core import checks  # noqa
