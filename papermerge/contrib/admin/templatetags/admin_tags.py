@@ -128,7 +128,7 @@ def activate_on(context, names):
 
 
 @register.simple_tag
-def boolean_icon(boolean_value):
+def boolean_icon(boolean_value, show_empty_on_false=False):
 
     icon_html = mark_safe("<i class='fa {} {}'></i>")
 
@@ -138,6 +138,9 @@ def boolean_icon(boolean_value):
             "fa-check",
             "text-success"
         )
+
+    if show_empty_on_false:
+        return ''
 
     return format_html(
         icon_html,
