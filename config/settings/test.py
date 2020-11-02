@@ -6,7 +6,9 @@ DEBUG = True
 
 SITE_ID = 1
 
-PAPERMERGE_CREATE_INBOX = False
+# Special folders are those starting with DOT character.
+# For example: .inbox, .trash
+PAPERMERGE_CREATE_SPECIAL_FOLDERS = False
 
 DATABASE_ROUTERS = []
 

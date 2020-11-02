@@ -171,7 +171,7 @@ def _user_init(user):
     Create user specific data:
         1. Inbox folder
     """
-    if settings.PAPERMERGE_CREATE_INBOX:
+    if settings.PAPERMERGE_CREATE_SPECIAL_FOLDERS:
         Folder.objects.get_or_create(
             title=Folder.INBOX_NAME,
             parent=None,

@@ -7,7 +7,8 @@ from papermerge.search import index
 
 class Folder(BaseTreeNode, index.Indexed):
 
-    INBOX_NAME = "inbox"
+    # special folders' name always starts with a DOT (. character)
+    INBOX_NAME = ".inbox"
 
     search_fields = [
         index.SearchField('title'),
