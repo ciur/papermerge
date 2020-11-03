@@ -14,7 +14,10 @@ from mglib.pdfinfo import get_pagecount
 from mglib.utils import get_assigns_after_delete
 
 from papermerge.core.storage import default_storage
-from .kvstore import KVCompNode, KVNode
+from .kvstore import (
+    KVCompNode,
+    KVNode
+)
 from .node import (
     BaseTreeNode,
     AbstractNode,
