@@ -25,10 +25,8 @@ from .node import (
     RELATED_QUERY_NAME_FMT
 )
 from .access import Access
-from .utils import (
-    all_model_parts,
-    group_per_model,
-)
+from .utils import group_per_model
+from .finder import default_parts_finder
 
 from papermerge.search import index
 
@@ -54,16 +52,16 @@ class DocumentManager(PolymorphicMPTTModelManager):
         """
         Creates a document.
         """
-
         parent = self._get_parent(parent_id=parent_id)
 
+        default_parts_finder
         # 1. figure out document parts
         # document_parts = [
         #    app1.Document,
         #    app2.Document,
         #    app3.Document
         # ]
-        doc_parts = list(all_model_parts(AbstractDocument))
+        doc_parts = default_parts_finder.find(AbstractDocument)
         # 2. group arguments by document_parts
         # doc_grouped_args = {
         #    app1.Document: {},
@@ -72,7 +70,7 @@ class DocumentManager(PolymorphicMPTTModelManager):
         # }
         doc_grouped_args = group_per_model(doc_parts, **kwargs)
 
-        node_parts = list(all_model_parts(AbstractNode))
+        node_parts = default_parts_finder.find(AbstractNode)
         node_grouped_args = group_per_model(node_parts, **kwargs)
 
         # similar thing with nodes

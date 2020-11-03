@@ -45,27 +45,6 @@ def recursive_delete(queryset_or_node_instance):
             pass
 
 
-def all_model_parts(abstract_klass):
-    """
-    Returns all models descendent from given Abstract<abstract_klass>.
-    """
-    app_configs = apps.get_app_configs()
-
-    for app_config in app_configs:
-        app_models = app_config.get_models()
-
-        for model in app_models:
-            if descents_from_abstract(model, abstract_klass):
-                yield model
-
-
-def descents_from_abstract(klass, abstract_klass):
-    """
-    Is ``klass`` descending from ``abstract_klass``?
-    """
-    return abstract_klass in inspect.getmro(klass)
-
-
 def get_fields(model):
     """
     Returns django fields of current ``model``.
