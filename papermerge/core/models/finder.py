@@ -12,7 +12,7 @@ class PartsFinder:
         (3) papermerge.core.models.AbstractFolder
 
     Looks for model candidates in all (current django) project apps.
-    Models descending from (1), (2) , (3) are called parts.
+    Models descending from (1), (2) ,(3) are called parts.
     """
 
     def find(self, abstract_klass):

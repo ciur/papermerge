@@ -1,7 +1,4 @@
-import inspect
 import logging
-
-from django.apps import apps
 
 from .node import BaseTreeNode
 
