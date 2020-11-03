@@ -5,6 +5,7 @@ from django.apps import apps
 
 from .node import BaseTreeNode
 
+
 logger = logging.getLogger(__name__)
 
 

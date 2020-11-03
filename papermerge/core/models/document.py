@@ -17,20 +17,20 @@ from papermerge.core.storage import default_storage
 from .kvstore import KVCompNode, KVNode
 from .node import (
     BaseTreeNode,
-    AbstractNode
+    AbstractNode,
+    RELATED_NAME_FMT,
+    RELATED_QUERY_NAME_FMT
 )
 from .access import Access
 from .utils import (
     all_model_parts,
-    group_per_model
+    group_per_model,
 )
-
 
 from papermerge.search import index
 
+
 logger = logging.getLogger(__name__)
-RELATED_NAME_FMT = "%(app_label)s_%(class)s_related"
-RELATED_QUERY_NAME_FMT = "%(app_label)s_%(class)ss"
 
 
 class DocumentManager(PolymorphicMPTTModelManager):

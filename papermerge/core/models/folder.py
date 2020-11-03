@@ -1,7 +1,17 @@
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
 from papermerge.core.models.diff import Diff
-from papermerge.core.models.kvstore import KVCompNode, KVNode, KVStoreNode
-from papermerge.core.models.node import BaseTreeNode
+from papermerge.core.models.kvstore import (
+    KVCompNode,
+    KVNode,
+    KVStoreNode
+)
+from papermerge.core.models.node import (
+    BaseTreeNode,
+    RELATED_NAME_FMT,
+    RELATED_QUERY_NAME_FMT
+)
 from papermerge.search import index
 
 
@@ -71,3 +81,18 @@ class Folder(BaseTreeNode, index.Indexed):
 
     def __str__(self):
         return self.title
+
+
+class AbstractFolder(models.Model):
+    base_ptr = models.OneToOneField(
+        Folder,
+        related_name=RELATED_NAME_FMT,
+        related_query_name=RELATED_QUERY_NAME_FMT,
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = True
+
+    def get_title(self):
+        return self.base_ptr.title

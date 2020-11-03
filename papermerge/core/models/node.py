@@ -19,7 +19,6 @@ from polymorphic_tree.models import (
 PROPAGATE_ACCESS = 'access'
 PROPAGATE_KV = 'kv'
 PROPAGATE_KVCOMP = 'kvcomp'
-
 RELATED_NAME_FMT = "%(app_label)s_%(class)s_related"
 RELATED_QUERY_NAME_FMT = "%(app_label)s_%(class)ss"
 
