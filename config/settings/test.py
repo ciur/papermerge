@@ -32,7 +32,8 @@ INSTALLED_APPS = (
     'polymorphic_tree',
     'polymorphic',
     'mptt',
-    'mgclipboard'
+    'mgclipboard',
+    'papermerge.test.parts.app_0',
 )
 
 MIDDLEWARE = [

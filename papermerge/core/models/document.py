@@ -81,12 +81,12 @@ class DocumentManager(PolymorphicMPTTModelManager):
 
         if kw_parts:
             # are there any extra document/node parts to create ?
-            self._create_document_parts(doc, **kw_parts)
+            self._create_doc_parts(doc, **kw_parts)
             self._create_node_parts(doc, **kw_parts)
 
         return doc
 
-    def _create_node_parts(self, doc, *kw_parts):
+    def _create_node_parts(self, doc, **kw_parts):
         node_parts = default_parts_finder.find(AbstractNode)
         node_grouped_args = group_per_model(node_parts, **kw_parts)
 
@@ -201,7 +201,7 @@ class DocumentPartsManager:
         """
         Looks for missing attributes in document parts (added by external apps)
         """
-        model_klass, _ = default_parts_finder.get(
+        model_klass = default_parts_finder.get(
             AbstractDocument,
             attr_name=name
         )
