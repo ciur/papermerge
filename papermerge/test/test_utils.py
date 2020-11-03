@@ -86,6 +86,8 @@ class TestTimer(TestCase):
         )
 
 
+# Fake classes used by TestPartsUtils.group_per_model
+#
 class FakeField:
     def __init__(self, name):
         self.name = name
