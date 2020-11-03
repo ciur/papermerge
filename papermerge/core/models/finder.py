@@ -17,7 +17,7 @@ class PartsFinder:
 
     def find(self, abstract_klass):
         """
-        Returns all models descendent from given Abstract<abstract_klass>.
+        Returns all models descendent from given ``abstract_klass``
         """
         app_configs = apps.get_app_configs()
         ret = []
@@ -30,6 +30,17 @@ class PartsFinder:
                     ret.append(model_klass)
 
         return ret
+
+    def get(self, abstract_klass, attr_name):
+        """
+        Returns model_klass which inherits from ``abstract_klass``
+        AND has attribute ``attr_name``
+        """
+        all_parts = self.find(abstract_klass)
+
+        for model_klass in all_parts:
+            if hasattr(model_klass, attr_name):
+                return model_klass
 
     def descents_from_abstract(self, klass, abstract_klass):
         """

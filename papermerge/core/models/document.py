@@ -129,6 +129,85 @@ class DocumentManager(PolymorphicMPTTModelManager):
         return parent
 
 
+class DocumentPartsManager:
+    """
+    Manages document parts added by extra apps.
+    """
+
+    def __init__(self, document):
+        self.document = document
+
+    def __setattr__(self, name, value):
+        model_klass = default_parts_finder.get(
+            AbstractNode,
+            attr_name=name
+        )
+        is_abs_doc = True
+
+        if model_klass:
+            is_abs_doc = False
+        else:
+            model_klass = default_parts_finder.get(
+                AbstractDocument,
+                attr_name=name
+            )
+
+        if model_klass:
+            # if name is an attribute of a klass which inherits
+            # from AbstractDocument or AbstractNode...
+            app_label = model_klass._meta.app_label
+            class_name = model_klass.__name__.lower()
+            rel_name = f"{app_label}_{class_name}_related"
+            try:
+                found_field = getattr(self.document, rel_name)
+            except Exception:
+                # related object does not exists
+                if is_abs_doc:
+                    # model_klass inherits from AbstractDocument
+                    # thus link accordingly
+                    part_instance = model_klass(
+                        base_ptr=self.document
+                    )
+                else:
+                    # model_klass inherits from AbstractNode
+                    # thus link accordingly
+                    part_instance = model_klass(
+                        base_ptr=self.document.basetreenode_ptr
+                    )
+
+                part_instance.save()
+                part_instance.clean()
+
+                found_field = part_instance
+
+            setattr(found_field, name, value)
+            found_field.save()
+        else:
+            # name is a standard attribute, thus proceed with
+            # standard way of assigning things
+            self.__dict__[name] = value
+
+    def __getattr__(self, name):
+        """
+        Looks for missing attributes in document parts (added by external apps)
+        """
+        model_klass, _ = default_parts_finder.get(
+            AbstractDocument,
+            attr_name=name
+        )
+
+        if model_klass:
+            app_label = model_klass._meta.app_label
+            class_name = model_klass.__name__.lower()
+            rel_name = f"{app_label}_{class_name}_related"
+            try:
+                found_field = getattr(self.document, rel_name)
+                if found_field:
+                    return getattr(found_field, name)
+            except Exception:
+                return None
+
+
 class Document(BaseTreeNode):
 
     class CannotUpload(Exception):
@@ -188,6 +267,14 @@ class Document(BaseTreeNode):
         index.SearchField('text', partial_match=True, boost=2),
         index.SearchField('notes')
     ]
+
+    @property
+    def parts(self):
+        return DocumentPartsManager(self)
+
+    @property
+    def part(self):
+        return self.parts()
 
     def to_dict(self):
         item = {}
@@ -718,15 +805,3 @@ class AbstractDocument(models.Model):
         of the associated file.
         """
         return self.base_ptr.absfilepath
-
-
-def _all_document_parts():
-    """
-    returns all models descendent from AbstractDocument PLUS
-    papermerge.code.models.Document
-    """
-    doc_parts = list(all_model_parts(AbstractDocument))
-    doc_parts.append(
-        Document
-    )
-    return doc_parts
