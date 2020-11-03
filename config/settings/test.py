@@ -33,7 +33,8 @@ INSTALLED_APPS = (
     'polymorphic',
     'mptt',
     'mgclipboard',
-    'papermerge.test.parts.app_0',
+    'papermerge.test.parts.app_0',  # absolute minimum app
+    'papermerge.test.parts.app_dr',  # data retention app
 )
 
 MIDDLEWARE = [

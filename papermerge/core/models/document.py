@@ -89,7 +89,6 @@ class DocumentManager(PolymorphicMPTTModelManager):
     def _create_node_parts(self, doc, **kw_parts):
         node_parts = default_parts_finder.find(AbstractNode)
         node_grouped_args = group_per_model(node_parts, **kw_parts)
-
         for model in node_parts:
             if model != BaseTreeNode:
                 args = node_grouped_args.get(model, {})
