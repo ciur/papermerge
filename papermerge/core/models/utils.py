@@ -1,7 +1,9 @@
+import inspect
 import logging
 
+from django.apps import apps
 
-from papermerge.core.models import BaseTreeNode
+from .node import BaseTreeNode
 
 logger = logging.getLogger(__name__)
 
@@ -41,3 +43,49 @@ def recursive_delete(queryset_or_node_instance):
             # it is ok, just sktip
             pass
 
+
+def all_model_parts(abstract_klass):
+    """
+    Returns all models descendent from given Abstract<abstract_klass>.
+    """
+    app_configs = apps.get_app_configs()
+
+    for app_config in app_configs:
+        app_models = app_config.get_models()
+
+        for model in app_models:
+            if descents_from_abstract(model, abstract_klass):
+                yield model
+
+
+def descents_from_abstract(klass, abstract_klass):
+    """
+    Is ``klass`` descending from ``abstract_klass``?
+    """
+    return abstract_klass in inspect.getmro(klass)
+
+
+def get_fields(model):
+    """
+    Returns django fields of current ``model``.
+
+    Does not include inherited fields.
+    """
+    return model._meta.get_fields(include_parents=False)
+
+
+def group_per_model(models, **kwargs):
+    """
+    groups kwargs per model
+    """
+    ret = {}
+
+    for model in models:
+        fields = get_fields(model)
+        for field in fields:
+            if field.name in kwargs.keys():
+                ret.setdefault(model, {}).update(
+                    {field.name: kwargs[field.name]}
+                )
+
+    return ret

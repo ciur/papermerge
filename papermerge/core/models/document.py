@@ -1,10 +1,8 @@
 import logging
-import inspect
 import os
 
 from django.db import models
 from django.urls import reverse
-from django.apps import apps
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,13 +15,22 @@ from mglib.utils import get_assigns_after_delete
 
 from papermerge.core.storage import default_storage
 from .kvstore import KVCompNode, KVNode
-from .node import BaseTreeNode
+from .node import (
+    BaseTreeNode,
+    AbstractNode
+)
 from .access import Access
+from .utils import (
+    all_model_parts,
+    group_per_model
+)
 
 
 from papermerge.search import index
 
 logger = logging.getLogger(__name__)
+RELATED_NAME_FMT = "%(app_label)s_%(class)s_related"
+RELATED_QUERY_NAME_FMT = "%(app_label)s_%(class)ss"
 
 
 class DocumentManager(PolymorphicMPTTModelManager):
@@ -42,7 +49,7 @@ class DocumentManager(PolymorphicMPTTModelManager):
         **kwargs
     ):
         """
-        Creates a document
+        Creates a document.
         """
 
         parent = self._get_parent(parent_id=parent_id)
@@ -53,14 +60,19 @@ class DocumentManager(PolymorphicMPTTModelManager):
         #    app2.Document,
         #    app3.Document
         # ]
-        doc_parts = _all_document_parts()
+        doc_parts = list(all_model_parts(AbstractDocument))
         # 2. group arguments by document_parts
-        # grouped_args = {
+        # doc_grouped_args = {
         #    app1.Document: {},
         #    app2.Document: {},
         #    app3.Document: {}
         # }
-        grouped_args = _group_per_model(doc_parts, **kwargs)
+        doc_grouped_args = group_per_model(doc_parts, **kwargs)
+
+        node_parts = list(all_model_parts(AbstractNode))
+        node_grouped_args = group_per_model(node_parts, **kwargs)
+
+        # similar thing with nodes
 
         doc = Document(
             title=title,
@@ -83,9 +95,17 @@ class DocumentManager(PolymorphicMPTTModelManager):
 
         for model in doc_parts:
             if model != Document:
-                args = grouped_args.get(model, {})
+                args = doc_grouped_args.get(model, {})
                 instance = model(**args)
                 instance.base_ptr = doc
+                instance.save()
+                instance.clean()
+
+        for model in node_parts:
+            if model != BaseTreeNode:
+                args = node_grouped_args.get(model, {})
+                instance = model(**args)
+                instance.base_ptr = doc.basetreenode_ptr
                 instance.save()
                 instance.clean()
 
@@ -671,8 +691,8 @@ class AbstractDocument(models.Model):
     """
     base_ptr = models.OneToOneField(
         Document,
-        related_name="%(app_label)s_%(class)s_related",
-        related_query_name="%(app_label)s_%(class)ss",
+        related_name=RELATED_NAME_FMT,
+        related_query_name=RELATED_QUERY_NAME_FMT,
         on_delete=models.CASCADE
     )
 
@@ -699,53 +719,13 @@ class AbstractDocument(models.Model):
         return self.base_ptr.absfilepath
 
 
-def _descents_from_abstract_document(klass):
-    return AbstractDocument in inspect.getmro(klass)
-
-
 def _all_document_parts():
     """
     returns all models descendent from AbstractDocument PLUS
     papermerge.code.models.Document
     """
-    doc_parts = list(_document_parts())
+    doc_parts = list(all_model_parts(AbstractDocument))
     doc_parts.append(
         Document
     )
     return doc_parts
-
-
-def _document_parts():
-    """
-    Returns all models descendent from AbstractDocument.
-    """
-
-    app_configs = apps.get_app_configs()
-
-    for app_config in app_configs:
-        app_models = app_config.get_models()
-
-        for model in app_models:
-            if _descents_from_abstract_document(model):
-                yield model
-
-
-def _group_per_model(models, **kwargs):
-    """
-    groups kwargs per model
-    """
-    ret = {}
-
-    for model in models:
-        fields = _get_fields(model)
-        for field in fields:
-            if field.name in kwargs.keys():
-                ret.setdefault(model, {}).update(
-                    {field.name: kwargs[field.name]}
-                )
-
-    return ret
-
-
-def _get_fields(model):
-    return model._meta.get_fields(include_parents=False)

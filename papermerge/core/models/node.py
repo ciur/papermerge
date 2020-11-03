@@ -1,4 +1,5 @@
 from django.db import models
+
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
@@ -18,6 +19,9 @@ from polymorphic_tree.models import (
 PROPAGATE_ACCESS = 'access'
 PROPAGATE_KV = 'kv'
 PROPAGATE_KVCOMP = 'kvcomp'
+
+RELATED_NAME_FMT = "%(app_label)s_%(class)s_related"
+RELATED_QUERY_NAME_FMT = "%(app_label)s_%(class)ss"
 
 
 class BaseTreeNode(PolymorphicMPTTModel):
@@ -321,3 +325,22 @@ class BaseTreeNode(PolymorphicMPTTModel):
         verbose_name = _("Documents")
         verbose_name_plural = _("Documents")
         _icon_name = 'basetreenode'
+
+
+class AbstractNode(models.Model):
+    """
+    Common class apps need to inherit from in order
+    to extend BaseTreeNode model.
+    """
+    base_ptr = models.OneToOneField(
+        BaseTreeNode,
+        related_name=RELATED_NAME_FMT,
+        related_query_name=RELATED_QUERY_NAME_FMT,
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = True
+
+    def get_title(self):
+        return self.base_ptr.title
