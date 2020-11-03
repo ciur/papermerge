@@ -130,7 +130,7 @@ class TestPartsUtils(TestCase):
         grouped_kw = group_per_model(
             [FakeModel1], **kwargs
         )
-        self.assertEqual(
+        self.assertDictEqual(
             grouped_kw,
             {
                 FakeModel1: {
@@ -154,7 +154,7 @@ class TestPartsUtils(TestCase):
         grouped_kw = group_per_model(
             [FakeModel1, FakeModel2], **kwargs
         )
-        self.assertEqual(
+        self.assertDictEqual(
             grouped_kw,
             {
                 FakeModel1: {

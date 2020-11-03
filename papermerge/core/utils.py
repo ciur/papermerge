@@ -13,7 +13,6 @@ from django.urls import reverse
 logger = logging.getLogger(__name__)
 
 
-
 def date_2int(kv_format, str_value):
     # maps PAPERMERGE_METADATA_DATE_FORMATS to
     # https://docs.python.org/3.8/library/datetime.html#strftime-and-strptime-format-codes
