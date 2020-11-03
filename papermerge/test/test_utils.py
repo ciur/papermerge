@@ -4,8 +4,10 @@ from django.test import TestCase
 from papermerge.core.utils import (
     Timer,
     filter_node_id,
-    remove_backup_filename_id
+    remove_backup_filename_id,
 )
+
+from papermerge.core.models.utils import group_per_model
 
 class TestTimer(TestCase):
 
@@ -83,3 +85,85 @@ class TestTimer(TestCase):
             None
         )
 
+
+class FakeField:
+    def __init__(self, name):
+        self.name = name
+
+class FakeMeta1:
+
+    def get_fields(self, include_parents):
+        return [
+            FakeField("field_1"), FakeField("field_2")
+        ]
+
+class FakeMeta2:
+
+    def get_fields(self, include_parents):
+        return [
+            FakeField("field_3"), FakeField("field_4")
+        ]
+
+class FakeModel1:
+
+    _meta = FakeMeta1()
+
+    field_1 = FakeField("field_1")
+    field_2 = FakeField("field_2")
+
+class FakeModel2:
+
+    _meta = FakeMeta2()
+
+    field_1 = FakeField("field_3")
+    field_2 = FakeField("field_4")
+
+
+class TestPartsUtils(TestCase):
+
+    def test_group_per_model(self):
+        """
+        Asserts correct functionality of
+            papermerge.core.models.utils.group_per_model
+        """
+        kwargs = {'x': 1, 'y': 2, 'field_1': "right!"}
+        grouped_kw = group_per_model(
+            [FakeModel1], **kwargs
+        )
+        self.assertEqual(
+            grouped_kw,
+            {
+                FakeModel1: {
+                    'field_1': "right!"
+                }
+            }
+        )
+
+    def test_group_per_model_2(self):
+        """
+        Asserts correct functionality of
+            papermerge.core.models.utils.group_per_model
+        """
+        kwargs = {
+            'x': 1,
+            'y': 2,
+            'field_1': "right!",
+            'field_3': "part_of_model2",
+            'field_4': "part_of_model2"
+        }
+        grouped_kw = group_per_model(
+            [FakeModel1, FakeModel2], **kwargs
+        )
+        self.assertEqual(
+            grouped_kw,
+            {
+                FakeModel1: {
+                    'field_1': "right!"
+                },
+                FakeModel2: {
+                    'field_3': "part_of_model2",
+                    'field_4': "part_of_model2"
+                }
+
+            }
+        )

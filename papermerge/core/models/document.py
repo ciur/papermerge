@@ -124,7 +124,7 @@ class DocumentManager(PolymorphicMPTTModelManager):
 
     def _get_parent(self, parent_id):
         """
-        Returns parent node instance based on parent_id
+        Returns parent node instance based on ``parent_id``
         """
         parent = None
 
