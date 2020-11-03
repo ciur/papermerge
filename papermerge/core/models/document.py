@@ -51,29 +51,14 @@ class DocumentManager(PolymorphicMPTTModelManager):
     ):
         """
         Creates a document.
+
+        Special keyword argument ``parts`` is a dictionary
+        of extra document parts (added by extra apps)
         """
+        # extra document parts
+        kw_parts = kwargs.pop('parts', None)
+
         parent = self._get_parent(parent_id=parent_id)
-
-        default_parts_finder
-        # 1. figure out document parts
-        # document_parts = [
-        #    app1.Document,
-        #    app2.Document,
-        #    app3.Document
-        # ]
-        doc_parts = default_parts_finder.find(AbstractDocument)
-        # 2. group arguments by document_parts
-        # doc_grouped_args = {
-        #    app1.Document: {},
-        #    app2.Document: {},
-        #    app3.Document: {}
-        # }
-        doc_grouped_args = group_per_model(doc_parts, **kwargs)
-
-        node_parts = default_parts_finder.find(AbstractNode)
-        node_grouped_args = group_per_model(node_parts, **kwargs)
-
-        # similar thing with nodes
 
         doc = Document(
             title=title,
@@ -94,13 +79,16 @@ class DocumentManager(PolymorphicMPTTModelManager):
         doc.create_pages()
         doc.full_clean()
 
-        for model in doc_parts:
-            if model != Document:
-                args = doc_grouped_args.get(model, {})
-                instance = model(**args)
-                instance.base_ptr = doc
-                instance.save()
-                instance.clean()
+        if kw_parts:
+            # are there any extra document/node parts to create ?
+            self._create_document_parts(doc, **kw_parts)
+            self._create_node_parts(doc, **kw_parts)
+
+        return doc
+
+    def _create_node_parts(self, doc, *kw_parts):
+        node_parts = default_parts_finder.find(AbstractNode)
+        node_grouped_args = group_per_model(node_parts, **kw_parts)
 
         for model in node_parts:
             if model != BaseTreeNode:
@@ -110,7 +98,29 @@ class DocumentManager(PolymorphicMPTTModelManager):
                 instance.save()
                 instance.clean()
 
-        return doc
+    def _create_doc_parts(self, doc, **kw_parts):
+        # 1. figure out document parts
+        # document_parts = [
+        #    app1.Document,
+        #    app2.Document,
+        #    app3.Document
+        # ]
+        doc_parts = default_parts_finder.find(AbstractDocument)
+        # 2. group arguments by document_parts
+        # doc_grouped_args = {
+        #    app1.Document: {},
+        #    app2.Document: {},
+        #    app3.Document: {}
+        # }
+        doc_grouped_args = group_per_model(doc_parts, **kw_parts)
+
+        for model in doc_parts:
+            if model != Document:
+                args = doc_grouped_args.get(model, {})
+                instance = model(**args)
+                instance.base_ptr = doc
+                instance.save()
+                instance.clean()
 
     def _get_parent(self, parent_id):
         """
