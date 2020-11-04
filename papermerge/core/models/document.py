@@ -89,6 +89,7 @@ class DocumentManager(PolymorphicMPTTModelManager):
     def _create_node_parts(self, doc, **kw_parts):
         node_parts = default_parts_finder.find(AbstractNode)
         node_grouped_args = group_per_model(node_parts, **kw_parts)
+
         for model in node_parts:
             if model != BaseTreeNode:
                 args = node_grouped_args.get(model, {})
@@ -112,7 +113,6 @@ class DocumentManager(PolymorphicMPTTModelManager):
         #    app3.Document: {}
         # }
         doc_grouped_args = group_per_model(doc_parts, **kw_parts)
-
         for model in doc_parts:
             if model != Document:
                 args = doc_grouped_args.get(model, {})
@@ -200,10 +200,18 @@ class DocumentPartsManager:
         """
         Looks for missing attributes in document parts (added by external apps)
         """
+        # check for the attribute in classes that inherit from AbstractDocument
         model_klass = default_parts_finder.get(
             AbstractDocument,
             attr_name=name
         )
+
+        # check for the attribute in classes that inherit from AbstractNode
+        if not model_klass:
+            model_klass = default_parts_finder.get(
+                AbstractNode,
+                attr_name=name
+            )
 
         if model_klass:
             app_label = model_klass._meta.app_label

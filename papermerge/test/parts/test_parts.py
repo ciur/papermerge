@@ -48,7 +48,6 @@ class PartsTests(TestCase):
             doc.title,
             "Test #1"
         )
-
         self.assertEqual(
             doc.parts.policy.name,
             "Default Policy"
