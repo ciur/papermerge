@@ -38,8 +38,15 @@ class Node(AbstractNode):
     )
 
     def delete(self):
-        if self.policy.allow_delete:
+
+        if not self.policy:
             super().delete()
+            return (1, {type(self): 1})
 
-        raise PermissionDenied()
+        # if there is a policy associated
+        # which denies permission
+        if not self.policy.allow_delete:
+            raise PermissionDenied()
 
+        super().delete()
+        return (1, {type(self): 1})

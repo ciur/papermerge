@@ -293,8 +293,15 @@ class Document(BaseTreeNode):
         index.SearchField('notes')
     ]
 
-    def delete(self):
-        model_klasses = default_parts_finder.find(AbstractNode)
+    def each_part(self, abstract_klasses):
+        """
+        Iterates through each INSTANCE of document parts which inherits
+        from given ``abstract_klasses``
+        """
+        model_klasses = []
+
+        for klass in abstract_klasses:
+            model_klasses.extend(default_parts_finder.find(klass))
 
         for model_klass in model_klasses:
             # if name is an attribute of a klass which inherits
@@ -302,15 +309,37 @@ class Document(BaseTreeNode):
             app_label = model_klass._meta.app_label
             class_name = model_klass.__name__.lower()
             rel_name = f"{app_label}_{class_name}_related"
-            try:
-                found_field = getattr(self.document, rel_name)
-                found_field.delete()
-            except PermissionDenied:
-                raise
-            except Exception:
-                pass
+            if hasattr(self, rel_name):
+                found_field = getattr(self, rel_name)
+                if found_field:
+                    yield found_field
 
-        super().delete()
+    @transaction.atomic
+    def delete(self):
+        """
+        Deletes the document and all associated parts in single transaction.
+
+        If any of the parts objects the deletion - either by raising an
+        exception or by returning 0 - deletion is aborted.
+
+        Document part may object deletion by:
+
+            * raising an PermissionDenied exception.
+            * returning 0 count (i.e. not vorting for deletion)
+        """
+        abstract_klasses = [AbstractDocument, AbstractNode]
+        instance_counter = 0
+        vote_counter = 0
+
+        for model_instance in self.each_part(abstract_klasses):
+            instance_counter += 1
+            deleted_count, _ = model_instance.delete()
+            vote_counter += deleted_count
+
+        if vote_counter >= instance_counter:
+            super().delete()
+        else:
+            transaction.rollback()
 
     @property
     def parts(self):
