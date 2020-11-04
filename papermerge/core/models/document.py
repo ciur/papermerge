@@ -56,7 +56,7 @@ class DocumentManager(PolymorphicMPTTModelManager):
         of extra document parts (added by extra apps)
         """
         # extra document parts
-        kw_parts = kwargs.pop('parts', None)
+        kw_parts = kwargs.pop('parts', {})
 
         parent = self._get_parent(parent_id=parent_id)
 
@@ -79,10 +79,8 @@ class DocumentManager(PolymorphicMPTTModelManager):
         doc.create_pages()
         doc.full_clean()
 
-        if kw_parts:
-            # are there any extra document/node parts to create ?
-            self._create_doc_parts(doc, **kw_parts)
-            self._create_node_parts(doc, **kw_parts)
+        self._create_doc_parts(doc, **kw_parts)
+        self._create_node_parts(doc, **kw_parts)
 
         return doc
 

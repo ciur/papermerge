@@ -1,6 +1,7 @@
 from django.test import TestCase
+from django.core.exceptions import ValidationError
 
-from papermerge.core.models import Document
+from papermerge.core.models import Document, Page
 from papermerge.test.utils import create_root_user
 
 from papermerge.test.parts.app_dr.models import Policy
@@ -84,4 +85,43 @@ class PartsTests(TestCase):
         self.assertEqual(
             dox.parts.policy.name,
             "Default Policy"
+        )
+
+    def test_create_document_with_101_pages(self):
+        """
+        test.parts.app_max_p contains a Document Part which
+        invalidates any document with > 100 pages.
+
+        Create a document with 101 pages and check that
+        ValidationError is raised.
+        """
+        self.assertFalse(
+            Document.objects.count()
+        )
+
+        self.assertFalse(
+            Page.objects.count()
+        )
+
+        with self.assertRaises(ValidationError):
+            Document.objects.create_document(
+                title="Invoice BRT-0001",
+                file_name="invoice.pdf",
+                size="3",
+                lang="DEU",
+                user=self.user,
+                # test.parts.app_0.models.Document allow MAX_PAGES=100
+                page_count=101,
+            )
+
+        # No partially created docs were left.
+        # If document creation failed - and its satellite models
+        # - all transaction is rolled back
+        self.assertFalse(
+            Document.objects.count()
+        )
+        # No pages (from not yet created document) left.
+        # If document creation failed - all transaction is rolled back
+        self.assertFalse(
+            Page.objects.count()
         )

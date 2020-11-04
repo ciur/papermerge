@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'mgclipboard',
     'papermerge.test.parts.app_0',  # absolute minimum app
     'papermerge.test.parts.app_dr',  # data retention app
+    'papermerge.test.parts.app_max_p',  # max number of pages per document
 )
 
 MIDDLEWARE = [
