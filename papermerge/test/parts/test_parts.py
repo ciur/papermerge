@@ -1,5 +1,8 @@
 from django.test import TestCase
-from django.core.exceptions import ValidationError
+from django.core.exceptions import (
+    ValidationError,
+    PermissionDenied
+)
 
 from papermerge.core.models import Document, Page
 from papermerge.test.utils import create_root_user
@@ -86,6 +89,37 @@ class PartsTests(TestCase):
             dox.parts.policy.name,
             "Default Policy"
         )
+
+    def test_permission_denied_on_restrictive_policy(self):
+        """
+        Document should not be allowed to be deleted if one
+        document part restricts this operation.
+
+        Data retention policy is a good example of this behaviour.
+        Data retention app imposes a policy that will restrict document
+        deletion.
+        """
+        doc = Document.objects.create_document(
+            file_name="test.pdf",
+            size="3",
+            lang="DEU",
+            user=self.user,
+            title="Test #1",
+            page_count=3,
+        )
+
+        policy = Policy.objects.create(
+            name="Default Policy",
+            allow_delete=False
+        )
+
+        doc.parts.policy = policy
+        doc.save()
+
+        dox = Document.objects.get(id=doc.id)
+
+        with self.assertRaises(PermissionDenied):
+            dox.delete()
 
     def test_create_document_with_101_pages(self):
         """

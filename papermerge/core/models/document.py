@@ -5,8 +5,12 @@ from django.db import models
 from django.urls import reverse
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import PermissionDenied
 
-from polymorphic_tree.managers import PolymorphicMPTTModelManager
+from polymorphic_tree.managers import (
+    PolymorphicMPTTModelManager,
+    PolymorphicMPTTQuerySet
+)
 
 from mglib import step
 from mglib.path import DocumentPath, PagePath
@@ -136,6 +140,10 @@ class DocumentManager(PolymorphicMPTTModelManager):
                 parent = None
 
         return parent
+
+
+class DocumentQuerySet(PolymorphicMPTTQuerySet):
+    pass
 
 
 class DocumentPartsManager:
@@ -271,7 +279,7 @@ class Document(BaseTreeNode):
 
     text = models.TextField(blank=True)
 
-    objects = DocumentManager()
+    objects = DocumentManager.from_queryset(DocumentQuerySet)()
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 
@@ -284,6 +292,25 @@ class Document(BaseTreeNode):
         index.SearchField('text', partial_match=True, boost=2),
         index.SearchField('notes')
     ]
+
+    def delete(self):
+        model_klasses = default_parts_finder.find(AbstractNode)
+
+        for model_klass in model_klasses:
+            # if name is an attribute of a klass which inherits
+            # from AbstractDocument or AbstractNode...
+            app_label = model_klass._meta.app_label
+            class_name = model_klass.__name__.lower()
+            rel_name = f"{app_label}_{class_name}_related"
+            try:
+                found_field = getattr(self.document, rel_name)
+                found_field.delete()
+            except PermissionDenied:
+                raise
+            except Exception:
+                pass
+
+        super().delete()
 
     @property
     def parts(self):

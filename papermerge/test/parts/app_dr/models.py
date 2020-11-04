@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import PermissionDenied
 
 from papermerge.core.models import AbstractNode
 
@@ -35,3 +36,10 @@ class Node(AbstractNode):
         blank=True,
         null=True
     )
+
+    def delete(self):
+        if self.policy.allow_delete:
+            super().delete()
+
+        raise PermissionDenied()
+
