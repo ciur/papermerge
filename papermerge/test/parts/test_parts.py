@@ -93,11 +93,13 @@ class PartsTests(TestCase):
     def test_permission_denied_on_restrictive_policy(self):
         """
         Document should not be allowed to be deleted if one
-        document part restricts this operation.
+        document part (papermerge app) restricts this operation.
 
         Data retention policy is a good example of this behaviour.
         Data retention app imposes a policy that will restrict document
         deletion.
+
+        Test single Document object deletion.
         """
         doc = Document.objects.create_document(
             file_name="test.pdf",
