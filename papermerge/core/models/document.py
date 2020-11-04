@@ -3,9 +3,8 @@ import os
 
 from django.db import models
 from django.urls import reverse
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import PermissionDenied
 
 from polymorphic_tree.managers import (
     PolymorphicMPTTModelManager,
@@ -314,7 +313,6 @@ class Document(BaseTreeNode):
                 if found_field:
                     yield found_field
 
-    @transaction.atomic
     def delete(self):
         """
         Deletes the document and all associated parts in single transaction.
@@ -331,15 +329,25 @@ class Document(BaseTreeNode):
         instance_counter = 0
         vote_counter = 0
 
-        for model_instance in self.each_part(abstract_klasses):
-            instance_counter += 1
-            deleted_count, _ = model_instance.delete()
-            vote_counter += deleted_count
+        try:
+            with transaction.atomic():
+                for model_instance in self.each_part(abstract_klasses):
+                    instance_counter += 1
+                    # Model.delete() returns a tuple.
+                    # First item in tuple is number of deleted objects
+                    deleted_count, _ = model_instance.delete()
+                    vote_counter += deleted_count
 
-        if vote_counter >= instance_counter:
-            super().delete()
-        else:
-            transaction.rollback()
+                if vote_counter >= instance_counter:
+                    # If all document parts successfully deleted
+                    # then delete self
+                    super().delete()
+                else:
+                    # Not all parts were deleted. Rollback transaction
+                    raise IntegrityError
+        except IntegrityError:
+            # Transaction was aborted
+            pass
 
     @property
     def parts(self):

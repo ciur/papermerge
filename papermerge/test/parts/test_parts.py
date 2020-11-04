@@ -110,6 +110,8 @@ class PartsTests(TestCase):
             page_count=3,
         )
 
+        # this policy will raise Permission Denied on
+        # deletion
         policy = Policy.objects.create(
             name="Default Policy",
             allow_delete=False
@@ -122,6 +124,40 @@ class PartsTests(TestCase):
 
         with self.assertRaises(PermissionDenied):
             dox.delete()
+
+        # document is still there
+        self.assertTrue(Document.objects.get(id=doc.id))
+
+    def test_silently_object_deletion_with_policy_x(self):
+        """
+        Document part may silently object the deletion by
+        returning a tuple with first item set to 0.
+        """
+        doc = Document.objects.create_document(
+            file_name="test.pdf",
+            size="3",
+            lang="DEU",
+            user=self.user,
+            title="Test #1",
+            page_count=3,
+        )
+
+        # this policy will SILENTLY prevent the deletion.
+        policy = Policy.objects.create(
+            name="Default Policy",
+            allow_delete=False
+        )
+
+        doc.parts.policy_x = policy
+        doc.save()
+
+        dox = Document.objects.get(id=doc.id)
+
+        # no exception raised
+        dox.delete()
+
+        # document is still there
+        self.assertTrue(Document.objects.get(id=doc.id))
 
     def test_create_document_with_101_pages(self):
         """

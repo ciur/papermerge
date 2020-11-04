@@ -38,7 +38,10 @@ class Node(AbstractNode):
     )
 
     def delete(self):
-
+        """
+        raise Permission denied if policy
+        does not allow delection.
+        """
         if not self.policy:
             super().delete()
             return (1, {type(self): 1})
@@ -47,6 +50,30 @@ class Node(AbstractNode):
         # which denies permission
         if not self.policy.allow_delete:
             raise PermissionDenied()
+
+        super().delete()
+        return (1, {type(self): 1})
+
+
+class NodeX(AbstractNode):
+    policy_x = models.ForeignKey(
+        Policy,
+        on_delete=models.CASCADE,
+        related_name='statesx',  # Note: 'x'
+        blank=True,
+        null=True
+    )
+
+    def delete(self):
+        if not self.policy_x:
+            super().delete()
+            return (1, {type(self): 1})
+
+        # silently object deletion
+        if not self.policy_x.allow_delete:
+            # returning 0 as first item in tuple
+            # will silently prevent document deletion
+            return (0, {type(self): 0})
 
         super().delete()
         return (1, {type(self): 1})
