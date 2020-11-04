@@ -9,6 +9,19 @@ class Policy(models.Model):
         unique=True
     )
 
+    # policy dictates if specific document
+    # may be deleted.
+    allow_delete = models.BooleanField(
+        default=False
+    )
+
+    def __str__(self):
+
+        n = self.name
+        d = self.allow_delete
+
+        return f"Policy({n}, allow_delete={d})"
+
 
 class Node(AbstractNode):
     """

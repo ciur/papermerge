@@ -79,6 +79,8 @@ class DocumentManager(PolymorphicMPTTModelManager):
         doc.create_pages()
         doc.full_clean()
 
+        # document parts are created regardless whether there
+        # are arguments for them or no.
         self._create_doc_parts(doc, **kw_parts)
         self._create_node_parts(doc, **kw_parts)
 
