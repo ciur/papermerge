@@ -13,6 +13,10 @@ from polymorphic_tree.models import (
     PolymorphicMPTTModel,
     PolymorphicTreeForeignKey
 )
+from polymorphic_tree.managers import (
+    PolymorphicMPTTModelManager,
+    PolymorphicMPTTQuerySet
+)
 
 # things you can propagate from parent node to
 # child node
@@ -21,6 +25,28 @@ PROPAGATE_KV = 'kv'
 PROPAGATE_KVCOMP = 'kvcomp'
 RELATED_NAME_FMT = "%(app_label)s_%(class)s_related"
 RELATED_QUERY_NAME_FMT = "%(app_label)s_%(class)ss"
+
+
+class NodeManager(PolymorphicMPTTModelManager):
+    pass
+
+
+class NodeQuerySet(PolymorphicMPTTQuerySet):
+
+    def delete(self, *args, **kwargs):
+        for node in self:
+            descendants = node.get_descendants()
+
+            if descendants.count() > 0:
+                descendants.delete(*args, **kwargs)
+            # At this point all descendants were deleted.
+            # Self delete :)
+            try:
+                node.delete()
+            except BaseTreeNode.DoesNotExist:
+                # this node was deleted by earlier recursive call
+                # it is ok, just skip
+                pass
 
 
 class BaseTreeNode(PolymorphicMPTTModel):
@@ -55,6 +81,9 @@ class BaseTreeNode(PolymorphicMPTTModel):
     )
 
     tags = TaggableManager(through=ColoredTag)
+
+    # custom Manager + custom QuerySet
+    objects = NodeManager.from_queryset(NodeQuerySet)()
 
     def is_folder(self):
         folder_ct = ContentType.objects.get(

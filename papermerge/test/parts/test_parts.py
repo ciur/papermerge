@@ -4,7 +4,11 @@ from django.core.exceptions import (
     PermissionDenied
 )
 
-from papermerge.core.models import Document, Page
+from papermerge.core.models import (
+    Document,
+    Page,
+    BaseTreeNode
+)
 from papermerge.test.utils import create_root_user
 
 from papermerge.test.parts.app_dr.models import Policy
@@ -158,6 +162,53 @@ class PartsTests(TestCase):
 
         # document is still there
         self.assertTrue(Document.objects.get(id=doc.id))
+
+    def test_silently_object_deletion_with_policy_x_BULK_delete(self):
+        """
+        Create 7 documents where one has assigned policy_x (which siliently
+        forbids deletion).
+        Deleting in bulk is expected delete 6 documents (which do not have
+        policy_x assigned).
+        """
+        for number in range(0, 6):
+            doc = Document.objects.create_document(
+                file_name=f"test_{number}.pdf",
+                size="3",
+                lang="DEU",
+                user=self.user,
+                title="Test #1",
+                page_count=3,
+            )
+            doc.save()
+
+        doc = Document.objects.create_document(
+            file_name="test.pdf",
+            size="3",
+            lang="DEU",
+            user=self.user,
+            title="Test #1",
+            page_count=3,
+        )
+
+        # this policy will SILENTLY prevent the deletion.
+        policy = Policy.objects.create(
+            name="Default Policy",
+            allow_delete=False
+        )
+        doc.parts.policy_x = policy
+        doc.save()
+        self.assertEqual(
+            BaseTreeNode.objects.count(),
+            7
+        )  # there are 7 nodes/documents
+
+        BaseTreeNode.objects.all().delete()
+
+        # Because one delete silently failed
+        self.assertEqual(
+            BaseTreeNode.objects.count(),
+            1
+        )  # there is one node ramaining (one with policy x assigned)
 
     def test_create_document_with_101_pages(self):
         """

@@ -218,7 +218,7 @@ def nodes_view(request):
                 return msg, HttpResponseForbidden.status_code
         # yes, user is allowed to delete all nodes,
         # proceed with delete opration
-        recursive_delete(queryset)
+        queryset.delete()
         signals.nodes_deleted.send(
             sender='core.views.nodes.nodes_view',
             user_id=request.user.id,
