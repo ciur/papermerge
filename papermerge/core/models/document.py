@@ -232,6 +232,8 @@ class DocumentPartsManager:
                 return None
 
 
+CustomDocumentManager = DocumentManager.from_queryset(DocumentQuerySet)
+
 class Document(BaseTreeNode):
 
     class CannotUpload(Exception):
@@ -278,7 +280,7 @@ class Document(BaseTreeNode):
 
     text = models.TextField(blank=True)
 
-    objects = DocumentManager.from_queryset(DocumentQuerySet)()
+    objects = CustomDocumentManager()
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 

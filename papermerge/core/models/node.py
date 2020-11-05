@@ -49,6 +49,9 @@ class NodeQuerySet(PolymorphicMPTTQuerySet):
                 pass
 
 
+CustomNodeManager = NodeManager.from_queryset(NodeQuerySet)
+
+
 class BaseTreeNode(PolymorphicMPTTModel):
     parent = PolymorphicTreeForeignKey(
         'self',
@@ -83,7 +86,7 @@ class BaseTreeNode(PolymorphicMPTTModel):
     tags = TaggableManager(through=ColoredTag)
 
     # custom Manager + custom QuerySet
-    objects = NodeManager.from_queryset(NodeQuerySet)()
+    objects = CustomNodeManager()
 
     def is_folder(self):
         folder_ct = ContentType.objects.get(
