@@ -112,6 +112,9 @@ class TestGroupView(TestCase):
         )
 
     def test_create_new_group_via_post(self):
+        """
+        Asserts correct functionality of new group creation.
+        """
         self.client.login(testcase_user=self.testcase_user)
 
         self.client.post(
