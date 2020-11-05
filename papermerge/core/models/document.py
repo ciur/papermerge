@@ -484,10 +484,6 @@ class Document(BaseTreeNode):
     def __str__(self):
         return self.__repr__()
 
-    def reload(self):
-        new_self = self.__class__.objects.get(pk=self.pk)
-        self.__dict__.update(new_self.__dict__)
-
     @property
     def file_ext(self):
         _, ext = os.path.splitext(self.file_name)
