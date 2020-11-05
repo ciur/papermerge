@@ -35,7 +35,7 @@ class FolderQuerySet(PolymorphicMPTTQuerySet):
             # At this point all descendants were deleted.
             # Self delete :)
             try:
-                node.delete()
+                node.delete(*args, **kwargs)
             except BaseTreeNode.DoesNotExist:
                 # this node was deleted by earlier recursive call
                 # it is ok, just skip
