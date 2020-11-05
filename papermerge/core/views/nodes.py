@@ -17,7 +17,6 @@ from papermerge.core.models import (
     Automate,
     Tag
 )
-from papermerge.core.models.utils import recursive_delete
 from papermerge.core import signal_definitions as signals
 
 from .decorators import json_response

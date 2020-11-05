@@ -313,7 +313,7 @@ class Document(BaseTreeNode):
                 if found_field:
                     yield found_field
 
-    def delete(self):
+    def delete(self, *args, **kwargs):
         """
         Deletes the document and all associated parts in single transaction.
 
@@ -341,7 +341,7 @@ class Document(BaseTreeNode):
                 if vote_counter >= instance_counter:
                     # If all document parts successfully deleted
                     # then delete self
-                    super().delete()
+                    super().delete(*args, **kwargs)
                 else:
                     # Not all parts were deleted. Rollback transaction
                     raise IntegrityError

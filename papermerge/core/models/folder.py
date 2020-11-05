@@ -1,6 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from polymorphic_tree.managers import (
+    PolymorphicMPTTModelManager,
+    PolymorphicMPTTQuerySet
+)
+
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.kvstore import (
     KVCompNode,
@@ -15,6 +20,30 @@ from papermerge.core.models.node import (
 from papermerge.search import index
 
 
+class FolderManager(PolymorphicMPTTModelManager):
+    pass
+
+
+class FolderQuerySet(PolymorphicMPTTQuerySet):
+
+    def delete(self, *args, **kwargs):
+        for node in self:
+            descendants = node.get_descendants()
+
+            if descendants.count() > 0:
+                descendants.delete(*args, **kwargs)
+            # At this point all descendants were deleted.
+            # Self delete :)
+            try:
+                node.delete()
+            except BaseTreeNode.DoesNotExist:
+                # this node was deleted by earlier recursive call
+                # it is ok, just skip
+                pass
+
+
+CustomFolderManager = FolderManager.from_queryset(FolderQuerySet)
+
 class Folder(BaseTreeNode, index.Indexed):
 
     # special folders' name always starts with a DOT (. character)
@@ -25,6 +54,26 @@ class Folder(BaseTreeNode, index.Indexed):
         index.SearchField('text', partial_match=True, boost=2),
         index.SearchField('notes')
     ]
+
+    objects = CustomFolderManager()
+
+    def delete(self, *args, **kwargs):
+        descendants = self.basetreenode_ptr.get_descendants()
+
+        if descendants.count() > 0:
+            for node in descendants:
+                try:
+                    node.delete(*args, **kwargs)
+                except BaseTreeNode.DoesNotExist:
+                    pass
+        # At this point all descendants were deleted.
+        # Self delete :)
+        try:
+            super().delete(*args, **kwargs)
+        except BaseTreeNode.DoesNotExist:
+            # this node was deleted by earlier recursive call
+            # it is ok, just skip
+            pass
 
     def to_dict(self):
         item = {}

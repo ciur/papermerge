@@ -1,7 +1,6 @@
 from django.test import TestCase
 from papermerge.core.models import Document, Folder, BaseTreeNode
 from papermerge.test.utils import create_root_user
-from papermerge.core.models.utils import recursive_delete
 
 
 class TestNode(TestCase):
@@ -115,7 +114,7 @@ class TestRecursiveDelete(TestCase):
             2,
             descendants_count
         )
-        recursive_delete(folder_A)
+        folder_A.delete()
 
         # by now everything should be deleted
         self.assertEqual(
@@ -192,7 +191,7 @@ class TestRecursiveDelete(TestCase):
                          B     doc2.pdf
 
         basically this test asserts correct functionality of
-        papermerge.core.models.utils.recursive_delete function
+        node/folder queryset delete function
         """
         folder_A = Folder.objects.create(
             title="A",
@@ -239,7 +238,7 @@ class TestRecursiveDelete(TestCase):
         )
 
         # no exceptions here
-        recursive_delete(folder_A)
+        folder_A.delete()
 
         self.assertEqual(
             0,
