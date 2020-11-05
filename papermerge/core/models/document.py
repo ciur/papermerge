@@ -474,11 +474,15 @@ class Document(BaseTreeNode):
         verbose_name = _("Document")
         verbose_name_plural = _("Documents")
 
-    def __str__(self):
-        if self.title:
-            return self.title
+    def __repr__(self):
+        _t = self.title
+        _i = self.id
+        _p = self.page_count
 
-        return "Doc {}".format(self.id)
+        return f"Document(id={_i}, title={_t}, page_count={_p})"
+
+    def __str__(self):
+        return self.__repr__()
 
     def reload(self):
         new_self = self.__class__.objects.get(pk=self.pk)
