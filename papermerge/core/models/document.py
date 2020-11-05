@@ -96,9 +96,10 @@ class DocumentManager(PolymorphicMPTTModelManager):
         for model in node_parts:
             if model != BaseTreeNode:
                 args = node_grouped_args.get(model, {})
-                instance = model(**args)
-                instance.base_ptr = doc.basetreenode_ptr
-                instance.save()
+                instance, _ = model.objects.get_or_create(
+                    base_ptr=doc.basetreenode_ptr,
+                    **args
+                )
                 instance.clean()
 
     def _create_doc_parts(self, doc, **kw_parts):
@@ -119,9 +120,10 @@ class DocumentManager(PolymorphicMPTTModelManager):
         for model_klass in doc_parts:
             if model_klass != Document:
                 args = doc_grouped_args.get(model_klass, {})
-                instance = model_klass(**args)
-                instance.base_ptr = doc
-                instance.save()
+                instance, _ = model_klass.objects.get_or_create(
+                    base_ptr=doc,
+                    **args
+                )
                 instance.clean()
 
     def _get_parent(self, parent_id):
@@ -194,10 +196,9 @@ class DocumentPartsManager:
             base_ptr = self.document.basetreenode_ptr
 
         if model_klass:
-            try:
-                part_instance = model_klass.objects.get(base_ptr=base_ptr)
-            except model_klass.DoesNotExist:
-                part_instance = model_klass(base_ptr=base_ptr)
+            part_instance, _ = model_klass.objects.get_or_create(
+                base_ptr=base_ptr
+            )
 
             setattr(part_instance, name, value)
             part_instance.save()
