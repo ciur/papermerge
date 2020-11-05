@@ -13,3 +13,10 @@ class Document(AbstractDocument):
         unique=True,
         null=True
     )
+
+    def __repr__(self):
+        _i = self.id
+        _e = self.extra_special_id
+        _b = self.base_ptr
+
+        return f"DocumentPart(id={_i}, extra_special_id={_e}, base_ptr={_b})"

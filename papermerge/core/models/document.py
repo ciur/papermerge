@@ -116,10 +116,10 @@ class DocumentManager(PolymorphicMPTTModelManager):
         #    app3.Document: {}
         # }
         doc_grouped_args = group_per_model(doc_parts, **kw_parts)
-        for model in doc_parts:
-            if model != Document:
-                args = doc_grouped_args.get(model, {})
-                instance = model(**args)
+        for model_klass in doc_parts:
+            if model_klass != Document:
+                args = doc_grouped_args.get(model_klass, {})
+                instance = model_klass(**args)
                 instance.base_ptr = doc
                 instance.save()
                 instance.clean()
@@ -174,9 +174,11 @@ class DocumentPartsManager:
             app_label = model_klass._meta.app_label
             class_name = model_klass.__name__.lower()
             rel_name = f"{app_label}_{class_name}_related"
-            try:
+            if hasattr(self.document, rel_name):
                 found_field = getattr(self.document, rel_name)
-            except Exception:
+                setattr(found_field, name, value)
+                found_field.save()
+            else:
                 # related object does not exists
                 if is_abs_doc:
                     # model_klass inherits from AbstractDocument
@@ -190,14 +192,11 @@ class DocumentPartsManager:
                     part_instance = model_klass(
                         base_ptr=self.document.basetreenode_ptr
                     )
-
+                setattr(part_instance, name, value)
                 part_instance.save()
                 part_instance.clean()
 
                 found_field = part_instance
-
-            setattr(found_field, name, value)
-            found_field.save()
         else:
             # name is a standard attribute, thus proceed with
             # standard way of assigning things
@@ -221,15 +220,9 @@ class DocumentPartsManager:
             )
 
         if model_klass:
-            app_label = model_klass._meta.app_label
-            class_name = model_klass.__name__.lower()
-            rel_name = f"{app_label}_{class_name}_related"
-            try:
-                found_field = getattr(self.document, rel_name)
-                if found_field:
-                    return getattr(found_field, name)
-            except Exception:
-                return None
+            instance = model_klass.objects.get(base_ptr=self.document)
+            if hasattr(instance, name):
+                return getattr(instance, name)
 
 
 CustomDocumentManager = DocumentManager.from_queryset(DocumentQuerySet)
@@ -307,13 +300,15 @@ class Document(BaseTreeNode):
         for model_klass in model_klasses:
             # if name is an attribute of a klass which inherits
             # from AbstractDocument or AbstractNode...
-            app_label = model_klass._meta.app_label
-            class_name = model_klass.__name__.lower()
-            rel_name = f"{app_label}_{class_name}_related"
-            if hasattr(self, rel_name):
-                found_field = getattr(self, rel_name)
-                if found_field:
-                    yield found_field
+            try:
+                item = model_klass.objects.get(base_ptr=self)
+                yield item
+            except model_klass.DoesNotExist:
+                # Engineering assumption:
+                # There must be either 0 (zero) or 1 (one)
+                # instances of model_klass with base_ptr pointing
+                # to this document.
+                pass
 
     def delete(self, *args, **kwargs):
         """
@@ -860,7 +855,7 @@ class AbstractDocument(models.Model):
     Common class apps need to inherit from in order
     to extend Document model.
     """
-    base_ptr = models.OneToOneField(
+    base_ptr = models.ForeignKey(
         Document,
         related_name=RELATED_NAME_FMT,
         related_query_name=RELATED_QUERY_NAME_FMT,

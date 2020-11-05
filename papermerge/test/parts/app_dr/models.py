@@ -54,6 +54,13 @@ class Node(AbstractNode):
         super().delete()
         return (1, {type(self): 1})
 
+    def __repr__(self):
+        _i = self.id
+        _p = self.policy
+        _b = self.base_ptr
+
+        return f"NodePart(id={_i}, policy={_p}, base_ptr={_b})"
+
 
 class NodeX(AbstractNode):
     policy_x = models.ForeignKey(
@@ -77,3 +84,10 @@ class NodeX(AbstractNode):
 
         super().delete()
         return (1, {type(self): 1})
+
+    def __repr__(self):
+        _i = self.id
+        _p = self.policy
+        _b = self.base_ptr
+
+        return f"NodeXPart(id={_i}, policy={_p}, base_ptr={_b})"
