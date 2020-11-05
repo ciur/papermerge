@@ -154,6 +154,22 @@ class DocumentPartsManager:
         self.document = document
 
     def __setattr__(self, name, value):
+        """
+        Assign ``value`` to the attribute ``name`` on the document part model.
+
+        document part model = django model which inherits from
+        one of two classes:
+
+            * papermerge.core.models.AbstractDocument
+            * papermerge.core.models.AbstractNode
+
+        This method provides a way to assign values to part models
+        via Document model:
+
+            doc = Document.objects.create_document(...)
+            doc.parts.policy = policy  # <- this assignment is managed here
+            doc.save()
+        """
         model_klass = default_parts_finder.get(
             AbstractNode,
             attr_name=name
@@ -168,7 +184,6 @@ class DocumentPartsManager:
                 attr_name=name
             )
 
-        base_ptr = self.document
         if is_abs_doc:
             # model_klass inherits from AbstractDocument
             # thus link accordingly
@@ -194,7 +209,13 @@ class DocumentPartsManager:
 
     def __getattr__(self, name):
         """
-        Looks for missing attributes in document parts (added by external apps)
+        Looks for missing attributes in document parts
+        (added by external apps).
+
+        An example of usage:
+
+        doc = Document.objects.get(id=3001)
+        doc.parts.policy # <- this parts.policy is managed by this method.
         """
         # check for the attribute in classes that inherit from AbstractDocument
         model_klass = default_parts_finder.get(
@@ -844,6 +865,33 @@ class AbstractDocument(models.Model):
     """
     Common class apps need to inherit from in order
     to extend Document model.
+
+    This class provides a way to extend papermerge.core.models.Document
+    model; it does so by creating a foreign key from document extension model
+    to the main model.
+    These document extension models are called Document parts. They are sort
+    of document model chunks holding various extra attributes.
+
+    To add an extra attribute to main document model you need simply to
+    create a new model which will inherit from AbstractDocument:
+
+        from django.db import models
+        from papermerge.core.models import AbstractDocument
+
+        class DocumentPart(AbstractDocument):
+
+            extra_special_id = models.CharField(
+                max_length=50,
+                null=True
+            )
+
+        There is one very important rule though: you should never
+        instantiate DocumentPart class. The ``extra_special_id`` attribute
+        will be managed via ``parts`` attribute of core document class
+        for example by adding these code in core document creation signal
+        handler:
+
+            document.parts.extra_special_id = f"XYZ_{md5(file_name)}"
     """
     base_ptr = models.ForeignKey(
         Document,
