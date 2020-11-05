@@ -113,7 +113,6 @@ class AdminView(CommonView):
         form = self.form_class(
             request.POST
         )
-
         if form.is_valid():
             # When saving a form with commit=False option you
             # need to call save_m2m() on the form
@@ -124,7 +123,9 @@ class AdminView(CommonView):
             if request.user:
                 if hasattr(obj, 'user'):
                     obj.user = request.user
-                    obj.save()
+
+            # save object regardles if it has user attribute.
+            obj.save()
             form.save_m2m()
 
             return redirect(self.list_url)

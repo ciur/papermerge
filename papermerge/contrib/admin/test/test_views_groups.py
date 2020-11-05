@@ -111,6 +111,19 @@ class TestGroupView(TestCase):
             200
         )
 
+    def test_create_new_group_via_post(self):
+        self.client.login(testcase_user=self.testcase_user)
+
+        self.client.post(
+            reverse('admin:group'),
+            {'name': "new_group"}
+        )
+
+        self.assertEqual(
+            Group.objects.count(),
+            1
+        )
+
     def test_change_group(self):
         """
         When updating a group, should not create a new
