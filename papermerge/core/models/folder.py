@@ -133,7 +133,7 @@ class Folder(BaseTreeNode, index.Indexed):
 
 
 class AbstractFolder(models.Model):
-    base_ptr = models.OneToOneField(
+    base_ptr = models.ForeignKey(
         Folder,
         related_name=RELATED_NAME_FMT,
         related_query_name=RELATED_QUERY_NAME_FMT,

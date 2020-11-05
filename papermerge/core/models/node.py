@@ -363,7 +363,7 @@ class AbstractNode(models.Model):
     Common class apps need to inherit from in order
     to extend BaseTreeNode model.
     """
-    base_ptr = models.OneToOneField(
+    base_ptr = models.ForeignKey(
         BaseTreeNode,
         related_name=RELATED_NAME_FMT,
         related_query_name=RELATED_QUERY_NAME_FMT,

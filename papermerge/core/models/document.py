@@ -168,35 +168,25 @@ class DocumentPartsManager:
                 attr_name=name
             )
 
-        if model_klass:
-            # if name is an attribute of a klass which inherits
-            # from AbstractDocument or AbstractNode...
-            app_label = model_klass._meta.app_label
-            class_name = model_klass.__name__.lower()
-            rel_name = f"{app_label}_{class_name}_related"
-            if hasattr(self.document, rel_name):
-                found_field = getattr(self.document, rel_name)
-                setattr(found_field, name, value)
-                found_field.save()
-            else:
-                # related object does not exists
-                if is_abs_doc:
-                    # model_klass inherits from AbstractDocument
-                    # thus link accordingly
-                    part_instance = model_klass(
-                        base_ptr=self.document
-                    )
-                else:
-                    # model_klass inherits from AbstractNode
-                    # thus link accordingly
-                    part_instance = model_klass(
-                        base_ptr=self.document.basetreenode_ptr
-                    )
-                setattr(part_instance, name, value)
-                part_instance.save()
-                part_instance.clean()
+        base_ptr = self.document
+        if is_abs_doc:
+            # model_klass inherits from AbstractDocument
+            # thus link accordingly
+            base_ptr = self.document
+        else:
+            # model_klass inherits from AbstractNode
+            # thus link accordingly
+            base_ptr = self.document.basetreenode_ptr
 
-                found_field = part_instance
+        if model_klass:
+            try:
+                part_instance = model_klass.objects.get(base_ptr=base_ptr)
+            except model_klass.DoesNotExist:
+                part_instance = model_klass(base_ptr=base_ptr)
+
+            setattr(part_instance, name, value)
+            part_instance.save()
+            part_instance.clean()
         else:
             # name is a standard attribute, thus proceed with
             # standard way of assigning things
