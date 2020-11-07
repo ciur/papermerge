@@ -334,7 +334,7 @@ class Document(BaseTreeNode):
             * raising an PermissionDenied exception.
             * returning 0 count (i.e. not voting for deletion)
 
-        Deletion function is really tricky one.
+        Deletion function is really tricky.
         The purpose is to delete main document and its parts (satellite if you
         will) in a single database transaction. If any of the parts
         objects - the whole transaction is aborted. The problem is however,
@@ -347,9 +347,8 @@ class Document(BaseTreeNode):
         objecting parts instances are saved into a
         separate list, ``instances_which_objected`` and for those instances
         delete operation runs another round (the previous round was
-        rolled back=forgotten anyway). But on second round the database
+        rolled back = forgotten). On second round the database
         changes are committed.
-
         """
         abstract_klasses = [AbstractDocument, AbstractNode]
         instance_counter = 0
@@ -377,8 +376,10 @@ class Document(BaseTreeNode):
                 else:
                     raise IntegrityError
         except IntegrityError:
-            for model_instance in instances_which_objected:
-                model_instance.delete(*args, **kwargs)
+            # commit database changes for those parts which objected
+            with transaction.atomic():
+                for model_instance in instances_which_objected:
+                    model_instance.delete(*args, **kwargs)
 
     @property
     def parts(self):
