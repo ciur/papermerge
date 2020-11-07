@@ -332,7 +332,24 @@ class Document(BaseTreeNode):
         Document part may object deletion by:
 
             * raising an PermissionDenied exception.
-            * returning 0 count (i.e. not vorting for deletion)
+            * returning 0 count (i.e. not voting for deletion)
+
+        Deletion function is really tricky one.
+        The purpose is to delete main document and its parts (satellite if you
+        will) in a single database transaction. If any of the parts
+        objects - the whole transaction is aborted. The problem is however,
+        that if the parts that objects performs some DB operations, those
+        operations will be rolled back as well (e.g. retention policy objects
+        deletion, but it advances the document to the next state, or moves the
+        document to another folder).
+        To solve this problem (where objecting parts want to perform some DB
+        operations) following approach was chosen (as if I have many options!):
+        objecting parts instances are saved into a
+        separate list, ``instances_which_objected`` and for those instances
+        delete operation runs another round (the previous round was
+        rolled back=forgotten anyway). But on second round the database
+        changes are committed.
+
         """
         abstract_klasses = [AbstractDocument, AbstractNode]
         instance_counter = 0
