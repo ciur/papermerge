@@ -337,26 +337,31 @@ class Document(BaseTreeNode):
         abstract_klasses = [AbstractDocument, AbstractNode]
         instance_counter = 0
         vote_counter = 0
+        instances_which_objected = []
 
         try:
             with transaction.atomic():
                 for model_instance in self.each_part(abstract_klasses):
                     instance_counter += 1
+
                     # Model.delete() returns a tuple.
                     # First item in tuple is number of deleted objects
-                    deleted_count, _ = model_instance.delete()
+                    deleted_count, _ = model_instance.delete(*args, **kwargs)
                     vote_counter += deleted_count
+                    if not deleted_count:
+                        instances_which_objected.append(
+                            model_instance
+                        )
 
                 if vote_counter >= instance_counter:
                     # If all document parts successfully deleted
                     # then delete self
                     super().delete(*args, **kwargs)
                 else:
-                    # Not all parts were deleted. Rollback transaction
                     raise IntegrityError
         except IntegrityError:
-            # Transaction was aborted
-            pass
+            for model_instance in instances_which_objected:
+                model_instance.delete(*args, **kwargs)
 
     @property
     def parts(self):
