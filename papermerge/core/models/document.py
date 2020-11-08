@@ -362,6 +362,7 @@ class Document(BaseTreeNode):
 
                     # Model.delete() returns a tuple.
                     # First item in tuple is number of deleted objects
+                    model_instance.voting = True
                     deleted_count, _ = model_instance.delete(*args, **kwargs)
                     vote_counter += deleted_count
                     if not deleted_count:
@@ -379,6 +380,8 @@ class Document(BaseTreeNode):
             # commit database changes for those parts which objected
             with transaction.atomic():
                 for model_instance in instances_which_objected:
+                    # a way to distinguish between two deletes
+                    model_instance.voting = False
                     model_instance.delete(*args, **kwargs)
 
     @property
