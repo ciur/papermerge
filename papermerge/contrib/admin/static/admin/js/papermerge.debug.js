@@ -21451,7 +21451,7 @@ __p+='\n                  <i class="fa fa-check text-success"></i>\n            
  } 
 __p+='\n                '+
 ((__t=( gettext('Desc') ))==null?'':__t)+
-'\n              </a></li>\n            </ul>\n          </li>\n        </ul>\n    </div>';
+'\n              </a></li>\n            </ul>\n          </li>\n        </ul>\n    </div>\n\n\n\n<div>\n  <a class="ml-2" data-widget="control-sidebar" data-slide="true" role="button">\n    <i class="fas fa-bars"></i>\n  </a>\n</div>';
 }
 return __p;
 };
