@@ -9627,6 +9627,9 @@ ul.pinned_tags li.active {
   background-color: #fff;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); }
 
+.card-browser {
+  min-height: 80vh; }
+
 #upload_feedback .details {
   padding: 0.5rem 1rem; }
   #upload_feedback .details .row {
