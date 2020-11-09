@@ -9557,6 +9557,10 @@ h1, h2, h3, h4 {
   .control-sidebar .border-bottom {
     border-bottom: 1px solid white; }
 
+.control-sidebar {
+  width: auto;
+  min-width: 350px; }
+
 .control-sidebar::before {
   content: '';
   display: block;
