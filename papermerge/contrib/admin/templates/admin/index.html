@@ -8,9 +8,7 @@
 <div class="col-12 d-flex justify-content-between p-0">
   <div id="actions">
    <ul  class="nav nav-pills">
-     <li class="mx-1">
-         {% ocr_language_select user %}
-     </li>
+
      <li class="mx-1">
          <button type="button" id="id_btn_upload" class="btn btn-light btn-bordered ">
             <i class="fa fa-upload mr-1  text-success"></i>{% trans "Upload" %}
@@ -118,8 +116,8 @@
 
 
 {% block content %}
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid pl-0">
+  <div class="row pl-0">
     <div class="col-lg-12">
         <div id="browse">
 
@@ -131,4 +129,9 @@
 <div id="pre-loader">
   <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
 </div>
+{% endblock %}
+
+{% block content_right %}
+  <label>{% trans "Language" %}</label>
+  {% ocr_language_select user %}
 {% endblock %}
