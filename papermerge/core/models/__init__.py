@@ -14,6 +14,7 @@ from papermerge.core.models.tags import (
     ColoredTag,
     Tag
 )
+from papermerge.core.models.sidebar_part import SidebarPart
 
 
 # A few helper functions for common logic between User and AnonymousUser.
@@ -149,5 +150,6 @@ __all__ = [
     'KVStoreNode',
     'KVStorePage',
     'ColoredTag',
-    'Tag'
+    'Tag',
+    'SidebarPart',
 ]

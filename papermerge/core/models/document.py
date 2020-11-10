@@ -423,19 +423,9 @@ class Document(BaseTreeNode):
         item['tags'] = tags
 
         parts = []
-        for part in sidebar.values():
-            parts_item = {
-                'app_label': part.app_label,
-                'verbose_name': part.verbose_name,
-                'fields': {}
-            }
-            for field in part.fields:
-                if self.parts:
-                    parts_item['fields'][field] = _part_field_to_json(
-                        getattr(self.parts, field)
-                    )
-
-            parts.append(parts_item)
+        for sidebar_klass in sidebar.values():
+            part = sidebar_klass(self)
+            parts.append(part.to_json())
 
         item['parts'] = parts
 
