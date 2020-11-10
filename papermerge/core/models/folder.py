@@ -94,6 +94,11 @@ class Folder(BaseTreeNode, index.Indexed):
             tags.append(tag.to_dict())
         item['tags'] = tags
 
+        kvstore = []
+        for kv in self.kv.all():
+            kvstore.append(kv.to_dict())
+        item['metadata'] = kvstore
+
         return item
 
     @property

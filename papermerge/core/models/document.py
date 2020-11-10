@@ -433,6 +433,11 @@ class Document(BaseTreeNode):
 
         item['parts'] = parts
 
+        kvstore = []
+        for kv in self.kv.all():
+            kvstore.append(kv.to_dict())
+        item['metadata'] = kvstore
+
         return item
 
     def assign_kv_values(self, kv_dict):
