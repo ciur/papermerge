@@ -18,6 +18,11 @@ class NavigationRegistry(Registry):
     look_into = "mg_admin"
 
 
+class SidebarRegistry(Registry):
+    look_into = "mg_admin"
+
+
 user_menu_registry = UserMenuRegistry()  # noqa
 navigation = NavigationRegistry()  # noqa
+sidebar = SidebarRegistry()  # noqa
 

@@ -5,7 +5,7 @@
 {% block title %} Papermerge | {% trans "Documents" %} {% endblock %}
 
 {% block actions %}
-<div class="col-12 d-flex justify-content-between p-0">
+<div class="col-12 d-flex justify-content-between p-0 mb-2">
   <div id="actions">
    <ul  class="nav nav-pills">
 
@@ -26,7 +26,6 @@
          <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
             <i class="fa fa-plus mr-1 text-success"></i>{% trans "New Folder" %}
          </button>
-
      </li>
       <li class="mx-1">
           <div class="dropdown actions">
@@ -132,6 +131,23 @@
 {% endblock %}
 
 {% block content_right %}
-  <label>{% trans "OCR Language" %}</label>
-  {% ocr_language_select user %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item">
+          <label>{% trans "OCR Language" %}</label>
+          {% ocr_language_select user %}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <label>{% trans "Data Retention" %}</label>
+      <select class="custom-select">
+        <option>Default Policy #1</option>
+        <option>10 years policy</option>
+      </select>
+    </div>
+  </div>
 {% endblock %}

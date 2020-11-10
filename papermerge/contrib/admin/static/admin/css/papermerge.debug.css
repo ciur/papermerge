@@ -9623,9 +9623,14 @@ ul.pinned_tags li.active {
   background-color: white;
   transition: box-shadow .25s;
   margin: .5rem 0 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   background-color: #fff;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); }
+  .card .card-body ul.collection {
+    padding: 0;
+    margin: 0; }
+    .card .card-body ul.collection li.collection-item {
+      margin-top: 0.5rem; }
 
 .card-browser {
   min-height: 80vh; }
