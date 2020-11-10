@@ -19616,7 +19616,7 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
   urlRoot() {
-    return `/metadata/node/${this.doc_id}`;
+    return `/node/${this.doc_id}`;
   }
 
   toJSON() {

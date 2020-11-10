@@ -160,6 +160,13 @@ def node_view(request, node_id):
 
     node_dict = node.to_dict()
 
+    # return metadata as part of /node/<int:id>
+    # response
+    kvstore = []
+    for kv in node.kv.all():
+        kvstore.append(kv.to_dict())
+    node_dict['metadata'] = kvstore
+
     # minor hack to enable autocomplete for tag editor
     # in document view
     node_dict['alltags'] = [
