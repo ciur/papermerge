@@ -16,6 +16,7 @@ from mglib.path import DocumentPath, PagePath
 from mglib.pdfinfo import get_pagecount
 from mglib.utils import get_assigns_after_delete
 
+from papermerge.contrib.admin.registries import sidebar
 from papermerge.core.storage import default_storage
 from .kvstore import (
     KVCompNode,
@@ -417,6 +418,20 @@ class Document(BaseTreeNode):
         for tag in self.tags.all():
             tags.append(tag.to_dict())
         item['tags'] = tags
+
+        parts = []
+        for part in sidebar.values():
+            parts_item = {
+                'app_label': part.app_label,
+                'verbose_name': part.verbose_name,
+                'fields': {}
+            }
+            for field in part.fields:
+                parts_item['fields'][field] = {}
+
+            parts.append(parts_item)
+
+        item['parts'] = parts
 
         return item
 
