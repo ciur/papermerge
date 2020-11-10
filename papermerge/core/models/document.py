@@ -235,7 +235,10 @@ class DocumentPartsManager:
         if model_klass:
             instance = model_klass.objects.get(base_ptr=self.document)
             if hasattr(instance, name):
-                return getattr(instance, name)
+                ret = getattr(instance, name)
+                ret.__mg_document_part_instance__ = instance
+                ret.__mg_field_name__ = name
+                return ret
 
 
 CustomDocumentManager = DocumentManager.from_queryset(DocumentQuerySet)
@@ -973,9 +976,15 @@ class AbstractDocument(models.Model):
         return self.base_ptr.absfilepath
 
 
-def _part_field_to_json(field):
+def _part_field_to_json(field_instance):
+
+    # DocumentPart klass (which inherits from AbstractDocument) instance
+    # Name of field of document part class instance
+    document_part_instance = field_instance.__mg_document_part_instance__
+    field_name = field_instance.__mg_field_name__
+
     return {
         "class": "choice",
-        "value": field.id,
+        "value": field_instance.id,
         "choices": ((1, "one"), (2, "two"))
     }
