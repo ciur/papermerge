@@ -427,7 +427,10 @@ class Document(BaseTreeNode):
                 'fields': {}
             }
             for field in part.fields:
-                parts_item['fields'][field] = {}
+                if self.parts:
+                    parts_item['fields'][field] = _part_field_to_json(
+                        getattr(self.parts, field)
+                    )
 
             parts.append(parts_item)
 
@@ -968,3 +971,11 @@ class AbstractDocument(models.Model):
         of the associated file.
         """
         return self.base_ptr.absfilepath
+
+
+def _part_field_to_json(field):
+    return {
+        "class": "choice",
+        "value": field.id,
+        "choices": ((1, "one"), (2, "two"))
+    }
