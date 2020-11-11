@@ -10,9 +10,8 @@ from papermerge.test.parts.app_0.models import Color
 
 
 class AdminSidebarDocumentPart(admin.SidebarPart):
-    app_label = 'app_0'
-    verbose_name = "App Zero"
     model = DocumentPart
+    verbose_name = 'App Zero'
 
     fields = (
         'extra_special_id',
@@ -46,3 +45,13 @@ class TestSidebarPart(TestCase):
 
         sidebar_part = AdminSidebarDocumentPart(doc)
         self.assertTrue(sidebar_part)
+
+        self.assertEqual(
+            sidebar_part.get_label(),
+            "app_0",  # django app label
+        )
+
+        self.assertEqual(
+            sidebar_part.get_verbose_name(),
+            "App Zero",  # django app verbose name
+        )
