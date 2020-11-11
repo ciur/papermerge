@@ -18,6 +18,12 @@ class AdminSidebarDocumentPart(admin.SidebarPart):
         'color'
     )
 
+    field_options = {
+        'color': {
+            'choice_fields': ['id', 'name']
+        }
+    }
+
 
 class TestSidebarPart(TestCase):
 

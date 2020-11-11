@@ -16,6 +16,9 @@ class TestSidebarFieldPart(TestCase):
 
     def test_get_internal_type(self):
         green = Color.objects.create(name="green")
+        # other colors are available as well
+        red = Color.objects.create(name="red")
+        yellow = Color.objects.create(name="yellow")
 
         doc = Document.objects.create_document(
             file_name="test.pdf",
@@ -33,13 +36,20 @@ class TestSidebarFieldPart(TestCase):
         sidebar_field_1 = admin.SidebarPartField(
             document=doc,  # core document instance
             field_name="extra_special_id",
-            model=DocumentPart
+            model=DocumentPart,
         )
 
         sidebar_field_2 = admin.SidebarPartField(
             document=doc,  # core document instance
             field_name="color",
-            model=DocumentPart
+            model=DocumentPart,
+            options={
+                'color': {
+                    'choice_fields': [
+                        'id', 'name'
+                    ]
+                }
+            }
         )
 
         self.assertEqual(
@@ -57,8 +67,29 @@ class TestSidebarFieldPart(TestCase):
             "DOC_XYZ_1"
         )
 
+        self.assertDictEqual(
+            sidebar_field_1.to_json(),
+            {
+                "class": "CharField",
+                "value": "DOC_XYZ_1"
+            }
+        )
+
         self.assertEqual(
             sidebar_field_2.get_value(),
             green
+        )
+
+        self.assertDictEqual(
+            sidebar_field_2.to_json(),
+            {
+                "class": "ForeignKey",
+                "value": green,
+                "choices": [
+                    (green.id, green.name),
+                    (red.id, red.name),
+                    (yellow.id, yellow.name),
+                ]
+            }
         )
 

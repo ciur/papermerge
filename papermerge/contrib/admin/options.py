@@ -4,7 +4,13 @@ class SidebarPartField:
     Performs introspection into document part fields.
     """
 
-    def __init__(self, document, model, field_name):
+    def __init__(
+        self,
+        document,
+        model,
+        field_name,
+        options={}
+    ):
         """
         `document` = papermerge.core.models.document instance
         `model` = document part model class as provided by 3rd party app
@@ -14,6 +20,7 @@ class SidebarPartField:
         self.document = document
         self.model = model
         self.field_name = field_name
+        self.options = options
 
         fields = [
             field
@@ -25,7 +32,34 @@ class SidebarPartField:
             self.field = fields[0]
 
     def to_json(self):
-        pass
+        ret = {}
+
+        internal_type = self.get_internal_type()
+        ret['class'] = internal_type
+        ret['value'] = self.get_value()
+
+        if internal_type == 'ForeignKey':
+            ret['choices'] = []
+            if self.options and self.options[self.field_name]:
+                opts = self.options[self.field_name]
+                remote_model_objects = getattr(
+                    self.field.remote_field.model, 'objects'
+                )
+                for r_model_inst in remote_model_objects.all():
+                    ret['choices'].append(
+                        (
+                            getattr(r_model_inst, opts['choice_fields'][0]),
+                            getattr(r_model_inst, opts['choice_fields'][1]),
+                        )
+                    )
+            else:
+                _f = self.field_name
+                msg = f"Field {_f} is foreignkey. You provide field_options"
+                raise ValueError(
+                    msg
+                )
+
+        return ret
 
     def get_internal_type(self):
         return self.field.get_internal_type()
@@ -47,6 +81,7 @@ class SidebarPart:
     readonly_fields = ()
     # model class of the document part
     model = None
+    field_options = {}
 
     def __init__(self, document):
         # papermerge.core.models.document instance
@@ -58,7 +93,12 @@ class SidebarPart:
 
     def to_json(self):
         fields = [
-            field.to_json()
+            SidebarPartField(
+                document=self.document,
+                field_name=field,
+                model=self.model,
+                options=self.field_options
+            ).to_json()
             for field in self.fields
         ]
         ret = {
