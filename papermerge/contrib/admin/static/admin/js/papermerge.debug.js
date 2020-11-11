@@ -21860,6 +21860,90 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/sidebar/metadata.html":
+/*!************************************************!*\
+  !*** ./src/js/templates/sidebar/metadata.html ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title">'+
+((__t=( gettext('Metadata') ))==null?'':__t)+
+'</div>\n        <div class="card-text">\n            <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n             <ul id="simple_keys" class="vertical menu">\n                ';
+ for (i=0; i < kvstore.models.length; i++) { 
+__p+='\n                    ';
+ item = kvstore.models[i]; 
+__p+='\n                    ';
+ current_formats = item.get('current_formats') || []; 
+__p+='\n                    ';
+ kv_types = item.get('kv_types') || available_types || []; 
+__p+='\n                    <li class=\'container\' data-model=\'simple-key\' data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' data-value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                        <div class="row summary">\n                            <div class="col-11 label">\n                                <input '+
+((__t=( item.disabled ))==null?'':__t)+
+' data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' placeholder="label name..." name=\'key\' type=\'text\' value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                            </div>\n                            <div class="col-1 close"  data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\'>\n                                ';
+ if (!item.get('kv_inherited')) {  
+__p+='\n                                    <button type=\'button\' class=\'close key text-white mx-1\' aria-label=\'Close\'>\n                                        <span aria-hidden=\'true\'>&times;</span>\n                                    </button>\n                                ';
+ } 
+__p+='\n                            </div>\n                        </div>\n                        <div class="row">\n                            <div class="col-4">\n                                <label>Type</label>\n                            </div>\n                            <div class="col-8">\n                                <select '+
+((__t=( item.disabled ))==null?'':__t)+
+'  class="kv_type" name=\'kv_type\' class="custom-select">\n                                    ';
+ for (k=0; k < kv_types.length; k++) { 
+__p+='\n                                        <option \n                                            ';
+ if ( item.get('kv_type') == kv_types[k][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                                            value="'+
+((__t=( kv_types[k][0] ))==null?'':__t)+
+'">\n                                            '+
+((__t=( kv_types[k][1] ))==null?'':__t)+
+'\n                                        </option>\n                                    ';
+ } 
+__p+='\n                                </select>\n                            </div>\n                        </div>\n                        <div class="row">\n                            <div class="col-4">\n                                <label>Format</label>\n                            </div>\n                            <div class="col-8">\n                                <select '+
+((__t=( item.disabled ))==null?'':__t)+
+' class="kv_format" name=\'kv_format\' class="custom-select">\n                                    ';
+ for (j=0; j < current_formats.length; j++) { 
+__p+='\n                                        <option \n                                             ';
+ if ( item.get('kv_format') == current_formats[j][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                                            value="'+
+((__t=( current_formats[j][0] ))==null?'':__t)+
+'">\n                                            '+
+((__t=( current_formats[j][1] ))==null?'':__t)+
+'\n                                            \n                                        </option>\n                                    ';
+ } 
+__p+='\n                                </select>\n                            </div>\n                        </div>\n                       \n                    </li>\n                ';
+ } 
+__p+='\n             </ul>\n            ';
+ if (kvstore.models.length > 0 && !all_disabled) { 
+__p+='\n                 <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                     Save\n                </button>\n            ';
+ } 
+__p+='\n        </div> <!-- card-text -->\n    </div> <!-- card-body -->\n</div> <!-- card -->';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/sidebar/part.html":
 /*!********************************************!*\
   !*** ./src/js/templates/sidebar/part.html ***!
@@ -21872,33 +21956,33 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">'+
 ((__t=( part.verbose_name  ))==null?'':__t)+
-'</div>\n      ';
+'</div>\n      <div class="card-text">\n          ';
  for (let x=0; x < part.fields.length; x++ ) { 
-__p+='\n        ';
+__p+='\n            ';
  field = part.fields[x]; 
-__p+='\n        ';
+__p+='\n            ';
  if (field['class']== 'ForeignKey') { 
-__p+='\n            ';
+__p+='\n                ';
  choices = field['choices']; 
-__p+='\n            ';
+__p+='\n                ';
  value = field['value']; 
-__p+='\n            <select class="custom-select">\n                ';
+__p+='\n                <select class="custom-select">\n                    ';
  for (y=0; y < choices.length; y++) { 
-__p+='\n                    <option \n                        id="'+
+__p+='\n                        <option \n                            id="'+
 ((__t=( choices[y][0] ))==null?'':__t)+
-'"\n                        ';
+'"\n                            ';
  if (choices[y][0] == value[0] ) { 
 __p+=' selected ';
  } 
-__p+=' >\n                        '+
+__p+=' >\n                            '+
 ((__t=( choices[y][1] ))==null?'':__t)+
-'\n                    </option>\n                ';
+'\n                        </option>\n                    ';
  } 
-__p+='\n            </select\n        ';
+__p+='\n                </select\n            ';
  } 
-__p+='\n      ';
+__p+='\n          ';
  } 
-__p+='\n    </div>\n</div>';
+__p+='\n        </div> \n    </div>\n</div>';
 }
 return __p;
 };
@@ -25327,6 +25411,8 @@ __webpack_require__.r(__webpack_exports__);
 
 let TEMPLATE_PART = __webpack_require__(/*! ../templates/sidebar/part.html */ "./src/js/templates/sidebar/part.html");
 
+let TEMPLATE_METADATA = __webpack_require__(/*! ../templates/sidebar/metadata.html */ "./src/js/templates/sidebar/metadata.html");
+
 class SidebarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sidebar");
@@ -25347,9 +25433,11 @@ class SidebarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   render(node) {
     let compiled = "",
         compiled_part,
+        compiled_metadata,
         context,
         i,
-        parts;
+        parts,
+        metadata;
     context = {};
 
     if (!node) {
@@ -25358,6 +25446,11 @@ class SidebarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     }
 
     parts = node.get('parts');
+    metadata = node.get('metadata');
+    compiled_metadata = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE_METADATA({
+      'kvstore': new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](metadata)
+    }));
+    compiled += compiled_metadata();
 
     if (parts) {
       for (i = 0; i < parts.length; i++) {
