@@ -84,7 +84,7 @@ class TestSidebarFieldPart(TestCase):
             sidebar_field_2.to_json(),
             {
                 "class": "ForeignKey",
-                "value": green,
+                "value": (green.id, green.name),
                 "choices": [
                     (green.id, green.name),
                     (red.id, red.name),

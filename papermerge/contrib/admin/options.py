@@ -36,12 +36,16 @@ class SidebarPartField:
 
         internal_type = self.get_internal_type()
         ret['class'] = internal_type
-        ret['value'] = self.get_value()
 
         if internal_type == 'ForeignKey':
+            r_obj = self.get_value()
             ret['choices'] = []
             if self.options and self.options[self.field_name]:
                 opts = self.options[self.field_name]
+                ret['value'] = (
+                    getattr(r_obj, opts['choice_fields'][0]),
+                    getattr(r_obj, opts['choice_fields'][1])
+                )
                 remote_model_objects = getattr(
                     self.field.remote_field.model, 'objects'
                 )
@@ -58,6 +62,8 @@ class SidebarPartField:
                 raise ValueError(
                     msg
                 )
+        else:
+            ret['value'] = self.get_value()
 
         return ret
 
