@@ -4,7 +4,10 @@ from .registries import (
     sidebar
 )
 
-from .options import SidebarPart
+from .options import (
+    SidebarPart,
+    SidebarPartField
+)
 
 default_app_config = 'papermerge.contrib.admin.apps.AdminConfig'
 
@@ -14,4 +17,5 @@ __all__ = [
     'sidebar',
     'user_menu_registry',
     'SidebarPart',
+    'SidebarPartField'
 ]
