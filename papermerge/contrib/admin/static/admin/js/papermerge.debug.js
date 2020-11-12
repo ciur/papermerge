@@ -23206,7 +23206,12 @@ let TEMPLATE_LIST = __webpack_require__(/*! ../templates/browse_list.html */ "./
 
 let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
-let SORT_UNDEFINED = 0;
+let SORT_UNDEFINED = 0; // In order to differentiate single clicks
+// from double clicks a timeout of ``DBLCLICK_TIMEOUT`` milliseconds is used.
+// If second click event follows in less than ``DBLCLICK_TIMEOUT`` it will
+// be handled as double click.
+
+let DBLCLICK_TIMEOUT = 300; // ms = milliseconds
 
 class Column {
   constructor(name, key, sort) {
@@ -23617,7 +23622,10 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
 
     this.browse_list_view = new BrowseListView();
     this.browse_grid_view = new BrowseGridView();
-    this.dropzone = new _dropzone__WEBPACK_IMPORTED_MODULE_4__["DropzoneView"](this.browse);
+    this.dropzone = new _dropzone__WEBPACK_IMPORTED_MODULE_4__["DropzoneView"](this.browse); // used to differentiate single clicks vs double clicks
+    // in open_node and select_node
+
+    this.click = 0;
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
     this.listenTo(this.browse_list_view, 'change', this.render);
@@ -23682,25 +23690,43 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
         selected,
         new_state,
         $target,
-        checkbox;
-    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
-    node = this.browse.nodes.get(data['cid']);
+        checkbox,
+        that = this; // wait DBLCLICK_TIMEOUT milliseconds to see if this is a single click
+    // or dblclick event
 
-    if (node) {
-      selected = node.get('selected');
-      node.set({
-        'selected': !selected
-      });
-      new_state = !selected;
+    this.click += 1; // if in DBLCLICK_TIMEOUT milliseconds
+    // this.click == 1  -> single click
+    // this.click > 1   -> double click
 
-      if (new_state) {
-        $target.addClass('checked');
-      } else {
-        $target.removeClass('checked');
-      }
+    setTimeout(function () {
+      if (that.click < 2) {
+        // this is single click
+        console.log("this is single click, go on!");
+        $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+        node = that.browse.nodes.get(data['cid']);
 
-      _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["SELECTION_CHANGED"], this.get_selection());
-    }
+        if (node) {
+          selected = node.get('selected');
+          node.set({
+            'selected': !selected
+          });
+          new_state = !selected;
+
+          if (new_state) {
+            $target.addClass('checked');
+          } else {
+            $target.removeClass('checked');
+          }
+
+          _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["SELECTION_CHANGED"], that.get_selection());
+        } // if (node)
+
+      } // if (this.click < 2)
+      // reset click counter
+
+
+      that.click = 0;
+    }, DBLCLICK_TIMEOUT);
   }
 
   get_selection() {
@@ -23714,6 +23740,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
   open_node(event) {
     let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
         node;
+    console.log("double click");
     node = this.browse.nodes.get(data['cid']); // folder is 'browsed' by triggering PARENT_CHANGED event
 
     if (node.is_folder()) {
