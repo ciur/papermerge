@@ -22036,9 +22036,9 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title">'+
+__p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title"><label>'+
 ((__t=( gettext('Metadata') ))==null?'':__t)+
-'</div>\n        <div class="card-text">\n            <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n             <ul id="simple_keys" class="vertical menu">\n                ';
+'</label></div>\n        <div class="card-text">\n            <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n             <ul id="simple_keys" class="vertical menu">\n                ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n                    ';
  item = kvstore.models[i]; 
@@ -22166,11 +22166,19 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">Info</div>\n      <div class="card-text">\n        '+
+__p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title"><label>Info</label></div>\n      <div class="card-text">\n        <ul class="collection">\n            <li class="collection-item">\n                ';
+ if (ctype == 'document') { 
+__p+='\n                    <i class="fa fa-file text-info mr-1"></i>\n                ';
+ } else { 
+__p+='\n                    <i class="fa fa-folder text-warning mr-1"></i>\n                ';
+ } 
+__p+='\n                '+
 ((__t=( title ))==null?'':__t)+
-'\n        '+
-((__t=( ctype ))==null?'':__t)+
-'\n      </div> \n    </div>\n</div>';
+'\n            </li>\n            <li class="collection-item">\n                <label>'+
+((__t=( gettext('Created') ))==null?'':__t)+
+':</label> ABC\n            </li>\n            <li class="collection-item">\n                <label>'+
+((__t=( gettext('Modified') ))==null?'':__t)+
+':</label> XYZ\n            </li>\n        </ul>\n      </div> \n    </div>\n</div>';
 }
 return __p;
 };
