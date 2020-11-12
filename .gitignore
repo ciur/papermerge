@@ -1,5 +1,6 @@
 config/settings/local/*
 papermerge.conf.py
+env.sh
 env_dev.sh
 env_test.sh
 run/
