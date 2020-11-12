@@ -17311,7 +17311,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_document__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/document */ "./src/js/views/document.js");
 /* harmony import */ var _views_tag_preview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/tag_preview */ "./src/js/views/tag_preview.js");
 /* harmony import */ var _views_tags__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/tags */ "./src/js/views/tags.js");
-/* harmony import */ var _views_sidebar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/sidebar */ "./src/js/views/sidebar.js");
+/* harmony import */ var _views_widgetsbar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/widgetsbar */ "./src/js/views/widgetsbar.js");
 /* harmony import */ var _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/pinned_tags_view */ "./src/js/views/pinned_tags_view.js");
 /* harmony import */ var _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/changelist_checkbox_view */ "./src/js/views/changelist_checkbox_view.js");
 /* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
@@ -17367,7 +17367,7 @@ backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model,
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view, automate_tags_view, sidebar_view;
+  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, control_sidebar, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view, automate_tags_view, widgetsbar_view;
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_1__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_3__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_2__["BreadcrumbView"]();
@@ -17377,7 +17377,7 @@ let App = function () {
   changelist_checkbox = new _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_10__["ChangelistCheckboxView"]();
   av_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_7__["AdvancedSearchTagsView"]();
   automate_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_7__["AutomateTagsView"]();
-  sidebar_view = new _views_sidebar__WEBPACK_IMPORTED_MODULE_8__["SidebarView"]();
+  widgetsbar_view = new _views_widgetsbar__WEBPACK_IMPORTED_MODULE_8__["WidgetsBarView"]();
 
   if (jquery__WEBPACK_IMPORTED_MODULE_13___default()("#document").length == 1) {
     // we in document view. Document view and browser view
@@ -25414,87 +25414,6 @@ class RenameView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 
 /***/ }),
 
-/***/ "./src/js/views/sidebar.js":
-/*!*********************************!*\
-  !*** ./src/js/views/sidebar.js ***!
-  \*********************************/
-/*! exports provided: SidebarView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SidebarView", function() { return SidebarView; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-
-
-
-
-
-
-let TEMPLATE_PART = __webpack_require__(/*! ../templates/sidebar/part.html */ "./src/js/templates/sidebar/part.html");
-
-let TEMPLATE_METADATA = __webpack_require__(/*! ../templates/sidebar/metadata.html */ "./src/js/templates/sidebar/metadata.html");
-
-class SidebarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
-  el() {
-    return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sidebar");
-  }
-
-  initialize() {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
-  }
-
-  selection_changed(selection) {
-    if (selection.length == 1) {
-      this.render(selection[0]);
-    } else {
-      this.render(undefined);
-    }
-  }
-
-  render(node) {
-    let compiled = "",
-        compiled_part,
-        compiled_metadata,
-        context,
-        i,
-        parts,
-        metadata;
-    context = {};
-
-    if (!node) {
-      this.$el.html("");
-      return;
-    }
-
-    parts = node.get('parts');
-    metadata = node.get('metadata');
-    compiled_metadata = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE_METADATA({
-      'kvstore': new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](metadata)
-    }));
-    compiled += compiled_metadata();
-
-    if (parts) {
-      for (i = 0; i < parts.length; i++) {
-        compiled_part = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE_PART({
-          'part': parts[i]
-        }));
-        compiled += compiled_part();
-      }
-    }
-
-    this.$el.html(compiled);
-  }
-
-}
-
-/***/ }),
-
 /***/ "./src/js/views/tag_preview.js":
 /*!*************************************!*\
   !*** ./src/js/views/tag_preview.js ***!
@@ -26073,6 +25992,87 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'files': this.uploader
     }));
+    this.$el.html(compiled);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/widgetsbar.js":
+/*!************************************!*\
+  !*** ./src/js/views/widgetsbar.js ***!
+  \************************************/
+/*! exports provided: WidgetsBarView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WidgetsBarView", function() { return WidgetsBarView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
+
+
+
+
+
+let TEMPLATE_PART = __webpack_require__(/*! ../templates/sidebar/part.html */ "./src/js/templates/sidebar/part.html");
+
+let TEMPLATE_METADATA = __webpack_require__(/*! ../templates/sidebar/metadata.html */ "./src/js/templates/sidebar/metadata.html");
+
+class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#widgetsbar");
+  }
+
+  initialize() {
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
+  }
+
+  selection_changed(selection) {
+    if (selection.length == 1) {
+      this.render(selection[0]);
+    } else {
+      this.render(undefined);
+    }
+  }
+
+  render(node) {
+    let compiled = "",
+        compiled_part,
+        compiled_metadata,
+        context,
+        i,
+        parts,
+        metadata;
+    context = {};
+
+    if (!node) {
+      this.$el.html("");
+      return;
+    }
+
+    parts = node.get('parts');
+    metadata = node.get('metadata');
+    compiled_metadata = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE_METADATA({
+      'kvstore': new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](metadata)
+    }));
+    compiled += compiled_metadata();
+
+    if (parts) {
+      for (i = 0; i < parts.length; i++) {
+        compiled_part = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE_PART({
+          'part': parts[i]
+        }));
+        compiled += compiled_part();
+      }
+    }
+
     this.$el.html(compiled);
   }
 
