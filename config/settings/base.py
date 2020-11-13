@@ -208,6 +208,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'papermerge.contrib.admin.middleware.TimezoneMiddleware'
 ]
 
 PAPERMERGE_LANGUAGE_FROM_AGENT = cfg_papermerge.get(
