@@ -22176,9 +22176,13 @@ __p+='\n                '+
 ((__t=( title ))==null?'':__t)+
 '\n            </li>\n            <li class="collection-item">\n                <label>'+
 ((__t=( gettext('Created') ))==null?'':__t)+
-':</label> ABC\n            </li>\n            <li class="collection-item">\n                <label>'+
+':</label> '+
+((__t=( created_at ))==null?'':__t)+
+'\n            </li>\n            <li class="collection-item">\n                <label>'+
 ((__t=( gettext('Modified') ))==null?'':__t)+
-':</label> XYZ\n            </li>\n        </ul>\n      </div> \n    </div>\n</div>';
+':</label>  '+
+((__t=( updated_at ))==null?'':__t)+
+'\n            </li>\n        </ul>\n      </div> \n    </div>\n</div>';
 }
 return __p;
 };
@@ -26072,6 +26076,8 @@ class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"]
     let context = {};
     context['title'] = this.node.get('title');
     context['ctype'] = this.node.get('ctype');
+    context['created_at'] = this.node.get('created_at');
+    context['updated_at'] = this.node.get('updated_at');
     return this.template(context);
   }
 
