@@ -1,1 +1,1 @@
-from .timezone import TimezoneMiddleware
+from .timezone import TimezoneMiddleware  # noqa
