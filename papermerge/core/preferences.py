@@ -75,15 +75,15 @@ class LocalizationDate(ChoicePreference):
     section = localization
     name = 'date_format'
     choices = (
-        ('1', '2020-11-25'),
-        ('2', 'Wed 25 Nov, 2020'),
-        ('3', '25 Nov, 2020'),
-        ('4', '11/25/2020'),
-        ('5', '25/11/2020'),
-        ('6', '25.11.20'),
-        ('7', '25.11.2020'),
+        ('%Y-%m-%d', '2020-11-25'),
+        ('%a %d %b, %Y', 'Wed 25 Nov, 2020'),
+        ('%d %b, %Y', '25 Nov, 2020'),
+        ('%m/%d/%Y', '11/25/2020'),
+        ('%d/%m/%Y', '25/11/2020'),
+        ('%d.%m.%y', '25.11.20'),
+        ('%d.%m.%Y', '25.11.2020'),
     )
-    default = '1'
+    default = '%Y-%m-%d'
 
 
 @user_preferences_registry.register
@@ -94,7 +94,7 @@ class LocalizationTime(ChoicePreference):
     section = localization
     name = 'time_format'
     choices = (
-        ('1', '9:48 PM'),
-        ('2', '21:48'),
+        ('%I:%M %p', '9:48 PM'),
+        ('%H:%M', '21:48'),
     )
-    default = '2'
+    default = '%H:%M'
