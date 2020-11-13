@@ -1,5 +1,7 @@
 from pytz import common_timezones
 
+from django.conf import settings
+
 from dynamic_preferences.preferences import Section as OrigSection
 from dynamic_preferences.types import ChoicePreference
 from dynamic_preferences.users.registries import user_preferences_registry
@@ -50,7 +52,8 @@ class TimezoneGlobal(ChoicePreference):
     section = localization
     name = "timezone"
     choices = _get_timezone_choices()
-    default = 'Europe/Berlin'
+    # fallback value
+    default = settings.TIME_ZONE
 
 
 @user_preferences_registry.register
