@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - Work in Progress
 
+### Added
+
 - Apps support (document parts/satellites architecture)
 - UI preferences - user can set timezone, date, time format from UI: user -> preferences 
 - UI design improvements - widgets sidebar
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
     
 - Fixes #204 - Groups are not created
+- Fixes #206 - Anonymous user access to breadcrumb results in 500
 
 ## [1.5.0] - 14 October 2020
 
