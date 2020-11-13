@@ -1,9 +1,19 @@
+from pytz import common_timezones
+
 from dynamic_preferences.preferences import Section as OrigSection
 from dynamic_preferences.registries import global_preferences_registry
-from dynamic_preferences.types import ChoicePreference, IntegerPreference
+from dynamic_preferences.types import ChoicePreference
 from dynamic_preferences.users.registries import user_preferences_registry
 
 from .lib.lang import get_ocr_lang_choices, get_default_ocr_lang
+
+
+def _get_timezone_choices():
+    return list((tz, tz) for tz in common_timezones)
+
+
+def _get_default_timezone():
+    return ('Europe/Berlin', 'Europe/Berlin')
 
 
 class Section(OrigSection):
@@ -22,13 +32,19 @@ class Section(OrigSection):
         self.icon_name = icon_name
 
 
+timezone = Section(
+    'timezone',
+    verbose_name="Timezone",
+    icon_name="globe-americas",
+    help_text="Timezone"
+)
+
 localization_datetime = Section(
     'datetime',
     verbose_name="Date and Time",
     icon_name="clock",
-    help_text='Set here date and time formats'
+    help_text="Set here date and time formats"
 )
-
 
 ocr = Section(
     'ocr',
@@ -36,37 +52,17 @@ ocr = Section(
     icon_name="eye",
     help_text='Choose default OCR Language'
 )
-system_settings = Section('system_settings')
-user_views = Section(
-    'views',
-    verbose_name="Default views",
-    help_text="Default views settings",
-    icon_name="bars"
-)
 
 
 @global_preferences_registry.register
-class UserStorageSize(IntegerPreference):
+class TimezoneGlobal(ChoicePreference):
     help_text = """
-    Storage size allocated for users. It is expressed in MB.
-    """
-    section = system_settings
-    name = "user_storage_size"
-    default = 128 * 1024
-
-
-@user_preferences_registry.register
-class DocumentsView(ChoicePreference):
-    help_text = """
-    Display documents as grid or list view
-    """
-    section = user_views
-    name = "documents_view"
-    choices = (
-        ('grid', 'Grid'),
-        ('list', 'List')
-    )
-    default = 'grid'
+    Timezone
+"""
+    section = timezone
+    name = "timezone"
+    choices = _get_timezone_choices()
+    default = _get_default_timezone()
 
 
 @user_preferences_registry.register
@@ -111,4 +107,3 @@ class LocalizationTime(ChoicePreference):
         ('2', '21:48'),
     )
     default = '2'
-
