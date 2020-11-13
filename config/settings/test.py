@@ -45,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'mgclipboard.middleware.ClipboardMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'papermerge.contrib.admin.middleware.TimezoneMiddleware'
 ]
 
 AUTHENTICATION_BACKENDS = (

@@ -102,3 +102,18 @@ class TestNodesView(TestCase):
             0
         )
 
+
+class TestNodesAnonymousUser(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_breadcrumb_view(self):
+
+        ret = self.client.get(
+            reverse('core:breadcrumb')
+        )
+        self.assertEqual(
+            ret.status_code,
+            302
+        )

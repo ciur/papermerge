@@ -23,6 +23,11 @@ class TimezoneMiddleware:
 
     def __call__(self, request):
 
+        # user preferences make sense only
+        # in case of authenticated user
+        if request.user.is_anonymous:
+            return self.get_response(request)
+
         preferences = request.user.preferences
         tzname = preferences['localization__timezone']
 
