@@ -12,10 +12,6 @@ def _get_timezone_choices():
     return list((tz, tz) for tz in common_timezones)
 
 
-def _get_default_timezone():
-    return ('Europe/Berlin', 'Europe/Berlin')
-
-
 class Section(OrigSection):
     def __init__(
         self,
@@ -62,7 +58,7 @@ class TimezoneGlobal(ChoicePreference):
     section = timezone
     name = "timezone"
     choices = _get_timezone_choices()
-    default = _get_default_timezone()
+    default = 'Europe/Berlin'
 
 
 @user_preferences_registry.register
