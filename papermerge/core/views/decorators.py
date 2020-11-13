@@ -1,5 +1,8 @@
 import json
-from django.http import HttpResponse
+from django.http import (
+    HttpResponse,
+    HttpResponseRedirect
+)
 
 
 def smart_dump(value):
@@ -43,6 +46,10 @@ def json_response(func):
             for_body = ret[0]
             status = ret[1]
             body = smart_dump(for_body)
+        elif isinstance(ret, HttpResponseRedirect):
+            # in case anonymous user access this view - return
+            # the HttpResponseRedirect object
+            return ret
         else:
             raise ValueError(
                 "Function must return str, dict or 2 valued tuple"
