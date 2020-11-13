@@ -1,7 +1,6 @@
 from pytz import common_timezones
 
 from dynamic_preferences.preferences import Section as OrigSection
-from dynamic_preferences.registries import global_preferences_registry
 from dynamic_preferences.types import ChoicePreference
 from dynamic_preferences.users.registries import user_preferences_registry
 
@@ -28,18 +27,11 @@ class Section(OrigSection):
         self.icon_name = icon_name
 
 
-timezone = Section(
-    'timezone',
-    verbose_name="Timezone",
+localization = Section(
+    'localization',
+    verbose_name="Localization",
     icon_name="globe-americas",
-    help_text="Timezone"
-)
-
-localization_datetime = Section(
-    'datetime',
-    verbose_name="Date and Time",
-    icon_name="clock",
-    help_text="Set here date and time formats"
+    help_text="Timezone, date and time formats"
 )
 
 ocr = Section(
@@ -50,12 +42,12 @@ ocr = Section(
 )
 
 
-@global_preferences_registry.register
+@user_preferences_registry.register
 class TimezoneGlobal(ChoicePreference):
     help_text = """
     Timezone
 """
-    section = timezone
+    section = localization
     name = "timezone"
     choices = _get_timezone_choices()
     default = 'Europe/Berlin'
@@ -77,7 +69,7 @@ class LocalizationDate(ChoicePreference):
     help_text = """
     Date format
 """
-    section = localization_datetime
+    section = localization
     name = 'date_format'
     choices = (
         ('1', '2020-11-25'),
@@ -96,7 +88,7 @@ class LocalizationTime(ChoicePreference):
     help_text = """
     Time format
 """
-    section = localization_datetime
+    section = localization
     name = 'time_format'
     choices = (
         ('1', '9:48 PM'),
