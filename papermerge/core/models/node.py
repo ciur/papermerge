@@ -1,5 +1,7 @@
-from django.db import models
+import pytz
 
+from django.utils import timezone
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
@@ -77,16 +79,50 @@ class BaseTreeNode(PolymorphicMPTTModel):
     user = models.ForeignKey('User', models.CASCADE)
 
     created_at = models.DateTimeField(
-        auto_now_add=True,
+        auto_now_add=True
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
+        auto_now=True
     )
 
     tags = TaggableManager(through=ColoredTag)
 
     # custom Manager + custom QuerySet
     objects = CustomNodeManager()
+
+    def human_datetime(self, _datetime) -> str:
+        """
+        Localize and format datetime instance considering user preferences.
+        """
+        tz = pytz.timezone(
+            self.user.preferences['localization__timezone']
+        )
+        fmt = self.user.preferences['localization__date_format']
+        fmt += " " + self.user.preferences['localization__time_format']
+
+        ret_datetime = timezone.localtime(_datetime, timezone=tz)
+
+        ret = ret_datetime.strftime(fmt)
+        return ret
+
+    @property
+    def human_updated_at(self) -> str:
+        """
+        updated_at displayed considering user's timezone, date and time prefs.
+
+        returns string with user friendly formated datetime.
+        """
+
+        ret = self.human_datetime(self.updated_at)
+        return ret
+
+    @property
+    def human_created_at(self) -> str:
+        """
+        created_at displayed considering user's timezone, date and time prefs.
+        """
+        ret = self.human_datetime(self.created_at)
+        return ret
 
     def is_folder(self):
         folder_ct = ContentType.objects.get(

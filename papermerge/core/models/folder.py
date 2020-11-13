@@ -80,12 +80,8 @@ class Folder(BaseTreeNode, index.Indexed):
 
         item['id'] = self.id
         item['title'] = self.title
-        item['created_at'] = self.created_at.strftime(
-            self.user.preferences['localization__date_format']
-        )
-        item['updated_at'] = self.updated_at.strftime(
-            self.user.preferences['localization__date_format']
-        )
+        item['created_at'] = self.human_created_at
+        item['updated_at'] = self.human_updated_at
         item['timestamp'] = self.created_at.timestamp()
 
         if self.parent:
