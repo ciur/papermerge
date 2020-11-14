@@ -23763,7 +23763,6 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     setTimeout(function () {
       if (that.click < 2) {
         // this is single click
-        console.log("this is single click, go on!");
         $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
         node = that.browse.nodes.get(data['cid']);
 
@@ -26204,6 +26203,7 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   initialize() {
+    this.info_widget = undefined;
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
@@ -26219,8 +26219,7 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         context,
         i,
         parts,
-        metadata,
-        info_widget;
+        metadata;
     context = {};
 
     if (!selection) {
@@ -26235,13 +26234,19 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
     if (selection.length == 1) {
       node = selection[0];
-      info_widget = new SingleNodeInfoWidget(node);
+
+      if (this.info_widget) {
+        this.info_widget.undelegateEvents();
+        this.info_widget = undefined;
+      }
+
+      this.info_widget = new SingleNodeInfoWidget(node);
       parts = node.get('parts');
       metadata = node.get('metadata');
       compiled_metadata = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(METADATA_WIDGET_TPL({
         'kvstore': new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](metadata)
       }));
-      compiled += info_widget.render();
+      compiled += this.info_widget.render();
       compiled += compiled_metadata();
 
       if (parts) {
@@ -26254,8 +26259,13 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       }
     } else if (selection.length > 1) {
       // selection.length > 1
-      info_widget = new MultiNodeInfoWidget(selection);
-      compiled += info_widget.render();
+      if (this.info_widget) {
+        this.info_widget.undelegateEvents();
+        this.info_widget = undefined;
+      }
+
+      this.info_widget = new MultiNodeInfoWidget(selection);
+      compiled += this.info_widget.render();
     }
 
     this.$el.html(compiled);
