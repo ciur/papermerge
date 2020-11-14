@@ -22110,6 +22110,28 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/widgetsbar/multi_node_info.html":
+/*!**********************************************************!*\
+  !*** ./src/js/templates/widgetsbar/multi_node_info.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title">\n        <label>Info</label>\n        </div>\n        <div class="card-text">\n            <ul class="collection">\n                <li class="collection-item">'+
+((__t=( message ))==null?'':__t)+
+'</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary text-white">'+
+((__t=( gettext('Download') ))==null?'':__t)+
+'</a>\n                </li>\n            </ul>\n        </div> \n    </div>\n</div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/widgetsbar/part.html":
 /*!***********************************************!*\
   !*** ./src/js/templates/widgetsbar/part.html ***!
@@ -26064,6 +26086,16 @@ let PART_WIDGET_TPL = __webpack_require__(/*! ../templates/widgetsbar/part.html 
 let METADATA_WIDGET_TPL = __webpack_require__(/*! ../templates/widgetsbar/metadata.html */ "./src/js/templates/widgetsbar/metadata.html");
 
 class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  /**
+  Info widget for single node.
+   Displayed when user selects one node (folder or document).
+  Will display:
+       * icon -> folder/document
+      * title
+      * created_at
+      * modified_at
+      * download button
+  **/
   template(kwargs) {
     let compiled_tpl,
         file_tpl = __webpack_require__(/*! ../templates/widgetsbar/single_node_info.html */ "./src/js/templates/widgetsbar/single_node_info.html");
@@ -26102,6 +26134,44 @@ class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"]
 
 }
 
+class MultiNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  /**
+  Info widget for multiple nodes.
+   Displayed when user selects multiple nodes.
+  Will display:
+       * <X> items selected
+      * download button
+  **/
+  template(kwargs) {
+    let compiled_tpl,
+        file_tpl = __webpack_require__(/*! ../templates/widgetsbar/multi_node_info.html */ "./src/js/templates/widgetsbar/multi_node_info.html");
+
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(kwargs));
+    return compiled_tpl();
+  }
+
+  initialize(nodes) {
+    this.nodes = nodes;
+  }
+
+  render() {
+    let context = {},
+        message,
+        count,
+        formats;
+    count = this.nodes.length; // ngettext comes from GET /jsi18n/
+    // thank you, Django!
+
+    formats = ngettext("%s item selected", "%s items selected", count); // similarely interpolate functions comes
+    // from GET /jsi18n/
+    // https://docs.djangoproject.com/en/3.1/topics/i18n/translation/#interpolate
+
+    context['message'] = interpolate(formats, [count]);
+    return this.template(context);
+  }
+
+}
+
 class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#widgetsbar");
@@ -26112,16 +26182,13 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   selection_changed(selection) {
-    if (selection.length == 1) {
-      this.render(selection[0]);
-    } else {
-      this.render(undefined);
-    }
+    this.render(selection);
   }
 
-  render(node) {
+  render(selection) {
     let compiled = "",
         compiled_part,
+        node,
         compiled_metadata,
         context,
         i,
@@ -26130,27 +26197,39 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         info_widget;
     context = {};
 
-    if (!node) {
+    if (!selection) {
       this.$el.html("");
       return;
     }
 
-    info_widget = new SingleNodeInfoWidget(node);
-    parts = node.get('parts');
-    metadata = node.get('metadata');
-    compiled_metadata = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(METADATA_WIDGET_TPL({
-      'kvstore': new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](metadata)
-    }));
-    compiled += info_widget.render();
-    compiled += compiled_metadata();
+    if (!selection.length) {
+      this.$el.html("");
+      return;
+    }
 
-    if (parts) {
-      for (i = 0; i < parts.length; i++) {
-        compiled_part = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(PART_WIDGET_TPL({
-          'part': parts[i]
-        }));
-        compiled += compiled_part();
+    if (selection.length == 1) {
+      node = selection[0];
+      info_widget = new SingleNodeInfoWidget(node);
+      parts = node.get('parts');
+      metadata = node.get('metadata');
+      compiled_metadata = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(METADATA_WIDGET_TPL({
+        'kvstore': new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"](metadata)
+      }));
+      compiled += info_widget.render();
+      compiled += compiled_metadata();
+
+      if (parts) {
+        for (i = 0; i < parts.length; i++) {
+          compiled_part = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(PART_WIDGET_TPL({
+            'part': parts[i]
+          }));
+          compiled += compiled_part();
+        }
       }
+    } else if (selection.length > 1) {
+      // selection.length > 1
+      info_widget = new MultiNodeInfoWidget(selection);
+      compiled += info_widget.render();
     }
 
     this.$el.html(compiled);
