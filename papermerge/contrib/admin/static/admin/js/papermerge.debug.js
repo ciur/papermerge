@@ -20085,7 +20085,7 @@ class NodeCollection extends backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]
     node_ids = this.models.map(function (model) {
       return model.get('id');
     });
-    downloader = new _downloader__WEBPACK_IMPORTED_MODULE_4__["Downloader"]('/download-nodes/', node_ids);
+    downloader = new _downloader__WEBPACK_IMPORTED_MODULE_4__["Downloader"]('/nodes/download/', node_ids);
     downloader.download();
   }
 
@@ -22122,7 +22122,7 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title">\n        <label>Info</label>\n        </div>\n        <div class="card-text">\n            <ul class="collection">\n                <li class="collection-item">'+
 ((__t=( message ))==null?'':__t)+
-'</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary text-white">'+
+'</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary text-white download">'+
 ((__t=( gettext('Download') ))==null?'':__t)+
 '</a>\n                </li>\n            </ul>\n        </div> \n    </div>\n</div>';
 }
@@ -26074,7 +26074,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _models_downloader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/downloader */ "./src/js/models/downloader.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -26142,6 +26144,10 @@ class MultiNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
        * <X> items selected
       * download button
   **/
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#widgetsbar");
+  }
+
   template(kwargs) {
     let compiled_tpl,
         file_tpl = __webpack_require__(/*! ../templates/widgetsbar/multi_node_info.html */ "./src/js/templates/widgetsbar/multi_node_info.html");
@@ -26152,6 +26158,24 @@ class MultiNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
 
   initialize(nodes) {
     this.nodes = nodes;
+  }
+
+  events() {
+    let event_map = {
+      "click li.collection-item a.download": "download_selection"
+    };
+    return event_map;
+  }
+
+  download_selection(event) {
+    let node_ids = [],
+        downloader;
+    event.preventDefault();
+    node_ids = this.nodes.map(function (node) {
+      return node.get('id');
+    });
+    downloader = new _models_downloader__WEBPACK_IMPORTED_MODULE_3__["Downloader"]('/nodes/download/', node_ids);
+    downloader.download();
   }
 
   render() {
@@ -26178,7 +26202,7 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   initialize() {
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_4__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
   selection_changed(selection) {

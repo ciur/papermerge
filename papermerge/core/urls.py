@@ -65,7 +65,7 @@ urlpatterns = [
     ),
     path('nodes/', node_views.nodes_view, name="nodes"),
     # when user selected multiple documents and folders for download
-    path('nodes/download/', node_views.nodes_view, name="nodes_download"),
+    path('nodes/download/', node_views.nodes_download, name="nodes_download"),
     path(
         'node/<int:id>/access', access_views.access_view, name="access"
     ),
@@ -103,13 +103,6 @@ urlpatterns = [
         'cut-node/',
         doc_views.cut_node,
         name='cut_node'
-    ),
-    # this is handler for multiple node (i.e. documents and folder)
-    # downloads in main file browser
-    path(
-        'download-nodes/',
-        doc_views.documents_download,
-        name='documents_download'  # note plural here
     ),
     path(
         'paste-node/',
