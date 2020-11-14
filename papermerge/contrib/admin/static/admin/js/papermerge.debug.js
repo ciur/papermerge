@@ -22038,7 +22038,9 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title"><label>'+
 ((__t=( gettext('Metadata') ))==null?'':__t)+
-'</label></div>\n        <div class="card-text">\n            <button id="add_simple_meta" class="btn btn-success btn-sm btn-flat" type="button" ><i class="fa fa-plus"></i></button>\n             <ul id="simple_keys" class="vertical menu">\n                ';
+'</label></div>\n        <div class="card-text">\n            <ul class="collection">\n                <li class="collection-item d-flex flex-row-reverse">\n                    <button id="add_simple_meta" class="btn btn-primary btn-flat" type="button" >\n                        <i class="fa fa-plus"></i>\n                        '+
+((__t=( gettext("Add") ))==null?'':__t)+
+'\n                    </button>\n                </li>\n            </ul>\n            <ul id="simple_keys" class="vertical menu">\n                ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n                    ';
  item = kvstore.models[i]; 
@@ -22122,7 +22124,7 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title">\n        <label>Info</label>\n        </div>\n        <div class="card-text">\n            <ul class="collection">\n                <li class="collection-item">'+
 ((__t=( message ))==null?'':__t)+
-'</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary text-white download">'+
+'</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary btn-flat text-white download">\n                        <i class="fa fa-download"></i>\n                        '+
 ((__t=( gettext('Download') ))==null?'':__t)+
 '</a>\n                </li>\n            </ul>\n        </div> \n    </div>\n</div>';
 }
@@ -22206,7 +22208,7 @@ __p+='\n                '+
 ((__t=( updated_at ))==null?'':__t)+
 '\n            </li>\n            <li class="collection-item d-flex flex-row-reverse">\n                <a href="'+
 ((__t=( download_url ))==null?'':__t)+
-'" class="btn btn-primary text-white">'+
+'" class="btn btn-primary text-white btn-flat">\n                    <i class="fa fa-download"></i>\n                    '+
 ((__t=( gettext('Download') ))==null?'':__t)+
 '</a>\n            </li>\n        </ul>\n      </div> \n    </div>\n</div>';
 }
