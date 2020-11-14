@@ -545,40 +545,6 @@ def preview(request, id, step=None, page="1"):
 
 
 @login_required
-def document_download(request, id):
-    """
-    Any user with read permission on the document must be
-    able to download the document.
-    """
-    try:
-        doc = Document.objects.get(id=id)
-    except Document.DoesNotExist:
-        raise Http404("Document does not exists")
-
-    if request.user.has_perm(Access.PERM_READ, doc):
-        try:
-            file_handle = open(default_storage.abspath(
-                doc.path.url()
-            ), "rb")
-        except OSError:
-            logger.error(
-                "Cannot open local version of %s" % doc.path.url()
-            )
-            return redirect('admin:browse')
-
-        resp = HttpResponse(
-            file_handle.read(),
-            content_type="application/pdf"
-        )
-        disposition = "attachment; filename=%s" % doc.title
-        resp['Content-Disposition'] = disposition
-        file_handle.close()
-        return resp
-
-    return HttpResponseForbidden()
-
-
-@login_required
 def documents_download(request):
     """
     Download multiple nodes (documents and folders) packed

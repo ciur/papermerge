@@ -22182,7 +22182,11 @@ __p+='\n                '+
 ((__t=( gettext('Modified') ))==null?'':__t)+
 ':</label>  '+
 ((__t=( updated_at ))==null?'':__t)+
-'\n            </li>\n        </ul>\n      </div> \n    </div>\n</div>';
+'\n            </li>\n            <li class="collection-item d-flex flex-row-reverse">\n                <a href="'+
+((__t=( download_url ))==null?'':__t)+
+'" class="btn btn-primary text-white">'+
+((__t=( gettext('Download') ))==null?'':__t)+
+'</a>\n            </li>\n        </ul>\n      </div> \n    </div>\n</div>';
 }
 return __p;
 };
@@ -26073,11 +26077,26 @@ class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"]
   }
 
   render() {
-    let context = {};
-    context['title'] = this.node.get('title');
-    context['ctype'] = this.node.get('ctype');
-    context['created_at'] = this.node.get('created_at');
-    context['updated_at'] = this.node.get('updated_at');
+    let context = {},
+        ctype,
+        _id,
+        title,
+        created_at,
+        updated_at,
+        download_url;
+
+    ctype = this.node.get('ctype');
+    _id = this.node.get('id');
+    title = this.node.get('title');
+    created_at = this.node.get('created_at');
+    updated_at = this.node.get('updated_at');
+    download_url = `/node/${_id}/download/`;
+    context['id'] = _id;
+    context['title'] = title;
+    context['ctype'] = ctype;
+    context['created_at'] = created_at;
+    context['updated_at'] = updated_at;
+    context['download_url'] = download_url;
     return this.template(context);
   }
 

@@ -3,12 +3,18 @@ import logging
 
 from django.http import (
     HttpResponseBadRequest,
-    HttpResponseForbidden
+    HttpResponseForbidden,
+    Http404,
+    HttpResponse
 )
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import (
+    get_object_or_404,
+    redirect
+)
 from django.utils.translation import gettext as _
+from django.core.files.temp import NamedTemporaryFile
 
 from papermerge.core.models import (
     BaseTreeNode,
@@ -18,6 +24,8 @@ from papermerge.core.models import (
     Tag
 )
 from papermerge.core import signal_definitions as signals
+from papermerge.core.backup_restore import build_tar_archive
+from papermerge.core.storage import default_storage
 
 from .decorators import json_response
 
@@ -229,3 +237,63 @@ def nodes_view(request):
         return 'OK'
 
     return 'OK'
+
+
+@login_required
+def node_download(request, id):
+    """
+    Any user with read permission on the node must be
+    able to download it.
+
+    Node is either documennt or a folder.
+    """
+    try:
+        node = BaseTreeNode.objects.get(id=id)
+    except BaseTreeNode.DoesNotExist:
+        raise Http404("Node does not exists")
+
+    if request.user.has_perm(Access.PERM_READ, node):
+
+        if node.is_document():
+            try:
+                file_handle = open(default_storage.abspath(
+                    node.path.url()
+                ), "rb")
+            except OSError:
+                logger.error(
+                    "Cannot open local version of %s" % node.path.url()
+                )
+                return redirect('admin:browse')
+
+            resp = HttpResponse(
+                file_handle.read(),
+                content_type="application/pdf"
+            )
+            disposition = "attachment; filename=%s" % node.title
+            resp['Content-Disposition'] = disposition
+            file_handle.close()
+
+            return resp
+        else:  # node is a folder
+
+            with NamedTemporaryFile(prefix="download_") as fileobj:
+                # collected into an archive all direct children of
+                # selected folder
+                node_ids = [_node.id for _node in node.get_children()]
+                build_tar_archive(
+                    fileobj=fileobj,
+                    node_ids=node_ids
+                )
+                # reset fileobj to initial position
+                fileobj.seek(0)
+                data = fileobj.read()
+                resp = HttpResponse(
+                    data,
+                    content_type="application/x-tar"
+                )
+                disposition = f"attachment; filename={node.title}.tar"
+                resp['Content-Disposition'] = disposition
+
+                return resp
+
+    return HttpResponseForbidden()

@@ -8,7 +8,7 @@
   <!-- Control sidebar content goes here -->
   <div class="p-3">
     {% csrf_token %}
-    <a href="{% url 'core:document_download' document.id %}" class="btn btn-block btn-success download">
+    <a href="{% url 'core:node_download' document.id %}" class="btn btn-block btn-success download">
       {% trans "Download" %}
     </a>
     <button id="save" type="button" class="btn btn-block btn-light save">
@@ -53,7 +53,7 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <li class="dropdown-item">
-                    <a href="{% url 'core:document_download' document.id %}"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+                    <a href="{% url 'core:node_download' document.id %}"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
                   </li>
                   <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
                     <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>

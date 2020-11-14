@@ -271,7 +271,7 @@ class TestDocumentView(TestCase):
             dst=doc.path.url()
         )
         ret = self.client.post(
-            reverse('core:document_download', args=(doc.id, ))
+            reverse('core:node_download', args=(doc.id, ))
         )
         self.assertEqual(
             ret.status_code,
@@ -281,7 +281,7 @@ class TestDocumentView(TestCase):
     def test_download_with_wrong_id(self):
         ret = self.client.post(
             reverse(
-                'core:document_download',
+                'core:node_download',
                 # some 'random' number
                 args=("198300000002019", )
             )
@@ -1134,7 +1134,7 @@ class TestDocumentDownload(TestCase):
         )
 
         url = reverse(
-            'core:document_download', args=(doc.id,)
+            'core:node_download', args=(doc.id,)
         )
 
         ret = self.client.get(url)

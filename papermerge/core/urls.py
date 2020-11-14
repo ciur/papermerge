@@ -31,11 +31,6 @@ document_patterns = [
         name="hocr"
     ),
     path(
-        '<int:id>/download/',
-        doc_views.document_download,
-        name="document_download"
-    ),
-    path(
         'usersettings/<str:option>/<str:value>',
         doc_views.usersettings,
         name="usersettings"
@@ -57,11 +52,20 @@ urlpatterns = [
         name="breadcrumb"
     ),
     path('node/<int:node_id>', node_views.node_view, name="node"),
+    # Node can be a document or a folder
+    # Downloading entire folder by selecting it - makes perfect sense
+    path(
+        'node/<int:id>/download/',
+        node_views.node_download,
+        name="node_download"
+    ),
     path(
         'node/by/title/<str:title>', node_views.node_by_title_view,
         name="node_by_title"
     ),
     path('nodes/', node_views.nodes_view, name="nodes"),
+    # when user selected multiple documents and folders for download
+    path('nodes/download/', node_views.nodes_view, name="nodes_download"),
     path(
         'node/<int:id>/access', access_views.access_view, name="access"
     ),
