@@ -42,20 +42,24 @@ class SidebarPartField:
             ret['choices'] = []
             if self.options and self.options[self.field_name]:
                 opts = self.options[self.field_name]
-                ret['value'] = (
-                    getattr(r_obj, opts['choice_fields'][0]),
-                    getattr(r_obj, opts['choice_fields'][1])
-                )
+                choice_fields = opts['choice_fields']
+
+                if choice_fields and r_obj:
+                    ret['value'] = (
+                        getattr(r_obj, choice_fields[0]),
+                        getattr(r_obj, choice_fields[1])
+                    )
                 remote_model_objects = getattr(
                     self.field.remote_field.model, 'objects'
                 )
                 for r_model_inst in remote_model_objects.all():
-                    ret['choices'].append(
-                        (
-                            getattr(r_model_inst, opts['choice_fields'][0]),
-                            getattr(r_model_inst, opts['choice_fields'][1]),
+                    if choice_fields and r_model_inst:
+                        ret['choices'].append(
+                            (
+                                getattr(r_model_inst, choice_fields[0]),
+                                getattr(r_model_inst, choice_fields[1]),
+                            )
                         )
-                    )
             else:
                 _f = self.field_name
                 msg = f"Field {_f} is foreignkey. You provide field_options"
