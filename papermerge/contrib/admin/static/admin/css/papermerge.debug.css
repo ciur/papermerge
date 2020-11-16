@@ -9926,33 +9926,27 @@ ul.pinned_tags li.active {
 .content-wrapper.dragover {
   border: 3px dotted green; }
 
-#metadata button[type=hidden] {
+.metadata-widget button[type=hidden] {
   visibility: hidden; }
 
-#metadata ul {
+.metadata-widget ul {
   margin: 0;
-  padding: 0;
-  color: white; }
-  #metadata ul li.container {
-    padding: 0.5rem;
-    border: 1px solid #555;
+  padding: 0; }
+  .metadata-widget ul li.collection-item .toggle, .metadata-widget ul li.collection-item .label, .metadata-widget ul li.collection-item .close {
+    padding: 0; }
+  .metadata-widget ul li.collection-item .summary {
     margin: 0.5rem 0; }
-    #metadata ul li.container .toggle, #metadata ul li.container .label, #metadata ul li.container .close {
-      padding: 0; }
-    #metadata ul li.container .summary {
-      margin: 0.5rem 0; }
-      #metadata ul li.container .summary input[disabled] {
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0);
-        border: 0px;
-        border-bottom: 1px solid white;
-        color: white; }
-      #metadata ul li.container .summary input {
-        width: 100%;
-        border: 0px;
-        padding: 0.25rem; }
-    #metadata ul li.container label {
-      color: #999; }
+    .metadata-widget ul li.collection-item .summary input[disabled] {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      border: 0px;
+      border-bottom: 1px solid white;
+      color: white; }
+    .metadata-widget ul li.collection-item .summary input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #666;
+      padding: 0.25rem; }
 
 .gray_1 {
   background-color: #ffffff; }

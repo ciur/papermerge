@@ -21861,75 +21861,83 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="card metadata-widget">\n    <div class="card-body">\n        <div class="card-title"><label>'+
+__p+='<div class="metadata-widget">\n\n    <div class="card">\n        <div class="card-body">\n            <div class="card-title"><label>'+
 ((__t=( gettext('Metadata') ))==null?'':__t)+
-'</label></div>\n        <div class="card-text">\n            <ul class="collection">\n                <li class="collection-item d-flex flex-row-reverse">\n                    <button class="btn btn-primary btn-flat add-metadata-key" type="button" >\n                        <i class="fa fa-plus"></i>\n                        '+
+'</label></div>\n            <div class="card-text">\n                <ul class="collection">\n                    <li class="collection-item d-flex flex-row-reverse">\n                        <button class="btn btn-primary btn-flat add-metadata-key" type="button" >\n                            <i class="fa fa-plus"></i>\n                            '+
 ((__t=( gettext("Add") ))==null?'':__t)+
-'\n                    </button>\n                </li>\n            </ul>\n            <ul id="simple_keys" class="vertical menu">\n                ';
+'\n                        </button>\n                        ';
+ if (kvstore.models.length > 0 && !all_disabled) { 
+__p+='\n                             <button type=\'button\' class=\'btn btn-primary btn-flat save key mx-1\'>\n                                <i class="fa fa-save"></i>\n                                '+
+((__t=( gettext('Save') ))==null?'':__t)+
+'\n                            </button>\n                        ';
+ } 
+__p+='\n                    </li>\n                    <ul id="simple_keys" class="collection">\n                        ';
  for (i=0; i < kvstore.models.length; i++) { 
-__p+='\n                    ';
+__p+='\n                            ';
  item = kvstore.models[i]; 
-__p+='\n                    ';
+__p+='\n                            ';
  current_formats = item.get('current_formats') || []; 
-__p+='\n                    ';
+__p+='\n                            ';
  kv_types = item.get('kv_types') || available_types || []; 
-__p+='\n                    <li class=\'container\' data-model=\'simple-key\' data-id=\''+
+__p+='\n                            <li class=\'collection-item\' data-model=\'simple-key\' data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
 '\' data-value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                        <div class="row summary">\n                            <div class="col-11 label">\n                                <input '+
+'">\n                                <div class="row summary pt-2">\n                                    <div class="col-11 label">\n                                        <input class="widget-form" '+
 ((__t=( item.disabled ))==null?'':__t)+
 ' data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
-'\' placeholder="label name..." name=\'key\' type=\'text\' value="'+
+'\' placeholder="'+
+((__t=( gettext('label name') ))==null?'':__t)+
+'..." name=\'key\' type=\'text\' value="'+
 ((__t=( item.get('key') ))==null?'':__t)+
-'">\n                            </div>\n                            <div class="col-1 close"  data-id=\''+
+'">\n                                    </div>\n                                    <div class="col-1 close"  data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
 ((__t=( item.cid ))==null?'':__t)+
-'\'>\n                                ';
+'\'>\n                                        ';
  if (!item.get('kv_inherited')) {  
-__p+='\n                                    <button type=\'button\' class=\'close key text-white mx-1\' aria-label=\'Close\'>\n                                        <span aria-hidden=\'true\'>&times;</span>\n                                    </button>\n                                ';
+__p+='\n                                            <button type=\'button\' class=\'close key mx-1\' aria-label=\'Close\'>\n                                                <span aria-hidden=\'true\'>&times;</span>\n                                            </button>\n                                        ';
  } 
-__p+='\n                            </div>\n                        </div>\n                        <div class="row">\n                            <div class="col-4">\n                                <label>Type</label>\n                            </div>\n                            <div class="col-8">\n                                <select '+
+__p+='\n                                    </div>\n                                </div>\n                                <div class="row pt-2">\n                                    <div class="col-4">\n                                        <label>'+
+((__t=( gettext('Type') ))==null?'':__t)+
+'</label>\n                                    </div>\n                                    <div class="col-8">\n                                        <select '+
 ((__t=( item.disabled ))==null?'':__t)+
-'  class="kv_type" name=\'kv_type\' class="custom-select">\n                                    ';
+'  class="kv_type" name=\'kv_type\' class="custom-select">\n                                            ';
  for (k=0; k < kv_types.length; k++) { 
-__p+='\n                                        <option \n                                            ';
+__p+='\n                                                <option \n                                                    ';
  if ( item.get('kv_type') == kv_types[k][0] ) { 
 __p+=' selected  ';
  }  
-__p+=' \n                                            value="'+
+__p+=' \n                                                    value="'+
 ((__t=( kv_types[k][0] ))==null?'':__t)+
-'">\n                                            '+
+'">\n                                                    '+
 ((__t=( kv_types[k][1] ))==null?'':__t)+
-'\n                                        </option>\n                                    ';
+'\n                                                </option>\n                                            ';
  } 
-__p+='\n                                </select>\n                            </div>\n                        </div>\n                        <div class="row">\n                            <div class="col-4">\n                                <label>Format</label>\n                            </div>\n                            <div class="col-8">\n                                <select '+
+__p+='\n                                        </select>\n                                    </div>\n                                </div>\n                                <div class="row pt-2">\n                                    <div class="col-4">\n                                        <label>'+
+((__t=( gettext('Format') ))==null?'':__t)+
+'</label>\n                                    </div>\n                                    <div class="col-8">\n                                        <select '+
 ((__t=( item.disabled ))==null?'':__t)+
-' class="kv_format" name=\'kv_format\' class="custom-select">\n                                    ';
+' class="kv_format" name=\'kv_format\' class="custom-select">\n                                            ';
  for (j=0; j < current_formats.length; j++) { 
-__p+='\n                                        <option \n                                             ';
+__p+='\n                                                <option \n                                                     ';
  if ( item.get('kv_format') == current_formats[j][0] ) { 
 __p+=' selected  ';
  }  
-__p+=' \n                                            value="'+
+__p+=' \n                                                    value="'+
 ((__t=( current_formats[j][0] ))==null?'':__t)+
-'">\n                                            '+
+'">\n                                                    '+
 ((__t=( current_formats[j][1] ))==null?'':__t)+
-'\n                                            \n                                        </option>\n                                    ';
+'\n                                                    \n                                                </option>\n                                            ';
  } 
-__p+='\n                                </select>\n                            </div>\n                        </div>\n                       \n                    </li>\n                ';
+__p+='\n                                        </select>\n                                    </div>\n                                </div>\n                               \n                            </li>\n                        ';
  } 
-__p+='\n             </ul>\n            ';
- if (kvstore.models.length > 0 && !all_disabled) { 
-__p+='\n                 <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                     Save\n                </button>\n            ';
- } 
-__p+='\n        </div> <!-- card-text -->\n    </div> <!-- card-body -->\n</div> <!-- card -->';
+__p+='\n                     </ul>\n                </ul>\n            </div> <!-- card-text -->\n        </div> <!-- card-body -->\n    </div> <!-- card -->\n\n</div> <!-- metadata-widget -->';
 }
 return __p;
 };
