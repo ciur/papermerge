@@ -19591,6 +19591,10 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     };
   }
 
+  urlRoot() {
+    return "/node/";
+  }
+
   initialize(node) {
     let that = this,
         kvstore,
@@ -19646,10 +19650,6 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     }
 
     return false;
-  }
-
-  urlRoot() {
-    return `/node/${this.doc_id}`;
   }
 
   toJSON() {
@@ -19715,6 +19715,17 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     this.kvstore_comp.remove({
       'cid': cid
     });
+  }
+
+  get kvstore_changed() {
+    /**
+    Returs true if kvstore has not yet saved items.
+    **/
+    let has_item_without_id;
+    has_item_without_id = this.kvstore.some(function (item) {
+      return !item.get('id');
+    });
+    return has_item_without_id;
   }
 
 }
@@ -21866,8 +21877,8 @@ __p+='<div class="metadata-widget">\n\n    <div class="card">\n        <div clas
 '</label></div>\n            <div class="card-text">\n                <ul class="collection">\n                    <li class="collection-item d-flex flex-row-reverse">\n                        <button class="btn btn-primary btn-flat add-metadata-key" type="button" >\n                            <i class="fa fa-plus"></i>\n                            '+
 ((__t=( gettext("Add") ))==null?'':__t)+
 '\n                        </button>\n                        ';
- if (kvstore.models.length > 0 && !all_disabled) { 
-__p+='\n                             <button type=\'button\' class=\'btn btn-primary btn-flat save key mx-1\'>\n                                <i class="fa fa-save"></i>\n                                '+
+ if (show_save_button) { 
+__p+='\n                             <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                                <i class="fa fa-save"></i>\n                                '+
 ((__t=( gettext('Save') ))==null?'':__t)+
 '\n                            </button>\n                        ';
  } 
@@ -25764,11 +25775,18 @@ class MetadataWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   render_to_string() {
-    let context;
+    let context,
+        show_save_button = false,
+        kvstore;
+
+    if (this.metadata.kvstore_changed && !this._all_disabled) {
+      show_save_button = true;
+    }
+
     context = {
       'kvstore': this.metadata.get('kvstore'),
       'available_types': this.metadata.get('kv_types'),
-      'all_disabled': this._all_disabled
+      'show_save_button': show_save_button
     };
     return this.template(context);
   }

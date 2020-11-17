@@ -28,6 +28,7 @@ from papermerge.core.backup_restore import build_tar_archive
 from papermerge.core.storage import default_storage
 
 from .decorators import json_response
+from .utils import sanitize_kvstore_list
 
 logger = logging.getLogger(__name__)
 
@@ -162,6 +163,18 @@ def node_view(request, node_id):
             return msg, HttpResponseForbidden.status_code
 
         return 'OK'
+
+    if request.method in ("PUT", "POST"):
+        if not request.user.has_perm(Access.PERM_WRITE, node):
+            return "Permission denied", HttpResponseForbidden.status_code
+
+        node_data = json.loads(request.body)
+        if 'kvstore' in node_data:
+            metadata = node_data['kvstore']
+            if isinstance(metadata, list):
+                node.kv.update(
+                    sanitize_kvstore_list(metadata)
+                )
 
     if not request.user.has_perm(Access.PERM_READ, node):
         return "Permission denied", HttpResponseForbidden.status_code

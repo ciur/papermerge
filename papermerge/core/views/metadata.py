@@ -16,6 +16,8 @@ from papermerge.core.models.kvstore import (get_currency_formats,
                                             get_date_formats, get_kv_types,
                                             get_numeric_formats)
 
+from .utils import sanitize_kvstore_list
+
 logger = logging.getLogger(__name__)
 
 
@@ -53,7 +55,7 @@ def metadata(request, model, id):
             if 'kvstore' in kv_data:
                 if isinstance(kv_data['kvstore'], list):
                     item.kv.update(
-                        _sanitize_kvstore_list(kv_data['kvstore'])
+                        sanitize_kvstore_list(kv_data['kvstore'])
                     )
         else:
             return HttpResponseForbidden()
@@ -71,28 +73,3 @@ def metadata(request, model, id):
         ),
         content_type="application/json"
     )
-
-
-def _sanitize_kvstore_list(kvstore_list):
-    """
-    Creates a new dictionay only with allowed keys.
-    """
-    new_kvstore_list = []
-    allowed_keys = [
-        'id',
-        'key',
-        'value',
-        'kv_type',
-        'kv_format',
-        'kv_inherited',
-    ]
-
-    for item in kvstore_list:
-        sanitized_kvstore_item = {
-            allowed_key: item.get(allowed_key, None)
-            for allowed_key in allowed_keys
-            if allowed_key in item.keys()
-        }
-        new_kvstore_list.append(sanitized_kvstore_item)
-
-    return new_kvstore_list
