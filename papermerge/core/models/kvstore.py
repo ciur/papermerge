@@ -85,12 +85,12 @@ MONEY = 'money'
 NUMERIC = 'numeric'
 DATE = 'date'
 
-METADATA_TYPES = [
-    TEXT,
-    MONEY,
-    NUMERIC,
-    DATE
-]
+METADATA_TYPES = (
+    (TEXT, _("Freeform Text")),
+    (MONEY, _("Monetary")),
+    (NUMERIC, _("Numeric")),
+    (DATE, _("Date"))
+)
 
 
 def compute_virtual_value(kv_type, kv_format, value):
@@ -117,9 +117,7 @@ def compute_virtual_value(kv_type, kv_format, value):
 
 
 def get_kv_types():
-    return [
-        (kv_type, _(kv_type)) for kv_type in METADATA_TYPES
-    ]
+    return METADATA_TYPES
 
 
 def get_currency_formats():

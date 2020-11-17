@@ -20,8 +20,13 @@ from papermerge.contrib.admin.registries import sidebar
 from papermerge.core.storage import default_storage
 from .kvstore import (
     KVCompNode,
-    KVNode
+    KVNode,
+    get_currency_formats,
+    get_date_formats,
+    get_kv_types,
+    get_numeric_formats
 )
+
 from .node import (
     BaseTreeNode,
     AbstractNode,
@@ -431,7 +436,12 @@ class Document(BaseTreeNode):
         kvstore = []
         for kv in self.kv.all():
             kvstore.append(kv.to_dict())
-        item['metadata'] = kvstore
+        item['metadata'] = {}
+        item['metadata']['kvstore'] = kvstore
+        item['metadata']['currency_formats'] = get_currency_formats()
+        item['metadata']['date_formats'] = get_date_formats()
+        item['metadata']['numeric_formats'] = get_numeric_formats()
+        item['metadata']['kv_types'] = get_kv_types()
 
         return item
 
