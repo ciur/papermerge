@@ -9938,10 +9938,9 @@ ul.pinned_tags li.active {
     margin: 0.5rem 0; }
     .metadata-widget ul li.collection-item .summary input[disabled] {
       width: 100%;
-      background-color: rgba(0, 0, 0, 0);
-      border: 0px;
-      border-bottom: 1px solid white;
-      color: white; }
+      background-color: white;
+      border: none;
+      border-bottom: 1px solid #ccc; }
     .metadata-widget ul li.collection-item .summary input {
       width: 100%;
       border: none;

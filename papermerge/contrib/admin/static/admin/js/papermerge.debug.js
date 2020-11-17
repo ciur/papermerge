@@ -19719,13 +19719,22 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
   get kvstore_changed() {
     /**
-    Returs true if kvstore has not yet saved items.
+    Returs true if kvstore one of following is true:
+         1. has unsaved items.
+        2. kv value changed
     **/
-    let has_item_without_id;
+    let has_item_without_id, changed;
     has_item_without_id = this.kvstore.some(function (item) {
       return !item.get('id');
     });
-    return has_item_without_id;
+    changed = this.kvstore.some(function (item) {
+      let changed;
+      changed = item.changed; // if changed contains attribute key ->
+      // key attr was changed
+
+      return changed.key;
+    });
+    return has_item_without_id || changed;
   }
 
 }
@@ -21876,13 +21885,9 @@ __p+='<div class="metadata-widget">\n\n    <div class="card">\n        <div clas
 ((__t=( gettext('Metadata') ))==null?'':__t)+
 '</label></div>\n            <div class="card-text">\n                <ul class="collection">\n                    <li class="collection-item d-flex flex-row-reverse">\n                        <button class="btn btn-primary btn-flat add-metadata-key" type="button" >\n                            <i class="fa fa-plus"></i>\n                            '+
 ((__t=( gettext("Add") ))==null?'':__t)+
-'\n                        </button>\n                        ';
- if (show_save_button) { 
-__p+='\n                             <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                                <i class="fa fa-save"></i>\n                                '+
+'\n                        </button>\n                        \n                        <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                            <i class="fa fa-save"></i>\n                            '+
 ((__t=( gettext('Save') ))==null?'':__t)+
-'\n                            </button>\n                        ';
- } 
-__p+='\n                    </li>\n                    <ul id="simple_keys" class="collection">\n                        ';
+'\n                        </button>\n                    </li>\n                    <ul id="simple_keys" class="collection">\n                        ';
  for (i=0; i < kvstore.models.length; i++) { 
 __p+='\n                            ';
  item = kvstore.models[i]; 
@@ -25687,6 +25692,7 @@ class MetadataWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   initialize(node) {
     this.node = node;
     this.metadata = new _models_metadata__WEBPACK_IMPORTED_MODULE_4__["Metadata"](node);
+    this.listenTo(this.metadata, 'change', this.render);
   }
 
   events() {
@@ -25778,15 +25784,9 @@ class MetadataWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let context,
         show_save_button = false,
         kvstore;
-
-    if (this.metadata.kvstore_changed && !this._all_disabled) {
-      show_save_button = true;
-    }
-
     context = {
       'kvstore': this.metadata.get('kvstore'),
-      'available_types': this.metadata.get('kv_types'),
-      'show_save_button': show_save_button
+      'available_types': this.metadata.get('kv_types')
     };
     return this.template(context);
   }
