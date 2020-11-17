@@ -9640,7 +9640,7 @@ ul.pinned_tags li.active {
         margin-right: 0.75rem; }
 
 .card-browser {
-  min-height: 80vh; }
+  min-height: 100%; }
 
 #upload_feedback .details {
   padding: 0.5rem 1rem; }
@@ -10532,6 +10532,9 @@ body.sidebar-mini #pinned_tags_view {
   .preferences .card a:hover {
     text-decoration: none; }
 
+body {
+  overflow: hidden; }
+
 #pre-loader {
   position: absolute;
   z-index: 3000;
@@ -10567,6 +10570,9 @@ label:not(.form-check-label):not(.custom-file-label) {
 .dropdown-item.disabled a {
   color: #aaa; }
 
+nav.navbar {
+  height: 10vh; }
+
 .navbar-expand {
   flex-flow: wrap; }
 
@@ -10581,6 +10587,19 @@ a:hover {
 
 .content-wrapper {
   background-color: #efefef; }
+  .content-wrapper .content {
+    height: 85vh;
+    min-height: 85vh; }
+    .content-wrapper .content .main-col {
+      min-height: 85vh; }
+    .content-wrapper .content .widgetsbar-col {
+      min-height: 85vh;
+      height: 85vh;
+      overflow: scroll;
+      margin: .5rem 0 1rem;
+      margin-bottom: 0; }
+      .content-wrapper .content .widgetsbar-col > .card:first-child {
+        margin-top: 0; }
 
 #breadcrumb, #search_breadcrumb {
   background-color: white; }

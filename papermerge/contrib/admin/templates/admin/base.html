@@ -167,7 +167,7 @@
       <!-- Main content -->
       <div class="content">
         <div class="row no-gutters">
-          <div class="col-9">
+          <div class="col-9 main-col">
             <div class="card card-browser">
               <div class="card-body">
                 {% block actions %}
@@ -180,7 +180,7 @@
               </div>
             </div>
           </div>
-          <div class="col-3 pl-2">
+          <div class="col-3 widgetsbar-col pl-2">
               {% block widgetsbar %}
               {% endblock %}
           </div>
@@ -242,11 +242,6 @@
       {% endblock %}
     </aside>
     <!-- /.control-sidebar -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-      {% include "admin/_footer.html" %}
-    </footer>
     <div id="uploader-view"></div>
   </div>
   <!-- ./wrapper -->
