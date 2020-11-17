@@ -10600,6 +10600,8 @@ a:hover {
       margin-bottom: 0; }
       .content-wrapper .content .widgetsbar-col > .card:first-child {
         margin-top: 0; }
+      .content-wrapper .content .widgetsbar-col #widgetsbar > .card:last-child {
+        margin-bottom: 1rem; }
 
 #breadcrumb, #search_breadcrumb {
   background-color: white; }
