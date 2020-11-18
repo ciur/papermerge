@@ -10647,9 +10647,6 @@ body.sidebar-mini #pinned_tags_view {
   background-color: white;
   border-color: white; }
 
-body {
-  overflow: hidden; }
-
 #pre-loader {
   position: absolute;
   z-index: 3000;
