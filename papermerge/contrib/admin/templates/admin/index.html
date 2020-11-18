@@ -27,30 +27,6 @@
             <i class="fa fa-plus mr-1 text-success"></i>{% trans "New Folder" %}
          </button>
      </li>
-      <li class="mx-1">
-          <div class="dropdown actions">
-            <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-expand mr-1 text-success"></i>{% trans "Select" %}
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-               <li class="dropdown-item" id="select_all_menu_item">
-                   <a>{% trans "All" %}</a>
-               </li>
-               <li id="select_folders_menu_item" class="dropdown-item">
-                   <a>{% trans "Folders" %}</a>
-               </li>
-               <li id="select_documents_menu_item" class="dropdown-item">
-                   <a>{% trans "Documents" %}</a>
-               </li>
-               <li id="deselect_menu_item" class="dropdown-item">
-                   <a></i>{% trans "Deselect" %}</a>
-               </li>
-               <li id="invert_selection_menu_item" class="dropdown-item">
-                   <a></i>{% trans "Invert Selection" %}</a>
-               </li>
-            </ul>
-          </div>
-      </li>
   </ul>
   </div> <!-- #actions -->
   <div id="display-mode" class="d-flex flex-row  align-items-center">
@@ -107,6 +83,33 @@
      </ul>
    </li>
    <!-- PASTE END -->
+   <!-- SELECTION BEGIN -->
+   <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
+       <div class="dropdown actions">
+         <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
+             <i class="fa fa-expand mx-2"></i>
+             {% trans "Selection" %}
+         </a>
+         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li class="dropdown-item" id="select_all_menu_item">
+                <a>{% trans "All" %}</a>
+            </li>
+            <li id="select_folders_menu_item" class="dropdown-item">
+                <a>{% trans "Folders" %}</a>
+            </li>
+            <li id="select_documents_menu_item" class="dropdown-item">
+                <a>{% trans "Documents" %}</a>
+            </li>
+            <li id="deselect_menu_item" class="dropdown-item">
+                <a></i>{% trans "Deselect" %}</a>
+            </li>
+            <li id="invert_selection_menu_item" class="dropdown-item">
+                <a></i>{% trans "Invert Selection" %}</a>
+            </li>
+         </ul>
+       </div>
+   </li>
+   <!-- SELECTION END -->
    <li id="tags-menu-item" class="dropdown-item disabled">
        <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
    </li>
