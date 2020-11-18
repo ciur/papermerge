@@ -24947,32 +24947,43 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
       selected: function (event, ui) {
         // event triggered only once at the end of
         // selection process
-        let cid, new_state;
-        cid = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.selected).data('cid');
+        let cid, $target, new_state;
+        $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.selected);
+        cid = $target.data('cid');
 
         if (cid) {
-          new_state = that.select_node_by_cid(cid);
+          that.click += 1; // if in DBLCLICK_TIMEOUT milliseconds
+          // this.click == 1  -> single click
+          // this.click > 1   -> double click
 
-          if (new_state) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.selected).addClass('checked');
-          } else {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.selected).removeClass('checked');
-          }
+          setTimeout(function () {
+            if (that.click < 2) {
+              // this is single click
+              new_state = that.select_node_by_cid(cid);
+
+              if (new_state) {
+                $target.addClass('checked');
+              } else {
+                $target.removeClass('checked');
+              }
+
+              _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
+            } else if (that.click == 2) {
+              // if (this.click < 2)
+              that.open_node(cid);
+            } // reset click counter
+
+
+            that.click = 0;
+          }, DBLCLICK_TIMEOUT);
         }
       },
       // selected
       stop: function (event, ui) {
         _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
+        return true;
       }
     });
-  }
-
-  events() {
-    let event_map = {
-      'dblclick .node': 'open_node',
-      'click .node': 'select_node_handler'
-    };
-    return event_map;
   }
 
   select_all() {
@@ -25029,42 +25040,6 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
 
   }
 
-  select_node_handler(event) {
-    let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
-        node,
-        selected,
-        new_state,
-        $target,
-        checkbox,
-        that = this;
-    console.log("select node handler"); // wait DBLCLICK_TIMEOUT milliseconds to see if this is a single click
-    // or dblclick event
-
-    this.click += 1; // if in DBLCLICK_TIMEOUT milliseconds
-    // this.click == 1  -> single click
-    // this.click > 1   -> double click
-
-    setTimeout(function () {
-      if (that.click < 2) {
-        // this is single click
-        $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
-        new_state = that.select_node_by_cid(data['cid']);
-
-        if (new_state) {
-          $target.addClass('checked');
-        } else {
-          $target.removeClass('checked');
-        }
-
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
-      } // if (this.click < 2)
-      // reset click counter
-
-
-      that.click = 0;
-    }, DBLCLICK_TIMEOUT);
-  }
-
   get_selection() {
     let result;
     result = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].filter(this.browse.nodes.models, function (item) {
@@ -25073,11 +25048,9 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     return result;
   }
 
-  open_node(event) {
-    let data = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data(),
-        node;
-    console.log("double click");
-    node = this.browse.nodes.get(data['cid']); // folder is 'browsed' by triggering PARENT_CHANGED event
+  open_node(cid) {
+    let node;
+    node = this.browse.nodes.get(cid); // folder is 'browsed' by triggering PARENT_CHANGED event
 
     if (node.is_folder()) {
       // routers.browse handles PARENT_CHANGED event.
