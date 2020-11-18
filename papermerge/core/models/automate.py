@@ -74,6 +74,8 @@ class Automate(models.Model):
         'Folder',
         on_delete=models.DO_NOTHING,
         verbose_name=_('Destination Folder'),
+        blank=True,  # destination folder is optional as well
+        null=True
     )
 
     # Should this page be cutted and pasted as separate document?
@@ -183,10 +185,11 @@ class Automate(models.Model):
             logger.debug("User does not have write access")
             return
 
-        self.move_to(
-            document,
-            self.dst_folder
-        )
+        if self.dst_folder:
+            self.move_to(
+                document,
+                self.dst_folder
+            )
         _tags = [tag.name for tag in self.tags.all()]
         document.tags.add(
             *_tags,
