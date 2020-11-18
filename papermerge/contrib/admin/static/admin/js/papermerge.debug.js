@@ -24957,16 +24957,18 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
           // this.click > 1   -> double click
 
           setTimeout(function () {
+            new_state = that.select_node_by_cid(cid);
+
+            if (new_state) {
+              console.log(`Checked ${cid} added`);
+              $target.addClass('checked');
+            } else {
+              console.log(`Checked ${cid} removed`);
+              $target.removeClass('checked');
+            }
+
             if (that.click < 2) {
               // this is single click
-              new_state = that.select_node_by_cid(cid);
-
-              if (new_state) {
-                $target.addClass('checked');
-              } else {
-                $target.removeClass('checked');
-              }
-
               _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
             } else if (that.click == 2) {
               // if (this.click < 2)
