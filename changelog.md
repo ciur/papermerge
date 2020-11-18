@@ -3,6 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - Work in Progress
+
+### Added
+
+- Apps support (document parts/satellites architecture)
+- UI preferences - user can set timezone, date, time format from UI: user -> preferences 
+- UI design improvements - widgets sidebar
+
+## [1.5.1] - Work in Progress
+    
+### Added
+    
+- Fixes #204 - Groups are not created
+- Fixes #206 - Anonymous user access to breadcrumb results in 500
+- Fixes #208 - Tags unique per user (different users can have tags with same name)
+
 ## [1.5.0] - 14 October 2020
 
 ## [1.5.0.rc1] - 11 October 2020
