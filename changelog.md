@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apps support (document parts/satellites architecture)
 - UI preferences - user can set timezone, date, time format from UI: user -> preferences 
 - UI design improvements - widgets sidebar
+- UX improvement - action button was replaced with (desktop like) context menu 
+- UX improvement - Desktop like selection
 
 ## [1.5.1] - Work in Progress
     
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     
 - Fixes #204 - Groups are not created
 - Fixes #206 - Anonymous user access to breadcrumb results in 500
+- Fixes #208 - Tags unique per user (different users can have tags with same name)
 
 ## [1.5.0] - 14 October 2020
 
