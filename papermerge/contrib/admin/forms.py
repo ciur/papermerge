@@ -116,21 +116,24 @@ class AutomateForm(ControlForm):
         super().__init__(*args, **kwargs)
         instance = kwargs.get('instance', None)
 
+        self.fields['dst_folder'].queryset = Folder.objects.none()
+
         if instance:
             user = instance.user
 
         if user:
             # Provide user a choice of all folder he/she has
-            # READ access to. User might have access to folder he is not
+            # WRITE access to. User might have access to folder he is not
             # the owner of.
             # Exclude folder - inbox
             all_folders = Folder.objects.exclude(
                 title=Folder.INBOX_NAME
             )
+
             folder_choice_ids = []
 
             for folder in all_folders:
-                if user.has_perm(Access.PERM_READ, folder):
+                if user.has_perm(Access.PERM_WRITE, folder):
                     folder_choice_ids.append(folder.id)
 
             self.fields['dst_folder'].queryset = Folder.objects.filter(

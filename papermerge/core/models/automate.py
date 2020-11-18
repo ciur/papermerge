@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from .document import Document
 from .folder import Folder
 from .tags import ColoredTag, UserTaggableManager
+from .access import Access
 
 
 logger = logging.getLogger(__name__)
@@ -176,6 +177,10 @@ class Automate(models.Model):
 
         if not self.is_automate_applicable(document):
             logger.debug("Automate not applicable. Quit.")
+            return
+
+        if not self.user.has_perm(Access.PERM_WRITE, self.dst_folder):
+            logger.debug("User does not have write access")
             return
 
         self.move_to(
