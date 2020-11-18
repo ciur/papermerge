@@ -18,7 +18,7 @@ Papermerge DMS on its turn will
 document and index it. You will be able to quickly find any (scanned!)
 document using full text search capabilities.
 
-It is built on [Django 3.0](https://www.djangoproject.com/).
+It is built on [Django 3.1](https://www.djangoproject.com/).
 
 Papermerge is actively developed and I [release quite frequently](https://github.com/ciur/papermerge/releases).
 
