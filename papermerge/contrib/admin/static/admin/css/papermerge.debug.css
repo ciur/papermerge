@@ -8522,7 +8522,7 @@ fieldset.module.vertical .form-row div {
 
 .dropdown-submenu {
   position: relative;
-  z-index: 100; }
+  z-index: 5000; }
 
 .dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu {
   display: flex;
@@ -9916,13 +9916,6 @@ ul.pinned_tags li.active {
       opacity: 1;
       z-index: 0; }
 
-#display-mode .dropdown-submenu > .dropdown-menu {
-  left: -100%; }
-
-#display-mode .dropdown button {
-  background-color: white;
-  border-color: white; }
-
 .content-wrapper.dragover {
   border: 3px dotted green; }
 
@@ -10532,6 +10525,19 @@ body.sidebar-mini #pinned_tags_view {
   .preferences .card a:hover {
     text-decoration: none; }
 
+#context-menu {
+  display: none;
+  z-index: 5000;
+  position: absolute;
+  white-space: nowrap; }
+
+#context-menu .dropdown-submenu > .dropdown-menu {
+  left: 100%; }
+
+#context-menu .dropdown button {
+  background-color: white;
+  border-color: white; }
+
 body {
   overflow: hidden; }
 
@@ -10591,13 +10597,18 @@ a:hover {
     height: 85vh;
     min-height: 85vh; }
     .content-wrapper .content .main-col {
-      min-height: 85vh; }
+      min-height: 85vh;
+      position: static; }
+      .content-wrapper .content .main-col .card {
+        position: static; }
     .content-wrapper .content .widgetsbar-col {
       min-height: 85vh;
       height: 85vh;
       overflow: scroll;
       margin: .5rem 0 1rem;
       margin-bottom: 0; }
+      .content-wrapper .content .widgetsbar-col .card {
+        position: static; }
       .content-wrapper .content .widgetsbar-col > .card:first-child {
         margin-top: 0; }
       .content-wrapper .content .widgetsbar-col #widgetsbar > .card:last-child {

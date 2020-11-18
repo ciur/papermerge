@@ -30,51 +30,6 @@
       <li class="mx-1">
           <div class="dropdown actions">
             <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-bolt mr-1  text-success"></i>{% trans "Actions" %}
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <!-- download one or multiple nodes -->
-                <li class="dropdown-item disabled" id="download-nodes">
-                  <a><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
-                </li>
-               <li class="dropdown-item disabled" id="cut">
-                   <a><i class="fa fa-cut mx-2 "></i>{% trans "Cut" %}</a>
-               </li>
-               <!-- PASTE BEGIN -->
-               <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
-                   <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
-                       <i class="fa fa-paste mx-2"></i>
-                       {% trans "Paste" %}
-                   </a>
-                 <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
-                   <li class="dropdown-item" id="paste">
-                     <a>{% trans "Documents & Folders" %}</a>
-                   </li>
-                   <li class="dropdown-item" id="paste_pages">
-                     <a>{% trans "Pages" %}</a>
-                   </li>
-                 </ul>
-               </li>
-               <!-- PASTE END -->
-               <li id="tags-menu-item" class="dropdown-item disabled">
-                   <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
-               </li>
-               <li  id="rename" class="dropdown-item disabled">
-                   <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
-               </li>
-               <li  id="access" class="dropdown-item disabled">
-                   <a><i class="fa fa-users mx-2"></i>{% trans "Access" %}</a>
-               </li>
-               <li class="dropdown-divider"></li>
-               <li id="delete" class="dropdown-item disabled">
-                   <a><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
-               </li>
-            </ul>
-          </div>
-      </li>
-      <li class="mx-1">
-          <div class="dropdown actions">
-            <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-expand mr-1 text-success"></i>{% trans "Select" %}
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -128,6 +83,44 @@
 <div id="pre-loader">
   <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
 </div>
+<ul id="context-menu" class="dropdown-menu">
+    <!-- download one or multiple nodes -->
+    <li class="dropdown-item disabled" id="download-nodes">
+      <a><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+    </li>
+   <li class="dropdown-item disabled" id="cut">
+       <a><i class="fa fa-cut mx-2 "></i>{% trans "Cut" %}</a>
+   </li>
+   <!-- PASTE BEGIN -->
+   <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
+       <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
+           <i class="fa fa-paste mx-2"></i>
+           {% trans "Paste" %}
+       </a>
+     <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
+       <li class="dropdown-item" id="paste">
+         <a>{% trans "Documents & Folders" %}</a>
+       </li>
+       <li class="dropdown-item" id="paste_pages">
+         <a>{% trans "Pages" %}</a>
+       </li>
+     </ul>
+   </li>
+   <!-- PASTE END -->
+   <li id="tags-menu-item" class="dropdown-item disabled">
+       <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
+   </li>
+   <li  id="rename" class="dropdown-item disabled">
+       <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
+   </li>
+   <li  id="access" class="dropdown-item disabled">
+       <a><i class="fa fa-users mx-2"></i>{% trans "Access" %}</a>
+   </li>
+   <li class="dropdown-divider"></li>
+   <li id="delete" class="dropdown-item disabled">
+       <a><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
+   </li>
+</ul>
 {% endblock %}
 
 {% block widgetsbar %}
