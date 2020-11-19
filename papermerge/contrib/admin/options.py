@@ -114,6 +114,7 @@ class SidebarPart:
         ret = {
             'label': self.get_label(),
             'verbose_name': self.get_verbose_name(),
+            'js_widget': self.get_js_widget(),
             'fields': fields
         }
         return ret
@@ -129,4 +130,12 @@ class SidebarPart:
             return getattr(self, 'verbose_name')
 
         return self.opts.app_config.verbose_name
+
+    def get_js_widget(self):
+
+        if hasattr(self, 'js_widget'):
+            return getattr(self, 'js_widget')
+
+        return 'DefaultWidget'
+
 

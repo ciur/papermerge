@@ -23262,6 +23262,52 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/widgetsbar/data_retention.html":
+/*!*********************************************************!*\
+  !*** ./src/js/templates/widgetsbar/data_retention.html ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">'+
+((__t=( part.verbose_name  ))==null?'':__t)+
+'</div>\n      <div class="card-text">\n          ';
+ for (let x=0; x < part.fields.length; x++ ) { 
+__p+='\n            ';
+ field = part.fields[x]; 
+__p+='\n            ';
+ if (field['class']== 'ForeignKey') { 
+__p+='\n                ';
+ choices = field['choices']; 
+__p+='\n                ';
+ value = field['value']; 
+__p+='\n                <select class="custom-select">\n                    ';
+ for (y=0; y < choices.length; y++) { 
+__p+='\n                        <option \n                            id="'+
+((__t=( choices[y][0] ))==null?'':__t)+
+'"\n                            ';
+ if (choices[y][0] == value[0] ) { 
+__p+=' selected ';
+ } 
+__p+=' >\n                            '+
+((__t=( choices[y][1] ))==null?'':__t)+
+'\n                        </option>\n                    ';
+ } 
+__p+='\n                </select\n            ';
+ } 
+__p+='\n          ';
+ } 
+__p+='\n        </div> \n    </div>\n</div>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/widgetsbar/metadata.html":
 /*!***************************************************!*\
   !*** ./src/js/templates/widgetsbar/metadata.html ***!
@@ -23367,52 +23413,6 @@ __p+='<div class="card">\n    <div class="card-body">\n        <div class="card-
 '</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary btn-flat text-white download">\n                        <i class="fa fa-download"></i>\n                        '+
 ((__t=( gettext('Download') ))==null?'':__t)+
 '</a>\n                </li>\n            </ul>\n        </div> \n    </div>\n</div>';
-}
-return __p;
-};
-
-
-/***/ }),
-
-/***/ "./src/js/templates/widgetsbar/part.html":
-/*!***********************************************!*\
-  !*** ./src/js/templates/widgetsbar/part.html ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">'+
-((__t=( part.verbose_name  ))==null?'':__t)+
-'</div>\n      <div class="card-text">\n          ';
- for (let x=0; x < part.fields.length; x++ ) { 
-__p+='\n            ';
- field = part.fields[x]; 
-__p+='\n            ';
- if (field['class']== 'ForeignKey') { 
-__p+='\n                ';
- choices = field['choices']; 
-__p+='\n                ';
- value = field['value']; 
-__p+='\n                <select class="custom-select">\n                    ';
- for (y=0; y < choices.length; y++) { 
-__p+='\n                        <option \n                            id="'+
-((__t=( choices[y][0] ))==null?'':__t)+
-'"\n                            ';
- if (choices[y][0] == value[0] ) { 
-__p+=' selected ';
- } 
-__p+=' >\n                            '+
-((__t=( choices[y][1] ))==null?'':__t)+
-'\n                        </option>\n                    ';
- } 
-__p+='\n                </select\n            ';
- } 
-__p+='\n          ';
- } 
-__p+='\n        </div> \n    </div>\n</div>';
 }
 return __p;
 };
@@ -27006,10 +27006,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let PART_WIDGET_TPL = __webpack_require__(/*! ../templates/widgetsbar/part.html */ "./src/js/templates/widgetsbar/part.html");
-
-let METADATA_WIDGET_TPL = __webpack_require__(/*! ../templates/widgetsbar/metadata.html */ "./src/js/templates/widgetsbar/metadata.html");
-
 class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   /**
   Info widget for single node.
@@ -27253,6 +27249,38 @@ class MetadataWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
 }
 
+class DefaultWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {}
+
+class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#widgetsbar");
+  }
+
+  template(kwargs) {
+    let compiled_tpl,
+        file_tpl = __webpack_require__(/*! ../templates/widgetsbar/data_retention.html */ "./src/js/templates/widgetsbar/data_retention.html");
+
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(kwargs));
+    return compiled_tpl();
+  }
+
+  initialize(part) {
+    this.part = part;
+  }
+
+  render_to_string() {
+    let context = {};
+    context['part'] = this.part;
+    return this.template(context);
+  }
+
+  render() {
+    this.$el.html(this.render_to_string());
+  }
+
+}
+
+window.DataRetentionWidget = DataRetentionWidget;
 class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#widgetsbar");
@@ -27275,7 +27303,9 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         context,
         i,
         parts,
-        metadata;
+        metadata,
+        f,
+        js_widget_class;
     context = {};
 
     if (!selection) {
@@ -27309,10 +27339,12 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
       if (parts) {
         for (i = 0; i < parts.length; i++) {
-          compiled_part = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(PART_WIDGET_TPL({
-            'part': parts[i]
-          }));
-          compiled += compiled_part();
+          if (parts[i].js_widget) {
+            f = Function("p", `return new ${parts[i].js_widget}(p);`);
+          }
+
+          js_widget_class = f(parts[i]);
+          compiled += js_widget_class.render_to_string();
         }
       }
     } else if (selection.length > 1) {
