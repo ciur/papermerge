@@ -238,6 +238,12 @@ class GroupForm(forms.ModelForm):
             'name',
         )
 
+    def __init__(self, *args, **kwargs):
+        # first get rid of custom arg
+        user = kwargs.pop('user', None)
+
+        super().__init__(*args, **kwargs)
+
 
 class AuthTokenForm(forms.ModelForm):
     """
