@@ -23283,12 +23283,18 @@ __p+='\n        <li class="collection-item mt-2 '+
 '.</span>\n                ';
  if (state['left'] == 'user') { 
 __p+=' \n                    <i class="fa fa-user text-success mr-3"></i>\n                ';
+ } else { 
+__p+='\n                    <span class="mr-3">'+
+((__t=( state['left'] ))==null?'':__t)+
+'</span>\n                ';
  } 
 __p+='\n            </div>\n            <div>\n                <i class="fa fa-arrow-right mr-3"></i>\n            </div>\n            <div>\n                ';
  if (state['right'] == 'trash') { 
 __p+=' \n                    <i class="fa fa-trash mr-3"></i>\n                ';
  } else if (state['right'] == 'purge') { 
 __p+='\n                    <i class="fa fa-times text-danger mr-2"></i>\n                ';
+ } else if (state['right'] == 'deny') { 
+__p+='\n                    <i class="fa fa-ban text-danger mr-2"></i>\n                ';
  } 
 __p+='\n            </div>\n        </li>\n    ';
  } 
@@ -27320,6 +27326,8 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
 
     if (policy_field && policy_field.choices) {
       for (x = 0; x < policy_field.choices.length; x++) {
+        selected = "";
+
         if (policy_field.value[0] == policy_field.choices[x][0]) {
           selected = "selected";
         }
@@ -27384,10 +27392,13 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
     let context = {},
         ret_states = [];
     ret_states = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(states, function (item) {
-      let ret_dict = {};
+      let ret_dict = {},
+          is_number = parseInt(item.duration) == item.duration;
 
-      if (item.duration <= 0) {
+      if (is_number && item.duration <= 0) {
         ret_dict['left'] = 'user';
+      } else {
+        ret_dict['left'] = item.duration;
       }
 
       if (item.folder && item.folder['title'] == '.user_trash') {
@@ -27397,6 +27408,8 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
       if (item.on_user_delete == 'purge') {
         ret_dict['left'] = 'user';
         ret_dict['right'] = 'purge';
+      } else if (item.on_user_delete == 'deny') {
+        ret_dict['right'] = 'deny';
       }
 
       if (item.id == current_state_id) {
