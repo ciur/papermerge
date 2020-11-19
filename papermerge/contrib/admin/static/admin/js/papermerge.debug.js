@@ -23276,11 +23276,21 @@ __p+='<ul class="collection">\n    ';
  for (i=0; i < states.length; i++) { 
 __p+='\n        ';
  state = states[i]; 
-__p+='\n        <li class="collection-item">\n            '+
-((__t=( state['left'] ))==null?'':__t)+
-' <i class="fa fa-arrow-right"></i> '+
-((__t=( state['right'] ))==null?'':__t)+
-'\n        </li>\n    ';
+__p+='\n        <li class="collection-item mt-2 '+
+((__t=( state['selected']  ))==null?'':__t)+
+'">\n            <span class="mr-2">'+
+((__t=( state['number'] + 1 ))==null?'':__t)+
+'.</span>\n            ';
+ if (state['left'] == 'user') { 
+__p+=' \n                <i class="fa fa-user text-success mr-2"></i>\n            ';
+ } 
+__p+='\n            \n            <i class="fa fa-arrow-right mr-2"></i>\n\n            ';
+ if (state['right'] == 'trash') { 
+__p+=' \n                <i class="fa fa-trash mr-2"></i>\n            ';
+ } else if (state['right'] == 'purge') { 
+__p+='\n                <i class="fa fa-times text-danger mr-2"></i>\n            ';
+ } 
+__p+='\n        </li>\n    ';
  } 
 __p+='\n</ul>';
 }
@@ -27371,12 +27381,35 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
   }
 
   _render_states(states, current_state_id) {
-    let context = {};
-    context['states'] = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(states, function (item) {
-      return {
-        'left': item.number,
-        'right': item.number
-      };
+    let context = {},
+        ret_states = [];
+    ret_states = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(states, function (item) {
+      let ret_dict = {};
+
+      if (item.duration <= 0) {
+        ret_dict['left'] = 'user';
+      }
+
+      if (item.folder && item.folder['title'] == '.user_trash') {
+        ret_dict['right'] = 'trash';
+      }
+
+      if (item.on_user_delete == 'purge') {
+        ret_dict['left'] = 'user';
+        ret_dict['right'] = 'purge';
+      }
+
+      if (item.id == current_state_id) {
+        ret_dict['selected'] = 'selected';
+      } else {
+        ret_dict['selected'] = '';
+      }
+
+      ret_dict['number'] = item.number;
+      return ret_dict;
+    });
+    context['states'] = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].sortBy(ret_states, function (item) {
+      return item.number;
     });
     return this._states_template(context);
   }
