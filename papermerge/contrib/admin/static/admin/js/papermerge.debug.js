@@ -23286,7 +23286,9 @@ __p+='\n                <option id="'+
 ((__t=( choice[1] ))==null?'':__t)+
 '\n                </option>\n            ';
  } 
-__p+='\n        </select>\n    </div>\n</div>';
+__p+='\n        </select>\n        <div id="current_policy_states">\n            '+
+((__t=( current_policy_states ))==null?'':__t)+
+'\n        </div>\n    </div>\n</div>';
 }
 return __p;
 };
@@ -27255,11 +27257,13 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
   }
 
   render_to_string() {
-    let context = {};
+    let context = {},
+        policy_id;
     context['part'] = this.part;
     context['verbose_name'] = this.part.verbose_name;
+    policy_id = this._get_policy_id(this.part.fields);
     context['policy_choices'] = this._get_policy_choices(this.part.fields);
-    context['current_policy_states'] = this._get_current_policy_states(this.part.fields);
+    context['current_policy_states'] = this._get_current_policy_states(this.part.fields, policy_id);
     return this.template(context);
   }
 
@@ -27289,12 +27293,43 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
     return choices;
   }
 
-  _get_current_policy_states(fields) {
-    let current_policy_state_field;
+  _get_policy_id(fields) {
+    let policy_field, x, policy_id;
+    policy_field = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(fields, function (item) {
+      return item.field_name == 'policy';
+    });
+
+    if (policy_field && policy_field.choices) {
+      for (x = 0; x < policy_field.choices.length; x++) {
+        if (policy_field.value[0] == policy_field.choices[x][0]) {
+          policy_id = policy_field.value[0];
+          break;
+        }
+      }
+    }
+
+    return policy_id;
+  }
+
+  _get_current_policy_states(fields, policy_id) {
+    let current_policy_state_field, _id;
+
     current_policy_state_field = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(fields, function (item) {
       return item.field_name == 'current_policy_state';
     });
-    console.log(current_policy_state_field);
+
+    if (current_policy_state_field) {
+      _id = current_policy_state_field.value.id;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+        url: `/policy/${policy_id}/states/`
+      }).done(function (data) {
+        // returns all states of given policy
+        if (data && data['states']) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#current_policy_states").html(`id = ${data['states'][0]['id']}; number = ${data['states'][0]['number']}`);
+        }
+      });
+      return "Loading...";
+    }
   }
 
 }
