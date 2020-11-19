@@ -25,23 +25,6 @@
   {% endblock extra_css %}
 </head>
 
-<div class="toasts top-right">
-    {% for message in messages %}
-        <!-- Then put toasts within -->
-        <div class="toast {% if message.tags %} {{ message.tags }}{% endif %}" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-            <strong class="mr-auto">{% trans "Info" %}</strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="toast-body">
-            {{ message|safe }}
-          </div>
-        </div>
-    {% endfor %}
-</div>
-
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
     <!-- Navbar -->
@@ -159,20 +142,20 @@
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary">
-        {% include "admin/_aside.html" with inbox_count=inbox_count %}
+        {% include "admin/_aside.html" %}
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Main content -->
       <div class="content">
+        {% include "admin/_messages.html" %}
         <div class="row no-gutters">
-          <div class="col-9 main-col">
+          <div class="col-9 col-lg-9 col-sm-12 main-col">
             <div class="card card-browser">
               <div class="card-body">
                 {% block actions %}
-                  <!-- action buttons like new folder, 
-                    dropdown menu with rename, delete, download actions. 
+                  <!-- The most important action buttons here e.g. "New"
                   -->
                 {% endblock %}
                 {% block content %}
@@ -180,7 +163,7 @@
               </div>
             </div>
           </div>
-          <div class="col-3 widgetsbar-col pl-2">
+          <div class="col-3 col-lg-3 col-sm-12 widgetsbar-col pl-2">
               {% block widgetsbar %}
               {% endblock %}
           </div>
@@ -190,58 +173,6 @@
       
     </div>
     <!-- /.content-wrapper -->
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      {% block control_sidebar %}
-        <!-- Control sidebar content goes here -->
-        <div class="p-2">
-          <div id="metadata">
-              <p>{% trans "Select a folder or a document to see its details here" %}</p>
-          </div>
-          <div class="mt-3">
-            <a data-toggle="collapse" href="#app1"><h5 class="border-bottom">Retention Policies</h5></a>
-            <div class="collapse" id="app1">
-              <div class="form-group">
-                <label>Retention Policy</label>
-                <select class="form-control">
-                  <option selected>Policy #1 - Simple Move to Trash</option>
-                  <option>10 years deny</option>
-                </select>
-              </div>
-              <div class="form-group">
-              <ul>
-                <li>1</li>
-                <li>2</li>
-              </ul>
-              </div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <a data-toggle="collapse" href="#app2"><h5 class="border-bottom">App2</h5></a>
-            <div class="collapse" id="app2">
-              <div class="form-group">
-                <label>Label</label>
-                <div class="form-control">Value</div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <a data-toggle="collapse" href="#app3"><h5 class="border-bottom">App3</h5></a>
-            <div class="collapse" id="app3">
-              <div class="form-group">
-                <label>Label</label>
-                <div class="form-control">Value</div>
-                <label>Label</label>
-                <div class="form-control">Value</div>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-success btn-block">Save</button>
-        </div>
-      {% endblock %}
-    </aside>
-    <!-- /.control-sidebar -->
     <div id="uploader-view"></div>
   </div>
   <!-- ./wrapper -->

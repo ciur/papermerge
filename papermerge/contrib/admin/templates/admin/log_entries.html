@@ -4,57 +4,32 @@
 
 {% block title %}{% trans "Logs" %}{% endblock %}
 
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{% url 'admin:logs' %}">{% trans "Logs" %}</a>
+    </div><!-- /.col -->
+{% endblock %}
+
+
 {% block content %}
-    <div class="text-left">
-        <h4 class="p-3">{% trans "Logs" %}</h4>
-    </div>
-    <form action="{% url list_url %}" method="post">
+    <form id="changelist_form" action="{% url list_url %}" method="post">
       {% csrf_token %}
 
-        <div class="row px-3">
-          <div class="col-6">
-              <select name="action" required="">
-                <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected logs" %}</option>
-              </select>
-              <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
-          </div>
-          <nav class="col-6" aria-label="Page navigation example">
-            <ul class="pagination justify-content-end">
-              {% if page.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-              {% endif %}
-              {% for i in pages %}
-                <li class="page-item {% if i == page_number %} active {% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
-              {% endfor %}
-              {% if page.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              {% endif %}
-            </ul>
-          </nav>
-        </div>
+        {% include "admin/_pagination.html" %}
 
         <div class="col-12">
           {% if object_list|length > 0 %}
             <table class="table table-striped">
-              <thead class="thead-dark">
+              <thead>
                 <tr class="text-uppercase">
-                  <th>
+                  <th class="border-top-0">
                     <div id="checkbox_view">
                       <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Time" %}
                     </div>
                   </th>
-                  <th>{% trans "Message" %}</th>
-                  <th>{% trans "User" %}</th>
-                  <th>{% trans "Level" %}</th>
+                  <th class="border-top-0">{% trans "Message" %}</th>
+                  <th class="border-top-0">{% trans "User" %}</th>
+                  <th class="border-top-0">{% trans "Level" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,4 +48,26 @@
           {% endif %}
       </div>
     </form>
+{% endblock %}
+
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item">
+            <select form="changelist_form" name="action" class="custom-select" required="">
+              <option value="" selected="">---------</option>
+              <option value="delete_selected">{% trans "Delete selected logs" %}</option>
+            </select>
+          
+        </li>
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+            <button  form="changelist_form" form="changelist_form" class="btn btn-primary btn-flat mx-1" type="submit">
+              <i class="fa fa-check"></i>
+              {% trans "Apply" %}
+            </button>
+        </li>
+      </ul>
+    </div>
+  </div>
 {% endblock %}

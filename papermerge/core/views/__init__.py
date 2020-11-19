@@ -93,7 +93,9 @@ class AdminView(CommonView):
         if not self.is_allowed(request):
             return HttpResponseForbidden()
 
-        form = self.form_class()
+        form = self.form_class(
+            user = request.user
+        )
         action_url = reverse(self.action_url)
 
         return render(
@@ -111,7 +113,8 @@ class AdminView(CommonView):
             return HttpResponseForbidden()
 
         form = self.form_class(
-            request.POST
+            request.POST,
+            user = request.user
         )
         if form.is_valid():
             # When saving a form with commit=False option you
@@ -175,6 +178,7 @@ class AdminListView(CommonView):
                 'pages': pages,
                 'page_number': page_number,
                 'page': page_obj,
+                'num_pages': num_pages,
                 'list_url': self.list_url
             }
         )

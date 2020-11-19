@@ -16,7 +16,7 @@ class AutomatesListView(AdminListView):
     list_url = 'admin:automates'
 
     def get_queryset(self, request):
-        return self.model_class.objects.order_by('name')
+        return self.model_class.objects.filter(user=request.user).order_by('name')
 
 
 class AutomateView(AdminView):

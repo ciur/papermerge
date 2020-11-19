@@ -46,84 +46,84 @@
 
 
 {% block content %}
-<div class="container-fluid pl-0">
-  <div class="row pl-0">
-    <div class="col-lg-12">
-        <div id="browse">
+  <div class="container-fluid pl-0">
+    <div class="row pl-0">
+      <div class="col-lg-12">
+          <div id="browse">
 
-        </div>
+          </div>
+      </div>
     </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+  <div id="pre-loader">
+    <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
   </div>
-  <!-- /.row -->
-</div><!-- /.container-fluid -->
-<div id="pre-loader">
-  <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
-</div>
-<ul id="context-menu" class="dropdown-menu">
-    <!-- download one or multiple nodes -->
-    <li class="dropdown-item disabled" id="download-nodes">
-      <a><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
-    </li>
-   <li class="dropdown-item disabled" id="cut">
-       <a><i class="fa fa-cut mx-2 "></i>{% trans "Cut" %}</a>
-   </li>
-   <!-- PASTE BEGIN -->
-   <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
-       <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
-           <i class="fa fa-paste mx-2"></i>
-           {% trans "Paste" %}
-       </a>
-     <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
-       <li class="dropdown-item" id="paste">
-         <a>{% trans "Documents & Folders" %}</a>
-       </li>
-       <li class="dropdown-item" id="paste_pages">
-         <a>{% trans "Pages" %}</a>
-       </li>
-     </ul>
-   </li>
-   <!-- PASTE END -->
-   <!-- SELECTION BEGIN -->
-   <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
-       <div class="dropdown actions">
+  <ul id="context-menu" class="dropdown-menu">
+      <!-- download one or multiple nodes -->
+      <li class="dropdown-item disabled" id="download-nodes">
+        <a><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+      </li>
+     <li class="dropdown-item disabled" id="cut">
+         <a><i class="fa fa-cut mx-2 "></i>{% trans "Cut" %}</a>
+     </li>
+     <!-- PASTE BEGIN -->
+     <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
          <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
-             <i class="fa fa-expand mx-2"></i>
-             {% trans "Selection" %}
+             <i class="fa fa-paste mx-2"></i>
+             {% trans "Paste" %}
          </a>
-         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li class="dropdown-item" id="select_all_menu_item">
-                <a>{% trans "All" %}</a>
-            </li>
-            <li id="select_folders_menu_item" class="dropdown-item">
-                <a>{% trans "Folders" %}</a>
-            </li>
-            <li id="select_documents_menu_item" class="dropdown-item">
-                <a>{% trans "Documents" %}</a>
-            </li>
-            <li id="deselect_menu_item" class="dropdown-item">
-                <a></i>{% trans "Deselect" %}</a>
-            </li>
-            <li id="invert_selection_menu_item" class="dropdown-item">
-                <a></i>{% trans "Invert Selection" %}</a>
-            </li>
-         </ul>
-       </div>
-   </li>
-   <!-- SELECTION END -->
-   <li id="tags-menu-item" class="dropdown-item disabled">
-       <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
-   </li>
-   <li  id="rename" class="dropdown-item disabled">
-       <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
-   </li>
-   <li  id="access" class="dropdown-item disabled">
-       <a><i class="fa fa-users mx-2"></i>{% trans "Access" %}</a>
-   </li>
-   <li class="dropdown-divider"></li>
-   <li id="delete" class="dropdown-item disabled">
-       <a><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
-   </li>
-</ul>
+       <ul class="dropdown-menu" aria-labelledby="paste-dropdown">
+         <li class="dropdown-item" id="paste">
+           <a>{% trans "Documents & Folders" %}</a>
+         </li>
+         <li class="dropdown-item" id="paste_pages">
+           <a>{% trans "Pages" %}</a>
+         </li>
+       </ul>
+     </li>
+     <!-- PASTE END -->
+     <!-- SELECTION BEGIN -->
+     <li class="nav-item dropright dropdown-submenu dropdown fl fl-i-center">
+         <div class="dropdown actions">
+           <a class="dropdown-item dropdown-toggle" href="#" id="paste-dropdown" data-toggle="dropdown">
+               <i class="fa fa-expand mx-2"></i>
+               {% trans "Selection" %}
+           </a>
+           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li class="dropdown-item" id="select_all_menu_item">
+                  <a>{% trans "All" %}</a>
+              </li>
+              <li id="select_folders_menu_item" class="dropdown-item">
+                  <a>{% trans "Folders" %}</a>
+              </li>
+              <li id="select_documents_menu_item" class="dropdown-item">
+                  <a>{% trans "Documents" %}</a>
+              </li>
+              <li id="deselect_menu_item" class="dropdown-item">
+                  <a></i>{% trans "Deselect" %}</a>
+              </li>
+              <li id="invert_selection_menu_item" class="dropdown-item">
+                  <a></i>{% trans "Invert Selection" %}</a>
+              </li>
+           </ul>
+         </div>
+     </li>
+     <!-- SELECTION END -->
+     <li id="tags-menu-item" class="dropdown-item disabled">
+         <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
+     </li>
+     <li  id="rename" class="dropdown-item disabled">
+         <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
+     </li>
+     <li  id="access" class="dropdown-item disabled">
+         <a><i class="fa fa-users mx-2"></i>{% trans "Access" %}</a>
+     </li>
+     <li class="dropdown-divider"></li>
+     <li id="delete" class="dropdown-item disabled">
+         <a><i class="fa fa-times mx-2 "></i>{% trans "Delete" %}</a>
+     </li>
+  </ul>
 {% endblock %}
 
 {% block widgetsbar %}
