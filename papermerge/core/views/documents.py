@@ -379,8 +379,8 @@ def upload(request):
     if not doc:
         status = 400
         msg = _(
-           "File type not supported."
-           " Only pdf, tiff, png, jpeg files are supported"
+            "File type not supported."
+            " Only pdf, tiff, png, jpeg files are supported"
         )
         return msg, status
     
