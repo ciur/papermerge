@@ -23272,9 +23272,9 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">'+
+__p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">\n        <label>'+
 ((__t=( part.verbose_name  ))==null?'':__t)+
-'</div>\n      <div class="card-text">\n          ';
+'</label>\n    </div>\n      <div class="card-text">\n          ';
  for (let x=0; x < part.fields.length; x++ ) { 
 __p+='\n            ';
  field = part.fields[x]; 

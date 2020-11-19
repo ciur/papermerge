@@ -71,7 +71,8 @@ class TestSidebarFieldPart(TestCase):
             sidebar_field_1.to_json(),
             {
                 "class": "CharField",
-                "value": "DOC_XYZ_1"
+                "value": "DOC_XYZ_1",
+                "field_name": "extra_special_id"
             }
         )
 
@@ -89,7 +90,8 @@ class TestSidebarFieldPart(TestCase):
                     (green.id, green.name),
                     (red.id, red.name),
                     (yellow.id, yellow.name),
-                ]
+                ],
+                "field_name": "color"
             }
         )
 
