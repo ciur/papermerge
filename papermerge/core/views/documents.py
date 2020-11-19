@@ -19,6 +19,7 @@ from django.http import (
 from django.contrib.staticfiles import finders
 from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth.decorators import login_required
+from django.utils import module_loading
 
 from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
@@ -36,7 +37,6 @@ from papermerge.core.tasks import ocr_page
 from papermerge.core.utils import filter_node_id
 from papermerge.core.backup_restore import build_tar_archive
 from papermerge.core import signal_definitions as signals
-from papermerge.core import import_pipeline
 
 logger = logging.getLogger(__name__)
 
@@ -374,8 +374,11 @@ def upload(request):
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
-    importer = import_pipeline.DefaultPipeline(payload=f, processor="WEB")
-    doc = importer.apply(user=user, parent=parent_id, lang=lang, notes=notes, apply_async=True)
+    pipelines = settings.PAPERMERGE_PIPELINES 
+    for pipeline in pipelines:
+        pipeline_class = module_loading.import_string(pipeline) 
+        importer = pipeline_class(payload=f, processor="WEB")
+        doc = importer.apply(user=user, parent=parent_id, lang=lang, notes=notes, apply_async=True)
     if not doc:
         status = 400
         msg = _(

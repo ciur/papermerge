@@ -7,7 +7,7 @@ from imapclient import IMAPClient
 from imapclient.exceptions import LoginError
 from imapclient.response_types import BodyData
 
-from papermerge.core import import_pipeline
+from django.utils import module_loading
 
 logger = logging.getLogger(__name__)
 
@@ -40,10 +40,14 @@ def read_email_message(message):
     for index, part in enumerate(message.walk()):
         # search for payload
         try:
-            importer = import_pipeline.DefaultPipeline(payload=part, processor="IMAP")
-            doc = importer.apply(user=None, name=part.get_filename())
+            pipelines = settings.PAPERMERGE_PIPELINES
+            for pipeline in pipelines:
+                pipeline_class = module_loading.import_string(pipeline)
+                importer = pipeline_class(payload=part, processor="IMAP")
+                doc = importer.apply(user=None, name=part.get_filename())
         except TypeError:
             continue
+
 
 def contains_attachments(uid, structure):
     if isinstance(structure, BodyData):
