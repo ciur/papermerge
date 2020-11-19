@@ -9,6 +9,9 @@ from papermerge.core.models import (
 )
 from papermerge.core.storage import default_storage
 from papermerge.core.tasks import ocr_page
+from papermerge.core import signal_definitions as signals
+from papermerge.core.ocr import COMPLETE, STARTED
+from papermerge.core.utils import Timer
 
 from mglib.pdfinfo import get_pagecount
 from magic import from_file
@@ -17,13 +20,21 @@ logger = logging.getLogger(__name__)
 
 class DefaultPipeline:
     def __init__(self, payload, processor="WEB"):
-        if processor == "IMAP":
+        if processor == "IMAP" and payload is not None:
             try:
-                self.payload = payload.get_payload(decode=True)
+                payload = payload.get_payload(decode=True)
+                if payload is None:
+                    logger.debug("{} importer: not a file.".format(processor))
+                    raise TypeError("Not a file.")
+                self.payload = payload
             except TypeError as e:
                 logger.debug("{} importer: not a file.".format(processor))
+                raise e
         else:
             self.tempfile = payload
+
+        if processor == "WEB":
+            self.temppath = self.tempfile.temporary_file_path()
 
         self.processor = processor
 
@@ -33,7 +44,7 @@ class DefaultPipeline:
         by Papermerge or one of its apps.
         """
         supported_mimetypes = settings.PAPERMERGE_MIMETYPES
-        mime = from_file(self.tempfile.temporary_file_path(), mime=True)
+        mime = from_file(self.temppath, mime=True)
         if mime in supported_mimetypes:
             return True
         return False
@@ -44,6 +55,7 @@ class DefaultPipeline:
         temp.write(self.payload)
         temp.flush()
         self.tempfile = temp
+        self.temppath = temp.name
         return
 
     @staticmethod
@@ -62,19 +74,16 @@ class DefaultPipeline:
 
     def move_tempfile(self, doc):
         default_storage.copy_doc(
-            src=self.tempfile.temporary_file_path(),
+            src=self.temppath,
             dst=doc.path.url()
         )
         return
 
     def page_count(self):
-        return get_pagecount(self.tempfile.temporary_file_path())
+        return get_pagecount(self.temppath)
 
-    @staticmethod
-    def ocr_document(
-        document,
-        page_count,
-        lang,
+    def ocr_document(self, document,
+                     page_count, lang
     ):
         user_id = document.user.id
         document_id = document.id
@@ -116,6 +125,8 @@ class DefaultPipeline:
     def apply(self, user=None, parent=None, lang=None, 
               notes=None, name=None, skip_ocr=False, 
               apply_async=False, delete_after_import=False):
+        if self.processor == "IMAP":
+            self.write_temp()
         if not self.check_mimetype():
             logger.debug("{} importer: invalid filetype".format(self.processor))
             return None
@@ -125,7 +136,7 @@ class DefaultPipeline:
         if name is None:
             name = basename(self.tempfile.name)
         page_count = self.page_count()
-        size = getsize(self.tempfile.temporary_file_path())
+        size = getsize(self.temppath)
         try:
             doc = Document.objects.create_document(
                       user=user,
@@ -153,14 +164,14 @@ class DefaultPipeline:
                         'lang': lang}
                     )
             else:
-                ocr_document(
+                self.ocr_document(
                     document=doc,
                     page_count=page_count,
                     lang=lang,
                 )
 
         if delete_after_import:
-            os.remove(self.tempfile)
+            os.remove(self.temppath)
 
         logger.debug("{} importer: import complete.".format(self.processor))
         return doc

@@ -6,7 +6,7 @@ import shutil
 
 from django.conf import settings
 from operator import itemgetter
-from papermerge.core.document_importer import DocumentImporter
+from papermerge.core import import_pipeline 
 
 logger = logging.getLogger(__name__)
 
@@ -45,5 +45,5 @@ def import_documents(directory):
                     tempdirname, basename
                 )
                 logger.info(f"Same as temp_file_name={temp_file_name}...")
-                imp = DocumentImporter(temp_file_name)
-                imp.import_file()
+                importer = import_pipeline.DefaultPipeline(payload=temp_file_name, processor="LOCAL")
+                importer.apply(user=None, name=basename)

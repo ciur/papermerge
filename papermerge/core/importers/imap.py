@@ -5,8 +5,9 @@ import logging
 from django.conf import settings
 from imapclient import IMAPClient
 from imapclient.exceptions import LoginError
+from imapclient.response_types import BodyData
 
-from papermerge.core.document_importer import DocumentImporter
+from papermerge.core import import_pipeline
 
 logger = logging.getLogger(__name__)
 
@@ -32,82 +33,35 @@ def login(imap_server, username, password):
     return server
 
 
-def is_payload_supported(maintype: str, subtype: str) -> bool:
-    """
-    Papermerge supports pdf, tiff, jpeg and png formats.
-    Returns true if mimetype (maintype + subtype) is one of
-    supported types:
-
-    PDF => maintype=application, subtype=pdf
-    TIFF => maintype=image, subtype=tiff
-    Jpeg => maintype=image, subtype=jpeg
-    png => maintype=image, subtype=png
-    Also will return true in case of 'application/octet-stream'.
-    """
-    if not maintype:
-        return False
-
-    if not subtype:
-        return False
-
-    duo = (maintype.lower(), subtype.lower())
-
-    supported = (
-        ('application', 'octet-stream'),
-        ('application', 'pdf'),
-        ('image', 'png'),
-        ('image', 'jpeg'),
-        ('image', 'jpg'),
-        ('image', 'tiff'),
-    )
-
-    if duo in supported:
-        return True
-
-    return False
-
-
 def read_email_message(message):
     """
     message is an instance of python's module email.message
     """
     for index, part in enumerate(message.walk()):
         # search for payload
-        maintype = part.get_content_maintype()
-        subtype = part.get_content_subtype()
+        try:
+            importer = import_pipeline.DefaultPipeline(payload=part, processor="IMAP")
+            doc = importer.apply(user=None, name=part.get_filename())
+        except TypeError:
+            continue
 
-        logger.debug(
-            f"IMAP import: payload {index} maintype={maintype}"
-            f" subtype={subtype}."
-        )
-        if is_payload_supported(maintype=maintype, subtype=subtype):
-            logger.debug(
-                "IMAP import: importing..."
-            )
-
-            name = part.get_filename()
-            if name:
-                temp = open("/tmp/" + name, 'wb+')
-            else:
-                temp = tempfile.NamedTemporaryFile()
-
-            try:
-                temp.write(part.get_payload(decode=True))
-                temp.flush()
-                imp = DocumentImporter(temp.name)
-                imp.import_file(
-                    delete_after_import=False
-                )
-            finally:
-                temp.close()
-        else:
-            logger.debug(
-                "IMAP import: ignoring payload."
-            )
+def contains_attachments(uid, structure):
+    if isinstance(structure, BodyData):
+        if structure.is_multipart:
+            for part in structure:
+                if isinstance(part, list):
+                    for element in part:
+                        if contains_attachments(uid, element):
+                            return True
+        try:
+            if isinstance(structure[8], tuple) and structure[8][0] == b'attachment':
+                return True
+        except IndexError:
+            return False
+    return False
 
 
 def import_attachment():
-
     imap_server = settings.PAPERMERGE_IMPORT_MAIL_HOST
     username = settings.PAPERMERGE_IMPORT_MAIL_USER
     password = settings.PAPERMERGE_IMPORT_MAIL_PASS
@@ -126,11 +80,17 @@ def import_attachment():
             f"IMAP Import: UNSEEN messages {len(messages)} count"
         )
 
+        messages_structure = server.fetch(messages, ['BODYSTRUCTURE'])
+        for uid, structure in messages_structure.items():
+            if not contains_attachments(uid, structure[b'BODYSTRUCTURE']):
+                messages.remove(uid)
+
         for uid, message_data in server.fetch(
-            messages, 'RFC822'
+            messages, ['ENVELOPE', 'RFC822']
         ).items():
+            body = message_data[b'RFC822']
             email_message = email.message_from_bytes(
-                message_data[b'RFC822']
+                body
             )
             read_email_message(email_message)
     else:
