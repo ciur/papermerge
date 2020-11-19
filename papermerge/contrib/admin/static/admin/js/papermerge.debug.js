@@ -23262,6 +23262,34 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/widgetsbar/_policy_states.html":
+/*!*********************************************************!*\
+  !*** ./src/js/templates/widgetsbar/_policy_states.html ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<ul class="collection">\n    ';
+ for (i=0; i < states.length; i++) { 
+__p+='\n        ';
+ state = states[i]; 
+__p+='\n        <li class="collection-item">\n            '+
+((__t=( state['left'] ))==null?'':__t)+
+' <i class="fa fa-arrow-right"></i> '+
+((__t=( state['right'] ))==null?'':__t)+
+'\n        </li>\n    ';
+ } 
+__p+='\n</ul>';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/widgetsbar/data_retention.html":
 /*!*********************************************************!*\
   !*** ./src/js/templates/widgetsbar/data_retention.html ***!
@@ -27312,7 +27340,9 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
   }
 
   _get_current_policy_states(fields, policy_id) {
-    let current_policy_state_field, _id;
+    let current_policy_state_field,
+        _id,
+        that = this;
 
     current_policy_state_field = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(fields, function (item) {
       return item.field_name == 'current_policy_state';
@@ -27325,11 +27355,30 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
       }).done(function (data) {
         // returns all states of given policy
         if (data && data['states']) {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#current_policy_states").html(`id = ${data['states'][0]['id']}; number = ${data['states'][0]['number']}`);
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()("#current_policy_states").html(that._render_states(data['states'], _id));
         }
       });
-      return "Loading...";
+      return gettext("Loading...");
     }
+  }
+
+  _states_template(kwargs) {
+    let compiled_tpl,
+        file_tpl = __webpack_require__(/*! ../templates/widgetsbar/_policy_states.html */ "./src/js/templates/widgetsbar/_policy_states.html");
+
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(kwargs));
+    return compiled_tpl();
+  }
+
+  _render_states(states, current_state_id) {
+    let context = {};
+    context['states'] = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].map(states, function (item) {
+      return {
+        'left': item.number,
+        'right': item.number
+      };
+    });
+    return this._states_template(context);
   }
 
 }
