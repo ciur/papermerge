@@ -36,6 +36,7 @@ from papermerge.core.tasks import ocr_page
 from papermerge.core.utils import filter_node_id
 from papermerge.core.backup_restore import build_tar_archive
 from papermerge.core import signal_definitions as signals
+from papermerge.core import import_pipeline
 
 logger = logging.getLogger(__name__)
 
@@ -373,51 +374,16 @@ def upload(request):
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
-    try:
-        page_count = get_pagecount(f.temporary_file_path())
-    except exceptions.FileTypeNotSupported:
+    importer = import_pipeline.DefaultPipeline(payload=f, processor="WEB")
+    doc = importer.apply(user=user, parent=parent_id, lang=lang, notes=notes, apply_async=True)
+    if not doc:
         status = 400
         msg = _(
-            "File type not supported."
-            " Only pdf, tiff, png, jpeg files are supported"
+           "File type not supported."
+           " Only pdf, tiff, png, jpeg files are supported"
         )
         return msg, status
-
-    logger.debug("creating document {}".format(f.name))
-
-    try:
-        doc = Document.objects.create_document(
-            user=user,
-            title=f.name,
-            size=size,
-            lang=lang,
-            file_name=f.name,
-            parent_id=parent_id,
-            notes=notes,
-            page_count=page_count
-        )
-    except ValidationError as e:
-        status = 400
-        return ','.join(e.messages), status
-
-    logger.debug(
-        "uploading to {}".format(doc.path.url())
-    )
-
-    default_storage.copy_doc(
-        src=f.temporary_file_path(),
-        dst=doc.path.url()
-    )
-    for page_num in range(1, page_count + 1):
-        ocr_page.apply_async(kwargs={
-            'user_id': user.id,
-            'document_id': doc.id,
-            'file_name': f.name,
-            'page_num': page_num,
-            'lang': lang}
-        )
-
-    # upload only one file at time.
+    
     # after each upload return a json object with
     # following fields:
     #
