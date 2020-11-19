@@ -23273,34 +23273,20 @@ module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
 __p+='<div class="card">\n    <div class="card-body">\n      <div class="card-title">\n        <label>'+
-((__t=( part.verbose_name  ))==null?'':__t)+
-'</label>\n    </div>\n      <div class="card-text">\n          ';
- for (let x=0; x < part.fields.length; x++ ) { 
-__p+='\n            ';
- field = part.fields[x]; 
-__p+='\n            ';
- if (field['class']== 'ForeignKey') { 
+((__t=( verbose_name  ))==null?'':__t)+
+'</label>\n    </div>\n      <div class="card-text">\n        <select class="custom-select">\n            ';
+ for (let x=0; x < policy_choices.length; x++ ) { 
 __p+='\n                ';
- choices = field['choices']; 
-__p+='\n                ';
- value = field['value']; 
-__p+='\n                <select class="custom-select">\n                    ';
- for (y=0; y < choices.length; y++) { 
-__p+='\n                        <option \n                            id="'+
-((__t=( choices[y][0] ))==null?'':__t)+
-'"\n                            ';
- if (choices[y][0] == value[0] ) { 
-__p+=' selected ';
+ choice = policy_choices[x] 
+__p+='\n                <option id="'+
+((__t=( choice[0] ))==null?'':__t)+
+'" '+
+((__t=( choice[2] ))==null?'':__t)+
+' >\n                    '+
+((__t=( choice[1] ))==null?'':__t)+
+'\n                </option>\n            ';
  } 
-__p+=' >\n                            '+
-((__t=( choices[y][1] ))==null?'':__t)+
-'\n                        </option>\n                    ';
- } 
-__p+='\n                </select\n            ';
- } 
-__p+='\n          ';
- } 
-__p+='\n        </div> \n    </div>\n</div>';
+__p+='\n        </select>\n    </div>\n</div>';
 }
 return __p;
 };
@@ -27271,11 +27257,44 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
   render_to_string() {
     let context = {};
     context['part'] = this.part;
+    context['verbose_name'] = this.part.verbose_name;
+    context['policy_choices'] = this._get_policy_choices(this.part.fields);
+    context['current_policy_states'] = this._get_current_policy_states(this.part.fields);
     return this.template(context);
   }
 
   render() {
     this.$el.html(this.render_to_string());
+  }
+
+  _get_policy_choices(fields) {
+    let policy_field,
+        choices = [],
+        x,
+        selected = "";
+    policy_field = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(fields, function (item) {
+      return item.field_name == 'policy';
+    });
+
+    if (policy_field && policy_field.choices) {
+      for (x = 0; x < policy_field.choices.length; x++) {
+        if (policy_field.value[0] == policy_field.choices[x][0]) {
+          selected = "selected";
+        }
+
+        choices.push([policy_field.choices[x][0], policy_field.choices[x][1], selected]);
+      }
+    }
+
+    return choices;
+  }
+
+  _get_current_policy_states(fields) {
+    let current_policy_state_field;
+    current_policy_state_field = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].find(fields, function (item) {
+      return item.field_name == 'current_policy_state';
+    });
+    console.log(current_policy_state_field);
   }
 
 }
