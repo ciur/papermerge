@@ -23278,19 +23278,19 @@ __p+='\n        ';
  state = states[i]; 
 __p+='\n        <li class="collection-item mt-2 '+
 ((__t=( state['selected']  ))==null?'':__t)+
-'">\n            <span class="mr-2">'+
+' d-flex justify-content-left p-2">\n            <div>\n                <span class="mr-1">'+
 ((__t=( state['number'] + 1 ))==null?'':__t)+
-'.</span>\n            ';
+'.</span>\n                ';
  if (state['left'] == 'user') { 
-__p+=' \n                <i class="fa fa-user text-success mr-2"></i>\n            ';
+__p+=' \n                    <i class="fa fa-user text-success mr-3"></i>\n                ';
  } 
-__p+='\n            \n            <i class="fa fa-arrow-right mr-2"></i>\n\n            ';
+__p+='\n            </div>\n            <div>\n                <i class="fa fa-arrow-right mr-3"></i>\n            </div>\n            <div>\n                ';
  if (state['right'] == 'trash') { 
-__p+=' \n                <i class="fa fa-trash mr-2"></i>\n            ';
+__p+=' \n                    <i class="fa fa-trash mr-3"></i>\n                ';
  } else if (state['right'] == 'purge') { 
-__p+='\n                <i class="fa fa-times text-danger mr-2"></i>\n            ';
+__p+='\n                    <i class="fa fa-times text-danger mr-2"></i>\n                ';
  } 
-__p+='\n        </li>\n    ';
+__p+='\n            </div>\n        </li>\n    ';
  } 
 __p+='\n</ul>';
 }
@@ -27400,7 +27400,7 @@ class DataRetentionWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
       }
 
       if (item.id == current_state_id) {
-        ret_dict['selected'] = 'selected';
+        ret_dict['selected'] = 'bg-light border';
       } else {
         ret_dict['selected'] = '';
       }
