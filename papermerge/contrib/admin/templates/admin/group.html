@@ -30,14 +30,25 @@
               </ul>
             {% endif %}
             <!-- form error messages -->
-            <form class="group" method="POST" action="{{ action_url }}">
+            <form id="changeform" class="group" method="POST" action="{{ action_url }}">
               {% csrf_token %}
               {% bootstrap_form form %}
-                <button class="button btn btn-success btn-flat mt-3" type="submit">
-                  <i class="fa fa-check"></i>
-                  {% trans 'Save' %}
-                </button>
-            </form>
+             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block widgetsbar %}
+<div class="card">
+  <div class="card-body">
+    <ul class="collection">
+      <li class="collection-item d-flex flex-row-reverse mt-3">
+          <button form="changeform" class="btn btn-primary btn-flat mx-1 btn-block" type="submit">
+            <i class="fa fa-check"></i>
+            {% trans "Submit" %}
+          </button>
+      </li>
+    </ul>
+  </div>
+</div>
 {% endblock %}

@@ -8020,9 +8020,11 @@ h1, h2, h3, h4 {
   .input-group input {
     width: 100%; }
 
+.form-control {
+  border-radius: 0; }
+
 form.change_password, form.token, form.user, form.group, form.generic {
-  padding: 2rem;
-  border: 1px solid #ccc; }
+  border: none; }
 
 #user_form {
   padding: 0rem 1rem; }
