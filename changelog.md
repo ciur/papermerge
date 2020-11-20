@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixes #204 - Groups are not created
 - Fixes #206 - Anonymous user access to breadcrumb results in 500
 - Fixes #208 - Tags unique per user (different users can have tags with same name)
+- Fixes #202 - Automates created for all users
+- Fixes #185 - inbox folder is only selectable at automate creation
+- Fixes #196 - Allow Automates to only apply tags or move to folder
 
 ## [1.5.0] - 14 October 2020
 
