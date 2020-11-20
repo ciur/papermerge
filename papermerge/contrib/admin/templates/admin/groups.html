@@ -4,30 +4,25 @@
 
 {% block title %}{% trans "Groups" %}{% endblock %}
 
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{% url 'admin:groups' %}">{% trans "Groups" %}</a>
+    </div><!-- /.col -->
+{% endblock %}
+
 {% block content %}
-    <div class="text-left">
-        <h4 class="px-3">{% trans "Groups" %}</h4>
-        <p class="bg-light p-3">
-          {% blocktrans %}
-            A group - is a collection of users. A groups is a convinient model to group/associate a number of users together. For example only users belonging to accounting group might be allowed to access Accounting-2020 folder.
-          {% endblocktrans %}
-        </p>
-    </div>
-    <form action="{% url list_url %}" method="post">
+    <form id="changelist_form" action="{% url list_url %}" method="post">
       {% csrf_token %}
         <div class="col-12 p-3">
-            <a href="{% url 'admin:group' %}" class="btn btn-success" role="button">{% trans "New Group" %}</a>
-              <select name="action" required="">
-                <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected groups" %}</option>
-              </select>
-            <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
+            <a href="{% url 'admin:group' %}" class="btn btn-success btn-flat" role="button">
+              <i class='fa fa-plus'></i>
+              {% trans "New" %}
+            </a>
         </div>
-
         <div class="col-12 p-3">
           {% if object_list|length > 0 %}
             <table class="table table-striped">
-              <thead class="thead-dark">
+              <thead>
                 <tr class="text-uppercase">
                   <th>
                     <div id="checkbox_view">
@@ -49,4 +44,32 @@
           {% endif %}
       </div>
     </form>
+{% endblock %}
+
+
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item">
+            <select form="changelist_form" name="action" class="custom-select" required="">
+              <option value="" selected="">---------</option>
+              <option value="delete_selected">{% trans "Delete selected groups" %}</option>
+            </select>
+          
+        </li>
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+            <button form="changelist_form" class="btn btn-primary btn-flat mx-1" type="submit">
+              <i class="fa fa-check"></i>
+              {% trans "Apply" %}
+            </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- client managed -->
+  <div id="widgetsbar">
+
+  </div>
+
 {% endblock %}
