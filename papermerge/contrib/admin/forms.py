@@ -26,7 +26,17 @@ from .models import (
 )
 
 
-class LogEntryForm(forms.ModelForm):
+class ControlForm(forms.ModelForm):
+    """
+    Adds to following widgets css class 'form-control':
+        * TextInput
+        * EmailInput
+        * ChoiceWidget
+        * TreeNodeChoiceField
+
+    Additional, for ChoiceWidget (<select> tag) appends 'custom-select'
+    css class
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,9 +44,15 @@ class LogEntryForm(forms.ModelForm):
         for visible in self.visible_fields():
             if isinstance(
                 visible.field.widget,
-                (TextInput, Textarea, ChoiceWidget)
+                (TextInput, EmailInput, ChoiceWidget, TreeNodeChoiceField)
             ):
                 visible.field.widget.attrs['class'] = 'form-control'
+
+            if isinstance(visible.field.widget, ChoiceWidget):
+                visible.field.widget.attrs['class'] += ' custom-select '
+
+
+class LogEntryForm(ControlForm):
 
     class Meta:
         model = LogEntry
@@ -46,17 +62,7 @@ class LogEntryForm(forms.ModelForm):
         )
 
 
-class TagForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for visible in self.visible_fields():
-            if isinstance(
-                visible.field.widget,
-                (TextInput, Textarea, ChoiceWidget)
-            ):
-                visible.field.widget.attrs['class'] = 'form-control'
+class TagForm(ControlForm):
 
     class Meta:
         model = Tag
@@ -71,25 +77,6 @@ class TagForm(forms.ModelForm):
             'fg_color': TextInput(attrs={'type': 'color'}),
             'bg_color': TextInput(attrs={'type': 'color'}),
         }
-
-
-class ControlForm(forms.ModelForm):
-    """
-    Adds to following widgets css class 'form-control':
-        * TextInput
-        * EmailInput
-        * ChoiceWidget
-        * TreeNodeChoiceField
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            if isinstance(
-                visible.field.widget,
-                (TextInput, EmailInput, ChoiceWidget, TreeNodeChoiceField)
-            ):
-                visible.field.widget.attrs['class'] = 'form-control'
 
 
 class AutomateForm(ControlForm):
