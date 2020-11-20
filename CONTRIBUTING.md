@@ -14,6 +14,9 @@ change/add a whole paragraph to the documentation - please **first discuss the
 change** you wish to make via GitHub issue, pull request or
 [email](mailto:eugen@papermerge.com).
 
+As general rule: the smaller your pull request is - the higher chance of it
+being merged.
+
 
 ## Fix a Typo
 

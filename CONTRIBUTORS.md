@@ -14,7 +14,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 
 * [@frenos](https://github.com/frenos) - Backup and Restore Feature
 * [@mtonnie](https://github.com/mtonnie) - Packaging for Synology NAS devices
-* [@francescocarzaniga](https://github.com/francescocarzaniga) - PR for MySQL support. Bug fix #208.
+* [@francescocarzaniga](https://github.com/francescocarzaniga) - Too many to list here
 * [@defaultroute-eu](https://github.com/defaultroute-eu) - Reported a bug, provided a fix/PR.
 * [@hactar](https://github.com/hactar) - Documentation updates    
 * [Reto](https://github.com/tido-) - for very useful feedback and testing
