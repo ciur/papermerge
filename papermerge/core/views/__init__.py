@@ -29,6 +29,16 @@ class AdminChangeView(CommonView):
     View/Update exising entries
     """
 
+    def get_context_data(self, **kwargs):
+        context = {}
+
+        context['title'] = self.title
+        context['change_url'] = reverse(
+            self.change_url, args=(self.kwargs['id'],)
+        )
+
+        return context
+
     def get(self, request, id, **kwargs):
         if not self.is_allowed(request):
             return HttpResponseForbidden()
@@ -39,19 +49,11 @@ class AdminChangeView(CommonView):
         form = self.form_class(
             instance=entry
         )
-        change_url = reverse(
-            self.change_url, args=(id,)
-        )
 
-        return render(
-            request,
-            self.template_name,
-            {
-                'form': form,
-                'action_url': change_url,
-                'title': self.title
-            }
-        )
+        context = self.get_context_data(*kwargs)
+        context['form'] = form
+
+        return render(request, self.template_name, context)
 
     def post(self, request, id, **kwargs):
         if not self.is_allowed(request):
@@ -65,23 +67,29 @@ class AdminChangeView(CommonView):
             request.POST,
             instance=entry
         )
-        change_url = reverse(
-            self.change_url, args=(id,)
-        )
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            if obj:
+                model_name = self.model_class._meta.verbose_name
+
+                if model_name:
+                    model_name = model_name.capitalize()
+
+                msg = _(
+                    "%(model_name)s '%(name)s' was successfully updated."
+                ) % {
+                    'model_name': model_name,
+                    'name': str(obj)
+                }
+                messages.info(request, msg)
+
             return redirect(self.list_url)
 
-        return render(
-            request,
-            self.template_name,
-            {
-                'form': form,
-                'action_url': change_url,
-                'title': self.title
-            }
-        )
+        context = self.get_context_data(*kwargs)
+        context['form'] = form
+
+        return render(request, self.template_name, context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -90,6 +98,14 @@ class AdminView(CommonView):
     View/Create new entry
     """
 
+    def get_context_data(self, **kwargs):
+        context = {}
+
+        context['title'] = self.title
+        context['action_url'] = reverse(self.action_url)
+
+        return context
+
     def get(self, request, **kwargs):
         if not self.is_allowed(request):
             return HttpResponseForbidden()
@@ -97,17 +113,11 @@ class AdminView(CommonView):
         form = self.form_class(
             user=request.user
         )
-        action_url = reverse(self.action_url)
 
-        return render(
-            request,
-            self.template_name,
-            {
-                'form': form,
-                'action_url': action_url,
-                'title': self.title
-            }
-        )
+        context = self.get_context_data(**kwargs)
+        context['form'] = form
+
+        return render(request, self.template_name, context)
 
     def post(self, request, **kwargs):
         if not self.is_allowed(request):
@@ -143,15 +153,10 @@ class AdminView(CommonView):
 
             return redirect(self.list_url)
 
-        return render(
-            request,
-            self.template_name,
-            {
-                'form': form,
-                'action_url': self.action_url,
-                'title': self.title
-            }
-        )
+        context = self.get_context_data(**kwargs)
+        context['form'] = form
+
+        return render(request, self.template_name, context)
 
 
 @method_decorator(login_required, name='dispatch')
