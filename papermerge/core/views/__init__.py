@@ -178,6 +178,7 @@ class AdminListView(CommonView):
                 'pages': pages,
                 'page_number': page_number,
                 'page': page_obj,
+                'num_pages': num_pages,
                 'list_url': self.list_url
             }
         )
