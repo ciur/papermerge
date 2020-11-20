@@ -75,6 +75,7 @@ def read_email_message(message):
         # search for payload
         maintype = part.get_content_maintype()
         subtype = part.get_content_subtype()
+
         logger.debug(
             f"IMAP import: payload {index} maintype={maintype}"
             f" subtype={subtype}."
@@ -83,13 +84,22 @@ def read_email_message(message):
             logger.debug(
                 "IMAP import: importing..."
             )
-            with tempfile.NamedTemporaryFile() as temp:
+
+            name = part.get_filename()
+            if name:
+                temp = open("/tmp/" + name, 'wb+')
+            else:
+                temp = tempfile.NamedTemporaryFile()
+
+            try:
                 temp.write(part.get_payload(decode=True))
                 temp.flush()
                 imp = DocumentImporter(temp.name)
                 imp.import_file(
                     delete_after_import=False
                 )
+            finally:
+                temp.close()
         else:
             logger.debug(
                 "IMAP import: ignoring payload."
@@ -109,7 +119,7 @@ def import_attachment():
     )
 
     if server:
-        server.select_folder('INBOX')
+        server.select_folder(settings.PAPERMERGE_IMPORT_MAIL_INBOX)
         messages = server.search(['UNSEEN'])
 
         logger.debug(
