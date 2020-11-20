@@ -10666,6 +10666,9 @@ p a {
 a {
   cursor: pointer; }
 
+thead th {
+  font-weight: 300; }
+
 label:not(.form-check-label):not(.custom-file-label) {
   font-weight: 300; }
 
