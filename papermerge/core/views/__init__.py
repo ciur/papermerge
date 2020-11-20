@@ -8,6 +8,7 @@ from django.shortcuts import (
     get_object_or_404
 )
 from django.utils.translation import ngettext
+from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views import View
@@ -94,7 +95,7 @@ class AdminView(CommonView):
             return HttpResponseForbidden()
 
         form = self.form_class(
-            user = request.user
+            user=request.user
         )
         action_url = reverse(self.action_url)
 
@@ -114,7 +115,7 @@ class AdminView(CommonView):
 
         form = self.form_class(
             request.POST,
-            user = request.user
+            user=request.user
         )
         if form.is_valid():
             # When saving a form with commit=False option you
@@ -130,6 +131,15 @@ class AdminView(CommonView):
             # save object regardles if it has user attribute.
             obj.save()
             form.save_m2m()
+            model_name = self.model_class._meta.verbose_name
+            if model_name:
+                model_name = model_name.capitalize()
+            msg = _("%(model_name)s '%(name)s' was successfully created.") % {
+                'model_name': model_name,
+                'name': str(obj)
+            }
+
+            messages.info(request, msg)
 
             return redirect(self.list_url)
 
