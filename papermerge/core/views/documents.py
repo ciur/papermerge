@@ -374,11 +374,31 @@ def upload(request):
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
-    pipelines = settings.PAPERMERGE_PIPELINES 
+    pipelines = settings.PAPERMERGE_PIPELINES
+    init_kwargs = {'payload': f, 'processor': 'WEB'}
+    apply_kwargs = {'user': user, 'parent': parent_id, 
+                    'lang': lang, 'notes': notes, 
+                    'apply_async': True}
     for pipeline in pipelines:
         pipeline_class = module_loading.import_string(pipeline) 
-        importer = pipeline_class(payload=f, processor="WEB")
-        doc = importer.apply(user=user, parent=parent_id, lang=lang, notes=notes, apply_async=True)
+        try:
+            importer = pipeline_class(**init_kwargs)
+        except:
+            importer = None
+        if importer is not None:
+            result_dict = importer.apply(**apply_kwargs)
+            init_kwargs_temp = importer.get_init_kwargs()
+            apply_kwargs_temp = importer.get_apply_kwargs()
+            if init_kwargs_temp:
+                init_kwargs = {**init_kwargs, **init_kwargs_temp}
+            if apply_kwargs_temp:
+                apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+        else:
+            result_dict = None
+    if result_dict is not None:
+        doc = result_dict.get('doc', None)
+    else:
+        doc = None
     if not doc:
         status = 400
         msg = _(

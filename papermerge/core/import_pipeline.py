@@ -19,8 +19,11 @@ from magic import from_file
 logger = logging.getLogger(__name__)
 
 class DefaultPipeline:
-    def __init__(self, payload, processor="WEB"):
-        if processor == "IMAP" and payload is not None:
+    def __init__(self, payload, processor="WEB", 
+                *args, **kwargs):
+        if payload is None:
+            return None
+        if processor == "IMAP":
             try:
                 payload = payload.get_payload(decode=True)
                 if payload is None:
@@ -122,9 +125,16 @@ class DefaultPipeline:
                 status=COMPLETE
             )
 
+    def get_init_kwargs(self):
+        return {'doc': self.doc}
+
+    def get_apply_kwargs(self):
+        return {'doc': self.doc}
+
     def apply(self, user=None, parent=None, lang=None, 
               notes=None, name=None, skip_ocr=False, 
-              apply_async=False, delete_after_import=False):
+              apply_async=False, delete_after_import=False,
+              create_document=True, *args, **kwargs):
         if self.processor == "IMAP":
             self.write_temp()
         if not self.check_mimetype():
@@ -137,20 +147,22 @@ class DefaultPipeline:
             name = basename(self.tempfile.name)
         page_count = self.page_count()
         size = getsize(self.temppath)
-        try:
-            doc = Document.objects.create_document(
-                      user=user,
-                      title=name,
-                      size=size,
-                      lang=lang,
-                      file_name=name,
-                      parent_id=parent,
-                      page_count=page_count,
-                      notes=notes
-                  )
-        except ValidationError as e:
-            logger.error("{} importer: validation failed".format(self.processor))
-            return None
+        if create_document:
+            try:
+                doc = Document.objects.create_document(
+                          user=user,
+                          title=name,
+                          size=size,
+                          lang=lang,
+                          file_name=name,
+                          parent_id=parent,
+                          page_count=page_count,
+                          notes=notes
+                      )
+                self.doc = doc
+            except ValidationError as e:
+                logger.error("{} importer: validation failed".format(self.processor))
+                return None
         self.move_tempfile(doc)
         self.tempfile.close()
         if not skip_ocr:
@@ -174,5 +186,5 @@ class DefaultPipeline:
             os.remove(self.temppath)
 
         logger.debug("{} importer: import complete.".format(self.processor))
-        return doc
+        return {'doc': doc} 
 

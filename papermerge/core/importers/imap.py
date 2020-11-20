@@ -41,10 +41,28 @@ def read_email_message(message):
         # search for payload
         try:
             pipelines = settings.PAPERMERGE_PIPELINES
+            init_kwargs = {'payload': part, 'processor': 'IMAP'}
+            apply_kwargs = {'user': None, 'name': part.get_filename()}
             for pipeline in pipelines:
                 pipeline_class = module_loading.import_string(pipeline)
-                importer = pipeline_class(payload=part, processor="IMAP")
-                doc = importer.apply(user=None, name=part.get_filename())
+                try:
+                    importer = pipeline_class(**init_kwargs)
+                except:
+                    importer = None
+                if importer is not None:
+                    result_dict = importer.apply(**apply_kwargs)
+                    init_kwargs_temp = importer.get_init_kwargs()
+                    apply_kwargs_temp = importer.get_apply_kwargs()
+                    if init_kwargs_temp:
+                        init_kwargs = {**init_kwargs, **init_kwargs_temp}
+                    if apply_kwargs_temp:
+                        apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+                else:
+                    result_dict = None
+            if result_dict is not None:
+                doc = result_dict.get('doc', None)
+            else:
+                doc = None
         except TypeError:
             continue
 
