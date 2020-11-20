@@ -181,15 +181,16 @@ class Automate(models.Model):
             logger.debug("Automate not applicable. Quit.")
             return
 
-        if not self.user.has_perm(Access.PERM_WRITE, self.dst_folder):
-            logger.debug("User does not have write access")
-            return
-
         if self.dst_folder:
+            if not self.user.has_perm(Access.PERM_WRITE, self.dst_folder):
+                logger.debug("User does not have write access")
+                return
+
             self.move_to(
                 document,
                 self.dst_folder
             )
+
         _tags = [tag.name for tag in self.tags.all()]
         document.tags.add(
             *_tags,
