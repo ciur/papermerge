@@ -216,3 +216,19 @@ def log_level(level_as_int):
             return level[1]
 
     return None
+
+
+@register.simple_tag(takes_context=True)
+def localized_datetime(context, datetime_instance):
+    user = context['request'].user
+
+    if user:
+        date_fmt = user.preferences['localization__date_format']
+        time_fmt = user.preferences['localization__time_format']
+        # include seconds as well
+        fmt = f"{date_fmt} {time_fmt}:%S"
+        ret_str = datetime_instance.strftime(fmt)
+
+        return ret_str
+
+
