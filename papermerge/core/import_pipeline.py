@@ -19,7 +19,7 @@ from magic import from_file
 logger = logging.getLogger(__name__)
 
 class DefaultPipeline:
-    def __init__(self, payload, processor="WEB", 
+    def __init__(self, payload, doc=None, processor="WEB", 
                 *args, **kwargs):
         if payload is None:
             return None
@@ -40,6 +40,7 @@ class DefaultPipeline:
             self.temppath = self.tempfile.temporary_file_path()
 
         self.processor = processor
+        self.doc = doc
 
     def check_mimetype(self):
         """
@@ -126,10 +127,14 @@ class DefaultPipeline:
             )
 
     def get_init_kwargs(self):
-        return {'doc': self.doc}
+        if self.doc:
+            return {'doc': self.doc}
+        return None
 
     def get_apply_kwargs(self):
-        return {'doc': self.doc}
+        if self.doc:
+            return {'doc': self.doc}
+        return None
 
     def apply(self, user=None, parent=None, lang=None, 
               notes=None, name=None, skip_ocr=False, 
