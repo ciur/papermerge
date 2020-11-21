@@ -58,7 +58,7 @@ The admin should set ``HOST``, ``USER``, and ``PASS`` to the credentials of the 
 emails to have them processed by Papermerge. ``IMPORT_MAIL_BY_USER`` allows user to send emails from their
 user-configured email address and have them end up in their inbox if they so choose. ``IMPORT_MAIL_BY_SECRET``
 allows user to insert a per-user secret (formatted as ``SECRET{<GENERATED_SECRET>}``) in their emails to have them
-put in their own inbox. Finally if ``IMPORT_MAIL_DELETE`` is set then a processed email will be delete from
+put in their own inbox. Finally if ``IMPORT_MAIL_DELETE`` is set then a processed email will be deleted from
 the mail account.
 
 

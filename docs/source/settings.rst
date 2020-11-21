@@ -340,7 +340,6 @@ Default value for this settings is INBOX.
 
 context: ``worker``
 
-
 Whether to allow users to receive in their inbox folder
 emails sent from their own email address.
 
@@ -349,7 +348,6 @@ emails sent from their own email address.
 
 context: ``worker``
 
-
 Whether to allow users to receive in their inbox folder
 emails containing their own secret.
 
@@ -357,7 +355,6 @@ emails containing their own secret.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 context: ``worker``
-
 
 Whether to delete emails after processing.
 
