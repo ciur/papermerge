@@ -335,11 +335,31 @@ context: ``worker``
 IMAP folder to read email from.
 Default value for this settings is INBOX.
 
-``IMPORT_MAIL_SECRET``
+``IMPORT_MAIL_BY_USER``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Any email sent to the target account that does not contain this text will be ignored. Must be defined on worker.
+context: ``worker``
 
+
+Whether to allow users to receive in their inbox folder
+emails sent from their own email address.
+
+``IMPORT_MAIL_BY_SECRET``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+context: ``worker``
+
+
+Whether to allow users to receive in their inbox folder
+emails containing their own secret.
+
+``IMPORT_MAIL_DELETE``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+context: ``worker``
+
+
+Whether to delete emails after processing.
 
 .. _binary_dependencies:
 
