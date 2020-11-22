@@ -1,3 +1,4 @@
+import os
 from os.path import getsize, basename
 import logging
 from django.core.files.temp import NamedTemporaryFile
@@ -18,9 +19,18 @@ from magic import from_file
 
 logger = logging.getLogger(__name__)
 
+
 class DefaultPipeline:
-    def __init__(self, payload, doc=None, processor="WEB", 
-                *args, **kwargs):
+
+    def __init__(
+        self,
+        payload,
+        doc=None,
+        processor="WEB",
+            *args,
+            **kwargs
+    ):
+
         if payload is None:
             return None
         if processor == "IMAP":
@@ -52,9 +62,13 @@ class DefaultPipeline:
         if mime in supported_mimetypes:
             return True
         return False
-   
+
     def write_temp(self):
-        logger.debug("{} importer: creating temporary file".format(self.processor))
+
+        logger.debug(
+            f"{self.processor} importer: creating temporary file"
+        )
+
         temp = NamedTemporaryFile()
         temp.write(self.payload)
         temp.flush()
@@ -66,14 +80,15 @@ class DefaultPipeline:
     def get_user_properties(user):
         if user is None:
             user = User.objects.filter(
-                       is_superuser=True
-                   ).first()
+                is_superuser=True
+            ).first()
         lang = user.preferences['ocr__OCR_Language']
+
         inbox, _ = Folder.objects.get_or_create(
-                       title=Folder.INBOX_NAME,
-                       parent=None,
-                       user=user
-                   )
+            title=Folder.INBOX_NAME,
+            parent=None,
+            user=user
+        )
         return user, lang, inbox
 
     def move_tempfile(self, doc):
@@ -86,13 +101,21 @@ class DefaultPipeline:
     def page_count(self):
         return get_pagecount(self.temppath)
 
-    def ocr_document(self, document,
-                     page_count, lang
+    def ocr_document(
+        self,
+        document,
+        page_count,
+        lang
     ):
+
         user_id = document.user.id
         document_id = document.id
         file_name = document.file_name
-        logger.debug("{} importer: document {} has {} pages.".format(self.processor, document_id, page_count))
+
+        logger.debug(
+            f"{self.processor} importer: "
+            f"document {document_id} has {page_count} pages."
+        )
         for page_num in range(1, page_count + 1):
             signals.page_ocr.send(
                 sender='worker',
@@ -114,7 +137,10 @@ class DefaultPipeline:
                     lang=lang,
                 )
 
-            msg = "{} importer: OCR took {} seconds to complete.".format(self.processor, time)
+            msg = "{} importer: OCR took {} seconds to complete.".format(
+                self.processor,
+                time
+            )
             signals.page_ocr.send(
                 sender='worker',
                 level=logging.INFO,
@@ -136,14 +162,26 @@ class DefaultPipeline:
             return {'doc': self.doc}
         return None
 
-    def apply(self, user=None, parent=None, lang=None, 
-              notes=None, name=None, skip_ocr=False, 
-              apply_async=False, delete_after_import=False,
-              create_document=True, *args, **kwargs):
+    def apply(
+        self,
+        user=None,
+        parent=None,
+        lang=None,
+        notes=None,
+        name=None,
+        skip_ocr=False,
+        apply_async=False,
+        delete_after_import=False,
+        create_document=True,
+        *args,
+        **kwargs
+    ):
         if self.processor == "IMAP":
             self.write_temp()
         if not self.check_mimetype():
-            logger.debug("{} importer: invalid filetype".format(self.processor))
+            logger.debug(
+                "{} importer: invalid filetype".format(self.processor)
+            )
             return None
         if self.processor != "WEB":
             user, lang, inbox = self.get_user_properties(user)
@@ -152,21 +190,24 @@ class DefaultPipeline:
             name = basename(self.tempfile.name)
         page_count = self.page_count()
         size = getsize(self.temppath)
+
         if create_document:
             try:
                 doc = Document.objects.create_document(
-                          user=user,
-                          title=name,
-                          size=size,
-                          lang=lang,
-                          file_name=name,
-                          parent_id=parent,
-                          page_count=page_count,
-                          notes=notes
-                      )
+                    user=user,
+                    title=name,
+                    size=size,
+                    lang=lang,
+                    file_name=name,
+                    parent_id=parent,
+                    page_count=page_count,
+                    notes=notes
+                )
                 self.doc = doc
-            except ValidationError as e:
-                logger.error("{} importer: validation failed".format(self.processor))
+            except ValidationError:
+                logger.error(
+                    "{} importer: validation failed".format(self.processor)
+                )
                 return None
         self.move_tempfile(doc)
         self.tempfile.close()
@@ -191,5 +232,8 @@ class DefaultPipeline:
             os.remove(self.temppath)
 
         logger.debug("{} importer: import complete.".format(self.processor))
-        return {'doc': doc} 
+        return {
+            'doc': doc
+        }
+
 
