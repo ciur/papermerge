@@ -68,8 +68,8 @@ has serious violations of PEP8 - it will simply be rejected with comment *not PE
 
 Communicate. Document.
 
-Before creating a pull request for a new feature - please ask if that feature
-is welcome. A description of your thoughts and motivation is very welcome. A
+Before creating a pull request for a new feature - please first discuss the
+change you wish to make via GitHub issue, pull request or email. A
 silent creation of PR for any sort of feature without any communication will
 result in silent discard of your PR. If you are lazy to comment you your PR -
 why should we care to communicate you the reason of rejection? :))
