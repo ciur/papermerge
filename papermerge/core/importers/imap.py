@@ -1,6 +1,5 @@
 import ssl
 import email
-import tempfile
 import logging
 from django.conf import settings
 from imapclient import IMAPClient
@@ -47,7 +46,7 @@ def read_email_message(message):
                 pipeline_class = module_loading.import_string(pipeline)
                 try:
                     importer = pipeline_class(**init_kwargs)
-                except:
+                except Exception:
                     importer = None
                 if importer is not None:
                     result_dict = importer.apply(**apply_kwargs)
@@ -76,7 +75,10 @@ def contains_attachments(uid, structure):
                         if contains_attachments(uid, element):
                             return True
         try:
-            if isinstance(structure[8], tuple) and structure[8][0] == b'attachment':
+            if isinstance(
+                structure[8],
+                tuple
+            ) and structure[8][0] == b'attachment':
                 return True
         except IndexError:
             return False

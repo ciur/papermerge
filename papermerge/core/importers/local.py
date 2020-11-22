@@ -53,7 +53,7 @@ def import_documents(directory):
                     pipeline_class = module_loading.import_string(pipeline)
                     try:
                         importer = pipeline_class(**init_kwargs)
-                    except:
+                    except Exception:
                         importer = None
                     if importer is not None:
                         result_dict = importer.apply(**apply_kwargs)
