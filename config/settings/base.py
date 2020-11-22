@@ -89,14 +89,6 @@ PAPERMERGE_SEARCH_BACKEND = cfg_papermerge.get(
     "papermerge.search.backends.db.SearchBackend"
 )
 
-PAPERMERGE_METADATA_PLUGINS = cfg_papermerge.get(
-    "METADATA_PLUGINS", []
-)
-
-PAPERMERGE_METADATA_PLUGIN_MAPS = cfg_papermerge.get(
-    "METADATA_PLUGIN_MAPS", {}
-)
-
 PAPERMERGE_METADATA_DATE_FORMATS = [
     'dd.mm.yy',
     'dd.mm.yyyy',
