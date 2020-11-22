@@ -50,18 +50,18 @@ documentation](https://papermerge.readthedocs.io/en/latest/translators_guide/ind
 
 If you want to contribute (fix a bug, add a feature) - that is absolutely great!
 Any kind of improvement is welcome.
-There are 3 (three) golden rules to follow.
+
+There are 3 important rules to follow.
 
 
 ### Rule 1
 
 PEP8.
 
-First of all, all code must formated with [PEP8
+All code must formated with [PEP8
 style](https://www.python.org/dev/peps/pep-0008/). If you code has couple of
-minor deviations from PEP8 - that's ok. We are flexible here.
-However, if your PR code formatting has serious violations of PEP8 - it will
-simple be rejected with comment *not PEP8 formatted*.
+minor deviations from PEP8 - that's ok. We are flexible here, but if your PR code formatting 
+has serious violations of PEP8 - it will simply be rejected with comment *not PEP8 formatted*.
 
 
 ### Rule 2
