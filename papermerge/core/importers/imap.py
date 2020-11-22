@@ -1,12 +1,15 @@
 import ssl
 import email
 import logging
-from django.conf import settings
 from imapclient import IMAPClient
 from imapclient.exceptions import LoginError
 from imapclient.response_types import BodyData
 
+from django.conf import settings
 from django.utils import module_loading
+
+from papermerge.core.import_pipeline import IMAP
+
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +43,7 @@ def read_email_message(message):
         # search for payload
         try:
             pipelines = settings.PAPERMERGE_PIPELINES
-            init_kwargs = {'payload': part, 'processor': 'IMAP'}
+            init_kwargs = {'payload': part, 'processor': IMAP}
             apply_kwargs = {'user': None, 'name': part.get_filename()}
             for pipeline in pipelines:
                 pipeline_class = module_loading.import_string(pipeline)

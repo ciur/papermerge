@@ -3,7 +3,6 @@ import json
 import logging
 
 from django.utils.translation import gettext as _
-from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -17,14 +16,12 @@ from django.http import (
     Http404
 )
 from django.contrib.staticfiles import finders
-from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth.decorators import login_required
 from django.utils import module_loading
 
 from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
 from mglib.shortcuts import extract_img
-from mglib import exceptions
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
@@ -33,10 +30,9 @@ from .decorators import json_response
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
-from papermerge.core.tasks import ocr_page
 from papermerge.core.utils import filter_node_id
-from papermerge.core.backup_restore import build_tar_archive
 from papermerge.core import signal_definitions as signals
+from papermerge.core.import_pipeline import WEB
 
 logger = logging.getLogger(__name__)
 
@@ -368,22 +364,26 @@ def upload(request):
     logger.debug("upload for f=%s user=%s", f, request.user)
 
     user = request.user
-    size = os.path.getsize(f.temporary_file_path())
     parent_id = request.POST.get('parent', "-1")
     parent_id = filter_node_id(parent_id)
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
     pipelines = settings.PAPERMERGE_PIPELINES
-    init_kwargs = {'payload': f, 'processor': 'WEB'}
-    apply_kwargs = {'user': user, 'parent': parent_id, 
-                    'lang': lang, 'notes': notes, 
-                    'apply_async': True}
+    init_kwargs = {'payload': f, 'processor': WEB}
+    apply_kwargs = {
+        'user': user,
+        'parent': parent_id,
+        'lang': lang,
+        'notes': notes,
+        'apply_async': True
+    }
+
     for pipeline in pipelines:
-        pipeline_class = module_loading.import_string(pipeline) 
+        pipeline_class = module_loading.import_string(pipeline)
         try:
             importer = pipeline_class(**init_kwargs)
-        except:
+        except Exception:
             importer = None
         if importer is not None:
             result_dict = importer.apply(**apply_kwargs)

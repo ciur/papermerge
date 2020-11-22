@@ -8,6 +8,8 @@ from django.conf import settings
 from operator import itemgetter
 from django.utils import module_loading
 
+from papermerge.core.import_pipeline import LOCAL
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,7 +48,7 @@ def import_documents(directory):
                     tempdirname, basename
                 )
                 logger.info(f"Same as temp_file_name={temp_file_name}...")
-                init_kwargs = {'payload': temp_file_name, 'processor': 'LOCAL'}
+                init_kwargs = {'payload': temp_file_name, 'processor': LOCAL}
                 apply_kwargs = {'user': None, 'name': basename,
                                 'delete_after_import': True}
                 for pipeline in pipelines:

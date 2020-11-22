@@ -20,20 +20,25 @@ from magic import from_file
 logger = logging.getLogger(__name__)
 
 
+# 3 types of import_pipelines
+WEB = "WEB"
+IMAP = "IMAP"
+LOCAL = "LOCAl"
+
 class DefaultPipeline:
 
     def __init__(
         self,
         payload,
         doc=None,
-        processor="WEB",
+        processor=WEB,
             *args,
             **kwargs
     ):
 
         if payload is None:
             return None
-        if processor == "IMAP":
+        if processor == IMAP:
             try:
                 payload = payload.get_payload(decode=True)
                 if payload is None:
@@ -46,7 +51,7 @@ class DefaultPipeline:
         else:
             self.tempfile = payload
 
-        if processor == "WEB":
+        if processor == WEB:
             self.temppath = self.tempfile.temporary_file_path()
 
         self.processor = processor
@@ -176,14 +181,14 @@ class DefaultPipeline:
         *args,
         **kwargs
     ):
-        if self.processor == "IMAP":
+        if self.processor == IMAP:
             self.write_temp()
         if not self.check_mimetype():
             logger.debug(
                 "{} importer: invalid filetype".format(self.processor)
             )
             return None
-        if self.processor != "WEB":
+        if self.processor != WEB:
             user, lang, inbox = self.get_user_properties(user)
             parent = inbox.id
         if name is None:
