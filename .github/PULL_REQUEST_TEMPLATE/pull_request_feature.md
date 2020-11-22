@@ -1,3 +1,8 @@
+---
+name: New Feature Pull Request
+
+---
+
 Please make sure you follow 3 important rules:
 
 ### Rule 1
