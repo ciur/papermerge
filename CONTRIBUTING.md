@@ -44,3 +44,40 @@ come back to translation Papermerge specific topics.
 
 For detailed information check [Translators Guide in
 documentation](https://papermerge.readthedocs.io/en/latest/translators_guide/index.html).
+
+
+## Fixes and Pull Requests
+
+If you want to contribute (fix a bug, add a feature) - that is absolutely great!
+Any kind of improvement is welcome.
+There are 3 (three) golden rules to follow.
+
+
+### Rule 1
+
+PEP8.
+
+First of all, all code must formated with [PEP8
+style](https://www.python.org/dev/peps/pep-0008/). If you code has couple of
+minor deviations from PEP8 - that's ok. We are flexible here.
+However, if your PR code formatting has serious violations of PEP8 - it will
+simple be rejected with comment *not PEP8 formatted*.
+
+
+### Rule 2
+
+Communicate. Document.
+
+Before creating a pull request for a new feature - please ask if that feature
+is welcome. A description of your thoughts and motivation is very welcome. A
+silent creation of PR for any sort of feature without any communication will
+result in silent discard of your PR. If you are lazy to comment you your PR -
+why should we care to communicate you the reason of rejection? :))
+
+
+### Rule 3
+
+Test. Test. Test.
+
+Code without tests is broken design.
+New features without basic tests will be rejected.
