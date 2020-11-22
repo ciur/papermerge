@@ -27,7 +27,7 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 # Checklist:
 
-- [ ] I have read the [Contributing file available here](https://github.com/ciur/papermerge/blob/master/)CONTRIBUTING.md
+- [ ] I have read the [Contributing file available here](https://github.com/ciur/papermerge/blob/master/)
 - [ ] I have formatted this PR according to PEP8 rules
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
