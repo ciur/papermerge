@@ -6,13 +6,14 @@ import shutil
 
 from django.conf import settings
 from operator import itemgetter
-from papermerge.core.document_importer import DocumentImporter
+from django.utils import module_loading
 
 logger = logging.getLogger(__name__)
 
 
 def import_documents(directory):
     files = []
+    pipelines = settings.PAPERMERGE_PIPELINES
 
     if not directory:
         raise ValueError("Import directory value is None")
@@ -45,5 +46,27 @@ def import_documents(directory):
                     tempdirname, basename
                 )
                 logger.info(f"Same as temp_file_name={temp_file_name}...")
-                imp = DocumentImporter(temp_file_name)
-                imp.import_file()
+                init_kwargs = {'payload': temp_file_name, 'processor': 'LOCAL'}
+                apply_kwargs = {'user': None, 'name': basename,
+                                'delete_after_import': True}
+                for pipeline in pipelines:
+                    pipeline_class = module_loading.import_string(pipeline)
+                    try:
+                        importer = pipeline_class(**init_kwargs)
+                    except:
+                        importer = None
+                    if importer is not None:
+                        result_dict = importer.apply(**apply_kwargs)
+                        init_kwargs_temp = importer.get_init_kwargs()
+                        apply_kwargs_temp = importer.get_apply_kwargs()
+                        if init_kwargs_temp:
+                            init_kwargs = {**init_kwargs, **init_kwargs_temp}
+                        if apply_kwargs_temp:
+                            apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+                    else:
+                        result_dict = None
+                if result_dict is not None:
+                    doc = result_dict.get('doc', None)
+                else:
+                    doc = None
+

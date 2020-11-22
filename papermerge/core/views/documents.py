@@ -19,6 +19,7 @@ from django.http import (
 from django.contrib.staticfiles import finders
 from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth.decorators import login_required
+from django.utils import module_loading
 
 from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
@@ -373,51 +374,39 @@ def upload(request):
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
-    try:
-        page_count = get_pagecount(f.temporary_file_path())
-    except exceptions.FileTypeNotSupported:
+    pipelines = settings.PAPERMERGE_PIPELINES
+    init_kwargs = {'payload': f, 'processor': 'WEB'}
+    apply_kwargs = {'user': user, 'parent': parent_id, 
+                    'lang': lang, 'notes': notes, 
+                    'apply_async': True}
+    for pipeline in pipelines:
+        pipeline_class = module_loading.import_string(pipeline) 
+        try:
+            importer = pipeline_class(**init_kwargs)
+        except:
+            importer = None
+        if importer is not None:
+            result_dict = importer.apply(**apply_kwargs)
+            init_kwargs_temp = importer.get_init_kwargs()
+            apply_kwargs_temp = importer.get_apply_kwargs()
+            if init_kwargs_temp:
+                init_kwargs = {**init_kwargs, **init_kwargs_temp}
+            if apply_kwargs_temp:
+                apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+        else:
+            result_dict = None
+    if result_dict is not None:
+        doc = result_dict.get('doc', None)
+    else:
+        doc = None
+    if not doc:
         status = 400
         msg = _(
             "File type not supported."
             " Only pdf, tiff, png, jpeg files are supported"
         )
         return msg, status
-
-    logger.debug("creating document {}".format(f.name))
-
-    try:
-        doc = Document.objects.create_document(
-            user=user,
-            title=f.name,
-            size=size,
-            lang=lang,
-            file_name=f.name,
-            parent_id=parent_id,
-            notes=notes,
-            page_count=page_count
-        )
-    except ValidationError as e:
-        status = 400
-        return ','.join(e.messages), status
-
-    logger.debug(
-        "uploading to {}".format(doc.path.url())
-    )
-
-    default_storage.copy_doc(
-        src=f.temporary_file_path(),
-        dst=doc.path.url()
-    )
-    for page_num in range(1, page_count + 1):
-        ocr_page.apply_async(kwargs={
-            'user_id': user.id,
-            'document_id': doc.id,
-            'file_name': f.name,
-            'page_num': page_num,
-            'lang': lang}
-        )
-
-    # upload only one file at time.
+    
     # after each upload return a json object with
     # following fields:
     #

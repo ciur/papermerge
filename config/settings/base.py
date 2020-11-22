@@ -115,6 +115,18 @@ PAPERMERGE_METADATA_NUMERIC_FORMATS = [
     'd.ddd'
 ]
 
+PAPERMERGE_MIMETYPES = [
+   'application/pdf',
+   'image/png',
+   'image/jpeg',
+   'image/jpg',
+   'image/tiff'
+]
+
+PAPERMERGE_PIPELINES = [
+   'papermerge.core.import_pipeline.DefaultPipeline'
+]
+
 PAPERMERGE_OCR_DEFAULT_LANGUAGE = cfg_papermerge.get(
     "OCR_DEFAULT_LANGUAGE",
     "deu"  # if not defined, defaults to German a.k.a Deutsch

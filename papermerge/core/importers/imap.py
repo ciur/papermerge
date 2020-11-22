@@ -5,8 +5,9 @@ import logging
 from django.conf import settings
 from imapclient import IMAPClient
 from imapclient.exceptions import LoginError
+from imapclient.response_types import BodyData
 
-from papermerge.core.document_importer import DocumentImporter
+from django.utils import module_loading
 
 logger = logging.getLogger(__name__)
 
@@ -32,82 +33,57 @@ def login(imap_server, username, password):
     return server
 
 
-def is_payload_supported(maintype: str, subtype: str) -> bool:
-    """
-    Papermerge supports pdf, tiff, jpeg and png formats.
-    Returns true if mimetype (maintype + subtype) is one of
-    supported types:
-
-    PDF => maintype=application, subtype=pdf
-    TIFF => maintype=image, subtype=tiff
-    Jpeg => maintype=image, subtype=jpeg
-    png => maintype=image, subtype=png
-    Also will return true in case of 'application/octet-stream'.
-    """
-    if not maintype:
-        return False
-
-    if not subtype:
-        return False
-
-    duo = (maintype.lower(), subtype.lower())
-
-    supported = (
-        ('application', 'octet-stream'),
-        ('application', 'pdf'),
-        ('image', 'png'),
-        ('image', 'jpeg'),
-        ('image', 'jpg'),
-        ('image', 'tiff'),
-    )
-
-    if duo in supported:
-        return True
-
-    return False
-
-
 def read_email_message(message):
     """
     message is an instance of python's module email.message
     """
     for index, part in enumerate(message.walk()):
         # search for payload
-        maintype = part.get_content_maintype()
-        subtype = part.get_content_subtype()
-
-        logger.debug(
-            f"IMAP import: payload {index} maintype={maintype}"
-            f" subtype={subtype}."
-        )
-        if is_payload_supported(maintype=maintype, subtype=subtype):
-            logger.debug(
-                "IMAP import: importing..."
-            )
-
-            name = part.get_filename()
-            if name:
-                temp = open("/tmp/" + name, 'wb+')
+        try:
+            pipelines = settings.PAPERMERGE_PIPELINES
+            init_kwargs = {'payload': part, 'processor': 'IMAP'}
+            apply_kwargs = {'user': None, 'name': part.get_filename()}
+            for pipeline in pipelines:
+                pipeline_class = module_loading.import_string(pipeline)
+                try:
+                    importer = pipeline_class(**init_kwargs)
+                except:
+                    importer = None
+                if importer is not None:
+                    result_dict = importer.apply(**apply_kwargs)
+                    init_kwargs_temp = importer.get_init_kwargs()
+                    apply_kwargs_temp = importer.get_apply_kwargs()
+                    if init_kwargs_temp:
+                        init_kwargs = {**init_kwargs, **init_kwargs_temp}
+                    if apply_kwargs_temp:
+                        apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+                else:
+                    result_dict = None
+            if result_dict is not None:
+                doc = result_dict.get('doc', None)
             else:
-                temp = tempfile.NamedTemporaryFile()
+                doc = None
+        except TypeError:
+            continue
 
-            try:
-                temp.write(part.get_payload(decode=True))
-                temp.flush()
-                imp = DocumentImporter(temp.name)
-                imp.import_file(
-                    delete_after_import=False
-                )
-            finally:
-                temp.close()
-        else:
-            logger.debug(
-                "IMAP import: ignoring payload."
-            )
+
+def contains_attachments(uid, structure):
+    if isinstance(structure, BodyData):
+        if structure.is_multipart:
+            for part in structure:
+                if isinstance(part, list):
+                    for element in part:
+                        if contains_attachments(uid, element):
+                            return True
+        try:
+            if isinstance(structure[8], tuple) and structure[8][0] == b'attachment':
+                return True
+        except IndexError:
+            return False
+    return False
 
 
 def import_attachment():
-
     imap_server = settings.PAPERMERGE_IMPORT_MAIL_HOST
     username = settings.PAPERMERGE_IMPORT_MAIL_USER
     password = settings.PAPERMERGE_IMPORT_MAIL_PASS
@@ -126,11 +102,17 @@ def import_attachment():
             f"IMAP Import: UNSEEN messages {len(messages)} count"
         )
 
+        messages_structure = server.fetch(messages, ['BODYSTRUCTURE'])
+        for uid, structure in messages_structure.items():
+            if not contains_attachments(uid, structure[b'BODYSTRUCTURE']):
+                messages.remove(uid)
+
         for uid, message_data in server.fetch(
-            messages, 'RFC822'
+            messages, ['ENVELOPE', 'RFC822']
         ).items():
+            body = message_data[b'RFC822']
             email_message = email.message_from_bytes(
-                message_data[b'RFC822']
+                body
             )
             read_email_message(email_message)
     else:
