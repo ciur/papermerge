@@ -78,6 +78,15 @@ PAPERMERGE_IMPORT_MAIL_INBOX = cfg_papermerge.get(
 PAPERMERGE_IMPORT_MAIL_SECRET = cfg_papermerge.get(
     "IMPORT_MAIL_SECRET", ""
 )
+PAPERMERGE_IMPORT_MAIL_BY_USER = cfg_papermerge.get(
+    "IMPORT_MAIL_BY_USER", False
+)
+PAPERMERGE_IMPORT_MAIL_BY_SECRET = cfg_papermerge.get(
+    "IMPORT_MAIL_BY_SECRET", False
+)
+PAPERMERGE_IMPORT_MAIL_DELETE = cfg_papermerge.get(
+    "IMPORT_MAIL_DELETE", False
+)
 
 PAPERMERGE_DEFAULT_FILE_STORAGE = cfg_papermerge.get(
     "DEFAULT_FILE_STORAGE",

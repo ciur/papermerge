@@ -39,26 +39,26 @@ All imported documents will land in superuser's Inbox.
 IMAP (Email)
 ~~~~~~~~~~~~~
 
-Importing documents from an email account is very similar to importing documents from  a local directory. The same rules applies for email as well:
+Importing documents from an email account is very similar to importing documents from  a local directory. The following rules apply for email importing:
 
     1. Email importing settings must be defined on the worker side.
-    2. Imported documents will end up in the first superuser's inbox.
+    2. Unless one of the ``IMPORTED_MAIL_BY_*`` is set, imported documents will end up in the first superuser's inbox.
+    3. Settings are both global and per-user.
 
 The following are :ref:`email importing settings <settings_email>` you need to configure:
 
 * ``IMPORT_MAIL_HOST``
 * ``IMPORT_MAIL_USER``
 * ``IMPORT_MAIL_PASS``
-* ``IMPORT_MAIL_SECRET``
+* ``IMPORT_MAIL_BY_USER``
+* ``IMPORT_MAIL_BY_SECRET``
+* ``IMPORT_MAIL_DELETE``
 
-host, user and password are those of the IMAP server host (email server host), your IMAP
-user and password respectively. The *secret* thingy is there to make sure that
-Papermerge will read only emails it is supposed to. Any email not containing
-that secret word will be ignored.
-
-.. note::
-
-    Only the first email attachment will be imported - the rest of them will be ignored. After importing the document from your email attachment, the email message will **not** be deleted.
-
+The admin should set ``HOST``, ``USER``, and ``PASS`` to the credentials of the IMAP server to which users will send
+emails to have them processed by Papermerge. ``IMPORT_MAIL_BY_USER`` allows user to send emails from their
+user-configured email address and have them end up in their inbox if they so choose. ``IMPORT_MAIL_BY_SECRET``
+allows user to insert a per-user secret (formatted as ``SECRET{<GENERATED_SECRET>}``) in their emails to have them
+put in their own inbox. Finally if ``IMPORT_MAIL_DELETE`` is set then a processed email will be deleted from
+the mail account.
 
 

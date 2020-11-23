@@ -60,12 +60,14 @@
 # IMPORT_MAIL_USER = ""
 # IMPORT_MAIL_PASS = ""
 
+# These values specify how the mail importer should sort incoming messages
+# IMPORT_MAIL_BY_USER = False
+# IMPORT_MAIL_BY_SECRET = False
+# IMPORT_MAIL_DELETE = False
+
 # Override the default IMAP inbox here. If not set Papermerge defaults to
 # "INBOX".
-#IMPORT_MAIL_INBOX="INBOX"
-
-# Any email sent to the target account that does not contain this text will be ignored.
-# IMPORT_MAIL_SECRET = ""
+# IMPORT_MAIL_INBOX = "INBOX"
 
 #   Worker
 ########################
