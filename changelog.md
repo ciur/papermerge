@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - UI design improvements - widgets sidebar
 - UX improvement - action button was replaced with (desktop like) context menu 
 - UX improvement - Desktop like selection
+- Import Pipeline - flexible import framework - thanks to [Francesco](https://github.com/francescocarzaniga)
+- Email inbox enhancement (IMPORT_MAIL_BY_USER) - thanks to [Francesco](https://github.com/francescocarzaniga)
 
 ## [1.5.1] - Work in Progress
     
