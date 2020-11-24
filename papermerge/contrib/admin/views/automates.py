@@ -2,38 +2,75 @@ from django.utils.translation import ugettext_lazy as _
 
 from papermerge.contrib.admin.forms import AutomateForm
 from papermerge.core.models import Automate
+from django.views.generic import (
+    ListView,
+    UpdateView,
+    CreateView,
+)
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from papermerge.core.views import (
-    AdminListView,
-    AdminView,
-    AdminChangeView
+    PaginationMixin,
+    DeleteEntriesMixin
 )
 
 
-class AutomatesListView(AdminListView):
-    model_class = Automate
-    model_label = 'core.Automate'
-    template_name = 'admin/automates.html'
-    list_url = 'admin:automates'
+class AutomatesView(LoginRequiredMixin):
+    model = Automate
+    form_class = AutomateForm
+    success_url = reverse_lazy('admin:automates')
 
-    def get_queryset(self, request):
-        return self.model_class.objects.filter(
-            user=request.user
+
+class AutomatesListView(
+    AutomatesView,
+    PaginationMixin,
+    DeleteEntriesMixin,
+    ListView
+):
+
+    title = _("Automates")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        return qs.filter(
+            user=self.request.user
         ).order_by('name')
 
 
-class AutomateView(AdminView):
-    title = _('New Automate')
-    model_class = Automate
-    form_class = AutomateForm
-    template_name = 'admin/automate.html'
-    action_url = 'admin:automate'
-    list_url = 'admin:automates'
+class AutomateCreateView(AutomatesView, CreateView):
+
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('New')
+        context['action_url'] = reverse_lazy('admin:automate-add')
+
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+
+        return super().form_valid(form)
 
 
-class AutomateChangeView(AdminChangeView):
-    title = _('Edit Automate')
-    model_class = Automate
-    form_class = AutomateForm
-    template_name = 'admin/automate.html'
-    change_url = 'admin:automate_change'
-    list_url = 'admin:automates'
+class AutomateUpdateView(AutomatesView, UpdateView):
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('Edit')
+        context['action_url'] = reverse_lazy(
+            'admin:automate-update',
+            args=(self.object.pk,)
+        )
+
+        return context

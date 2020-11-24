@@ -37,7 +37,7 @@ class TestAutomateViewsAuthReq(TestCase):
             matching_algorithm=Automate.MATCH_ANY,
         )
         ret = self.client.get(
-            reverse('admin:automate_change', args=(automate.id,)),
+            reverse('admin:automate-update', args=(automate.id,)),
         )
         self.assertEqual(
             ret.status_code,
@@ -96,14 +96,14 @@ class TestAutomateViews(TestCase):
         )
         ret = self.client.get(
             reverse(
-                'admin:automate_change',
+                'admin:automate-update',
                 args=(auto.id,)
             ),
         )
         self.assertEqual(ret.status_code, 200)
 
         ret = self.client.get(
-            reverse('admin:automate_change', args=(auto.id + 1,)),
+            reverse('admin:automate-update', args=(auto.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
 
@@ -123,7 +123,7 @@ class TestAutomateViews(TestCase):
         )
 
         ret = self.client.post(
-            reverse('admin:automate'),
+            reverse('admin:automate-add'),
             {
                 'name': "XYZ",
                 'matching_algorithm': Automate.MATCH_ANY,
@@ -163,7 +163,7 @@ class TestAutomateViews(TestCase):
         )
 
         ret = self.client.post(
-            reverse('admin:automate'),
+            reverse('admin:automate-add'),
             {
                 "name": "XYZ",
                 "matching_algorithm": Automate.MATCH_ANY,
@@ -224,7 +224,7 @@ class TestAutomateViews(TestCase):
             }
         )
         self.assertEqual(
-            ret.status_code, 200
+            ret.status_code, 302
         )
         # two log entries were deleted
         # only one should remain

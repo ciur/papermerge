@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+
+{% load i18n admin_tags %}
+
+{% block title %}{% trans "Automates" %}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{% url 'admin:automates' %}">{% trans "Automates" %}</a>
+    </div><!-- /.col -->
+{% endblock %}
+
+{% block content %}
+    <form id="changelist_form" action="{% url 'admin:automates' %}" method="post">
+      {% csrf_token %}
+
+        <div class="col-12 p-3">
+            <a href="{% url 'admin:automate-add' %}" class="btn btn-success btn-flat" role="button">
+              <i class='fa fa-plus'></i>
+              {% trans "New" %}
+            </a>
+        </div>
+
+        {% include "admin/_pagination.html" %}
+
+        <div class="col-12 p-3">
+          {% if object_list|length > 0 %}
+            <table class="table table-striped">
+              <thead>
+                <tr class="text-uppercase">
+                  <th class="border-top-0">
+                      <div id="checkbox_view">
+                        <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Name" %}
+                      </div>
+                  </th>
+                  <th class="border-top-0">{% trans "Match" %}</th>
+                  <th class="border-top-0"><i class="fa fa-folder text-warning mr-2"></i>{% trans "Destination Folder" %}</th>
+                  <th class="border-top-0">{% trans "Tags" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for automate in object_list %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ automate.id }}" /></span><a href="{% url 'admin:automate-update' automate.pk %}">{{ automate.name}}</a></td>
+                    <td><span class="mr-2">{{automate.match}}</td>
+                    <td><span class="mr-2">
+                      <a href="{% url 'admin:browse' %}#{{ automate.dst_folder.id}}">{% tree_path automate.dst_folder %}</a>
+                    </td>
+                    <td>
+                      <ul class="d-flex flex-row mb-0 pl-0">
+                        {% tags_line automate %}
+                      </ul>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            {% trans "No automates defined so far" %}
+          {% endif %}
+      </div>
+    </form>
+{% endblock %}
+
+
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item">
+            <select form="changelist_form" name="action" class="custom-select" required="">
+              <option value="" selected="">---------</option>
+              <option value="delete_selected">{% trans "Delete selected automates" %}</option>
+            </select>
+          
+        </li>
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+            <button form="changelist_form" class="btn btn-primary btn-flat mx-1" type="submit">
+              <i class="fa fa-check"></i>
+              {% trans "Apply" %}
+            </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

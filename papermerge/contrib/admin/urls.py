@@ -59,14 +59,14 @@ urlpatterns = [
         name='automates'
     ),
     path(
-        'automate/',
-        views.AutomateView.as_view(),
-        name='automate'
+        'automate/add/',
+        views.AutomateCreateView.as_view(),
+        name='automate-add'
     ),
     path(
-        'automate/<int:id>/change',
-        views.AutomateChangeView.as_view(),
-        name='automate_change'
+        'automate/<int:pk>',
+        views.AutomateUpdateView.as_view(),
+        name='automate-update'
     ),
     path(
         'preferences/',

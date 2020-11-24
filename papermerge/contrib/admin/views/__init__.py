@@ -10,8 +10,8 @@ from .tags import (
 )
 from .automates import (
     AutomatesListView,
-    AutomateView,
-    AutomateChangeView
+    AutomateCreateView,
+    AutomateUpdateView
 )
 from .logs import (
     LogsListView,
@@ -35,8 +35,8 @@ __all__ = [
     'TagCreateView',
     'TagUpdateView',
     'AutomatesListView',
-    'AutomateView',
-    'AutomateChangeView',
+    'AutomateCreateView',
+    'AutomateUpdateView',
     'LogsListView',
     'LogUpdateView',
     'search',
