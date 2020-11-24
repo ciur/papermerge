@@ -11,52 +11,29 @@
 {% endblock %}
 
 {% block content %}
-    <form id="changelist_form" action="{% url list_url %}" method="post">
+    <form id="changelist_form" action="{% url 'admin:tags' %}" method="post">
       {% csrf_token %}
         <div class="col-12 p-3">
-            <a href="{% url 'admin:tag' %}" class="btn btn-success btn-flat" role="button">
+            <a href="{% url 'admin:tag-add' %}" class="btn btn-success btn-flat" role="button">
               <i class='fa fa-plus'></i>
               {% trans "New" %}
             </a>
         </div>
-        <div class="row px-3">
-           {% if pages|length > 1  %}
-            <nav class="col-6" aria-label="Page navigation">
-              <ul class="pagination justify-content-end">
-                {% if page.has_previous %}
-                  <li class="page-item">
-                    <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                {% endif %}
-                {% for i in pages %}
-                  <li class="page-item {% if i == page_number %} active {% endif %}"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
-                {% endfor %}
-                {% if page.has_next %}
-                  <li class="page-item">
-                    <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                {% endif %}
-              </ul>
-            </nav>
-          {% endif %}
-        </div>
+
+        {% include "admin/_pagination.html" %}
 
         <div class="col-12">
           {% if object_list|length > 0 %}
             <table class="table table-striped">
-              <thead class="thead-dark">
+              <thead>
                 <tr class="text-uppercase">
-                  <th>
+                  <th class="border-top-0"> 
                     <div id="checkbox_view">
                       <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Tag Name" %}
                     </div>
                   </th>
-                  <th>{% trans "Pinned?" %}</th>
-                  <th>{% trans "Description" %}</th>
+                  <th  class="border-top-0">{% trans "Pinned?" %}</th>
+                  <th  class="border-top-0">{% trans "Description" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -66,7 +43,7 @@
                       <span class="mr-2">
                         <input type="checkbox" name="_selected_action" value="{{ tag.id }}" />
                       </span>
-                      <a href="{% url 'admin:tag_change' tag.id %}" style="background: {{ tag.bg_color }};color: {{ tag.fg_color }}; margin: 1rem 0; padding: 0.25rem 0.5rem; border-radius: 0.5rem;">
+                      <a href="{% url 'admin:tag-update' tag.id %}" style="background: {{ tag.bg_color }};color: {{ tag.fg_color }}; margin: 1rem 0; padding: 0.25rem 0.5rem; border-radius: 0.5rem;">
                            {{ tag.name }}
                       </a></td>
                     <td><span class="mr-2">

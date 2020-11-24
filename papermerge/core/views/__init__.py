@@ -14,6 +14,74 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 
 
+class DeleteEntriesMixin:
+    """
+    Handles HTTP POST with 'delete selected'.
+    """
+
+    def post(self, request):
+        """
+        Delete selected entries
+        """
+        selected_action = request.POST.getlist('_selected_action')
+
+        go_action = request.POST['action']
+        if go_action == 'delete_selected':
+            deleted, row_count = self.get_queryset().filter(
+                id__in=selected_action
+            ).delete()
+
+            model_label = self.model._meta.label
+            count = row_count.get(model_label, 0)
+            msg = _(
+                "%(count)s selected entries were deleted."
+            ) % {
+                'count': count
+            }
+            messages.info(self.request, msg)
+
+        return redirect(self.success_url)
+
+
+class PaginationMixin:
+    PER_PAGE = 10
+
+    def get_context_data(self, **kwargs):
+
+        objs = self.get_queryset()
+        page_number = int(self.request.GET.get('page', 1))
+
+        paginator = Paginator(objs, per_page=self.PER_PAGE)
+        num_pages = paginator.num_pages
+        page_obj = paginator.get_page(page_number)
+
+        # 1.   Number of pages < 7: show all pages;
+        # 2.   Current page <= 4: show first 7 pages;
+        # 3.   Current page > 4 and < (number of pages - 4): show current page,
+        #       3 before and 3 after;
+        # 4.   Current page >= (number of pages - 4): show the last 7 pages.
+
+        if num_pages <= 7 or page_number <= 4:  # case 1 and 2
+            pages = [x for x in range(1, min(num_pages + 1, 7))]
+        elif page_number > num_pages - 4:  # case 4
+            pages = [x for x in range(num_pages - 6, num_pages + 1)]
+        else:  # case 3
+            pages = [x for x in range(page_number - 3, page_number + 4)]
+
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'object_list': page_obj.object_list,
+            'pages': pages,
+            'num_pages': num_pages,
+            'page_number': page_number,
+            'page': page_obj,
+            # by the way, add title to the context as well
+            'title': self.title
+        })
+
+        return context
+
+
 class CommonView(View):
     def is_allowed(self, request):
         if hasattr(self, 'only_superuser'):
@@ -128,35 +196,38 @@ class AdminView(CommonView):
             user=request.user
         )
         if form.is_valid():
-            # When saving a form with commit=False option you
-            # need to call save_m2m() on the form
-            # after you save the object, just as you would for a
-            # form with normal many to many fields on
-            # it.
-            obj = form.save(commit=False)
-            if request.user:
-                if hasattr(obj, 'user_id'):
-                    obj.user = request.user
-
-            # save object regardles if it has user attribute.
-            obj.save()
-            form.save_m2m()
-            model_name = self.model_class._meta.verbose_name
-            if model_name:
-                model_name = model_name.capitalize()
-            msg = _("%(model_name)s '%(name)s' was successfully created.") % {
-                'model_name': model_name,
-                'name': str(obj)
-            }
-
-            messages.info(request, msg)
-
-            return redirect(self.list_url)
+            return self.form_valid(form)
 
         context = self.get_context_data(**kwargs)
         context['form'] = form
 
         return render(request, self.template_name, context)
+
+    def form_valid(self, form):
+        # When saving a form with commit=False option you
+        # need to call save_m2m() on the form
+        # after you save the object, just as you would for a
+        # form with normal many to many fields on
+        # it.
+        obj = form.save(commit=False)
+        if self.request.user:
+            if hasattr(obj, 'user_id'):
+                obj.user = self.request.user
+
+        # save object regardles if it has user attribute.
+        obj.save()
+        form.save_m2m()
+        model_name = self.model_class._meta.verbose_name
+        if model_name:
+            model_name = model_name.capitalize()
+        msg = _("%(model_name)s '%(name)s' was successfully created.") % {
+            'model_name': model_name,
+            'name': str(obj)
+        }
+
+        messages.info(self.request, msg)
+
+        return redirect(self.list_url)
 
 
 @method_decorator(login_required, name='dispatch')

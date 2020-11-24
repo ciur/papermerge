@@ -1,43 +1,71 @@
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import (
+    ListView,
+    UpdateView,
+    CreateView,
+)
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 
 from papermerge.contrib.admin.forms import GroupForm
 from papermerge.core.views import (
-    AdminListView,
-    AdminView,
-    AdminChangeView
+    PaginationMixin,
+    DeleteEntriesMixin
 )
 
 
-class GroupsListView(AdminListView):
-    # only superuser can list groups
+class GroupsView(LoginRequiredMixin):
+    # only superuser can access this view
     only_superuser = True
-    model_class = Group
-    model_label = 'auth.Group'
-    template_name = 'admin/groups.html'
-    list_url = 'admin:groups'
-
-    def get_queryset(self, request):
-        return self.model_class.objects.order_by('name')
-
-
-class GroupView(AdminView):
-    # only superuser can view group(s)
-    only_superuser = True
-    title = _('New Group')
-    model_class = Group
+    model = Group
     form_class = GroupForm
-    template_name = 'admin/group.html'
-    action_url = 'admin:group'
-    list_url = 'admin:groups'
+    success_url = reverse_lazy('admin:groups')
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if self.request.user.is_authenticated:
+            if not self._is_allowed(request):
+                raise PermissionDenied()
+
+        ret = super().dispatch(request, *args, **kwargs)
+
+        return ret
+
+    def _is_allowed(self, request):
+        if hasattr(self, 'only_superuser'):
+            if getattr(self, 'only_superuser'):
+                return request.user.is_superuser
+
+        return True
 
 
-class GroupChangeView(AdminChangeView):
-    # only superuser can edit group(s)
-    only_superuser = True
-    title = _('Edit Group')
-    model_class = Group
-    form_class = GroupForm
-    template_name = 'admin/group.html'
-    change_url = 'admin:group_change'
-    list_url = 'admin:groups'
+class GroupsListView(
+    GroupsView,
+    PaginationMixin,
+    DeleteEntriesMixin,
+    ListView
+):
+    title = _("Groups")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        return qs.order_by('name')
+
+
+class GroupCreateView(GroupsView, CreateView):
+    pass
+
+
+class GroupUpdateView(GroupsView, UpdateView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('Edit')
+        context['action_url'] = reverse_lazy(
+            'group-update',
+            args=(self.object.pk,)
+        )
+        return context

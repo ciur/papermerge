@@ -26,16 +26,17 @@ urlpatterns = [
         name="log_change"
     ),
     path(
-        'tags', views.TagsListView.as_view(), name="tags"
+        'tags/', views.TagsListView.as_view(), name="tags"
     ),
     path(
-        'tag/',
-        views.TagView.as_view(),
-        name="tag"
+        'tag/add/',
+        views.TagCreateView.as_view(),
+        name="tag-add"
     ),
     path(
-        'tag/<int:id>/change',
-        views.TagChangeView.as_view(), name='tag_change'
+        'tag/<int:pk>/',
+        views.TagUpdateView.as_view(),
+        name='tag-update'
     ),
     path(
         'groups/',
@@ -43,14 +44,14 @@ urlpatterns = [
         name='groups'
     ),
     path(
-        'group/',
-        views.GroupView.as_view(),
-        name='group'
+        'group/add/',
+        views.GroupCreateView.as_view(),
+        name='group-add'
     ),
     path(
-        'group/<int:id>/change',
-        views.GroupChangeView.as_view(),
-        name='group_change'
+        'group/<int:pk>/',
+        views.GroupUpdateView.as_view(),
+        name='group-update'
     ),
     path(
         'automates/',

@@ -1,12 +1,12 @@
 from .groups import (
     GroupsListView,
-    GroupView,
-    GroupChangeView
+    GroupCreateView,
+    GroupUpdateView
 )
 from .tags import (
     TagsListView,
-    TagView,
-    TagChangeView
+    TagCreateView,
+    TagUpdateView
 )
 from .automates import (
     AutomatesListView,
@@ -29,11 +29,11 @@ from .preferences import (
 
 __all__ = [
     'GroupsListView',
-    'GroupView',
-    'GroupChangeView',
+    'GroupCreateView',
+    'GroupUpdateView',
     'TagsListView',
-    'TagView',
-    'TagChangeView',
+    'TagCreateView',
+    'TagUpdateView',
     'AutomatesListView',
     'AutomateView',
     'AutomateChangeView',

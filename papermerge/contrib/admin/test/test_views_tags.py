@@ -2,7 +2,9 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from django.http.response import HttpResponseRedirect
+from django.http.response import (
+    HttpResponseRedirect,
+)
 
 from papermerge.core.models import Tag
 
@@ -21,11 +23,11 @@ class TestTagsViewsAuthReq(TestCase):
         If user is not authenticated reponse must
         be HttpReponseRedirect (302)
         """
-        log = Tag.objects.create(
+        tag = Tag.objects.create(
             user=self.user, name="test"
         )
         ret = self.client.get(
-            reverse('admin:tag_change', args=(log.id,)),
+            reverse('admin:tag-update', args=(tag.pk,)),
         )
         self.assertEqual(
             ret.status_code,
@@ -56,6 +58,7 @@ class TestTagsViewsAuthReq(TestCase):
             HttpResponseRedirect.status_code
         )
 
+
 class TestTagViews(TestCase):
 
     def setUp(self):
@@ -70,18 +73,18 @@ class TestTagViews(TestCase):
         )
 
     def test_tag_change_view(self):
-        log = Tag.objects.create(
+        tag = Tag.objects.create(
             user=self.user, name="test"
         )
         ret = self.client.get(
-            reverse('admin:tag_change', args=(log.id,)),
+            reverse('admin:tag-update', args=(tag.pk,)),
         )
         self.assertEqual(ret.status_code, 200)
 
         # try to see a non existing log entry
         # must return 404 status code
         ret = self.client.get(
-            reverse('admin:tag_change', args=(log.id + 1,)),
+            reverse('admin:tag-update', args=(tag.pk + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
 
@@ -111,14 +114,45 @@ class TestTagViews(TestCase):
             }
         )
         self.assertEqual(
-            ret.status_code, 200
+            ret.status_code, 302
         )
-        # two log entries were deleted
+        # two tags entries were deleted
         # only one should remain
         self.assertEqual(
             Tag.objects.filter(
                 user=self.user
             ).count(),
+            1
+        )
+
+    def test_tags_view_user_adds_duplicate_tag(self):
+        """
+        User will try to
+        add a duplicate. In case of duplicate - a user friendly
+        error will be displayed
+        """
+        Tag.objects.create(
+            user=self.user, name="tag-10"
+        )
+        # do it again
+        ret = self.client.post(
+            reverse('admin:tag-add'),
+            {
+                'name': 'tag-10',
+                'pinned': False,
+                'fg_color': '#000000',
+                'bg_color': '#FF0000'
+            }
+        )
+        # no dramatic exception here, like DB duplicate key
+        # violations
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # no new tags were added
+        self.assertEqual(
+            Tag.objects.count(),
             1
         )
 

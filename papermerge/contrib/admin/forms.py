@@ -7,6 +7,7 @@ from django.forms.widgets import (
     ChoiceWidget,
     EmailInput,
 )
+from django.db.utils import IntegrityError
 
 
 from mptt.forms import TreeNodeChoiceField

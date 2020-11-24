@@ -80,7 +80,7 @@ class TestGroupView(TestCase):
         )
         self.assertEqual(
             ret.status_code,
-            200
+            302
         )
         self.assertEqual(
             Group.objects.count(),
@@ -93,7 +93,7 @@ class TestGroupView(TestCase):
         gr = Group.objects.create(name="test")
 
         ret = self.client.get(
-            reverse('admin:group_change', args=(gr.id,)),
+            reverse('admin:group-update', args=(gr.pk,)),
         )
         self.assertEqual(
             ret.status_code,
@@ -104,7 +104,7 @@ class TestGroupView(TestCase):
         self.client.login(testcase_user=self.testcase_user)
 
         ret = self.client.get(
-            reverse('admin:group'),
+            reverse('admin:group-add'),
         )
         self.assertEqual(
             ret.status_code,
@@ -118,7 +118,7 @@ class TestGroupView(TestCase):
         self.client.login(testcase_user=self.testcase_user)
 
         self.client.post(
-            reverse('admin:group'),
+            reverse('admin:group-add'),
             {'name': "new_group"}
         )
 
@@ -141,7 +141,7 @@ class TestGroupView(TestCase):
         )
 
         self.client.post(
-            reverse('admin:group_change', args=(gr.id,)),
+            reverse('admin:group-update', args=(gr.pk,)),
             {
                 'name': "XXX2"
             }
@@ -173,7 +173,7 @@ class TestGroupView(TestCase):
             testcase_user=self.margaret_user
         )
         ret = self.client.get(
-            reverse('admin:group'),
+            reverse('admin:group-add'),
         )
         self.assertEqual(
             ret.status_code,
@@ -187,7 +187,7 @@ class TestGroupView(TestCase):
             testcase_user=self.margaret_user
         )
         ret = self.client.post(
-            reverse('admin:group_change', args=(gr.id,)),
+            reverse('admin:group-update', args=(gr.pk,)),
             {
                 'name': "XXX2"
             }
