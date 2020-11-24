@@ -135,7 +135,7 @@ class AdminView(CommonView):
             # it.
             obj = form.save(commit=False)
             if request.user:
-                if hasattr(obj, 'user'):
+                if hasattr(obj, 'user_id'):
                     obj.user = request.user
 
             # save object regardles if it has user attribute.

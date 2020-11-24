@@ -77,7 +77,11 @@ class Tag(TagBase):
 
     # each user has his/her set of tags
     user = models.ForeignKey('User', models.CASCADE)
-    name = models.CharField(verbose_name=_("name"), unique=False, max_length=100)
+    name = models.CharField(
+        verbose_name=_("name"),
+        unique=False,
+        max_length=100
+    )
 
     class Meta:
         verbose_name = _("Tag")

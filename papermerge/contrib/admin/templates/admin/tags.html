@@ -4,22 +4,23 @@
 
 {% block title %}{% trans "Tags" %}{% endblock %}
 
-{% block content %}
-    <div class="text-left">
-        <h4 class="p-3">{% trans "Tags" %}</h4>
-    </div>
-    <form action="{% url list_url %}" method="post">
-      {% csrf_token %}
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{% url 'admin:tags' %}">{% trans "Tags" %}</a>
+    </div><!-- /.col -->
+{% endblock %}
 
+{% block content %}
+    <form id="changelist_form" action="{% url list_url %}" method="post">
+      {% csrf_token %}
+        <div class="col-12 p-3">
+            <a href="{% url 'admin:tag' %}" class="btn btn-success btn-flat" role="button">
+              <i class='fa fa-plus'></i>
+              {% trans "New" %}
+            </a>
+        </div>
         <div class="row px-3">
-          <div class="col-6">
-              <select name="action" required="">
-                <option value="" selected="">---------</option>
-                <option value="delete_selected">{% trans "Delete selected tags" %}</option>
-              </select>
-              <button class="btn btn-outline-dark mx-1" type="submit">{% trans "Go" %}</button>
-          </div>
-          {% if pages|length > 1  %}
+           {% if pages|length > 1  %}
             <nav class="col-6" aria-label="Page navigation">
               <ul class="pagination justify-content-end">
                 {% if page.has_previous %}
@@ -82,4 +83,27 @@
           {% endif %}
       </div>
     </form>
+{% endblock %}
+
+
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item">
+            <select form="changelist_form" name="action" class="custom-select" required="">
+              <option value="" selected="">---------</option>
+              <option value="delete_selected">{% trans "Delete selected tags" %}</option>
+            </select>
+          
+        </li>
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+            <button form="changelist_form" class="btn btn-primary btn-flat mx-1" type="submit">
+              <i class="fa fa-check"></i>
+              {% trans "Apply" %}
+            </button>
+        </li>
+      </ul>
+    </div>
+  </div>
 {% endblock %}

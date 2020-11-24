@@ -6,7 +6,6 @@ from django.forms.widgets import (
     TextInput,
     ChoiceWidget,
     EmailInput,
-    Textarea,
 )
 
 
@@ -39,6 +38,9 @@ class ControlForm(forms.ModelForm):
     """
 
     def __init__(self, *args, **kwargs):
+        # get rid of custom arg
+        kwargs.pop('user', None)
+
         super().__init__(*args, **kwargs)
 
         for visible in self.visible_fields():
