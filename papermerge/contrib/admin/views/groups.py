@@ -56,16 +56,25 @@ class GroupsListView(
 
 
 class GroupCreateView(GroupsView, CreateView):
-    pass
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('New')
+        context['action_url'] = reverse_lazy('admin:group-add')
+
+        return context
 
 
 class GroupUpdateView(GroupsView, UpdateView):
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
         context['title'] = _('Edit')
         context['action_url'] = reverse_lazy(
-            'group-update',
+            'admin:group-update',
             args=(self.object.pk,)
         )
+
         return context

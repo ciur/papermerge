@@ -16,7 +16,7 @@
 {% block content %}
     <div class="col-lg-12 col-md-12">
         <div class="p-1 p-md-3">
-            <form id="changeform" class="group" method="POST" action="{% url 'admin:group-add' %}">
+            <form id="changeform" class="group" method="POST" action="{{ action_url }}">
               {% csrf_token %}
               {% bootstrap_form form %}
              </form>

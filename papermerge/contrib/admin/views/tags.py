@@ -38,6 +38,14 @@ class TagsListView(TagsView, PaginationMixin, DeleteEntriesMixin, ListView):
 class TagCreateView(TagsView, CreateView):
     title = _('New Tag')
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('New')
+        context['action_url'] = reverse_lazy('admin:tag-add')
+
+        return context
+
     def form_valid(self, form):
         # set fields which user does not have access to
         form.instance.user = self.request.user
@@ -62,7 +70,7 @@ class TagUpdateView(TagsView, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit'
         context['action_url'] = reverse_lazy(
-            'tag-update',
+            'admin:tag-update',
             args=(self.object.pk,)
         )
         return context
