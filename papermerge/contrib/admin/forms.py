@@ -7,8 +7,6 @@ from django.forms.widgets import (
     ChoiceWidget,
     EmailInput,
 )
-from django.db.utils import IntegrityError
-
 
 from mptt.forms import TreeNodeChoiceField
 from knox.models import AuthToken
@@ -230,7 +228,7 @@ class GroupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         # first get rid of custom arg
-        user = kwargs.pop('user', None)
+        kwargs.pop('user', None)
 
         super().__init__(*args, **kwargs)
 
