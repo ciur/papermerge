@@ -15,7 +15,7 @@ from .automates import (
 )
 from .logs import (
     LogsListView,
-    LogChangeView
+    LogUpdateView
 )
 from .index import (
     search,
@@ -38,7 +38,7 @@ __all__ = [
     'AutomateView',
     'AutomateChangeView',
     'LogsListView',
-    'LogChangeView',
+    'LogUpdateView',
     'search',
     'browse',
     'inbox_view',

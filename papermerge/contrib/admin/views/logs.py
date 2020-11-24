@@ -1,4 +1,12 @@
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import (
+    ListView,
+    UpdateView,
+    CreateView,
+)
+from django.urls import reverse_lazy
+
 from papermerge.core.views import (
     AdminListView,
     AdminChangeView
@@ -7,27 +15,47 @@ from papermerge.core.views import (
 
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.contrib.admin.forms import LogEntryForm
+from papermerge.core.views import (
+    PaginationMixin,
+    DeleteEntriesMixin
+)
 
 
-class LogsListView(AdminListView):
-    model_class = LogEntry
-    model_label = 'admin.LogEntry'
-    template_name = 'admin/log_entries.html'
-    list_url = 'admin:logs'
+class LogsView(LoginRequiredMixin):
+    model = LogEntry
+    form_class = LogEntryForm
+    success_url = reverse_lazy('admin:logs')
 
-    def get_queryset(self, request):
-        if request.user.is_superuser:
+
+class LogsListView(
+    LogsView,
+    PaginationMixin,
+    DeleteEntriesMixin,
+    ListView
+):
+
+    title = _("Logs")
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        if self.request.user.is_superuser:
             # superuser sees all logs
-            return LogEntry.objects.all()
+            return qs.all()
 
-        logs = LogEntry.objects.filter(user=request.user)
+        logs = qs.filter(user=self.request.user)
 
         return logs
 
 
-class LogChangeView(AdminChangeView):
-    title = _('Log Entry')
-    model_class = LogEntry
-    form_class = LogEntryForm
-    template_name = 'admin/log_entry.html'
-    change_url = 'admin:log_change'
+class LogUpdateView(LogsView, UpdateView):
+
+    title = _("Log Entry")
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+
+        return context
+

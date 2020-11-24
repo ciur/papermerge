@@ -46,7 +46,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'admin:tags' %}" class="nav-link  {% activate_on 'tags, tag' %}">
+        <a href="{% url 'admin:tags' %}" class="nav-link  {% activate_on 'tags, tag, tag-update' %}">
           <i class="nav-icon fa fa-tag"></i>
           <p>
             {% trans "Tags" %}
@@ -54,7 +54,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log_change' %}">
+        <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log-update' %}">
           <i class="nav-icon fa fa-lightbulb"></i>
           <p>
             {% trans "Logs" %}
@@ -63,7 +63,7 @@
       </li>
       {% if request.user.is_superuser %}
         <li class="nav-item">
-          <a href="{% url 'admin:groups' %}" class="nav-link  {% activate_on 'groups, group' %}">
+          <a href="{% url 'admin:groups' %}" class="nav-link  {% activate_on 'groups, group, group-update' %}">
             <i class="nav-icon fa fa-users"></i>
             <p>
               {% trans "Groups" %}

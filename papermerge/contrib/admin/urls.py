@@ -21,9 +21,9 @@ urlpatterns = [
     ),
 
     path(
-        'log/<int:id>/change',
-        views.LogChangeView.as_view(),
-        name="log_change"
+        'log/<int:pk>/',
+        views.LogUpdateView.as_view(),
+        name="log-update"
     ),
     path(
         'tags/', views.TagsListView.as_view(), name="tags"
