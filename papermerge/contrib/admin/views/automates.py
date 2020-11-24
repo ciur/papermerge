@@ -1,7 +1,4 @@
 from django.utils.translation import ugettext_lazy as _
-
-from papermerge.contrib.admin.forms import AutomateForm
-from papermerge.core.models import Automate
 from django.views.generic import (
     ListView,
     UpdateView,
@@ -14,6 +11,8 @@ from papermerge.core.views import (
     PaginationMixin,
     DeleteEntriesMixin
 )
+from papermerge.contrib.admin.forms import AutomateForm
+from papermerge.core.models import Automate
 
 
 class AutomatesView(LoginRequiredMixin):
