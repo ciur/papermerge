@@ -3,14 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView,
     UpdateView,
-    CreateView,
 )
 from django.urls import reverse_lazy
-
-from papermerge.core.views import (
-    AdminListView,
-    AdminChangeView
-)
 
 
 from papermerge.contrib.admin.models import LogEntry
