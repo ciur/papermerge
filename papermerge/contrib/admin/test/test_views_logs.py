@@ -25,7 +25,7 @@ class TestLogViewsAuthReq(TestCase):
             user=self.user, message="test"
         )
         ret = self.client.post(
-            reverse('admin:log_change', args=(log.id,)),
+            reverse('admin:log-update', args=(log.id,)),
         )
         self.assertEqual(
             ret.status_code,
@@ -74,14 +74,14 @@ class TestLogViews(TestCase):
             user=self.user, message="test"
         )
         ret = self.client.get(
-            reverse('admin:log_change', args=(log.id,)),
+            reverse('admin:log-update', args=(log.id,)),
         )
         self.assertEqual(ret.status_code, 200)
 
         # try to see a non existing log entry
         # must return 404 status code
         ret = self.client.get(
-            reverse('admin:log_change', args=(log.id + 1,)),
+            reverse('admin:log-update', args=(log.id + 1,)),
         )
         self.assertEqual(ret.status_code, 404)
 
@@ -111,7 +111,7 @@ class TestLogViews(TestCase):
             }
         )
         self.assertEquals(
-            ret.status_code, 200
+            ret.status_code, 302
         )
         # two log entries were deleted
         # only one should remain
