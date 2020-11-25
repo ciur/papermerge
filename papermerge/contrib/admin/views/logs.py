@@ -9,10 +9,14 @@ from papermerge.contrib.admin.forms import LogEntryForm
 from papermerge.contrib.admin.views import mixins as mix
 
 
-class LogsView(LoginRequiredMixin):
+class LogsView(
+    LoginRequiredMixin,
+    mix.CommonListMixin
+):
     model = LogEntry
     form_class = LogEntryForm
-    success_url = reverse_lazy('admin:logs')
+    action_url = success_url = reverse_lazy('admin:logs')
+    new_object_url = 'NA'
 
 
 class LogsListView(
@@ -24,6 +28,13 @@ class LogsListView(
 
     title = _("Logs")
 
+    table_header_row = [
+        _('Time'),
+        _('Message'),
+        _('User'),
+        _('Level')
+    ]
+
     def get_queryset(self):
         qs = super().get_queryset()
 
@@ -34,6 +45,11 @@ class LogsListView(
         logs = qs.filter(user=self.request.user)
 
         return logs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['table_header_row'] = self.table_header_row
+        return context
 
 
 class LogUpdateView(LogsView, generic.UpdateView):

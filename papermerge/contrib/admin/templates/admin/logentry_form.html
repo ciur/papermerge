@@ -1,27 +1,6 @@
-{% extends "admin/base.html" %}
+{% extends "admin/object_form.html" %}
 
-{% load i18n bootstrap4 %}
-
-{% block title %}{% trans "Log Entry" %}{% endblock %}
-
-{% block breadcrumb %}
-    <div class="col-sm-12 pl-0">
-      <a href="{% url 'admin:logs' %}">{% trans "Logs" %}</a>
-      /
-      {{ title }}
-    </div><!-- /.col -->
-{% endblock %}
-
-
-{% block content %}
-    <div class="col-lg-12 col-md-12">
-        <div class="p-1 p-md-3">
-          <form>
-            {% bootstrap_form form %}
-          </form>
-        </div>
-    </div>
-{% endblock %}
+{% load i18n admin_tags %}
 
 {% block widgetsbar %}
 <div class="card">

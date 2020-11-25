@@ -1,1 +1,13 @@
 {% extends "admin/object_list.html" %}
+
+{% block tbody %}
+  <tbody>
+    {% for token in tokens %}
+      <tr>
+        <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ token.digest }}" /></span>{{ token.digest|truncatechars:24 }}</td>
+        <td>{{ token.created }}</td>
+        <td>{{ token.expiry }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %}

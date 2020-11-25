@@ -38,7 +38,7 @@
                           <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{{ item }}
                         </div>
                       {% else %}
-                        <th class="border-top-0">{{ item }}</th>
+                        {{ item }}
                       {% endif %}
                     </th>
                   {% endfor %}
@@ -47,12 +47,6 @@
               <tbody>
                 {% block tbody %}
                   {% for log in object_list %}
-                    <tr>
-                      <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ log.id }}" /></span><a href="{% url 'admin:log-update' log.pk %}">{%localized_datetime log.action_time %}</a></td>
-                      <td><span class="mr-2">{{ log.message | safe | truncatechars:64}}</td>
-                        <td><span class="mr-2"><a href="{% url 'core:user_change' log.user.id %}">{{ log.user.username}}</a></td>
-                      <td><span class="mr-2">{{ log.level | log_level}}</td>
-                    </tr>
                   {% endfor %}
                 {% endblock tbody %}
               </tbody>
