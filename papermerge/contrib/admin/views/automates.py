@@ -1,16 +1,9 @@
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import (
-    ListView,
-    UpdateView,
-    CreateView,
-)
+from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from papermerge.core.views import (
-    PaginationMixin,
-    DeleteEntriesMixin
-)
+from papermerge.contrib.admin.views import mixins as mix
 from papermerge.contrib.admin.forms import AutomateForm
 from papermerge.core.models import Automate
 
@@ -23,9 +16,9 @@ class AutomatesView(LoginRequiredMixin):
 
 class AutomatesListView(
     AutomatesView,
-    PaginationMixin,
-    DeleteEntriesMixin,
-    ListView
+    mix.PaginationMixin,
+    mix.DeleteEntriesMixin,
+    generic.ListView
 ):
 
     title = _("Automates")
@@ -38,7 +31,7 @@ class AutomatesListView(
         ).order_by('name')
 
 
-class AutomateCreateView(AutomatesView, CreateView):
+class AutomateCreateView(AutomatesView, generic.CreateView):
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
@@ -61,7 +54,7 @@ class AutomateCreateView(AutomatesView, CreateView):
         return super().form_valid(form)
 
 
-class AutomateUpdateView(AutomatesView, UpdateView):
+class AutomateUpdateView(AutomatesView, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
 

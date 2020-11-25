@@ -1,18 +1,12 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import (
-    ListView,
-    UpdateView,
-)
+from django.views import generic
 from django.urls import reverse_lazy
 
 
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.contrib.admin.forms import LogEntryForm
-from papermerge.core.views import (
-    PaginationMixin,
-    DeleteEntriesMixin
-)
+from papermerge.contrib.admin.views import mixins as mix
 
 
 class LogsView(LoginRequiredMixin):
@@ -23,9 +17,9 @@ class LogsView(LoginRequiredMixin):
 
 class LogsListView(
     LogsView,
-    PaginationMixin,
-    DeleteEntriesMixin,
-    ListView
+    mix.PaginationMixin,
+    mix.DeleteEntriesMixin,
+    generic.ListView
 ):
 
     title = _("Logs")
@@ -42,7 +36,7 @@ class LogsListView(
         return logs
 
 
-class LogUpdateView(LogsView, UpdateView):
+class LogUpdateView(LogsView, generic.UpdateView):
 
     title = _("Log Entry")
 

@@ -1,9 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import (
-    ListView,
-    UpdateView,
-    CreateView,
-)
+from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
@@ -11,10 +7,7 @@ from django.core.exceptions import ValidationError
 
 from papermerge.contrib.admin.forms import TagForm
 from papermerge.core.models import Tag
-from papermerge.core.views import (
-    PaginationMixin,
-    DeleteEntriesMixin
-)
+from papermerge.contrib.admin.views import mixins as mix
 
 
 class TagsView(LoginRequiredMixin):
@@ -23,7 +16,12 @@ class TagsView(LoginRequiredMixin):
     success_url = reverse_lazy('admin:tags')
 
 
-class TagsListView(TagsView, PaginationMixin, DeleteEntriesMixin, ListView):
+class TagsListView(
+    TagsView,
+    mix.PaginationMixin,
+    mix.DeleteEntriesMixin,
+    generic.ListView
+):
 
     title = _("Tags")
 
@@ -33,7 +31,8 @@ class TagsListView(TagsView, PaginationMixin, DeleteEntriesMixin, ListView):
         return qs.filter(user=self.request.user)
 
 
-class TagCreateView(TagsView, CreateView):
+class TagCreateView(TagsView, generic.CreateView):
+
     title = _('New Tag')
 
     def get_context_data(self, **kwargs):
@@ -61,7 +60,7 @@ class TagCreateView(TagsView, CreateView):
         return super().form_valid(form)
 
 
-class TagUpdateView(TagsView, UpdateView):
+class TagUpdateView(TagsView, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
 

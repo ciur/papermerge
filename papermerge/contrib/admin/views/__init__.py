@@ -8,6 +8,11 @@ from .users import (
     UserCreateView,
     UserUpdateView
 )
+from .tokens import (
+    TokensListView,
+    TokenCreateView,
+    TokenUpdateView
+)
 from .tags import (
     TagsListView,
     TagCreateView,
@@ -39,6 +44,9 @@ __all__ = [
     'UsersListView',
     'UserCreateView',
     'UserUpdateView',
+    'TokensListView',
+    'TokenCreateView',
+    'TokenUpdateView',
     'TagsListView',
     'TagCreateView',
     'TagUpdateView',

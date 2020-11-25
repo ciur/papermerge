@@ -1,19 +1,12 @@
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import (
-    ListView,
-    UpdateView,
-    CreateView,
-)
+from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 from papermerge.core.models import User
 from papermerge.contrib.admin.forms import UserFormWithPassword
-from papermerge.core.views import (
-    PaginationMixin,
-    DeleteEntriesMixin
-)
+from papermerge.contrib.admin.views import mixins as mix
 
 
 class UsersView(LoginRequiredMixin):
@@ -43,9 +36,9 @@ class UsersView(LoginRequiredMixin):
 
 class UsersListView(
     UsersView,
-    PaginationMixin,
-    DeleteEntriesMixin,
-    ListView
+    mix.PaginationMixin,
+    mix.DeleteEntriesMixin,
+    generic.ListView
 ):
     title = _("Users")
 
@@ -55,7 +48,7 @@ class UsersListView(
         return qs.order_by('username')
 
 
-class UserCreateView(UsersView, CreateView):
+class UserCreateView(UsersView, generic.CreateView):
 
     def get_context_data(self, **kwargs):
 
@@ -66,7 +59,7 @@ class UserCreateView(UsersView, CreateView):
         return context
 
 
-class UserUpdateView(UsersView, UpdateView):
+class UserUpdateView(UsersView, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
 

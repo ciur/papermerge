@@ -69,6 +69,21 @@ urlpatterns = [
         name='user-update'
     ),
     path(
+        'tokens/',
+        views.TokensListView.as_view(),
+        name='tokens'
+    ),
+    path(
+        'token/add/',
+        views.TokenCreateView.as_view(),
+        name='token-add'
+    ),
+    path(
+        'token/<int:pk>/',
+        views.TokenUpdateView.as_view(),
+        name='token-update'
+    ),
+    path(
         'automates/',
         views.AutomatesListView.as_view(),
         name='automates'

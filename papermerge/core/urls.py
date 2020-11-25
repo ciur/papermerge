@@ -5,7 +5,6 @@ from .views import api as api_views
 from .views import documents as doc_views
 from .views import nodes as node_views
 from .views import metadata as metadata_views
-from .views import tokens as tokens_views
 from .views import users as users_views
 from .views import automates as automate_views
 
@@ -148,16 +147,6 @@ urlpatterns = [
         'api/document/<int:doc_id>/pages/paste',
         api_views.PagesPasteView.as_view(),
         name='api_pages_paste'
-    ),
-    path(
-        'tokens/',
-        tokens_views.tokens_view,
-        name='tokens'
-    ),
-    path(
-        'token/',
-        tokens_views.token_view,
-        name='token'
     ),
     path(
         'user/<int:id>/change-password',

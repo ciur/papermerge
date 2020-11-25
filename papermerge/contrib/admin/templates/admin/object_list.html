@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+
+{% load i18n admin_tags %}
+
+{% block title %}{% trans "Logs" %}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{{ action_url }}">{{ title }}</a>
+    </div><!-- /.col -->
+{% endblock %}
+
+
+{% block content %}
+    <form id="changelist_form" action="{{ action_url }}" method="post">
+      {% csrf_token %}
+
+        {% include "admin/_pagination.html" %}
+
+        <div class="col-12">
+          {% if object_list|length > 0 %}
+            <table class="table table-striped">
+              <thead>
+                <tr class="text-uppercase">
+                  <th class="border-top-0">
+                    <div id="checkbox_view">
+                      <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Time" %}
+                    </div>
+                  </th>
+                  <th class="border-top-0">{% trans "Message" %}</th>
+                  <th class="border-top-0">{% trans "User" %}</th>
+                  <th class="border-top-0">{% trans "Level" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in object_list %}
+                  <tr>
+                    <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ log.id }}" /></span><a href="{% url 'admin:log-update' log.pk %}">{%localized_datetime log.action_time %}</a></td>
+                    <td><span class="mr-2">{{ log.message | safe | truncatechars:64}}</td>
+                      <td><span class="mr-2"><a href="{% url 'core:user_change' log.user.id %}">{{ log.user.username}}</a></td>
+                    <td><span class="mr-2">{{ log.level | log_level}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            {{ empty_list_msg }}
+          {% endif %}
+      </div>
+    </form>
+{% endblock %}
+
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item">
+            <select form="changelist_form" name="action" class="custom-select" required="">
+              <option value="" selected="">---------</option>
+              <option value="delete_selected">{{delete_selected_msg}}</option>
+            </select>
+          
+        </li>
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+            <button  form="changelist_form" form="changelist_form" class="btn btn-primary btn-flat mx-1" type="submit">
+              <i class="fa fa-check"></i>
+              {% trans "Apply" %}
+            </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

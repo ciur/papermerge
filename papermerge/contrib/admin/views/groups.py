@@ -1,19 +1,12 @@
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import (
-    ListView,
-    UpdateView,
-    CreateView,
-)
+from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 from papermerge.contrib.admin.forms import GroupForm
-from papermerge.core.views import (
-    PaginationMixin,
-    DeleteEntriesMixin
-)
+from papermerge.contrib.admin.views import mixins as mix
 
 
 class GroupsView(LoginRequiredMixin):
@@ -43,9 +36,9 @@ class GroupsView(LoginRequiredMixin):
 
 class GroupsListView(
     GroupsView,
-    PaginationMixin,
-    DeleteEntriesMixin,
-    ListView
+    mix.PaginationMixin,
+    mix.DeleteEntriesMixin,
+    generic.ListView
 ):
     title = _("Groups")
 
@@ -55,7 +48,7 @@ class GroupsListView(
         return qs.order_by('name')
 
 
-class GroupCreateView(GroupsView, CreateView):
+class GroupCreateView(GroupsView, generic.CreateView):
 
     def get_context_data(self, **kwargs):
 
@@ -66,7 +59,7 @@ class GroupCreateView(GroupsView, CreateView):
         return context
 
 
-class GroupUpdateView(GroupsView, UpdateView):
+class GroupUpdateView(GroupsView, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
 
