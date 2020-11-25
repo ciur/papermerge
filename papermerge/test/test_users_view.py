@@ -23,7 +23,7 @@ class TestUsersView(TestCase):
         self.client.login(
             testcase_user=self.root_user
         )
-        url = reverse('core:users')
+        url = reverse('admin:users')
 
         ret = self.client.get(url)
         self.assertEqual(
@@ -32,7 +32,7 @@ class TestUsersView(TestCase):
         )
 
         self.assertEqual(
-            ret.context['users'].count(),
+            ret.context['object_list'].count(),
             2
         )
 
@@ -44,7 +44,7 @@ class TestUsersView(TestCase):
         self.client.login(
             testcase_user=self.margaret_user
         )
-        url = reverse('core:users')
+        url = reverse('admin:users')
 
         ret = self.client.get(url)
 
@@ -57,7 +57,7 @@ class TestUsersView(TestCase):
         self.client.login(
             testcase_user=self.margaret_user
         )
-        url = reverse('core:user')
+        url = reverse('admin:user-add')
 
         ret = self.client.get(url)
 
@@ -71,7 +71,7 @@ class TestUsersView(TestCase):
             testcase_user=self.margaret_user
         )
         url = reverse(
-            'core:user_change',
+            'admin:user-update',
             args=(self.root_user.id,)
         )
 
