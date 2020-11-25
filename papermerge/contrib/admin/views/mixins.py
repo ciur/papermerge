@@ -1,22 +1,25 @@
+from django.views.generic.base import ContextMixin
 from django.core.paginator import Paginator
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 from django.contrib import messages
 
 
-class CommonListMixin:
+class CommonListMixin(ContextMixin):
     """
     Provides common context for admin/object_list.html
     """
 
     def get_context_data(self, **kwargs):
 
-        context = {
-            'action_url': self.action_url,
-            'title': self.title,
-            'delete_selected_msg': self.get_delete_selected_msg(),
-            'empty_list_msg': self.get_empty_list_msg()
-        }
+        context = super().get_context_data(**kwargs)
+
+        context['action_url'] = self.action_url
+        context['success_url'] = self.success_url
+        context['new_object_url'] = self.new_object_url
+        context['title'] = self.title
+        context['delete_selected_msg'] = self.get_delete_selected_msg()
+        context['empty_list_msg'] = self.get_empty_list_msg()
 
         return context
 

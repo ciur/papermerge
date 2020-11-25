@@ -15,6 +15,8 @@ class TokensView(
 ):
     model = AuthToken
     form_class = AuthTokenForm
+    success_url = action_url = reverse_lazy('admin:tokens')
+    new_object_url = reverse_lazy('admin:token-add')
 
 
 class TokensListView(
@@ -26,8 +28,21 @@ class TokensListView(
     title = _("Tokens")
     action_url = reverse_lazy('admin:tokens')
 
+    table_header_row = [
+        _('Digest'),
+        _('Created At'),
+        _('Expires At'),
+    ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['table_header_row'] = self.table_header_row
+        return context
+
 
 class TokenCreateView(TokensView, generic.CreateView):
+
+    title = _("New")
 
     def get_context_data(self, **kwargs):
 

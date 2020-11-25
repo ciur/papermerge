@@ -57,7 +57,7 @@ def extras(request):
         'inbox_count': count,
         'pinned_tags': pinned_tags,
         'papermerge_version': PAPERMERGE_VERSION,
-        'form': form,
+        'search_form': form,
         'alltags': alltags
     }
 

@@ -2,24 +2,23 @@
 
 {% load i18n bootstrap4 %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{% trans "Tag" %}{% endblock %}
 
 {% block breadcrumb %}
     <div class="col-sm-12 pl-0">
-      <a href="{% url 'admin:groups' %}">{% trans "Groups" %}</a>
+      <a href="{{ success_url }}">{% trans "Tokens" %}</a>
       /
       {{ title }}
     </div><!-- /.col -->
 {% endblock %}
 
-
 {% block content %}
     <div class="col-lg-12 col-md-12">
         <div class="p-1 p-md-3">
-            <form id="changeform" class="group" method="POST" action="{{ action_url }}">
+             <form id="changelist_form" class="group" method="POST" action="{{ action_url }}">
               {% csrf_token %}
-              {{  form }}
-             </form>
+              {% bootstrap_form form %}
+            </form>
         </div>
     </div>
 {% endblock %}
@@ -29,14 +28,13 @@
   <div class="card-body">
     <ul class="collection">
       <li class="collection-item d-flex flex-row-reverse mt-3">
-          <button form="changeform" class="btn btn-primary btn-flat mx-1 btn-block" type="submit">
+          <button form="changelist_form" class="btn btn-primary btn-flat mx-1 btn-block" type="submit">
             <i class="fa fa-check"></i>
             {% trans "Submit" %}
           </button>
-
       </li>
       <li class="collection-item d-flex flex-row-reverse mt-3">
-        <a class="btn btn-flat btn-block btn-light" href="{% url 'admin:groups' %}">{% trans "Cancel" %}</a>
+        <a class="btn btn-flat btn-block btn-light" href="{{ success_url }}">{% trans "Cancel" %}</a>
       </li>
     </ul>
   </div>
