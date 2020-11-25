@@ -169,7 +169,6 @@ class UserFormWithoutPassword(ControlForm):
             'groups',
             'user_permissions',
             'is_superuser',
-            'is_staff',
             'is_active',
         )
 
@@ -197,7 +196,6 @@ class UserFormWithPassword(UserFormWithoutPassword):
             'last_name',
             'groups',
             'is_superuser',
-            'is_staff',
             'is_active',
         )
 

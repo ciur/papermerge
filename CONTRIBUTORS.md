@@ -25,6 +25,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [@amo13](https://github.com/amo13) - typo + systemd unit file fix
 * [@dani](https://github.com/dani) - French i18n; github issues.
 * [Thomas Pedersen](https://github.com/twpedersen) - imap fixes
+* [Georg Krause](https://github.com/georgkrause) - mglib improvements
 
 ### Sponsors
 
