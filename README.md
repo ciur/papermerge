@@ -126,9 +126,9 @@ There are couple options:
 
 For commercial support, consulting and customization please contact us:
 
-    * Email: [contact@papermerge.com](mailto:contact@papermerge.com)
-    * Web: [www.papermerge.com/contact](https://www.papermerge.com/contact)
-    * Twitter: [@papermerge](https://twitter.com/papermerge)
+* Email: [contact@papermerge.com](mailto:contact@papermerge.com)
+* Web: [www.papermerge.com/contact](https://www.papermerge.com/contact)
+* Twitter: [@papermerge](https://twitter.com/papermerge)
 
 ### Other resources
 
