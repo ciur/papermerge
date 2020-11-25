@@ -160,18 +160,6 @@ urlpatterns = [
         name='token'
     ),
     path(
-        'users/',
-        users_views.users_view, name='users'
-    ),
-    path(
-        'user/',
-        users_views.user_view, name='user'
-    ),
-    path(
-        'user/<int:id>/change',
-        users_views.user_change_view, name='user_change'
-    ),
-    path(
         'user/<int:id>/change-password',
         users_views.user_change_password_view, name='user_change_password'
     ),

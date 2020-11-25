@@ -3,6 +3,11 @@ from .groups import (
     GroupCreateView,
     GroupUpdateView
 )
+from .users import (
+    UsersListView,
+    UserCreateView,
+    UserUpdateView
+)
 from .tags import (
     TagsListView,
     TagCreateView,
@@ -31,6 +36,9 @@ __all__ = [
     'GroupsListView',
     'GroupCreateView',
     'GroupUpdateView',
+    'UsersListView',
+    'UserCreateView',
+    'UserUpdateView',
     'TagsListView',
     'TagCreateView',
     'TagUpdateView',

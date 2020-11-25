@@ -122,33 +122,16 @@ There are couple options:
 * [Using systemd](https://papermerge.readthedocs.io/en/latest/setup/systemd.html)
 * [Manual way - detailed step by step instructions](https://papermerge.readthedocs.io/en/latest/setup/manual_way.html)
 
-### Comparison With Other DMS
+### Commercial Support
 
-From my own reasearch I found another two very similar projects - [Paperless](https://github.com/the-paperless-project/paperless) and [MayanEDMS](https://www.mayan-edms.com/). Similar to the way parents tend to love their own children more - I am biased towards my own project - Papermerge. So, below is a comparison table of the three based on my research.
+For commercial support, consulting and customization please contact us:
 
-|  Metric  | Papermerge | [MayanEDMS](https://www.mayan-edms.com/) | [Paperless](https://github.com/the-paperless-project/paperless)         
-|----------|:-----------:|:---------------------------------------:|:---------------:|
-|OCR   | Yes | Yes | Yes |
-|Metadata |  Yes | Yes | No |
-|Folders/Cabinets| Yes (Folders) | Yes (Cabinets) | No |
-|Advanced Permissions Management | Yes | Yes | No |
-|Documents Versioning| No | Yes | No | 
-|Digital Signatures | No | Yes | No |
-|Workflows| Partial (Automation) | Yes | No |
-|Tags     | Yes | Yes | Yes |
-|REST API | Yes | Yes | Yes |
-|License  | Apache-2.0 | Apache 2.0 | GPLv3 |
-|Status| Active Development | Active Development | Maintenance / No Development| 
-|Initial Release| February 9, 2020 | February 3, 2011 | ~ 2015 |
-|Python3?| Yes | Yes | Yes|
+    * Email: [contact@papermerge.com](mailto:contact@papermerge.com)
+    * Web: [www.papermerge.com/contact](https://www.papermerge.com/contact)
+    * Twitter: [@papermerge](https://twitter.com/papermerge)
 
-### Contact 
+### Other resources
 
-For feedback, questions and suggestions send me an
-[email](mailto:eugen@papermerge.com). I speak both - German and English, so
-you can write me in whatever language you feel more confortable with.
-
-* [EMail](mailto:eugen@papermerge.com)
-* [Twitter Account](https://twitter.com/papermerge)
 * [YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg)
+* [Reddit r/papermerge](https://reddit.com/r/papermerge)
 

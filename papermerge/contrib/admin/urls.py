@@ -54,6 +54,21 @@ urlpatterns = [
         name='group-update'
     ),
     path(
+        'users/',
+        views.UsersListView.as_view(),
+        name='users'
+    ),
+    path(
+        'user/add/',
+        views.UserCreateView.as_view(),
+        name='user-add'
+    ),
+    path(
+        'user/<int:pk>/',
+        views.UserUpdateView.as_view(),
+        name='user-update'
+    ),
+    path(
         'automates/',
         views.AutomatesListView.as_view(),
         name='automates'

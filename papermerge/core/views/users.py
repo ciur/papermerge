@@ -17,32 +17,6 @@ logger = logging.getLogger(__name__)
 
 
 @login_required
-def users_view(request):
-
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
-
-    if request.method == 'POST':
-        selected_action = request.POST.getlist('_selected_action')
-        go_action = request.POST['action']
-
-        if go_action == 'delete_selected':
-            User.objects.filter(
-                id__in=selected_action
-            ).delete()
-
-    users = User.objects.all()
-
-    return render(
-        request,
-        'admin/users.html',
-        {
-            'users': users,
-        }
-    )
-
-
-@login_required
 def user_view(request):
     """
     When adding a new user, administrator will need to add
