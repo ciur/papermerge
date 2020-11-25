@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+
+{% load i18n bootstrap4 %}
+
+{% block title %}{{ model_name_title }}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{{ success_url }}">{{ model_name_title }}</a>
+      /
+      {{ title }}
+    </div><!-- /.col -->
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-12 col-md-12">
+        <div class="p-1 p-md-3">
+             <form id="changelist_form" class="group" method="POST" action="{{ action_url }}">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <ul class="collection">
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+            <button form="changelist_form" class="btn btn-primary btn-flat mx-1 btn-block" type="submit">
+              <i class="fa fa-check"></i>
+              {% trans "Submit" %}
+            </button>
+        </li>
+        <li class="collection-item d-flex flex-row-reverse mt-3">
+          <a class="btn btn-flat btn-block btn-light" href="{{ success_url }}">{% trans "Cancel" %}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

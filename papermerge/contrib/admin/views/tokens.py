@@ -43,17 +43,12 @@ class TokensListView(
 class TokenCreateView(TokensView, generic.CreateView):
 
     title = _("New")
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-        context['title'] = _('New')
-        context['action_url'] = reverse_lazy('admin:token-add')
-
-        return context
-
+    action_url = reverse_lazy('admin:token-add')
+    template_name = "admin/object_form.html"
 
 class TokenUpdateView(TokensView, generic.UpdateView):
+
+    template_name = "admin/object_form.html"
 
     def get_context_data(self, **kwargs):
 

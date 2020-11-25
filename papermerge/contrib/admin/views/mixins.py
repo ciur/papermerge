@@ -20,13 +20,17 @@ class CommonListMixin(ContextMixin):
         context['title'] = self.title
         context['delete_selected_msg'] = self.get_delete_selected_msg()
         context['empty_list_msg'] = self.get_empty_list_msg()
+        context['model_name_title'] = self.get_model_name_plu().capitalize()
 
         return context
+
+    def get_model_name_plu(self):
+        return self.model._meta.verbose_name_plural
 
     def get_delete_selected_msg(self):
 
         msg = _("Delete selected %(model_name_plu)s") % {
-            'model_name_plu': self.model._meta.verbose_name_plural
+            'model_name_plu': self.get_model_name_plu()
         }
 
         return msg
