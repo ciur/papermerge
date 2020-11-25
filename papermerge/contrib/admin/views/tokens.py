@@ -1,3 +1,7 @@
+from datetime import timedelta
+
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 from django.urls import reverse_lazy
@@ -34,6 +38,11 @@ class TokensListView(
         _('Expires At'),
     ]
 
+    def get_delete_entries(self, selection):
+        return self.get_queryset().filter(
+            digest__in=selection
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['table_header_row'] = self.table_header_row
@@ -45,6 +54,20 @@ class TokenCreateView(TokensView, generic.CreateView):
     title = _("New")
     action_url = reverse_lazy('admin:token-add')
     template_name = "admin/object_form.html"
+
+    def form_valid(self, form):
+
+        instance, token = AuthToken.objects.create(
+            user=self.request.user,
+            expiry=timedelta(hours=form.cleaned_data['hours'])
+        )
+        html_message = f"Please remember the token: {token}"
+        html_message += " It won't be displayed again."
+
+        messages.success(
+            self.request, html_message
+        )
+        return HttpResponseRedirect(self.success_url)
 
 class TokenUpdateView(TokensView, generic.UpdateView):
 

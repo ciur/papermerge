@@ -2,7 +2,7 @@
 
 {% block tbody %}
   <tbody>
-    {% for token in tokens %}
+    {% for token in object_list %}
       <tr>
         <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ token.digest }}" /></span>{{ token.digest|truncatechars:24 }}</td>
         <td>{{ token.created }}</td>

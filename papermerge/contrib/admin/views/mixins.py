@@ -49,6 +49,11 @@ class DeleteEntriesMixin:
     Handles HTTP POST with 'delete selected'.
     """
 
+    def get_delete_entries(self, selection):
+        return self.get_queryset().filter(
+            id__in=selection
+        )
+
     def post(self, request):
         """
         Delete selected entries
@@ -57,8 +62,8 @@ class DeleteEntriesMixin:
 
         go_action = request.POST['action']
         if go_action == 'delete_selected':
-            deleted, row_count = self.get_queryset().filter(
-                id__in=selected_action
+            deleted, row_count = self.get_delete_entries(
+                selection=selected_action
             ).delete()
 
             model_label = self.model._meta.label
