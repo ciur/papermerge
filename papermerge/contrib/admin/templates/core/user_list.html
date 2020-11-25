@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 
-{% load i18n %}
+{% load i18n admin_tags %}
 
 {% block title %}{% trans "Users" %}{% endblock %}
 
@@ -29,12 +29,30 @@
                       <span class="mr-2"><input type="checkbox" id="action_toggle"></span>{% trans "Username" %}
                     </div>
                   </th>
+                  <th class="border-top-0">{% trans "Email Address" %}</th>
+                  <th class="border-top-0">{% trans "Superuser Status" %}</th>
+                  <th class="border-top-0">{% trans "Staff Status" %}</th>
+                  <th class="border-top-0">{% trans "Active Status" %}</th>
+                  <th class="border-top-0">{% trans "Last Login" %}</th>
                 </tr>
               </thead>
               <tbody>
                 {% for obj in object_list %}
                   <tr>
                     <td><span class="mr-2"><input type="checkbox" name="_selected_action" value="{{ obj.pk }}" /></span><a href="{% url 'admin:user-update' obj.pk %}">{{ obj.username}}</a></td>
+                    <td>{{ user.email | default:'-' }}</td>
+                    <td>
+                      {% boolean_icon user.is_superuser %}
+                    </td>
+                    <td>
+                      {% boolean_icon user.is_staff %}
+                    </td>
+                    <td>
+                      {% boolean_icon user.is_active %}
+                    </td>
+                    <td>
+                      {% localized_datetime user.last_login %}
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
