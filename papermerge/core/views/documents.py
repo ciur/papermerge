@@ -411,7 +411,7 @@ def upload(request):
             " Only pdf, tiff, png, jpeg files are supported"
         )
         return msg, status
-    
+
     # after each upload return a json object with
     # following fields:
     #

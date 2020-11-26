@@ -61,7 +61,8 @@ def read_email_message(message, user=None):
                         if init_kwargs_temp:
                             init_kwargs = {**init_kwargs, **init_kwargs_temp}
                         if apply_kwargs_temp:
-                            apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+                            apply_kwargs = {
+                                **apply_kwargs, **apply_kwargs_temp}
                     except Exception as e:
                         logger.error("{} importer: {}".format("IMAP", e))
                         continue

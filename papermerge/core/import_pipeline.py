@@ -27,6 +27,7 @@ WEB = "WEB"
 IMAP = "IMAP"
 LOCAL = "LOCAL"
 
+
 class DefaultPipeline:
 
     def __init__(
@@ -44,7 +45,7 @@ class DefaultPipeline:
         self.processor = processor
         self.doc = doc
         self.name = None
-        
+
         if isinstance(payload, Message):
             try:
                 payload = payload.get_payload(decode=True)
@@ -229,7 +230,8 @@ class DefaultPipeline:
             except ValueError:
                 doc.create_pages()
             except Exception:
-                logger.error("{} importer: could not create pages".format(self.processor))
+                logger.error(
+                    "{} importer: could not create pages".format(self.processor))
 
         self.move_tempfile(doc)
         self.tempfile.close()
