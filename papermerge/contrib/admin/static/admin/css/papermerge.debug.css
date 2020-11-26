@@ -10625,16 +10625,18 @@ body.sidebar-mini #pinned_tags_view {
   margin-right: 0.2rem; }
 
 .preferences .card {
+  margin: 1rem;
   box-shadow: none;
-  border-top: 3px solid #0dac00;
+  border-top: 3px solid #549eff;
   background-color: #f8f8f8; }
   .preferences .card i {
-    display: block; }
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem; }
   .preferences .card a {
-    color: #0c1f0b;
-    font-size: 1.4rem; }
-  .preferences .card a:hover {
-    text-decoration: none; }
+    font-size: 1.1rem; }
+  .preferences .card p {
+    font-size: 0.9rem; }
 
 #context-menu {
   display: none;
