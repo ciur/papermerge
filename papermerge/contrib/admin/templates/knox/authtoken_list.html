@@ -1,5 +1,13 @@
 {% extends "admin/object_list.html" %}
 
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{% url 'admin:tokens' %}">
+        <i class="fa fa-user-secret mx-2"></i>{{ title }}
+      </a>
+    </div><!-- /.col -->
+{% endblock %}
+
 {% block tbody %}
   <tbody>
     {% for token in object_list %}
