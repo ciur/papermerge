@@ -1,6 +1,8 @@
 import os
 from os.path import getsize, basename
 import logging
+from email.message import Message
+
 from django.core.files.temp import NamedTemporaryFile
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -23,7 +25,7 @@ logger = logging.getLogger(__name__)
 # 3 types of import_pipelines
 WEB = "WEB"
 IMAP = "IMAP"
-LOCAL = "LOCAl"
+LOCAL = "LOCAL"
 
 class DefaultPipeline:
 
@@ -38,24 +40,28 @@ class DefaultPipeline:
 
         if payload is None:
             return None
-        if processor == IMAP:
+
+        self.processor = processor
+        self.doc = doc
+        self.name = None
+        
+        if isinstance(payload, Message):
             try:
                 payload = payload.get_payload(decode=True)
                 if payload is None:
                     logger.debug("{} importer: not a file.".format(processor))
                     raise TypeError("Not a file.")
-                self.payload = payload
+                self.write_temp(payload)
             except TypeError as e:
                 logger.debug("{} importer: not a file.".format(processor))
                 raise e
         else:
             self.tempfile = payload
 
-        if processor == WEB:
+        if doc is not None:
+            self.temppath = self.tempfile.name
+        elif processor == WEB:
             self.temppath = self.tempfile.temporary_file_path()
-
-        self.processor = processor
-        self.doc = doc
 
     def check_mimetype(self):
         """
@@ -68,14 +74,14 @@ class DefaultPipeline:
             return True
         return False
 
-    def write_temp(self):
+    def write_temp(self, payload):
 
         logger.debug(
             f"{self.processor} importer: creating temporary file"
         )
 
         temp = NamedTemporaryFile()
-        temp.write(self.payload)
+        temp.write(payload)
         temp.flush()
         self.tempfile = temp
         self.temppath = temp.name
@@ -181,8 +187,6 @@ class DefaultPipeline:
         *args,
         **kwargs
     ):
-        if self.processor == IMAP:
-            self.write_temp()
         if not self.check_mimetype():
             logger.debug(
                 "{} importer: invalid filetype".format(self.processor)
@@ -209,11 +213,24 @@ class DefaultPipeline:
                     notes=notes
                 )
                 self.doc = doc
-            except ValidationError:
+            except ValidationError as e:
                 logger.error(
                     "{} importer: validation failed".format(self.processor)
                 )
-                return None
+                raise e
+        elif self.doc is not None:
+            doc = self.doc
+            doc.version = doc.version + 1
+            doc.page_count = page_count
+            doc.file_name = name
+            doc.save()
+            try:
+                doc.recreate_pages()
+            except ValueError:
+                doc.create_pages()
+            except Exception:
+                logger.error("{} importer: could not create pages".format(self.processor))
+
         self.move_tempfile(doc)
         self.tempfile.close()
         if not skip_ocr:
@@ -240,5 +257,3 @@ class DefaultPipeline:
         return {
             'doc': doc
         }
-
-

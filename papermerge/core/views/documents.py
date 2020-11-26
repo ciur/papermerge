@@ -383,16 +383,21 @@ def upload(request):
         pipeline_class = module_loading.import_string(pipeline)
         try:
             importer = pipeline_class(**init_kwargs)
-        except Exception:
+        except Exception as e:
             importer = None
+            logger.debug("{} importer: {}".format("WEB", e))
         if importer is not None:
-            result_dict = importer.apply(**apply_kwargs)
-            init_kwargs_temp = importer.get_init_kwargs()
-            apply_kwargs_temp = importer.get_apply_kwargs()
-            if init_kwargs_temp:
-                init_kwargs = {**init_kwargs, **init_kwargs_temp}
-            if apply_kwargs_temp:
-                apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+            try:
+                result_dict = importer.apply(**apply_kwargs)
+                init_kwargs_temp = importer.get_init_kwargs()
+                apply_kwargs_temp = importer.get_apply_kwargs()
+                if init_kwargs_temp:
+                    init_kwargs = {**init_kwargs, **init_kwargs_temp}
+                if apply_kwargs_temp:
+                    apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+            except Exception as e:
+                result_dict = None
+                logger.error("{} importer: {}".format("WEB", e))
         else:
             result_dict = None
     if result_dict is not None:
