@@ -55,20 +55,20 @@ def import_documents(directory):
                     pipeline_class = module_loading.import_string(pipeline)
                     try:
                         importer = pipeline_class(**init_kwargs)
-                    except Exception:
+                    except Exception as e:
+                        logger.debug("{} importer: {}".format("LOCAL", e))
                         importer = None
                     if importer is not None:
-                        result_dict = importer.apply(**apply_kwargs)
-                        init_kwargs_temp = importer.get_init_kwargs()
-                        apply_kwargs_temp = importer.get_apply_kwargs()
-                        if init_kwargs_temp:
-                            init_kwargs = {**init_kwargs, **init_kwargs_temp}
-                        if apply_kwargs_temp:
-                            apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
-                    else:
-                        result_dict = None
-                if result_dict is not None:
-                    doc = result_dict.get('doc', None)
-                else:
-                    doc = None
-
+                        try:
+                            result_dict = importer.apply(**apply_kwargs)
+                            init_kwargs_temp = importer.get_init_kwargs()
+                            apply_kwargs_temp = importer.get_apply_kwargs()
+                            if init_kwargs_temp:
+                                init_kwargs = {
+                                    **init_kwargs, **init_kwargs_temp}
+                            if apply_kwargs_temp:
+                                apply_kwargs = {
+                                    **apply_kwargs, **apply_kwargs_temp}
+                        except Exception as e:
+                            logger.error("{} importer: {}".format("LOCAL", e))
+                            continue

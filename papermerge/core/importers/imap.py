@@ -50,16 +50,22 @@ def read_email_message(message, user=None):
                 pipeline_class = module_loading.import_string(pipeline)
                 try:
                     importer = pipeline_class(**init_kwargs)
-                except Exception:
+                except Exception as e:
+                    logger.debug("{} importer: {}".format("IMAP", e))
                     importer = None
                 if importer is not None:
-                    importer.apply(**apply_kwargs)
-                    init_kwargs_temp = importer.get_init_kwargs()
-                    apply_kwargs_temp = importer.get_apply_kwargs()
-                    if init_kwargs_temp:
-                        init_kwargs = {**init_kwargs, **init_kwargs_temp}
-                    if apply_kwargs_temp:
-                        apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+                    try:
+                        importer.apply(**apply_kwargs)
+                        init_kwargs_temp = importer.get_init_kwargs()
+                        apply_kwargs_temp = importer.get_apply_kwargs()
+                        if init_kwargs_temp:
+                            init_kwargs = {**init_kwargs, **init_kwargs_temp}
+                        if apply_kwargs_temp:
+                            apply_kwargs = {
+                                **apply_kwargs, **apply_kwargs_temp}
+                    except Exception as e:
+                        logger.error("{} importer: {}".format("IMAP", e))
+                        continue
         except TypeError:
             continue
 
@@ -133,7 +139,7 @@ def import_attachment():
                 user = User.objects.filter(
                     email=sender_address
                 ).first()
-                logger.error("Found user {}".format(user))
+                logger.debug("Found user {}".format(user))
             if user:
                 if user.mail_by_user:
                     read_email_message(email_message, user=user)
