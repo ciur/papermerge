@@ -84,7 +84,8 @@ class DefaultPipeline:
 
     def write_temp(self, payload):
         """
-        What is thins function doing?
+        What is this function doing?
+        When is this function used ?
         """
         logger.debug(
             f"{self.processor} importer: creating temporary file"
@@ -95,6 +96,8 @@ class DefaultPipeline:
         temp.flush()
         self.tempfile = temp
         self.temppath = temp.name
+        # does this return have a purpose?
+        # is this function supposed to return something?
         return
 
     @staticmethod
@@ -176,6 +179,7 @@ class DefaultPipeline:
     def get_init_kwargs(self):
         """
         Is this function supposed to return something?
+        Please document
         """
         if self.doc:
             return {'doc': self.doc}
@@ -184,6 +188,7 @@ class DefaultPipeline:
     def get_apply_kwargs(self):
         """
         Is this function supposed to return something?
+        Please document
         """
         if self.doc:
             return {'doc': self.doc}
