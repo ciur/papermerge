@@ -87,8 +87,9 @@ New features without basic tests will be rejected.
 
 Papermerge code has a style. You may not like it, because style is a matter of
 taste after all. However, for the sake of consistency - you will need to
-follow couple of extra rule.
-Following rules are not so strict as 3 golden rules above (1. PEP8, 2. Document 3. Test) however you are strongly encouraged to follow them.
+follow couple of extra rule. Following rules are not so strict as 3 golden
+rules above (1. PEP8, 2. Document 3. Test) however you are strongly encouraged
+to follow them.
 
 ### Use fStrings (S1)
 
