@@ -51,6 +51,8 @@ def import_documents(directory):
                 init_kwargs = {'payload': temp_file_name, 'processor': LOCAL}
                 apply_kwargs = {'user': None, 'name': basename,
                                 'delete_after_import': True}
+                # TODO: 100% as imap.py and views/document.py
+                # Please, refactor
                 for pipeline in pipelines:
                     pipeline_class = module_loading.import_string(pipeline)
                     try:
@@ -60,8 +62,15 @@ def import_documents(directory):
                         importer = None
                     if importer is not None:
                         try:
+                            # PEP8 warning
+                            # result_dict is not used
+                            # Is importer.apply supposed to
+                            # return something ?
+                            # Please document apply function
                             result_dict = importer.apply(**apply_kwargs)
+                            # undocumented
                             init_kwargs_temp = importer.get_init_kwargs()
+                            # not documented
                             apply_kwargs_temp = importer.get_apply_kwargs()
                             if init_kwargs_temp:
                                 init_kwargs = {
@@ -70,5 +79,6 @@ def import_documents(directory):
                                 apply_kwargs = {
                                     **apply_kwargs, **apply_kwargs_temp}
                         except Exception as e:
+                            # please use fstrings
                             logger.error("{} importer: {}".format("LOCAL", e))
                             continue

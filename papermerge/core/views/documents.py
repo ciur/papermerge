@@ -378,16 +378,22 @@ def upload(request):
         'notes': notes,
         'apply_async': True
     }
-
+    # this code is 100% similar to local.py
+    # and imap.py
     for pipeline in pipelines:
         pipeline_class = module_loading.import_string(pipeline)
         try:
             importer = pipeline_class(**init_kwargs)
         except Exception as e:
             importer = None
+            # please use fstrings
             logger.debug("{} importer: {}".format("WEB", e))
         if importer is not None:
             try:
+                # please document/comment
+                # apply
+                # get_init_kwargs
+                # get_apply_kwargs
                 result_dict = importer.apply(**apply_kwargs)
                 init_kwargs_temp = importer.get_init_kwargs()
                 apply_kwargs_temp = importer.get_apply_kwargs()
@@ -397,6 +403,7 @@ def upload(request):
                     apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
             except Exception as e:
                 result_dict = None
+                # please use fstrings
                 logger.error("{} importer: {}".format("WEB", e))
         else:
             result_dict = None

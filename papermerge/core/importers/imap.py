@@ -44,6 +44,8 @@ def read_email_message(message, user=None):
         # search for payload
         try:
             pipelines = settings.PAPERMERGE_PIPELINES
+            # TODO: 100% as local.py and views/document.py
+            # Please, refactor
             init_kwargs = {'payload': part, 'processor': IMAP}
             apply_kwargs = {'user': user, 'name': part.get_filename()}
             for pipeline in pipelines:
@@ -51,12 +53,21 @@ def read_email_message(message, user=None):
                 try:
                     importer = pipeline_class(**init_kwargs)
                 except Exception as e:
+                    # please use fstrings
                     logger.debug("{} importer: {}".format("IMAP", e))
                     importer = None
                 if importer is not None:
                     try:
+                        # is apply function supposed to return something?
+                        # please document
                         importer.apply(**apply_kwargs)
+                        # what is the purpose if get_init_kwargs?
+                        # what is it supposed to return?
+                        # please document/comment
                         init_kwargs_temp = importer.get_init_kwargs()
+                        # what is the purpose of get_apply_kwargs?
+                        # what is it supposed to return?
+                        # please document/comment
                         apply_kwargs_temp = importer.get_apply_kwargs()
                         if init_kwargs_temp:
                             init_kwargs = {**init_kwargs, **init_kwargs_temp}
@@ -64,6 +75,7 @@ def read_email_message(message, user=None):
                             apply_kwargs = {
                                 **apply_kwargs, **apply_kwargs_temp}
                     except Exception as e:
+                        # please use fstrings
                         logger.error("{} importer: {}".format("IMAP", e))
                         continue
         except TypeError:
