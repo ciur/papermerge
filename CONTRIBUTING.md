@@ -51,10 +51,10 @@ documentation](https://papermerge.readthedocs.io/en/latest/translators_guide/ind
 If you want to contribute (fix a bug, add a feature) - that is absolutely great!
 Any kind of improvement is welcome.
 
-There are 3 important rules to follow.
+There are 3 golden rules to follow.
 
 
-### Rule 1
+### Rule 1 (R1)
 
 PEP8.
 
@@ -64,7 +64,7 @@ minor deviations from PEP8 - that's ok. We are flexible here, but if your PR cod
 has serious violations of PEP8 - it will simply be rejected with comment *not PEP8 formatted*.
 
 
-### Rule 2
+### Rule 2 (R2)
 
 Communicate. Document.
 
@@ -75,9 +75,31 @@ result in silent discard of your PR. If you are lazy to comment you your PR -
 why should we care to communicate you the reason of rejection? :))
 
 
-### Rule 3
+### Rule 3 (R3)
 
 Test. Test. Test.
 
 Code without tests is broken design.
 New features without basic tests will be rejected.
+
+
+## For Developers. Regarding Code Style - Far Beyond PEP8
+
+Papermerge code has a style. You may not like it, because style is a matter of
+taste after all. However, for the sake of consistency - you will need to
+follow couple of extra rule.
+Following rules are not so strict as 3 golden rules above (1. PEP8, 2. Document 3. Test) however you are strongly encouraged to follow them.
+
+### Use fStrings (S1)
+
+Use fStrings whenever possible.
+
+Bad:
+
+    logger.debug("{} importer: not a file.".format(processor))
+
+Good:
+
+    logger.debug(
+        f"{processor} importer: not a file."
+    )

@@ -29,14 +29,21 @@ LOCAL = "LOCAL"
 
 
 class DefaultPipeline:
+    """
+    Please document:
+        1. What is a pipeline?
+        2. What are usecases?
+        3. What functions are mandatory?
+        4. Examples
+    """
 
     def __init__(
         self,
         payload,
         doc=None,
         processor=WEB,
-            *args,
-            **kwargs
+        *args,
+        **kwargs
     ):
 
         if payload is None:
@@ -76,7 +83,9 @@ class DefaultPipeline:
         return False
 
     def write_temp(self, payload):
-
+        """
+        What is thins function doing?
+        """
         logger.debug(
             f"{self.processor} importer: creating temporary file"
         )
@@ -165,11 +174,17 @@ class DefaultPipeline:
             )
 
     def get_init_kwargs(self):
+        """
+        Is this function supposed to return something?
+        """
         if self.doc:
             return {'doc': self.doc}
         return None
 
     def get_apply_kwargs(self):
+        """
+        Is this function supposed to return something?
+        """
         if self.doc:
             return {'doc': self.doc}
         return None
@@ -188,9 +203,13 @@ class DefaultPipeline:
         *args,
         **kwargs
     ):
+        """
+        Is this function supposed to return something ?
+        Please document.
+        """
         if not self.check_mimetype():
             logger.debug(
-                "{} importer: invalid filetype".format(self.processor)
+                f"{self.processor} importer: invalid filetype"
             )
             return None
         if self.processor != WEB:
@@ -231,7 +250,8 @@ class DefaultPipeline:
                 doc.create_pages()
             except Exception:
                 logger.error(
-                    "{} importer: could not create pages".format(self.processor))
+                    f"{self.processor} importer: could not create pages"
+                )
 
         self.move_tempfile(doc)
         self.tempfile.close()
