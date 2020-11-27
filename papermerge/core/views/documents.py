@@ -17,7 +17,6 @@ from django.http import (
 )
 from django.contrib.staticfiles import finders
 from django.contrib.auth.decorators import login_required
-from django.utils import module_loading
 
 from mglib.pdfinfo import get_pagecount
 from mglib.step import Step
@@ -25,14 +24,13 @@ from mglib.shortcuts import extract_img
 
 from papermerge.core.storage import default_storage
 from papermerge.core.lib.hocr import Hocr
-from .decorators import json_response
-
+from papermerge.core.views.decorators import json_response
 from papermerge.core.models import (
     Folder, Document, BaseTreeNode, Access
 )
 from papermerge.core.utils import filter_node_id
 from papermerge.core import signal_definitions as signals
-from papermerge.core.import_pipeline import WEB
+from papermerge.core.import_pipeline import WEB, go_through_pipelines
 
 logger = logging.getLogger(__name__)
 
@@ -369,48 +367,16 @@ def upload(request):
 
     lang = request.POST.get('language')
     notes = request.POST.get('notes')
-    pipelines = settings.PAPERMERGE_PIPELINES
     init_kwargs = {'payload': f, 'processor': WEB}
     apply_kwargs = {
         'user': user,
+        'name': f.name,
         'parent': parent_id,
         'lang': lang,
         'notes': notes,
         'apply_async': True
     }
-    # this code is 100% similar to local.py
-    # and imap.py
-    for pipeline in pipelines:
-        pipeline_class = module_loading.import_string(pipeline)
-        try:
-            importer = pipeline_class(**init_kwargs)
-        except Exception as e:
-            importer = None
-            # please use fstrings
-            logger.debug("{} importer: {}".format("WEB", e))
-        if importer is not None:
-            try:
-                # please document/comment
-                # apply
-                # get_init_kwargs
-                # get_apply_kwargs
-                result_dict = importer.apply(**apply_kwargs)
-                init_kwargs_temp = importer.get_init_kwargs()
-                apply_kwargs_temp = importer.get_apply_kwargs()
-                if init_kwargs_temp:
-                    init_kwargs = {**init_kwargs, **init_kwargs_temp}
-                if apply_kwargs_temp:
-                    apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
-            except Exception as e:
-                result_dict = None
-                # please use fstrings
-                logger.error("{} importer: {}".format("WEB", e))
-        else:
-            result_dict = None
-    if result_dict is not None:
-        doc = result_dict.get('doc', None)
-    else:
-        doc = None
+    doc = go_through_pipelines(init_kwargs, apply_kwargs)
     if not doc:
         status = 400
         msg = _(

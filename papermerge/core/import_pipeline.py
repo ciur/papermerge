@@ -1,11 +1,16 @@
-import os
 from os.path import getsize, basename
 import logging
-from email.message import Message
+from magic import from_file
+from tempfile import _TemporaryFileWrapper
 
 from django.core.files.temp import NamedTemporaryFile
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import TemporaryUploadedFile
+from django.utils import module_loading
+
+from mglib.pdfinfo import get_pagecount
+from mglib.exceptions import FileTypeNotSupported
 
 from papermerge.core.models import (
     Folder, Document, User
@@ -15,9 +20,6 @@ from papermerge.core.tasks import ocr_page
 from papermerge.core import signal_definitions as signals
 from papermerge.core.ocr import COMPLETE, STARTED
 from papermerge.core.utils import Timer
-
-from mglib.pdfinfo import get_pagecount
-from magic import from_file
 
 logger = logging.getLogger(__name__)
 
@@ -29,63 +31,72 @@ LOCAL = "LOCAL"
 
 
 class DefaultPipeline:
-    """
-    Please document:
-        1. What is a pipeline?
-        2. What are usecases?
-        3. What functions are mandatory?
-        4. Examples
+    """Default Pipeline class. It is meant to be extended by apps. Most commonly the methods
+    check_mimetype (remember to change get_pagecount as well) and apply should be modified.
+    All checks whether the payload is compatible with an extended pipeline is to be done 
+    in the init method, the apply method is not expected to raise exceptions. 
     """
 
     def __init__(
         self,
-        payload,
+        payload=None,
         doc=None,
         processor=WEB,
-        *args,
         **kwargs
     ):
+        """Init method of the pipeline. Only succeeds if the file is compatible with
+        the pipeline.
 
-        if payload is None:
-            return None
+        Args:
+            payload (Union[bytes, TemporaryUploadedFile, _TemporaryFileWrapper], optional):
+                    payload to be ingested. Defaults to None.
+            doc (Document, optional): document to be updated. Defaults to None.
+            processor (str, optional): from which importer this class is invocated. Defaults to WEB.
 
+        Raises:
+            TypeError: raised when payload is not a supported file object
+            FileTypeNotSupported: raised when payload is of a wrong mimetype for the pipeline
+        """
         self.processor = processor
         self.doc = doc
-        self.name = None
 
-        if isinstance(payload, Message):
-            try:
-                payload = payload.get_payload(decode=True)
-                if payload is None:
-                    logger.debug("{} importer: not a file.".format(processor))
-                    raise TypeError("Not a file.")
-                self.write_temp(payload)
-            except TypeError as e:
-                logger.debug("{} importer: not a file.".format(processor))
-                raise e
+        if isinstance(payload, bytes):
+            payload = self.write_temp(payload)
+
+        self.payload = payload
+
+        if isinstance(payload, TemporaryUploadedFile):
+            self.path = payload.temporary_file_path()
+        elif isinstance(payload, _TemporaryFileWrapper):
+            self.path = payload.name
         else:
-            self.tempfile = payload
+            raise TypeError
 
-        if doc is not None:
-            self.temppath = self.tempfile.name
-        elif processor == WEB:
-            self.temppath = self.tempfile.temporary_file_path()
+        self.check_mimetype()
 
     def check_mimetype(self):
-        """
-        Check if mimetype of the document to be imported is supported
+        """Check if mimetype of the document to be imported is supported
         by Papermerge or one of its apps.
+
+        Raises:
+            FileTypeNotSupported: If the mimetype is not supported by this pipeline
+
         """
         supported_mimetypes = settings.PAPERMERGE_MIMETYPES
-        mime = from_file(self.temppath, mime=True)
+        mime = from_file(self.path, mime=True)
         if mime in supported_mimetypes:
-            return True
-        return False
+            return None
+        raise FileTypeNotSupported
 
     def write_temp(self, payload):
-        """
-        What is this function doing?
-        When is this function used ?
+        """Write a temporary file to disk, necessary for certain
+        payload types that are not stored on file.
+
+        Args:
+            payload (bytes): ingested payload
+
+        Returns:
+            temp (NamedTemporaryFile): temporary file on disk
         """
         logger.debug(
             f"{self.processor} importer: creating temporary file"
@@ -94,14 +105,21 @@ class DefaultPipeline:
         temp = NamedTemporaryFile()
         temp.write(payload)
         temp.flush()
-        self.tempfile = temp
-        self.temppath = temp.name
-        # does this return have a purpose?
-        # is this function supposed to return something?
-        return
+        return temp
 
     @staticmethod
     def get_user_properties(user):
+        """Get properties of the document owner, if no owner is specified
+        the document gets assigned to first superuser
+
+        Args:
+            user (User): owner object
+
+        Returns:
+            user (User): owner object
+            lang (str): user language
+            inbox (Folder): inbox folder
+        """
         if user is None:
             user = User.objects.filter(
                 is_superuser=True
@@ -117,13 +135,13 @@ class DefaultPipeline:
 
     def move_tempfile(self, doc):
         default_storage.copy_doc(
-            src=self.temppath,
+            src=self.path,
             dst=doc.path.url()
         )
-        return
+        return None
 
     def page_count(self):
-        return get_pagecount(self.temppath)
+        return get_pagecount(self.path)
 
     def ocr_document(
         self,
@@ -131,7 +149,6 @@ class DefaultPipeline:
         page_count,
         lang
     ):
-
         user_id = document.user.id
         document_id = document.id
         file_name = document.file_name
@@ -177,21 +194,26 @@ class DefaultPipeline:
             )
 
     def get_init_kwargs(self):
-        """
-        Is this function supposed to return something?
-        Please document
+        """Propagates keyword arguments to use in the init method
+        of donwstream pipelines. Should be overwritten by inheriting
+        classes.
+
+        Returns:
+            A dict with the generated document or None if no document
+            could be generated
         """
         if self.doc:
             return {'doc': self.doc}
         return None
 
     def get_apply_kwargs(self):
+        """Propagates keyword arguments to use in the apply method
+        of donwstream pipelines. Should be overwritten by inheriting
+        classes.
+
+        Returns:
+            None
         """
-        Is this function supposed to return something?
-        Please document
-        """
-        if self.doc:
-            return {'doc': self.doc}
         return None
 
     def apply(
@@ -203,29 +225,34 @@ class DefaultPipeline:
         name=None,
         skip_ocr=False,
         apply_async=False,
-        delete_after_import=False,
         create_document=True,
-        *args,
         **kwargs
     ):
+        """Apply the pipeline. The document is created or modified here. 
+        This method is not supposed to throw errors.
+
+        Args:
+            user (User, optional): document owner. Defaults to None.
+            parent (Folder, optional): folder containing the document. Defaults to None.
+            lang (str, optional): OCR language. Defaults to None.
+            notes (str, optional): document notes. Defaults to None.
+            name (str, optional): document name. Defaults to None.
+            skip_ocr (bool, optional): whether to skip OCR processing. Defaults to False.
+            apply_async (bool, optional): whether to apply OCR asynchronously. Defaults to False.
+            create_document (bool, optional): whether to create or update a document. Defaults to True.
+
+        Returns:
+            Document: the created or updated document
         """
-        Is this function supposed to return something ?
-        Please document.
-        """
-        if not self.check_mimetype():
-            logger.debug(
-                f"{self.processor} importer: invalid filetype"
-            )
-            return None
         if self.processor != WEB:
             user, lang, inbox = self.get_user_properties(user)
             parent = inbox.id
         if name is None:
-            name = basename(self.tempfile.name)
+            name = basename(self.path)
         page_count = self.page_count()
-        size = getsize(self.temppath)
+        size = getsize(self.path)
 
-        if create_document:
+        if create_document and self.doc is None:
             try:
                 doc = Document.objects.create_document(
                     user=user,
@@ -238,28 +265,24 @@ class DefaultPipeline:
                     notes=notes
                 )
                 self.doc = doc
-            except ValidationError as e:
-                logger.error(
-                    "{} importer: validation failed".format(self.processor)
-                )
-                raise e
+            except ValidationError as error:
+                logger.error("f{self.processor} importer: validation failed")
+                raise ValidationError from error
         elif self.doc is not None:
             doc = self.doc
             doc.version = doc.version + 1
             doc.page_count = page_count
             doc.file_name = name
+            doc.size = size
             doc.save()
             try:
                 doc.recreate_pages()
             except ValueError:
                 doc.create_pages()
-            except Exception:
-                logger.error(
-                    f"{self.processor} importer: could not create pages"
-                )
+            doc.full_clean()
 
         self.move_tempfile(doc)
-        self.tempfile.close()
+        self.payload.close()
         if not skip_ocr:
             if apply_async:
                 for page_num in range(1, page_count + 1):
@@ -277,10 +300,48 @@ class DefaultPipeline:
                     lang=lang,
                 )
 
-        if delete_after_import:
-            os.remove(self.temppath)
+        logger.debug(f"{self.processor} importer: import complete.")
+        return doc
 
-        logger.debug("{} importer: import complete.".format(self.processor))
-        return {
-            'doc': doc
-        }
+
+def go_through_pipelines(init_kwargs, apply_kwargs):
+    """Method to go through all the loaded pipelines **in order**. The init and apply dictionaries
+    are not reset for each pipeline, they are updated with the results of get_init_kwargs and
+    get_apply_kwargs. This means arguments need to be set to None by pipelines as well.
+
+    Args:
+        init_kwargs (dict): initial init_kwargs
+        apply_kwargs (dict): initial apply_kwargs
+
+    Returns:
+        Document: create document, needs to be unique for each payload
+    """
+    processor = init_kwargs.get('processor', WEB)
+    doc = None
+    pipelines = settings.PAPERMERGE_PIPELINES
+    logger.info(f"{processor} importer: importing file")
+    for pipeline in pipelines:
+        try:
+            pipeline_class = module_loading.import_string(pipeline)
+        except ImportError:
+            logger.error(
+                f"{pipeline} could not be loaded. Check if it is installed properly.")
+            continue
+        try:
+            importer = pipeline_class(**init_kwargs)
+        except TypeError:
+            logger.debug(f"{processor} importer: not a file")
+            break
+        except FileTypeNotSupported:
+            logger.debug(f"{processor} importer: filetype not supported")
+            continue
+        doc = importer.apply(**apply_kwargs)
+        logger.info(f"{processor} importer: payload processed successfully")
+        init_kwargs_temp = importer.get_init_kwargs()
+        apply_kwargs_temp = importer.get_apply_kwargs()
+        if init_kwargs_temp:
+            init_kwargs = {**init_kwargs, **init_kwargs_temp}
+        if apply_kwargs_temp:
+            apply_kwargs = {**apply_kwargs, **apply_kwargs_temp}
+
+    return doc
