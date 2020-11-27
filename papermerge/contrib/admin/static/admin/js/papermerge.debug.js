@@ -24284,6 +24284,7 @@ let TEMPLATE_LIST = __webpack_require__(/*! ../templates/browse_list.html */ "./
 let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
 let SORT_UNDEFINED = 0;
+let UI_SELECTION_NODE_SELECTED = 'ui-selection-node-selected';
 
 class UISelect {
   /**
@@ -24309,6 +24310,7 @@ class UISelect {
     this.width = 0;
     this.$parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent_selector);
     this.$select = undefined;
+    this.dispatcher = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_5___default.a.Events);
   }
 
   start() {
@@ -24321,7 +24323,7 @@ class UISelect {
   }
 
   update(x, y) {
-    let height, width, top, left;
+    let height, width, top, left, cid;
     this.current_x = x;
     this.current_y = y;
     width = Math.abs(this.current_x - this.start_x);
@@ -24342,7 +24344,22 @@ class UISelect {
 
       this.$select.css('width', `${width}px`);
       this.$select.css('height', `${height}px`);
+      cid = this._get_node_under(x, y);
+
+      if (cid) {
+        this.dispatcher.trigger(UI_SELECTION_NODE_SELECTED, cid);
+      }
     }
+  }
+
+  _get_node_under(x, y) {
+    let $elem = jquery__WEBPACK_IMPORTED_MODULE_0___default()(document.elementFromPoint(x, y));
+
+    if ($elem) {
+      return $elem.data('cid');
+    }
+
+    return undefined;
   }
 
   _create_selection_div($parent, x, y) {
@@ -24397,6 +24414,7 @@ class UISelectView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
 
     this.ui_select = new UISelect(this.$el, event.clientX, event.clientY);
     this.ui_select.start();
+    this.ui_select.dispatcher.on(UI_SELECTION_NODE_SELECTED, this.node_selected);
   }
 
   on_mouse_up(event) {
@@ -24412,6 +24430,10 @@ class UISelectView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     if (this.ui_select) {
       this.ui_select.update(event.clientX, event.clientY);
     }
+  }
+
+  node_selected(cid) {
+    console.log(`Node ${cid} selected`);
   }
 
 }

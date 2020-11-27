@@ -9957,88 +9957,88 @@ ul.pinned_tags li.active {
   .card-body.xmain .xmain-browser-row {
     flex-grow: 1; }
 
-#browse .checked {
-  background-color: #e6f5ff;
-  outline: 1px solid #A6DAFF; }
-
-#browse .fa.fa-folder, #browse .fa.fa-file {
-  font-size: 1.5rem; }
-
-#browse .table a.sort.header:hover {
-  text-decoration: none; }
-
-#browse .table th {
-  border-left: 1px solid #cecece;
-  border-right: 1px solid #cecece; }
-
-#browse .node:hover {
-  background-color: #e6f5ff;
-  outline: 1px solid #e6f5ff; }
-
-#browse ul.grid {
-  flex-wrap: wrap;
-  padding: 0; }
-  #browse ul.grid .node:hover input[type=checkbox] {
-    display: block; }
-  #browse ul.grid .node.checked input[type=checkbox] {
-    display: block; }
-  #browse ul.grid .node input[type=checkbox] {
-    display: none; }
-  #browse ul.grid .node {
-    position: relative;
-    margin: 0.5rem;
-    padding: 0.25rem 1rem;
-    width: 10rem; }
+#browse {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+  #browse .checked {
+    background-color: #e6f5ff;
+    outline: 1px solid #A6DAFF; }
+  #browse .fa.fa-folder, #browse .fa.fa-file {
+    font-size: 1.5rem; }
+  #browse .table a.sort.header:hover {
+    text-decoration: none; }
+  #browse .table th {
+    border-left: 1px solid #cecece;
+    border-right: 1px solid #cecece; }
+  #browse .node:hover {
+    background-color: #e6f5ff;
+    outline: 1px solid #e6f5ff; }
+  #browse ul.grid {
+    flex-wrap: wrap;
+    padding: 0; }
+    #browse ul.grid .node:hover input[type=checkbox] {
+      display: block; }
+    #browse ul.grid .node.checked input[type=checkbox] {
+      display: block; }
     #browse ul.grid .node input[type=checkbox] {
-      position: absolute;
-      left: 0;
-      margin: 0.25rem; }
-    #browse ul.grid .node .icons {
-      position: absolute;
-      left: 0;
-      font-size: 1.8rem; }
-      #browse ul.grid .node .icons .fa-lock {
-        color: #f00; }
-    #browse ul.grid .node ul.node-tags {
-      position: absolute;
-      right: 0;
-      margin-top: 0.75rem; }
-      #browse ul.grid .node ul.node-tags li.tag {
-        color: white;
-        background-color: green;
-        padding: 0.1rem 0.5rem;
-        margin-top: 0.25rem;
-        border-radius: 0.5rem; }
-    #browse ul.grid .node .placeholder.document {
+      display: none; }
+    #browse ul.grid .node {
       position: relative;
-      overflow: hidden;
-      width: 80%;
-      height: 150px;
-      background-repeat: no-repeat;
-      background-size: contain;
-      display: flex;
-      align-items: center;
-      justify-content: center; }
-      @media (max-width: 37.5em) {
-        #browse ul.grid .node .placeholder.document {
-          width: 100px;
-          height: 142px; } }
-      @media (max-width: 37.5em) {
-        #browse ul.grid .node .placeholder.document img {
-          width: 80px; } }
-    #browse ul.grid .node .icon-folder {
-      width: 90%;
-      height: 8rem;
-      background-image: url(../img/folder.svg);
-      background-size: 100% 100%; }
-      @media (max-width: 37.5em) {
-        #browse ul.grid .node .icon-folder {
-          width: 5rem;
-          height: 5rem; } }
-    #browse ul.grid .node .title {
-      text-align: center;
-      opacity: 1;
-      z-index: 0; }
+      margin: 0.5rem;
+      padding: 0.25rem 1rem;
+      width: 10rem; }
+      #browse ul.grid .node input[type=checkbox] {
+        position: absolute;
+        left: 0;
+        margin: 0.25rem; }
+      #browse ul.grid .node .icons {
+        position: absolute;
+        left: 0;
+        font-size: 1.8rem; }
+        #browse ul.grid .node .icons .fa-lock {
+          color: #f00; }
+      #browse ul.grid .node ul.node-tags {
+        position: absolute;
+        right: 0;
+        margin-top: 0.75rem; }
+        #browse ul.grid .node ul.node-tags li.tag {
+          color: white;
+          background-color: green;
+          padding: 0.1rem 0.5rem;
+          margin-top: 0.25rem;
+          border-radius: 0.5rem; }
+      #browse ul.grid .node .placeholder.document {
+        position: relative;
+        overflow: hidden;
+        width: 80%;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        @media (max-width: 37.5em) {
+          #browse ul.grid .node .placeholder.document {
+            width: 100px;
+            height: 142px; } }
+        @media (max-width: 37.5em) {
+          #browse ul.grid .node .placeholder.document img {
+            width: 80px; } }
+      #browse ul.grid .node .icon-folder {
+        width: 90%;
+        height: 8rem;
+        background-image: url(../img/folder.svg);
+        background-size: 100% 100%; }
+        @media (max-width: 37.5em) {
+          #browse ul.grid .node .icon-folder {
+            width: 5rem;
+            height: 5rem; } }
+      #browse ul.grid .node .title {
+        text-align: center;
+        opacity: 1;
+        z-index: 0; }
 
 .content-wrapper.dragover {
   border: 3px dotted green; }
