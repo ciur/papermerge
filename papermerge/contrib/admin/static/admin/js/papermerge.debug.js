@@ -24712,52 +24712,48 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECT_FOLDERS"], this.select_folders, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECT_DOCUMENTS"], this.select_documents, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["DESELECT"], this.deselect, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["INVERT_SELECTION"], this.invert_selection, this); // enable desktop like selection
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["INVERT_SELECTION"], this.invert_selection, this);
+  }
 
-    this.$el.selectable({
-      filter: "li.node",
-      selected: function (event, ui) {
-        // event triggered only once at the end of
-        // selection process
-        let cid, $target, new_state;
-        $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.selected);
-        cid = $target.data('cid');
+  events() {
+    let events_map = {
+      "click input[type=checkbox]": "on_checkbox_clicked",
+      "click .node": "on_node_clicked"
+    };
+    return events_map;
+  }
 
-        if (cid) {
-          that.click += 1; // if in DBLCLICK_TIMEOUT milliseconds
-          // this.click == 1  -> single click
-          // this.click > 1   -> double click
+  on_checkbox_clicked(event) {
+    let $target, cid, new_state;
+    event.stopPropagation(); // checkbox was clicked, thus, node (what we target)
+    // is parent of what was clicked
 
-          setTimeout(function () {
-            new_state = that.select_node_by_cid(cid);
+    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    cid = $target.data('cid');
+    new_state = this.select_node_by_cid(cid);
 
-            if (new_state) {
-              console.log(`Checked ${cid} added`);
-              $target.addClass('checked');
-            } else {
-              console.log(`Checked ${cid} removed`);
-              $target.removeClass('checked');
-            }
+    if (new_state) {
+      $target.addClass('checked');
+    } else {
+      $target.removeClass('checked');
+    }
+  }
 
-            if (that.click < 2) {
-              // this is single click
-              _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
-            } else if (that.click == 2) {
-              // if (this.click < 2)
-              that.open_node(cid);
-            } // reset click counter
+  on_node_clicked(event) {
+    let $target, cid, new_state; // node was clicked, thus, node is actually
+    // what we target
 
+    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+    cid = $target.data('cid');
+    new_state = this.select_node_by_cid(cid);
 
-            that.click = 0;
-          }, DBLCLICK_TIMEOUT);
-        }
-      },
-      // selected
-      stop: function (event, ui) {
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
-        return true;
-      }
-    });
+    if (new_state) {
+      $target.addClass('checked');
+    } else {
+      $target.removeClass('checked');
+    }
+
+    this.open_node(cid);
   }
 
   select_all() {
