@@ -26,9 +26,9 @@ jobs:
         pip install pycodestyle pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         sudo apt install poppler-utils pdftk
-    - name: Lint with pycodestyle
-      run: |
-        pycodestyle papermerge --exclude=migrations/* --count --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
         ./run_tests.sh
+    - name: Lint with pycodestyle
+      run: |
+        pycodestyle papermerge --exclude=migrations --count --max-line-length=127 --statistics
