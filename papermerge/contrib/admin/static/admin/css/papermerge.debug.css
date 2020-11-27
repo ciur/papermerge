@@ -9960,9 +9960,6 @@ ul.pinned_tags li.active {
   border-left: 1px solid #cecece;
   border-right: 1px solid #cecece; }
 
-#browse input[type=checkbox] {
-  display: none; }
-
 #browse .node:hover {
   background-color: #e6f5ff;
   outline: 1px solid #e6f5ff; }
@@ -9970,11 +9967,21 @@ ul.pinned_tags li.active {
 #browse ul.grid {
   flex-wrap: wrap;
   padding: 0; }
+  #browse ul.grid .node:hover input[type=checkbox] {
+    display: block; }
+  #browse ul.grid .node.checked input[type=checkbox] {
+    display: block; }
+  #browse ul.grid .node input[type=checkbox] {
+    display: none; }
   #browse ul.grid .node {
     position: relative;
-    margin: 0.25rem;
+    margin: 0.5rem;
     padding: 0.25rem 1rem;
     width: 10rem; }
+    #browse ul.grid .node input[type=checkbox] {
+      position: absolute;
+      left: 0;
+      margin: 0.25rem; }
     #browse ul.grid .node .icons {
       position: absolute;
       left: 0;
@@ -9994,11 +10001,10 @@ ul.pinned_tags li.active {
     #browse ul.grid .node .placeholder.document {
       position: relative;
       overflow: hidden;
-      width: 142px;
-      height: 200px;
+      width: 80%;
+      height: 150px;
       background-repeat: no-repeat;
       background-size: contain;
-      background-color: #eee;
       display: flex;
       align-items: center;
       justify-content: center; }
@@ -10010,7 +10016,7 @@ ul.pinned_tags li.active {
         #browse ul.grid .node .placeholder.document img {
           width: 80px; } }
     #browse ul.grid .node .icon-folder {
-      width: 8rem;
+      width: 90%;
       height: 8rem;
       background-image: url(../img/folder.svg);
       background-size: 100% 100%; }
