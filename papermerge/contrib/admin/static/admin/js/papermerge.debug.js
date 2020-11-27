@@ -24283,12 +24283,138 @@ let TEMPLATE_LIST = __webpack_require__(/*! ../templates/browse_list.html */ "./
 
 let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
-let SORT_UNDEFINED = 0; // In order to differentiate single clicks
-// from double clicks a timeout of ``DBLCLICK_TIMEOUT`` milliseconds is used.
-// If second click event follows in less than ``DBLCLICK_TIMEOUT`` it will
-// be handled as double click.
+let SORT_UNDEFINED = 0;
 
-let DBLCLICK_TIMEOUT = 300; // ms = milliseconds
+class UISelect {
+  /**
+  Desktop like select.
+  **/
+  css_id() {
+    return 'desktop-like-selection';
+  }
+
+  constructor(parent_selector, x, y) {
+    /***
+      x, y coordinates where selection started.
+      parent - dom parent element. Selection DOM element
+      will be attached to parent and it's coordinates
+      will be relative to the parent DOM.
+    **/
+    // x,y where selection started
+    this.start_x = x;
+    this.start_y = y;
+    this.current_x = y;
+    this.current_y = y;
+    this.height = 0;
+    this.width = 0;
+    this.$parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent_selector);
+    this.$select = undefined;
+  }
+
+  start() {
+    this.$select = this._create_selection_div(this.$parent, this.start_x, this.start_y);
+  }
+
+  stop() {
+    this.$select.remove();
+    this.$select = undefined;
+  }
+
+  update(x, y) {
+    let height, width, top, left;
+    this.current_x = x;
+    this.current_y = y;
+    width = Math.abs(this.current_x - this.start_x);
+    height = Math.abs(this.current_y - this.start_y);
+
+    if (this.$select) {
+      if (this.current_y < this.start_y) {
+        this.$select.css('top', `${this.current_y}px`);
+      } else {
+        this.$select.css('top', `${this.start_y}px`);
+      }
+
+      if (this.current_x < this.start_x) {
+        this.$select.css('left', `${this.current_x}px`);
+      } else {
+        this.$select.css('left', `${this.start_x}px`);
+      }
+
+      this.$select.css('width', `${width}px`);
+      this.$select.css('height', `${height}px`);
+    }
+  }
+
+  _create_selection_div($parent, x, y) {
+    let $select = jquery__WEBPACK_IMPORTED_MODULE_0___default()("<div></div>");
+    $select.attr('id', this.css_id());
+    $select.css('position', 'absolute');
+    $select.css('top', `${y}px`);
+    $select.css('left', `${x}px`);
+    $select.css('width', '0px');
+    $select.css('height', '0px');
+    $parent.append($select);
+    return $select;
+  }
+
+}
+
+class UISelectView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
+  /***
+  Backbone view specifically for UISelect.
+  Attached to parent element of #browse
+  **/
+  el() {
+    /* 
+        we need here .card-body.xmain element ONLY
+        in case #browse is there as well.
+     */
+    let $browse = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#browse');
+
+    if ($browse.length > 0) {
+      return $browse.parent().parent();
+    }
+  }
+
+  initialize() {
+    this.ui_select = undefined;
+  }
+
+  events() {
+    let events_map = {
+      "mousedown": "on_mouse_down",
+      "mouseup": "on_mouse_up",
+      "mousemove": "on_mouse_move"
+    };
+    return events_map;
+  }
+
+  on_mouse_down(event) {
+    if (this.ui_select) {
+      this.ui_select.stop();
+      this.ui_select = undefined;
+    }
+
+    this.ui_select = new UISelect(this.$el, event.clientX, event.clientY);
+    this.ui_select.start();
+  }
+
+  on_mouse_up(event) {
+    if (this.ui_select) {
+      this.ui_select.stop();
+      this.ui_select = undefined;
+    }
+
+    ;
+  }
+
+  on_mouse_move(event) {
+    if (this.ui_select) {
+      this.ui_select.update(event.clientX, event.clientY);
+    }
+  }
+
+}
 
 class Column {
   constructor(name, key, sort) {
@@ -24700,10 +24826,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
 
     this.browse_list_view = new BrowseListView();
     this.browse_grid_view = new BrowseGridView();
-    this.dropzone = new _dropzone__WEBPACK_IMPORTED_MODULE_4__["DropzoneView"](this.browse); // used to differentiate single clicks vs double clicks
-    // in open_node and select_node
-
-    this.click = 0;
+    this.dropzone = new _dropzone__WEBPACK_IMPORTED_MODULE_4__["DropzoneView"](this.browse);
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
     this.listenTo(this.browse_list_view, 'change', this.render);
@@ -24713,14 +24836,35 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECT_DOCUMENTS"], this.select_documents, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["DESELECT"], this.deselect, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["INVERT_SELECTION"], this.invert_selection, this);
+    this.ui_select_view = new UISelectView();
+
+    this._let_browse_fill_in_parent();
   }
 
   events() {
     let events_map = {
       "click input[type=checkbox]": "on_checkbox_clicked",
-      "click .node": "on_node_clicked"
+      "click .node": "on_node_clicked",
+      "mousedown": "on_mouse_down",
+      "mouseup": "on_mouse_up",
+      "mousemove": "on_mouse_move"
     };
     return events_map;
+  }
+
+  _let_browse_fill_in_parent() {
+    /**
+    Hacky hack.
+    
+    'Forces' #browse div element to fill its parent.
+    It is needed for better UX for drag' select feature
+    (select like in desktop environment)
+    **/
+    let parent = this.$el.parent(),
+        height_px;
+    height_px = parent.height(); // set's height of #browse element (in pixels)
+
+    this.$el.height(`${height_px}px`);
   }
 
   on_checkbox_clicked(event) {
