@@ -71,8 +71,6 @@ For donations, you can use three channels paypal, patreon and github itself:
 * [Sponsor via Github](https://github.com/sponsors/ciur)
 * [Become a Patreon](https://www.patreon.com/papermerge)
 
-[Read full fundraising message](https://github.com/ciur/papermerge/issues/231)
-
 :green_heart: :green_heart:  :green_heart: 
 
 ## Live Demo
