@@ -54,8 +54,9 @@ class TestSimplePipelineBytes(TestCase):
             init_kwargs = self.make_init_kwargs(
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
-            assert go_through_pipelines(
-                init_kwargs, apply_kwargs) is not None
+            doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            assert doc is not None
+            assert doc.name == 'test_change_name'
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_txt(self):
@@ -66,8 +67,8 @@ class TestSimplePipelineBytes(TestCase):
             init_kwargs = self.make_init_kwargs(
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
-            assert go_through_pipelines(
-                init_kwargs, apply_kwargs) is None
+            doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            assert doc is None
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_jpg(self):
@@ -82,8 +83,9 @@ class TestSimplePipelineBytes(TestCase):
             init_kwargs = self.make_init_kwargs(
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
-            assert go_through_pipelines(
-                init_kwargs, apply_kwargs) is not None
+            doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            assert doc is not None
+            assert doc.name == 'test_change_name'
 
 
 class TestDefaultPipelineBytes(TestCase):
@@ -146,8 +148,7 @@ class PipelineOne(DefaultPipeline):
         return None
 
     def get_apply_kwargs(self):
-        name = ''.join(random.choices(
-            string.ascii_uppercase + string.digits, k=10))
+        name = 'test_change_name'
         return {'name': name}
 
     def apply(self, **kwargs):
