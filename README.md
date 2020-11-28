@@ -67,8 +67,8 @@ a small donation. Even an amount as small as $9 will make a huge difference.
 
 For donations, you can use two channels paypal and github itself:
 
-[Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
-[Sponsor via Github](https://github.com/sponsors/ciur)
+* [Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
+* [Sponsor via Github](https://github.com/sponsors/ciur)
 
 [Read full fundraising message](https://github.com/ciur/papermerge/issues/231)
 
