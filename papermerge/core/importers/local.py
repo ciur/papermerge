@@ -47,5 +47,5 @@ def import_documents(directory):
             init_kwargs = {'payload': file_bytes, 'processor': LOCAL}
             apply_kwargs = {'user': None, 'name': basename}
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            if doc:
+            if doc is not None:
                 os.remove(file_path)

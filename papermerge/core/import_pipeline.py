@@ -60,7 +60,9 @@ class DefaultPipeline:
         self.processor = processor
         self.doc = doc
 
-        if isinstance(payload, bytes):
+        if payload is None:
+            raise TypeError
+        elif isinstance(payload, bytes):
             payload = self.write_temp(payload)
 
         self.payload = payload
@@ -244,7 +246,7 @@ class DefaultPipeline:
         Returns:
             Document: the created or updated document
         """
-        if self.processor != WEB:
+        if parent is None:
             user, lang, inbox = self.get_user_properties(user)
             parent = inbox.id
         if name is None:
