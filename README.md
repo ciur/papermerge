@@ -60,7 +60,7 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 
 ## Donations, Fundraising, Your Support
 
-:heart:
+:heart: :heart: :heart:
 
 In case you find Papermerge useful, I modestly ask you to support Papermerge via
 a small donation. Even an amount as small as $9 will make a huge difference.
@@ -72,7 +72,7 @@ For donations, you can use two channels paypal and github itself:
 
 [Read full fundraising message](https://github.com/ciur/papermerge/issues/231)
 
-:heart:
+:green_heart: :green_heart:  :green_heart: 
 
 ## Live Demo
 
