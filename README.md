@@ -58,6 +58,19 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 * Page Management - delete, reorder, cut & paste pages ([screencast demo](https://www.youtube.com/watch?v=CRhUpPqCI64))
 * Basic automation ([screencast demo](https://www.youtube.com/watch?v=5adbHHmNcEw))
 
+## Donations, Fundraising, Your Support
+
+In case you find Papermerge useful, I humbly ask you to support Papermerge via
+a small donation. Even an amount as small as $9 will make a huge difference.
+
+For donations, you can use two channels paypal and github itself:
+
+[Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
+[Sponsor via Github](https://github.com/sponsors/ciur)
+
+[Read full fundraising message](https://github.com/ciur/papermerge/issues/231)
+
+
 ## Live Demo
 
 In live demo some of the features are disabled. For example you cannot manage
