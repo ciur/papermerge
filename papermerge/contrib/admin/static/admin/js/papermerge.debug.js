@@ -20571,7 +20571,7 @@ class UploaderItem extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     }
 
     this.set({
-      'title': file.name,
+      'title': Object(_utils__WEBPACK_IMPORTED_MODULE_3__["filter_unsafe_characters"])(file.name),
       'size': file.size,
       'file': file,
       'lang': lang,
@@ -22236,7 +22236,7 @@ class DgTextOverlay {
 /*!*************************!*\
   !*** ./src/js/utils.js ***!
   \*************************/
-/*! exports provided: capitalize, human_size, find_by_id, get_parent_id, value, insert, proxy_click */
+/*! exports provided: capitalize, human_size, find_by_id, get_parent_id, value, insert, proxy_click, filter_unsafe_characters */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22248,6 +22248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "value", function() { return value; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return insert; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proxy_click", function() { return proxy_click; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filter_unsafe_characters", function() { return filter_unsafe_characters; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -22414,6 +22415,9 @@ function proxy_click(from_elem_id, to_elem_id) {
       $to_elem.click();
     }
   });
+}
+function filter_unsafe_characters(value) {
+  return value.replace(/[\\\/<>:;'"]/g, '');
 }
 
 /***/ }),
@@ -25379,8 +25383,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var _models_tags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/tags */ "./src/js/models/tags.js");
 /* harmony import */ var _models_automate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/automate */ "./src/js/models/automate.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -25395,7 +25401,7 @@ let AV_TEMPLATE = __webpack_require__(/*! ../templates/av_tags.html */ "./src/js
 let AT_TEMPLATE = __webpack_require__(/*! ../templates/automate_tags.html */ "./src/js/templates/automate_tags.html");
 
 let ENTER_KEY = 13;
-class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
+class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('.tags-container');
   }
@@ -25471,6 +25477,7 @@ class TagsView extends backbone__WEBPACK_IMPORTED_MODULE_4__["View"] {
         // after comma removal.
 
         if (!underscore__WEBPACK_IMPORTED_MODULE_1__["default"].isEmpty(value)) {
+          value = Object(_utils__WEBPACK_IMPORTED_MODULE_4__["filter_unsafe_characters"])(value);
           model = this.get_tag(value);
           this.tags.add(model);
           this.render();
