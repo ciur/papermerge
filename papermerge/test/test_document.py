@@ -376,17 +376,3 @@ class TestDocument(TestCase):
 
         with self.assertRaises(ValidationError):
             folder_b.full_clean()
-
-    def test_document_validation_against_xss_filenames(self):
-
-        with self.assertRaises(ValidationError):
-            # Document's manager automatically calls full_clean
-            Document.objects.create_document(
-                title="document_c",
-                file_name="><svg onload=alert(1)>.png",
-                size='1212',
-                lang='DEU',
-                user=self.user,
-                parent_id=None,
-                page_count=5,
-            )
