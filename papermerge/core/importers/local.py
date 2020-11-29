@@ -10,7 +10,7 @@ from papermerge.core.import_pipeline import LOCAL, go_through_pipelines
 logger = logging.getLogger(__name__)
 
 
-def import_documents(directory):
+def import_documents(directory, skip_ocr=False):
     files = []
 
     if not directory:
@@ -45,7 +45,10 @@ def import_documents(directory):
             # File has not been modified and can be consumed
             basename = os.path.basename(file_path)
             init_kwargs = {'payload': file_bytes, 'processor': LOCAL}
-            apply_kwargs = {'user': None, 'name': basename}
+            apply_kwargs = {'user': None,
+                            'name': basename,
+                            'skip_ocr': skip_ocr
+                            }
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
             if doc is not None:
                 os.remove(file_path)

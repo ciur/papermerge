@@ -23,7 +23,7 @@ class TestLocalImporter(TestCase):
         )
         with tempfile.TemporaryDirectory() as tempdirname:
             shutil.copy(file_path, tempdirname)
-            import_documents(tempdirname)
+            import_documents(tempdirname, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             1
@@ -37,7 +37,7 @@ class TestLocalImporter(TestCase):
         )
         with tempfile.TemporaryDirectory() as tempdirname:
             shutil.copy(file_path, tempdirname)
-            import_documents(tempdirname)
+            import_documents(tempdirname, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             1
@@ -51,7 +51,7 @@ class TestLocalImporter(TestCase):
         )
         with tempfile.TemporaryDirectory() as tempdirname:
             shutil.copy(file_path, tempdirname)
-            import_documents(tempdirname)
+            import_documents(tempdirname, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             0
@@ -77,7 +77,7 @@ class TestLocalImporter(TestCase):
             shutil.copy(file_path_pdf, tempdirname)
             shutil.copy(file_path_jpg, tempdirname)
             shutil.copy(file_path_tar, tempdirname)
-            import_documents(tempdirname)
+            import_documents(tempdirname, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             2

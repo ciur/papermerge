@@ -2,7 +2,8 @@ import os
 from pathlib import Path
 
 from django.test import TestCase
-from papermerge.core.document_importer import DocumentImporter
+
+from papermerge.core.import_pipeline import go_through_pipelines
 from papermerge.core.models import Document, Folder, Automate
 from papermerge.test.utils import create_root_user
 
@@ -110,37 +111,18 @@ class TestDocument(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        imp = DocumentImporter(src_file_path)
-        if not imp.import_file(
-            file_title="berlin.pdf",
-            delete_after_import=False,
-            skip_ocr=True
-        ):
-            self.assertTrue(False, "Error while importing file")
+        with open(src_file_path, 'rb') as fp:
+            src_file = fp.read()
+
+        init_kwargs = {'payload': src_file, 'processor': 'TEST'}
+        apply_kwargs = {'skip_ocr': True, 'name': "berlin.pdf"}
+        self.assertIsNotNone(go_through_pipelines(
+            init_kwargs=init_kwargs, apply_kwargs=apply_kwargs))
 
         self.assertEqual(
             Document.objects.filter(title="berlin.pdf").count(),
             1,
             "Document berlin.pdf was not created."
-        )
-
-    def test_import_file_with_title_arg(self):
-        src_file_path = os.path.join(
-            BASE_DIR, "data", "berlin.pdf"
-        )
-
-        imp = DocumentImporter(src_file_path)
-        if not imp.import_file(
-            file_title="X1.pdf",
-            delete_after_import=False,
-            skip_ocr=True
-        ):
-            self.assertTrue(False, "Error while importing file")
-
-        self.assertEqual(
-            Document.objects.filter(title="X1.pdf").count(),
-            1,
-            "Document X1.pdf was not created."
         )
 
     def test_update_text_field(self):
@@ -164,13 +146,13 @@ class TestDocument(TestCase):
             BASE_DIR, "data", "berlin.pdf"
         )
 
-        imp = DocumentImporter(src_file_path)
-        if not imp.import_file(
-            file_title="berlin.pdf",
-            delete_after_import=False,
-            skip_ocr=True
-        ):
-            self.assertTrue(False, "Error while importing file")
+        with open(src_file_path, 'rb') as fp:
+            src_file = fp.read()
+
+        init_kwargs = {'payload': src_file, 'processor': 'TEST'}
+        apply_kwargs = {'skip_ocr': True, 'name': "berlin.pdf"}
+        self.assertIsNotNone(go_through_pipelines(
+            init_kwargs=init_kwargs, apply_kwargs=apply_kwargs))
 
         doc = Document.objects.get(title="berlin.pdf")
         self.assertEqual(

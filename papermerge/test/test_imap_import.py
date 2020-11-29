@@ -146,7 +146,7 @@ class TestIMAPImporterIngestion(TestCase):
             body, policy=email.policy.default)
         user = extract_info_from_email(email_message)
         self.assertIsNone(user)
-        read_email_message(email_message, user)
+        read_email_message(email_message, user, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             1
@@ -167,7 +167,7 @@ class TestIMAPImporterIngestion(TestCase):
             body, policy=email.policy.default)
         user = extract_info_from_email(email_message)
         self.assertIsNone(user)
-        read_email_message(email_message, user)
+        read_email_message(email_message, user, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             1
@@ -188,7 +188,7 @@ class TestIMAPImporterIngestion(TestCase):
             body, policy=email.policy.default)
         user = extract_info_from_email(email_message)
         self.assertIsNone(user)
-        read_email_message(email_message, user)
+        read_email_message(email_message, user, skip_ocr=True)
         self.assertEqual(
             Document.objects.count(),
             0

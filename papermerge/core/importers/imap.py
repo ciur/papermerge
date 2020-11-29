@@ -35,7 +35,7 @@ def login(imap_server, username, password):
     return server
 
 
-def read_email_message(message, user=None):
+def read_email_message(message, user=None, skip_ocr=False):
     """
     message is an instance of python's module email.message
     """
@@ -45,7 +45,10 @@ def read_email_message(message, user=None):
         except KeyError:
             continue
         init_kwargs = {'payload': payload, 'processor': IMAP}
-        apply_kwargs = {'user': user, 'name': part.get_filename()}
+        apply_kwargs = {'user': user,
+                        'name': part.get_filename(),
+                        'skip_ocr': skip_ocr
+                        }
         go_through_pipelines(init_kwargs, apply_kwargs)
 
 

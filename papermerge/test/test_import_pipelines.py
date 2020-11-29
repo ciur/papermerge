@@ -164,20 +164,19 @@ class TestOCR(TestCase):
         )
         with open(file_path, 'rb') as f:
             payload = f.read()
-        for processor in PROCESSORS:
-            init_kwargs = self.make_init_kwargs(
-                payload=payload, processor=processor)
-            apply_kwargs = self.make_apply_kwargs(apply_async=True)
-            doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            self.assertIsNotNone(doc)
-            page_path = doc.get_page_path(
-                page_num=1,
-                step=Step(0),
-            )
-            img_abs_path = default_storage.abspath(
-                page_path.img_url()
-            )
-            self.assertTrue(os.path.exists(img_abs_path))
+        init_kwargs = self.make_init_kwargs(
+            payload=payload, processor='TEST')
+        apply_kwargs = self.make_apply_kwargs(apply_async=True)
+        doc = go_through_pipelines(init_kwargs, apply_kwargs)
+        self.assertIsNotNone(doc)
+        page_path = doc.get_page_path(
+            page_num=1,
+            step=Step(0),
+        )
+        img_abs_path = default_storage.abspath(
+            page_path.img_url()
+        )
+        self.assertTrue(os.path.exists(img_abs_path))
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_jpg_ocr_async(self):
@@ -188,21 +187,20 @@ class TestOCR(TestCase):
         )
         with open(file_path, 'rb') as f:
             payload = f.read()
-        for processor in PROCESSORS:
-            init_kwargs = self.make_init_kwargs(
-                payload=payload, processor=processor)
-            apply_kwargs = self.make_apply_kwargs(apply_async=True)
-            doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            self.assertIsNotNone(doc)
-            page_path = doc.get_page_path(
-                page_num=1,
-                step=Step(0),
-            )
-            img_abs_path = default_storage.abspath(
-                page_path.img_url()
-            )
-            self.assertTrue(os.path.exists(img_abs_path))
-            self.assertEqual(doc.name, 'test_change_name')
+        init_kwargs = self.make_init_kwargs(
+            payload=payload, processor='TEST')
+        apply_kwargs = self.make_apply_kwargs(apply_async=True)
+        doc = go_through_pipelines(init_kwargs, apply_kwargs)
+        self.assertIsNotNone(doc)
+        page_path = doc.get_page_path(
+            page_num=1,
+            step=Step(0),
+        )
+        img_abs_path = default_storage.abspath(
+            page_path.img_url()
+        )
+        self.assertTrue(os.path.exists(img_abs_path))
+        self.assertEqual(doc.name, 'test_change_name')
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_DEFAULT_PIPELINE)
     def test_default_pipeline_jpg_ocr_noasync(self):
@@ -213,20 +211,19 @@ class TestOCR(TestCase):
         )
         with open(file_path, 'rb') as f:
             payload = f.read()
-        for processor in PROCESSORS:
-            init_kwargs = self.make_init_kwargs(
-                payload=payload, processor=processor)
-            apply_kwargs = self.make_apply_kwargs()
-            doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            self.assertIsNotNone(doc)
-            page_path = doc.get_page_path(
-                page_num=1,
-                step=Step(0),
-            )
-            img_abs_path = default_storage.abspath(
-                page_path.img_url()
-            )
-            self.assertTrue(os.path.exists(img_abs_path))
+        init_kwargs = self.make_init_kwargs(
+            payload=payload, processor='TEST')
+        apply_kwargs = self.make_apply_kwargs()
+        doc = go_through_pipelines(init_kwargs, apply_kwargs)
+        self.assertIsNotNone(doc)
+        page_path = doc.get_page_path(
+            page_num=1,
+            step=Step(0),
+        )
+        img_abs_path = default_storage.abspath(
+            page_path.img_url()
+        )
+        self.assertTrue(os.path.exists(img_abs_path))
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_jpg_ocr_noasync(self):
@@ -237,21 +234,20 @@ class TestOCR(TestCase):
         )
         with open(file_path, 'rb') as f:
             payload = f.read()
-        for processor in PROCESSORS:
-            init_kwargs = self.make_init_kwargs(
-                payload=payload, processor=processor)
-            apply_kwargs = self.make_apply_kwargs()
-            doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            self.assertIsNotNone(doc)
-            page_path = doc.get_page_path(
-                page_num=1,
-                step=Step(0),
-            )
-            img_abs_path = default_storage.abspath(
-                page_path.img_url()
-            )
-            self.assertTrue(os.path.exists(img_abs_path))
-            self.assertEqual(doc.name, 'test_change_name')
+        init_kwargs = self.make_init_kwargs(
+            payload=payload, processor='TEST')
+        apply_kwargs = self.make_apply_kwargs()
+        doc = go_through_pipelines(init_kwargs, apply_kwargs)
+        self.assertIsNotNone(doc)
+        page_path = doc.get_page_path(
+            page_num=1,
+            step=Step(0),
+        )
+        img_abs_path = default_storage.abspath(
+            page_path.img_url()
+        )
+        self.assertTrue(os.path.exists(img_abs_path))
+        self.assertEqual(doc.name, 'test_change_name')
 
 
 class PipelineOne(DefaultPipeline):
