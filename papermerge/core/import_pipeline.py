@@ -272,7 +272,7 @@ class DefaultPipeline:
                 )
                 self.doc = doc
             except ValidationError as error:
-                logger.error("f{self.processor} importer: validation failed")
+                logger.error(f"{self.processor} importer: validation failed")
                 raise ValidationError from error
         elif self.doc is not None:
             doc = self.doc

@@ -39,17 +39,22 @@ def read_email_message(message, user=None, skip_ocr=False):
     """
     message is an instance of python's module email.message
     """
+    ingested = False
     for part in message.iter_attachments():
         try:
             payload = part.get_content()
         except KeyError:
             continue
         init_kwargs = {'payload': payload, 'processor': IMAP}
-        apply_kwargs = {'user': user,
-                        'name': part.get_filename(),
-                        'skip_ocr': skip_ocr
-                        }
-        go_through_pipelines(init_kwargs, apply_kwargs)
+        apply_kwargs = {
+            'user': user,
+            'name': part.get_filename(),
+            'skip_ocr': skip_ocr
+        }
+        doc = go_through_pipelines(init_kwargs, apply_kwargs)
+        if doc is not None and not ingested:
+            ingested = True
+    return ingested
 
 
 def contains_attachments(structure):
@@ -77,12 +82,18 @@ def extract_info_from_email(email_message):
     extracted_by_user = False
     user = None
     user_found = None
+    body_text = None
 
     sender_address = email.utils.parseaddr(
         email_message.get('From'))[1]
+    body = email_message.get_body()
+    if body is not None:
+        body_text = body.as_string()
+    email_main_text = [email_message.get('Subject'), body_text]
     try:
-        message_secret = email_message.as_string().split(
-            'SECRET{')[1].split('}')[0]
+        message_secret = '\n'.join([
+            text for text in email_main_text if text
+        ]).split('SECRET{')[1].split('}')[0]
     except IndexError:
         message_secret = None
 
@@ -106,14 +117,13 @@ def extract_info_from_email(email_message):
         user = user_found
 
     # Otherwise put it into first superuser's inbox
-
     return user
 
 
 def import_attachment():
     imap_server = settings.PAPERMERGE_IMPORT_MAIL_HOST
     username = settings.PAPERMERGE_IMPORT_MAIL_USER
-    password = settings.PAPERMERGE_IMPORT_MAIL_PASSc
+    password = settings.PAPERMERGE_IMPORT_MAIL_PASS
     delete = settings.PAPERMERGE_IMPORT_MAIL_DELETE
 
     server = login(
@@ -142,7 +152,9 @@ def import_attachment():
             email_message = email.message_from_bytes(
                 body, policy=email.policy.default)
             user = extract_info_from_email(email_message)
-            read_email_message(email_message, user)
+            ingested = read_email_message(email_message, user)
+            if not ingested:
+                messages.remove(uid)
 
         if delete:
             server.delete_messages(messages)
