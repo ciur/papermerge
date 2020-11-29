@@ -105,6 +105,7 @@ def setup_periodic_tasks(sender, **kwargs):
             "Reason:\n" + reason_msg
         )
 
+
 class Command(BaseCommand):
 
     help = """Async Celery Worker"""
@@ -113,7 +114,9 @@ class Command(BaseCommand):
         parser.add_argument(
             '--pidfile',
             type=str,
-            help='Optional file used to store the process pid.\nThe program won’t start if this file already exists and the pid is still alive.'
+            help='Optional file used to store the process pid.\n'
+            'The program won’t start if this file already '
+            'exists and the pid is still alive.'
         )
 
     def handle(self, *args, **options):
@@ -131,7 +134,7 @@ class Command(BaseCommand):
             concurrency=1
         )
 
-        # Set pidfile if it the corresponding argument has been provided 
+        # Set pidfile if it the corresponding argument has been provided
         if options['pidfile']:
             celery_worker.pidfile = options['pidfile']
 

@@ -5,7 +5,7 @@
 {% block title %} Papermerge | {% trans "Documents" %} {% endblock %}
 
 {% block actions %}
-<div class="col-12 d-flex justify-content-between p-0 mb-2">
+<div class="col-12 d-flex justify-content-between p-0 mb-2 xmain-actions-row">
   <div id="actions">
    <ul  class="nav nav-pills">
 
@@ -44,16 +44,14 @@
     {% include 'admin/_forms.js.html' %}
 {% endblock modals %}
 
+{% block document_browser %}
+  document-browser
+{% endblock document_browser %}
 
 {% block content %}
-  <div class="container-fluid pl-0">
-    <div class="row pl-0">
-      <div class="col-lg-12">
-          <div id="browse">
-
-          </div>
-      </div>
-    </div>
+  <div class="container-fluid pl-0 xmain-browser-row">
+      <div id="browse">
+      </div> <!-- .browse -->
     <!-- /.row -->
   </div><!-- /.container-fluid -->
   <div id="pre-loader">
