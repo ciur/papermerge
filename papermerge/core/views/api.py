@@ -4,14 +4,15 @@ from django.utils.translation import gettext as _
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.parsers import (JSONParser, FileUploadParser)
+from rest_framework.parsers import (
+    JSONParser, FileUploadParser, MultiPartParser)
 from rest_framework.permissions import IsAuthenticated
 
 from papermerge.core.models import (
     Document, Access
 )
 from papermerge.core.serializers import DocumentSerializer
-from papermerge.core.document_importer import DocumentImporter
+from papermerge.core.import_pipeline import go_through_pipelines, WEB
 
 
 class PagesView(APIView):
@@ -177,18 +178,19 @@ class DocumentUploadView(APIView):
     REST API for uploading a file.
     """
     permission_classes = [IsAuthenticated]
-    parser_classes = [FileUploadParser]
+    parser_classes = [MultiPartParser]
 
     def put(self, request, filename):
         file_obj = request.data['file']
-        imp = DocumentImporter(
-            file=file_obj.temporary_file_path(),
-            username=request.user.username,
-        )
-        doc = imp.import_file(
-            file_title=filename,
-            apply_async=True,
-            delete_after_import=False
+        init_kwargs = {'payload': file_obj, 'processor': WEB}
+        apply_kwargs = {
+            'user': request.user.username,
+            'name': filename,
+            'apply_async': True
+        }
+        doc = go_through_pipelines(
+            init_kwargs=init_kwargs,
+            apply_kwargs=apply_kwargs
         )
         if isinstance(doc, Document):
             serializer = DocumentSerializer(doc)

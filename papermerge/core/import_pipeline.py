@@ -126,6 +126,10 @@ class DefaultPipeline:
             user = User.objects.filter(
                 is_superuser=True
             ).first()
+        if isinstance(user, str):
+            user = User.objects.filter(
+                username=user
+            ).first()
         lang = user.preferences['ocr__OCR_Language']
 
         inbox, _ = Folder.objects.get_or_create(
