@@ -17,6 +17,7 @@ from mglib.pdfinfo import get_pagecount
 from mglib.utils import get_assigns_after_delete
 
 from papermerge.contrib.admin.registries import sidebar
+from papermerge.core import validators
 from papermerge.core.storage import default_storage
 from .kvstore import (
     KVCompNode,
@@ -79,6 +80,10 @@ class DocumentManager(PolymorphicMPTTModelManager):
             file_name=file_name,
             page_count=page_count
         )
+        # validate before saving
+        # will raise ValidationError in case of
+        # problems
+        doc.full_clean()
         doc.save()
         # Important! - first document must inherit metakeys from
         # parent folder
@@ -255,13 +260,15 @@ class Document(BaseTreeNode):
     #: other path details are deducted from user_id and document_id
     file_name = models.CharField(
         max_length=1024,
-        default=''
+        default='',
+        validators=[validators.safe_character_validator]
     )
 
     notes = models.TextField(
         _('Notes'),
         blank=True,
-        null=True
+        null=True,
+        validators=[validators.safe_character_validator]
     )
 
     size = models.BigIntegerField(

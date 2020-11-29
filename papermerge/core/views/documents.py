@@ -261,6 +261,12 @@ def rename_node(request, id):
         return _('Missing title')
 
     node.title = title
+    # never trust data coming from user
+    try:
+        node.full_clean()
+    except ValidationError as e:
+        return e.message_dict, HttpResponseBadRequest.status_code
+
     node.save()
 
     return 'OK'
