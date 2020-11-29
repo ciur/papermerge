@@ -3,7 +3,10 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
 
-from papermerge.core.models import Tag
+from papermerge.core.models import (
+    Tag,
+    Folder
+)
 
 
 from .utils import (
@@ -52,3 +55,60 @@ class TestNodesView(TestCase):
             ]),
             set(["tag2", "tag1"])
         )
+
+    def test_validate_tags_against_xss(self):
+
+        p = Folder.objects.create(
+            title="P",
+            user=self.testcase_user
+        )
+
+        ret = self.client.post(
+            reverse('core:tags', args=(p.id, )),
+            {
+                'tags': [
+                    {"name": "xss<script>alert('hi!')</script>"}
+                ]
+            },
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+
+        self.assertEquals(
+            ret.status_code,
+            400
+        )
+
+    def test_associate_tags_to_folder(self):
+
+        p = Folder.objects.create(
+            title="P",
+            user=self.testcase_user
+        )
+
+        ret = self.client.post(
+            reverse('core:tags', args=(p.id, )),
+            {
+                'tags': [
+                    {"name": "red"},
+                    {"name": "green"}
+                ]
+            },
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+
+        self.assertEquals(
+            ret.status_code,
+            200
+        )
+
+        found_folders = Folder.objects.filter(
+            tags__name__in=["red", "green"]
+        ).distinct()
+
+        self.assertEqual(
+            found_folders.count(),
+            1
+        )
+
