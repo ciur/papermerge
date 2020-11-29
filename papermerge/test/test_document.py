@@ -4,6 +4,7 @@ from pathlib import Path
 from django.test import TestCase
 
 from papermerge.core.import_pipeline import go_through_pipelines
+from django.core.exceptions import ValidationError
 from papermerge.core.models import Document, Folder, Automate
 from papermerge.test.utils import create_root_user
 
