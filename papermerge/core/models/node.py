@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from taggit.managers import TaggableManager
 
+from papermerge.core import validators
 from papermerge.core.models.access import Access
 from papermerge.core.models.diff import Diff
 from papermerge.core.models.tags import ColoredTag
@@ -31,7 +32,8 @@ class BaseTreeNode(PolymorphicMPTTModel):
     )
     title = models.CharField(
         _("Title"),
-        max_length=200
+        max_length=200,
+        validators=[validators.safe_character_validator]
     )
 
     lang = models.CharField(
