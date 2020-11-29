@@ -15,6 +15,7 @@ from django.http import (
     HttpResponseForbidden,
     Http404
 )
+from django.core.exceptions import ValidationError
 from django.contrib.staticfiles import finders
 from django.contrib.auth.decorators import login_required
 
@@ -258,6 +259,12 @@ def rename_node(request, id):
         return _('Missing title')
 
     node.title = title
+    # never trust data coming from user
+    try:
+        node.full_clean()
+    except ValidationError as e:
+        return e.message_dict, HttpResponseBadRequest.status_code
+
     node.save()
 
     return 'OK'
@@ -315,12 +322,22 @@ def create_folder(request):
                 }),
                 content_type="application/json"
             )
-
-    folder = Folder.objects.create(
+    folder = Folder(
         title=title,
         parent=parent_folder,
         user=request.user
     )
+    try:
+        folder.full_clean()
+    except ValidationError as e:
+        return HttpResponseBadRequest(
+            json.dumps({
+                'msg': e.message_dict
+            }),
+            content_type="application/json"
+        )
+    # save folder only after OK validation
+    folder.save()
     signals.folder_created.send(
         sender='core.views.documents.create_folder',
         user_id=request.user.id,

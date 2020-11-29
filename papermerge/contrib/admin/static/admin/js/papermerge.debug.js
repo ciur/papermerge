@@ -24283,12 +24283,154 @@ let TEMPLATE_LIST = __webpack_require__(/*! ../templates/browse_list.html */ "./
 
 let SORT_ASC = 'asc';
 let SORT_DESC = 'desc';
-let SORT_UNDEFINED = 0; // In order to differentiate single clicks
-// from double clicks a timeout of ``DBLCLICK_TIMEOUT`` milliseconds is used.
-// If second click event follows in less than ``DBLCLICK_TIMEOUT`` it will
-// be handled as double click.
+let SORT_UNDEFINED = 0;
+let UI_SELECTION_NODE_SELECTED = 'ui-selection-node-selected';
 
-let DBLCLICK_TIMEOUT = 300; // ms = milliseconds
+class UISelect {
+  /**
+  Desktop like select.
+  **/
+  css_id() {
+    return 'desktop-like-selection';
+  }
+
+  constructor(parent_selector, x, y) {
+    /***
+      x, y coordinates where selection started.
+      parent - dom parent element. Selection DOM element
+      will be attached to parent and it's coordinates
+      will be relative to the parent DOM.
+    **/
+    // x,y where selection started
+    this.start_x = x;
+    this.start_y = y;
+    this.current_x = y;
+    this.current_y = y;
+    this.height = 0;
+    this.width = 0;
+    this.$parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(parent_selector);
+    this.$select = undefined;
+    this.dispatcher = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_5___default.a.Events);
+  }
+
+  create_div() {
+    if (!this.$select) {
+      this.$select = this._create_selection_div(this.$parent, this.start_x, this.start_y);
+    }
+  }
+
+  remove_div() {
+    this.$select.remove();
+    this.$select = undefined;
+  }
+
+  update(x, y) {
+    let height, width, top, left, cid;
+    this.current_x = x;
+    this.current_y = y;
+    width = Math.abs(this.current_x - this.start_x);
+    height = Math.abs(this.current_y - this.start_y);
+
+    if (this.$select) {
+      if (this.current_y < this.start_y) {
+        this.$select.css('top', `${this.current_y + 7}px`);
+      } else {
+        this.$select.css('top', `${this.start_y}px`);
+      }
+
+      if (this.current_x < this.start_x) {
+        this.$select.css('left', `${this.current_x + 7}px`);
+      } else {
+        this.$select.css('left', `${this.start_x}px`);
+      }
+
+      this.$select.css('width', `${width}px`);
+      this.$select.css('height', `${height}px`);
+      cid = this._get_node_under(x, y);
+
+      if (cid) {
+        this.dispatcher.trigger(UI_SELECTION_NODE_SELECTED, cid);
+      }
+    }
+  }
+
+  _get_node_under(x, y) {
+    let $elem = jquery__WEBPACK_IMPORTED_MODULE_0___default()(document.elementFromPoint(x, y));
+
+    if ($elem) {
+      return $elem.data('cid');
+    }
+
+    return undefined;
+  }
+
+  _create_selection_div($parent, x, y) {
+    let $select = jquery__WEBPACK_IMPORTED_MODULE_0___default()("<div></div>");
+    $select.attr('id', this.css_id());
+    $select.css('position', 'absolute');
+    $select.css('top', `${y}px`);
+    $select.css('left', `${x}px`);
+    $select.css('width', '0px');
+    $select.css('height', '0px');
+    $parent.append($select);
+    return $select;
+  }
+
+}
+
+class UISelectView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
+  /***
+  Backbone view specifically for UISelect.
+  Attached to parent element of #browse
+  **/
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()(".document-browser");
+  }
+
+  initialize() {
+    this.ui_select = undefined;
+  }
+
+  events() {
+    let events_map = {
+      "mousedown .xmain": "on_mouse_down",
+      "mouseup .xmain": "on_mouse_up",
+      "mousemove .xmain": "on_mouse_move"
+    };
+    return events_map;
+  }
+
+  on_mouse_down(event) {
+    if (this.ui_select) {
+      this.ui_select.remove_div();
+      this.ui_select = undefined;
+    }
+
+    this.ui_select = new UISelect(this.$el, event.clientX, event.clientY);
+    this.ui_select.create_div();
+    this.ui_select.dispatcher.on(UI_SELECTION_NODE_SELECTED, this.node_selected);
+  }
+
+  on_mouse_up(event) {
+    if (this.ui_select) {
+      this.ui_select.remove_div();
+      this.ui_select = undefined;
+    }
+
+    ;
+  }
+
+  on_mouse_move(event) {
+    if (this.ui_select) {
+      this.ui_select.update(event.clientX, event.clientY);
+    }
+  }
+
+  node_selected(cid) {
+    console.log(`Node ${cid} selected`);
+  }
+
+}
 
 class Column {
   constructor(name, key, sort) {
@@ -24700,10 +24842,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
 
     this.browse_list_view = new BrowseListView();
     this.browse_grid_view = new BrowseGridView();
-    this.dropzone = new _dropzone__WEBPACK_IMPORTED_MODULE_4__["DropzoneView"](this.browse); // used to differentiate single clicks vs double clicks
-    // in open_node and select_node
-
-    this.click = 0;
+    this.dropzone = new _dropzone__WEBPACK_IMPORTED_MODULE_4__["DropzoneView"](this.browse);
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
     this.listenTo(this.browse_list_view, 'change', this.render);
@@ -24712,52 +24851,69 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_5__["View"] {
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECT_FOLDERS"], this.select_folders, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECT_DOCUMENTS"], this.select_documents, this);
     _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["DESELECT"], this.deselect, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["INVERT_SELECTION"], this.invert_selection, this); // enable desktop like selection
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["INVERT_SELECTION"], this.invert_selection, this);
+    this.ui_select_view = new UISelectView();
 
-    this.$el.selectable({
-      filter: "li.node",
-      selected: function (event, ui) {
-        // event triggered only once at the end of
-        // selection process
-        let cid, $target, new_state;
-        $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(ui.selected);
-        cid = $target.data('cid');
+    this._let_browse_fill_in_parent();
+  }
 
-        if (cid) {
-          that.click += 1; // if in DBLCLICK_TIMEOUT milliseconds
-          // this.click == 1  -> single click
-          // this.click > 1   -> double click
+  events() {
+    let events_map = {
+      "click input[type=checkbox]": "on_checkbox_clicked",
+      "click .node": "on_node_clicked",
+      "mousedown": "on_mouse_down",
+      "mouseup": "on_mouse_up",
+      "mousemove": "on_mouse_move"
+    };
+    return events_map;
+  }
 
-          setTimeout(function () {
-            new_state = that.select_node_by_cid(cid);
+  _let_browse_fill_in_parent() {
+    /**
+    Hacky hack.
+    
+    'Forces' #browse div element to fill its parent.
+    It is needed for better UX for drag' select feature
+    (select like in desktop environment)
+    **/
+    let parent = this.$el.parent(),
+        height_px;
+    height_px = parent.height(); // set's height of #browse element (in pixels)
 
-            if (new_state) {
-              console.log(`Checked ${cid} added`);
-              $target.addClass('checked');
-            } else {
-              console.log(`Checked ${cid} removed`);
-              $target.removeClass('checked');
-            }
+    this.$el.height(`${height_px}px`);
+  }
 
-            if (that.click < 2) {
-              // this is single click
-              _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
-            } else if (that.click == 2) {
-              // if (this.click < 2)
-              that.open_node(cid);
-            } // reset click counter
+  on_checkbox_clicked(event) {
+    let $target, cid, new_state;
+    event.stopPropagation(); // checkbox was clicked, thus, node (what we target)
+    // is parent of what was clicked
 
+    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).parent();
+    cid = $target.data('cid');
+    new_state = this.select_node_by_cid(cid);
 
-            that.click = 0;
-          }, DBLCLICK_TIMEOUT);
-        }
-      },
-      // selected
-      stop: function (event, ui) {
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], that.get_selection());
-        return true;
-      }
-    });
+    if (new_state) {
+      $target.addClass('checked');
+    } else {
+      $target.removeClass('checked');
+    }
+  }
+
+  on_node_clicked(event) {
+    let $target, cid, new_state; // node was clicked, thus, node is actually
+    // what we target
+
+    $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+    cid = $target.data('cid');
+    new_state = this.select_node_by_cid(cid);
+
+    if (new_state) {
+      $target.addClass('checked');
+    } else {
+      $target.removeClass('checked');
+    }
+
+    this.open_node(cid);
   }
 
   select_all() {

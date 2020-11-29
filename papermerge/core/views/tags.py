@@ -7,7 +7,9 @@ from django.http import (
     HttpResponseForbidden
 )
 from django.utils.translation import gettext as _
+from django.core.exceptions import ValidationError
 
+from papermerge.core import validators
 from papermerge.core.models import Access, BaseTreeNode, Tag
 from .decorators import json_response
 
@@ -29,6 +31,13 @@ def tags_view(request, node_id):
     if request.user.has_perm(Access.PERM_WRITE, node):
         data = json.loads(request.body)
         tags = [item['name'] for item in data['tags']]
+        try:
+            # validate user's input
+            for tag in tags:
+                validators.safe_character_validator(tag)
+        except ValidationError as e:
+            return e.message, HttpResponseBadRequest.status_code
+
         node.tags.set(
             *tags,
             tag_kwargs={"user": request.user}
@@ -80,6 +89,13 @@ def nodes_tags_view(request):
 
     for node in nodes:
         if nodes_perms[node.id].get(Access.PERM_WRITE, False):
+            try:
+                # validate user's input
+                for tag in tags:
+                    validators.safe_character_validator(tag)
+            except ValidationError as e:
+                return e.message, HttpResponseBadRequest.status_code
+
             node.tags.set(
                 *tags,
                 tag_kwargs={"user": request.user}
