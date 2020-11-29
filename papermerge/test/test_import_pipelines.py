@@ -57,8 +57,8 @@ class TestSimplePipelineBytes(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            assert doc is not None
-            assert doc.name == 'test_change_name'
+            self.assertIsNotNone(doc)
+            self.assertEqual(doc.name, 'test_change_name')
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_txt(self):
@@ -70,7 +70,7 @@ class TestSimplePipelineBytes(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            assert doc is None
+            self.assertIsNone(doc)
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_jpg(self):
@@ -86,8 +86,8 @@ class TestSimplePipelineBytes(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
-            assert doc is not None
-            assert doc.name == 'test_change_name'
+            self.assertIsNotNone(doc)
+            self.assertEqual(doc.name, 'test_change_name')
 
 
 class TestDefaultPipelineBytes(TestCase):
@@ -113,8 +113,8 @@ class TestDefaultPipelineBytes(TestCase):
             init_kwargs = self.make_init_kwargs(
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
-            assert go_through_pipelines(
-                init_kwargs, apply_kwargs) is not None
+            doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNotNone(doc)
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_DEFAULT_PIPELINE)
     def test_default_pipeline_txt(self):
@@ -125,8 +125,8 @@ class TestDefaultPipelineBytes(TestCase):
             init_kwargs = self.make_init_kwargs(
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
-            assert go_through_pipelines(
-                init_kwargs, apply_kwargs) is None
+            doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNone(doc)
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_DEFAULT_PIPELINE)
     def test_default_pipeline_jpg(self):
@@ -141,8 +141,8 @@ class TestDefaultPipelineBytes(TestCase):
             init_kwargs = self.make_init_kwargs(
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
-            assert go_through_pipelines(
-                init_kwargs, apply_kwargs) is not None
+            doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNotNone(doc)
 
 
 class TestOCR(TestCase):
@@ -169,6 +169,7 @@ class TestOCR(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs(apply_async=True)
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNotNone(doc)
             page_path = doc.get_page_path(
                 page_num=1,
                 step=Step(0),
@@ -176,8 +177,7 @@ class TestOCR(TestCase):
             img_abs_path = default_storage.abspath(
                 page_path.img_url()
             )
-            assert os.path.exists(img_abs_path)
-            assert doc is not None
+            self.assertTrue(os.path.exists(img_abs_path))
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_jpg_ocr_async(self):
@@ -193,6 +193,7 @@ class TestOCR(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs(apply_async=True)
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNotNone(doc)
             page_path = doc.get_page_path(
                 page_num=1,
                 step=Step(0),
@@ -200,9 +201,8 @@ class TestOCR(TestCase):
             img_abs_path = default_storage.abspath(
                 page_path.img_url()
             )
-            assert os.path.exists(img_abs_path)
-            assert doc is not None
-            assert doc.name == 'test_change_name'
+            self.assertTrue(os.path.exists(img_abs_path))
+            self.assertEqual(doc.name, 'test_change_name')
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_DEFAULT_PIPELINE)
     def test_default_pipeline_jpg_ocr_noasync(self):
@@ -218,6 +218,7 @@ class TestOCR(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNotNone(doc)
             page_path = doc.get_page_path(
                 page_num=1,
                 step=Step(0),
@@ -225,8 +226,7 @@ class TestOCR(TestCase):
             img_abs_path = default_storage.abspath(
                 page_path.img_url()
             )
-            assert os.path.exists(img_abs_path)
-            assert doc is not None
+            self.assertTrue(os.path.exists(img_abs_path))
 
     @override_settings(PAPERMERGE_PIPELINES=PAPERMERGE_SIMPLE_PIPELINE)
     def test_simple_pipeline_jpg_ocr_noasync(self):
@@ -242,6 +242,7 @@ class TestOCR(TestCase):
                 payload=payload, processor=processor)
             apply_kwargs = self.make_apply_kwargs()
             doc = go_through_pipelines(init_kwargs, apply_kwargs)
+            self.assertIsNotNone(doc)
             page_path = doc.get_page_path(
                 page_num=1,
                 step=Step(0),
@@ -249,9 +250,8 @@ class TestOCR(TestCase):
             img_abs_path = default_storage.abspath(
                 page_path.img_url()
             )
-            assert os.path.exists(img_abs_path)
-            assert doc is not None
-            assert doc.name == 'test_change_name'
+            self.assertTrue(os.path.exists(img_abs_path))
+            self.assertEqual(doc.name, 'test_change_name')
 
 
 class PipelineOne(DefaultPipeline):
