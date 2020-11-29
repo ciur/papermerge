@@ -68,12 +68,49 @@ def contains_attachments(structure):
     return False
 
 
+def extract_info_from_email(email_message):
+    by_user = settings.PAPERMERGE_IMPORT_MAIL_BY_USER
+    by_secret = settings.PAPERMERGE_IMPORT_MAIL_BY_SECRET
+    extracted_by_user = False
+    user = None
+    user_found = None
+
+    sender_address = email.utils.parseaddr(
+        email_message.get('From'))[1]
+    try:
+        message_secret = email_message.as_string().split(
+            'SECRET{')[1].split('}')[0]
+    except IndexError:
+        message_secret = None
+
+    # Priority to sender address
+    if by_user:
+        user_found = User.objects.filter(
+            email=sender_address
+        ).first()
+        logger.debug(f"{IMAP} importer: found user {user_found} from email")
+    if user_found and user_found.mail_by_user:
+        user = user_found
+        extracted_by_user = True
+
+    # Then check secret
+    if not extracted_by_user and by_secret and message_secret is not None:
+        user_found = User.objects.filter(
+            mail_secret=message_secret
+        ).first()
+        logger.debug(f"{IMAP} importer: found user {user_found} from secret")
+    if user_found and user_found.mail_by_secret:
+        user = user_found
+
+    # Otherwise put it into first superuser's inbox
+
+    return user
+
+
 def import_attachment():
     imap_server = settings.PAPERMERGE_IMPORT_MAIL_HOST
     username = settings.PAPERMERGE_IMPORT_MAIL_USER
-    password = settings.PAPERMERGE_IMPORT_MAIL_PASS
-    by_user = settings.PAPERMERGE_IMPORT_MAIL_BY_USER
-    by_secret = settings.PAPERMERGE_IMPORT_MAIL_BY_SECRET
+    password = settings.PAPERMERGE_IMPORT_MAIL_PASSc
     delete = settings.PAPERMERGE_IMPORT_MAIL_DELETE
 
     server = login(
@@ -98,44 +135,11 @@ def import_attachment():
         for uid, message_data in server.fetch(
             messages, ['RFC822']
         ).items():
-            imported = False
-            user = None
             body = message_data[b'RFC822']
             email_message = email.message_from_bytes(
                 body, policy=email.policy.default)
-            sender_address = email.utils.parseaddr(
-                email_message.get('From'))[1]
-            try:
-                message_secret = body.split(b'SECRET{')[1].split(b'}')[0]
-            except IndexError:
-                message_secret = None
-
-            # Priority to sender address
-            if by_user:
-                user = User.objects.filter(
-                    email=sender_address
-                ).first()
-                logger.debug(f"{IMAP} importer: found user {user} from email")
-            if user:
-                if user.mail_by_user:
-                    read_email_message(email_message, user=user)
-                    imported = True
-
-            # Then check secret
-            if not imported and by_secret and message_secret is not None:
-                user = User.objects.filter(
-                    mail_secret=message_secret
-                ).first()
-            if user:
-                logger.debug(f"{IMAP} importer: found user {user} from secret")
-                if user.mail_by_secret:
-                    read_email_message(email_message, user=user)
-                    imported = True
-
-            # Otherwise put it into first superuser's inbox
-            if not imported:
-                read_email_message(email_message)
-                imported = True
+            user = extract_info_from_email(email_message)
+            read_email_message(email_message, user)
 
         if delete:
             server.delete_messages(messages)
