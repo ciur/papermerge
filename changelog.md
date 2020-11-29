@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.1] - Work in Progress
+## [1.5.1] - 29 November 2020
     
 ### Added
     
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixes #202 - Automates created for all users
 - Fixes #185 - inbox folder is only selectable at automate creation
 - Fixes #196 - Allow Automates to only apply tags or move to folder
+- Fixes #228 - Stored Cross-Site Scripting (XSS)
 
 ## [1.5.0] - 14 October 2020
 
