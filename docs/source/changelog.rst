@@ -1,6 +1,46 @@
 Changelog
 ==========
 
+
+[2.0.0] - Work in Progress
+###########################
+
+Added
+~~~~~~
+
+- Apps support (document parts/satellites architecture)
+- UI preferences - user can set timezone, date, time format from UI: user -> preferences 
+- UI design improvements - widgets sidebar
+- UX improvement - action button was replaced with (desktop like) context menu 
+- UX improvement - Desktop like selection
+- Import Pipeline - flexible import framework - thanks to [Francesco](https://github.com/francescocarzaniga)
+- Email inbox enhancement (IMPORT_MAIL_BY_USER) - thanks to [Francesco](https://github.com/francescocarzaniga)
+
+[1.5.2] - 30 November 2020
+##############################
+
+This is security release.
+
+Added
+~~~~~~
+
+- Extra fixes for #228 - Stored Cross-Site Scripting (XSS). Thanks to [@l4rm4nd](https://github.com/l4rm4nd) for security audit.
+
+[1.5.1] - 29 November 2020
+#############################
+    
+Added
+~~~~~~~
+    
+- Fixes #204 - Groups are not created
+- Fixes #206 - Anonymous user access to breadcrumb results in 500
+- Fixes #208 - Tags unique per user (different users can have tags with same name)
+- Fixes #202 - Automates created for all users
+- Fixes #185 - inbox folder is only selectable at automate creation
+- Fixes #196 - Allow Automates to only apply tags or move to folder
+- Fixes #228 - Stored Cross-Site Scripting (XSS)
+
+
 [1.5.0] - 14 October 2020
 ##############################
 
