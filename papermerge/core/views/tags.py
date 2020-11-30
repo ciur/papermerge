@@ -8,6 +8,7 @@ from django.http import (
 )
 from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError
+from django.utils.html import escape
 
 from papermerge.core import validators
 from papermerge.core.models import Access, BaseTreeNode, Tag
@@ -31,6 +32,7 @@ def tags_view(request, node_id):
     if request.user.has_perm(Access.PERM_WRITE, node):
         data = json.loads(request.body)
         tags = [item['name'] for item in data['tags']]
+        tags = [escape(tag) for tag in tags]
         try:
             # validate user's input
             for tag in tags:
@@ -80,7 +82,7 @@ def nodes_tags_view(request):
         return msg, HttpResponseBadRequest.status_code
 
     tags = [item['name'] for item in tags]
-
+    tags = [escape(tag) for tag in tags]
     nodes = BaseTreeNode.objects.filter(id__in=node_ids)
 
     nodes_perms = request.user.get_perms_dict(
