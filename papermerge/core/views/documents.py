@@ -247,10 +247,23 @@ def paste_node(request):
 def rename_node(request, id):
     """
     Renames a node (changes its title field).
+
+    Mandatory attributes:
+
+        * non empty title
     """
 
     data = json.loads(request.body)
-    title = data.get('title', None)
+    title = data.get('title', False)
+    title = escape(title)
+
+    if not title:
+        return HttpResponseBadRequest(
+            json.dumps({
+                'msg': _('Title attribute is required')
+            }),
+            content_type="application/json"
+        )
     node = get_object_or_404(BaseTreeNode, id=id)
 
     if not request.user.has_perm(Access.PERM_WRITE, node):
@@ -281,13 +294,25 @@ def create_folder(request):
     Creates a new folder.
 
     Mandatory parameters parent_id and title:
+
     * If either parent_id or title are missing - does nothing.
     * If parent_id < 0 => creates a folder with parent root.
     * If parent_id >= 0 => creates a folder with given parent id.
+
     """
     data = json.loads(request.body)
     parent_id = data.get('parent_id', -1)
     title = data.get('title', False)
+
+    if not title:
+        return HttpResponseBadRequest(
+            json.dumps({
+                'msg': _('Title attribute is required')
+            }),
+            content_type="application/json"
+        )
+
+    title = escape(title)
 
     if title == Folder.INBOX_NAME:
         return HttpResponseBadRequest(
@@ -387,8 +412,8 @@ def upload(request):
     parent_id = request.POST.get('parent', "-1")
     parent_id = filter_node_id(parent_id)
 
-    lang = request.POST.get('language')
-    notes = request.POST.get('notes')
+    lang = escape(request.POST.get('language'))
+    notes = escape(request.POST.get('notes'))
     try:
         page_count = get_pagecount(f.temporary_file_path())
     except exceptions.FileTypeNotSupported:
@@ -399,14 +424,15 @@ def upload(request):
         )
         return msg, status
 
-    logger.debug("creating document {}".format(f.name))
+    fname = escape(f.name)
+    logger.debug("creating document {}".format(fname))
 
     doc = Document.create_document(
         user=user,
-        title=f.name,
+        title=fname,
         size=size,
         lang=lang,
-        file_name=f.name,
+        file_name=fname,
         parent_id=parent_id,
         notes=notes,
         page_count=page_count
@@ -423,7 +449,7 @@ def upload(request):
         ocr_page.apply_async(kwargs={
             'user_id': user.id,
             'document_id': doc.id,
-            'file_name': f.name,
+            'file_name': fname,
             'page_num': page_num,
             'lang': lang}
         )
