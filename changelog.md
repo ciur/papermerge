@@ -15,6 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Import Pipeline - flexible import framework - thanks to [Francesco](https://github.com/francescocarzaniga)
 - Email inbox enhancement (IMPORT_MAIL_BY_USER) - thanks to [Francesco](https://github.com/francescocarzaniga)
 
+## [1.5.2] - 30 November 2020
+
+This is security release.
+
+### Added
+
+- Extra fixes for #228 - Stored Cross-Site Scripting (XSS). Thanks to [@l4rm4nd](https://github.com/l4rm4nd) for security audit.
+
 ## [1.5.1] - 29 November 2020
     
 ### Added

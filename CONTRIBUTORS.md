@@ -26,6 +26,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [@dani](https://github.com/dani) - French i18n; github issues.
 * [Thomas Pedersen](https://github.com/twpedersen) - imap fixes
 * [Georg Krause](https://github.com/georgkrause) - mglib improvements
+* [@l4rm4nd](https://github.com/l4rm4nd) - Security audit.
 
 ### Sponsors
 
