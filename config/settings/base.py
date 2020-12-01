@@ -171,9 +171,14 @@ BINARY_OCR = cfg_papermerge.get(
     "/usr/bin/tesseract"
 )
 
-BINARY_PDFTK = cfg_papermerge.get(
-    "BINARY_PDFTK",
-    "/usr/bin/pdftk"
+# Not sure about ~ part.
+# You may need to add BINARY_STAPLER with absolute path to your
+# papermerge.conf.py, e.g:
+#
+# BINARY_STAPLER = "/home/eugen/.local/bin/stapler"
+BINARY_STAPLER = cfg_papermerge.get(
+    "BINARY_STAPLER",
+    "~/.local/bin/stapler"
 )
 
 AUTH_USER_MODEL = "core.User"

@@ -47,7 +47,7 @@ USED_BINARIES = {
         ),
         "option": "-v"
     },
-    settings.BINARY_PDFTK: {
+    settings.BINARY_STAPLER: {
         "msg": (
             "Without it, Papermerge won't be able to cut/paste PDF pages"
         ),
