@@ -11,7 +11,7 @@ script:
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq python3-pip python3-setuptools poppler-utils imagemagick tesseract-ocr
-- sudo pip3 install --system --install-option="--install-scripts=/usr/local/bin" stapler
+- sudo pip3 install --system stapler
 
 sudo: false
 
