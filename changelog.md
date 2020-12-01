@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Email inbox enhancement (IMPORT_MAIL_BY_USER) - thanks to [Francesco](https://github.com/francescocarzaniga)
 - no more pdftk dependency. For pdf operations will use [stapler](https://github.com/hellerbarde/stapler/) instead.
 
+## [1.5.3] - 1 December 2020
+
+### Added
+
+- Fix for #237 - Renaming files problem.
+
 ## [1.5.2] - 30 November 2020
 
 This is security release.
