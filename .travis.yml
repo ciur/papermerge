@@ -18,5 +18,4 @@ before_install:
 sudo: false
 
 install:
-  - pip install stapler
   - pip install -r requirements/base.txt
