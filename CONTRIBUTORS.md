@@ -33,4 +33,3 @@ list maintainers, contributors and sponsors of Papermerge project.
 A special *Thank you* goes to GitHub Sponsors!
 
 * [Alexander](https://github.com/alex1702)
-* [hactar](https://github.com/hactar)
