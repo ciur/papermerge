@@ -171,9 +171,9 @@ BINARY_OCR = cfg_papermerge.get(
     "/usr/bin/tesseract"
 )
 
-BINARY_PDFTK = cfg_papermerge.get(
-    "BINARY_PDFTK",
-    "/usr/bin/pdftk"
+BINARY_STAPLER = cfg_papermerge.get(
+    "BINARY_STAPLER",
+    "/usr/local/bin/stapler"
 )
 
 AUTH_USER_MODEL = "core.User"

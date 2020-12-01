@@ -10,9 +10,9 @@ script:
 
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install -qq poppler-utils imagemagick pdftk tesseract-ocr
-
+- sudo apt-get install -qq  python3-pip python3-setuptools poppler-utils imagemagick tesseract-ocr
+- pip3 install stapler
 sudo: false
 
 install:
-  - pip install -r requirements/base.txt
+  - pip3 install -r requirements/base.txt

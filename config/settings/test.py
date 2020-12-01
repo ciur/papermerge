@@ -1,4 +1,5 @@
 import os
+from os.path import expanduser
 
 from .base import *
 
@@ -103,3 +104,10 @@ MEDIA_ROOT = os.path.join(
     "test",
     "media"
 )
+
+# guess where BINARY_STAPLER is located.
+try:
+    BINARY_STAPLER = f"{os.environ['VIRTUAL_ENV']}/bin/stapler"
+except Exception:
+    home_dir = expanduser('~')
+    BINARY_STAPLER = f"{home_dir}/.local/bin/stapler"
