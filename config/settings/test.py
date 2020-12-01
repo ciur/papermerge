@@ -1,4 +1,5 @@
 import os
+from os.path import expanduser
 
 from .base import *
 
@@ -103,3 +104,6 @@ MEDIA_ROOT = os.path.join(
     "test",
     "media"
 )
+
+home_dir = expanduser('~')
+BINARY_STAPLER = f"{home_dir}/.local/bin/stapler"
