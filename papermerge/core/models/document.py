@@ -28,12 +28,6 @@ class Document(BaseTreeNode):
     class CannotUpload(Exception):
         pass
 
-    #: reference to original file, usually a pdf document with
-    #: no post-processing performed on this file.
-    file_orig = models.FileField(
-        max_length=512,
-        help_text="Reference to originaly imported file"
-    )
     #: basename + ext of uploaded file.
     #: other path details are deducted from user_id and document_id
     file_name = models.CharField(
@@ -84,7 +78,7 @@ class Document(BaseTreeNode):
     # A: pdftk on every operation creates a new file... well, that new
     # file is the next version of the document.
 
-    text = models.TextField()
+    text = models.TextField(blank=True)
 
     PREVIEW_HEIGHTS = (100, 300, 500)
 
