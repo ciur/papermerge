@@ -9977,8 +9977,8 @@ ul.pinned_tags li.active {
     border-left: 1px solid #cecece;
     border-right: 1px solid #cecece; }
   #browse .node:hover {
-    background-color: #e6f5ff;
-    outline: 1px solid #e6f5ff; }
+    background-color: rgba(142,210,254,0.4);
+    outline: 1px solid #6fc5ff; }
   #browse ul.grid {
     flex-wrap: wrap;
     padding: 0; }
