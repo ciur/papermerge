@@ -10015,6 +10015,7 @@ ul.pinned_tags li.active {
           margin-top: 0.25rem;
           border-radius: 0.5rem; }
       #browse ul.grid .node .placeholder.document {
+        border: 1px solid #bbb;
         position: relative;
         overflow: hidden;
         width: 80%;
