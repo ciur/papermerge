@@ -9745,6 +9745,10 @@ ul.pinned_tags li.active {
       .card .card-body ul.collection li.collection-item label {
         margin-bottom: 0;
         margin-right: 0.75rem; }
+    .card .card-body ul.collection li.collection-item.bordered {
+      border-top: 1px solid #ddd;
+      padding-top: 0.75rem;
+      margin-top: 0.75rem; }
 
 .card-browser {
   min-height: 100%; }
@@ -10600,7 +10604,8 @@ aside a.download {
   padding: 0.25rem 0.5rem;
   border-bottom: 0;
   border-left: 0;
-  border-right: 0; }
+  border-right: 0;
+  border-top: 0; }
   .document.tags-container .tag span {
     margin-right: 0.5rem; }
   .document.tags-container input {

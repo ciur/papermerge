@@ -4,6 +4,52 @@
 
 {% block title %} Papermerge | Documents {% endblock %}
 
+{% block widgetsbar %}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">{% trans "Info" %}</div>
+      <div class="card-text">
+        <ul class="collection">
+          <li class="collection-item">
+            <label for="language">{% trans "OCR Language" %}:</label>
+            {{document.lang}}
+          </li>
+          <li class="collection-item">
+            <label for="created_at">{% trans "Created" %}:</label>
+            {% localized_datetime document.created_at%}
+          </li>
+          <li class="collection-item">
+            <label for="updated_at">{% trans "Modified" %}:</label>
+            {% localized_datetime document.updated_at%}
+          </li>
+
+          <li class="collection-item">
+            <div class="form-group mt-2">
+              <label for="tags">{% trans "Tags" %}:</label>
+              <div class="document tags-container d-flex">
+                {% for tag in tags %}
+                  <div style="background: {{tag.bg_color}}; color: {{ tag.fg_color }}; border-color: {{tag.bg_color}}" class="tag d-flex align-items-center">
+                    <span style="color: {{tag.fg_color}}; margin-right: 0.5rem;">{{ tag.name }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </li>
+          <li class="collection-item d-flex flex-row-reverse bordered">
+            <a href="{% url 'core:node_download' document.id %}" class="btn btn-flat btn-primary text-white download">
+              {% trans "Download" %}
+            </a>
+          </li>
+        </ul>
+      </div> <!-- card text -->
+    </div>
+  </div>
+  <!-- client managed -->
+  <div id="widgetsbar">
+
+  </div>
+{% endblock %}
+
 {% block control_sidebar %}
   <!-- Control sidebar content goes here -->
   <div class="p-3">

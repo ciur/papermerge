@@ -23188,7 +23188,7 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<div class="card">\n    <div class="card-body">\n        <div class="card-title">\n        <label>Info</label>\n        </div>\n        <div class="card-text">\n            <ul class="collection">\n                <li class="collection-item">'+
 ((__t=( message ))==null?'':__t)+
-'</li>\n                <li class="collection-item d-flex flex-row-reverse">\n                    <a href="#" class="btn btn-primary btn-flat text-white download">\n                        <i class="fa fa-download"></i>\n                        '+
+'</li>\n                <li class="collection-item d-flex flex-row-reverse bordered">\n                    <a href="#" class="btn btn-primary btn-flat text-white download">\n                        <i class="fa fa-download"></i>\n                        '+
 ((__t=( gettext('Download') ))==null?'':__t)+
 '</a>\n                </li>\n            </ul>\n        </div> \n    </div>\n</div>';
 }
@@ -23224,7 +23224,7 @@ __p+='\n                '+
 ((__t=( gettext('Modified') ))==null?'':__t)+
 ':</label>  '+
 ((__t=( updated_at ))==null?'':__t)+
-'\n            </li>\n            <li class="collection-item d-flex flex-row-reverse">\n                <a href="'+
+'\n            </li>\n            <li class="collection-item d-flex flex-row-reverse bordered">\n                <a href="'+
 ((__t=( download_url ))==null?'':__t)+
 '" class="btn btn-primary text-white btn-flat">\n                    <i class="fa fa-download"></i>\n                    '+
 ((__t=( gettext('Download') ))==null?'':__t)+
