@@ -10255,6 +10255,9 @@ ul.pinned_tags li.active {
 aside a.download {
   color: white; }
 
+#document-actions {
+  top: -0.5rem; }
+
 #sw-left-panel {
   outline: 1px solid #ccc;
   background-color: white; }

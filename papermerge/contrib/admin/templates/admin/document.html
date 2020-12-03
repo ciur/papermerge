@@ -37,7 +37,7 @@
           </li>
           <li class="collection-item d-flex flex-row-reverse bordered">
             <a href="{% url 'core:node_download' document.id %}" class="btn btn-flat btn-primary text-white download">
-              {% trans "Download" %}
+              <i class="fa fa-download mx-1"></i>{% trans "Download" %}
             </a>
           </li>
         </ul>
@@ -46,7 +46,32 @@
   </div>
   <!-- client managed -->
   <div id="widgetsbar">
+    <div class="metadata-widget">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title"><label>Metadata</label></div>
+                <div class="card-text">
+                    <ul class="collection">
+                        <li class="collection-item d-flex flex-row-reverse">
+                            <button class="btn btn-primary btn-flat add-metadata-key" type="button">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </button>
+                            
+                            <button type="button" class="btn btn-success btn-flat save key mx-1">
+                                <i class="fa fa-save"></i>
+                                Save
+                            </button>
+                        </li>
+                        <ul id="simple_keys" class="collection">
+                            
+                         </ul>
+                    </ul>
+                </div> <!-- card-text -->
+            </div> <!-- card-body -->
+        </div> <!-- card -->
 
+    </div>
   </div>
 {% endblock %}
 
@@ -87,49 +112,10 @@
 
 {% block actions %}
 <div id="document-actions" class="col-sm-12 d-flex flex-row justify-content-between">
-  <div class="d-flex flex-row">
     <button id="sw-left-panel" data-target-id="page-thumbnails" class="btn btn-default btn-flat btn-outline-light">
       <i class="icon-sw-left-panel"></i>
     </button>
-    <ul  class="nav nav-pills">
-        <li class="mx-1">
-            <div class="dropdown actions">
-              <button class="btn btn-light btn-light btn-bordered dropdown-toggle" type="button" id="changelist_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% trans "Actions" %}
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li class="dropdown-item">
-                    <a href="{% url 'core:node_download' document.id %}"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
-                  </li>
-                  <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
-                    <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
-                  </li>
-                  <li class="dropdown-item fl fl-i-center" id="delete-page" class="dropdown-item fl fl-i-center disabled">
-                     <a><i class="fa fa-trash mx-2"></i>{% trans "Delete Page" %}</a>
-                  </li>
-                 
-                 <li class="dropdown-divider"></li>
-                 <li class="dropdown-item disabled" id="cut-page">
-                     <a><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
-                 </li>
-                 <!-- PASTE -->
-                 <li class="dropdown-item disabled" id="paste-page">
-                     <a><i class="fa fa-paste mx-2"></i>{% trans "Paste" %}</a>
-                 </li>
-                 <!-- PASTE -->
-                 <li id="tags-menu-item" class="dropdown-item disabled">
-                     <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
-                 </li>
-                 <li class="dropdown-divider"></li>
-                 <li id="apply-reorder-changes" class="dropdown-item disabled">
-                     <a><i class="fa fa-download mx-2 "></i>{% trans "Apply Reorder Changes" %}</a>
-                 </li>
-              </ul>
-            </div>
-        </li>
-    </ul>
-  </div>
-  <div>
+
     <select class="zoom" select="width">
         <option value="width">Fit Width</option>
         <option value="50">50%</option>
@@ -138,7 +124,6 @@
         <option value="125">125%</option>
         <option value="150">150%</option>
     </select>
-  </div>
 </div>
 {% endblock %}
 
@@ -172,4 +157,31 @@
 </div><!-- /.container-fluid -->
 
 <input type="hidden" name="document_id" value="{{document.id}}" />
+<ul id="context-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <li class="dropdown-item">
+      <a href="{% url 'core:node_download' document.id %}"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+    </li>
+    <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
+      <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
+    </li>
+    <li class="dropdown-item fl fl-i-center" id="delete-page" class="dropdown-item fl fl-i-center disabled">
+       <a><i class="fa fa-trash mx-2"></i>{% trans "Delete Page" %}</a>
+    </li>
+    <li class="dropdown-divider"></li>
+    <li class="dropdown-item disabled" id="cut-page">
+      <a><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
+    </li>
+                 <!-- PASTE -->
+     <li class="dropdown-item disabled" id="paste-page">
+         <a><i class="fa fa-paste mx-2"></i>{% trans "Paste" %}</a>
+     </li>
+     <!-- PASTE -->
+     <li id="tags-menu-item" class="dropdown-item disabled">
+         <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
+     </li>
+     <li class="dropdown-divider"></li>
+     <li id="apply-reorder-changes" class="dropdown-item disabled">
+         <a><i class="fa fa-download mx-2 "></i>{% trans "Apply Reorder Changes" %}</a>
+      </li>
+  </ul>
 {% endblock %}
