@@ -19967,6 +19967,7 @@ class MgThumbnailList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
     if (this._list.length > 0) {
       // if there is at least one thumbnail
       first_thumb = this._list[0];
+      console.log("page selection triggered");
       _models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_3__["PAGE_SELECTION_CHANGED"], first_thumb.page_id, first_thumb.doc_id);
     }
   }
@@ -20304,7 +20305,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   initialize(parent_id) {
     this.parent_id = parent_id;
     this.nodes = new _node__WEBPACK_IMPORTED_MODULE_2__["NodeCollection"]();
-    this.parent_kv = new _kvstore__WEBPACK_IMPORTED_MODULE_3__["KVStoreCollection"]();
+    this.parent_kv = new backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"]();
   }
 
   urlRoot() {
@@ -20560,15 +20561,12 @@ class Downloader {
 /*!**********************************!*\
   !*** ./src/js/models/kvstore.js ***!
   \**********************************/
-/*! exports provided: KVStore, KVStoreCollection, KVStoreComp, KVStoreCompCollection */
+/*! exports provided: KVStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStore", function() { return KVStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreCollection", function() { return KVStoreCollection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreComp", function() { return KVStoreComp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KVStoreCompCollection", function() { return KVStoreCompCollection; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -20632,42 +20630,6 @@ class KVStore extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
 }
-class KVStoreCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
-  get model() {
-    return KVStore;
-  }
-
-}
-class KVStoreComp extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
-  defaults() {
-    return {
-      id: '',
-      key: '',
-      kv_inherited: false,
-      kv_type: 'text',
-      kv_format: undefined,
-      // only used on local, not passed to the server
-      current_formats: []
-    };
-  }
-
-  toJSON() {
-    let dict = {
-      key: this.get('key'),
-      kv_inherited: this.get('kv_inherited'),
-      kv_type: this.get('kv_type'),
-      kv_format: this.get('kv_format')
-    };
-    return dict;
-  }
-
-}
-class KVStoreCompCollection extends backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"] {
-  get model() {
-    return KVStoreComp;
-  }
-
-}
 
 /***/ }),
 
@@ -20688,7 +20650,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 let CSRF_TOKEN = $("[name=csrfmiddlewaretoken]").val();
 Backbone.$.ajaxSetup({
   headers: {
@@ -20696,9 +20657,17 @@ Backbone.$.ajaxSetup({
   }
 });
 class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
+  /**
+      This model is used to display metadata in widgetsbar
+      while browsing documents and folders.
+      It will change only Metadata keys.
+      Metadata values are not changed.
+       Metadata values are chaned in document viewer.
+      (using client side js.models.MetadataKV model)
+  **/
   defaults() {
     return {
-      kvstore: new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStoreCollection"](),
+      kvstore: new backbone__WEBPACK_IMPORTED_MODULE_1__["Collection"](),
       kv_types: [],
       date_formats: [],
       currency_formats: [],
@@ -20706,77 +20675,17 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     };
   }
 
-  urlRoot() {
-    return "/node/";
+  url() {
+    return `/metadata/node/${this.node.id}`;
   }
 
   initialize(node) {
-    let that = this,
-        kvstore,
-        metadata,
-        kv_types,
-        date_formats,
-        numeric_formats,
-        currency_formats;
     this.doc_id = node.id;
     this.node = node;
-    metadata = node.get('metadata');
-
-    if (metadata) {
-      kvstore = metadata.kvstore;
-      kv_types = metadata.kv_types;
-      numeric_formats = metadata.numeric_formats;
-      date_formats = metadata.date_formats;
-      currency_formats = metadata.currency_formats;
-
-      underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(kvstore, function (item) {
-        that.kvstore.add(new _kvstore__WEBPACK_IMPORTED_MODULE_2__["KVStore"](item));
-      });
-
-      this.set({
-        'kv_types': kv_types
-      });
-      this.set({
-        'numeric_formats': numeric_formats
-      });
-      this.set({
-        'date_formats': date_formats
-      });
-      this.set({
-        'currency_formats': currency_formats
-      });
-      this.trigger('change');
-    }
-  }
-
-  get kvstore() {
-    return this.get('kvstore');
-  }
-
-  get all_disabled() {
-    let kvstore = this.get('kvstore'),
-        inherited_items = [];
-    inherited_items = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].filter(kvstore.models, function (model) {
-      return model.get('kv_inherited') == true;
-    }); // if all items in kvstore are disabled
-
-    if (inherited_items.length == kvstore.length) {
-      return true;
-    }
-
-    return false;
-  }
-
-  toJSON() {
-    let dict = {};
-    dict['kvstore'] = this.kvstore.toJSON();
-    return dict;
+    this.fetch();
   }
 
   parse(response, options) {
-    // obsolete.
-    // Metadata Model is now initializaed in constructor
-    // as node info is fetched in node browser
     let kvstore = response.kvstore,
         kv_types = response.kv_types,
         date_formats = response.date_formats,
@@ -20801,6 +20710,24 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       'currency_formats': currency_formats
     });
     this.trigger('change');
+  }
+
+  get kvstore() {
+    return this.get('kvstore');
+  }
+
+  get all_disabled() {
+    let kvstore = this.get('kvstore'),
+        inherited_items = [];
+    inherited_items = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].filter(kvstore.models, function (model) {
+      return model.get('kv_inherited') == true;
+    }); // if all items in kvstore are disabled
+
+    if (inherited_items.length == kvstore.length) {
+      return true;
+    }
+
+    return false;
   }
 
   update_simple(cid, attr, value) {
@@ -20855,6 +20782,34 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 }
 ;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./src/js/models/metadata_page.js":
+/*!****************************************!*\
+  !*** ./src/js/models/metadata_page.js ***!
+  \****************************************/
+/*! exports provided: MetadataPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataPage", function() { return MetadataPage; });
+/* harmony import */ var _metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./metadata */ "./src/js/models/metadata.js");
+
+class MetadataPage extends _metadata__WEBPACK_IMPORTED_MODULE_0__["Metadata"] {
+  initialize(page_id) {
+    this.page_id = page_id; // fetch data from server side
+
+    this.fetch();
+  }
+
+  url() {
+    return `/metadata/page/${this.page_id}`;
+  }
+
+}
+;
 
 /***/ }),
 
@@ -23135,6 +23090,108 @@ __p+=' \n                                                    value="'+
 __p+='\n                                        </select>\n                                    </div>\n                                </div>\n                                ';
  if (current_formats.length) { 
 __p+='\n                                    <div class="row pt-2">\n                                        <div class="col-12">\n                                            <select '+
+((__t=( item.disabled ))==null?'':__t)+
+' class="kv_format custom-select" name=\'kv_format\' class="custom-select">\n                                                ';
+ for (j=0; j < current_formats.length; j++) { 
+__p+='\n                                                    <option \n                                                         ';
+ if ( item.get('kv_format') == current_formats[j][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                                                        value="'+
+((__t=( current_formats[j][0] ))==null?'':__t)+
+'">\n                                                        '+
+((__t=( current_formats[j][1] ))==null?'':__t)+
+'\n                                                    </option>\n                                                ';
+ } 
+__p+='\n                                            </select>\n                                        </div>\n                                    </div>\n                                ';
+ } 
+__p+='\n                               \n                            </li>\n                        ';
+ } 
+__p+='\n                     </ul>\n                </ul>\n            </div> <!-- card-text -->\n        </div> <!-- card-body -->\n    </div> <!-- card -->\n\n</div> <!-- metadata-widget -->';
+}
+return __p;
+};
+
+
+/***/ }),
+
+/***/ "./src/js/templates/widgetsbar/metadata_document.html":
+/*!************************************************************!*\
+  !*** ./src/js/templates/widgetsbar/metadata_document.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<div class="metadata-widget">\n\n    <div class="card">\n        <div class="card-body">\n            <div class="card-title"><label>'+
+((__t=( gettext('Metadata') ))==null?'':__t)+
+'</label></div>\n            <div class="card-text">\n                <ul class="collection">\n                    <li class="collection-item d-flex flex-row-reverse">\n                        <button class="btn btn-primary btn-flat add-metadata-key" type="button" >\n                            <i class="fa fa-plus"></i>\n                            '+
+((__t=( gettext("Add") ))==null?'':__t)+
+'\n                        </button>\n                        \n                        <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                            <i class="fa fa-save"></i>\n                            '+
+((__t=( gettext('Save') ))==null?'':__t)+
+'\n                        </button>\n                    </li>\n                    <ul id="simple_keys" class="collection">\n                        ';
+ for (i=0; i < kvstore.models.length; i++) { 
+__p+='\n                            ';
+ item = kvstore.models[i]; 
+__p+='\n                            ';
+ current_formats = item.get('current_formats') || []; 
+__p+='\n                            ';
+ kv_types = item.get('kv_types') || available_types || []; 
+__p+='\n                            <li class=\'collection-item\' data-model=\'simple-key\' data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' data-value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                                <!-- KEY BEGIN -->\n                                <div class="row summary pt-2">\n                                    <div class="col-11 label">\n                                        <input class="widget-form" '+
+((__t=( item.disabled ))==null?'':__t)+
+' data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' placeholder="'+
+((__t=( gettext('label name') ))==null?'':__t)+
+'..." name=\'key\' type=\'text\' value="'+
+((__t=( item.get('key') ))==null?'':__t)+
+'">\n                                    </div>\n                                    <div class="col-1 close"  data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\'>\n                                        ';
+ if (!item.get('kv_inherited')) {  
+__p+='\n                                            <button type=\'button\' class=\'close key mx-1 text-danger\' aria-label=\'Close\'>\n                                                <span aria-hidden=\'true\'>&times;</span>\n                                            </button>\n                                        ';
+ } 
+__p+='\n                                    </div>\n                                </div>\n                                <!-- KEY END -->\n                                <!-- VALUE BEGIN -->\n                                    <div class="row summary pt-2">\n                                        <div class="col-11 label">\n                                            <input class="widget-form"  data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\' placeholder="'+
+((__t=( gettext('value') ))==null?'':__t)+
+'..." name=\'value\' type=\'text\' value="'+
+((__t=( item.get('value') ))==null?'':__t)+
+'">\n                                        </div>\n                                        <div class="col-1 chevron toggle"  data-id=\''+
+((__t=( item.id ))==null?'':__t)+
+'\' data-cid=\''+
+((__t=( item.cid ))==null?'':__t)+
+'\'>\n                                            <a>\n                                                <i class="fa fa-chevron-left"></i>\n                                            </a>\n                                        </div>\n                                    </div>                                \n                                <!-- VALUE END -->\n                                <div class="row details d-none pt-2">\n                                    <div class="col-12">\n                                        <select '+
+((__t=( item.disabled ))==null?'':__t)+
+'  class="kv_type custom-select" name=\'kv_type\' class="custom-select">\n                                            ';
+ for (k=0; k < kv_types.length; k++) { 
+__p+='\n                                                <option \n                                                    ';
+ if ( item.get('kv_type') == kv_types[k][0] ) { 
+__p+=' selected  ';
+ }  
+__p+=' \n                                                    value="'+
+((__t=( kv_types[k][0] ))==null?'':__t)+
+'">\n                                                    '+
+((__t=( kv_types[k][1] ))==null?'':__t)+
+'\n                                                </option>\n                                            ';
+ } 
+__p+='\n                                        </select>\n                                    </div>\n                                </div>\n                                ';
+ if (current_formats.length) { 
+__p+='\n                                    <div class="row details d-none pt-2">\n                                        <div class="col-12">\n                                            <select '+
 ((__t=( item.disabled ))==null?'':__t)+
 ' class="kv_format custom-select" name=\'kv_format\' class="custom-select">\n                                                ';
  for (j=0; j < current_formats.length; j++) { 
@@ -25526,7 +25583,12 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   initialize() {
     let dom_actual_pages = document.querySelector('.actual_pages'),
-        document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val();
+        document_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()("input[name=document_id]").val(); // Widgets bar must be created before MgThumbnailList
+    // because latter sends an event of page selection.
+    // Page selection event triggers loading of metadata for correct
+    // page.
+
+    this._widgetsbar = new _views_widgetsbar__WEBPACK_IMPORTED_MODULE_16__["WidgetsBarDocumentView"](document_id);
     this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_8__["MgThumbnailList"]();
     this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_10__["DgZoom"]();
     this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_11__["MgPageList"](this._zoom);
@@ -25538,7 +25600,6 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_13__["DgMainSpinner"]();
     this._actions = this.build_actions();
     this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_15__["BreadcrumbView"](document_id);
-    this._widgetsbar = new _views_widgetsbar__WEBPACK_IMPORTED_MODULE_16__["WidgetsBarDocumentView"](document_id);
 
     if (dom_actual_pages) {
       new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__["DgPageScroll"](dom_actual_pages);
@@ -27032,7 +27093,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_downloader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/downloader */ "./src/js/models/downloader.js");
 /* harmony import */ var _models_metadata__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/metadata */ "./src/js/models/metadata.js");
 /* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _models_metadata_page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/metadata_page */ "./src/js/models/metadata_page.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -27189,9 +27252,23 @@ class MetadataWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
       "change input": "_update_value",
       "change .kv_type": "_kv_type_update",
       "change .kv_format": "_kv_format_update",
-      "click button.save": "_on_save"
+      "click button.save": "_on_save",
+      "click .chevron.toggle": "toggle_details"
     };
     return event_map;
+  }
+
+  toggle_details(event) {
+    /**
+      Used by MetadataDocumentWidget
+    **/
+    let $current = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+    let parent = $current.closest("li"),
+        icon_tags;
+    parent.find(".details").toggleClass("d-none");
+    icon_tags = $current.find("i.fa");
+    icon_tags.toggleClass("fa-chevron-left");
+    icon_tags.toggleClass("fa-chevron-down");
   }
 
   _kv_format_update(event) {
@@ -27270,6 +27347,11 @@ class MetadataWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     let context,
         show_save_button = false,
         kvstore;
+
+    if (!this.metadata) {
+      return "";
+    }
+
     context = {
       'kvstore': this.metadata.get('kvstore'),
       'available_types': this.metadata.get('kv_types')
@@ -27296,9 +27378,67 @@ class MetadataDocumentWidget extends MetadataWidget {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#widgetsbar-document");
   }
 
+  initialize() {
+    this.metadata = undefined;
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["PAGE_SELECTION_CHANGED"], this.page_selection_changed, this);
+  }
+
+  events() {
+    let event_map = {
+      "click .add-metadata-key": "_add_metadata_key",
+      "click .close.key": "_remove_metadata_key",
+      "keyup input[name=key]": "_updateK_value",
+      "keyup input[name=value]": "_updateV_value",
+      "change input[name=key]": "_updateK_value",
+      "change input[name=value]": "_updateV_value",
+      "change .kv_type": "_kv_type_update",
+      "change .kv_format": "_kv_format_update",
+      "click button.save": "_on_save",
+      "click .chevron.toggle": "toggle_details"
+    };
+    return event_map;
+  }
+
+  _updateK_value(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
+    let data = parent.data();
+    this.metadata.update_simple(data['cid'], 'key', value);
+  }
+
+  _updateV_value(event) {
+    let value = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    let parent = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).closest("li");
+    let data = parent.data();
+    this.metadata.update_simple(data['cid'], 'value', value);
+  }
+
   widget_el() {
     // DOM element containing all metadata
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()(".metadata-widget");
+  }
+
+  page_selection_changed(page_id, doc_id) {
+    /**
+    Triggered by thumbnails_list: 
+        * after thumbnail list is loaded, in this case
+          page_id of first thumb is passed).
+        * when user clicks on any thumb.
+    */
+    if (!page_id) {
+      return;
+    }
+
+    this.metadata = new _models_metadata_page__WEBPACK_IMPORTED_MODULE_6__["MetadataPage"](page_id);
+    this.listenTo(this.metadata, 'change', this.render);
+  }
+
+  template(kwargs) {
+    let compiled_tpl,
+        file_tpl = __webpack_require__(/*! ../templates/widgetsbar/metadata_document.html */ "./src/js/templates/widgetsbar/metadata_document.html");
+
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(kwargs));
+    return compiled_tpl();
   }
 
 }
@@ -27459,7 +27599,7 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   initialize() {
     this.info_widget = undefined;
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["SELECTION_CHANGED"], this.selection_changed, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_7__["SELECTION_CHANGED"], this.selection_changed, this);
   }
 
   selection_changed(selection) {
@@ -27544,9 +27684,7 @@ class WidgetsBarDocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View
   }
 
   initialize(document_id) {
-    this.document = new _models_document__WEBPACK_IMPORTED_MODULE_5__["Document"](document_id);
-    this.listenTo(this.document, 'change', this.render);
-    this.document.fetch();
+    this.metadata_widget = new MetadataDocumentWidget();
   }
 
   render() {
@@ -27561,7 +27699,6 @@ class WidgetsBarDocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View
         js_widget_class;
     context = {};
     parts = this.document.get('parts');
-    this.metadata_widget = new MetadataDocumentWidget(new backbone__WEBPACK_IMPORTED_MODULE_2__["Model"](this.document.get('document')));
     compiled = this.metadata_widget.render_to_string();
 
     if (parts) {
