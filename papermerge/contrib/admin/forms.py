@@ -1,6 +1,12 @@
+from functools import reduce
+from itertools import groupby
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import (
+    Group,
+    Permission
+)
 from django.contrib.auth.password_validation import validate_password
 from django.forms.widgets import (
     TextInput,
@@ -80,7 +86,78 @@ class TagForm(ControlForm):
             'bg_color': TextInput(attrs={'type': 'color'}),
         }
 
-class RoleForm(ControlForm):
+
+class CustomCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
+    # Adds a checkbox (group checkbox) and designated it with 'multi-target'
+    # css class
+    template_name = "admin/widgets/checkbox_select.html"
+
+
+class GroupedModelChoiceIterator(forms.models.ModelChoiceIterator):
+
+    def _key_func(self, obj):
+        return reduce(getattr, self.field.group_by.split('__'), obj)
+
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield ("", self.field.empty_label)
+
+        object_list = sorted(self.queryset.all(), key=self._key_func)
+
+        for group, choices in groupby(object_list, key=self._key_func):
+            if group is not None:
+                yield (
+                    self.field.group_label(group),
+                    [self.choice(c) for c in choices]
+                )
+
+
+class CustomPermissionChoiceField(forms.ModelMultipleChoiceField):
+    """
+    Provides great UX for Permission selection
+    1. Groups permissions by model
+    2. Provides human friendly labels
+    """
+
+    def __init__(
+        self,
+        group_by,
+        sort_choices_by=None,
+        *args,
+        **kwargs
+    ):
+        # use custom checkbox multiple select
+        # The point is that custom widget adds an additional
+        # checkbox (group checkbox) and designated it with 'multi-target'
+        # css class
+        kwargs['widget'] = CustomCheckboxSelectMultiple
+        super().__init__(*args, **kwargs)
+
+        self.group_by = group_by
+        self.group_label = lambda group: group.capitalize()
+
+    def _get_choices(self):
+        if hasattr(self, '_choices'):
+            return self._choices
+        return GroupedModelChoiceIterator(self)
+
+    choices = property(
+        _get_choices,
+        forms.ModelMultipleChoiceField._set_choices
+    )
+
+    def label_from_instance(self, member):
+        # Human friendly labels
+        return f"{member.name}"
+
+
+class RoleForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        # get rid of custom arg
+        kwargs.pop('user', None)
+
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = Role
@@ -88,6 +165,12 @@ class RoleForm(ControlForm):
             'name',
             'permissions'
         )
+
+    permissions = CustomPermissionChoiceField(
+        # display only permissions which are part of sipadmin app
+        queryset=Permission.objects.all(),
+        group_by='content_type__model',
+    )
 
 
 class AutomateForm(ControlForm):
