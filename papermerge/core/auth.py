@@ -288,7 +288,7 @@ class NodeAuthBackend:
         return None
 
     def django_get_user_permissions(self, user_obj):
-        return user_obj.user_permissions.all()
+        return user_obj.role.permissions.all()
 
     def django_get_group_permissions(self, user_obj):
         user_groups_field = get_user_model()._meta.get_field('groups')
@@ -327,10 +327,32 @@ class NodeAuthBackend:
 
     def _django_has_perm(self, user_obj, perm):
         """
-        Permissions not related to node access (django way)
+        Gets user permissions from associated role.
         """
-        permissions = self.django_get_all_permissions(user_obj)
-        return perm in permissions
+        if not user_obj.is_active or user_obj.is_anonymous:
+            return set()
+
+        if user_obj.is_superuser:
+            perms = Permission.objects.all()
+        else:
+            # this is the only major difference from django's
+            # own implementation: it gets permissions from associated role
+            if not user_obj.role:
+                # if non superuser does not have associated a role
+                # he/she basically is has no permissios at all!
+                return set()
+            perms = user_obj.role.permissions.all()
+
+        # By returning permissions this way - will be able to
+        # reuse ``user_obj.has_perm(...)`` method.
+        _perms = perms.values_list(
+            'content_type__app_label',
+            'codename'
+        ).order_by()
+
+        __perms = {"%s.%s" % (ct, name) for ct, name in _perms}
+
+        return perm in __perms
 
     def get_perms_dict(self, user_obj, obj_list, perms):
         """

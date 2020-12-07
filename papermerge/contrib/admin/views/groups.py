@@ -11,7 +11,8 @@ from papermerge.contrib.admin.views import mixins as mix
 
 class GroupsView(
     LoginRequiredMixin,
-    mix.CommonListMixin
+    mix.CommonListMixin,
+    mix.RequiredPermissionMixin
 ):
     # only superuser can access this view
     only_superuser = True
@@ -44,6 +45,7 @@ class GroupsListView(
     mix.DeleteEntriesMixin,
     generic.ListView
 ):
+    required_permission = 'auth.view_group'
     title = _("Groups")
     table_header_row = [
         _('Name'),
@@ -61,12 +63,14 @@ class GroupsListView(
 
 class GroupCreateView(GroupsView, generic.CreateView):
 
+    required_permission = 'auth.add_group'
     title = _("New")
     action_url = reverse_lazy('admin:group-add')
     template_name = "admin/object_form.html"
 
 class GroupUpdateView(GroupsView, generic.UpdateView):
 
+    required_permission = 'auth.change_group'
     title = _("Edit")
     template_name = "admin/object_form.html"
 

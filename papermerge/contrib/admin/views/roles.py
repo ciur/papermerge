@@ -9,7 +9,10 @@ from papermerge.contrib.admin.forms import RoleForm
 from papermerge.contrib.admin.views import mixins as mix
 
 
-class RolesView(LoginRequiredMixin):
+class RolesView(
+    LoginRequiredMixin,
+    mix.RequiredPermissionMixin
+):
     # only superuser can access this view
     only_superuser = True
     model = Role
@@ -41,6 +44,7 @@ class RolesListView(
     generic.ListView
 ):
     title = _("Roles")
+    required_permission = 'core.view_role'
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -49,6 +53,8 @@ class RolesListView(
 
 
 class RoleCreateView(RolesView, generic.CreateView):
+
+    required_permission = 'core.add_role'
 
     def get_context_data(self, **kwargs):
 
@@ -60,6 +66,8 @@ class RoleCreateView(RolesView, generic.CreateView):
 
 
 class RoleUpdateView(RolesView, generic.UpdateView):
+
+    required_permission = 'core.change_role'
 
     def get_context_data(self, **kwargs):
 

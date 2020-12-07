@@ -5,6 +5,20 @@ from django.utils.translation import gettext as _
 from django.contrib import messages
 
 
+class RequiredPermissionMixin:
+
+    def dispatch(self, request, *args, **kwargs):
+        if not hasattr(self, 'required_permission'):
+            return self.handle_no_permission()
+
+        req_permission = getattr(self, 'required_permission')
+
+        if not self.request.user.has_perm(req_permission):
+            return self.handle_no_permission()
+
+        return super().dispatch(request, *args, **kwargs)
+
+
 class CommonListMixin(ContextMixin):
     """
     Provides common context for admin/object_list.html

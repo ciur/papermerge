@@ -14,7 +14,10 @@ from papermerge.contrib.admin.forms import (
 from papermerge.contrib.admin.views import mixins as mix
 
 
-class UsersView(LoginRequiredMixin):
+class UsersView(
+    LoginRequiredMixin,
+    mix.RequiredPermissionMixin
+):
     # only superuser can access this view
     only_superuser = True
     model = User
@@ -46,6 +49,7 @@ class UsersListView(
     generic.ListView
 ):
     title = _("Users")
+    required_permission = 'core.view_user'
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -54,6 +58,8 @@ class UsersListView(
 
 
 class UserCreateView(UsersView, generic.CreateView):
+
+    required_permission = 'core.add_user'
 
     def get_context_data(self, **kwargs):
 
@@ -65,6 +71,8 @@ class UserCreateView(UsersView, generic.CreateView):
 
 
 class UserUpdateView(UsersView, generic.UpdateView):
+
+    required_permission = 'core.change_user'
 
     def get_context_data(self, **kwargs):
 
@@ -79,6 +87,7 @@ class UserUpdateView(UsersView, generic.UpdateView):
 
 class UserChangePasswordView(UsersView, generic.FormView):
 
+    required_permission = 'core.change_user'
     form_class = UserChangePasswordForm
     template_name = 'core/user_form.html'
 

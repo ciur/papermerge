@@ -1,4 +1,4 @@
-
+from django.urls import reverse
 from papermerge.core import __version__ as PAPERMERGE_VERSION
 from papermerge.core.models import (
     Folder,
@@ -9,6 +9,83 @@ from .registries import (
     user_menu_registry,
     navigation
 )
+
+ROLE_DEPENDENT_SIDEBAR_MENU = [
+    {
+        'required_perm': 'core.view_automate',
+        'url': reverse('admin:automates'),
+        'title': 'Automates',
+        'css_icon_class': 'fa-robot',
+        'activate_on': 'automates, automate-add, automate-update'
+    },
+    {
+        'required_perm': None,
+        'url': reverse('admin:tags'),
+        'title': 'Tags',
+        'css_icon_class': 'fa-tag',
+        'activate_on': 'tags, tag-add, tag-update'
+    },
+    {
+        'required_perm': None,
+        'url': reverse('admin:logs'),
+        'title': 'Logs',
+        'css_icon_class': 'fa-lightbulb',
+        'activate_on': 'logs, log-update'
+    },
+    {
+        'required_perm': 'auth.view_group',
+        'url': reverse('admin:groups'),
+        'title': 'Groups',
+        'css_icon_class': 'fa-users',
+        'activate_on': 'groups, group-add, group-update'
+    },
+    {
+        'required_perm': 'core.view_user',
+        'url': reverse('admin:users'),
+        'title': 'Users',
+        'css_icon_class': 'fa-user-friends',
+        'activate_on': 'users, user-add, user-update'
+    },
+    {
+        'required_perm': 'core.view_role',
+        'url': reverse('admin:roles'),
+        'title': 'Roles',
+        'css_icon_class': 'fa-user',
+        'activate_on': 'roles, role-add, role-update'
+    },
+]
+
+
+def sidebar_menu(request):
+    """
+    Builds sidebar menu depending on user role/permissions
+
+    Sidebar menu is applicable only for authenticated users.
+    """
+    menu = []
+
+    # menu item has following keys
+
+    # 1. url
+    # 2. title
+    # 3. css_icon_class
+    # 4. activate_on
+    if request.user.is_anonymous:
+        # main sidebar menu is applicable only for authenticated users
+        return {}
+
+    for menu_item in ROLE_DEPENDENT_SIDEBAR_MENU:
+        req_perm = menu_item['required_perm']
+
+        if not req_perm:
+            menu.append(menu_item)
+
+        if request.user.has_perm(req_perm):
+            menu.append(menu_item)
+
+    return {
+        'sidebar_menu': menu
+    }
 
 
 def user_menu(request):

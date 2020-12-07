@@ -37,57 +37,14 @@
           </p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="{% url 'admin:automates' %}" class="nav-link  {% activate_on 'automates, automate'  %}">
-          <i class="nav-icon fa fa-robot"></i>
-          <p>
-            {% trans "Automates" %}
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{% url 'admin:tags' %}" class="nav-link  {% activate_on 'tags, tag, tag-update' %}">
-          <i class="nav-icon fa fa-tag"></i>
-          <p>
-            {% trans "Tags" %}
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{% url 'admin:logs' %}" class="nav-link  {% activate_on 'logs, log-update' %}">
-          <i class="nav-icon fa fa-lightbulb"></i>
-          <p>
-            {% trans "Logs" %}
-          </p>
-        </a>
-      </li>
-      {% if request.user.is_superuser %}
-        <li class="nav-item">
-          <a href="{% url 'admin:groups' %}" class="nav-link  {% activate_on 'groups, group, group-update' %}">
-            <i class="nav-icon fa fa-users"></i>
-            <p>
-              {% trans "Groups" %}
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'admin:users' %}" class="nav-link {% activate_on 'users, user' %}">
-            <i class="nav-icon fa fa-user-friends"></i>
-            <p>
-              {% trans "Users" %}
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'admin:roles' %}" class="nav-link {% activate_on 'roles, role' %}">
-            <i class="nav-icon fa fa-user"></i>
-            <p>
-              {% trans "Roles" %}
-            </p>
-          </a>
-        </li>
-      {% endif %}
-      {% if request.user.is_superuser %}
+      {% for item in sidebar_menu %}
+          <li class="nav-item">
+              <a href="{{item.url}}" class="nav-link {% activate_on item.activate_on %}">
+                  <i class="nav-icon fas {{item.css_icon_class}}"></i> 
+                  <p>{{item.title}}</p>
+              </a>
+          </li>
+      {% endfor %}
         {% for nav_item in leftside_navigation %}
           <li class="nav-item">
             <a href="{{ nav_item.url }}" class="nav-link {% activate_on nav_item.activate_on %}">
@@ -98,7 +55,6 @@
             </a>
           </li>
         {% endfor %}
-      {% endif %}
     </ul>
   </nav>
   <!-- /.sidebar-menu -->
