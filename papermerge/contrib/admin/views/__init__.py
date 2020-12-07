@@ -6,7 +6,8 @@ from .groups import (
 from .users import (
     UsersListView,
     UserCreateView,
-    UserUpdateView
+    UserUpdateView,
+    UserChangePasswordView
 )
 from .roles import (
     RolesListView,
@@ -49,6 +50,7 @@ __all__ = [
     'UsersListView',
     'UserCreateView',
     'UserUpdateView',
+    'UserChangePasswordView',
     'RolesListView',
     'RoleCreateView',
     'RoleUpdateView',

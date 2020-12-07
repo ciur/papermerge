@@ -274,7 +274,7 @@ class AdvancedSearchForm(forms.Form):
             )
 
 
-class UserFormWithoutPassword(ControlForm):
+class UserFormWithoutPassword(forms.ModelForm):
 
     class Meta:
         model = User
@@ -284,10 +284,60 @@ class UserFormWithoutPassword(ControlForm):
             'first_name',
             'last_name',
             'groups',
-            'user_permissions',
+            'role',
             'is_superuser',
             'is_active',
         )
+
+    groups = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.CheckboxSelectMultiple()
+    )
+
+    def __init__(self, *args, **kwargs):
+        # get rid of custom arg
+        kwargs.pop('user', None)
+
+        super().__init__(*args, **kwargs)
+
+        # don't use neither form-control nor 'custom-select' css classes here
+        self.fields['groups'].widget.attrs['class'] = ' '
+
+
+class UserChangePasswordForm(forms.Form):
+
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(), label="Password"
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(), label="Confirm Password"
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        if password1 != password2:
+            self.add_error(
+                "password1",
+                "Both fields should contain same password"
+            )
+            self.add_error(
+                "password2",
+                "Both fields should contain same password"
+            )
+
+        if len(password1) > 0 and len(password1) < 6:
+            self.add_error(
+                "password1",
+                "Password must be at least 6 characters long"
+            )
+            self.add_error(
+                "password2",
+                "Password must be at least 6 characters long"
+            )
 
 
 class UserFormWithPassword(UserFormWithoutPassword):
@@ -316,20 +366,6 @@ class UserFormWithPassword(UserFormWithoutPassword):
             'is_superuser',
             'is_active',
         )
-
-    groups = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.all(),
-        widget=forms.CheckboxSelectMultiple()
-    )
-
-    def __init__(self, *args, **kwargs):
-        # get rid of custom arg
-        kwargs.pop('user', None)
-
-        super().__init__(*args, **kwargs)
-
-        # don't use neither form-control nor 'custom-select' css classes here
-        self.fields['groups'].widget.attrs['class'] = ' '
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')

@@ -35,6 +35,13 @@
           </button>
 
       </li>
+      {% if object %} 
+      <li class="collection-item d-flex flex-row-reverse mt-3">
+        <a class="btn btn-flat btn-block btn-info" href="{% url 'admin:user-change-password' object.pk %}">
+          {% trans "Change Password" %}
+        </a>
+      </li>
+      {% endif %}
       <li class="collection-item d-flex flex-row-reverse mt-3">
         <a class="btn btn-flat btn-block btn-light" href="{% url 'admin:users' %}">{% trans "Cancel" %}</a>
       </li>

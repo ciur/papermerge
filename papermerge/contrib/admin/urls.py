@@ -69,6 +69,11 @@ urlpatterns = [
         name='user-update'
     ),
     path(
+        'user/<int:pk>/change-password',
+        views.UserChangePasswordView.as_view(),
+        name='user-change-password'
+    ),
+    path(
         'roles/',
         views.RolesListView.as_view(),
         name='roles'
