@@ -312,9 +312,24 @@ class UserFormWithPassword(UserFormWithoutPassword):
             'first_name',
             'last_name',
             'groups',
+            'role',
             'is_superuser',
             'is_active',
         )
+
+    groups = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.CheckboxSelectMultiple()
+    )
+
+    def __init__(self, *args, **kwargs):
+        # get rid of custom arg
+        kwargs.pop('user', None)
+
+        super().__init__(*args, **kwargs)
+
+        # don't use neither form-control nor 'custom-select' css classes here
+        self.fields['groups'].widget.attrs['class'] = ' '
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')

@@ -10655,6 +10655,10 @@ body.sidebar-mini #pinned_tags_view {
   display: flex;
   flex-wrap: wrap; }
 
+#id_groups {
+  display: flex;
+  flex-wrap: wrap; }
+
 #id_permissions > .form-check {
   margin-right: 1rem;
   margin-bottom: 1rem; }
