@@ -16,6 +16,7 @@ from papermerge.core.models.tags import (
     ColoredTag,
     Tag
 )
+from papermerge.core.models.role import Role
 from papermerge.core.models.sidebar_part import SidebarPart
 
 
@@ -79,16 +80,40 @@ class User(AbstractUser):
     # when reaches settings.USER_PROFILE_USER_STORAGE_SIZE
     # no more documents can be imported
     current_storage_size = models.BigIntegerField(default=0)
-    mail_secret = models.CharField(_('email secret'), max_length=150, blank=True)
+    mail_secret = models.CharField(
+        _('email secret'),
+        max_length=150,
+        blank=True
+    )
     mail_by_user = models.BooleanField(
         _('mail import user'),
         default=False,
-        help_text=_('Designates whether the mail import should consider the email address'),
-    ) 
+        help_text=_(
+            "Designates whether "
+            "the mail import should consider the email address"
+        ),
+    )
     mail_by_secret = models.BooleanField(
         _('mail import secret'),
         default=False,
-        help_text=_('Designates whether the mail import should consider the secret'),
+        help_text=_(
+            "Designates whether the"
+            " mail import should consider the secret"
+        ),
+    )
+    # Role is optional.
+    # All users EXCEPT superuser
+    # have associated a role
+    role = models.ForeignKey(
+        'Role',
+        verbose_name='role',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        help_text=_(
+            "Determines what operations this user is"
+            " authorized to perform."
+        )
     )
 
     def update_current_storage(self):
@@ -149,6 +174,7 @@ class User(AbstractUser):
 
 __all__ = [
     'User',
+    'Role',
     'Folder',
     'Document',
     'AbstractDocument',

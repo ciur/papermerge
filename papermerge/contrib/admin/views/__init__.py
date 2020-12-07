@@ -8,6 +8,11 @@ from .users import (
     UserCreateView,
     UserUpdateView
 )
+from .roles import (
+    RolesListView,
+    RoleCreateView,
+    RoleUpdateView
+)
 from .tokens import (
     TokensListView,
     TokenCreateView,
@@ -44,6 +49,9 @@ __all__ = [
     'UsersListView',
     'UserCreateView',
     'UserUpdateView',
+    'RolesListView',
+    'RoleCreateView',
+    'RoleUpdateView',
     'TokensListView',
     'TokenCreateView',
     'TokenUpdateView',

@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% load i18n bootstrap4 %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="col-sm-12 pl-0">
+      <a href="{% url 'admin:roles' %}">{% trans "Roles" %}</a>
+      /
+      {{ title }}
+    </div><!-- /.col -->
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-lg-12 col-md-12">
+        <div class="p-1 p-md-3">
+            <form id="changeform" class="group" method="POST" action="{{ action_url }}">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+             </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block widgetsbar %}
+<div class="card">
+  <div class="card-body">
+    <ul class="collection">
+      <li class="collection-item d-flex flex-row-reverse mt-3">
+          <button form="changeform" class="btn btn-primary btn-flat mx-1 btn-block" type="submit">
+            <i class="fa fa-check"></i>
+            {% trans "Submit" %}
+          </button>
+
+      </li>
+      <li class="collection-item d-flex flex-row-reverse mt-3">
+        <a class="btn btn-flat btn-block btn-light" href="{% url 'admin:users' %}">{% trans "Cancel" %}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

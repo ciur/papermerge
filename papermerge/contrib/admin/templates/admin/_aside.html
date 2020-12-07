@@ -78,6 +78,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{% url 'admin:roles' %}" class="nav-link {% activate_on 'roles, role' %}">
+            <i class="nav-icon fa fa-user"></i>
+            <p>
+              {% trans "Roles" %}
+            </p>
+          </a>
+        </li>
       {% endif %}
       {% if request.user.is_superuser %}
         {% for nav_item in leftside_navigation %}

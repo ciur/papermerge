@@ -14,6 +14,7 @@ from knox.models import AuthToken
 from papermerge.core.models import (
     Tag,
     User,
+    Role,
     Automate,
     Folder,
     Access
@@ -78,6 +79,15 @@ class TagForm(ControlForm):
             'fg_color': TextInput(attrs={'type': 'color'}),
             'bg_color': TextInput(attrs={'type': 'color'}),
         }
+
+class RoleForm(ControlForm):
+
+    class Meta:
+        model = Role
+        fields = (
+            'name',
+            'permissions'
+        )
 
 
 class AutomateForm(ControlForm):

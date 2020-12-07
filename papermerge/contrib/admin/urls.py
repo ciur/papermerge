@@ -69,6 +69,21 @@ urlpatterns = [
         name='user-update'
     ),
     path(
+        'roles/',
+        views.RolesListView.as_view(),
+        name='roles'
+    ),
+    path(
+        'role/add/',
+        views.RoleCreateView.as_view(),
+        name='role-add'
+    ),
+    path(
+        'role/<int:pk>/',
+        views.RoleUpdateView.as_view(),
+        name='role-update'
+    ),
+    path(
         'tokens/',
         views.TokensListView.as_view(),
         name='tokens'
