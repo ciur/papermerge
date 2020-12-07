@@ -18451,17 +18451,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_pinned_tags_view__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/pinned_tags_view */ "./src/js/views/pinned_tags_view.js");
 /* harmony import */ var _views_changelist_checkbox_view__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/changelist_checkbox_view */ "./src/js/views/changelist_checkbox_view.js");
 /* harmony import */ var _views_context_menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/context_menu */ "./src/js/views/context_menu.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
-/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
-/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
-/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _views_roles__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/roles */ "./src/js/views/roles.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! bootstrap/js/dist/util */ "./node_modules/bootstrap/js/dist/util.js");
+/* harmony import */ var bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_util__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! bootstrap/js/dist/tab */ "./node_modules/bootstrap/js/dist/tab.js");
+/* harmony import */ var bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_tab__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! bootstrap/js/dist/modal */ "./node_modules/bootstrap/js/dist/modal.js");
+/* harmony import */ var bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(bootstrap_js_dist_modal__WEBPACK_IMPORTED_MODULE_17__);
 
 
 
@@ -18480,10 +18481,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync;
 
-backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model, options) {
-  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_13___default()("[name=csrfmiddlewaretoken]").val();
+let backboneSync = backbone__WEBPACK_IMPORTED_MODULE_13___default.a.sync;
+
+backbone__WEBPACK_IMPORTED_MODULE_13___default.a.sync = function (method, model, options) {
+  let csrf_token = jquery__WEBPACK_IMPORTED_MODULE_14___default()("[name=csrfmiddlewaretoken]").val();
   /*
    * The jQuery `ajax` method includes a 'headers' option
    * which lets you set any headers you like
@@ -18501,7 +18503,7 @@ backbone__WEBPACK_IMPORTED_MODULE_12___default.a.sync = function (method, model,
 };
 
 let App = function () {
-  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view, automate_tags_view, widgetsbar_view, context_menu_view;
+  let browse_view, actions_view, breadcrumb_view, document_view, document_actions_view, browse_router, tag_preview_view, pinned_tags_view, changelist_checkbox, av_tags_view, automate_tags_view, widgetsbar_view, context_menu_view, role_multi_toggle_view;
   browse_view = new _views_browse__WEBPACK_IMPORTED_MODULE_1__["BrowseView"]();
   actions_view = new _views_actions__WEBPACK_IMPORTED_MODULE_3__["ActionsView"]();
   breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_2__["BreadcrumbView"]();
@@ -18512,19 +18514,20 @@ let App = function () {
   automate_tags_view = new _views_tags__WEBPACK_IMPORTED_MODULE_6__["AutomateTagsView"]();
   widgetsbar_view = new _views_widgetsbar__WEBPACK_IMPORTED_MODULE_7__["WidgetsBarView"]();
   context_menu_view = new _views_context_menu__WEBPACK_IMPORTED_MODULE_10__["ContextMenuView"]();
+  role_multi_toggle_view = new _views_roles__WEBPACK_IMPORTED_MODULE_11__["RoleMultiToggleView"]();
 
-  if (jquery__WEBPACK_IMPORTED_MODULE_13___default()("#document").length == 1) {
+  if (jquery__WEBPACK_IMPORTED_MODULE_14___default()("#document").length == 1) {
     // we in document view. Document view and browser view
     // are exclusive.
     document_view = new _views_document__WEBPACK_IMPORTED_MODULE_4__["DocumentView"]();
     document_actions_view = new _views_document__WEBPACK_IMPORTED_MODULE_4__["DocumentActionsView"]();
   } else {
-    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_11__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
-    backbone__WEBPACK_IMPORTED_MODULE_12___default.a.history.start();
+    browse_router = new _routers_browse__WEBPACK_IMPORTED_MODULE_12__["BrowseRouter"](browse_view, breadcrumb_view, actions_view);
+    backbone__WEBPACK_IMPORTED_MODULE_13___default.a.history.start();
   }
 };
 
-jquery__WEBPACK_IMPORTED_MODULE_13___default()(function (event) {
+jquery__WEBPACK_IMPORTED_MODULE_14___default()(function (event) {
   App();
 });
 
@@ -26486,6 +26489,96 @@ class RenameView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   }
 
 }
+
+/***/ }),
+
+/***/ "./src/js/views/roles.js":
+/*!*******************************!*\
+  !*** ./src/js/views/roles.js ***!
+  \*******************************/
+/*! exports provided: RoleMultiToggleView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RoleMultiToggleView", function() { return RoleMultiToggleView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class RoleMultiToggleView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  /**
+      Applicable ONLY in Roles forms/views.
+      Instead of clicking on each individual sub-checkbox of 
+      (for example) Document group:
+      
+      [] Document:
+          [] Can add Document
+          [] Can change Document
+          [] Can delete Dcoument
+          [] Can view Document
+      user will click only on Document top most checkbox.
+      Saves 4X clicks :)
+      Group checkboxes (in example above the one coresponding to 'Document')
+      have a css class 'multi-toggle'.
+      'multi-toggle' css class is added by custom widget template
+          
+          papermerge/contrib/admin/widgets/checkbox_select.html
+  **/
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#id_permissions');
+  }
+
+  initialize() {
+    this.$el.find('.multi-toggle').each(function (index, multi_toggle) {
+      let checked_arr, sum, $multi_toggle;
+      $multi_toggle = jquery__WEBPACK_IMPORTED_MODULE_0___default()(multi_toggle);
+      checked_arr = $multi_toggle.parent().parent().find('input[type=checkbox]');
+      /**
+          Counts number of checkboxes in the group. If there are 4 selected - 
+          will automatically check parent as well.
+      **/
+
+      sum = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].reduce(checked_arr, function (memo, item) {
+        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(item).prop('checked')) {
+          memo += 1;
+        }
+
+        ;
+        return memo;
+      }, 0);
+
+      if (sum >= 4) {
+        $multi_toggle.prop('checked', true);
+      }
+    });
+  }
+
+  events() {
+    let event_map = {
+      'click .multi-toggle': 'on_multi_toggle'
+    };
+    return event_map;
+  }
+
+  on_multi_toggle(event) {
+    let $model = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget);
+
+    if ($model.prop('checked')) {
+      // select other 4 checkboxes
+      $model.parent().parent().find('input[type=checkbox]').prop('checked', true);
+    } else {
+      // unselect other 4 checkboxes
+      $model.parent().parent().find('input[type=checkbox]').prop('checked', false);
+    }
+  }
+
+}
+;
 
 /***/ }),
 
