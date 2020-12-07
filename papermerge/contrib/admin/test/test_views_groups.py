@@ -8,7 +8,8 @@ from django.contrib.auth.models import Group
 
 from papermerge.test.utils import (
     create_root_user,
-    create_margaret_user
+    create_margaret_user,
+    create_user
 )
 
 
@@ -157,6 +158,11 @@ class TestGroupView(TestCase):
         )
 
     def test_group_list_denied_for_margaret(self):
+        """
+        Margaret is a non-superuser (non-root) without any
+        additional permissions assigned -> she will be denied
+        access to list groups.
+        """
         self.client.login(
             testcase_user=self.margaret_user
         )
@@ -169,6 +175,11 @@ class TestGroupView(TestCase):
         )
 
     def test_group_new_denied_for_margaret(self):
+        """
+        Margaret is a non-superuser (non-root) without any
+        additional permissions assigned -> she won't be allowed
+        adding a new group.
+        """
         self.client.login(
             testcase_user=self.margaret_user
         )
@@ -181,7 +192,11 @@ class TestGroupView(TestCase):
         )
 
     def test_group_change_denied_for_margaret(self):
-
+        """
+        Margaret is a non-superuser (non-root) without any
+        additional permissions assigned -> she won't be allowed
+        to perform changes on the group model.
+        """
         gr = Group.objects.create(name="XXX")
         self.client.login(
             testcase_user=self.margaret_user
@@ -200,4 +215,116 @@ class TestGroupView(TestCase):
         self.assertEqual(
             gr.name,
             "XXX"
+        )
+
+    def test_group_list_granted_given_correct_perm(self):
+        """
+        In order to get access to group list ``auth.view_group``
+        permission is required.
+        """
+        user = create_user(
+            username="non_priv",
+            perms=['auth.view_group']
+        )
+        negative_case_user = create_user(
+            username="other_perm_user",
+            perms=['core.view_user']
+        )
+        Group.objects.create(name="XXX")
+
+        self.client.login(
+            testcase_user=user
+        )
+        ret = self.client.get(reverse('admin:groups'))
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        self.client.logout()
+        # check negative case
+        self.client.login(
+            testcase_user=negative_case_user
+        )
+        ret = self.client.get(reverse('admin:groups'))
+
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+
+    def test_group_add_granted_given_correct_perm(self):
+        """
+        In order to add a group ``auth.add_group``
+        permission is required.
+        """
+        user = create_user(
+            username="non_priv",
+            perms=['auth.add_group']
+        )
+        negative_case_user = create_user(
+            username="other_perm_user",
+            perms=['core.view_user']
+        )
+        Group.objects.create(name="XXX")
+
+        self.client.login(
+            testcase_user=user
+        )
+        ret = self.client.get(reverse('admin:group-add'))
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # check negative case
+        self.client.logout()
+        self.client.login(
+            testcase_user=negative_case_user
+        )
+        ret = self.client.get(reverse('admin:group-add'))
+
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+
+    def test_group_change_granted_given_correct_perm(self):
+        """
+        In order to change a group ``auth.change_group``
+        permission is required.
+        """
+        user = create_user(
+            username="non_priv",
+            perms=['auth.change_group']
+        )
+        negative_case_user = create_user(
+            username="other_perm_user",
+            perms=['core.view_user']
+        )
+        gr = Group.objects.create(name="XXX")
+
+        self.client.login(
+            testcase_user=user
+        )
+        ret = self.client.get(
+            reverse('admin:group-update', args=(gr.id, ))
+        )
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        # check negative case
+        self.client.logout()
+        self.client.login(
+            testcase_user=negative_case_user
+        )
+        ret = self.client.get(
+            reverse('admin:group-update', args=(gr.id, ))
+        )
+
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
         )

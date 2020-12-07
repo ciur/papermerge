@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Import Pipeline - flexible import framework - thanks to [Francesco](https://github.com/francescocarzaniga)
 - Email inbox enhancement (IMPORT_MAIL_BY_USER) - thanks to [Francesco](https://github.com/francescocarzaniga)
 - no more pdftk dependency. For pdf operations will use [stapler](https://github.com/hellerbarde/stapler/) instead.
+- Roles - quicker way to assign set of permissions for a given user
 
 ## [1.5.3] - 1 December 2020
 

@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
 
 from papermerge.contrib.admin.forms import GroupForm
 from papermerge.contrib.admin.views import mixins as mix
@@ -20,23 +19,6 @@ class GroupsView(
     form_class = GroupForm
     success_url = action_url = reverse_lazy('admin:groups')
     new_object_url = reverse_lazy('admin:group-add')
-
-    def dispatch(self, request, *args, **kwargs):
-
-        if self.request.user.is_authenticated:
-            if not self._is_allowed(request):
-                raise PermissionDenied()
-
-        ret = super().dispatch(request, *args, **kwargs)
-
-        return ret
-
-    def _is_allowed(self, request):
-        if hasattr(self, 'only_superuser'):
-            if getattr(self, 'only_superuser'):
-                return request.user.is_superuser
-
-        return True
 
 
 class GroupsListView(

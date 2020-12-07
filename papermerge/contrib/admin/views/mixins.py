@@ -8,6 +8,7 @@ from django.contrib import messages
 class RequiredPermissionMixin:
 
     def dispatch(self, request, *args, **kwargs):
+
         if not hasattr(self, 'required_permission'):
             return self.handle_no_permission()
 
