@@ -10651,6 +10651,14 @@ body.sidebar-mini #pinned_tags_view {
   border-radius: 3px;
   margin-right: 0.2rem; }
 
+#id_permissions {
+  display: flex;
+  flex-wrap: wrap; }
+
+#id_permissions > .form-check {
+  margin-right: 1rem;
+  margin-bottom: 1rem; }
+
 .preferences .card {
   margin: 1rem;
   box-shadow: none;

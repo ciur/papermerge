@@ -31,6 +31,30 @@ from .models import (
 )
 
 
+def _papermerge_permissions():
+    """
+    Returns a queryset of permissions which makes sense
+    to display. For example it does not make sense to
+    show permissions for BaseTreeNode model - user is not
+    even aware of what is it (and should not be).
+    """
+    qs = Permission.objects.filter(
+        content_type__model__in=[
+            "user",
+            "role",
+            "group",
+            "authtoken",
+            "session",
+            "document",
+            "folder",
+            "userpreferencemodel",
+            "automate"
+        ]
+    )
+
+    return qs.all()
+
+
 class ControlForm(forms.ModelForm):
     """
     Adds to following widgets css class 'form-control':
@@ -168,7 +192,7 @@ class RoleForm(forms.ModelForm):
 
     permissions = CustomPermissionChoiceField(
         # display only permissions which are part of sipadmin app
-        queryset=Permission.objects.all(),
+        queryset=_papermerge_permissions(),
         group_by='content_type__model',
     )
 
