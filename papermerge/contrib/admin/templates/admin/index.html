@@ -11,7 +11,10 @@
 
      <li class="mx-1">
          <button type="button" id="id_btn_upload" class="btn btn-light btn-bordered ">
-            <i class="fa fa-upload mr-1  text-success"></i>{% trans "Upload" %}
+            <i class="fa fa-upload mr-1  text-success"></i>
+            <div class="d-none d-md-inline-block">
+              {% trans "Upload" %}
+            </div>
           </button>
      </li>
      <!-- Hidden input required for file uploads-->
@@ -24,7 +27,10 @@
      <li class="mx-1">
          <!--parent_id=object.id -->
          <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
-            <i class="fa fa-plus mr-1 text-success"></i>{% trans "New Folder" %}
+            <i class="fa fa-plus mr-1 text-success"></i>
+            <div class="d-none d-md-inline-block">
+              {% trans "New Folder" %}
+            </div>
          </button>
      </li>
   </ul>
