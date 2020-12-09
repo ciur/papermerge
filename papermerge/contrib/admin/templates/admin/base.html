@@ -151,7 +151,7 @@
       <div class="content">
         {% include "admin/_messages.html" %}
         <div class="row no-gutters">
-          <div class="{% block main_col %}col-9 col-lg-9 col-sm-12 main-col{% endblock %}">
+          <div class="{% block main_col %} col-sm-12 col-md-9 col-lg-9 main-col {% endblock %}">
             <div class="card card-browser {% block document_browser %}{% endblock %}">
               <div class="card-body xmain">
                 {% block actions %}
@@ -164,7 +164,7 @@
             </div>
           </div>
           {% block widgetsbar_wrapper %}
-            <div class="{% block widgetsbar_col %}col-3 col-lg-3 col-sm-12 widgetsbar-col pl-2 {% endblock %}">
+            <div class="{% block widgetsbar_col %}d-none d-md-block col-md-3 col-lg-3 widgetsbar-col pl-2 {% endblock %}">
                 {% block widgetsbar %}
                 {% endblock %}
             </div>
