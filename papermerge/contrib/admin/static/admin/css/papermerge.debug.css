@@ -10270,6 +10270,21 @@ aside a.download {
   display: none; }
 
 #document {
+  overflow: hidden; }
+  #document #viewer {
+    height: inherit; }
+    #document #viewer #actual-pages {
+      height: inherit;
+      overflow: scroll; }
+      #document #viewer #actual-pages .actual-pages {
+        height: inherit; }
+    #document #viewer #page-thumbnails {
+      height: inherit;
+      overflow: scroll; }
+      #document #viewer #page-thumbnails .page_thumbnails {
+        height: inherit; }
+
+#document {
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc; }
@@ -10283,8 +10298,6 @@ aside a.download {
     font-weight: bold; }
   #document ul.page_thumbnails {
     width: 10rem;
-    height: 100vh;
-    overflow: auto;
     border-right: 1px solid #d7d7d7;
     padding: 0;
     border-right: 3px solid #666666; }
@@ -10335,7 +10348,6 @@ aside a.download {
         #document ul.page_thumbnails li.page_thumbnail .arrow-down-control a {
           color: #00b000; }
   #document ul.actual_pages {
-    height: 100vh;
     overflow: auto;
     padding: 0; }
     #document ul.actual_pages li.actual_page {
@@ -10388,7 +10400,6 @@ aside a.download {
 
 #actual-pages {
   flex: 1;
-  height: 100vh;
   overflow: hidden;
   background-color: #f4f4f4; }
 
@@ -10731,9 +10742,6 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .dropdown-item.disabled a {
   color: #aaa; }
-
-nav.navbar {
-  height: 10vh; }
 
 .navbar-expand {
   flex-flow: wrap; }

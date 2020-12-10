@@ -22328,9 +22328,9 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a href="/"><i class="fa fa-home px-1"></i>'+
+__p+='<ol class="breadcrumb float-sm-left">\n    <li class="breadcrumb-item">\n        <a href="/"><i class="fa fa-home px-1"></i>\n            <div class="d-none d-sm-inline-block">\n                '+
 ((__t=( gettext('Home') ))==null?'':__t)+
-'</a>\n    </li>\n    ';
+'\n            </div>\n        </a>\n    </li>\n    ';
  for (i=0; i < nodes.length; i++) { 
 __p+='\n        ';
  node = nodes.at(i) 
@@ -25675,8 +25675,10 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.zoom.subscribe("zoom", this.on_zoom_change, this);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).resize(function () {
       let zoom_val = that.zoom.get_value();
-      console.log("window resized");
       that.page_list.on_zoom(zoom_val);
+      console.log("window resized");
+
+      that._adjust_viewer_height();
     });
   }
 
@@ -25986,20 +25988,16 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
      * height of ul.actual_pages, #actual-pages and ul.page_thumbnails 
      * elements, thus removing (yet another) scrollbar.
     */
-    let vh_height, footer_height, header_height, nav_height, viewer_height;
+    let vh_height, doc_actions, nav_height, breadcrumb_height, viewer_height;
     vh_height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    footer_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('footer').outerHeight(true);
-    header_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#content-header').outerHeight(true);
-    nav_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('nav.main-header').outerHeight(true); //console.log(`vh_height=${vh_height}`);
-    //console.log(`footer_height=${footer_height}`);
-    //console.log(`header_height=${header_height}`);
-    //console.log(`nav_height=${nav_height}`);
-
-    viewer_height = vh_height - nav_height - footer_height - 2 * header_height;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("ul.actual_pages").css('height', `${viewer_height}px`);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#actual-pages").css('height', `${viewer_height}px`);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("ul.page_thumbnails").css('height', `${viewer_height}px`);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').css("overflow", 'hidden');
+    breadcrumb_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#breadcrumb').outerHeight(true);
+    doc_actions = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document-actions').outerHeight(true);
+    nav_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('nav.main-header.navbar').outerHeight(true);
+    console.log(`vh_height=${vh_height}px`);
+    console.log(`nav_height=${nav_height}px`);
+    console.log(`breadcrumb=${breadcrumb_height}px`);
+    viewer_height = vh_height - 2 * nav_height - 2 * doc_actions;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#document").css('height', `${viewer_height}px`);
   }
 
 }

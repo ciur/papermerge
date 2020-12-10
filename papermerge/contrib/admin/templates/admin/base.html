@@ -92,7 +92,9 @@
           <li class="nav-item dropdown mx-3">
             <a class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown" href="#">
               <i class="fa fa-user"></i>
-              {% firstof user.get_short_name user.get_username %}
+              <div class="d-none d-sm-inline-block">
+                {% firstof user.get_short_name user.get_username %}
+              </div>
             </a>
             <ul class="dropdown-menu">
               <li class="dropdown-item">
