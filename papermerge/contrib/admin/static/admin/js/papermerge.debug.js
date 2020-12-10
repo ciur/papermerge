@@ -19101,20 +19101,19 @@ class DgPage {
   }
 
   on_scroll(zoom_val) {
-    if (this.is_visible()) {
-      if (!this.is_img_loaded()) {
-        this.load_img(zoom_val); // when load_img completes asyncroniously to load
-        // image - it triggers load_hocr function.
-      } else if (this.zoom_changed(zoom_val)) {
-        this.resize_img(zoom_val); // resize happens syncroniously.
-        // It means that is ok to call resize_hocr syncr as well.                
+    if (!this.is_img_loaded()) {
+      console.log("Loading img...");
+      this.load_img(zoom_val); // when load_img completes asyncroniously to load
+      // image - it triggers load_hocr function.
+    } else if (this.zoom_changed(zoom_val)) {
+      this.resize_img(zoom_val); // resize happens syncroniously.
+      // It means that is ok to call resize_hocr syncr as well.                
 
-        this.resize_hocr(zoom_val);
-        this.set_zoom_val(zoom_val);
-      }
-
+      this.resize_hocr(zoom_val);
       this.set_zoom_val(zoom_val);
     }
+
+    this.set_zoom_val(zoom_val);
   }
 
   viewer_resized() {
@@ -19143,11 +19142,9 @@ class DgPage {
   }
 
   on_zoom(zoom_val) {
-    if (this.is_visible()) {
-      if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
-        this.resize_img(zoom_val);
-        this.resize_hocr(zoom_val);
-      }
+    if (this.zoom_changed(zoom_val) || this.viewer_resized()) {
+      this.resize_img(zoom_val);
+      this.resize_hocr(zoom_val);
     }
 
     this.set_zoom_val(zoom_val);
