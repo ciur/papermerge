@@ -192,11 +192,6 @@ class Page(models.Model, index.Indexed):
 
     def path(self, version=None):
 
-        if version is None:
-            version = self.version
-
-        version = int(version)
-
         return PagePath(
             document_path=self.document.path(version=version),
             page_num=self.number,

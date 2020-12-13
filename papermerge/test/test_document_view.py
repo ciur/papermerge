@@ -162,7 +162,7 @@ class TestDocumentView(TestCase):
             src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            dst=doc.path.url(),
+            dst=doc.path().url(),
         )
         ret = self.client.post(
             reverse('core:preview', args=(doc.id, 1, 1))
@@ -172,7 +172,7 @@ class TestDocumentView(TestCase):
             200
         )
         page_path = PagePath(
-            document_path=doc.path,
+            document_path=doc.path(),
             page_num=1,
             step=Step(1),
             page_count=3
@@ -305,10 +305,10 @@ class TestDocumentView(TestCase):
             src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            dst=default_storage.abspath(doc.path.url())
+            dst=default_storage.abspath(doc.path().url())
         )
         # build page url
-        page_path = doc.page_paths[1]
+        page_path = doc.page_paths()[1]
 
         # just remember that at the end of test
         # copied file must be deteled. (1)
@@ -350,7 +350,7 @@ class TestDocumentView(TestCase):
             src=os.path.join(
                 BASE_DIR, "data", "berlin.pdf"
             ),
-            dst=doc.path.url()
+            dst=doc.path().url()
         )
         # But HOCR file is missing.
         ret = self.client.get(
@@ -1117,7 +1117,7 @@ class TestDocumentDownload(TestCase):
         # to the media storage, as if document was uploaded.
         default_storage.copy_doc(
             src=document_path,
-            dst=doc.path.url(),
+            dst=doc.path().url(),
         )
         create_access(
             node=doc,

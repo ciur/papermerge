@@ -215,7 +215,7 @@ def restore_documents(
 
                 default_storage.copy_doc(
                     src=temp_output.name,
-                    dst=new_doc.path.url()
+                    dst=new_doc.path().url()
                 )
 
             if not skip_ocr:

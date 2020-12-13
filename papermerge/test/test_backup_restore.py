@@ -41,7 +41,7 @@ class TestBackupRestore(TestCase):
 
         default_storage.copy_doc(
             src=document_path,
-            dst=doc.path.url(),
+            dst=doc.path().url(),
         )
 
         with io.BytesIO() as memoryfile:
@@ -114,7 +114,7 @@ class TestBackupRestore(TestCase):
 
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_1.path.url(),
+            dst=doc_1.path().url(),
         )
 
         doc_2 = Document.objects.create_document(
@@ -129,7 +129,7 @@ class TestBackupRestore(TestCase):
 
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_2.path.url(),
+            dst=doc_2.path().url(),
         )
 
         with io.BytesIO() as memoryfile:
@@ -268,7 +268,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_root_1.path.url(),
+            dst=doc_in_root_1.path().url(),
         )
 
         doc_in_root_2 = Document.objects.create_document(
@@ -281,7 +281,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_root_2.path.url(),
+            dst=doc_in_root_2.path().url(),
         )
 
         doc_in_ex_1 = Document.objects.create_document(
@@ -295,7 +295,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_ex_1.path.url(),
+            dst=doc_in_ex_1.path().url(),
         )
 
         doc_in_ex_2 = Document.objects.create_document(
@@ -309,7 +309,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_ex_2.path.url(),
+            dst=doc_in_ex_2.path().url(),
         )
 
         """
@@ -390,7 +390,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_root_1.path.url(),
+            dst=doc_in_root_1.path().url(),
         )
 
         doc_in_root_2 = Document.objects.create_document(
@@ -403,7 +403,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_root_2.path.url(),
+            dst=doc_in_root_2.path().url(),
         )
 
         doc_in_f_1 = Document.objects.create_document(
@@ -417,7 +417,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_f_1.path.url(),
+            dst=doc_in_f_1.path().url(),
         )
 
         doc_in_f_2 = Document.objects.create_document(
@@ -431,7 +431,7 @@ class TestBuildTarArchive(TestCase):
         )
         default_storage.copy_doc(
             src=document_path,
-            dst=doc_in_f_2.path.url(),
+            dst=doc_in_f_2.path().url(),
         )
 
         """

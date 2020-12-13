@@ -11,7 +11,7 @@ class Document(AbstractDocument):
     MAX_PAGES = 100
 
     def clean(self):
-        if self.get_page_count() > Document.MAX_PAGES:
+        if self.get_pagecount() > Document.MAX_PAGES:
             raise ValidationError({
                 "page_count": f"Max pages {Document.MAX_PAGES} allowed"
             })

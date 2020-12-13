@@ -84,11 +84,11 @@ class DocumentImporter:
             page_count=page_count,
         )
         logger.debug(
-            f"Uploading file {self.filepath} to {doc.path.url()}"
+            f"Uploading file {self.filepath} to {doc.path().url()}"
         )
         default_storage.copy_doc(
             src=self.filepath,
-            dst=doc.path.url(),
+            dst=doc.path().url(),
         )
 
         if not skip_ocr:

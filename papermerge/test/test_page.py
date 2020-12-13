@@ -561,14 +561,14 @@ class TestPage(TestCase):
 
         default_storage.copy_doc(
             src=document_path,
-            dst=docm.path.url(),
+            dst=docm.path().url(),
         )
 
         for number in range(1, 4):
             page = docm.pages.get(number=number)
             # filesystem absolute path /home/eugen/x/y/
             fs_abs_path = default_storage.abspath(
-                page.path.url()
+                page.path().url()
             )
             # filesystem absolute dir
             fs_abs_dir = os.path.dirname(
