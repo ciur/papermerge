@@ -118,7 +118,7 @@ class DefaultPipeline:
     def move_tempfile(self, doc):
         default_storage.copy_doc(
             src=self.temppath,
-            dst=doc.path.url()
+            dst=doc.path().url()
         )
         return
 
