@@ -49,15 +49,28 @@ def document(request, doc_id):
         [doc], Access.ALL_PERMS
     )
 
+    version = request.GET.get('version', None)
+    if version is not None:
+        version = int(version)
+
+    if doc.is_latest_version(version):
+        pagelist = doc.pages.all()
+    else:
+        pagelist = [{
+            'id': page_num,
+            'number': page_num
+        } for page_num in range(1, doc.get_pagecount(version=version) + 1)]
+
     if not request.is_ajax():
         if request.user.has_perm(Access.PERM_READ, doc):
             return render(
                 request,
                 'admin/document.html',
                 {
-                    'pages': doc.pages.all(),
+                    'pages': pagelist,
                     'tags': doc.tags.all(),
                     'document': doc,
+                    'version': version,
                     'has_perm_write': nodes_perms[doc.id].get(
                         Access.PERM_WRITE, False
                     ),
@@ -477,13 +490,13 @@ def usersettings(request, option, value):
 def hocr(request, id, step=None, page="1"):
 
     logger.debug(f"hocr for doc_id={id}, step={step}, page={page}")
-
     try:
         doc = Document.objects.get(id=id)
     except Document.DoesNotExist:
         raise Http404("Document does not exists")
 
-    doc_path = doc.path
+    version = request.GET.get('version', None)
+    doc_path = doc.path(version=version)
 
     if request.user.has_perm(Access.PERM_READ, doc):
         # document absolute path
@@ -497,7 +510,7 @@ def hocr(request, id, step=None, page="1"):
         if page > page_count or page < 0:
             raise Http404("Page does not exists")
 
-        page_path = doc.page_paths[page]
+        page_path = doc.page_paths(version=version)[page]
         hocr_abs_path = default_storage.abspath(page_path.hocr_url())
 
         logger.debug(f"Extract words from {hocr_abs_path}")
@@ -530,9 +543,12 @@ def preview(request, id, step=None, page="1"):
         raise Http404("Document does not exists")
 
     if request.user.has_perm(Access.PERM_READ, doc):
+        version = request.GET.get('version', None)
+
         page_path = doc.get_page_path(
             page_num=page,
             step=Step(step),
+            version=version
         )
         img_abs_path = default_storage.abspath(
             page_path.img_url()

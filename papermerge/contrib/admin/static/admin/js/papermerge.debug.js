@@ -18768,9 +18768,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/js/document_form/common.js");
 /* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
 /* harmony import */ var _rect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./rect */ "./src/js/document_form/rect.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
  // imagesloaded will trigger "load" event after img element
 // has loaded image. Without this plugin, event WILL NOT
 // BE TRIGGERED IF IMG WAS loaded FROM CACHE
+
 
 
 
@@ -18916,7 +18918,8 @@ class DgPage {
     let src,
         dynamic_width,
         arr = [50, 75, 100, 125, 150],
-        that = this;
+        that = this,
+        version;
     /*
         Dynamic width is the width of viewer. In will very depending on the
         screen size of user agent.
@@ -18933,7 +18936,13 @@ class DgPage {
         Step(3) will correspond to 50% of Step(1) => image with width=620px.
     */
 
-    src = `/document/${this._doc_id}/preview/1/page/${this._page_num}`;
+    version = parseInt(Object(_utils__WEBPACK_IMPORTED_MODULE_5__["get_url_param"])('version'));
+
+    if (version >= 0) {
+      src = `/document/${this._doc_id}/preview/1/page/${this._page_num}?version=${version}`;
+    } else {
+      src = `/document/${this._doc_id}/preview/1/page/${this._page_num}`;
+    }
 
     if (arr.includes(zoom_val)) {
       dynamic_width = zoom_val / 100 * 1240;
@@ -19002,7 +19011,8 @@ class DgPage {
     let hocr_url,
         that = this,
         orig_img_width,
-        orig_img_height;
+        orig_img_height,
+        version;
     this._dom_hocr = Object(_common__WEBPACK_IMPORTED_MODULE_2__["build_elem"])('div', {
       'class': "page_hocr"
     });
@@ -19010,7 +19020,14 @@ class DgPage {
         value 1 from below url corresponds to briolette.step.Step(1)
     **/
 
-    hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+    version = parseInt(Object(_utils__WEBPACK_IMPORTED_MODULE_5__["get_url_param"])('version'));
+
+    if (version >= 0) {
+      hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}?version=${version}`;
+    } else {
+      hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+    }
+
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
       url: hocr_url
     }).done(function (data, text_status, jxhr) {
@@ -19542,6 +19559,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events */ "./src/js/events.js");
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common */ "./src/js/document_form/common.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+
 
 
 
@@ -19742,8 +19761,15 @@ class MgThumbnail extends _events__WEBPACK_IMPORTED_MODULE_1__["DgEvents"] {
   }
 
   load_img() {
-    let dom_img, src;
-    src = `/document/${this._doc_id}/preview/${this._step}/page/${this._page_num}`;
+    let dom_img, src, version;
+    version = parseInt(Object(_utils__WEBPACK_IMPORTED_MODULE_3__["get_url_param"])('version'));
+
+    if (version >= 0) {
+      src = `/document/${this._doc_id}/preview/${this._step}/page/${this._page_num}?version=${version}`;
+    } else {
+      src = `/document/${this._doc_id}/preview/${this._step}/page/${this._page_num}`;
+    }
+
     dom_img = Object(_common__WEBPACK_IMPORTED_MODULE_2__["build_elem"])('img', {
       'src': src
     });
@@ -23494,7 +23520,7 @@ class DgTextOverlay {
 /*!*************************!*\
   !*** ./src/js/utils.js ***!
   \*************************/
-/*! exports provided: capitalize, human_size, find_by_id, get_parent_id, value, insert, proxy_click, MgRect */
+/*! exports provided: capitalize, human_size, find_by_id, get_parent_id, value, insert, proxy_click, MgRect, get_url_param */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23507,6 +23533,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return insert; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "proxy_click", function() { return proxy_click; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgRect", function() { return MgRect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get_url_param", function() { return get_url_param; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -23727,6 +23754,21 @@ class MgRect {
   }
 
 }
+function get_url_param(param) {
+  var page_url = window.location.search.substring(1),
+      url_variables = page_url.split('&'),
+      param_name,
+      i;
+
+  for (i = 0; i < url_variables.length; i++) {
+    param_name = url_variables[i].split('=');
+
+    if (param_name[0] === param) {
+      return param_name[1] === undefined ? true : decodeURIComponent(param_name[1]);
+    }
+  }
+}
+;
 
 /***/ }),
 
@@ -25990,9 +26032,6 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     breadcrumb_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#breadcrumb').outerHeight(true);
     doc_actions = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document-actions').outerHeight(true);
     nav_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('nav.main-header.navbar').outerHeight(true);
-    console.log(`vh_height=${vh_height}px`);
-    console.log(`nav_height=${nav_height}px`);
-    console.log(`breadcrumb=${breadcrumb_height}px`);
     viewer_height = vh_height - 2 * nav_height - 2 * doc_actions;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#document").css('height', `${viewer_height}px`);
   }

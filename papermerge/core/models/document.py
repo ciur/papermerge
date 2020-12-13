@@ -283,7 +283,7 @@ class Document(BaseTreeNode):
     )
 
     # Document's version start with 0 (0 = default value)
-    # Document's version is incremented everytime pdftk operation
+    # Document's version is incremented everytime stapler operation
     # is applied to it (page delete, page rotate, page reorder).
     # Versioning is on file level. Means - there is no such thing as model
     # level versioning. I think this will complicate everthing just too much.
@@ -542,12 +542,41 @@ class Document(BaseTreeNode):
     def __repr__(self):
         _t = self.title
         _i = self.id
-        _p = self.page_count
+        _v = self.version
+        _p = self.get_pagecount()
 
-        return f"Document(id={_i}, title={_t}, page_count={_p})"
+        return f"Document(id={_i}, version={_v} title={_t}, page_count={_p})"
 
     def __str__(self):
-        return self.__repr__()
+        return self.title
+
+    def is_latest_version(self, version):
+        if version is None:
+            return True
+
+        version = int(version)
+        return version == self.version
+
+    def get_pagecount(self, version=None) -> int:
+        """
+        Returns number of pages in the document of specified version.
+
+        There are two ways to looks at page count. One is via self.page_count
+        attribute.
+        That attribute reflects only the latest version's page count.
+        To find out the previous version's page count, we need to have a look
+        at filesystem and count number of directories of form page_<x> inside
+        document's results folder of respective version.
+        """
+        if self.is_latest_version(version=version):
+            # self.page_count attribute reflects only the latest version
+            # page count
+            return self.page_count
+
+        doc_path = self.path(version=version)
+        count = default_storage.get_pagecount(doc_path)
+
+        return count
 
     @property
     def file_ext(self):
@@ -561,7 +590,7 @@ class Document(BaseTreeNode):
             return
 
         new_version = default_storage.reorder_pages(
-            doc_path=self.path,
+            doc_path=self.path(),
             new_order=new_order
         )
         self.version = new_version
@@ -583,7 +612,7 @@ class Document(BaseTreeNode):
 
         # delete pages
         new_version = default_storage.delete_pages(
-            doc_path=self.path,
+            doc_path=self.path(),
             page_numbers=page_numbers,
             skip_migration=skip_migration
         )
@@ -593,10 +622,10 @@ class Document(BaseTreeNode):
 
         self.version = new_version
 
-        # total pages before delete
+        # total pages before delete (of lastest document version)
         total_page_count = self.pages.count()
         self.pages.filter(number__in=page_numbers).delete()
-        # update self.page_count attribute
+        # update self.page_count attribute (for latest document version)
         self.page_count = self.pages.count()
         self.save()
 
@@ -629,7 +658,7 @@ class Document(BaseTreeNode):
 
         self.pages.all().delete()
         self.page_count = get_pagecount(
-            default_storage.abspath(self.path.url())
+            default_storage.abspath(self.path().url())
         )
         self.save()
         self.create_pages()
@@ -762,8 +791,8 @@ class Document(BaseTreeNode):
                 )
                 return
 
-            src = default_storage.abspath(doc.path)
-            doc_path = doc.path
+            src = default_storage.abspath(doc.path())
+            doc_path = doc.path()
 
             doc_list.append({'doc': doc, 'page_nums': doc_pages[doc_id]})
             data_list.append(
@@ -804,10 +833,16 @@ class Document(BaseTreeNode):
     @property
     def absfilepath(self):
         return default_storage.abspath(
-            self.path.url()
+            self.path().url()
         )
 
-    def vpath(self, version=0):
+    def path(self, version=None):
+
+        if version is None:
+            version = self.version
+
+        version = int(version)
+
         result = DocumentPath(
             user_id=self.user.id,
             document_id=self.id,
@@ -817,23 +852,7 @@ class Document(BaseTreeNode):
 
         return result
 
-    @property
-    def path(self):
-        version = self.version
-        if not isinstance(version, int):
-            version = 0
-
-        result = DocumentPath(
-            user_id=self.user.id,
-            document_id=self.id,
-            version=version,
-            file_name=self.file_name,
-        )
-
-        return result
-
-    @property
-    def page_paths(self):
+    def page_paths(self, version=None):
         """
         Enables document instance to get quickly page
         paths:
@@ -846,32 +865,25 @@ class Document(BaseTreeNode):
 
         results = [None]  # indexing starts from 1
 
-        # doc.page_count might be wrong because per
-        # page logic was added just recently. So, let's use
-        # this opportunity and correct it!
-        page_count = get_pagecount(self.absfilepath)
-
-        if page_count != self.page_count:
-            self.page_count = page_count
-            self.save()
+        page_count = self.get_pagecount(version=version)
 
         for page_num in range(1, page_count + 1):
             page_path = PagePath(
-                document_path=self.path,
+                document_path=self.path(version=version),
                 page_num=page_num,
                 step=step.Step(1),
-                page_count=self.page_count
+                page_count=self.get_pagecount(version=version)
             )
             results.append(page_path)
 
         return results
 
-    def get_page_path(self, page_num, step):
+    def get_page_path(self, page_num, step, version=None):
         """
         For Step(1) shortcut, use doc_instance.page_eps property.
         """
         return PagePath(
-            document_path=self.path,
+            document_path=self.path(version=version),
             page_num=page_num,
             step=step,
             page_count=self.page_count
@@ -962,8 +974,8 @@ class AbstractDocument(models.Model):
     class Meta:
         abstract = True
 
-    def get_page_count(self):
-        return self.base_ptr.pages.count()
+    def get_pagecount(self, version=None):
+        return self.base_ptr.get_pagecount(vesion=None)
 
     def get_title(self):
         return self.base_ptr.title

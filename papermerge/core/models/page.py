@@ -190,10 +190,15 @@ class Page(models.Model, index.Indexed):
     def is_first(self):
         return self.number == 1
 
-    @property
-    def path(self):
+    def path(self, version=None):
+
+        if version is None:
+            version = self.version
+
+        version = int(version)
+
         return PagePath(
-            document_path=self.document.path,
+            document_path=self.document.path(version=version),
             page_num=self.number,
             page_count=self.page_count
         )
@@ -227,7 +232,7 @@ class Page(models.Model, index.Indexed):
     def txt_url(self):
 
         result = PagePath(
-            document_path=self.document.path,
+            document_path=self.document.path(),
             page_num=self.number,
             page_count=self.page_count
         )
@@ -238,7 +243,7 @@ class Page(models.Model, index.Indexed):
     def txt_exists(self):
 
         result = PagePath(
-            document_path=self.document.path,
+            document_path=self.document.path(),
             page_num=self.number,
             page_count=self.page_count
         )

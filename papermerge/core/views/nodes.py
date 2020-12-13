@@ -260,6 +260,8 @@ def node_download(request, id):
 
     Node is either documennt or a folder.
     """
+    version = request.GET.get('version', None)
+
     try:
         node = BaseTreeNode.objects.get(id=id)
     except BaseTreeNode.DoesNotExist:
@@ -270,7 +272,7 @@ def node_download(request, id):
         if node.is_document():
             try:
                 file_handle = open(default_storage.abspath(
-                    node.path.url()
+                    node.path().url(version=version)
                 ), "rb")
             except OSError:
                 logger.error(
