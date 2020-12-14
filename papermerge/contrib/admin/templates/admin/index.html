@@ -26,7 +26,7 @@
      />
      <li class="mx-1">
          <!--parent_id=object.id -->
-         <button id="new-folder" data-target-id="new-folder-form" class="btn btn-light btn-bordered">
+         <button data-target-id="new-folder-form" class="new-folder btn btn-light btn-bordered">
             <i class="fa fa-plus mr-1 text-success"></i>
             <div class="d-none d-md-inline-block">
               {% trans "New Folder" %}
@@ -64,6 +64,9 @@
     <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
   </div>
   <ul id="context-menu" class="dropdown-menu">
+      <li class="new-folder dropdown-item">
+        <a><i class="fa fa-plus mx-2"></i>{% trans "New Folder" %}</a>
+      </li>
       <!-- download one or multiple nodes -->
       <li class="dropdown-item disabled" id="download-nodes">
         <a><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>

@@ -24044,7 +24044,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   events() {
     let event_map = {
-      'click #new-folder': 'new_folder',
+      'click .new-folder': 'new_folder',
       'click #download-nodes': 'download_nodes',
       'click #delete': 'delete_node',
       'click #cut': 'cut_node',
@@ -24248,6 +24248,16 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   _build_action_conditions() {
     let that = this,
         result = new backbone__WEBPACK_IMPORTED_MODULE_2__["Collection"]();
+    result.add({
+      'id': "#delete",
+      'cond': function (selection, clipboard, parent_id) {
+        if (selection.length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+    });
     result.add({
       'id': "#delete",
       'cond': function (selection, clipboard, parent_id) {
