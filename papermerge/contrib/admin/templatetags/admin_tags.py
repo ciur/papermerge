@@ -233,7 +233,7 @@ def localized_datetime(context, datetime_instance):
 
 
 @register.simple_tag(takes_context=True)
-def select_if_current_version(context, version, forloop_last):
+def select_if_current_version(context, version, forloop_first):
     """
     Decide if current select option should be selected or no.
     This template is called within a for loop of document versions.
@@ -248,14 +248,14 @@ def select_if_current_version(context, version, forloop_last):
     Thus, if URL parameter version == 'X' and simple tag argument
     ``version`` == 'X' then this current option must be selected.
     In case when URL parameter version is not present at all - the last
-    version will be selected. We are iterating along with last element
-    if ``forloop_last`` argument is True.
+    version will be selected. We are iterating along with first element
+    if ``forloop_first`` argument is True.
     """
     request = context['request']
     param_version = request.GET.get('version', None)
 
     if param_version is None:
-        if forloop_last:
+        if forloop_first:
             return 'selected'
 
     # here param_version is not None

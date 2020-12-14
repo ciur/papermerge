@@ -26052,7 +26052,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     breadcrumb_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#breadcrumb').outerHeight(true);
     doc_actions = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document-actions').outerHeight(true);
     nav_height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('nav.main-header.navbar').outerHeight(true);
-    viewer_height = vh_height - 2 * nav_height - 2 * doc_actions;
+    viewer_height = vh_height - 1.4 * nav_height - 2 * doc_actions;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#document").css('height', `${viewer_height}px`);
   }
 
