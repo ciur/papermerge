@@ -1,4 +1,4 @@
-mglib == 1.3.3
+mglib == 1.3.4
 mgclipboard >= 0.3.0
 django
 celery
