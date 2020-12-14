@@ -5,7 +5,7 @@
 {% block title %} Papermerge | Documents {% endblock %}
 
 {% block widgetsbar %}
-  <div class="card">
+  <div id="info-widget-document" class="card">
     <div class="card-body">
       <div class="card-title">{% trans "Info" %}</div>
       <div class="card-text">
@@ -40,10 +40,12 @@
             <li class="collection-item">
               <div class="form-group mt-2">
                 <label for="versions">{% trans "Version(s)" %}:</label>
-                <select>
-                {% for version in versions %}
-                  <option value="version">{{version}}</option>
-                {% endfor %}
+                <select name="document-versions" id="document-versions">
+                  {% for version in versions reversed %}
+                    <option {% select_if_current_version version forloop.last %}  value="{{version}}">
+                       {% if forloop.last  %}{% trans "Original" %} {% elif forloop.first %}{% trans "Latest" %}{% else %}{% endif %} v{{version}}
+                    </option>
+                  {% endfor %}
                 </select>
               </div>
             </li>

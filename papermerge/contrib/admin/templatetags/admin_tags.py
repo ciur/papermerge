@@ -232,3 +232,36 @@ def localized_datetime(context, datetime_instance):
         return ret_str
 
 
+@register.simple_tag(takes_context=True)
+def select_if_current_version(context, version, forloop_last):
+    """
+    Decide if current select option should be selected or no.
+    This template is called within a for loop of document versions.
+
+    This simple tag is used in info widget of the document (if document
+    has more then one version).
+    If document has more then one version, a select tag will be used so that
+    user can select which document version will be displayed in documet viewer.
+
+    The fact that version X is currently displayed to the user is determined by
+    URL GET parameter http://.../?version=X.
+    Thus, if URL parameter version == 'X' and simple tag argument
+    ``version`` == 'X' then this current option must be selected.
+    In case when URL parameter version is not present at all - the last
+    version will be selected. We are iterating along with last element
+    if ``forloop_last`` argument is True.
+    """
+    request = context['request']
+    param_version = request.GET.get('version', None)
+
+    if param_version is None:
+        if forloop_last:
+            return 'selected'
+
+    # here param_version is not None
+    str_version = str(version)
+
+    if str_version == param_version:
+        return 'selected'
+
+    return ''

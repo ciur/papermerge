@@ -25631,6 +25631,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     // page.
 
     this._widgetsbar = new _views_widgetsbar__WEBPACK_IMPORTED_MODULE_16__["WidgetsBarDocumentView"](document_id);
+    this._info_widget = new _views_widgetsbar__WEBPACK_IMPORTED_MODULE_16__["InfoWidgetDocumentView"](document_id);
     this._thumbnail_list = new _document_form_thumbnail_list__WEBPACK_IMPORTED_MODULE_8__["MgThumbnailList"]();
     this._zoom = new _document_form_zoom__WEBPACK_IMPORTED_MODULE_10__["DgZoom"]();
     this._page_list = new _document_form_page_list__WEBPACK_IMPORTED_MODULE_11__["MgPageList"](this._zoom);
@@ -27205,12 +27206,13 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
 /*!************************************!*\
   !*** ./src/js/views/widgetsbar.js ***!
   \************************************/
-/*! exports provided: WidgetsBarView, WidgetsBarDocumentView */
+/*! exports provided: WidgetsBarView, InfoWidgetDocumentView, WidgetsBarDocumentView */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WidgetsBarView", function() { return WidgetsBarView; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InfoWidgetDocumentView", function() { return InfoWidgetDocumentView; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WidgetsBarDocumentView", function() { return WidgetsBarDocumentView; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
@@ -27802,6 +27804,28 @@ class WidgetsBarView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     }
 
     this.$el.html(compiled);
+  }
+
+}
+class InfoWidgetDocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()("#info-widget-document");
+  }
+
+  initialize(document_id) {
+    this.document_id = document_id;
+  }
+
+  events() {
+    let event_map = {
+      'change #document-versions': 'on_document_version_selected'
+    };
+    return event_map;
+  }
+
+  on_document_version_selected(event) {
+    let version = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).val();
+    window.location.search = `?version=${version}`;
   }
 
 }
