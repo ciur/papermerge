@@ -10256,6 +10256,12 @@ ul.pinned_tags li.active {
 aside a.download {
   color: white; }
 
+#breadcrumb a.preload {
+  display: block;
+  width: 5rem;
+  height: 1rem;
+  background-color: #ccc; }
+
 #document-actions {
   top: -0.5rem; }
 
@@ -10270,7 +10276,8 @@ aside a.download {
   display: none; }
 
 #document {
-  overflow: hidden; }
+  overflow: hidden;
+  visibility: hidden; }
   #document #viewer {
     height: inherit; }
     #document #viewer #actual-pages {

@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 
-{% load i18n admin_tags %}
+{% load i18n admin_tags static %}
 
 {% block title %} Papermerge | Documents {% endblock %}
 
@@ -166,7 +166,22 @@
 
 {% block breadcrumb %}
     <div id="breadcrumb" class="col-sm-12">
+      <ol class="breadcrumb float-sm-left">
+          <li class="breadcrumb-item">
+              <div class="d-none d-sm-inline-block">
+                  <i class="preload"></i>
+                  <a class="preload" href=""></a>
+              </div>
+          </li>
+          <li class="breadcrumb-item">
+              <a class="preload" href=""></a>
+          </li>
+          <li class="breadcrumb-item">
+              <a class="preload" href=""></a>
+          </li>
+      </ol>
     </div><!-- /.col -->
+
 {% endblock %}
 
 {% block modals %}
@@ -178,6 +193,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
+      <div id="pre-loader">
+        <img src="{% static 'admin/img/pre-loader/loader-03.svg' %}" alt="">
+      </div>
         <div id="document">
           <div id="viewer" class="d-flex flex-row">
             <div id="page-thumbnails">

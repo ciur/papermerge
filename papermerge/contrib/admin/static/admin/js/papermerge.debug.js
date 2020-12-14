@@ -18769,9 +18769,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _text_overlay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../text_overlay */ "./src/js/text_overlay.js");
 /* harmony import */ var _rect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./rect */ "./src/js/document_form/rect.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
  // imagesloaded will trigger "load" event after img element
 // has loaded image. Without this plugin, event WILL NOT
 // BE TRIGGERED IF IMG WAS loaded FROM CACHE
+
 
 
 
@@ -18967,13 +18969,13 @@ class DgPage {
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_img).imagesLoaded().done(function (instance) {
       that.load_hocr(zoom_val);
+      _models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_6__["DOCUMENT_IMAGE_LOADED"], that.page_num);
     });
   }
 
   resize_img(zoom_val) {
     let arr = [50, 75, 100, 125, 150],
         new_width;
-    console.log(`resize_img zoom_val=${zoom_val}`);
 
     if (!this._orig_page_size) {
       // image might not yet be loaded, e.g.
@@ -19119,7 +19121,6 @@ class DgPage {
 
   on_scroll(zoom_val) {
     if (!this.is_img_loaded()) {
-      console.log("Loading img...");
       this.load_img(zoom_val); // when load_img completes asyncroniously to load
       // image - it triggers load_hocr function.
     } else if (this.zoom_changed(zoom_val)) {
@@ -19181,14 +19182,16 @@ class DgPage {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MgPageList", function() { return MgPageList; });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./page */ "./src/js/document_form/page.js");
-/* harmony import */ var _lister__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lister */ "./src/js/document_form/lister.js");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./page */ "./src/js/document_form/page.js");
+/* harmony import */ var _lister__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lister */ "./src/js/document_form/lister.js");
 
 
 
-class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
+
+class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_3__["MgLister"] {
   constructor(zoom) {
     super();
     this._container_selector = ".actual_pages";
@@ -19250,7 +19253,7 @@ class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
       page_num = dom_data.getAttribute('data-page_num');
       page_id = dom_data.getAttribute('data-page_id');
 
-      that._list.push(new _page__WEBPACK_IMPORTED_MODULE_1__["DgPage"](dom_page_item, dom_data, doc_id, page_id, page_num));
+      that._list.push(new _page__WEBPACK_IMPORTED_MODULE_2__["DgPage"](dom_page_item, dom_data, doc_id, page_id, page_num));
     });
   }
 
@@ -19275,8 +19278,8 @@ class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
 
   swap_pages(page_1, page_2) {
     let clone_1, clone_2, dom_data_1, dom_data_2;
-    clone_1 = jquery__WEBPACK_IMPORTED_MODULE_0___default()(page_1.dom_ref).clone();
-    clone_2 = jquery__WEBPACK_IMPORTED_MODULE_0___default()(page_2.dom_ref).clone();
+    clone_1 = jquery__WEBPACK_IMPORTED_MODULE_1___default()(page_1.dom_ref).clone();
+    clone_2 = jquery__WEBPACK_IMPORTED_MODULE_1___default()(page_2.dom_ref).clone();
     page_1.replace_with(clone_2[0], page_2.page_num);
     page_2.replace_with(clone_1[0], page_1.page_num);
   }
@@ -19300,7 +19303,7 @@ class MgPageList extends _lister__WEBPACK_IMPORTED_MODULE_2__["MgLister"] {
 
     this._add_pages();
 
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._container_selector).scroll(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(this._container_selector).scroll(function () {
       for (let page of that._list) {
         page.on_scroll(that.zoom.get_value());
       }
@@ -20411,7 +20414,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 /*!*************************************!*\
   !*** ./src/js/models/dispatcher.js ***!
   \*************************************/
-/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED, SELECT_ALL, SELECT_FOLDERS, SELECT_DOCUMENTS, DESELECT, INVERT_SELECTION */
+/*! exports provided: mg_dispatcher, PARENT_CHANGED, SELECTION_CHANGED, PAGE_SELECTION_CHANGED, BROWSER_REFRESH, PERMISSION_CHANGED, SELECT_ALL, SELECT_FOLDERS, SELECT_DOCUMENTS, DESELECT, INVERT_SELECTION, DOCUMENT_IMAGE_LOADED */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20427,6 +20430,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SELECT_DOCUMENTS", function() { return SELECT_DOCUMENTS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DESELECT", function() { return DESELECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INVERT_SELECTION", function() { return INVERT_SELECTION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DOCUMENT_IMAGE_LOADED", function() { return DOCUMENT_IMAGE_LOADED; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
@@ -20449,6 +20453,7 @@ let SELECT_FOLDERS = "select_folders";
 let SELECT_DOCUMENTS = "select_documents";
 let DESELECT = "deselect";
 let INVERT_SELECTION = "invert_selection";
+let DOCUMENT_IMAGE_LOADED = "document_image_loaded";
 
 /***/ }),
 
@@ -25555,6 +25560,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_rename__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../views/rename */ "./src/js/views/rename.js");
 /* harmony import */ var _models_document__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../models/document */ "./src/js/models/document.js");
 /* harmony import */ var _views_message__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../views/message */ "./src/js/views/message.js");
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -25643,6 +25650,7 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this._spinner = new _spinner__WEBPACK_IMPORTED_MODULE_13__["DgMainSpinner"]();
     this._actions = this.build_actions();
     this._breadcrumb_view = new _views_breadcrumb__WEBPACK_IMPORTED_MODULE_15__["BreadcrumbView"](document_id);
+    this._loaded_page_imgs = 0;
 
     if (dom_actual_pages) {
       new _document_form_page_scroll__WEBPACK_IMPORTED_MODULE_6__["DgPageScroll"](dom_actual_pages);
@@ -25651,6 +25659,8 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     this.configEvents();
 
     this._adjust_viewer_height();
+
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_20__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_20__["DOCUMENT_IMAGE_LOADED"], this.on_document_image_loaded, this);
   }
 
   get actions() {
@@ -25663,6 +25673,15 @@ class DocumentView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   get page_list() {
     return this._page_list;
+  }
+
+  on_document_image_loaded(page_num) {
+    if (this.page_list.length > this._loaded_page_imgs) {
+      this._loaded_page_imgs += 1;
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#document").css("visibility", "visible");
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#pre-loader").hide();
+    }
   }
 
   scroll_to(page_num) {
