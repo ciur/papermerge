@@ -70,6 +70,7 @@ def document(request, doc_id):
                     'pages': pagelist,
                     'tags': doc.tags.all(),
                     'document': doc,
+                    'versions': doc.get_versions(),
                     'version': version,
                     'has_perm_write': nodes_perms[doc.id].get(
                         Access.PERM_WRITE, False

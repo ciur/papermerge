@@ -22,23 +22,58 @@
             <label for="updated_at">{% trans "Modified" %}:</label>
             {% localized_datetime document.updated_at%}
           </li>
-
-          <li class="collection-item">
-            <div class="form-group mt-2">
-              <label for="tags">{% trans "Tags" %}:</label>
-              <div class="document tags-container d-flex">
-                {% for tag in tags %}
-                  <div style="background: {{tag.bg_color}}; color: {{ tag.fg_color }}; border-color: {{tag.bg_color}}" class="tag d-flex align-items-center">
-                    <span style="color: {{tag.fg_color}}; margin-right: 0.5rem;">{{ tag.name }}</span>
-                  </div>
-                {% endfor %}
+          {% if tags|length > 0 %}
+            <li class="collection-item">
+              <div class="form-group mt-2">
+                <label for="tags">{% trans "Tags" %}:</label>
+                <div class="document tags-container d-flex">
+                  {% for tag in tags %}
+                    <div style="background: {{tag.bg_color}}; color: {{ tag.fg_color }}; border-color: {{tag.bg_color}}" class="tag d-flex align-items-center">
+                      <span style="color: {{tag.fg_color}}; margin-right: 0.5rem;">{{ tag.name }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+          {% endif %}
+          {% if versions|length > 0 %}
+            <li class="collection-item">
+              <div class="form-group mt-2">
+                <label for="versions">{% trans "Version(s)" %}:</label>
+                <select>
+                {% for version in versions %}
+                  <option value="version">{{version}}</option>
+                {% endfor %}
+                </select>
+              </div>
+            </li>
+          {% endif %}
           <li class="collection-item d-flex flex-row-reverse bordered">
-            <a href="{% url 'core:node_download' document.id %}" class="btn btn-flat btn-primary text-white download">
-              <i class="fa fa-download mx-1"></i>{% trans "Download" %}
-            </a>
+            {% if versions|length > 0 %}
+            <div class="dropdown">
+                <button class="btn btn-flat btn-primary text-white download dropdown-toggle" type="button" id="download-versions-dropdown-button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false">
+                   <i class="fa fa-download mx-1"></i>{% trans "Download" %}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="download-versions-dropdown-button">
+                  {% for version in versions reversed %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'core:node_download' document.id %}?version={{version}}">
+                        {% if forloop.last %}
+                          {% trans "Original" %}
+                        {% elif forloop.first  %}
+                          {% trans "Latest" %} 
+                        {% else %}
+                        {% endif %}
+                        v{{version}}
+                      </a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% else %}
+              <a href="{% url 'core:node_download' document.id %}" class="btn btn-flat btn-primary text-white download">
+                <i class="fa fa-download mx-1"></i>{% trans "Download" %}
+              </a>
+            {% endif %}
           </li>
         </ul>
       </div> <!-- card text -->

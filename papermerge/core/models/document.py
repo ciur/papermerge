@@ -416,6 +416,7 @@ class Document(BaseTreeNode):
         item['id'] = self.id
         item['title'] = self.title
         item['notes'] = self.notes
+        item['versions'] = self.get_versions()
         item['created_at'] = self.human_created_at
         item['updated_at'] = self.human_updated_at
         item['timestamp'] = self.created_at.timestamp()
@@ -549,6 +550,21 @@ class Document(BaseTreeNode):
 
     def __str__(self):
         return self.title
+
+    def get_versions(self):
+        """
+        Returns a list of all versions
+        numbers of given document. Version
+        counting starts with 0. Example:
+        [0, 1, 2] - document has 3 versions.
+        Original version is 0. Latest version is 2.
+        """
+        doc_path = self.path()
+        versions_list = default_storage.get_versions(
+            doc_path
+        )
+
+        return versions_list
 
     def is_latest_version(self, version):
         if version is None:
