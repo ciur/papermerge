@@ -27251,6 +27251,11 @@ class UploaderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
   render() {
     let compiled, context;
     context = {};
+
+    if (!this.uploader.length) {
+      return;
+    }
+
     compiled = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(TEMPLATE({
       'files': this.uploader
     }));
