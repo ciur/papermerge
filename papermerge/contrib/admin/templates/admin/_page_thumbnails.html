@@ -1,11 +1,9 @@
+{% load admin_tags %}
+
 <ul class="page_thumbnails">
     {% for page in pages %}
         <li class="page_thumbnail {% if forloop.first %} first {% endif %} {% if forloop.last %} last {% endif %}">
-          {% if has_perm_write %}
-            <div class="arrow-up-control">
-                <a href="#"><i class="fa fa-arrow-circle-up"></i></a>
-            </div>
-          {% endif %}
+          {% thumb_arrow_up %}
           <div class="document page" 
                data-page_num="{{page.number}}"
                data-img_type="thumbnail"
@@ -15,11 +13,7 @@
                data-step="4">
                <input type="checkbox" name="_selected_action" value="{{ page.number }}" />
             </div>
-          {% if has_perm_write %}
-            <div class="arrow-down-control">
-                <a href="#"><i class="fa fa-arrow-circle-down"></i></a>
-            </div>
-          {% endif %}
+          {% thumb_arrow_down %}
           <div class="page_number">{{ page.number }}</div>
         </li>
     {% endfor %}

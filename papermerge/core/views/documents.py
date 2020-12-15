@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.conf import settings
+from django.contrib import messages
 from django.http import (
     HttpResponse,
     HttpResponseRedirect,
@@ -63,6 +64,13 @@ def document(request, doc_id):
 
     if not request.is_ajax():
         if request.user.has_perm(Access.PERM_READ, doc):
+            if not doc.is_latest_version(version):
+                messages.info(
+                    request, _(
+                        "This is past version of the document."
+                        " Content of this version is read only."
+                    )
+                )
             return render(
                 request,
                 'admin/document.html',
@@ -71,6 +79,7 @@ def document(request, doc_id):
                     'tags': doc.tags.all(),
                     'document': doc,
                     'versions': doc.get_versions(),
+                    'is_latest_version': doc.is_latest_version(version),
                     'version': version,
                     'has_perm_write': nodes_perms[doc.id].get(
                         Access.PERM_WRITE, False

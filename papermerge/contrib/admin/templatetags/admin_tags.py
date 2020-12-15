@@ -265,3 +265,65 @@ def select_if_current_version(context, version, forloop_first):
         return 'selected'
 
     return ''
+
+
+def is_latest_version(version, versions):
+    if version is None:
+        return True
+
+    version = int(version)
+    if versions:
+        if version == int(versions[-1]):
+            return True
+
+    return False
+
+
+@register.simple_tag(takes_context=True)
+def thumb_arrow_up(context):
+    """
+    User can change page order (move page up) only is currently
+    latest version of the document is displayed
+    """
+    has_perm_write = context['has_perm_write']
+    request = context['request']
+    versions = context['versions']
+    version = request.GET.get('version', None)
+
+    ret = mark_safe(
+        "<div class='arrow-up-control'>"
+        "<a href='#'><i class='fa fa-arrow-circle-up'></i></a>"
+        "</div>"
+    )
+
+    if has_perm_write and is_latest_version(
+        version, versions
+    ):
+        return ret
+
+    return ''
+
+
+@register.simple_tag(takes_context=True)
+def thumb_arrow_down(context):
+    """
+    User can change page order (move page down) only is currently
+    latest version of the document is displayed
+    """
+    has_perm_write = context['has_perm_write']
+    request = context['request']
+    versions = context['versions']
+    version = request.GET.get('version', None)
+
+    ret = mark_safe(
+        "<div class='arrow-down-control'>"
+        "<a href='#'><i class='fa fa-arrow-circle-down'></i></a>"
+        "</div>"
+    )
+
+    if has_perm_write and is_latest_version(
+        version, versions
+    ):
+        return ret
+
+    return ''

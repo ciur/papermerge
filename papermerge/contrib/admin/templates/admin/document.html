@@ -112,41 +112,6 @@
   </div>
 {% endblock %}
 
-{% block control_sidebar %}
-  <!-- Control sidebar content goes here -->
-  <div class="p-3">
-    {% csrf_token %}
-    <a href="{% url 'core:node_download' document.id %}" class="btn btn-block btn-success download">
-      {% trans "Download" %}
-    </a>
-    <button id="save" type="button" class="btn btn-block btn-light save">
-    {% trans "Save" %}</button>
-    <div class="form-group mt-2">
-      <label for="tags">{% trans "Tags" %}</label>
-      <div class="document tags-container d-flex">
-        {% for tag in tags %}
-          <div style="background: {{tag.bg_color}}; color: {{ tag.fg_color }}; border-color: {{tag.bg_color}}" class="tag d-flex align-items-center">
-            <span style="color: {{tag.fg_color}}; margin-right: 0.5rem;">{{ tag.name }}</span>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="language">{% trans "Language" %}</label>
-      <span class="form-control">{{document.lang}} </span>
-    </div>
-    <div id="metadata">
-    </div>
-    <div class="form-group">
-      <label for="notes">{% trans "Notes" %}</label>
-      <textarea class="form-control" name="notes" rows="3">{{document.notes|default_if_none:""}}</textarea>
-    </div>
-    <button id="delete" type="button" class="btn btn-block btn-light hover-danger">
-      {% trans "Delete" %}
-    </button>
-  </div>
-{% endblock %}
-
 {% block actions %}
 <div id="document-actions" class="col-sm-12 d-flex flex-row justify-content-between">
     <button id="sw-left-panel" data-target-id="page-thumbnails" class="btn btn-default btn-flat btn-outline-light">
@@ -213,30 +178,37 @@
 
 <input type="hidden" name="document_id" value="{{document.id}}" />
 <ul id="context-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <li class="dropdown-item">
-      <a href="{% url 'core:node_download' document.id %}"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
-    </li>
+    {% if is_latest_version %}
+      <li class="dropdown-item">
+        <a href="{% url 'core:node_download' document.id %}"><i class="fa fa-download mx-2"></i>{% trans "Download" %}</a>
+      </li>
+    {% endif %}
     <li class="dropdown-item disabled" id="rename" data-target-id="rename-form" disabled>
       <a><i class="fa fa-edit mx-2"></i>{% trans "Rename" %}</a>
     </li>
-    <li class="dropdown-item fl fl-i-center" id="delete-page" class="dropdown-item fl fl-i-center disabled">
-       <a><i class="fa fa-trash mx-2"></i>{% trans "Delete Page" %}</a>
-    </li>
-    <li class="dropdown-divider"></li>
-    <li class="dropdown-item disabled" id="cut-page">
-      <a><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
-    </li>
-                 <!-- PASTE -->
-     <li class="dropdown-item disabled" id="paste-page">
-         <a><i class="fa fa-paste mx-2"></i>{% trans "Paste" %}</a>
-     </li>
+    {% if has_perm_write and is_latest_version %}
+      <li class="dropdown-item fl fl-i-center" id="delete-page" class="dropdown-item fl fl-i-center disabled">
+         <a><i class="fa fa-trash mx-2"></i>{% trans "Delete Page" %}</a>
+      </li>
+    
+      <li class="dropdown-divider"></li>
+      <li class="dropdown-item disabled" id="cut-page">
+        <a><i class="fa fa-cut mx-2"></i>{% trans "Cut" %}</a>
+      </li>
+                   <!-- PASTE -->
+       <li class="dropdown-item disabled" id="paste-page">
+           <a><i class="fa fa-paste mx-2"></i>{% trans "Paste" %}</a>
+       </li>
+     {% endif %}
      <!-- PASTE -->
      <li id="tags-menu-item" class="dropdown-item disabled">
          <a><i class="fa fa-tag mx-2"></i>{% trans "Tags" %}</a>
      </li>
-     <li class="dropdown-divider"></li>
-     <li id="apply-reorder-changes" class="dropdown-item disabled">
-         <a><i class="fa fa-download mx-2 "></i>{% trans "Apply Reorder Changes" %}</a>
-      </li>
+     {% if has_perm_write and is_latest_version %}
+       <li class="dropdown-divider"></li>
+       <li id="apply-reorder-changes" class="dropdown-item disabled">
+           <a><i class="fa fa-download mx-2 "></i>{% trans "Apply Reorder Changes" %}</a>
+        </li>
+      {% endif %}
   </ul>
 {% endblock %}
