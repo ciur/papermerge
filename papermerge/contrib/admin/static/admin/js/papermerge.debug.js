@@ -25612,6 +25612,16 @@ class DocumentActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#document-actions');
   }
 
+  initialize() {
+    let storage = window.localStorage;
+
+    if (storage.getItem('page-thumbnails') == 'visible') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#page-thumbnails").show();
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()("#page-thumbnails").hide();
+    }
+  }
+
   events() {
     let event_map = {
       "click #sw-left-panel": "toggle_thumbnails"
@@ -25621,7 +25631,8 @@ class DocumentActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
 
   toggle_thumbnails(event) {
     let target_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.currentTarget).data("target-id"),
-        $target;
+        $target,
+        storage = window.localStorage;
     event.preventDefault();
     $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#" + target_id);
 
@@ -25631,6 +25642,12 @@ class DocumentActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] 
     }
 
     $target.toggle();
+
+    if ($target.is(':visible')) {
+      storage.setItem('page-thumbnails', 'visible');
+    } else {
+      storage.setItem('page-thumbnails', 'hidden');
+    }
   }
 
 }

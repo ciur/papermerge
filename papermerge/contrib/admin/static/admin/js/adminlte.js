@@ -585,9 +585,7 @@
 
         $(Selector.BODY).removeClass(ClassName.COLLAPSED).removeClass(ClassName.CLOSED);
 
-        if (this._options.enableRemember) {
-          localStorage.setItem("remember" + EVENT_KEY, ClassName.OPEN);
-        }
+        document.cookie = "lte-menu=expanded; expires=Sun, 01 Jan 2090 00:00:00 GMT; path=/";
 
         var shownEvent = $.Event(Event.SHOWN);
         $(this._element).trigger(shownEvent);
@@ -602,9 +600,7 @@
 
         $(Selector.BODY).addClass(ClassName.COLLAPSED);
 
-        if (this._options.enableRemember) {
-          localStorage.setItem("remember" + EVENT_KEY, ClassName.COLLAPSED);
-        }
+        document.cookie = "lte-menu=collapsed; expires=Sun, 01 Jan 2090 00:00:00 GMT; path=/";
 
         var collapsedEvent = $.Event(Event.COLLAPSED);
         $(this._element).trigger(collapsedEvent);
@@ -639,29 +635,20 @@
       };
 
       _proto.remember = function remember() {
-        if (this._options.enableRemember) {
-          var toggleState = localStorage.getItem("remember" + EVENT_KEY);
+        /** The whole 'remember the state of left lte menu' thing
+         is managed by a cookie named 'lte-menu' which has two values:
 
-          if (toggleState == ClassName.COLLAPSED) {
-            if (this._options.noTransitionAfterReload) {
-              $("body").addClass('hold-transition').addClass(ClassName.COLLAPSED).delay(50).queue(function () {
-                $(this).removeClass('hold-transition');
-                $(this).dequeue();
-              });
-            } else {
-              $("body").addClass(ClassName.COLLAPSED);
-            }
-          } else {
-            if (this._options.noTransitionAfterReload) {
-              $("body").addClass('hold-transition').removeClass(ClassName.COLLAPSED).delay(50).queue(function () {
-                $(this).removeClass('hold-transition');
-                $(this).dequeue();
-              });
-            } else {
-              $("body").removeClass(ClassName.COLLAPSED);
-            }
-          }
-        }
+          - expanded
+          - collapsed
+        
+        Cookie never expires and is set by expand/collapse functions.
+        Cookie is sent to the server side and server side decides if lte
+        menu will be expanded/collapsed.
+
+        Why? Because with client side only solution, the user can see
+        for fraction of second other state 
+        (during refresh -> collapse state -> ~ 0.2 sec -> expanded state)
+        **/
       } // Private
       ;
 

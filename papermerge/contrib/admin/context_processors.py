@@ -83,8 +83,18 @@ def sidebar_menu(request):
         if request.user.has_perm(req_perm):
             menu.append(menu_item)
 
+    """
+    lte_menu option determines the state of left menu of admin lte3
+    (collapsed/expanded). It is used to decide which css class to set
+    on <body> element (in admin/base.html).
+    Why? Because with client side only solution, the user can see
+    for fraction of second other state
+    (during refresh -> collapse state -> ~ 0.2 sec -> expanded state)
+    """
+
     return {
-        'sidebar_menu': menu
+        'sidebar_menu': menu,
+        'lte_menu': request.COOKIES.get('lte-menu', None)
     }
 
 
