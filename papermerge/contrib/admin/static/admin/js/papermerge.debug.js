@@ -19071,6 +19071,7 @@ class DgPage {
 
   resize_hocr(zoom_val) {
     let hocr_url,
+        version,
         that = this;
 
     if (!this._dom_hocr) {
@@ -19079,7 +19080,14 @@ class DgPage {
 
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(this._dom_svg).remove();
-    hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+    version = parseInt(Object(_utils__WEBPACK_IMPORTED_MODULE_5__["get_url_param"])('version'));
+
+    if (version >= 0) {
+      hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}?version=${version}`;
+    } else {
+      hocr_url = `/document/${this._doc_id}/hocr/1/page/${this._page_num}`;
+    }
+
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
       url: hocr_url
     }).done(function (data) {
