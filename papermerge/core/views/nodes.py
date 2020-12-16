@@ -15,6 +15,7 @@ from django.shortcuts import (
 )
 from django.utils.translation import gettext as _
 from django.core.files.temp import NamedTemporaryFile
+from django.core.paginator import Paginator
 
 from papermerge.core.models import (
     BaseTreeNode,
@@ -69,30 +70,70 @@ def browse_view(request, parent_id=None):
     nodes_perms = request.user.get_perms_dict(
         nodes, Access.ALL_PERMS
     )
-
+    readable_nodes = []
     for node in nodes:
         if nodes_perms[node.id].get(Access.PERM_READ, False):
-            node_dict = node.to_dict()
-            # and send user_perms to the frontend client
+            readable_nodes.append(node)
 
-            node_dict['user_perms'] = nodes_perms[node.id]
+    page_number = int(request.GET.get('page', 1))
 
-            if node.is_document():
-                node_dict['img_src'] = reverse(
-                    'core:preview',
-                    args=(node.id, 4, 1)
-                )
-                node_dict['document_url'] = reverse(
-                    'core:document',
-                    args=(node.id,)
-                )
+    paginator = Paginator(readable_nodes, per_page=30)
+    num_pages = paginator.num_pages
+    page_obj = paginator.get_page(page_number)
 
-            nodes_list.append(node_dict)
+    for node in page_obj.object_list:
+        node_dict = node.to_dict()
+        # and send user_perms to the frontend client
+
+        node_dict['user_perms'] = nodes_perms[node.id]
+
+        if node.is_document():
+            node_dict['img_src'] = reverse(
+                'core:preview',
+                args=(node.id, 4, 1)
+            )
+            node_dict['document_url'] = reverse(
+                'core:document',
+                args=(node.id,)
+            )
+
+        nodes_list.append(node_dict)
+
+    # 1.   Number of pages < 7: show all pages;
+    # 2.   Current page <= 4: show first 7 pages;
+    # 3.   Current page > 4 and < (number of pages - 4): show current page,
+    #       3 before and 3 after;
+    # 4.   Current page >= (number of pages - 4): show the last 7 pages.
+
+    if num_pages <= 7 or page_number <= 4:  # case 1 and 2
+        pages = [x for x in range(1, min(num_pages + 1, 7))]
+    elif page_number > num_pages - 4:  # case 4
+        pages = [x for x in range(num_pages - 6, num_pages + 1)]
+    else:  # case 3
+        pages = [x for x in range(page_number - 3, page_number + 4)]
+
+    if page_obj.has_previous():
+        previous_page_number = page_obj.previous_page_number()
+    else:
+        previous_page_number = -1
+
+    if page_obj.has_next():
+        next_page_number = page_obj.next_page_number()
+    else:
+        next_page_number = -1
 
     return {
         'nodes': nodes_list,
         'parent_id': parent_id,
-        'parent_kv': parent_kv
+        'parent_kv': parent_kv,
+        'pages': pages,
+        'num_pages': num_pages,
+        'page': {
+            'has_previous': page_obj.has_previous(),
+            'has_next': page_obj.has_next(),
+            'previous_page_number': previous_page_number,
+            'next_page_number': next_page_number,
+        }
     }
 
 
