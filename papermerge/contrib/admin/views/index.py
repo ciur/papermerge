@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 
 from papermerge.search.backends import get_search_backend
 from papermerge.core.models import (
@@ -10,12 +12,11 @@ from papermerge.core.models import (
 )
 
 
-@login_required
-def browse(request):
-    return render(
-        request,
-        "admin/index.html"
-    )
+class BrowseView(
+    TemplateView,
+    LoginRequiredMixin,
+):
+    template_name = "admin/index.html"
 
 
 @login_required

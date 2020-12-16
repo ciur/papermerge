@@ -5,13 +5,13 @@ app_name = 'admin'
 
 urlpatterns = [
     path(
-        '', views.browse, name="index"
+        '', views.BrowseView.as_view(), name="index"
     ),
     path(
         'inbox/', views.inbox_view, name="inbox"
     ),
     path(
-        'browse', views.browse, name="browse"
+        'browse', views.BrowseView.as_view(), name="browse"
     ),
     path(
         'search', views.search, name="search"

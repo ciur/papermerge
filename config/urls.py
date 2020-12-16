@@ -7,7 +7,7 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 
-from papermerge.contrib.admin.views import browse as index_view
+from papermerge.contrib.admin.views import BrowseView
 
 
 js_info_dict = {
@@ -32,7 +32,7 @@ urlpatterns = [
     ),
     path('admin/', include('papermerge.contrib.admin.urls')),
     path('', include('papermerge.core.urls')),
-    path('', index_view, name='index'),
+    path('', BrowseView.as_view(), name='index'),
 ]
 
 for extra_urls in settings.EXTRA_URLCONF:
