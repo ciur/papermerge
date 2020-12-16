@@ -23171,13 +23171,9 @@ __p+='<div class="metadata-widget">\n\n    <div class="card">\n        <div clas
 '\n                        </button>\n                        \n                        <button type=\'button\' class=\'btn btn-success btn-flat save key mx-1\'>\n                            <i class="fa fa-save"></i>\n                            '+
 ((__t=( gettext('Save') ))==null?'':__t)+
 '\n                        </button>\n                    </li>\n                    <ul id="simple_keys" class="collection">\n                        ';
- for (i=0; i < kvstore.models.length; i++) { 
+ for (i=0; i < tags.models.length; i++) { 
 __p+='\n                            ';
- item = kvstore.models[i]; 
-__p+='\n                            ';
- current_formats = item.get('current_formats') || []; 
-__p+='\n                            ';
- kv_types = item.get('kv_types') || available_types || []; 
+ tag = tags.models[i]; 
 __p+='\n                            <li class=\'collection-item\' data-model=\'simple-key\' data-id=\''+
 ((__t=( item.id ))==null?'':__t)+
 '\' data-cid=\''+
@@ -23304,7 +23300,29 @@ __p+='\n                '+
 ((__t=( gettext('Modified') ))==null?'':__t)+
 ':</label>  '+
 ((__t=( updated_at ))==null?'':__t)+
-'\n            </li>\n            <li class="collection-item d-flex flex-row-reverse bordered">\n                <a href="'+
+'\n            </li>\n            ';
+ if (tags.length > 0) { 
+__p+='\n                <li class="collection-item">\n                    <label for="tags">'+
+((__t=( gettext('Tags') ))==null?'':__t)+
+':\n                    </label>\n                    <div class="document tags-container d-flex">\n                        ';
+ for (i=0; i < tags.length; i++) { 
+__p+='\n                            ';
+ tag = tags[i]; 
+__p+='\n                        <div style="background: '+
+((__t=( tag.bg_color ))==null?'':__t)+
+'; color: '+
+((__t=( tag.fg_color ))==null?'':__t)+
+';  border: 1px solid '+
+((__t=( tag.bg_color ))==null?'':__t)+
+'; border-radius: 3px;" class="tag d-flex align-items-center">\n                            <span style="color: '+
+((__t=( tag.fg_color ))==null?'':__t)+
+'; margin-right: 0.5rem;">'+
+((__t=( tag.name ))==null?'':__t)+
+'</span>\n                        </div>\n                        ';
+ } 
+__p+='\n                    </div>\n                </li>\n            ';
+ } 
+__p+='\n            <li class="collection-item d-flex flex-row-reverse bordered">\n                <a href="'+
 ((__t=( download_url ))==null?'':__t)+
 '" class="btn btn-primary text-white btn-flat">\n                    <i class="fa fa-download"></i>\n                    '+
 ((__t=( gettext('Download') ))==null?'':__t)+
@@ -27326,6 +27344,7 @@ class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"]
         ctype,
         _id,
         title,
+        tags,
         created_at,
         updated_at,
         download_url;
@@ -27335,12 +27354,14 @@ class SingleNodeInfoWidget extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"]
     title = this.node.get('title');
     created_at = this.node.get('created_at');
     updated_at = this.node.get('updated_at');
+    tags = this.node.get('tags');
     download_url = `/node/${_id}/download/`;
     context['id'] = _id;
     context['title'] = title;
     context['ctype'] = ctype;
     context['created_at'] = created_at;
     context['updated_at'] = updated_at;
+    context['tags'] = tags;
     context['download_url'] = download_url;
     return this.template(context);
   }
