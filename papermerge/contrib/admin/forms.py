@@ -265,8 +265,12 @@ class AdvancedSearchForm(forms.Form):
             )
             folder_choice_ids = []
 
+            nodes_perms = user.get_perms_dict(
+                all_folders, Access.ALL_PERMS
+            )
+
             for folder in all_folders:
-                if user.has_perm(Access.PERM_READ, folder):
+                if nodes_perms[folder.id].get(Access.PERM_READ, False):
                     folder_choice_ids.append(folder.id)
 
             self.fields['folder'].queryset = Folder.objects.filter(
