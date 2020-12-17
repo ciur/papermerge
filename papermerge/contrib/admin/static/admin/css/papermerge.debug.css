@@ -9961,9 +9961,17 @@ ul.pinned_tags li.active {
 .card-body.xmain {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  padding-bottom: 0.25rem; }
   .card-body.xmain .xmain-browser-row {
-    flex-grow: 1; }
+    flex-grow: 1;
+    position: relative; }
+
+#pagination-view {
+  position: absolute;
+  right: 0;
+  z-index: 2000;
+  bottom: 0rem; }
 
 #browse {
   -webkit-user-select: none;

@@ -22699,7 +22699,7 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='';
  if (num_pages > 1) { 
-__p+='\n  <div class="row px-3">\n    <nav class="col-12" aria-label="Page navigation example">\n      <ul class="pagination justify-content-end">\n        ';
+__p+='\n  <div class="row">\n    <nav class="col-12">\n      <ul class="pagination pagination-sm justify-content-end">\n        ';
  if (page.has_previous) { 
 __p+='\n          <li class="page-item">\n            <a class="page-link" href="?page='+
 ((__t=( page.previous_page_number ))==null?'':__t)+
