@@ -26414,13 +26414,13 @@ class PaginationView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
 
   template(context = {}) {
     let compiled_tpl,
-        default_context,
+        ctx,
         file_tpl = __webpack_require__(/*! ../templates/pagination.html */ "./src/js/templates/pagination.html");
 
-    default_context = {
-      'page_number': 1,
-      'pages': [],
-      'num_pages': 0,
+    ctx = {
+      'page_number': context['page_number'] || 1,
+      'pages': context['pages'] || [],
+      'num_pages': context['num_pages'] || 0,
       'page': {
         'has_previous': false,
         'has_next': false,
@@ -26428,8 +26428,7 @@ class PaginationView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
         'next_page_number': 1
       }
     };
-    Object.assign(default_context, context);
-    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(context));
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(ctx));
     return compiled_tpl();
   }
 
