@@ -22405,49 +22405,51 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<ul class="d-flex grid">\n    ';
+__p+='';
+ if (nodes.length > 0) { 
+__p+='\n    <ul class="d-flex grid">\n        ';
  for (i=0; i < nodes.length; i++) { 
-__p+='\n        ';
+__p+='\n            ';
  node = nodes.at(i) 
-__p+='\n        <li class="node ui-widget-content node-w1 d-flex flex-column align-items-center" data-id="'+
+__p+='\n            <li class="node ui-widget-content node-w1 d-flex flex-column align-items-center" data-id="'+
 ((__t=( node.get('id') ))==null?'':__t)+
 '" data-cid="'+
 ((__t=( node.cid ))==null?'':__t)+
 '" data-url="'+
 ((__t=( node.url ))==null?'':__t)+
-'">\n            ';
+'">\n                ';
  if (node.is_document())  { 
-__p+='\n                <div class="placeholder document">\n                    <img class="zero_pix" src="'+
+__p+='\n                    <div class="placeholder document">\n                        <img class="zero_pix" src="'+
 ((__t=(  node.get('img_src') ))==null?'':__t)+
-'" />\n                    <div class="document-loading"></div>\n                </div>\n            ';
+'" />\n                        <div class="document-loading"></div>\n                    </div>\n                ';
  } 
-__p+='\n            <div class="icon-'+
+__p+='\n                <div class="icon-'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
-'">\n\n            </div>\n            <ul class="node-tags d-flex flex-column align-items-end">\n                ';
+'">\n\n                </div>\n                <ul class="node-tags d-flex flex-column align-items-end">\n                    ';
  tags = node.get('tags'); 
-__p+='\n                ';
- for (t=0; t < tags.length && t < 3; t++) { 
 __p+='\n                    ';
+ for (t=0; t < tags.length && t < 3; t++) { 
+__p+='\n                        ';
  tag = tags[t]; 
-__p+='\n                    <li class="tag"  style="background: '+
+__p+='\n                        <li class="tag"  style="background: '+
 ((__t=( tag['bg_color'] ))==null?'':__t)+
 ';color: '+
 ((__t=( tag['fg_color'] ))==null?'':__t)+
-'" >\n                        '+
+'" >\n                            '+
 ((__t=( tag['name'] ))==null?'':__t)+
-'\n                    </li>\n                ';
+'\n                        </li>\n                    ';
  } 
-__p+='\n                ';
+__p+='\n                    ';
  if (tags.length > 3) { 
-__p+='\n                    <li>...</li>\n                ';
+__p+='\n                        <li>...</li>\n                    ';
  } 
-__p+='\n            </ul>\n            <div class="icons">\n                ';
+__p+='\n                </ul>\n                <div class="icons">\n                    ';
  if (node.is_readonly()) {  
-__p+='\n                    <i class="fa fa-lock"></i>\n                ';
+__p+='\n                        <i class="fa fa-lock"></i>\n                    ';
  } 
-__p+='\n            </div>\n            <input type="checkbox" name="_selected_action" value="'+
+__p+='\n                </div>\n                <input type="checkbox" name="_selected_action" value="'+
 ((__t=( node.get('id') ))==null?'':__t)+
-'" class="action-select" />\n            <div class="title tooltip">\n                <a href="'+
+'" class="action-select" />\n                <div class="title tooltip">\n                    <a href="'+
 ((__t=( node.url ))==null?'':__t)+
 '" class="'+
 ((__t=( node.get('ctype') ))==null?'':__t)+
@@ -22457,11 +22459,17 @@ __p+='\n            </div>\n            <input type="checkbox" name="_selected_a
 ((__t=(  node.full_title() ))==null?'':__t)+
 '">'+
 ((__t=( node.short_title(20) ))==null?'':__t)+
-'</a>\n                <span class="tooltiptext">'+
+'</a>\n                    <span class="tooltiptext">'+
 ((__t=( node.full_title()  ))==null?'':__t)+
-'</span>\n            </div>\n\n        </li>\n    ';
+'</span>\n                </div>\n\n            </li>\n        ';
  } 
-__p+='\n</ul>';
+__p+='\n    </ul>\n';
+ } else { 
+__p+='\n    <ul id="empty-folder">\n        <div class="d-flex flex-column align-items-center">\n            <i class="fa fa-folder">\n            </i>\n            <strong class="text-muted">'+
+((__t=(  gettext("This folder is empty") ))==null?'':__t)+
+'</strong>\n        </div>\n    </ul>\n';
+ } 
+__p+='';
 }
 return __p;
 };
@@ -22479,7 +22487,9 @@ return __p;
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<table class="table">\n  <thead>\n    <tr>\n      <th scope="col">\n        <a \n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="type"\n        >\n          '+
+__p+='';
+ if (table.rows.length > 0 ) { 
+__p+='\n\n<table class="table">\n  <thead>\n    <tr>\n      <th scope="col">\n        <a \n          href="#"\n          class="header sort d-flex justify-content-between align-items-center"\n          data-col="type"\n        >\n          '+
 ((__t=( gettext('Type') ))==null?'':__t)+
 '\n          <i class="fa '+
 ((__t=( table.cols[0].sort_icon_name ))==null?'':__t)+
@@ -22529,7 +22539,13 @@ __p+='\n            '+
  } 
 __p+='\n    </tr>\n    ';
  } 
-__p+='\n  </tbody>\n</table>';
+__p+='\n  </tbody>\n</table>\n\n';
+ } else { 
+__p+='\n<ul id="empty-folder">\n    <div class="d-flex flex-column align-items-center">\n        <i class="fa fa-folder">\n        </i>\n        <strong class="text-muted">'+
+((__t=(  gettext("This folder is empty") ))==null?'':__t)+
+'</strong>\n    </div>\n</ul>\n';
+ } 
+__p+='';
 }
 return __p;
 };
@@ -24126,6 +24142,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   events() {
     let event_map = {
       'click .new-folder': 'new_folder',
+      'click #new-folder': 'new_folder',
       'click #download-nodes': 'download_nodes',
       'click #delete': 'delete_node',
       'click #cut': 'cut_node',
@@ -24313,6 +24330,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   new_folder(event) {
+    console.log("New folder");
     let new_folder_view, parent_id;
     parent_id = this.parent_id;
     new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_6__["NewFolderView"](parent_id);
