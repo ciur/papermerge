@@ -78,7 +78,11 @@ def browse_view(request, parent_id=None):
         if nodes_perms[node.id].get(Access.PERM_READ, False):
             readable_nodes.append(node)
 
-    page_number = int(request.GET.get('page', 1))
+    page_number = request.GET.get('page', 1)
+    if not page_number:
+        page_number = 1
+
+    page_number = int(page_number)
 
     paginator = Paginator(readable_nodes, per_page=PER_PAGE)
     num_pages = paginator.num_pages
@@ -130,6 +134,7 @@ def browse_view(request, parent_id=None):
         'parent_id': parent_id,
         'parent_kv': parent_kv,
         'pagination': {
+            'page_number': page_number,
             'pages': pages,
             'num_pages': num_pages,
             'page': {

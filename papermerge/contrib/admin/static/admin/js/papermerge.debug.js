@@ -20317,13 +20317,15 @@ class Breadcrumb extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Browse", function() { return Browse; });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Browse", function() { return Browse; });
 /* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./src/js/models/node.js");
 /* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./kvstore */ "./src/js/models/kvstore.js");
-/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
+/* harmony import */ var _dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dispatcher */ "./src/js/models/dispatcher.js");
+
 
 
 
@@ -20348,7 +20350,9 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   urlRoot() {
     let parent_id = this.get('parent_id'),
         base_url,
-        tag;
+        tag,
+        page,
+        params;
 
     if (parent_id) {
       base_url = `/browse/${parent_id}/`;
@@ -20356,12 +20360,13 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
       base_url = '/browse/';
     }
 
+    page = Object(_utils__WEBPACK_IMPORTED_MODULE_4__["get_url_param"])('page');
     tag = this.get('tag');
-
-    if (tag) {
-      base_url = base_url + `?tag=${tag}`;
-    }
-
+    params = $.param({
+      'tag': tag,
+      'page': page
+    });
+    base_url = `${base_url}?${params}`;
     return base_url;
   }
 
@@ -20389,7 +20394,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
 
     if (notify_all) {
       // inform everybody about new parent
-      _dispatcher__WEBPACK_IMPORTED_MODULE_4__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_4__["PARENT_CHANGED"], parent_id);
+      _dispatcher__WEBPACK_IMPORTED_MODULE_5__["mg_dispatcher"].trigger(_dispatcher__WEBPACK_IMPORTED_MODULE_5__["PARENT_CHANGED"], parent_id);
     }
   }
 
@@ -20418,6 +20423,7 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
   }
 
 }
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -22702,13 +22708,13 @@ __p+='\n          <li class="page-item">\n            <a class="page-link" href=
 __p+='\n        ';
  for(let i=0; i < pages.length; i++) { 
 __p+='\n          <li class="page-item ';
- if (i == page_number) { 
+ if (pages[i] == page_number) { 
 __p+=' active ';
  } 
 __p+='"><a class="page-link" href="?page='+
-((__t=( i ))==null?'':__t)+
+((__t=( pages[i] ))==null?'':__t)+
 '">'+
-((__t=( i ))==null?'':__t)+
+((__t=( pages[i] ))==null?'':__t)+
 '</a></li>\n        ';
  } 
 __p+='\n        ';
@@ -25338,7 +25344,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_7__["View"] {
   render() {
     let compiled, context, sort_order, sort_field;
     context = {};
-    this.pagination_view.render(this.browse.pagination);
+    this.pagination_view.render(this.browse.get('pagination'));
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(this.browse.nodes, this.browse.parent_kv);
@@ -26406,11 +26412,24 @@ class PaginationView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#pagination-view');
   }
 
-  template(kwargs) {
+  template(context = {}) {
     let compiled_tpl,
+        default_context,
         file_tpl = __webpack_require__(/*! ../templates/pagination.html */ "./src/js/templates/pagination.html");
 
-    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(kwargs));
+    default_context = {
+      'page_number': 1,
+      'pages': [],
+      'num_pages': 0,
+      'page': {
+        'has_previous': false,
+        'has_next': false,
+        'previous_page_number': 1,
+        'next_page_number': 1
+      }
+    };
+    Object.assign(default_context, context);
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(context));
     return compiled_tpl();
   }
 
