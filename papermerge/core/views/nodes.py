@@ -34,6 +34,9 @@ from .utils import sanitize_kvstore_list
 logger = logging.getLogger(__name__)
 
 
+PER_PAGE = 30
+
+
 @json_response
 @login_required
 def browse_view(request, parent_id=None):
@@ -77,7 +80,7 @@ def browse_view(request, parent_id=None):
 
     page_number = int(request.GET.get('page', 1))
 
-    paginator = Paginator(readable_nodes, per_page=30)
+    paginator = Paginator(readable_nodes, per_page=PER_PAGE)
     num_pages = paginator.num_pages
     page_obj = paginator.get_page(page_number)
 

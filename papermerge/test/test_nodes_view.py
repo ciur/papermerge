@@ -4,7 +4,12 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
 
-from papermerge.core.models import Document
+from papermerge.core.models import (
+    Document,
+    Folder
+)
+
+from papermerge.core.views.nodes import PER_PAGE
 
 
 from .utils import (
@@ -14,6 +19,124 @@ from .utils import (
 
 
 BASE_DIR = os.path.dirname(__file__)
+
+
+class TestBrowseView(TestCase):
+
+    def setUp(self):
+
+        self.testcase_user = create_root_user()
+        self.client = Client()
+        self.client.login(testcase_user=self.testcase_user)
+
+    def test_browse_basic(self):
+        Folder.objects.create(
+            title="F1",
+            user=self.testcase_user
+        )
+        Folder.objects.create(
+            title="F2",
+            user=self.testcase_user
+        )
+        ret = self.client.get(
+            reverse('core:browse'),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        json_response = json.loads(ret.content)
+        self.assertEqual(
+            len(json_response['nodes']),
+            2
+        )
+
+    def test_browse_with_pagination(self):
+        """
+        Will return only nodes of the first page + additional
+        pagination info
+        """
+        for x in range(1, PER_PAGE + 2):
+            Folder.objects.create(
+                title=f"F_{x}",
+                user=self.testcase_user
+            )
+
+        ret = self.client.get(
+            reverse('core:browse'),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        json_response = json.loads(ret.content)
+        self.assertEqual(
+            len(json_response['nodes']),
+            PER_PAGE
+        )
+        self.assertEqual(
+            json_response['num_pages'],
+            2
+        )
+        self.assertTrue(
+            json_response['page']['has_next'],
+        )
+        self.assertFalse(
+            json_response['page']['has_previous'],
+        )
+
+    def test_browse_with_parent(self):
+        """
+        Will return only the child nodes of specified parent
+        """
+        parent = Folder.objects.create(
+            title="Parent",
+            user=self.testcase_user
+        )
+        Folder.objects.create(
+            title="Child1",
+            user=self.testcase_user,
+            parent=parent
+        )
+        Folder.objects.create(
+            title="Child2",
+            user=self.testcase_user,
+            parent=parent
+        )
+        Folder.objects.create(
+            title="Child3",
+            user=self.testcase_user,
+            parent=parent
+        )
+
+        ret = self.client.get(
+            reverse('core:browse', args=(parent.id, )),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+
+        self.assertEqual(
+            ret.status_code,
+            200
+        )
+        json_response = json.loads(ret.content)
+        # will return children Child1, Child2, Child3
+        self.assertEqual(
+            len(json_response['nodes']),
+            3
+        )
+        returned_node_titles_set = set([
+            node['title'] for node in json_response['nodes']
+        ])
+        self.assertEqual(
+            returned_node_titles_set,
+            set(['Child1', 'Child2', 'Child3'])
+        )
 
 
 class TestNodesView(TestCase):
