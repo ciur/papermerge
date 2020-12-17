@@ -1,12 +1,28 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from papermerge.core.models import Document
 
 from papermerge.test.utils import (
     create_root_user,
 )
+
+
+class AnonymouseUserIndexAccessView(TestCase):
+    def setUp(self):
+        # user exists, but not signed in
+        self.testcase_user = create_root_user()
+        self.client = Client()
+
+    def test_index(self):
+        ret = self.client.get(reverse('admin:index'))
+
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseRedirect.status_code
+        )
 
 
 class TestAdvancedSearchView(TestCase):

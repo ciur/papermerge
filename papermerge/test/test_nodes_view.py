@@ -91,14 +91,14 @@ class TestBrowseView(TestCase):
             PER_PAGE
         )
         self.assertEqual(
-            json_response['num_pages'],
+            json_response['pagination']['num_pages'],
             2
         )
         self.assertTrue(
-            json_response['page']['has_next'],
+            json_response['pagination']['page']['has_next'],
         )
         self.assertFalse(
-            json_response['page']['has_previous'],
+            json_response['pagination']['page']['has_previous'],
         )
 
     def test_browse_with_parent(self):

@@ -13,8 +13,8 @@ from papermerge.core.models import (
 
 
 class BrowseView(
-    TemplateView,
     LoginRequiredMixin,
+    TemplateView,
 ):
     template_name = "admin/index.html"
 

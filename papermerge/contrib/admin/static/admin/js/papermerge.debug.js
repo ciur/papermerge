@@ -20409,6 +20409,9 @@ class Browse extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     });
 
     this.set({
+      'pagination': response.pagination
+    });
+    this.set({
       'parent_id': parent_id
     });
     this.trigger('change');
@@ -22678,6 +22681,52 @@ return __p;
 
 /***/ }),
 
+/***/ "./src/js/templates/pagination.html":
+/*!******************************************!*\
+  !*** ./src/js/templates/pagination.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='';
+ if (num_pages > 1) { 
+__p+='\n  <div class="row px-3">\n    <nav class="col-12" aria-label="Page navigation example">\n      <ul class="pagination justify-content-end">\n        ';
+ if (page.has_previous) { 
+__p+='\n          <li class="page-item">\n            <a class="page-link" href="?page='+
+((__t=( page.previous_page_number ))==null?'':__t)+
+'" aria-label="Previous">\n            <span aria-hidden="true">&laquo;</span>\n            </a>\n          </li>\n        ';
+ } 
+__p+='\n        ';
+ for(let i=0; i < pages.length; i++) { 
+__p+='\n          <li class="page-item ';
+ if (i == page_number) { 
+__p+=' active ';
+ } 
+__p+='"><a class="page-link" href="?page='+
+((__t=( i ))==null?'':__t)+
+'">'+
+((__t=( i ))==null?'':__t)+
+'</a></li>\n        ';
+ } 
+__p+='\n        ';
+ if (page.has_next) { 
+__p+='\n          <li class="page-item">\n            <a class="page-link" href="?page='+
+((__t=( page.next_page_number ))==null?'':__t)+
+'" aria-label="Next">\n              <span aria-hidden="true">&raquo;</span>\n            </a>\n          </li>\n        ';
+ } 
+__p+='\n      </ul>\n    </nav>\n  </div>\n';
+ } 
+__p+='';
+}
+return __p;
+};
+
+
+/***/ }),
+
 /***/ "./src/js/templates/permission_editor.html":
 /*!*************************************************!*\
   !*** ./src/js/templates/permission_editor.html ***!
@@ -24445,12 +24494,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/utils.js");
 /* harmony import */ var _display_mode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./display_mode */ "./src/js/views/display_mode.js");
 /* harmony import */ var _dropzone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dropzone */ "./src/js/views/dropzone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
-/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var webpack_jquery_ui_selectable__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! webpack-jquery-ui/selectable */ "./node_modules/webpack-jquery-ui/selectable.js");
-/* harmony import */ var webpack_jquery_ui_selectable__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(webpack_jquery_ui_selectable__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
-/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../routers/browse */ "./src/js/routers/browse.js");
+/* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pagination */ "./src/js/views/pagination.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var webpack_jquery_ui_selectable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! webpack-jquery-ui/selectable */ "./node_modules/webpack-jquery-ui/selectable.js");
+/* harmony import */ var webpack_jquery_ui_selectable__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(webpack_jquery_ui_selectable__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../models/dispatcher */ "./src/js/models/dispatcher.js");
+/* harmony import */ var _routers_browse__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../routers/browse */ "./src/js/routers/browse.js");
+
 
 
 
@@ -24473,7 +24524,7 @@ let SORT_UNDEFINED = 0;
 let UI_SELECTION_MOUSE_MOVE = 'ui-selection-mouse-move';
 let UI_SELECTION_MOUSE_UP = 'ui-selection-mouse-up';
 
-let ui_selection_dispatcher = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_6___default.a.Events);
+let ui_selection_dispatcher = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].clone(backbone__WEBPACK_IMPORTED_MODULE_7___default.a.Events);
 
 class UISelect {
   /**
@@ -24580,7 +24631,7 @@ class UISelect {
 
 }
 
-class UISelectView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
+class UISelectView extends backbone__WEBPACK_IMPORTED_MODULE_7__["View"] {
   /***
   Backbone view specifically for UISelect.
   Attached to parent element of #browse
@@ -24939,7 +24990,7 @@ class Table {
 
 }
 
-class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
+class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_7__["View"] {
   /**
     List mode displays a table which can be sorted by each individual column.
     Also, some columns might be added or removed.
@@ -25029,7 +25080,7 @@ class BrowseListView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
 
 }
 
-class BrowseGridView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
+class BrowseGridView extends backbone__WEBPACK_IMPORTED_MODULE_7__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#browse');
   }
@@ -25045,7 +25096,7 @@ class BrowseGridView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
 
 }
 
-class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
+class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_7__["View"] {
   el() {
     return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#browse');
   }
@@ -25054,7 +25105,8 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
     let that = this;
     this.browse = new _models_browse__WEBPACK_IMPORTED_MODULE_2__["Browse"](parent_id); // UI used to switch between list and grid display modes
 
-    this.display_mode = new _display_mode__WEBPACK_IMPORTED_MODULE_4__["DisplayModeView"](); // there are to view modes - list and grid
+    this.display_mode = new _display_mode__WEBPACK_IMPORTED_MODULE_4__["DisplayModeView"]();
+    this.pagination_view = new _pagination__WEBPACK_IMPORTED_MODULE_6__["PaginationView"](); // there are to view modes - list and grid
 
     this.browse_list_view = new BrowseListView();
     this.browse_grid_view = new BrowseGridView();
@@ -25062,12 +25114,12 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
     this.listenTo(this.browse, 'change', this.render);
     this.listenTo(this.display_mode, 'change', this.render);
     this.listenTo(this.browse_list_view, 'change', this.render);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["BROWSER_REFRESH"], this.refresh, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECT_ALL"], this.select_all, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECT_FOLDERS"], this.select_folders, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECT_DOCUMENTS"], this.select_documents, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["DESELECT"], this.deselect, this);
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["INVERT_SELECTION"], this.invert_selection, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["BROWSER_REFRESH"], this.refresh, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECT_ALL"], this.select_all, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECT_FOLDERS"], this.select_folders, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECT_DOCUMENTS"], this.select_documents, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["DESELECT"], this.deselect, this);
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].on(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["INVERT_SELECTION"], this.invert_selection, this);
     ui_selection_dispatcher.on(UI_SELECTION_MOUSE_MOVE, this.on_ui_selection_mouse_move, this);
     ui_selection_dispatcher.on(UI_SELECTION_MOUSE_UP, this.on_ui_selection_mouse_up, this);
     this.ui_select_view = new UISelectView();
@@ -25113,7 +25165,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
       $target.removeClass('checked');
     }
 
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   on_node_clicked(event) {
@@ -25161,14 +25213,14 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
 
   on_ui_selection_mouse_up() {
     // inform other elements about current selection
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   select_all() {
     this.browse.nodes.each(function (node) {
       node.select();
     });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   select_folders() {
@@ -25177,7 +25229,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
         node.select();
       }
     });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   select_documents() {
@@ -25186,21 +25238,21 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
         node.select();
       }
     });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   deselect() {
     this.browse.nodes.each(function (node) {
       node.deselect();
     });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   invert_selection() {
     this.browse.nodes.each(function (node) {
       node.toggle_selection();
     });
-    _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["SELECTION_CHANGED"], this.get_selection());
+    _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["SELECTION_CHANGED"], this.get_selection());
   }
 
   select_node_by_cid(cid) {
@@ -25233,9 +25285,9 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
     if (node.is_folder()) {
       // routers.browse handles PARENT_CHANGED event.
       if (node) {
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["PARENT_CHANGED"], node.id);
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["PARENT_CHANGED"], node.id);
       } else {
-        _models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_8__["PARENT_CHANGED"], undefined);
+        _models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["mg_dispatcher"].trigger(_models_dispatcher__WEBPACK_IMPORTED_MODULE_9__["PARENT_CHANGED"], undefined);
       }
 
       return;
@@ -25286,6 +25338,7 @@ class BrowseView extends backbone__WEBPACK_IMPORTED_MODULE_6__["View"] {
   render() {
     let compiled, context, sort_order, sort_field;
     context = {};
+    this.pagination_view.render(this.browse.pagination);
 
     if (this.display_mode.is_list()) {
       this.browse_list_view.render(this.browse.nodes, this.browse.parent_kv);
@@ -26324,6 +26377,46 @@ class NewFolderView extends backbone__WEBPACK_IMPORTED_MODULE_3__["View"] {
     }));
     this.$el.html(compiled);
     this.$el.modal();
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/views/pagination.js":
+/*!************************************!*\
+  !*** ./src/js/views/pagination.js ***!
+  \************************************/
+/*! exports provided: PaginationView */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaginationView", function() { return PaginationView; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class PaginationView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
+  el() {
+    return jquery__WEBPACK_IMPORTED_MODULE_0___default()('#pagination-view');
+  }
+
+  template(kwargs) {
+    let compiled_tpl,
+        file_tpl = __webpack_require__(/*! ../templates/pagination.html */ "./src/js/templates/pagination.html");
+
+    compiled_tpl = underscore__WEBPACK_IMPORTED_MODULE_1__["default"].template(file_tpl(kwargs));
+    return compiled_tpl();
+  }
+
+  render(context) {
+    let str = this.template(context);
+    this.$el.html(str);
   }
 
 }

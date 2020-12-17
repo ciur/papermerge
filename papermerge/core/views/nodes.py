@@ -129,13 +129,15 @@ def browse_view(request, parent_id=None):
         'nodes': nodes_list,
         'parent_id': parent_id,
         'parent_kv': parent_kv,
-        'pages': pages,
-        'num_pages': num_pages,
-        'page': {
-            'has_previous': page_obj.has_previous(),
-            'has_next': page_obj.has_next(),
-            'previous_page_number': previous_page_number,
-            'next_page_number': next_page_number,
+        'pagination': {
+            'pages': pages,
+            'num_pages': num_pages,
+            'page': {
+                'has_previous': page_obj.has_previous(),
+                'has_next': page_obj.has_next(),
+                'previous_page_number': previous_page_number,
+                'next_page_number': next_page_number,
+            }
         }
     }
 
