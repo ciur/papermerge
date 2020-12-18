@@ -35,7 +35,7 @@ msgstr ""
 
 #: papermerge/core/models/automate.py:34
 msgid "Any"
-msgstr "Nut ein Wort"
+msgstr "Nur dieses Wort"
 
 #: papermerge/core/models/automate.py:35
 msgid "All"
@@ -55,15 +55,15 @@ msgstr ""
 
 #: papermerge/core/models/automate.py:48
 msgid "Match"
-msgstr ""
+msgstr "Treffer"
 
 #: papermerge/core/models/automate.py:54
 msgid "Matching Algorithm"
-msgstr ""
+msgstr "Analyseverfahren"
 
 #: papermerge/core/models/automate.py:61
 msgid "Is case sensitive"
-msgstr ""
+msgstr "Groß- und Kleinschreibung beachten"
 
 #: papermerge/core/models/automate.py:68
 msgid "Plugin Name"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: papermerge/core/models/automate.py:80
 msgid "Destination Folder"
-msgstr ""
+msgstr "Zielordner"
 
 #: papermerge/core/models/automate.py:86
 msgid "Extract Page"
@@ -104,19 +104,19 @@ msgstr ""
 
 #: papermerge/core/models/kvstore.py:650
 msgid "Currency"
-msgstr ""
+msgstr "Währung"
 
 #: papermerge/core/models/kvstore.py:651
 msgid "Numeric"
-msgstr ""
+msgstr "Numerisch"
 
 #: papermerge/core/models/kvstore.py:652
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: papermerge/core/models/node.py:26
 msgid "parent"
-msgstr ""
+msgstr "Übergeordneter Ordner"
 
 #: papermerge/core/models/node.py:29
 msgid "Title"
@@ -155,7 +155,7 @@ msgid "Password was successfully changed."
 msgstr "Passwort wurde erfolgreich geändert."
 
 msgid "Home"
-msgstr "Hauptseite"
+msgstr "Hauptordner"
 
 msgid "Sign In"
 msgstr "Anmelden"
