@@ -75,7 +75,7 @@ msgstr "Zielordner"
 
 #: papermerge/core/models/automate.py:86
 msgid "Extract Page"
-msgstr ""
+msgstr "Site extrahieren"
 
 #: papermerge/core/models/document.py:38
 msgid "Notes"
@@ -155,7 +155,7 @@ msgid "Password was successfully changed."
 msgstr "Passwort wurde erfolgreich geändert."
 
 msgid "Home"
-msgstr "Hauptordner"
+msgstr "Hauptverzeichnis"
 
 msgid "Sign In"
 msgstr "Anmelden"
