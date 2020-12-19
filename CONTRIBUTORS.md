@@ -27,6 +27,7 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [Thomas Pedersen](https://github.com/twpedersen) - imap fixes.
 * [Georg Krause](https://github.com/georgkrause) - mglib improvements; replaced pdftk with stapler.
 * [@l4rm4nd](https://github.com/l4rm4nd) - Security audit.
+* [Herr Knedel](https://github.com/ChristianKnedel) - German translations.
 
 ### Sponsors
 
