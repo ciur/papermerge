@@ -24142,7 +24142,6 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   events() {
     let event_map = {
       'click .new-folder': 'new_folder',
-      'click #new-folder': 'new_folder',
       'click #download-nodes': 'download_nodes',
       'click #delete': 'delete_node',
       'click #cut': 'cut_node',
@@ -24330,7 +24329,7 @@ class ActionsView extends backbone__WEBPACK_IMPORTED_MODULE_2__["View"] {
   }
 
   new_folder(event) {
-    console.log("New folder");
+    console.log(`New folder ${event.currentTarget}`);
     let new_folder_view, parent_id;
     parent_id = this.parent_id;
     new_folder_view = new _views_new_folder__WEBPACK_IMPORTED_MODULE_6__["NewFolderView"](parent_id);
