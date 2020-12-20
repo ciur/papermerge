@@ -4,6 +4,7 @@
 ./manage.py migrate
 cat create_user.py | python3 manage.py shell
 
+./manage.py compilemessages
 ./manage.py collectstatic --no-input
 ./manage.py check
 

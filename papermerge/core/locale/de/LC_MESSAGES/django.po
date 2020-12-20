@@ -75,7 +75,7 @@ msgstr "Zielordner"
 
 #: papermerge/core/models/automate.py:86
 msgid "Extract Page"
-msgstr "Site extrahieren"
+msgstr "Seite extrahieren"
 
 #: papermerge/core/models/document.py:38
 msgid "Notes"
