@@ -122,10 +122,14 @@ def document(request, doc_id):
     result_dict = doc.to_dict()
     result_dict['user_perms'] = nodes_perms[doc.id]
 
-    return HttpResponse(
+    response = HttpResponse(
         json.dumps({'document': result_dict}),
         content_type="application/json",
     )
+
+    response['Vary'] = 'Accept'
+
+    return response
 
 
 @json_response
