@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles - quicker way to assign set of permissions for a given user
 - Document versions (all changes on the document are non-distructively saved)
 
+### [1.5.4] - Work in Progress
+
+### Added
+
+    - Fix for #239 - Adjusting size of sign-in button
+    - Fix for #243 - Automates Screen max items
+    - Fix for #257 - Using browser back/foward navigation causes json strings to be displayed instead of documents.
+
+
 ## [1.5.3] - 1 December 2020
 
 ### Added
