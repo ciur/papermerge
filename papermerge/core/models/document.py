@@ -33,14 +33,12 @@ class Document(BaseTreeNode):
     file_name = models.CharField(
         max_length=1024,
         default='',
-        validators=[validators.safe_character_validator]
     )
 
     notes = models.TextField(
         _('Notes'),
         blank=True,
-        null=True,
-        validators=[validators.safe_character_validator]
+        null=True
     )
 
     size = models.BigIntegerField(

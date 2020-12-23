@@ -32,8 +32,7 @@ class BaseTreeNode(PolymorphicMPTTModel):
     )
     title = models.CharField(
         _("Title"),
-        max_length=200,
-        validators=[validators.safe_character_validator]
+        max_length=200
     )
 
     lang = models.CharField(

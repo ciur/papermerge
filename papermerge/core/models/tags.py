@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from papermerge.core import validators
-
 from taggit.models import TagBase, GenericTaggedItemBase
 from taggit.managers import TaggableManager
 
@@ -82,8 +80,7 @@ class Tag(TagBase):
     name = models.CharField(
         verbose_name=_("name"),
         unique=False,
-        max_length=100,
-        validators=[validators.safe_character_validator]
+        max_length=100
     )
 
     class Meta:
