@@ -356,23 +356,3 @@ class TestDocument(TestCase):
             set([tag.name for tag in doc.tags.all()]),
             set([tag.name for tag in auto.tags.all()])
         )
-
-    def test_folder_validation_against_xss_titles(self):
-
-        folder_a = Folder(
-            title="XSS Folder<script>alert('XSS');</script>",
-            user=self.user,
-            parent_id=None
-        )
-
-        with self.assertRaises(ValidationError):
-            folder_a.full_clean()
-
-        folder_b = Folder(
-            title="XSS<script></script>",
-            user=self.user,
-            parent_id=None
-        )
-
-        with self.assertRaises(ValidationError):
-            folder_b.full_clean()
