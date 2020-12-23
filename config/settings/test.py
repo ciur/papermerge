@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'papermerge.core',
     'papermerge.contrib.admin',
+    'papermerge.test',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
