@@ -79,6 +79,11 @@ class TestDocumentView(TestCase):
             Document.objects.count(),
             1
         )
+        # If no parent is specified while uploading via WEB
+        # document will end up with parent None
+        # (and thus will be displayed as part of root folder)
+        doc = Document.objects.get(title="berlin.pdf")
+        self.assertFalse(doc.parent)
 
     def test_upload_with_invalid_parent(self):
         """
