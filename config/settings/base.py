@@ -92,6 +92,10 @@ PAPERMERGE_DEFAULT_FILE_STORAGE = cfg_papermerge.get(
     "DEFAULT_FILE_STORAGE",
     "mglib.storage.FileSystemStorage"
 )
+PAPERMERGE_FILE_STORAGE_KWARGS = cfg_papermerge.get(
+    "PAPERMERGE_FILE_STORAGE_KWARGS",
+    {}
+)
 
 PAPERMERGE_SEARCH_BACKEND = cfg_papermerge.get(
     "SEARCH_BACKEND",
