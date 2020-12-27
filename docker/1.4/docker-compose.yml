@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   app:
-    image: eugenci/papermerge:1.5.4
+    image: eugenci/papermerge:1.5.5
     build:
       context: .
       dockerfile: app.dockerfile
@@ -10,9 +10,9 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
     volumes:
       - media_root:/opt/media
-      - broker_queue:/opt/app/queue
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - POSTGRES_USER=dbuser
@@ -29,15 +29,21 @@ services:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=dbpass
       - POSTGRES_DB=dbname
+  redis:
+    container_name: 'redis'
+    image: 'redis:6'
+    ports:
+      - '127.0.0.1:6379:6379'
+    volumes:
+      - 'redisdata:/data'
   worker:
-    image: eugenci/papermerge-worker:1.5.4
+    image: eugenci/papermerge-worker:1.5.5
     build:
       context: .
       dockerfile: worker.dockerfile    
     container_name: papermerge_worker
     volumes:
       - media_root:/opt/media
-      - broker_queue:/opt/app/queue
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - POSTGRES_USER=dbuser
@@ -47,5 +53,5 @@ services:
       - POSTGRES_PORT=5432      
 volumes:
   postgres_data:
-  broker_queue:
   media_root:
+  redisdata:

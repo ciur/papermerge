@@ -11,6 +11,10 @@ INTERNAL_IPS = [
 ALLOWED_HOSTS = ['*']
 
 
+CELERY_BROKER_URL = "redis://redis/0"
+CELERY_BROKER_TRANSPORT_OPTIONS = {}
+CELERY_RESULT_BACKEND = "redis://redis/0"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

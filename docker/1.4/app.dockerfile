@@ -35,14 +35,9 @@ RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 
-RUN git clone https://github.com/ciur/papermerge  --branch v1.5.4 -q --depth 1 /opt/app
+RUN git clone https://github.com/ciur/papermerge  --branch v1.5.5 -q --depth 1 /opt/app
 
 RUN mkdir -p /opt/media
-
-# For broker queue. Change ownership
-# so that mounted volume won't make it root-owned
-RUN mkdir /opt/app/queue
-RUN chown www:www /opt/app/queue
 
 COPY config/app.production.py /opt/app/config/settings/production.py
 COPY config/papermerge.config.py /opt/app/papermerge.conf.py
