@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[1.5.5] - 27 December 2020
+
+### Added
+
+- Fixes #271 - XSS on tag's description field.
+- No more failing test in ./run_tests.sh see #272 for details
+- Fixes #198 - docker compose configuration uses redis for message brocker
+
+
 [1.5.4] - 23 December 2020
 
 ### Added
