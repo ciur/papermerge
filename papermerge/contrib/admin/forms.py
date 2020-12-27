@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 from django.contrib.auth.password_validation import validate_password
+from django.utils.html import escape
 from django.forms.widgets import (
     TextInput,
     ChoiceWidget,
@@ -57,6 +58,10 @@ class TagForm(forms.ModelForm):
                 (TextInput, Textarea, ChoiceWidget)
             ):
                 visible.field.widget.attrs['class'] = 'form-control'
+
+    def clean_description(self):
+        data = self.cleaned_data['description']
+        return escape(data)
 
     class Meta:
         model = Tag
