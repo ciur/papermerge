@@ -18,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles - quicker way to assign set of permissions for a given user
 - Document versions (all changes on the document are non-distructively saved)
 
+
+[1.5.5] - 27 December 2020
+
+### Added
+
+- Fixes #271 - XSS on tag's description field.
+- No more failing test in ./run_tests.sh see #272 for details
+- Fixes #198 - docker compose configuration uses redis for message brocker
+
+
 ### [1.5.4] - 23 December 2020
 
 ### Added
