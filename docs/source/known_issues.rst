@@ -25,8 +25,13 @@ following error in **papermerge_app docker container**::
 
 This is very misleading, but it is correct **and has no any impact on papermerge**
 operation.
-Notice that above mentioned error is safe to ignore only (and only) when it runs in main app container
-(``papermerge_app``). Exactly same warning inside ``papermerge_worker`` will be an error an application won't function as expected.
+
+.. note::
+
+    Above mentioned error is safe to ignore only (and only) when it runs in
+    main app container i.e. in ``papermerge_app``). Exactly same warning inside
+    ``papermerge_worker`` will be an error an application won't function as
+    expected.
 
 **Explanation:**
 
@@ -34,8 +39,8 @@ the OCR is performed by the worker (papermerge_worker docker container) and thus
 
 However:
 
-    for worker - tesseract is mandatory
-    for main app - tesseract is optional
+* for worker - tesseract is mandatory
+* for main app - tesseract is optional
 
 as long as that "missing tesseract" comes from papermerge_app docker container
 - you can just ignore it.
@@ -43,5 +48,5 @@ as long as that "missing tesseract" comes from papermerge_app docker container
 Current setup (even though little confusing) is very practical. The
 practicality of it is that worker and app many times run on same machine, from
 same folder and use same configuration file - e.g. in development mode - in
-such cases, issuing that warning reminds me (or other developers) to install
+such cases, issuing that warning reminds developers to install
 tesseract.
