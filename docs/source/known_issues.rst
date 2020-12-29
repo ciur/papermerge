@@ -33,9 +33,13 @@ operation.
     ``papermerge_worker`` will be an error an application won't function as
     expected.
 
-**Explanation:**
+Explanation:
 
-the OCR is performed by the worker (papermerge_worker docker container) and thus is installed only on the worker. However, for simplicity sake both worker and app (papermerge_app and papermerge_worker) use same code. From application code point of view they are 95% identical and use exactly same methods for reading configurations.
+the OCR is performed by the worker (papermerge_worker docker container) and
+thus is installed only on the worker. However, for simplicity sake both worker
+and app (papermerge_app and papermerge_worker) use same code. From application
+code point of view they are 95% identical and use exactly same methods for
+reading configurations.
 
 However:
 
