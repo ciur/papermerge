@@ -54,3 +54,10 @@ practicality of it is that worker and app many times run on same machine, from
 same folder and use same configuration file - e.g. in development mode - in
 such cases, issuing that warning reminds developers to install
 tesseract.
+
+Slow increase in CPU usage over time
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case you use default broker and message queue (which is filesystem based) over time
+your CPU usave will increase. Filesystem based message queue is not suitable for production.
+You redis to avoid this issue. Learn in :ref:`broker configuration <broker_config>` part how to configure redis.

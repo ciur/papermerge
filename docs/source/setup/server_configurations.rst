@@ -273,6 +273,60 @@ In this case you can start/check status/stop systemd unit service with following
     systemctl --user status worker
     systemctl --user stop worker
 
-.. note::
 
+.. _broker_config:
 
+Broker, Messaging Queue and their Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Web application (a.k.a. main app) show users fancy user interface and is
+basically what end users see and interact with. Worker performs extracts
+information from scanned documents (:ref:`OCRs <ocr>` them) i.e workers actually
+do the laborious work. Number of workers is only limited by your resources:
+there can be one  worker or one thousand.
+
+How does web application pass the heavy OCR jobs to the worker(s)? How does it
+happen that in case of many workers one starts the job and others are aware of
+it and do not start the same job twice? All this *workers management* is done
+by a component called *Broker*. Passing of those job from main app to the
+broker (which in turn will pass it to correct worker) is done via so called
+*Messaging Queue*. Messaging queue can be something as simple as
+file system, but database, computer memory, key/value databases are also good candidates.
+
+The thing is, to keep initial setup very simple (i.e. to require the minimum
+amount of configuration to start the application) the broker part of performed
+by a package called celery - which is part of Papermerge and message queue is
+file system based.
+
+Basically, by default, configurations for broker and messaging queue are
+following::
+
+    CELERY_BROKER_URL = "filesystem://"
+    CELERY_BROKER_TRANSPORT_OPTIONS = {
+        'data_folder_in': PAPERMERGE_TASK_QUEUE_DIR,
+        'data_folder_out': PAPERMERGE_TASK_QUEUE_DIR,
+    }
+
+Where ``PAPERMERGE_TASK_QUEUE_DIR`` points to the folder on the file system, and its default value is
+``queue``. Which basically means that all messages will be saved in the current folder named ``queue``.
+
+Above configuration is fantastic for development, because zero configuration required for the whole
+messaging system thingy.
+
+However, above configuration is terrible for production!
+If you will use it, you will experience thing like described in this `ticket
+<https://github.com/ciur/papermerge/issues/198>`_ on github. 
+
+Following is good configuration for production::
+
+    CELERY_BROKER_URL = "redis://"
+    CELERY_BROKER_TRANSPORT_OPTIONS = {}
+    CELERY_RESULT_BACKEND = "redis://localhost/0"
+
+It uses `redis <https://redis.io/>`_ key value database. With redis as broker transport you will
+never have CPU spikes.
+
+.. important::
+
+    ``CELERY_BROKER_URL``, ``CELERY_BROKER_TRANSPORT_OPTIONS`` and ``CELERY_RESULT_BACKEND`` configurations go into django configuration file of Papermerge project not in papermerge.conf.py.
+    Django configuration file is the one in <project_dir>/`config/base.py <https://github.com/ciur/papermerge/blob/master/config/settings/base.py>`_
