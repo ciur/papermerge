@@ -279,11 +279,11 @@ In this case you can start/check status/stop systemd unit service with following
 Broker, Messaging Queue and their Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Web application (a.k.a. main app) show users fancy user interface and is
-basically what end users see and interact with. Worker performs extracts
-information from scanned documents (:ref:`OCRs <ocr>` them) i.e workers actually
-do the laborious work. Number of workers is only limited by your resources:
-there can be one  worker or one thousand.
+Web application (a.k.a. main app) shows users fancy UI and is basically what
+end users see and interact with. Worker extracts information from scanned
+documents (:ref:`OCRs <ocr>` them) i.e workers actually do the most laborious
+task. Number of workers is only limited by your resources: there can be one 
+worker or one thousand.
 
 How does web application pass the heavy OCR jobs to the worker(s)? How does it
 happen that in case of many workers one starts the job and others are aware of
