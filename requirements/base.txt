@@ -21,3 +21,4 @@ django-modelcluster
 persisting-theory
 django-bootstrap4
 python-magic
+stapler == 1.0.0
