@@ -138,16 +138,16 @@ There are couple options:
 
 ### Unit Tests
 
-In order to run unit tests::
+In order to run unit tests:
 
     $ ./run_tests.sh
 
-Which basically is same as::
+Which basically is same as:
 
     $ DJANGO_SETTINGS_MODULE=config.settings.test
     $ ./manage.py test papermerge/test/
 
-On multi-core processors it is much more efficient to use ``--parallel`` argument which splits test suite between CPU cores::
+On multi-core processors it is much more efficient to use ``--parallel`` argument which splits test suite between CPU cores:
 
     $ ./run_tests.sh  --parallel
 
