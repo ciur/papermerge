@@ -134,8 +134,26 @@ default username/password: admin/admin.
 There are couple options:
     
 * [From docker container](https://papermerge.readthedocs.io/en/latest/setup/docker.html)
-* [Using systemd](https://papermerge.readthedocs.io/en/latest/setup/systemd.html)
-* [Manual way - detailed step by step instructions](https://papermerge.readthedocs.io/en/latest/setup/manual_way.html)
+* [Detailed step by step instructions](https://papermerge.com/docs/Installation/installation.html)
+
+### Unit Tests
+
+In order to run unit tests::
+
+    $ ./run_tests.sh
+
+Which basically is same as::
+
+    $ DJANGO_SETTINGS_MODULE=config.settings.test
+    $ ./manage.py test papermerge/test/
+
+On multi-core processors it is much more efficient to use ``--parallel`` argument which splits test suite between CPU cores::
+
+    $ ./run_tests.sh  --parallel
+
+On Dell-XPS latop with 12-core i7 CPU it takes about 6 seconds to run all 243
+unit tests in parallel; without ``--parallel`` argument on same CPU it takes
+aprox. 18 seconds to run them.
 
 ### Commercial Support
 
