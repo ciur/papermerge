@@ -2,8 +2,10 @@ import json
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from papermerge.core.models import (
+    ColoredTag,
     Tag,
     Folder
 )
@@ -112,3 +114,41 @@ class TestNodesView(TestCase):
             1
         )
 
+    def test_create_one_tag_in_tags_view(self):
+        """
+        User create tags in tags list view (left menu - tags).
+        Tags are created per user.
+        """
+        tag_count = Tag.objects.filter(
+            user=self.testcase_user,
+            name="tag_x"
+        ).count()
+
+        self.assertEquals(
+            tag_count,
+            0
+        )
+
+        ret = self.client.post(
+            reverse('admin:tag-add'),
+            {
+                "name": "tag_x",
+                "fg_color": "#ffffff",
+                "bg_color": "#c41fff"
+            },
+        )
+
+        self.assertEquals(
+            ret.status_code,
+            HttpResponseRedirect.status_code
+        )
+
+        tag_count = Tag.objects.filter(
+            user=self.testcase_user,
+            name="tag_x"
+        ).count()
+
+        self.assertEquals(
+            tag_count,
+            1
+        )

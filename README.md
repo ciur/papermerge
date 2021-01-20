@@ -151,9 +151,9 @@ On multi-core processors it is much more efficient to use ``--parallel`` argumen
 
     $ ./run_tests.sh  --parallel
 
-On Dell-XPS latop with 12-core i7 CPU it takes about 6 seconds to run all 243
+On Dell-XPS laptop with 12-core i7 CPU it takes about 5 seconds to run all 244
 unit tests in parallel; without ``--parallel`` argument on same CPU it takes
-aprox. 18 seconds to run them.
+approximately 17 seconds to run them.
 
 ### Commercial Support
 
