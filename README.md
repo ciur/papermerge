@@ -58,6 +58,10 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 * Page Management - delete, reorder, cut & paste pages ([screencast demo](https://www.youtube.com/watch?v=CRhUpPqCI64))
 * Basic automation ([screencast demo](https://www.youtube.com/watch?v=5adbHHmNcEw))
 
+## Testimonials
+
+![testimonials](./img/testimonials.png)
+
 ## Donations, Fundraising, Your Support
 
 :heart: :heart: :heart:
@@ -113,9 +117,9 @@ file.
 
 ## Screenshots
 
-![Screenshot 01](./screenshots/screenshot-1.png)
-![Screenshot 02](./screenshots/screenshot-2.png)
-![Screenshot 03](./screenshots/screenshot-3.png)
+![Screenshot 01](./img/screenshot-1.png)
+![Screenshot 02](./img/screenshot-2.png)
+![Screenshot 03](./img/screenshot-3.png)
 
 ### Try it!
 
