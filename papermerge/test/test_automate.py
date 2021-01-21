@@ -3,10 +3,10 @@ from django.test import TestCase
 from papermerge.core.models import (
     Automate,
     Folder,
-    Document,
-    BaseTreeNode
+    Document
 )
 from papermerge.core.models.page import get_pages
+from papermerge.core.models.folder import get_inbox_children
 
 User = get_user_model()
 
@@ -210,7 +210,7 @@ class TestAutomateModel(TestCase):
             parent_id=folder.id,
             page_count=2,
         )
-        Document.objects.create_document(
+        doc = Document.objects.create_document(
             title="document_c",
             file_name="document_c.pdf",
             size='1212',
@@ -219,15 +219,25 @@ class TestAutomateModel(TestCase):
             parent_id=folder.id,
             page_count=1,
         )
+        page = doc.pages.first()
+        page.text = TEXT
+        page.save()
         # automate with tags
-        _create_am_any("test", "test", self.user)
-
-        Automate.objects.all().run(
+        _create_am_any(
+            name="test",
+            match="Paulinus",
+            user=self.user
+        )
+        matched_automates = Automate.objects.all().run(
             get_pages(
-                BaseTreeNode.objects.filter(
-                    pk=folder.pk
-                )
+                get_inbox_children(self.user),
+                include_pages_with_empty_text=False
             )
+        )
+
+        self.assertEquals(
+            matched_automates.count(),
+            1
         )
 
 
