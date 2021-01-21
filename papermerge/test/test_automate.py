@@ -3,8 +3,10 @@ from django.test import TestCase
 from papermerge.core.models import (
     Automate,
     Folder,
-    Document
+    Document,
+    BaseTreeNode
 )
+from papermerge.core.models.page import get_pages
 
 User = get_user_model()
 
@@ -192,6 +194,40 @@ class TestAutomateModel(TestCase):
             document=document2,
             page_num=1,
             text="test",
+        )
+
+    def test_automate_run_from_queryset(self):
+        folder, _ = Folder.objects.get_or_create(
+            title=Folder.INBOX_NAME,
+            user=self.user
+        )
+        Document.objects.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=folder.id,
+            page_count=2,
+        )
+        Document.objects.create_document(
+            title="document_c",
+            file_name="document_c.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=folder.id,
+            page_count=1,
+        )
+        # automate with tags
+        _create_am_any("test", "test", self.user)
+
+        Automate.objects.all().run(
+            get_pages(
+                BaseTreeNode.objects.filter(
+                    pk=folder.pk
+                )
+            )
         )
 
 

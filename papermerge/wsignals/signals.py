@@ -15,6 +15,10 @@ from papermerge.core.automate import apply_automates
 
 logger = logging.getLogger(__name__)
 
+# All below handlers are sent from the worker instance.
+# Notice that worker must have access to same DB as webapp
+# which might not always be the case
+
 
 @receiver(page_ocr, sender=WORKER)
 def apply_automates_handler(sender, **kwargs):
