@@ -59,35 +59,28 @@ def automates_matching_handler(sender, **kwargs):
         doc = Document.objects.get(id=doc_id)
     except Document.DoesNotExist:
         try:
+            # documment was not found, add this logging
+            # information to UI logs as well.
+            msg = _(
+                "Running automates for doc_id=%(doc_id)s,"
+                " page %(page_num)s."
+                "But in meantime document probably was deleted."
+            ) % {
+                'doc_id': doc_id,
+                'page_num': page_num
+            }
             LogEntry.objects.create(
                 user_id=user_id,
                 level=logging.WARNING,
-                message=_(
-                    "Running automates for doc_id=%(doc_id)s,"
-                    " page %(page_num)s."
-                    "But in meantime document probably was deleted."
-                ) % {
-                    'doc_id': doc_id,
-                    'page_num': page_num
-                }
+                message=msg
             )
+            logger.warning(msg)
             return
-        # ugly hack
         except Exception as e:
-            # Will happen in case papermege is deployed as worker
-            # on separate computer from web app AND it has no
-            # access to database.
-            # Just log it.
-            logger.info(
-                f"Exception {e}  in during automates_matching_handler. "
-                f"You can ignore this exception only in case when "
-                f" papermerge was deployed as worker on separate computer "
-                f" without access to database."
+            logger.error(
+                f"Exception {e} in during automates_matching_handler. "
             )
-            # Another way to fix this ugly hack, is to move signal handling
-            # code into a separate function which will be
-            # plugged into the project by a reusable app only when necessary
-            return
+            raise
 
     document_title = doc.title
 
@@ -133,36 +126,27 @@ def page_ocr_handler(sender, **kwargs):
         doc = Document.objects.get(id=doc_id)
     except Document.DoesNotExist:
         try:
+            msg = _(
+                "%(human_status)s OCR for doc_id=%(doc_id)s,"
+                " page %(page_num)s."
+                "But in meantime document probably was deleted."
+            ) % {
+                'human_status': human_status,
+                'doc_id': doc_id,
+                'page_num': page_num
+            }
             LogEntry.objects.create(
                 user_id=user_id,
                 level=logging.WARNING,
-                message=_(
-                    "%(human_status)s OCR for doc_id=%(doc_id)s,"
-                    " page %(page_num)s."
-                    "But in meantime document probably was deleted."
-                ) % {
-                    'human_status': human_status,
-                    'doc_id': doc_id,
-                    'page_num': page_num
-                }
+                message=msg
             )
+            logger.warning(msg)
             return
-        # very ugly.. I know :(
         except Exception as e:
-            # Will happen in case papermege is deployed as worker
-            # on separate computer from web app AND it has no
-            # access to database.
-            # Just log it.
-            logger.info(
+            logger.error(
                 f"Exception {e} during handling of page_ocr_handler"
-                f"You can ignore this exception only in case when "
-                f" papermerge was deployed as worker on separate computer "
-                f" without access to database."
             )
-            # Another way to fix this ugly hack, is to move signal handling
-            # code into a separate function which will be
-            # plugged into the project by a reusable app only when necessary
-            return
+            raise
 
     document_title = doc.title
 
