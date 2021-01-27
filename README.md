@@ -21,11 +21,13 @@ document using full text search capabilities.
 
 It is built on [Django 3.1](https://www.djangoproject.com/).
 
-Papermerge is actively developed and I [release quite frequently](https://github.com/ciur/papermerge/releases).
+Papermerge is actively developed and we [release quite frequently](https://github.com/ciur/papermerge/releases).
 
 This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
+
+![Screenshot 01](./img/screenshot-1.png)
 
 ## Right Tool For You?
 
@@ -95,8 +97,8 @@ lots of images, text and videos. It is regularly updated. If you spot
 outdated or incomplete article please open an issue on github - it will
 be handled immediately. Documentation issues have high priority.
 
- * [Documentation URL](https://papermerge.readthedocs.io/)
- * [Video Demo](https://www.youtube.com/watch?v=OpwTaEN5t2Y)
+ * [Documentation URL](https://papermerge.com/docs)
+ * [Video Demo](https://www.youtube.com/watch?v=xhLUaq46HOw)
  * [English Website](https://papermerge.com)
  * [German Website](https://papermerge.de)
 
@@ -115,9 +117,8 @@ For more information, see the
 [contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
 file.
 
-## Screenshots
+## More Screenshots
 
-![Screenshot 01](./img/screenshot-1.png)
 ![Screenshot 02](./img/screenshot-2.png)
 ![Screenshot 03](./img/screenshot-3.png)
 
