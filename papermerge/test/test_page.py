@@ -16,6 +16,8 @@ from papermerge.core.models import (
 from papermerge.core.models.kvstore import MONEY, TEXT, DATE
 from papermerge.core.tasks import normalize_pages
 from papermerge.core.storage import default_storage
+from papermerge.core.models.page import get_pages
+from papermerge.core.models.folder import get_inbox_children
 
 from .utils import (
     create_root_user,
@@ -630,4 +632,67 @@ class TestPage(TestCase):
         self.assertEqual(
             page.kv['Y'],
             '20'
+        )
+
+    def test_get_pages(self):
+        inbox, _ = Folder.objects.get_or_create(
+            title=Folder.INBOX_NAME,
+            user=self.user
+        )
+
+        folder_in_inbox, _ = Folder.objects.get_or_create(
+            title="folder_in_inbox",
+            user=self.user,
+            parent_id=inbox.id
+        )
+
+        Document.objects.create_document(
+            title="Document 1",
+            file_name="invoice-1.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=inbox.id,
+            page_count=1,
+        )
+
+        Document.objects.create_document(
+            title="Document 2",
+            file_name="invoice-2.pdf",
+            size='1212',
+            lang='DEU',
+            user=self.user,
+            parent_id=folder_in_inbox.id,
+            page_count=1,
+        )
+
+        # for all Page models add some content
+        for page in Page.objects.all():
+            page.text = "some content"
+            page.save()
+
+        pages = get_pages(
+            get_inbox_children(self.user),
+            include_pages_with_empty_text=False
+        )
+
+        # returned only Document 1 - as direct child of "inbox" folder
+        self.assertEquals(
+            pages.count(),
+            1
+        )
+        self.assertEquals(
+            pages.first().document.title,
+            "Document 1"
+        )
+
+    def test_get_pages_runs_ok_when_inbox_is_empty(self):
+        inbox, _ = Folder.objects.get_or_create(
+            title=Folder.INBOX_NAME,
+            user=self.user
+        )
+
+        get_pages(
+            get_inbox_children(self.user),
+            include_pages_with_empty_text=False
         )
