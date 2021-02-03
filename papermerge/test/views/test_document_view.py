@@ -26,7 +26,7 @@ from papermerge.core.models.kvstore import (
     KVStorePage
 )
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
     create_margaret_user,
     create_elizabet_user,
@@ -38,7 +38,12 @@ READ = Access.PERM_READ
 WRITE = Access.PERM_WRITE
 DELETE = Access.PERM_DELETE
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        ".."
+    )
+)
 
 
 class TestDocumentView(TestCase):

@@ -3,7 +3,7 @@ from django.test import Client
 from django.urls import reverse
 from django.http import HttpResponseForbidden
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
     create_margaret_user
 )

@@ -5,13 +5,12 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 from papermerge.core.models import (
-    ColoredTag,
     Tag,
     Folder
 )
 
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
 )
 

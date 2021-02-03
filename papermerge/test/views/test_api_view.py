@@ -16,12 +16,17 @@ from knox.models import AuthToken
 from papermerge.core.models import Document
 
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
     create_margaret_user
 )
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        ".."
+    )
+)
 
 
 class TestApiView(TestCase):

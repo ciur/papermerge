@@ -1,12 +1,15 @@
 import os
-from pathlib import Path
 from django.test import TestCase
 from django.test import Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-# points to papermerge.testing folder
-BASE_DIR = Path(__file__).parent
+BASE_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        ".."
+    )
+)
 
 src_file_path = os.path.join(
     BASE_DIR, "data", "berlin.pdf"

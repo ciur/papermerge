@@ -13,14 +13,19 @@ from papermerge.core.auth import create_access
 from papermerge.core.views.nodes import PER_PAGE
 
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
     create_margaret_user,
     create_some_doc
 )
 
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        ".."
+    )
+)
 
 
 class TestBrowseView(TestCase):

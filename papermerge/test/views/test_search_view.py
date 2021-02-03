@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from papermerge.core.models import Folder
 
-from .utils import (
+from papermerge.test.utils import (
     create_root_user,
 )
 
