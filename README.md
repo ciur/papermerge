@@ -152,6 +152,8 @@ Which basically is same as:
     $ DJANGO_SETTINGS_MODULE=config.settings.test
     $ ./manage.py test papermerge/test/
 
+Notice that you can pass any command line argument to ``run_tests.sh`` script
+and those arguments will be routed further to ``manage.py``.
 On multi-core processors it is much more efficient to use ``--parallel`` argument which splits test suite between CPU cores:
 
     $ ./run_tests.sh  --parallel
@@ -159,6 +161,23 @@ On multi-core processors it is much more efficient to use ``--parallel`` argumen
 On Dell-XPS laptop with 12-core i7 CPU it takes about 5 seconds to run all 245
 unit tests in parallel; without ``--parallel`` argument on same CPU it takes
 approximately 17 seconds to run them.
+
+Another commonly used argument is ``--failfast``. If ``--failfast`` argument
+is provided, a failed test will conveniently stop execution of entire test
+suite:
+
+    $ ./run_tests.sh --failfast
+
+In order to run only views tests and stop if there is a failing test:
+
+    $ DJANGO_SETTINGS_MODULE=config.settings.test
+    $ ./manage.py test papermerge/test/views/ --failfast
+
+Following command will run only tests from papermerge/test/views folder and show ALL python and django warnings:
+
+    $ DJANGO_SETTINGS_MODULE=config.settings.test
+    $ python manage.py -W all test papermerge/test/views/ 
+
 
 ### Commercial Support
 
