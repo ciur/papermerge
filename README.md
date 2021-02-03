@@ -154,11 +154,13 @@ Which basically is same as:
 
 Notice that you can pass any command line argument to ``run_tests.sh`` script
 and those arguments will be routed further to ``manage.py``.
-On multi-core processors it is much more efficient to use ``--parallel`` argument which splits test suite between CPU cores:
+
+On multi-core processors it is much more efficient to use ``--parallel``
+argument which splits test suite between CPU cores:
 
     $ ./run_tests.sh  --parallel
 
-On Dell-XPS laptop with 12-core i7 CPU it takes about 5 seconds to run all 245
+On Dell-XPS laptop with 12-core i7 CPU it takes about 5 seconds to run all
 unit tests in parallel; without ``--parallel`` argument on same CPU it takes
 approximately 17 seconds to run them.
 
