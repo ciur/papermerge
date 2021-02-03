@@ -6,9 +6,9 @@ kindness.
 There are many people who contributed in Papermerge project. This file will
 list maintainers, contributors and sponsors of Papermerge project.
 
-### Maintainer
+### Tech Lead & Maintainer
 
-* [Eugen Ciur](mailto:eugen@papermerge.com)
+* [Eugen Ciur](https://github.com/ciur)
 
 ### Contributors
 
@@ -26,9 +26,12 @@ list maintainers, contributors and sponsors of Papermerge project.
 * [@dani](https://github.com/dani) - French i18n; github issues.
 * [Thomas Pedersen](https://github.com/twpedersen) - imap fixes.
 * [Georg Krause](https://github.com/georgkrause) - mglib improvements; replaced pdftk with stapler.
-* [@l4rm4nd](https://github.com/l4rm4nd) - Security audit.
-* [Ome Mishra](https://github.com/omemishra) - Security audit.
 * [Herr Knedel](https://github.com/ChristianKnedel) - German translations.
+
+### Security Auditors
+
+* [@l4rm4nd](https://github.com/l4rm4nd)
+* [Ome Mishra](https://github.com/omemishra)
 
 ### Sponsors
 
