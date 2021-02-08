@@ -19615,6 +19615,19 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
     return false;
   }
 
+  // encode strings to make html-safe
+  escape(chars) {
+    return chars.replace(/[&<>'"]/g, function(tag) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag];
+    });
+  }
+
   urlRoot() {
     return `/metadata/node/${this.doc_id}`;
   }
@@ -19657,7 +19670,7 @@ class Metadata extends backbone__WEBPACK_IMPORTED_MODULE_1__["Model"] {
         dict = {};
 
     if (model && attr) {
-      dict[attr] = value;
+      dict[attr] = this.escape(value);
       model.set(dict);
     }
   }
