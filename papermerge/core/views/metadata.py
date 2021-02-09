@@ -1,5 +1,6 @@
 import json
 import logging
+import html
 
 from django.contrib.auth.decorators import login_required
 from django.http import (
@@ -73,6 +74,15 @@ def metadata(request, model, id):
     )
 
 
+def _escape_html_entities(kvstore_key):
+    """
+    Convert characters to html-safe strings, if key is a string.
+    """
+    if isinstance(kvstore_key, str):
+        return html.escape(kvstore_key)
+    return kvstore_key
+
+
 def _sanitize_kvstore_list(kvstore_list):
     """
     Creates a new dictionay only with allowed keys.
@@ -89,7 +99,7 @@ def _sanitize_kvstore_list(kvstore_list):
 
     for item in kvstore_list:
         sanitized_kvstore_item = {
-            allowed_key: item.get(allowed_key, None)
+            allowed_key: _escape_html_entities(item.get(allowed_key, None))
             for allowed_key in allowed_keys
             if allowed_key in item.keys()
         }
