@@ -5,7 +5,6 @@ import logging
 from django.conf import settings
 from imapclient import IMAPClient
 from imapclient.exceptions import LoginError
-from imapclient.exceptions import IMAPClientReadOnlyError
 
 from papermerge.core.document_importer import DocumentImporter
 
