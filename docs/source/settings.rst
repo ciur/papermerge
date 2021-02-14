@@ -317,7 +317,7 @@ IMAP Server host.
 
 context: ``worker``
 
-Email account/IMAP user.
+Email account/IMAP user. This user needs read/write access.
 
 
 ``IMPORT_MAIL_PASS``
@@ -333,7 +333,7 @@ Email account/IMAP password.
 context: ``worker``
 
 IMAP folder to read email from.
-Default value for this settings is INBOX.
+Default value for this setting is "INBOX".
 
 ``IMPORT_MAIL_SECRET``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
