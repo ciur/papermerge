@@ -98,9 +98,12 @@ class TestIMAPImporterBySecret(TestCase):
 
         self.assertIsNone(user)
 
-    def test_extract_user_by_secret_allowed_user(self):
-
+    def test_match_user_by_secret_in_subject(self):
+        """
+        Email secret can be placed in email subject
+        """
         email_message = _create_email(
+            # notice that secret is in message subject
             subject='SECRET{this-is-elizabet-secret}'
         )
 
@@ -115,11 +118,52 @@ class TestIMAPImporterBySecret(TestCase):
         self.assertNotEqual(user, self.margaret)
         self.assertEqual(user, self.elizabet)
 
-    def test_extract_user_by_secret_not_allowed_settings(self):
+    def test_match_user_by_secret_in_body_1(self):
+        """
+        If email secret is detected in email body AND
+        user.mail_by_secret == True, then ``get_matching_user``
+        should return correct user.
+        """
 
         email_message = _create_email(
-            subject='SECRET{this-is-margaret-secret}'
+            # notice that secret is in the message body
+            body='hello ! SECRET{this-is-elizabet-secret} Bye bye!'
         )
+
+        # Both margaret AND elizabeth have mail_by_secret
+        # attribute set to True.
+        self.margaret.mail_by_secret = True
+        self.margaret.save()
+
+        self.elizabet.mail_by_secret = True
+        self.elizabet.save()
+
+        user = get_matching_user(
+            email_message,
+            by_secret=True
+        )
+
+        self.assertNotEqual(user, self.margaret)
+        self.assertEqual(user, self.elizabet)
+
+    def test_match_user_by_secret_in_body_2(self):
+        """
+        If email secret is detected in email body BUT
+        relevant user do not have user.mail_by_secret set to True,
+        then ``get_matching_user`` should return None
+        """
+
+        email_message = _create_email(
+            # notice that secret is in message body
+            body='SECRET{this-is-margaret-secret}'
+        )
+        # Both margaret AND elizabeth have mail_by_secret
+        # attribute set to False (!)
+        self.margaret.mail_by_secret = False  # !important
+        self.margaret.save()
+
+        self.elizabet.mail_by_secret = False  # !important
+        self.elizabet.save()
 
         user = get_matching_user(email_message)
         self.assertIsNone(user, self.margaret)
@@ -209,7 +253,7 @@ def _create_email(
     to_field="to_user@test1.com",
     from_field="from_user@test2.com",
     subject="This is a test email",
-    body='Almost empty text message',
+    body="Almost empty text message",
     attachment=None,
     maintype=None,
     subtype=None,
