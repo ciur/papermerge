@@ -98,13 +98,38 @@ class TestIMAPImporterBySecret(TestCase):
 
         self.assertIsNone(user)
 
-    def test_match_user_by_secret_in_subject(self):
+    def test_match_user_by_secret_in_subject_1(self):
         """
         Email secret can be placed in email subject
         """
         email_message = _create_email(
             # notice that secret is in message subject
             subject='SECRET{this-is-elizabet-secret}'
+        )
+
+        self.elizabet.mail_by_secret = True
+        self.elizabet.save()
+
+        user = get_matching_user(
+            email_message,
+            by_secret=True
+        )
+
+        self.assertNotEqual(user, self.margaret)
+        self.assertEqual(user, self.elizabet)
+
+    def test_match_user_by_secret_in_subject_2(self):
+        """
+        Email secret can be placed in email subject AND
+        there can be white spaces AROUND the secret
+        """
+        email_message = _create_email(
+            # notice that secret is in message subject
+            # and is there are white spaces around the
+            # secret message. However, there are
+            # no spaces between word SECRET and immediately following
+            # it opening curly bracket
+            subject='SECRET{    this-is-elizabet-secret }'
         )
 
         self.elizabet.mail_by_secret = True
@@ -142,7 +167,6 @@ class TestIMAPImporterBySecret(TestCase):
             email_message,
             by_secret=True
         )
-
         self.assertNotEqual(user, self.margaret)
         self.assertEqual(user, self.elizabet)
 
@@ -167,6 +191,48 @@ class TestIMAPImporterBySecret(TestCase):
 
         user = get_matching_user(email_message)
         self.assertIsNone(user, self.margaret)
+
+    def test_match_user_by_secret_in_body_plus_whitespaces(self):
+        """
+        secret is placed in the message body.
+
+            SECRET{ ... }
+
+        Notice that between secret message and currly braces there can
+        be whitespaces; however between keyword SECRET and immediately
+        following opening currly brace - there is no space.
+        """
+
+        email_message = _create_email(
+            # notice that secret is in the message body
+            body="""
+            Lieber Freund,
+
+            Blah, blah, blah und es gib ein White Space da!
+
+                SECRET{     this-is-elizabet-secret  }
+
+            PS:
+                no space is allowed between keyword SECRET and
+                immediately following curly bracket.
+            """
+        )
+
+        # Both margaret AND elizabeth have mail_by_secret
+        # attribute set to True.
+        self.margaret.mail_by_secret = True
+        self.margaret.save()
+
+        self.elizabet.mail_by_secret = True
+        self.elizabet.save()
+
+        user = get_matching_user(
+            email_message,
+            by_secret=True
+        )
+
+        self.assertNotEqual(user, self.margaret)
+        self.assertEqual(user, self.elizabet)
 
     def test_extract_user_by_secret_allowed_settings(self):
 
