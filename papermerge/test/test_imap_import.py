@@ -28,7 +28,9 @@ class TestIMAPImporterByUser(TestCase):
 
     def test_extract_user_by_mail_address_not_allowed_user(self):
 
-        email_message = _create_email(user=self.margaret)
+        email_message = _create_email(
+            from_field=self.margaret.email
+        )
 
         user = get_matching_user(
             email_message,
@@ -39,7 +41,9 @@ class TestIMAPImporterByUser(TestCase):
 
     def test_extract_user_by_mail_address_allowed_user(self):
 
-        email_message = _create_email(user=self.elizabet)
+        email_message = _create_email(
+            from_field=self.elizabet.email
+        )
 
         self.elizabet.mail_by_user = True
         self.elizabet.save()
@@ -54,14 +58,14 @@ class TestIMAPImporterByUser(TestCase):
 
     def test_extract_user_by_mail_address_not_allowed_settings(self):
 
-        email_message = _create_email(user=self.margaret)
+        email_message = _create_email(from_field=self.margaret.email)
 
         user = get_matching_user(email_message)
         self.assertIsNone(user)
 
     def test_extract_user_by_mail_address_allowed_settings(self):
 
-        email_message = _create_email(user=self.elizabet)
+        email_message = _create_email(from_field=self.elizabet.email)
 
         self.elizabet.mail_by_user = True
         self.elizabet.save()
@@ -202,22 +206,17 @@ class TestIMAPImporterIngestion(TestCase):
 
 
 def _create_email(
+    to_field="to_user@test1.com",
+    from_field="from_user@test2.com",
+    subject="This is a test email",
     attachment=None,
     maintype=None,
     subtype=None,
-    user=None,
-    subject='This is a test email'
 ):
     msg = EmailMessage()
 
-    msg['To'] = 'papermerge@example.com'
-
-    if user:
-        email_address = user.email
-    else:
-        email_address = 'user@example.com'
-
-    msg['From'] = email_address
+    msg['To'] = to_field
+    msg['From'] = from_field
     msg['Subject'] = subject
 
     if attachment:
@@ -232,4 +231,3 @@ def _create_email(
     )
 
     return email_message
-
