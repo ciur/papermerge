@@ -198,9 +198,9 @@ class TestIMAPImporterBySecret(TestCase):
 
             SECRET{ ... }
 
-        Notice that between secret message and currly braces there can
+        Notice that between secret message and curly bracket there can
         be whitespaces; however between keyword SECRET and immediately
-        following opening currly brace - there is no space.
+        following opening curly bracket - there is no space.
         """
 
         email_message = _create_email(
