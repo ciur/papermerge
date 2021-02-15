@@ -28,11 +28,7 @@ class TestIMAPImporterByUser(TestCase):
 
     def test_extract_user_by_mail_address_not_allowed_user(self):
 
-        body = _create_email(user=self.margaret)
-        email_message = email.message_from_bytes(
-            body,
-            policy=email.policy.default
-        )
+        email_message = _create_email(user=self.margaret)
 
         user = get_matching_user(
             email_message,
@@ -43,9 +39,8 @@ class TestIMAPImporterByUser(TestCase):
 
     def test_extract_user_by_mail_address_allowed_user(self):
 
-        body = _create_email(user=self.elizabet)
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+        email_message = _create_email(user=self.elizabet)
+
         self.elizabet.mail_by_user = True
         self.elizabet.save()
 
@@ -58,16 +53,16 @@ class TestIMAPImporterByUser(TestCase):
         self.assertEqual(user, self.elizabet)
 
     def test_extract_user_by_mail_address_not_allowed_settings(self):
-        body = _create_email(user=self.margaret)
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+
+        email_message = _create_email(user=self.margaret)
+
         user = get_matching_user(email_message)
         self.assertIsNone(user)
 
     def test_extract_user_by_mail_address_allowed_settings(self):
-        body = _create_email(user=self.elizabet)
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+
+        email_message = _create_email(user=self.elizabet)
+
         self.elizabet.mail_by_user = True
         self.elizabet.save()
         user = get_matching_user(email_message)
@@ -88,9 +83,9 @@ class TestIMAPImporterBySecret(TestCase):
 
     def test_extract_user_by_secret_not_allowed_user(self):
 
-        body = _create_email(subject='SECRET{this-is-margaret-secret}')
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+        email_message = _create_email(
+            subject='SECRET{this-is-margaret-secret}'
+        )
 
         user = get_matching_user(
             email_message,
@@ -101,9 +96,10 @@ class TestIMAPImporterBySecret(TestCase):
 
     def test_extract_user_by_secret_allowed_user(self):
 
-        body = _create_email(subject='SECRET{this-is-elizabet-secret}')
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+        email_message = _create_email(
+            subject='SECRET{this-is-elizabet-secret}'
+        )
+
         self.elizabet.mail_by_secret = True
         self.elizabet.save()
 
@@ -117,17 +113,19 @@ class TestIMAPImporterBySecret(TestCase):
 
     def test_extract_user_by_secret_not_allowed_settings(self):
 
-        body = _create_email(subject='SECRET{this-is-margaret-secret}')
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+        email_message = _create_email(
+            subject='SECRET{this-is-margaret-secret}'
+        )
+
         user = get_matching_user(email_message)
         self.assertIsNone(user, self.margaret)
 
     def test_extract_user_by_secret_allowed_settings(self):
 
-        body = _create_email(subject='SECRET{this-is-elizabet-secret}')
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+        email_message = _create_email(
+            subject='SECRET{this-is-elizabet-secret}'
+        )
+
         self.elizabet.mail_by_secret = True
         self.elizabet.save()
         user = get_matching_user(email_message)
@@ -145,13 +143,12 @@ class TestIMAPImporterIngestion(TestCase):
             "data",
             "berlin.pdf"
         )
-        body = _create_email(
+        email_message = _create_email(
             attachment=file_path,
             maintype='application',
             subtype='pdf',
         )
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+
         user = get_matching_user(email_message)
         self.assertIsNone(user)
         trigger_document_pipeline(email_message, user, skip_ocr=True)
@@ -167,13 +164,12 @@ class TestIMAPImporterIngestion(TestCase):
             "data",
             "page-1.jpg"
         )
-        body = _create_email(
+        email_message = _create_email(
             attachment=file_path,
             maintype='image',
             subtype='jpg',
         )
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+
         user = get_matching_user(email_message)
         self.assertIsNone(user)
         trigger_document_pipeline(email_message, user, skip_ocr=True)
@@ -189,13 +185,12 @@ class TestIMAPImporterIngestion(TestCase):
             "data",
             "testdata.tar"
         )
-        body = _create_email(
+        email_message = _create_email(
             attachment=file_path,
             maintype='application',
             subtype='x-tar',
         )
-        email_message = email.message_from_bytes(
-            body, policy=email.policy.default)
+
         user = get_matching_user(email_message)
         self.assertIsNone(user)
         trigger_document_pipeline(email_message, user, skip_ocr=True)
@@ -214,17 +209,27 @@ def _create_email(
     subject='This is a test email'
 ):
     msg = EmailMessage()
+
     msg['To'] = 'papermerge@example.com'
+
     if user:
         email_address = user.email
     else:
         email_address = 'user@example.com'
+
     msg['From'] = email_address
     msg['Subject'] = subject
-    if not attachment:
-        return msg.as_bytes()
-    with open(attachment, 'rb') as fp:
-        attachment = fp.read()
-    msg.add_attachment(attachment, maintype=maintype, subtype=subtype)
-    return msg.as_bytes()
+
+    if attachment:
+        with open(attachment, 'rb') as fp:
+            attachment = fp.read()
+
+        msg.add_attachment(attachment, maintype=maintype, subtype=subtype)
+
+    email_message = email.message_from_bytes(
+        msg.as_bytes(),
+        policy=email.policy.default
+    )
+
+    return email_message
 
