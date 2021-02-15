@@ -209,15 +209,22 @@ def _create_email(
     to_field="to_user@test1.com",
     from_field="from_user@test2.com",
     subject="This is a test email",
+    body='Almost empty text message',
     attachment=None,
     maintype=None,
     subtype=None,
 ):
+    """
+    Builds and returns an ``email.message.EmailMessage`` instance
+    with to, from, subject, body and eventually an
+    attachment in the email body.
+    """
     msg = EmailMessage()
 
     msg['To'] = to_field
     msg['From'] = from_field
     msg['Subject'] = subject
+    msg.set_content(body)
 
     if attachment:
         with open(attachment, 'rb') as fp:
