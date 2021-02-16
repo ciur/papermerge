@@ -12,7 +12,8 @@ from .utils import (
 
 from papermerge.core.importers.imap import (
     get_matching_user,
-    trigger_document_pipeline
+    trigger_document_pipeline,
+    get_secret
 )
 from papermerge.core.models import Document
 
@@ -26,25 +27,59 @@ class TestIMAPImporterByUser(TestCase):
         self.margaret = create_margaret_user()
         self.elizabet = create_elizabet_user()
 
-    def test_extract_user_by_mail_address_not_allowed_user(self):
-
+    def test_match_user_by_from_field_address_without_flag_set(self):
+        """
+        Will match user by "from_field" ONLY if that user
+        has 'mail_by_user' flag set.
+        """
         email_message = _create_email(
             from_field=self.margaret.email
         )
+
+        # explicitely set mail_by_user flag to False
+        self.margaret.mail_by_user = False
+        self.margaret.save()
 
         user = get_matching_user(
             email_message,
             by_user=True
         )
 
+        # won't match because of the flag
         self.assertIsNone(user)
 
-    def test_extract_user_by_mail_address_allowed_user(self):
-
+    def test_match_user_by_from_field_address_with_flag_set(self):
+        """
+        Will match user by "from_field" ONLY if that user
+        has 'mail_by_user' flag set.
+        """
         email_message = _create_email(
             from_field=self.elizabet.email
         )
 
+        # explicitely set ``mail_by_user`` flag to True
+        self.elizabet.mail_by_user = True
+        self.elizabet.save()
+
+        user = get_matching_user(
+            email_message,
+            by_user=True
+        )
+
+        self.assertNotEqual(user, self.margaret)
+        self.assertEqual(user, self.elizabet)
+
+    def test_match_user_by_to_field_address_with_flag_set(self):
+        """
+        Will match user by "to_field" ONLY if that user
+        has 'mail_by_user' flag set.
+        """
+        email_message = _create_email(
+            # use to_field for matching
+            to_field=self.elizabet.email
+        )
+
+        # explicitely set ``mail_by_user`` flag to True
         self.elizabet.mail_by_user = True
         self.elizabet.save()
 
@@ -244,6 +279,88 @@ class TestIMAPImporterBySecret(TestCase):
         self.elizabet.save()
         user = get_matching_user(email_message)
         self.assertIsNone(user)
+
+    def test_get_secret_1(self):
+
+        text = """
+        This is body of plain text message of some email
+
+            SECRET{   email-addressed-to-cicero   }
+        """
+        SECRET = "email-addressed-to-cicero"
+
+        self.assertEquals(
+            SECRET, get_secret(text)
+        )
+
+    def test_get_secret_2(self):
+
+        text_subject = "Important Message"
+        text_body = """
+        This is body of plain text message of some email
+
+            SECRET{   email-addressed-to-cicero   }
+        """
+        SECRET = "email-addressed-to-cicero"
+
+        # get_secret function accepts a lisf of strings as
+        # argument
+        self.assertEquals(
+            SECRET, get_secret([text_subject, text_body])
+        )
+
+    def test_get_secret_3(self):
+        """
+        ``get_secret`` will return None if no
+        SECRET{ ... } text was found.
+        """
+
+        text_subject = "Important Message"
+        text_body = """
+        This is body of plain text message of some email
+        """
+        self.assertIsNone(
+            # no secret in the text
+            get_secret([text_subject, text_body])
+        )
+
+    def test_get_secret_4(self):
+        """
+        ``get_secret`` will return None if no
+        SECRET{ ... } text was found.
+        """
+        self.assertIsNone(
+            get_secret("plain text, no secrets here")
+        )
+
+    def test_get_secret_5(self):
+        """
+        ``get_secret`` will return None in case when
+        SECRET{ ... } is not formatted correctly.
+
+        All input values in this test are of "wrong format"
+        """
+
+        # notice space between SECRET and immediately following
+        # curly bracket.
+        self.assertIsNone(
+            get_secret("SECRET {   ...}")
+        )
+
+        # typo in keyword SECRET
+        self.assertIsNone(
+            get_secret("SECRIT {   ...}")
+        )
+
+        # missing closing bracket
+        self.assertIsNone(
+            get_secret("SECRET {   ...")
+        )
+
+        # curly brackets missing
+        self.assertIsNone(
+            get_secret("SECRET  ...")
+        )
 
 
 class TestIMAPImporterIngestion(TestCase):
