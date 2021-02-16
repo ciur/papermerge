@@ -27,39 +27,36 @@ class TestIMAPImporterByUser(TestCase):
         self.margaret = create_margaret_user()
         self.elizabet = create_elizabet_user()
 
-    def test_match_user_by_from_field_address_without_flag_set(self):
+    def test_match_user_by_from_field_address_without_pref_set(self):
         """
         Will match user by "from_field" ONLY if that user
-        has 'mail_by_user' flag set.
+        has 'email_routing__by_user' pref set to True.
         """
         email_message = _create_email(
             from_field=self.margaret.email
         )
 
-        # explicitely set mail_by_user flag to False
-        self.margaret.mail_by_user = False
-        self.margaret.save()
+        # explicitely set email_routing__by_user to False
+        _set_email_routing_pref(self.margaret, "by_user", False)
 
         user = get_matching_user(
             email_message,
             by_user=True
         )
 
-        # won't match because of the flag
+        # won't match because of the pref
         self.assertIsNone(user)
 
-    def test_match_user_by_from_field_address_with_flag_set(self):
+    def test_match_user_by_from_field_address_with_pref_set(self):
         """
         Will match user by "from_field" ONLY if that user
-        has 'mail_by_user' flag set.
+        has 'email_routing__by_user' pref set to True.
         """
         email_message = _create_email(
             from_field=self.elizabet.email
         )
 
-        # explicitely set ``mail_by_user`` flag to True
-        self.elizabet.mail_by_user = True
-        self.elizabet.save()
+        _set_email_routing_pref(self.elizabet, "by_user", True)
 
         user = get_matching_user(
             email_message,
@@ -69,19 +66,17 @@ class TestIMAPImporterByUser(TestCase):
         self.assertNotEqual(user, self.margaret)
         self.assertEqual(user, self.elizabet)
 
-    def test_match_user_by_to_field_address_with_flag_set(self):
+    def test_match_user_by_to_field_address_with_pref_set(self):
         """
         Will match user by "to_field" ONLY if that user
-        has 'mail_by_user' flag set.
+        has 'email_routing__by_user' pref set to True.
         """
         email_message = _create_email(
             # use to_field for matching
             to_field=self.elizabet.email
         )
 
-        # explicitely set ``mail_by_user`` flag to True
-        self.elizabet.mail_by_user = True
-        self.elizabet.save()
+        _set_email_routing_pref(self.elizabet, "by_user", True)
 
         user = get_matching_user(
             email_message,
@@ -105,6 +100,7 @@ class TestIMAPImporterByUser(TestCase):
         self.elizabet.mail_by_user = True
         self.elizabet.save()
         user = get_matching_user(email_message)
+
         self.assertIsNone(user)
 
 
@@ -115,10 +111,16 @@ class TestIMAPImporterBySecret(TestCase):
         self.user = create_root_user()
         self.margaret = create_margaret_user()
         self.elizabet = create_elizabet_user()
-        self.margaret.mail_secret = 'this-is-margaret-secret'
-        self.margaret.save()
-        self.elizabet.mail_secret = 'this-is-elizabet-secret'
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.margaret,
+            'mail_secret',
+            'this-is-margaret-secret'
+        )
+        _set_email_routing_pref(
+            self.elizabet,
+            "mail_secret",
+            "this-is-elizabet-secret"
+        )
 
     def test_extract_user_by_secret_not_allowed_user(self):
 
@@ -142,8 +144,11 @@ class TestIMAPImporterBySecret(TestCase):
             subject='SECRET{this-is-elizabet-secret}'
         )
 
-        self.elizabet.mail_by_secret = True
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.elizabet,
+            'by_secret',
+            True
+        )
 
         user = get_matching_user(
             email_message,
@@ -167,8 +172,11 @@ class TestIMAPImporterBySecret(TestCase):
             subject='SECRET{    this-is-elizabet-secret }'
         )
 
-        self.elizabet.mail_by_secret = True
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.elizabet,
+            'by_secret',
+            True
+        )
 
         user = get_matching_user(
             email_message,
@@ -192,11 +200,16 @@ class TestIMAPImporterBySecret(TestCase):
 
         # Both margaret AND elizabeth have mail_by_secret
         # attribute set to True.
-        self.margaret.mail_by_secret = True
-        self.margaret.save()
-
-        self.elizabet.mail_by_secret = True
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.margaret,
+            'by_secret',
+            True
+        )
+        _set_email_routing_pref(
+            self.elizabet,
+            'by_secret',
+            True
+        )
 
         user = get_matching_user(
             email_message,
@@ -218,11 +231,16 @@ class TestIMAPImporterBySecret(TestCase):
         )
         # Both margaret AND elizabeth have mail_by_secret
         # attribute set to False (!)
-        self.margaret.mail_by_secret = False  # !important
-        self.margaret.save()
-
-        self.elizabet.mail_by_secret = False  # !important
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.margaret,
+            'by_secret',
+            False
+        )
+        _set_email_routing_pref(
+            self.elizabet,
+            'by_secret',
+            False
+        )
 
         user = get_matching_user(email_message)
         self.assertIsNone(user, self.margaret)
@@ -255,11 +273,16 @@ class TestIMAPImporterBySecret(TestCase):
 
         # Both margaret AND elizabeth have mail_by_secret
         # attribute set to True.
-        self.margaret.mail_by_secret = True
-        self.margaret.save()
-
-        self.elizabet.mail_by_secret = True
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.margaret,
+            'by_secret',
+            True
+        )
+        _set_email_routing_pref(
+            self.elizabet,
+            'by_secret',
+            True
+        )
 
         user = get_matching_user(
             email_message,
@@ -275,8 +298,11 @@ class TestIMAPImporterBySecret(TestCase):
             subject='SECRET{this-is-elizabet-secret}'
         )
 
-        self.elizabet.mail_by_secret = True
-        self.elizabet.save()
+        _set_email_routing_pref(
+            self.elizabet,
+            'by_secret',
+            True
+        )
         user = get_matching_user(email_message)
         self.assertIsNone(user)
 
@@ -430,6 +456,19 @@ class TestIMAPImporterIngestion(TestCase):
             Document.objects.count(),
             0
         )
+
+
+def _set_email_routing_pref(user, option, value):
+
+    if option not in [
+        "by_user",
+        "by_secret",
+        "mail_secret"
+    ]:
+        raise ValueError("invalid user preference")
+
+    user.preferences[f"email_routing__{option}"] = value
+    user.save()
 
 
 def _create_email(
