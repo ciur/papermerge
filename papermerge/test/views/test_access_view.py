@@ -9,10 +9,13 @@ from papermerge.core.models import (
 )
 from papermerge.test.utils import (
     create_margaret_user,
+    create_elizabet_user,
     create_uploader_user,
     create_root_user,
     create_some_doc
 )
+from papermerge.core.models.kvstore import MONEY
+
 
 READ = Access.PERM_READ
 WRITE = Access.PERM_WRITE
@@ -376,6 +379,7 @@ class TestMetadataAccessView(TestCase):
     def setUp(self):
         self.root_user = create_root_user()
         self.margaret_user = create_margaret_user()
+        self.elizabet_user = create_elizabet_user()
 
     def test_metadata_is_readonly(self):
         """
@@ -490,3 +494,114 @@ class TestMetadataAccessView(TestCase):
             resp.status_code, 403
         )
 
+    def test_metadata_cannot_be_accessed_by_other_users(self):
+        """
+        margaret cannot access elizabet documents' metadata
+        """
+        elizabet_doc = create_some_doc(
+            user=self.elizabet_user,
+            page_count=2
+        )
+
+        # elizabet's doc has metadata
+        elizabet_doc.kv.update(
+            [
+                {
+                    'key': 'price',
+                    'kv_type': MONEY,
+                    'kv_format': 'dd,cc',
+                }
+            ]
+        )
+        elizabet_doc.assign_kv_values({'price': '10,00'})
+        page_1 = Page.objects.get(document=elizabet_doc, number=1)
+        page_2 = Page.objects.get(document=elizabet_doc, number=2)
+
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+
+        resp = self.client.get(
+            reverse(
+                'core:metadata',
+                args=('page', page_1.id)
+            ),
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(
+            resp.status_code, 403
+        )
+
+        resp = self.client.get(
+            reverse(
+                'core:metadata',
+                args=('page', page_2.id)
+            ),
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(
+            resp.status_code, 403
+        )
+
+        resp = self.client.get(
+            reverse(
+                'core:metadata',
+                args=('node', elizabet_doc.id)
+            ),
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(
+            resp.status_code, 403
+        )
+
+        self.client.logout()
+
+        # but elizabet has access
+        self.client.login(
+            testcase_user=self.elizabet_user
+        )
+
+        resp = self.client.get(
+            reverse(
+                'core:metadata',
+                args=('page', page_1.id)
+            ),
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(
+            resp.status_code, 200
+        )
+
+        resp = self.client.get(
+            reverse(
+                'core:metadata',
+                args=('page', page_2.id)
+            ),
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(
+            resp.status_code, 200
+        )
+
+        resp = self.client.get(
+            reverse(
+                'core:metadata',
+                args=('node', elizabet_doc.id)
+            ),
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(
+            resp.status_code, 200
+        )

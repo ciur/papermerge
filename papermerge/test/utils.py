@@ -67,7 +67,6 @@ def create_user(username: str, perms: list) -> User:
     return user
 
 
-
 def create_elizabet_user():
     user = User.objects.create_user(
         'elizabet',
