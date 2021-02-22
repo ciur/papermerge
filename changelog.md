@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roles - quicker way to assign set of permissions for a given user
 - Document versions (all changes on the document are non-distructively saved)
 - User can manually re-run automates
+- User can manually re-start OCR for selected documents
+- In document viewer user can see OCRed page text
 
 
 [1.5.5] - 27 December 2020
