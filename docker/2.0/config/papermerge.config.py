@@ -1,3 +1,4 @@
+BINARY_STAPLER = "/opt/app/.venv/bin/stapler"
 
 DBUSER = "dbuser"
 DBPASS = "dbpass"
