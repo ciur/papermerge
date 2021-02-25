@@ -48,12 +48,13 @@ text files (notes) which usually are editable. In future Papermerge might suppor
 Papermerge is simply not designed to store books. Yes, you can scan a book and import it in Papermege, but again - this is not what Papermerge was designed for.
 
 ## Features Highlight
-    
+
 * Documents of pdf, jpg, png, tiff formats are supported
 * Desktop like user interface
 * Per page OCR of the documents
 * Full Text Search of the scanned documents
 * Versioning
+* User defined metadata per folder/document/page
 * Import documents from multiple sources (local disk, email, web upload, REST API upload)
 * Tags - assign colored tags to documents or folders ([screencast demo](https://www.youtube.com/watch?v=bshUowL57t8))
 * Documents and Folders - users can organize documents in folders
