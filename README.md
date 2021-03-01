@@ -132,11 +132,11 @@ file.
 You can try it with just 3 simple commands (you need git and docker-compose):
 
     git clone git@github.com:ciur/papermerge.git
-    cd docker/1.4/
+    cd docker/2.0/
     docker-compose up
 
 Docker compose command will pull all necessary docker images and start
-papermerge (stable 1.5.5 version) on http://localhost:8000. Access it with
+papermerge on http://localhost:8000. Access it with
 default username/password: admin/admin.
 
 ### Installation
