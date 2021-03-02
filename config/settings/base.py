@@ -121,6 +121,7 @@ PAPERMERGE_METADATA_NUMERIC_FORMATS = [
 ]
 
 PAPERMERGE_MIMETYPES = [
+    'application/octet-stream',
     'application/pdf',
     'image/png',
     'image/jpeg',

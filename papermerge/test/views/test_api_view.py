@@ -13,7 +13,10 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from knox.models import AuthToken
 
-from papermerge.core.models import Document
+from papermerge.core.models import (
+    Document,
+    Folder
+)
 
 
 from papermerge.test.utils import (
@@ -166,7 +169,7 @@ class TestRestApiWithValidToken(TestCase):
             "data",
             "berlin.pdf"
         )
-
+        ret = None
         with open(file_path, "rb") as fp:
             data = {
                 'file': fp
@@ -187,6 +190,11 @@ class TestRestApiWithValidToken(TestCase):
         self.assertEquals(
             Document.objects.count(),
             1
+        )
+        doc = Document.objects.first()
+        self.assertEquals(
+            doc.parent.title,
+            Folder.INBOX_NAME
         )
 
     def test_basic_documents_view(self):
