@@ -53,16 +53,11 @@ class TestBrowseView(TestCase):
 
         self.client.login(testcase_user=self.root_user)
 
-        ret = self.client.get(
-            reverse('core:browse'),
-            content_type='application/json',
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
-        )
+        json_response, status_code = self._browse_nodes()
         self.assertEqual(
-            ret.status_code,
+            status_code,
             200
         )
-        json_response = json.loads(ret.content)
         self.assertEqual(
             len(json_response['nodes']),
             2
@@ -80,17 +75,12 @@ class TestBrowseView(TestCase):
             )
 
         self.client.login(testcase_user=self.root_user)
-        ret = self.client.get(
-            reverse('core:browse'),
-            content_type='application/json',
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
-        )
+        json_response, status_code = self._browse_nodes()
 
         self.assertEqual(
-            ret.status_code,
+            status_code,
             200
         )
-        json_response = json.loads(ret.content)
         self.assertEqual(
             len(json_response['nodes']),
             PER_PAGE
@@ -104,6 +94,46 @@ class TestBrowseView(TestCase):
         )
         self.assertFalse(
             json_response['pagination']['page']['has_previous'],
+        )
+
+    def test_browse_pagination_and_ordering_by_title(self):
+        """
+        There are PER_PAGE + 3 nodes with titles A, B, C, Z_1, Z_2, Z_3, ...
+        Browse view receives 'order-by=-title' parameter.
+        Second page will have 3 items in following order:
+            "C", "B", "A".
+        All titles starting with Z... are on first page.
+        """
+        # create Z_ items
+        for x in range(1, PER_PAGE + 1):
+            Folder.objects.create(
+                title=f"Z_{x}",
+                user=self.root_user
+            )
+        Folder.objects.create(title="A", user=self.root_user)
+        Folder.objects.create(title="B", user=self.root_user)
+        Folder.objects.create(title="C", user=self.root_user)
+
+        self.client.login(testcase_user=self.root_user)
+
+        # get nodes from second page
+        json_response, status_code = self._browse_nodes(
+            params={'order-by': '-title', 'page': 2}
+        )
+        self.assertEqual(
+            ['C', 'B', 'A'],
+            [node['title'] for node in json_response['nodes']]
+        )
+
+        # get nodes from first page
+        json_response, status_code = self._browse_nodes(
+            params={'order-by': 'title', 'page': 1}
+        )
+        first_page_nodes = [node['title'] for node in json_response['nodes']]
+        # check first 4 nodes of the first page
+        self.assertEqual(
+            ['A', 'B', 'C', 'Z_1'],
+            first_page_nodes[0:4]
         )
 
     def test_browse_with_parent(self):
@@ -201,17 +231,12 @@ class TestBrowseView(TestCase):
         # shared1 (which root user shared with her)
         # shared2 (which root shared with her)
         # and her own.
-        ret = self.client.get(
-            reverse('core:browse'),
-            content_type='application/json',
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
-        )
+        json_response, status_code = self._browse_nodes()
 
         self.assertEqual(
-            ret.status_code,
+            status_code,
             200
         )
-        json_response = json.loads(ret.content)
         # will return children Child1, Child2, Child3
         self.assertEqual(
             len(json_response['nodes']),
@@ -236,14 +261,14 @@ class TestBrowseView(TestCase):
             title_list=["A-doc", "B-doc"]
         )
 
-        json_response = self._browse_nodes(params={'order-by': 'title'})
+        json_response, _ = self._browse_nodes(params={'order-by': 'title'})
         self.assertEqual(
             # titles must be ascending
             ['A-doc', 'B-doc'],
             [node['title'] for node in json_response['nodes']]
         )
 
-        json_response = self._browse_nodes(params={'order-by': '-title'})
+        json_response, _ = self._browse_nodes(params={'order-by': '-title'})
         self.assertEqual(
             # titles must be descending
             ['B-doc', 'A-doc'],
@@ -262,28 +287,33 @@ class TestBrowseView(TestCase):
             title_list=["A-doc", "B-doc", "z-D", "a-document", "ZDOC"]
         )
 
-        json_response = self._browse_nodes(params={'order-by': 'title'})
+        json_response, _ = self._browse_nodes(params={'order-by': 'title'})
         self.assertEqual(
             # titles must be ascending and case insensitive
             ['A-doc', 'a-document', 'B-doc', 'z-D', 'ZDOC'],
             [node['title'] for node in json_response['nodes']]
         )
 
-        json_response = self._browse_nodes(params={'order-by': '-title'})
+        json_response, _ = self._browse_nodes(params={'order-by': '-title'})
         self.assertEqual(
             # titles must be descending and case insensitive
             ['ZDOC', 'z-D', 'B-doc', 'a-document', 'A-doc'],
             [node['title'] for node in json_response['nodes']]
         )
 
-    def _browse_nodes(self, params={}):
+    def _browse_nodes(self, parent_id=None, params={}):
+
+        url = reverse('core:browse')
+
+        if parent_id:
+            url = reverse('core:browse', args=(parent_id, ))
         ret = self.client.get(
-            reverse('core:browse'),
+            url,
             params,
             content_type='application/json',
             HTTP_X_REQUESTED_WITH='XMLHttpRequest',
         )
-        return json.loads(ret.content)
+        return json.loads(ret.content), ret.status_code
 
     def _create_docs(self, title_list: list):
         for title in title_list:
