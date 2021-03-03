@@ -225,6 +225,74 @@ class TestBrowseView(TestCase):
             set(['Shared 1', 'Shared 2', "Margaret's Folder"])
         )
 
+    def test_basic_order_by_title(self):
+        """
+        GET parameter "order-by" with value "title" or "-title"
+        toggles nodes ordering asc/desc by title.
+        """
+        self.client.login(testcase_user=self.root_user)
+
+        self._create_docs(
+            title_list=["A-doc", "B-doc"]
+        )
+
+        json_response = self._browse_nodes(params={'order-by': 'title'})
+        self.assertEquals(
+            # titles must be ascending
+            ['A-doc', 'B-doc'],
+            [node['title'] for node in json_response['nodes']]
+        )
+
+        json_response = self._browse_nodes(params={'order-by': '-title'})
+        self.assertEquals(
+            # titles must be descending
+            ['B-doc', 'A-doc'],
+            [node['title'] for node in json_response['nodes']]
+        )
+
+    def test_order_by_title_is_not_case_sensitive(self):
+        """
+        GET parameter "order-by" with value "title" or "-title"
+        toggles nodes ordering asc/desc by title. Ordering
+        by title is NOT case sensitive
+        """
+        self.client.login(testcase_user=self.root_user)
+
+        self._create_docs(
+            title_list=["A-doc", "B-doc", "z-D", "a-document", "ZDOC"]
+        )
+
+        json_response = self._browse_nodes(params={'order-by': 'title'})
+        self.assertEquals(
+            # titles must be ascending and case insensitive
+            ['A-doc', 'a-document', 'B-doc', 'z-D', 'ZDOC'],
+            [node['title'] for node in json_response['nodes']]
+        )
+
+        json_response = self._browse_nodes(params={'order-by': '-title'})
+        self.assertEquals(
+            # titles must be descending and case insensitive
+            ['ZDOC', 'z-D', 'B-doc', 'a-document', 'A-doc'],
+            [node['title'] for node in json_response['nodes']]
+        )
+
+    def _browse_nodes(self, params={}):
+        ret = self.client.get(
+            reverse('core:browse'),
+            params,
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        return json.loads(ret.content)
+
+    def _create_docs(self, title_list: list):
+        for title in title_list:
+            create_some_doc(
+                self.root_user,
+                page_count=1,
+                title=title
+            )
+
 
 class TestNodesView(TestCase):
     """

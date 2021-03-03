@@ -92,14 +92,15 @@ def create_uploader_user():
 def create_some_doc(
     user,
     page_count=2,
-    parent_id=None
+    parent_id=None,
+    title="document_A"
 ):
     """
     Returns a (newly created) document instance.
     Title, file_name, size, language do not matter.
     """
     doc = Document.objects.create_document(
-        title="document_A",
+        title=title,
         file_name="document_A.pdf",
         size='36',
         lang='DEU',
