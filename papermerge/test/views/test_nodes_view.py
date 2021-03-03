@@ -116,7 +116,7 @@ class TestBrowseView(TestCase):
 
         self.client.login(testcase_user=self.root_user)
 
-        # get nodes from second page
+        # get nodes from second page (order desc by title)
         json_response, status_code = self._browse_nodes(
             params={'order-by': '-title', 'page': 2}
         )
@@ -125,7 +125,7 @@ class TestBrowseView(TestCase):
             [node['title'] for node in json_response['nodes']]
         )
 
-        # get nodes from first page
+        # get nodes from first page (order asc by title)
         json_response, status_code = self._browse_nodes(
             params={'order-by': 'title', 'page': 1}
         )
