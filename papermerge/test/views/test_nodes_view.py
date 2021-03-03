@@ -237,14 +237,14 @@ class TestBrowseView(TestCase):
         )
 
         json_response = self._browse_nodes(params={'order-by': 'title'})
-        self.assertEquals(
+        self.assertEqual(
             # titles must be ascending
             ['A-doc', 'B-doc'],
             [node['title'] for node in json_response['nodes']]
         )
 
         json_response = self._browse_nodes(params={'order-by': '-title'})
-        self.assertEquals(
+        self.assertEqual(
             # titles must be descending
             ['B-doc', 'A-doc'],
             [node['title'] for node in json_response['nodes']]
@@ -263,14 +263,14 @@ class TestBrowseView(TestCase):
         )
 
         json_response = self._browse_nodes(params={'order-by': 'title'})
-        self.assertEquals(
+        self.assertEqual(
             # titles must be ascending and case insensitive
             ['A-doc', 'a-document', 'B-doc', 'z-D', 'ZDOC'],
             [node['title'] for node in json_response['nodes']]
         )
 
         json_response = self._browse_nodes(params={'order-by': '-title'})
-        self.assertEquals(
+        self.assertEqual(
             # titles must be descending and case insensitive
             ['ZDOC', 'z-D', 'B-doc', 'a-document', 'A-doc'],
             [node['title'] for node in json_response['nodes']]

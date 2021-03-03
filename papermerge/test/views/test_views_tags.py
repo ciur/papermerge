@@ -75,7 +75,7 @@ class TestNodesView(TestCase):
             HTTP_X_REQUESTED_WITH='XMLHttpRequest',
         )
 
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             400
         )
@@ -99,7 +99,7 @@ class TestNodesView(TestCase):
             HTTP_X_REQUESTED_WITH='XMLHttpRequest',
         )
 
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
@@ -137,7 +137,7 @@ class TestNodesView(TestCase):
             },
         )
 
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             HttpResponseRedirect.status_code
         )
@@ -147,7 +147,7 @@ class TestNodesView(TestCase):
             name="tag_x"
         ).count()
 
-        self.assertEquals(
+        self.assertEqual(
             tag_count,
             1
         )
