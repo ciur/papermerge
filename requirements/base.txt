@@ -1,5 +1,5 @@
 # https://github.com/papermerge/papermerge-core
-papermerge-core == 2.0.0rc40
+papermerge-core == 2.0.0rc41
 # https://github.com/papermerge/mglib
 mglib == 1.3.7
 mgclipboard >= 0.3.0

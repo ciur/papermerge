@@ -9,6 +9,7 @@ from django.http.response import (
     HttpResponseBadRequest,
     HttpResponseForbidden
 )
+from django.contrib.auth.models import Permission
 
 from mglib.path import PagePath
 from mglib.step import Step
@@ -18,7 +19,8 @@ from papermerge.core.models import (
     Page,
     Document,
     Folder,
-    Access
+    Access,
+    Role
 )
 from papermerge.core.storage import default_storage
 from papermerge.core.models.kvstore import (
@@ -990,6 +992,44 @@ class TestDocumentAjaxOperationsView(TestCase):
         self.assertEqual(
             folder.title,
             "XYZ"
+        )
+
+    def test_deny_folder_creation_if_no_permission(self):
+        """
+        Only users that do have "core.add_folder" permission can
+        create folders
+        """
+        self.client.logout()
+        guest_role = Role.objects.create(name="guest")
+        self.margaret_user.role = guest_role
+        self.margaret_user.save()
+        self.client.login(
+            testcase_user=self.margaret_user
+        )
+        ret = self.client.post(
+            reverse('core:create_folder'),
+            json.dumps({'title': 'XYZ'}),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            HttpResponseForbidden.status_code
+        )
+        # now give margaret 'core.add_folder' permission
+        # and she would be able to create a folder
+        perm_add_folder = Permission.objects.get(codename='add_folder')
+        self.margaret_user.role.permissions.add(perm_add_folder)
+        self.margaret_user.role.save()
+        ret = self.client.post(
+            reverse('core:create_folder'),
+            json.dumps({'title': 'XYZ'}),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+        )
+        self.assertEqual(
+            ret.status_code,
+            200
         )
 
     def test_refuse_to_create_inbox_folder(self):
