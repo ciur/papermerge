@@ -22,7 +22,7 @@ class TestSearchView(TestCase):
             reverse('admin:search'),
             {'q': "ok"}
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )
@@ -41,7 +41,7 @@ class TestSearchView(TestCase):
             reverse('admin:search'),
             {'q': "ok"}
         )
-        self.assertEquals(
+        self.assertEqual(
             ret.status_code,
             200
         )

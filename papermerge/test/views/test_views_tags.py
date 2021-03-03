@@ -123,7 +123,7 @@ class TestNodesView(TestCase):
             name="tag_x"
         ).count()
 
-        self.assertEquals(
+        self.assertEqual(
             tag_count,
             0
         )
