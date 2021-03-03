@@ -183,7 +183,7 @@ In order to run only views tests and stop if there is a failing test:
 Following command will run only tests from papermerge/test/views folder and show ALL python and django warnings:
 
     $ DJANGO_SETTINGS_MODULE=config.settings.test
-    $ python manage.py -W all test papermerge/test/views/ 
+    $ python -W all manage.py test papermerge/test/views/ 
 
 
 ### Commercial Support
