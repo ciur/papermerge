@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   app:
-    image: eugenci/papermerge:2.0.0.rc38
+    image: eugenci/papermerge:2.0.0.rc43
     build:
       context: .
       dockerfile: app.dockerfile
@@ -37,7 +37,7 @@ services:
     volumes:
       - 'redisdata:/data'
   worker:
-    image: eugenci/papermerge-worker:2.0.0.rc38
+    image: eugenci/papermerge-worker:2.0.0.rc43
     build:
       context: .
       dockerfile: worker.dockerfile    
