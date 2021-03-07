@@ -59,5 +59,5 @@ Slow increase in CPU usage over time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In case you use default broker and message queue (which is filesystem based) over time
-your CPU usave will increase. Filesystem based message queue is not suitable for production.
-You redis to avoid this issue. Learn in :ref:`broker configuration <broker_config>` part how to configure redis.
+your CPU usage will increase. Filesystem based message queue is not suitable for production.
+Use redis to avoid this issue. Learn in :ref:`broker configuration <broker_config>` part how to configure redis.
