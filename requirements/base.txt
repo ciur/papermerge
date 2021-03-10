@@ -1,1 +1,1 @@
-papermerge-core == 2.0.0rc48
+papermerge-core == 2.0rc48
