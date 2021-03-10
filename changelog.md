@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0rc48] - 10 March 2021
+
+- Looks like finally final!
+
 ## [2.0.0rc45] - 5 March 2021
 
 - Fixes version issue (documents created by paste opreration should have version reset to 0)
