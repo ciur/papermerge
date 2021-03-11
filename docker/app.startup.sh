@@ -11,7 +11,6 @@ fi
 ln -sf /opt/etc/production.py /opt/app/config/settings/production.py
 ln -sf /opt/etc/papermerge.conf.py /opt/app/papermerge.conf.py
 
-
 ./manage.py makemigrations
 ./manage.py migrate
 cat create_user.py | python3 manage.py shell
