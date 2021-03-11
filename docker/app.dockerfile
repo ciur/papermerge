@@ -42,16 +42,13 @@ curl -o \
     "https://github.com/ciur/papermerge/archive/${PAPERMERGE_RELEASE}.tar.gz" && \
 tar xf \
     /tmp/papermerge.tar.gz -C \
-    /opt/app/ --strip-components=1 && \
-echo "**** install pip packages ****" && \
-cd /opt/app && \
-/bin/bash -c 'pip3 install -r requirements/base.txt --no-cache-dir' && \
-/bin/bash -c 'pip3 install -r requirements/production.txt --no-cache-dir' && \
-/bin/bash -c 'pip3 install -r requirements/extra/pg.txt --no-cache-dir'
+    /opt/app/ --strip-components=1
+
+
+cd /opt/app
 
 RUN mkdir -p /opt/media
 
-# copy local files
 COPY config/app.production.py /opt/app/config/settings/production.py
 COPY config/papermerge.config.py /opt/app/config/papermerge.conf.py
 COPY app.startup.sh /opt/app/startup.sh
@@ -69,5 +66,8 @@ RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
+
+RUN pip3 install -r requirements/base.txt --no-cache-dir
+RUN pip3 install -r requirements/extra/pg.txt --no-cache-dir
 
 CMD ["/opt/app/startup.sh"]
