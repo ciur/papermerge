@@ -106,10 +106,11 @@ MEDIA_ROOT = os.path.join(
     "media"
 )
 
-# guess where BINARY_STAPLER is located.
-if not BINARY_STAPLER:
-    try:
+# guess where BINARY_STAPLER is located
+if not BINARY_STAPLER:  # if BINARY_STAPLER was not set in papermerge.conf.py
+    try:  # maybe it is in virtual environment?
         BINARY_STAPLER = f"{os.environ['VIRTUAL_ENV']}/bin/stapler"
     except Exception:
+        # crude guess
         home_dir = expanduser('~')
         BINARY_STAPLER = f"{home_dir}/.local/bin/stapler"
