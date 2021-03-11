@@ -34,4 +34,3 @@ class TestForms(TestCase):
 
         form = AutomateForm(instance=automate)
         self.assertTrue(form)
-

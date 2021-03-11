@@ -45,4 +45,3 @@ class TestSearchView(TestCase):
             ret.status_code,
             200
         )
-

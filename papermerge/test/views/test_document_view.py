@@ -1125,6 +1125,7 @@ class TestDocumentAjaxOperationsView(TestCase):
             HttpResponseForbidden.status_code
         )
 
+
 class TestDocumentDownload(TestCase):
 
     def setUp(self):

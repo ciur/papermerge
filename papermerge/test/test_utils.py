@@ -9,6 +9,7 @@ from papermerge.core.utils import (
 
 from papermerge.core.models.utils import group_per_model
 
+
 class TestTimer(TestCase):
 
     def test_basic_timer_usage(self):
@@ -92,12 +93,14 @@ class FakeField:
     def __init__(self, name):
         self.name = name
 
+
 class FakeMeta1:
 
     def get_fields(self, include_parents):
         return [
             FakeField("field_1"), FakeField("field_2")
         ]
+
 
 class FakeMeta2:
 
@@ -106,12 +109,14 @@ class FakeMeta2:
             FakeField("field_3"), FakeField("field_4")
         ]
 
+
 class FakeModel1:
 
     _meta = FakeMeta1()
 
     field_1 = FakeField("field_1")
     field_2 = FakeField("field_2")
+
 
 class FakeModel2:
 

@@ -56,6 +56,7 @@ class TestLogViewsAuthReq(TestCase):
             HttpResponseRedirect.status_code
         )
 
+
 class TestLogViews(TestCase):
 
     def setUp(self):

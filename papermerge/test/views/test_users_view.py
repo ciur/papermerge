@@ -101,4 +101,3 @@ class TestUsersView(TestCase):
             ret.status_code,
             HttpResponseForbidden.status_code
         )
-

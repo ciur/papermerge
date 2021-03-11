@@ -94,4 +94,3 @@ class TestSidebarFieldPart(TestCase):
                 "field_name": "color"
             }
         )
-

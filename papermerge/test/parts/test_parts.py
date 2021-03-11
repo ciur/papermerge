@@ -13,6 +13,7 @@ from papermerge.test.utils import create_root_user
 
 from papermerge.test.parts.app_dr.models import Policy
 
+
 class PartsTests(TestCase):
 
     def setUp(self):

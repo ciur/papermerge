@@ -14,5 +14,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install pycodestyle
       - name: Validate PEP8 compliance
-        run: pycodestyle .
+        run: pycodestyle papermerge/
 

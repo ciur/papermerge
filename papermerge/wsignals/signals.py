@@ -176,4 +176,3 @@ def page_ocr_handler(sender, **kwargs):
         level=level,
         message=log_entry_message
     )
-
