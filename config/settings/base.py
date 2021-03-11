@@ -178,7 +178,7 @@ BINARY_OCR = cfg_papermerge.get(
 
 BINARY_STAPLER = cfg_papermerge.get(
     "BINARY_STAPLER",
-    "/usr/local/bin/stapler"
+    None
 )
 
 AUTH_USER_MODEL = "core.User"
