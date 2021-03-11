@@ -10,6 +10,7 @@ services:
       - redis
     volumes:
       - media_root:/opt/media
+      - /home/eugen/tmp/config1:/opt/etc
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - POSTGRES_USER=dbuser
@@ -38,6 +39,7 @@ services:
     container_name: papermerge_worker
     volumes:
       - media_root:/opt/media
+      - /home/eugen/tmp/config1:/opt/etc
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - POSTGRES_USER=dbuser

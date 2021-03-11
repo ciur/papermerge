@@ -50,10 +50,10 @@ tar xf \
     /tmp/papermerge.tar.gz -C \
     /opt/app/ --strip-components=1
 
-RUN mkdir -p /opt/media && mkdir -p /opt/etc
+RUN mkdir -p /opt/media && mkdir -p /opt/etc && mkdir -p /opt/defaults
 
-COPY config/app.production.py /opt/etc/production.py
-COPY config/papermerge.config.py /opt/etc/papermerge.conf.py
+COPY config/app.production.py /opt/defaults/production.py
+COPY config/papermerge.config.py /opt/defaults/papermerge.conf.py
 COPY app.startup.sh /opt/app/startup.sh
 
 RUN chmod +x /opt/app/startup.sh
@@ -70,9 +70,6 @@ RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
-
-RUN ln -s /opt/etc/production.py /opt/app/config/settings/production.py
-RUN ln -s /opt/etc/papermerge.conf.py /opt/app/papermerge.conf.py
 
 RUN pip3 install -r requirements/base.txt --no-cache-dir
 RUN pip3 install -r requirements/production.txt --no-cache-dir
