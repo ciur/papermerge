@@ -30,10 +30,13 @@ jobs:
           pip install django==3.1.7
           pip install stapler
           echo "$(pip show stapler)"
+          echo "$(which stapler)"
           pip install -r requirements/base.txt
           sudo apt-get update -qq
           sudo apt-get install poppler-utils imagemagick tesseract-ocr
       - name: Run unittests
         run: |
+          echo "$(which stapler)"
           touch papermerge.conf.py
+          echo "BINARY_STAPLER = '$(which stapler)'" > papermerge.conf.py
           ./run_tests.sh
