@@ -22,17 +22,17 @@ RUN apt-get update \
  && pip3 install --upgrade pip
 
 RUN groupadd -g 1002 www
-RUN useradd -g www -s /bin/bash --uid 1001 -d /app/papermerge www
+RUN useradd -g www -s /bin/bash --uid 1001 -d /opt/app www
 
 # ensures our console output looks familiar and is not buffered by Docker
 ENV PYTHONUNBUFFERED 1
 
 ENV DJANGO_SETTINGS_MODULE config.settings.production
-ENV PATH=/app/papermerge/:/app/papermerge/.local/bin:$PATH
+ENV PATH=/opt/app:/opt/app/.local/bin:$PATH
 RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
-RUN mkdir -p /app/papermerge && \
+RUN mkdir -p /opt/app && \
 if [ -z ${PAPERMERGE_RELEASE+x} ]; then \
     PAPERMERGE_RELEASE=$(curl -sX GET "https://api.github.com/repos/ciur/papermerge/releases/latest" \
     | awk '/tag_name/{print $4;exit}' FS='[""]'); \
@@ -42,9 +42,9 @@ curl -o \
     "https://github.com/ciur/papermerge/archive/${PAPERMERGE_RELEASE}.tar.gz" && \
 tar xf \
     /tmp/papermerge.tar.gz -C \
-    /app/papermerge/ --strip-components=1 && \
+    /opt/app/ --strip-components=1 && \
 echo "**** install pip packages ****" && \
-cd /app/papermerge && \
+cd /opt/app && \
 /bin/bash -c 'pip3 install -r requirements/base.txt --no-cache-dir' && \
 /bin/bash -c 'pip3 install -r requirements/production.txt --no-cache-dir' && \
 /bin/bash -c 'pip3 install -r requirements/extra/pg.txt --no-cache-dir'
@@ -52,22 +52,22 @@ cd /app/papermerge && \
 RUN mkdir -p /opt/media
 
 # copy local files
-COPY config/app.production.py /app/papermerge/config/settings/production.py
-COPY config/papermerge.config.py /app/papermerge/config/papermerge.conf.py
-COPY app.startup.sh /app/papermerge/startup.sh
+COPY config/app.production.py /opt/app/config/settings/production.py
+COPY config/papermerge.config.py /opt/app/config/papermerge.conf.py
+COPY app.startup.sh /opt/app/startup.sh
 
 RUN chmod +x /opt/app/startup.sh
-COPY scripts/create_user.py /app/papermerge/create_user.py
+COPY scripts/create_user.py /opt/app/create_user.py
 
 RUN chown -R www:www /opt/
 
-WORKDIR /app/papermerge
+WORKDIR /opt/app
 USER www
 
-ENV VIRTUAL_ENV=/app/papermerge/.venv
+ENV VIRTUAL_ENV=/opt/app/.venv
 RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
-CMD ["/app/papermerge/startup.sh"]
+CMD ["/opt/app/startup.sh"]
