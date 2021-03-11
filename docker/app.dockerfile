@@ -44,9 +44,6 @@ tar xf \
     /tmp/papermerge.tar.gz -C \
     /opt/app/ --strip-components=1
 
-
-cd /opt/app
-
 RUN mkdir -p /opt/media
 
 COPY config/app.production.py /opt/app/config/settings/production.py
@@ -62,6 +59,7 @@ WORKDIR /opt/app
 USER www
 
 ENV VIRTUAL_ENV=/opt/app/.venv
+RUN cd /opt/app
 RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
