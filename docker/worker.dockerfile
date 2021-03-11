@@ -2,6 +2,12 @@ FROM ubuntu:20.04
 
 LABEL maintainer="Eugen Ciur <eugen@papermerge.com>"
 
+#
+# Builds Papermerge WORKER docker image based on latest release.
+# Latest release is given by following URL:
+# https://api.github.com/repos/ciur/papermerge/releases/latest
+#
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
@@ -38,16 +44,26 @@ ENV PATH=/opt/app/:/opt/app/.local/bin:$PATH
 RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
+RUN mkdir -p /opt/app && \
+if [ -z ${PAPERMERGE_RELEASE+x} ]; then \
+    PAPERMERGE_RELEASE=$(curl -sX GET "https://api.github.com/repos/ciur/papermerge/releases/latest" \
+    | awk '/tag_name/{print $4;exit}' FS='[""]'); \
+fi && \
+curl -o \
+    /tmp/papermerge.tar.gz -L \
+    "https://github.com/ciur/papermerge/archive/${PAPERMERGE_RELEASE}.tar.gz" && \
+tar xf \
+    /tmp/papermerge.tar.gz -C \
+    /opt/app/ --strip-components=1
 
-RUN git clone https://github.com/ciur/papermerge --branch v2.0.0rc45 -q --depth 1 /opt/app
+RUN mkdir -p /opt/media && mkdir -p /opt/etc
 
 RUN mkdir -p /opt/media
 
-COPY config/worker.production.py /opt/app/config/settings/production.py
-COPY config/papermerge.config.py /opt/app/papermerge.conf.py
+COPY config/worker.production.py /opt/etc/production.py
+COPY config/papermerge.config.py /opt/etc/papermerge.conf.py
 COPY worker.startup.sh /opt/app/startup.sh
 RUN chmod +x /opt/app/startup.sh
-COPY config/create_user.py /opt/app/create_user.py
 
 RUN chown -R www:www /opt/
 
@@ -59,6 +75,9 @@ RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
+
+RUN ln -s /opt/etc/production.py /opt/app/config/settings/production.py
+RUN ln -s /opt/etc/papermerge.conf.py /opt/app/papermerge.conf.py
 
 RUN pip3 install -r requirements/base.txt --no-cache-dir
 RUN pip3 install -r requirements/extra/pg.txt --no-cache-dir
