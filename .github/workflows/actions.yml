@@ -27,7 +27,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip3 install -r requirements/base.txt
+          pip install django==3.1.7
+          pip install -r requirements/base.txt
           apt-get update -qq
           apt-get install poppler-utils imagemagick tesseract-ocr
       - name: Run unittests
