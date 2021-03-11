@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 LABEL maintainer="Eugen Ciur <eugen@papermerge.com>"
 
 #
-# Builds docker image based on latest release of Papermerge.
+# Builds Papermerge APP docker image based on latest release.
 # Latest release is given by following URL:
 # https://api.github.com/repos/ciur/papermerge/releases/latest
 #
