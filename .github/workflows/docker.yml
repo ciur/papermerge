@@ -7,6 +7,11 @@ jobs:
   build-and-push-app-docker-image:
     runs-on: ubuntu-20.04
     steps:
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: eugenci/papermerge
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Set up QEMU
@@ -30,12 +35,17 @@ jobs:
           file: ./docker/app.dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ steps.prepare.outputs.tags }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
   build-and-push-worker-docker-image:
     runs-on: ubuntu-20.04
     steps:
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: eugenci/papermerge
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Set up QEMU
@@ -59,6 +69,6 @@ jobs:
           file: ./docker/worker.dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ steps.prepare.outputs.tags }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
