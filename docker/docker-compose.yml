@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   app:
-    image: eugenci/papermerge
+    image: eugenci/papermerge:v2.0.0rc48
     container_name: papermerge_app
     ports:
       - "8000:8000"
@@ -34,7 +34,7 @@ services:
     volumes:
       - 'redisdata:/data'
   worker:
-    image: eugenci/papermerge-worker
+    image: eugenci/papermerge-worker:v2.0.0rc48
     container_name: papermerge_worker
     volumes:
       - media_root:/opt/media
