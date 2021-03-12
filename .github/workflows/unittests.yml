@@ -1,0 +1,42 @@
+name: github-actions
+on:
+  push:
+    branches:
+      - master
+jobs:
+  check-pep8-compliance:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pycodestyle
+      - name: Validate PEP8 compliance
+        run: pycodestyle papermerge/
+  unittests:
+    needs: check-pep8-compliance
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install django==3.1.7
+          pip install stapler
+          pip install -r requirements/base.txt
+          sudo apt-get update -qq
+          sudo apt-get install poppler-utils imagemagick tesseract-ocr
+      - name: Run unittests
+        run: |
+          touch papermerge.conf.py
+          echo "BINARY_STAPLER = '$(which stapler)'" > papermerge.conf.py
+          ./run_tests.sh
