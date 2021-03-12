@@ -1,8 +1,5 @@
 name: github-actions
-on:
-  push:
-    branches:
-      - master
+on: [push]
 jobs:
   check-pep8-compliance:
     runs-on: ubuntu-20.04
