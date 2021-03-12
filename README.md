@@ -132,7 +132,7 @@ file.
 You can try it with just 3 simple commands (you need git and docker-compose):
 
     git clone git@github.com:ciur/papermerge.git
-    cd docker/2.0/
+    cd docker/
     docker-compose up
 
 Docker compose command will pull all necessary docker images and start
