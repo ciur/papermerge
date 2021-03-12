@@ -1,4 +1,4 @@
-name: github-actions
+name: Unittests
 on:
   push:
     branches:

@@ -1,4 +1,4 @@
-name: github-actions
+name: Docker Images
 on:
   release:
     types:
