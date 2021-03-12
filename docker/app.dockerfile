@@ -71,6 +71,7 @@ RUN virtualenv $VIRTUAL_ENV -p /usr/bin/python3.8
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
+RUN pip3 install django==3.1.7
 RUN pip3 install -r requirements/base.txt --no-cache-dir
 RUN pip3 install -r requirements/production.txt --no-cache-dir
 RUN pip3 install -r requirements/extra/pg.txt --no-cache-dir
