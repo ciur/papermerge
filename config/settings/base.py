@@ -196,6 +196,7 @@ AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
+ASGI_APPLICATION = 'config.asgi.application'
 
 # defines extra URL conf to be included
 EXTRA_URLCONF = []
@@ -223,7 +224,8 @@ INSTALLED_APPS = [
     'polymorphic',
     'mptt',
     'mgclipboard',
-    'bootstrap4'
+    'bootstrap4',
+    'channels',
 ]
 
 MIDDLEWARE = [
