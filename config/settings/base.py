@@ -222,7 +222,7 @@ INSTALLED_APPS = [
     'papermerge.core.apps.CoreConfig',
     'papermerge.contrib.admin.apps.AdminConfig',
     'papermerge.wsignals.apps.WsignalsConfig',
-    'papermerge.wfeedback.apps.WFeedbackConfig',
+    'papermerge.leds.apps.LedsConfig',
     'django.contrib.contenttypes',
     'allauth',
     'allauth.account',
