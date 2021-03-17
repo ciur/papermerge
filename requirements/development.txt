@@ -1,3 +1,4 @@
 django-extensions
 django-debug-toolbar
 pycodestyle
+python-memcached
