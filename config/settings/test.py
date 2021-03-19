@@ -106,6 +106,12 @@ MEDIA_ROOT = os.path.join(
     "media"
 )
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
 # guess where BINARY_STAPLER is located
 if not BINARY_STAPLER:  # if BINARY_STAPLER was not set in papermerge.conf.py
     try:  # maybe it is in virtual environment?
