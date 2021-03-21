@@ -1,3 +1,4 @@
+import unittest
 import os
 from email.message import EmailMessage
 import email
@@ -460,27 +461,28 @@ class TestIMAPImporterIngestion(TestCase):
         )
 
 
-# class TestContainsAttachment(TestCase):
-#
-#    def test_contains_attachments(self):
-#        part1 = (
-#            b'APPLICATION',
-#            b'PDF',
-#            (b'NAME', b'brother_003961.pdf'),
-#            b'<f_kmis79j80>',
-#            None,
-#            b'BASE64',
-#            280570,
-#            None
-#        )
-#        # This is an attachment!
-#        # We are looking for parts like this one
-#        part2 = (b'ATTACHMENT', (b'FILENAME', b'brother_003961.pdf'))
-#        body_data = BodyData.create((part1, part2))
-#
-#        self.assertTrue(
-#            contains_attachments(body_data)
-#        )
+class TestContainsAttachment(TestCase):
+
+    @unittest.skip("Test for papermerge-core == 2.0.0")
+    def test_contains_attachments(self):
+        part1 = (
+            b'APPLICATION',
+            b'PDF',
+            (b'NAME', b'brother_003961.pdf'),
+            b'<f_kmis79j80>',
+            None,
+            b'BASE64',
+            280570,
+            None
+        )
+        # This is an attachment!
+        # We are looking for parts like this one
+        part2 = (b'ATTACHMENT', (b'FILENAME', b'brother_003961.pdf'))
+        body_data = BodyData.create((part1, part2))
+
+        self.assertTrue(
+            contains_attachments(body_data)
+        )
 
 
 def _set_email_routing_pref(user, option, value):
