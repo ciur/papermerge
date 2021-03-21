@@ -1,6 +1,7 @@
 import os
 from email.message import EmailMessage
 import email
+from imapclient.response_types import BodyData
 
 from django.test import TestCase
 
@@ -13,7 +14,8 @@ from .utils import (
 from papermerge.core.importers.imap import (
     get_matching_user,
     trigger_document_pipeline,
-    get_secret
+    get_secret,
+    contains_attachments
 )
 from papermerge.core.models import Document
 
@@ -455,6 +457,29 @@ class TestIMAPImporterIngestion(TestCase):
         self.assertEqual(
             Document.objects.count(),
             0
+        )
+
+
+class TestContainsAttachment(TestCase):
+
+    def test_contains_attachments(self):
+        part1 = (
+            b'APPLICATION',
+            b'PDF',
+            (b'NAME', b'brother_003961.pdf'),
+            b'<f_kmis79j80>',
+            None,
+            b'BASE64',
+            280570,
+            None
+        )
+        # This is an attachment!
+        # We are looking for parts like this one
+        part2 = (b'ATTACHMENT', (b'FILENAME', b'brother_003961.pdf'))
+        body_data = BodyData.create((part1, part2))
+
+        self.assertTrue(
+            contains_attachments(body_data)
         )
 
 
