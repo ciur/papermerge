@@ -460,7 +460,7 @@ class TestIMAPImporterIngestion(TestCase):
         )
 
 
-#class TestContainsAttachment(TestCase):
+# class TestContainsAttachment(TestCase):
 #
 #    def test_contains_attachments(self):
 #        part1 = (
