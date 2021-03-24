@@ -1,19 +1,14 @@
 # coding: utf-8
 import os
-from os.path import expanduser
+
 from pathlib import Path
 from mglib.utils import try_load_config
+from papermerge.core.app_settings import settings as app_settings
 
-DEFAULT_CONFIG_PLACES = [
-    "/etc/papermerge.conf.py",
-    "papermerge.conf.py"
-]
-
-DEFAULT_PAPERMERGE_CONFIG_ENV_NAME = "PAPERMERGE_CONFIG"
 
 cfg_papermerge = try_load_config(
-    config_locations=DEFAULT_CONFIG_PLACES,
-    config_env_var_name=DEFAULT_PAPERMERGE_CONFIG_ENV_NAME
+    config_locations=app_settings.CONFIG_PLACES,
+    config_env_var_name=app_settings.CONFIG_ENV_NAME
 )
 
 # do not remove this assignment. It is used in core checks to
@@ -64,40 +59,6 @@ PAPERMERGE_IMPORTER_LOOP_TIME = cfg_papermerge.get(
     5
 )
 
-PAPERMERGE_IMPORT_MAIL_HOST = cfg_papermerge.get(
-    "IMPORT_MAIL_HOST", ""
-)
-PAPERMERGE_IMPORT_MAIL_USER = cfg_papermerge.get(
-    "IMPORT_MAIL_USER", ""
-)
-PAPERMERGE_IMPORT_MAIL_PASS = cfg_papermerge.get(
-    "IMPORT_MAIL_PASS", ""
-)
-PAPERMERGE_IMPORT_MAIL_INBOX = cfg_papermerge.get(
-    "IMPORT_MAIL_INBOX", "INBOX"
-)
-PAPERMERGE_IMPORT_MAIL_SECRET = cfg_papermerge.get(
-    "IMPORT_MAIL_SECRET", ""
-)
-PAPERMERGE_IMPORT_MAIL_BY_USER = cfg_papermerge.get(
-    "IMPORT_MAIL_BY_USER", False
-)
-PAPERMERGE_IMPORT_MAIL_BY_SECRET = cfg_papermerge.get(
-    "IMPORT_MAIL_BY_SECRET", False
-)
-PAPERMERGE_IMPORT_MAIL_DELETE = cfg_papermerge.get(
-    "IMPORT_MAIL_DELETE", False
-)
-
-PAPERMERGE_DEFAULT_FILE_STORAGE = cfg_papermerge.get(
-    "DEFAULT_FILE_STORAGE",
-    "mglib.storage.FileSystemStorage"
-)
-PAPERMERGE_FILE_STORAGE_KWARGS = cfg_papermerge.get(
-    "FILE_STORAGE_KWARGS",
-    {}
-)
-
 PAPERMERGE_SEARCH_BACKEND = cfg_papermerge.get(
     "SEARCH_BACKEND",
     "papermerge.search.backends.db.SearchBackend"
@@ -146,51 +107,6 @@ PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
         "eng": "English",
     }
 )
-
-BINARY_FILE = cfg_papermerge.get(
-    "BINARY_FILE",
-    "/usr/bin/file"
-)
-
-BINARY_CONVERT = cfg_papermerge.get(
-    "BINARY_CONVERT",
-    "/usr/bin/convert"
-)
-
-BINARY_PDFTOPPM = cfg_papermerge.get(
-    "BINARY_PDFTOPPM",
-    "/usr/bin/pdftoppm"
-)
-
-BINARY_PDFINFO = cfg_papermerge.get(
-    "BINARY_PDFINFO",
-    "/usr/bin/pdfinfo"
-)
-
-BINARY_IDENTIFY = cfg_papermerge.get(
-    "BINARY_IDENTIFY",
-    "/usr/bin/identify"
-)
-
-BINARY_OCR = cfg_papermerge.get(
-    "BINARY_OCR",
-    "/usr/bin/tesseract"
-)
-
-BINARY_STAPLER = cfg_papermerge.get(
-    "BINARY_STAPLER",
-    None
-)
-
-# guess where BINARY_STAPLER is located
-if not BINARY_STAPLER:  # if BINARY_STAPLER was not set in papermerge.conf.py
-    try:  # maybe it is in virtual environment?
-        BINARY_STAPLER = f"{os.environ['VIRTUAL_ENV']}/bin/stapler"
-    except Exception:
-        # crude guess
-        home_dir = expanduser('~')
-        BINARY_STAPLER = f"{home_dir}/.local/bin/stapler"
-
 
 AUTH_USER_MODEL = "core.User"
 
