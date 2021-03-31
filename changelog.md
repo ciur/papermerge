@@ -3,6 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 31 March 2021
+
+### Changed
+
+- Issue #354 fixed - scroll not working on search result page
+- Issue #349 fixed - pagination for pinned tags does not work
+- Issue #350 fixed - Umlauts don't work
+- Issue #339 fixed - IMAP import from gmail isn't working
+- Issue #338 fixed - Reflected Cross-Site Scripting (XSS) in Upload Error Messages 
+
+
 ## [2.0.0rc48] - 12 March 2021
 
 ### Changed
