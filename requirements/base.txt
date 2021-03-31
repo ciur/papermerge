@@ -1,2 +1,2 @@
 django == 3.1.7
-papermerge-core == 2.0rc48
+papermerge-core == 2.0
