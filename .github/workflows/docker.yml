@@ -51,6 +51,9 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: eugenci/papermerge-worker
+          tag-semver: |
+            {{version}}
+            {{major}}.{{minor}}
       - name: Checkout source code 
         uses: actions/checkout@v2
       - name: Set up Docker Buildx
