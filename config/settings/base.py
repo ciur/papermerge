@@ -3,12 +3,16 @@ import os
 
 from pathlib import Path
 from mglib.utils import try_load_config
-from papermerge.core.app_settings import settings as app_settings
 
+
+CONFIG_PLACES = [
+    "/etc/papermerge.conf.py",
+    "papermerge.conf.py"
+]
 
 cfg_papermerge = try_load_config(
-    config_locations=app_settings.CONFIG_PLACES,
-    config_env_var_name=app_settings.CONFIG_ENV_NAME
+    config_locations=CONFIG_PLACES,
+    config_env_var_name="PAPERMERGE_CONFIG"
 )
 
 # do not remove this assignment. It is used in core checks to
