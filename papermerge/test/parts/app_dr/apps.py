@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class AppDrConfig(AppConfig):
-    name = "app_dr"
+    name = "papermerge.test.parts.app_dr"

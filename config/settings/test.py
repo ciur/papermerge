@@ -36,9 +36,9 @@ INSTALLED_APPS = (
     'mptt',
     'mgclipboard',
     'bootstrap4',
-    'papermerge.test.parts.app_0.apps.App0Config',  # absolute minimum app
-    'papermerge.test.parts.app_dr.apps.AppDrConfig',  # data retention app
-    'papermerge.test.parts.app_max_p.apps.AppMaxPConfig',
+    'papermerge.test.parts.app_0',  # absolute minimum app
+    'papermerge.test.parts.app_dr',  # data retention app
+    'papermerge.test.parts.app_max_p',
 )
 
 MIDDLEWARE = [
