@@ -105,10 +105,20 @@ However, as source code grew and project accumulated more features -
 it morphed gradually into a monolithic giant. It is well known fact that
 dealing with monolithic architecture is very challenging. In order to deal
 with growing complexity, I decided to split the project into separate,
-reusable pieces. Each of resulting reusable package was moved one by one into
+reusable pieces. Each of resulting packages was moved one by one into
 [Papermerge Organization](https://github.com/papermerge).
 
-Again, this repository is the central place to keep track of Papermerge issues.
+Again, this repository is the central place to keep track of Papermerge
+issues. Following is the diagram (and a list, for easy copy/paste) of
+Papermerge projects ecosystem:
+
+* [Papermerge Core](https://github.com/papermerge/papermerge-core) - Backend central piece
+* [Papermerge CoreJS](https://github.com/papermerge/core-js) - Frontend central piece
+* [Dual Commander JS](https://github.com/papermerge/dual-commander-js) - Frontend's dual panel document browser
+* [Commander JS](https://github.com/papermerge/commander-js) - Frontend's single panel document browser (used by [dual commander](https://github.com/papermerge/dual-commander-js))
+* [Viewer JS](https://github.com/papermerge/viewer-js) - Frontend's document viewer (used by [Dual Commander](https://github.com/papermerge/dual-commander-js))
+* [Uploader JS](https://github.com/papermerge/uploader-js) - Frontend's uploader component (used by [Commander JS](https://github.com/papermerge/commander-js))
+* [Symposium JS](https://github.com/papermerge/symposium-js) - A mini (javascript) framework used across all papermerge frontend code. 
 
 ## Documentation and Other Resources
 
