@@ -92,6 +92,17 @@ users, API tokens. Folders/documents with a red lock are read-only for guest use
 * Username: ``guest``
 * Password: ``password77a``
 
+## Repository Organization
+
+At its very beginnings Papermerge perfectly fit into a single repository -
+this one. As result, this repository is the central place for keeping track
+of releases, issues and discussions regarding Papermerge. However, as source
+code grew, project accumulated more features - it resembled to more and more
+a monolithic giant. It is well known fact that dealing with monolithic
+architecture is very challenging. In order to deal with growing complexity, I
+decided to split the project into separate, reusable pieces. Each of
+resulting reusable package was moved one by one into[Papermerge Organization]
+(https://github.com/papermerge).
 
 ## Documentation and Other Resources
 
