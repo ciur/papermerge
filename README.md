@@ -82,7 +82,7 @@ For donations, you can use three channels paypal, patreon and github itself:
 * [Sponsor via Github](https://github.com/sponsors/ciur)
 * [Become a Patreon](https://www.patreon.com/papermerge)
 
-:green_heart: :green_heart:  :green_heart: 
+:green_heart: :green_heart:  :green_heart:
 
 ## Live Demo
 
@@ -93,6 +93,20 @@ users, API tokens. Folders/documents with a red lock are read-only for guest use
 * Username: ``guest``
 * Password: ``password77a``
 
+
+## Repository Organization
+
+At its very beginnings Papermerge perfectly fit into a single repository -
+this one. As result, this repository is the central place for keeping track
+of releases, issues and discussions regarding Papermerge. However, as source
+code grew, project accumulated more features - it resembled to more and more
+a monolithic giant. It is well known fact that dealing with monolithic
+architecture is very challenging. In order to deal with growing complexity, I
+decided to split the project into separate, reusable pieces. Each of
+resulting reusable package was moved one by one into[Papermerge Organization]
+(https://github.com/papermerge).
+
+Following diagram, visually illustrates Papermerge projects organization.
 
 ## Documentation and Other Resources
 
@@ -142,7 +156,7 @@ default username/password: admin/admin.
 ### Installation
 
 There are couple options:
-    
+
 * [From docker container](https://papermerge.readthedocs.io/en/latest/setup/docker.html)
 * [Detailed step by step instructions](https://papermerge.com/docs/Installation/installation.html)
 
@@ -183,7 +197,8 @@ In order to run only views tests and stop if there is a failing test:
 Following command will run only tests from papermerge/test/views folder and show ALL python and django warnings:
 
     $ DJANGO_SETTINGS_MODULE=config.settings.test
-    $ python -W all manage.py test papermerge/test/views/ 
+    $ python -W all manage.py test papermerge/test/views/
+
 
 
 ### Commercial Support
