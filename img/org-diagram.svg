@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.66457632"
-     inkscape:cx="580.06882"
-     inkscape:cy="470.2244"
+     inkscape:cx="512.35651"
+     inkscape:cy="575.55466"
      inkscape:window-width="1867"
      inkscape:window-height="1025"
      inkscape:window-x="53"
@@ -106,15 +106,15 @@
        ry="0" />
     <text
        xml:space="preserve"
-       style="font-size:11.2889px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
-       x="118.0234"
-       y="19.161449"
+       style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="125.96317"
+       y="17.922194"
        id="text14319"><tspan
          sodipodi:role="line"
          id="tspan14317"
-         style="font-size:11.2889px;fill:#ffffff;stroke-width:0.264583"
-         x="118.0234"
-         y="19.161449">Papermerge</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
+         x="125.96317"
+         y="17.922194">Papermerge</tspan></text>
     <rect
        style="fill:#008033;fill-opacity:1;stroke:#008033;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect35089"
@@ -125,15 +125,15 @@
        ry="0" />
     <text
        xml:space="preserve"
-       style="font-size:8.46667px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
-       x="16.940746"
-       y="51.741657"
+       style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="20.647444"
+       y="51.504395"
        id="text35093"><tspan
          sodipodi:role="line"
          id="tspan35091"
-         style="font-size:8.46667px;fill:#ffffff;stroke-width:0.264583"
-         x="16.940746"
-         y="51.741657">papermerge-core</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
+         x="20.647444"
+         y="51.504395">papermerge-core</tspan></text>
     <rect
        style="fill:#d45500;fill-opacity:1;stroke:#d45500;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect35095"
@@ -144,34 +144,34 @@
        ry="0" />
     <text
        xml:space="preserve"
-       style="font-size:8.46667px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
        x="141.1647"
        y="87.688271"
        id="text35099"><tspan
          sodipodi:role="line"
          id="tspan35097"
-         style="font-size:8.46667px;fill:#ffffff;stroke-width:0.264583"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
          x="141.1647"
          y="87.688271">Core JS</tspan></text>
     <rect
        style="fill:#0088aa;fill-opacity:1;stroke:#0088aa;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect46117"
-       width="77.01815"
+       width="80.6119"
        height="15.302355"
-       x="62.273243"
+       x="60.663353"
        y="120.7125"
        ry="0" />
     <text
        xml:space="preserve"
        style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
-       x="65.869705"
-       y="130.63751"
+       x="61.574837"
+       y="130.93214"
        id="text46121"><tspan
          sodipodi:role="line"
          id="tspan46119"
-         style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583"
-         x="65.869705"
-         y="130.63751">Dual Commander JS</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
+         x="61.574837"
+         y="130.93214">Dual Commander JS</tspan></text>
     <rect
        style="fill:#0088aa;fill-opacity:1;stroke:#0088aa;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect50204"
@@ -202,14 +202,14 @@
     <text
        xml:space="preserve"
        style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
-       x="22.194529"
-       y="173.43103"
+       x="20.29071"
+       y="173.23947"
        id="text50214"><tspan
          sodipodi:role="line"
          id="tspan50212"
-         style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583"
-         x="22.194529"
-         y="173.43103"> Commander JS</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
+         x="20.29071"
+         y="173.23947"> Commander JS</tspan></text>
     <rect
        style="fill:#0088aa;fill-opacity:1;stroke:#0088aa;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect50216"
@@ -240,14 +240,14 @@
     <text
        xml:space="preserve"
        style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
-       x="132.76872"
-       y="173.16016"
+       x="129.18971"
+       y="173.36246"
        id="text50226"><tspan
          sodipodi:role="line"
          id="tspan50224"
-         style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583"
-         x="132.76872"
-         y="173.16016">Viewer JS</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
+         x="129.18971"
+         y="173.36246">Viewer JS</tspan></text>
     <rect
        style="fill:#803300;fill-opacity:1;stroke:#803300;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect56478"
@@ -264,7 +264,7 @@
        id="text56482"><tspan
          sodipodi:role="line"
          id="tspan56480"
-         style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
          x="22.98922"
          y="219.03581"> Uploader JS</tspan></text>
     <path

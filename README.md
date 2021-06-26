@@ -122,7 +122,7 @@ Following is the list and a diagram of Papermerge projects ecosystem:
 * [Symposium JS](https://github.com/papermerge/symposium-js) - A mini (javascript) framework used across all papermerge frontend code. This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/symposium).
 * [Documentation](https://github.com/papermerge/documentation) - Sphinx based documentation repository.
 
-![Org Diagram](./img/org-diagram.svg)
+![Org Diagram](./img/org-diagram.png)
 
 ## Documentation and Other Resources
 
