@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
    sodipodi:docname="org-diagram.svg"
+   inkscape:export-filename="/home/eugen/GitHub/PapermergeDMS/img/org-diagram.png"
+   inkscape:export-xdpi="72.57"
+   inkscape:export-ydpi="72.57"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +28,7 @@
      showgrid="false"
      inkscape:zoom="0.66457632"
      inkscape:cx="512.35651"
-     inkscape:cy="575.55466"
+     inkscape:cy="577.81174"
      inkscape:window-width="1867"
      inkscape:window-height="1025"
      inkscape:window-x="53"
@@ -89,13 +92,6 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke;stop-color:#000000"
-       id="rect148254"
-       width="216.30478"
-       height="268.6936"
-       x="-2.5888467"
-       y="-1.4909821" />
     <rect
        style="fill:#aa0000;fill-opacity:1;stroke:#aa0000;stroke-width:2.646;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke;stop-color:#000000"
        id="rect866"
@@ -261,10 +257,13 @@
        style="font-size:7.05556px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
        x="22.98922"
        y="219.03581"
-       id="text56482"><tspan
+       id="text56482"
+       inkscape:export-filename="/home/eugen/GitHub/PapermergeDMS/img/org-diagram.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72"><tspan
          sodipodi:role="line"
          id="tspan56480"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.264583"
+         style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583"
          x="22.98922"
          y="219.03581"> Uploader JS</tspan></text>
     <path
