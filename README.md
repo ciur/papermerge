@@ -120,7 +120,7 @@ Following is the list and a diagram of Papermerge projects ecosystem:
 * [Viewer JS](https://github.com/papermerge/viewer-js) - Frontend's document viewer (used by [Dual Commander](https://github.com/papermerge/dual-commander-js)). This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/viewer).
 * [Uploader JS](https://github.com/papermerge/uploader-js) - Frontend's uploader component (used by [Commander JS](https://github.com/papermerge/commander-js)). This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/uploader).
 * [Symposium JS](https://github.com/papermerge/symposium-js) - A mini (javascript) framework used across all papermerge frontend code. This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/symposium).
-* [Documentation][https://github.com/papermerge/documentation] - Sphinx based documentation repository.
+* [Documentation](https://github.com/papermerge/documentation) - Sphinx based documentation repository.
 
 ## Documentation and Other Resources
 
