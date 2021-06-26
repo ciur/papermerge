@@ -108,7 +108,7 @@ with growing complexity, I decided to split the project into separate,
 reusable pieces. Each of resulting reusable package was moved one by one into
 [Papermerge Organization](https://github.com/papermerge).
 
-Again, this repository is central place to keep track of Papermerge issues.
+Again, this repository is the central place to keep track of Papermerge issues.
 
 ## Documentation and Other Resources
 
