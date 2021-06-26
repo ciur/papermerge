@@ -109,16 +109,18 @@ reusable pieces. Each of resulting packages was moved one by one into
 [Papermerge Organization](https://github.com/papermerge).
 
 Again, this repository is the central place to keep track of Papermerge
-issues. Following is the diagram (and a list, for easy copy/paste) of
-Papermerge projects ecosystem:
+issues.
 
-* [Papermerge Core](https://github.com/papermerge/papermerge-core) - Backend central piece
+Following is the list and a diagram of Papermerge projects ecosystem:
+
+* [Papermerge Core](https://github.com/papermerge/papermerge-core) - Backend central piece. The heart of Papermerge. This is a [python package](https://pypi.org/project/papermerge-core/).
 * [Papermerge CoreJS](https://github.com/papermerge/core-js) - Frontend central piece
-* [Dual Commander JS](https://github.com/papermerge/dual-commander-js) - Frontend's dual panel document browser
-* [Commander JS](https://github.com/papermerge/commander-js) - Frontend's single panel document browser (used by [dual commander](https://github.com/papermerge/dual-commander-js))
-* [Viewer JS](https://github.com/papermerge/viewer-js) - Frontend's document viewer (used by [Dual Commander](https://github.com/papermerge/dual-commander-js))
-* [Uploader JS](https://github.com/papermerge/uploader-js) - Frontend's uploader component (used by [Commander JS](https://github.com/papermerge/commander-js))
-* [Symposium JS](https://github.com/papermerge/symposium-js) - A mini (javascript) framework used across all papermerge frontend code. 
+* [Dual Commander JS](https://github.com/papermerge/dual-commander-js) - Frontend's dual panel document browser. This is a [nodejs package](https://www.npmjs.com/package/@papermerge/dual-commander).
+* [Commander JS](https://github.com/papermerge/commander-js) - Frontend's single panel document browser (used by [dual commander](https://github.com/papermerge/dual-commander-js)). This is [nodejs package](https://www.npmjs.com/package/@papermerge/commander).
+* [Viewer JS](https://github.com/papermerge/viewer-js) - Frontend's document viewer (used by [Dual Commander](https://github.com/papermerge/dual-commander-js)). This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/viewer).
+* [Uploader JS](https://github.com/papermerge/uploader-js) - Frontend's uploader component (used by [Commander JS](https://github.com/papermerge/commander-js)). This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/uploader).
+* [Symposium JS](https://github.com/papermerge/symposium-js) - A mini (javascript) framework used across all papermerge frontend code. This is a [NodeJS package](https://www.npmjs.com/package/@papermerge/symposium).
+* [Documentation][https://github.com/papermerge/documentation] - Sphinx based documentation repository.
 
 ## Documentation and Other Resources
 
