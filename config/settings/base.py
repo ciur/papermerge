@@ -25,6 +25,7 @@ PROJ_ROOT = Path(__file__).parent.parent.parent
 DEBUG = True
 
 SECRET_KEY = "87akjh34jh34-++JKJ8(this+is+papermerge!DMS!)"
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 SITE_ID = 1
 
