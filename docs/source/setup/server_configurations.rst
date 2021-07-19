@@ -113,12 +113,7 @@ Let's say papermerge.site. Here is configuration example for virtual host::
             Require all granted
         </Directory>
 
-        Alias /media/ /var/media/papermerge/
         Alias /static/ /var/static/papermerge/
-
-        <Directory /var/media/papermerge>
-           Require all granted
-        </Directory>
 
         <Directory /var/startic/papermerge>
           Require all granted
@@ -225,10 +220,6 @@ And finally connect nginx with gunicorn. Here is a sample configuration for ngin
 
         location /static/ {
             alias /opt/static/;
-        }
-
-        location /media/ {
-            alias /opt/media/;
         }
 
         location / {
