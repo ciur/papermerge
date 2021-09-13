@@ -1,1 +1,2 @@
 mod_wsgi
+python-memcached

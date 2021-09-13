@@ -89,7 +89,7 @@ urlpatterns = [
         name='javascript-catalog'
     ),
     path('admin/', include('papermerge.contrib.admin.urls')),
-    path('', include('papermerge.core.urls')),
+    path('core/', include('papermerge.core.urls')),
     path('', BrowseView.as_view(), name='index'),
 ]
 
