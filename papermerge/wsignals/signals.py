@@ -1,13 +1,21 @@
 import logging
+import os
+
+from mglib.step import Step
+
 from django.dispatch import receiver
 from django.utils.translation import gettext as _
 
+from papermerge.core.models import (Document, Page)
+from papermerge.core.storage import default_storage
 from papermerge.core.signal_definitions import (
+    post_page_txt,
+    post_page_hocr,
     page_ocr,
     automates_matching,
     WORKER
 )
-from papermerge.core.models import Document
+
 from papermerge.core.ocr import COMPLETE
 from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.automate import apply_automates
@@ -175,4 +183,73 @@ def page_ocr_handler(sender, **kwargs):
         user_id=user_id,
         level=level,
         message=log_entry_message
+    )
+
+
+@receiver(post_page_txt, sender=WORKER)
+def upload_txt_artifact_to_s3(sender, **kwargs):
+    document_id = kwargs.get('document_id', False)
+    page_num = kwargs.get('page_num', False)
+
+    logger.info(
+        "Executing post_page_txt workerhook for uploading txt artifacts"
+        f" for Page(document_id={document_id}, page_num={page_num})"
+        " to S3 storage."
+    )
+
+    try:
+        # will hit the database
+        page = Page.objects.get(
+            number=page_num,
+            document_id=document_id
+        )
+    except Page.DoesNotExist:
+        msg = f"Page(document_id={document_id}, " \
+            f"page_num={page_num}) not found"
+        logger.warning(msg)
+        return
+
+    abs_local_page_path = default_storage.abspath(page.path().txt_url())
+    s3_dst = page.path().txt_url()
+
+    logger.info(f"Uploading {abs_local_page_path} to {s3_dst}")
+    default_storage._s3copy(
+        src=abs_local_page_path,
+        dst=s3_dst
+    )
+
+
+@receiver(post_page_hocr, sender=WORKER)
+def upload_hocr_artifact_to_s3(sender, **kwargs):
+    document_id = kwargs.get('document_id', False)
+    page_num = kwargs.get('page_num', False)
+    step = kwargs.get('step', 1)
+
+    logger.info(
+        "Executing post_page_hocr workerhook for uploading hocr artifacts"
+        f" for Page(document_id={document_id}, page_num={page_num})"
+        " to S3 storage."
+    )
+
+    try:
+        # will hit the database
+        page = Page.objects.get(
+            number=page_num,
+            document_id=document_id
+        )
+    except Page.DoesNotExist:
+        msg = f"Page(document_id={document_id}, " \
+            f"page_num={page_num}) not found"
+        logger.warning(msg)
+        return
+
+    page_path = page.path()
+    page_path.step = Step(step)
+    abs_local_page_path = default_storage.abspath(page_path.hocr_url())
+    s3_dst = page_path.hocr_url()
+
+    logger.info(f"Uploading {abs_local_page_path} to {s3_dst}")
+    default_storage._s3copy(
+        src=abs_local_page_path,
+        dst=s3_dst
     )
