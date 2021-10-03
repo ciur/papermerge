@@ -153,8 +153,6 @@ INSTALLED_APPS = [
     'polymorphic_tree',
     'polymorphic',
     'mptt',
-    'mgclipboard',
-    'bootstrap4',
     'channels',
 ]
 
@@ -196,11 +194,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'dynamic_preferences.processors.global_preferences',
-                'papermerge.contrib.admin.context_processors.extras',
-                'papermerge.contrib.admin.context_processors.user_perms',
-                'papermerge.contrib.admin.context_processors.user_menu',
-                'papermerge.contrib.admin.context_processors.sidebar_menu',
-                'papermerge.contrib.admin.context_processors.leftside_navigation', # noqa
             ],
         },
     },

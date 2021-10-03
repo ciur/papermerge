@@ -2,9 +2,9 @@ from .base import *  # noqa
 
 DEBUG = True
 
-# INSTALLED_APPS.extend(
-#     ['django_extensions']
-# )
+INSTALLED_APPS.extend(
+    ['django_extensions']
+)
 
 INTERNAL_IPS = ['127.0.0.1', ]
 
