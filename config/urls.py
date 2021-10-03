@@ -78,7 +78,7 @@ urlpatterns = [
         js_info_dict,
         name='javascript-catalog'
     ),
-    path('core/', include('papermerge.core.urls')),
+    path('api/', include('papermerge.core.urls')),
 ]
 
 for extra_urls in settings.EXTRA_URLCONF:
