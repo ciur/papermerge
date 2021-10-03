@@ -1,5 +1,4 @@
 from django.urls import path, re_path
-from django.views.generic.base import RedirectView
 from django.views.i18n import JavaScriptCatalog
 
 from django.conf.urls import include
@@ -10,22 +9,13 @@ from django.views.generic import TemplateView
 
 from allauth.account import views
 
-from papermerge.contrib.admin.views import BrowseView
-
-
 js_info_dict = {
     'domain': 'django',
     'packages': None,
 }
 
 
-favicon_view = RedirectView.as_view(
-    url='/static/admin/img/favicon.ico',
-    permanent=True
-)
-
 urlpatterns = [
-    re_path(r'favicon\.ico$', favicon_view),
     path(
         'accounts/signup/',
         TemplateView.as_view(template_name="account/signup_disabled.html"),
@@ -88,9 +78,7 @@ urlpatterns = [
         js_info_dict,
         name='javascript-catalog'
     ),
-    path('admin/', include('papermerge.contrib.admin.urls')),
     path('core/', include('papermerge.core.urls')),
-    path('', BrowseView.as_view(), name='index'),
 ]
 
 for extra_urls in settings.EXTRA_URLCONF:

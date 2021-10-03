@@ -9,7 +9,6 @@ from papermerge.core.signal_definitions import (
 )
 from papermerge.core.models import Document
 from papermerge.core.ocr import COMPLETE
-from papermerge.contrib.admin.models import LogEntry
 from papermerge.core.automate import apply_automates
 
 
@@ -73,11 +72,6 @@ def automates_matching_handler(sender, **kwargs):
                 'doc_id': doc_id,
                 'page_num': page_num
             }
-            LogEntry.objects.create(
-                user_id=user_id,
-                level=logging.WARNING,
-                message=msg
-            )
             logger.warning(msg)
             return
         except Exception as e:
@@ -99,12 +93,6 @@ def automates_matching_handler(sender, **kwargs):
     }
 
     log_entry_message += message
-
-    LogEntry.objects.create(
-        user_id=user_id,
-        level=level,
-        message=log_entry_message
-    )
 
 
 @receiver(page_ocr)
@@ -139,11 +127,6 @@ def page_ocr_handler(sender, **kwargs):
                 'doc_id': doc_id,
                 'page_num': page_num
             }
-            LogEntry.objects.create(
-                user_id=user_id,
-                level=logging.WARNING,
-                message=msg
-            )
             logger.warning(msg)
             return
         except Exception as e:
@@ -154,25 +137,3 @@ def page_ocr_handler(sender, **kwargs):
 
     document_title = doc.title
 
-    log_entry_message = _(
-        "%(human_status)s OCR for document %(document_title)s,"
-        " page=%(page_num)s,"
-        " language=%(lang)s, doc_id=%(doc_id)s."
-    ) % {
-        'human_status': human_status,
-        'document_title': document_title,
-        'page_num': page_num,
-        'lang': lang,
-        'doc_id': doc_id,
-    }
-
-    if status == COMPLETE:
-        # for COMPLETE sinals message argument
-        # contains a line with time it took to OCR the document.
-        log_entry_message += message
-
-    LogEntry.objects.create(
-        user_id=user_id,
-        level=level,
-        message=log_entry_message
-    )

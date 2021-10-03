@@ -1,2 +1,1 @@
-django == 3.2.4
-papermerge-core == 2.0.1
+django == 3.2.7

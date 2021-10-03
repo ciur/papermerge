@@ -8,20 +8,26 @@ DEBUG = True
 
 INTERNAL_IPS = ['127.0.0.1', ]
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'papermerge': {
-#             'class': 'logging.FileHandler',
-#             'filename': 'papermerge.log',
-#             'level': 'DEBUG'
-#         },
-#     },
-#     'loggers': {
-#         'papermerge.core.importers': {
-#             'handlers': ['papermerge'],
-#             'level': 'DEBUG'
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'papermerge': {
+            'class': 'logging.FileHandler',
+            'filename': 'papermerge.log',
+            'level': 'DEBUG'
+        },
+    },
+    'loggers': {
+        'papermerge': {
+            'handlers': ['papermerge'],
+            'level': 'DEBUG'
+        },
+    },
+}
+
+PAPERMERGE_DEFAULT_FILE_STORAGE = "papermerge.storage.S3Storage"
+PAPERMERGE_FILE_STORAGE_KWARGS = {
+    'bucketname': 'dev-papermerge',
+    'namespace': 'demo'
+}

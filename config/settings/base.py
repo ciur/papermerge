@@ -141,7 +141,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'papermerge.core.apps.CoreConfig',
-    'papermerge.contrib.admin.apps.AdminConfig',
     'papermerge.wsignals.apps.WsignalsConfig',
     'papermerge.avenues.apps.AvenuesConfig',
     'django.contrib.contenttypes',
@@ -171,7 +170,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'papermerge.contrib.admin.middleware.TimezoneMiddleware'
+    'papermerge.core.middleware.TimezoneMiddleware'
 ]
 
 PAPERMERGE_LANGUAGE_FROM_AGENT = cfg_papermerge.get(
