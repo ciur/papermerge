@@ -134,6 +134,7 @@ EXTRA_URLCONF = []
 
 INSTALLED_APPS = [
     'rest_framework',
+    "corsheaders",
     'knox',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -157,13 +158,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # mgclipboard.middleware.ClipboardMiddleware must be AFTER
-    # * django.contrib.sessions.middleware
-    # * django.contrib.auth.middleware
-    'mgclipboard.middleware.ClipboardMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

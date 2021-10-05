@@ -8,6 +8,8 @@ INSTALLED_APPS.extend(
 
 INTERNAL_IPS = ['127.0.0.1', ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
