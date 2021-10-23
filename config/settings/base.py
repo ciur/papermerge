@@ -2,6 +2,7 @@
 import os
 
 from pathlib import Path
+from corsheaders.defaults import default_headers as default_cors_headers
 from mglib.utils import try_load_config
 
 
@@ -137,7 +138,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_json_api',
     'corsheaders',
-    'knox',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.sessions',
@@ -376,8 +376,7 @@ CELERY_TASK_RESULT_EXPIRES = 86400
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'knox.auth.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'PAGE_SIZE': 10,
     'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
@@ -410,11 +409,6 @@ REST_FRAMEWORK = {
         'rest_framework_json_api.renderers.JSONRenderer',
     ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'vnd.api+json'
-}
-
-REST_KNOX = {
-    'AUTH_TOKEN_CHARACTER_LENGTH': 32,
-    'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
 }
 
 # available settings with their default values
@@ -450,3 +444,7 @@ DYNAMIC_PREFERENCES = {
     # This can be useful to debug things
     'VALIDATE_NAMES': True,
 }
+
+CORS_ALLOW_HEADERS = list(default_cors_headers) + [
+    "Authorization",
+]
