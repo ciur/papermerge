@@ -147,9 +147,6 @@ INSTALLED_APPS = [
     'papermerge.wsignals.apps.WsignalsConfig',
     'papermerge.avenues.apps.AvenuesConfig',
     'django.contrib.contenttypes',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
     'dynamic_preferences',
     # comment the following line if you don't want to use user preferences
     'dynamic_preferences.users.apps.UserPreferencesConfig',
@@ -267,11 +264,6 @@ LOCALE_PATHS = (
 DATE_FORMAT = '%d/%m/%Y'
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
 
-ACCOUNT_SESSION_REMEMBER = False
-ACCOUNT_AUTHENTICATION_METHOD = "username"
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "none"
-
 MEDIA_URL = '/documents/'
 
 ALLOWED_HOSTS = [
@@ -280,16 +272,7 @@ ALLOWED_HOSTS = [
 
 AUTHENTICATION_BACKENDS = (
     'papermerge.core.auth.NodeAuthBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
 )
-
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/admin/browse/'
-
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
-LOGIN_URL = '/accounts/login/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
