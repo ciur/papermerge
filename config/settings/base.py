@@ -270,9 +270,6 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-AUTHENTICATION_BACKENDS = (
-    'papermerge.core.auth.NodeAuthBackend',
-)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
