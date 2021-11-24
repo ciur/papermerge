@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "papermerge-dms"
+version = "2.1.dev2"
+description = "Open source document management system designed for scanned documents"
+authors = ["Eugen Ciur <eugen@papermerge.com>"]
+license = "Apache 2.0 License"
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "^3.2"
+papermerge-core = {path = "../PapermergeCore", develop = true}
+
+
+[build-system]
+requires = ["setuptools >= 40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
