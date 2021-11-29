@@ -427,5 +427,5 @@ DYNAMIC_PREFERENCES = {
 
 CORS_ALLOW_HEADERS = list(default_cors_headers) + [
     "Authorization",
-    "Content-Disposition"
+    "Content-Disposition",
 ]
