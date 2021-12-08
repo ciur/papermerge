@@ -145,7 +145,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'papermerge.core.apps.CoreConfig',
     'papermerge.wsignals.apps.WsignalsConfig',
-    'papermerge.avenues.apps.AvenuesConfig',
+    'papermerge.notifications.apps.NotificationsConfig',
     'django.contrib.contenttypes',
     'dynamic_preferences',
     # comment the following line if you don't want to use user preferences
