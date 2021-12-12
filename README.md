@@ -114,7 +114,7 @@ issues.
 Following is the list and a diagram of Papermerge projects ecosystem:
 
 * [Papermerge Core](https://github.com/papermerge/papermerge-core) - REST API backend. Central piece django app. The heart of entire Papermerge project.
-* [Papermerge CoreJS](https://github.com/papermerge/papermerge.js) - Frontend application. This is an emberjs app.
+* [Papermerge JS](https://github.com/papermerge/papermerge.js) - Frontend application. This is a standalone [emberjs](https://emberjs.com/) app.
 * [Documentation](https://github.com/papermerge/documentation) - Sphinx based documentation repository.
 
 
