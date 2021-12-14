@@ -1,4 +1,3 @@
-[![Unittests](https://github.com/ciur/papermerge/actions/workflows/unittests.yml/badge.svg)](https://github.com/ciur/papermerge/actions/workflows/unittests.yml)
 [![Docker Image](https://github.com/ciur/papermerge/actions/workflows/docker.yml/badge.svg)](https://github.com/ciur/papermerge/actions/workflows/docker.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/eugenci/papermerge)](https://hub.docker.com/r/eugenci/papermerge)
 [![Contributors](https://img.shields.io/badge/-Contributors-important)](https://github.com/ciur/papermerge/blob/master/CONTRIBUTORS.md)
