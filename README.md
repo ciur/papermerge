@@ -87,7 +87,7 @@ For donations, you can use three channels paypal, patreon and github itself:
 In live demo some of the features are disabled. For example you cannot manage
 users, API tokens. Folders/documents with a red lock are read-only for guest user.
 
-* [Live demo](https://demo.papermerge.com)
+* [Live demo](https://demo-app.papermerge.io)
 * Username: ``guest``
 * Password: ``password77a``
 
