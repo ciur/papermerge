@@ -113,10 +113,6 @@ PAPERMERGE_MIMETYPES = [
     'image/tiff'
 ]
 
-PAPERMERGE_PIPELINES = [
-    'papermerge.core.import_pipeline.DefaultPipeline'
-]
-
 AUTH_USER_MODEL = "core.User"
 
 WSGI_APPLICATION = 'config.wsgi.application'
