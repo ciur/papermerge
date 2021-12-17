@@ -9,7 +9,8 @@ license = "Apache 2.0 License"
 [tool.poetry.dependencies]
 python = "^3.8"
 django = "^3.2"
-papermerge-core = {path = "../PapermergeCore", develop = true}
+papermerge-core = {git = "https://github.com/papermerge/papermerge-core.git" }
+configula = "^0.1.0"
 
 
 [build-system]

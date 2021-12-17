@@ -3,16 +3,15 @@ import os
 
 from pathlib import Path
 from corsheaders.defaults import default_headers as default_cors_headers
-from mglib.utils import try_load_config
+from configula import Configula
 
 
-CONFIG_PLACES = [
-    "/etc/papermerge.conf.py",
-    "papermerge.conf.py"
-]
-
-cfg_papermerge = try_load_config(
-    config_locations=CONFIG_PLACES,
+cfg_papermerge = Configula(
+    prefix="PAPERMERGE",
+    config_locations=[
+        "/etc/papermerge.conf.py",
+        "papermerge.conf.py"
+    ],
     config_env_var_name="PAPERMERGE_CONFIG"
 )
 
@@ -31,22 +30,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 SITE_ID = 1
 
 STATIC_ROOT = cfg_papermerge.get(
-    'STATIC_DIR', os.path.join(PROJ_ROOT, "static")
+    'static',
+    'dir',
+    default=os.path.join(PROJ_ROOT, "static")
 )
 
 MEDIA_ROOT = cfg_papermerge.get(
-    'MEDIA_DIR',
-    os.path.join(PROJ_ROOT, "media")
-)
-
-STATIC_URL = cfg_papermerge.get(
-    "STATIC_URL",
-    "/static/"
+    'media',
+    'dir',
+    default=os.path.join(PROJ_ROOT, "media")
 )
 
 MEDIA_URL = cfg_papermerge.get(
-    "MEDIA_URL",
-    "/media/"
+    'media',
+    'url',
+    default='/media/'
+)
+
+
+STATIC_URL = cfg_papermerge.get(
+    'static',
+    'dir',
+    default='/static/'
 )
 
 # This is where Papermerge will look for PDFs to index
@@ -65,9 +70,19 @@ PAPERMERGE_IMPORTER_LOOP_TIME = cfg_papermerge.get(
     5
 )
 
-PAPERMERGE_SEARCH_BACKEND = cfg_papermerge.get(
-    "SEARCH_BACKEND",
-    "papermerge.search.backends.db.SearchBackend"
+
+PAPERMERGE_OCR_DEFAULT_LANGUAGE = cfg_papermerge.get(
+    'ocr'
+    'default_language',
+    default='deu'
+)
+
+PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
+    "OCR_LANGUAGES",
+    {
+        "deu": "Deutsch",
+        "eng": "English",
+    }
 )
 
 PAPERMERGE_METADATA_DATE_FORMATS = [
@@ -100,19 +115,6 @@ PAPERMERGE_MIMETYPES = [
 PAPERMERGE_PIPELINES = [
     'papermerge.core.import_pipeline.DefaultPipeline'
 ]
-
-PAPERMERGE_OCR_DEFAULT_LANGUAGE = cfg_papermerge.get(
-    "OCR_DEFAULT_LANGUAGE",
-    "deu"  # if not defined, defaults to German a.k.a Deutsch
-)
-
-PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
-    "OCR_LANGUAGES",
-    {
-        "deu": "Deutsch",
-        "eng": "English",
-    }
-)
 
 AUTH_USER_MODEL = "core.User"
 
