@@ -35,6 +35,12 @@ STATIC_ROOT = cfg_papermerge.get(
     default=os.path.join(PROJ_ROOT, "static")
 )
 
+STATIC_URL = cfg_papermerge.get(
+    'static',
+    'dir',
+    default='/static/'
+)
+
 MEDIA_ROOT = cfg_papermerge.get(
     'media',
     'dir',
@@ -48,24 +54,18 @@ MEDIA_URL = cfg_papermerge.get(
 )
 
 
-STATIC_URL = cfg_papermerge.get(
-    'static',
-    'dir',
-    default='/static/'
-)
-
 # This is where Papermerge will look for PDFs to index
 PAPERMERGE_IMPORTER_DIR = cfg_papermerge.get(
     "IMPORTER_DIR",
     None
 )
 
-PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = cfg_papermerge.get(
+PAPERMERGE_FILES_MIN_UNMODIFIED_DURATION = cfg_papermerge.get_var(
     "FILES_MIN_UNMODIFIED_DURATION",
     1
 )
 
-PAPERMERGE_IMPORTER_LOOP_TIME = cfg_papermerge.get(
+PAPERMERGE_IMPORTER_LOOP_TIME = cfg_papermerge.get_var(
     "IMPORTER_LOOP_TIME",
     5
 )
@@ -78,10 +78,11 @@ PAPERMERGE_OCR_DEFAULT_LANGUAGE = cfg_papermerge.get(
 )
 
 PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
-    "OCR_LANGUAGES",
-    {
-        "deu": "Deutsch",
-        "eng": "English",
+    'ocr'
+    'language',
+    deafult={
+        'deu': 'Deutsch',
+        'eng': 'English',
     }
 )
 
@@ -170,8 +171,8 @@ MIDDLEWARE = [
     'papermerge.core.middleware.TimezoneMiddleware'
 ]
 
-PAPERMERGE_LANGUAGE_FROM_AGENT = cfg_papermerge.get(
-    "LANGUAGE_FROM_AGENT", False
+PAPERMERGE_LANGUAGE_FROM_AGENT = cfg_papermerge.get_var(
+    'language_from_agent', False
 )
 
 if PAPERMERGE_LANGUAGE_FROM_AGENT:
@@ -203,36 +204,43 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(
             cfg_papermerge.get(
-                "DBDIR",
-                PROJ_ROOT
+                'db',
+                'dir',
+                default=PROJ_ROOT
             ),
-            "db.sqlite3"
+            'db.sqlite3'
         )
     }
 }
 
-if cfg_papermerge.get("DBTYPE", False) in (
-    "pg", "postgre", "postgres", "postgresql"
+if cfg_papermerge.get('db', 'type', False) in (
+    'pg', 'postgre', 'postgres', 'postgresql'
 ):
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
         "USER": cfg_papermerge.get("DBUSER", "papermerge"),
     }
-    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
-    DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
-    DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 5432)
-elif cfg_papermerge.get("DBTYPE", False) in (
-    "my", "mysql", "maria", "mariadb"
+    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get('db', 'pass', "")
+    DATABASES["default"]["HOST"] = cfg_papermerge.get(
+        'db',
+        'host',
+        'localhost'
+    )
+    DATABASES["default"]["PORT"] = cfg_papermerge.get('db', 'port', 5432)
+elif cfg_papermerge.get('db', 'type', False) in (
+    'my', 'mysql', 'maria', 'mariadb'
 ):
-    DATABASES["default"] = {
+    DATABASES['default'] = {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
-        "USER": cfg_papermerge.get("DBUSER", "papermerge"),
+        "NAME": cfg_papermerge.get('db', 'NAME', 'papermerge'),
+        "USER": cfg_papermerge.get('db', 'user', 'papermerge'),
     }
-    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get("DBPASS", "")
-    DATABASES["default"]["HOST"] = cfg_papermerge.get("DBHOST", "localhost")
-    DATABASES["default"]["PORT"] = cfg_papermerge.get("DBPORT", 3306)
+    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get('db', 'pass', '')
+    DATABASES["default"]["HOST"] = cfg_papermerge.get(
+        'db', 'host', 'localhost'
+    )
+    DATABASES["default"]["PORT"] = cfg_papermerge.get('db', 'port', 3306)
     # Requires MySQL > 5.7.7 or innodb_large_prefix set to on
     SILENCED_SYSTEM_CHECKS = ['mysql.E001']
 
