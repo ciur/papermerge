@@ -72,15 +72,15 @@ PAPERMERGE_IMPORTER_LOOP_TIME = cfg_papermerge.get_var(
 
 
 PAPERMERGE_OCR_DEFAULT_LANGUAGE = cfg_papermerge.get(
-    'ocr'
+    'ocr',
     'default_language',
     default='deu'
 )
 
 PAPERMERGE_OCR_LANGUAGES = cfg_papermerge.get(
-    'ocr'
+    'ocr',
     'language',
-    deafult={
+    default={
         'deu': 'Deutsch',
         'eng': 'English',
     }
@@ -219,9 +219,9 @@ TIME_ZONE = 'Europe/Berlin'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-LANGUAGE_CODE = cfg_papermerge.get(
-    "LANGUAGE_CODE",
-    'en'
+LANGUAGE_CODE = cfg_papermerge.get_var(
+    'language_code',
+    default='en'
 )
 
 LOCALE_PATHS = (
@@ -281,9 +281,9 @@ UPLOAD_ALLOWED_MIMETYPES = ['application/pdf']
 # in conjunction with CELERY_BROKER_URL = "filesystem://"
 # This settings (TASK_QUEUE_DIR + filesystem as broker) is very convinient
 # in development environment.
-PAPERMERGE_TASK_QUEUE_DIR = cfg_papermerge.get(
-    "TASK_QUEUE_DIR",
-    os.path.join(PROJ_ROOT, "queue")
+PAPERMERGE_TASK_QUEUE_DIR = cfg_papermerge.get_var(
+    'TASK_QUEUE_DIR',
+    default=os.path.join(PROJ_ROOT, 'queue')
 )
 
 # even if other than filesystem message brokers will be used
