@@ -10,7 +10,7 @@ license = "Apache 2.0 License"
 python = "^3.8"
 django = "^3.2"
 papermerge-core = {git = "https://github.com/papermerge/papermerge-core.git" }
-configula = "^0.1.0"
+configula = "^0.3.0"
 
 
 [build-system]

@@ -195,48 +195,9 @@ TEMPLATES = [
     },
 ]
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(
-            cfg_papermerge.get(
-                'db',
-                'dir',
-                default=PROJ_ROOT
-            ),
-            'db.sqlite3'
-        )
-    }
-}
+DATABASES = cfg_papermerge.get_django_databases(proj_root=PROJ_ROOT)
 
-if cfg_papermerge.get('db', 'type', False) in (
-    'pg', 'postgre', 'postgres', 'postgresql'
-):
-    DATABASES["default"] = {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": cfg_papermerge.get("DBNAME", "papermerge"),
-        "USER": cfg_papermerge.get("DBUSER", "papermerge"),
-    }
-    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get('db', 'pass', "")
-    DATABASES["default"]["HOST"] = cfg_papermerge.get(
-        'db',
-        'host',
-        'localhost'
-    )
-    DATABASES["default"]["PORT"] = cfg_papermerge.get('db', 'port', 5432)
-elif cfg_papermerge.get('db', 'type', False) in (
-    'my', 'mysql', 'maria', 'mariadb'
-):
-    DATABASES['default'] = {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": cfg_papermerge.get('db', 'NAME', 'papermerge'),
-        "USER": cfg_papermerge.get('db', 'user', 'papermerge'),
-    }
-    DATABASES["default"]["PASSWORD"] = cfg_papermerge.get('db', 'pass', '')
-    DATABASES["default"]["HOST"] = cfg_papermerge.get(
-        'db', 'host', 'localhost'
-    )
-    DATABASES["default"]["PORT"] = cfg_papermerge.get('db', 'port', 3306)
+if cfg_papermerge.has_mysql:
     # Requires MySQL > 5.7.7 or innodb_large_prefix set to on
     SILENCED_SYSTEM_CHECKS = ['mysql.E001']
 
