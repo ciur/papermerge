@@ -86,38 +86,26 @@ import it in Papermerge, but again - this is not what Papermerge was intended fo
 
 * Documents of pdf, jpg, png, tiff formats are supported
 * Desktop like user interface
-* Per page OCR of the documents
-* Full Text Search of the scanned documents
-* Versioning
+* **OCR** - used to extract text for documents indexing
+* Full text search (document content is extracted using OCR and indexed with elasticsearch)
+* Document Versioning (all operations on the documents are non destructive)
 * User defined metadata per folder/document/page
-* Import documents from multiple sources (local disk, email, web upload, REST API upload)
-* Tags - assign colored tags to documents or folders ([screencast demo](https://www.youtube.com/watch?v=bshUowL57t8))
+* Tags - assign colored tags to documents or folders
 * Documents and Folders - users can organize documents in folders
 * Multi-User (Groups, Roles)
 * User permissions management
 * Document permissions management
-* REST API ([screencast demo](https://vimeo.com/391436134))
+* REST API
 * Page Management - delete, reorder, rotate and extract pages
-* Basic automation ([screencast demo](https://www.youtube.com/watch?v=5adbHHmNcEw))
-
-## Testimonials
-
-![testimonials](./img/testimonials.png)
+* Basic automation
 
 ## Donations, Fundraising, Your Support
-
-:heart: :heart: :heart:
-
-In case you find Papermerge useful, I modestly ask you to support Papermerge via
-a small donation. Even an amount as small as $9 will make a huge difference.
 
 For donations, you can use three channels paypal, patreon and github itself:
 
 * [Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
 * [Sponsor via Github](https://github.com/sponsors/ciur)
 * [Become a Patreon](https://www.patreon.com/papermerge)
-
-:green_heart: :green_heart:  :green_heart:
 
 ## Live Demo
 
@@ -134,7 +122,7 @@ users, API tokens. Folders/documents with a red lock are read-only for guest use
 We welcome contributions! In general, if change is very small, like fixing a
 documentation typo, remove unused variable or minor adjustments of docker
 related files - you can create a pull request right away. If your change is
-small and reasonable it will be (very likely) almost immediately accepted. 
+small and reasonable it will be (very likely) almost immediately accepted.
 
 For bigger changes, like a new feature or even change/add/remove of
 whole paragraph in documentation - please **first discuss the
