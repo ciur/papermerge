@@ -31,7 +31,7 @@ browser.
 
 ## Repositories
 
-This is repository is meta-repository - which means the source code of the
+This repository is meta-repository - which means that source code of the
 application is not here. **This repository is used to track the existence,
 status and its issues.** As the application grew it was necessary to split it
 into multiple repositories and in same time move new repositories under
