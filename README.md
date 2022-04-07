@@ -52,7 +52,7 @@ into multiple repositories and in same time move new repositories under
 |[docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
 |[REST API reference/swagger](https://docs.papermerge.io/swagger-ui/)| Online REST API reference with swagger UI |
 |[REST API reference/redoc](https://docs.papermerge.io/redoc/)| Online REST API reference with redoc UI |
-|[https://papermerge.com](https://papermerge.com) | Home page |
+|[https://papermerge.com](https://papermerge.com) | Homepage |
 |[YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg) | YouTube channel |
 |[Twitter](https://twitter.com/papermerge) | Twitter |
 |[Reddit](https://www.reddit.com/r/Papermerge/) | Reddit |
