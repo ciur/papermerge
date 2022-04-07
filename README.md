@@ -18,15 +18,33 @@ document and index it. You will be able to quickly find any (scanned!)
 document using full text search capabilities.
 
 
-It is built on [Django 3.1](https://www.djangoproject.com/).
+It is built on [Django](https://www.djangoproject.com/).
 
-Papermerge is actively developed and we [release quite frequently](https://github.com/ciur/papermerge/releases).
+Papermerge is actively developed.
 
 This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
 ![Screenshot 01](./img/screenshot-1.png)
+
+## Repositories
+
+This is repository is meta-reposiotry - which means the source code of the
+application is not here. **This repository is used only track the
+status of the project, its existance and issues.**
+As the application grew it was necessary to split it into multiple repositories
+and in same time move all new repositories under [Papermerge Github Organization](https://github.com/papermerge).
+
+| Repository      | Description |
+| :----:          | :---        |
+| [Papermerge](https://github.com/ciur/papermerge)| Meta-repository. Keeps track of project existance, status, issues.|
+| [Papermerge Core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend
+  server. The heart of the project.|
+| [Papermerge.JS](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
+| [Documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
+
+
 
 ## Right Tool For You?
 
