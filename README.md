@@ -38,7 +38,7 @@ and in same time move all new repositories under [Papermerge Github Organization
 
 | Repository      | Description |
 | :----:          | :---        |
-| [ciur/apermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track of project existance, status, issues.|
+| [ciur/papermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track of project existance, status, issues.|
 | [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend
   server. The heart of the project.|
 | [papermerge/papermerge.js](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
