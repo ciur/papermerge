@@ -47,6 +47,7 @@ into multiple repositories and in same time move new repositories under
 ## Other Resources
 
 | Repository      | Description |
+|-----------------|-------------|
 |[docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
 |[REST API reference/swagger](https://docs.papermerge.io/swagger-ui/)| Online REST API reference with swagger UI |
 |[REST API reference/redoc](https://docs.papermerge.io/redoc/)| Online REST API reference with redoc UI |
