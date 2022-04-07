@@ -18,7 +18,7 @@ document and index it. You will be able to quickly find any (scanned!)
 document using full text search capabilities.
 
 
-It its backend is build with [Django](https://www.djangoproject.com/) and its frontend
+Its backend is build with [Django](https://www.djangoproject.com/) and its frontend
 with [EmberJS](https://emberjs.com/).
 
 Papermerge is actively developed.
