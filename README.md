@@ -60,19 +60,27 @@ into multiple repositories and in same time move new repositories under
 ## Right Tool For You?
 
 To be efficient you always need to choose right tool for the problem. Because
-*Document Management* is too generic - I think that a definition of what is a
-*Document* in context of this software is needed.
+*Document Management* term is too wide - I think that a definition of what is a
+*Document* in context of Papermerge software is needed.
 
-For Papermerge a document is anything which is a good candidate for archiving - some piece of information which is not editable but you need to store it for
-future reference. For example receipts are perfect examples - you don't need to
-read receipts everyday, but eventually you will need them for your tax
-declaration. In this sense - scanned documents, which are usually
-in PDF or TIFF format, are perfect match.
+For Papermerge a document is anything which is a good candidate for
+archiving - some piece of information which is not editable but you need to
+store it for future reference. For example receipts are good examples -
+you don't need to read receipts everyday, but eventually you will need them
+for your tax declaration. In this sense - scanned documents, which are
+usually in PDF or TIFF format, are perfect match.
 
-Out of scope (at least for near future) are Office documents (ODT, DOCX....),
-text files (notes) which usually are editable. In future Papermerge might support Office documents (ODT etc), but that feature will be provided as plugins.
+Within Papermerge context terms **document**, **scanned document**, **pdf document**,
+and **digital archive** are used interchangeable and mean the same thing.
 
-Papermerge is simply not designed to store books. Yes, you can scan a book and import it in Papermege, but again - this is not what Papermerge was designed for.
+Papermerge shines when it comes to storing documents for long term, in other words
+Papermerge's main use case is **long term storage of digital archives**.
+
+Out of scope are Office documents (ODT, DOCX....), text files (notes) which
+usually are editable.
+
+Papermerge is simply not designed to store books. Yes, you can scan a book and
+import it in Papermerge, but again - this is not what Papermerge was intended for.
 
 ## Features Highlight
 
