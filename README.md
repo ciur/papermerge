@@ -42,8 +42,19 @@ into multiple repositories and in same time move new repositories under
 | [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend server. The heart of the project.|
 | [papermerge/papermerge.js](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
 | [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
-| [papermerge/helm-chart](https://github.com/papermerge/documentation)| Helm Chart for deploying Papermerge in Kubernetes cluter.|
+| [papermerge/helm-chart](https://github.com/papermerge/documentation)| Helm Chart for deploying Papermerge in Kubernetes cluster.|
 
+## Other Resources
+
+| Repository      | Description |
+| :----:          | :---        |
+|[docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
+|[REST API reference/swagger](https://docs.papermerge.io/swagger-ui/)| Online REST API reference with swagger UI |
+|[REST API reference/redoc](https://docs.papermerge.io/redoc/)| Online REST API reference with redoc UI |
+|[https://papermerge.com](https://papermerge.com) | Home page |
+|[YouTube Channel](https://www.youtube.com/watch?v=xhLUaq46HOw) | YouTube channel |
+|[Twitter](https://twitter.com/papermerge) | Twitter |
+|[Reddit](https://www.reddit.com/r/Papermerge/) | Reddit |
 
 
 ## Right Tool For You?
@@ -78,7 +89,7 @@ Papermerge is simply not designed to store books. Yes, you can scan a book and i
 * User permissions management
 * Document permissions management
 * REST API ([screencast demo](https://vimeo.com/391436134))
-* Page Management - delete, reorder, cut & paste pages ([screencast demo](https://www.youtube.com/watch?v=CRhUpPqCI64))
+* Page Management - delete, reorder, rotate and extract pages
 * Basic automation ([screencast demo](https://www.youtube.com/watch?v=5adbHHmNcEw))
 
 ## Testimonials
@@ -109,59 +120,6 @@ users, API tokens. Folders/documents with a red lock are read-only for guest use
 * Username: ``guest``
 * Password: ``password77a``
 
-## Repository Organization
-
-At its very beginnings Papermerge perfectly fit into a single repository -
-this one.
-
-As result, [this repository](https://github.com/ciur/papermerge) is the
-central place for keeping track of releases, issues and discussions regarding
-Papermerge.
-
-However, as source code grew and project accumulated more features -
-it morphed gradually into a monolithic giant. It is well known fact that
-dealing with monolithic architecture is very challenging. In order to deal
-with growing complexity, I decided to split the project into separate,
-reusable pieces. Each of resulting packages was moved one by one into
-[Papermerge Organization](https://github.com/papermerge).
-
-Again, this repository is the central place to keep track of Papermerge
-issues.
-
-Following is the list and a diagram of Papermerge projects ecosystem:
-
-* [Papermerge Core](https://github.com/papermerge/papermerge-core) - REST API backend. Central piece django app. The heart of entire Papermerge project.
-* [Papermerge JS](https://github.com/papermerge/papermerge.js) - Frontend application. This is a standalone [emberjs](https://emberjs.com/) app.
-* [Documentation](https://github.com/papermerge/documentation) - Sphinx based documentation repository.
-
-
-
-## Repository Organization
-
-At its very beginnings Papermerge perfectly fit into a single repository -
-this one. As result, this repository is the central place for keeping track
-of releases, issues and discussions regarding Papermerge. However, as source
-code grew, project accumulated more features - it resembled to more and more
-a monolithic giant. It is well known fact that dealing with monolithic
-architecture is very challenging. In order to deal with growing complexity, I
-decided to split the project into separate, reusable pieces. Each of
-resulting reusable package was moved one by one into[Papermerge Organization]
-(https://github.com/papermerge).
-
-Following diagram, visually illustrates Papermerge projects organization.
-
-## Documentation and Other Resources
-
-Papermerge has high quality, up-to-date and to the point
-[documentation](https://papermerge.readthedocs.io/). Documentation contains
-lots of images, text and videos. It is regularly updated. If you spot
-outdated or incomplete article please open an issue on github - it will
-be handled immediately. Documentation issues have high priority.
-
- * [Documentation URL](https://papermerge.com/docs)
- * [Video Demo](https://www.youtube.com/watch?v=xhLUaq46HOw)
- * [English Website](https://papermerge.com)
- * [German Website](https://papermerge.de)
 
 ## Contributing
 
@@ -194,65 +152,3 @@ You can try it with just 3 simple commands (you need git and docker-compose):
 Docker compose command will pull all necessary docker images and start
 papermerge on http://localhost:8000. Access it with
 default username/password: admin/admin.
-
-### Installation
-
-There are couple options:
-
-* [From docker container](https://papermerge.readthedocs.io/en/latest/setup/docker.html)
-* [Detailed step by step instructions](https://papermerge.com/docs/Installation/installation.html)
-
-### Unit Tests
-
-In order to run unit tests:
-
-    $ ./run_tests.sh
-
-Which basically is same as:
-
-    $ DJANGO_SETTINGS_MODULE=config.settings.test
-    $ ./manage.py test papermerge/test/
-
-Notice that you can pass any command line argument to ``run_tests.sh`` script
-and those arguments will be routed further to ``manage.py``.
-
-On multi-core processors it is much more efficient to use ``--parallel``
-argument which splits test suite between CPU cores:
-
-    $ ./run_tests.sh  --parallel
-
-On Dell-XPS laptop with 12-core i7 CPU it takes about 5 seconds to run all
-unit tests in parallel; without ``--parallel`` argument on same CPU it takes
-approximately 17 seconds to run them.
-
-Another commonly used argument is ``--failfast``. If ``--failfast`` argument
-is provided, a failed test will conveniently stop execution of entire test
-suite:
-
-    $ ./run_tests.sh --failfast
-
-In order to run only views tests and stop if there is a failing test:
-
-    $ DJANGO_SETTINGS_MODULE=config.settings.test
-    $ ./manage.py test papermerge/test/views/ --failfast
-
-Following command will run only tests from papermerge/test/views folder and show ALL python and django warnings:
-
-    $ DJANGO_SETTINGS_MODULE=config.settings.test
-    $ python -W all manage.py test papermerge/test/views/
-
-
-
-### Commercial Support
-
-For commercial support, consulting and customization please contact us:
-
-* Email: [contact@papermerge.com](mailto:contact@papermerge.com)
-* Web: [www.papermerge.com/contact](https://www.papermerge.com/contact)
-* Twitter: [@papermerge](https://twitter.com/papermerge)
-
-### Other resources
-
-* [YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg)
-* [Reddit r/papermerge](https://reddit.com/r/papermerge)
-
