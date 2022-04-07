@@ -38,11 +38,12 @@ and in same time move all new repositories under [Papermerge Github Organization
 
 | Repository      | Description |
 | :----:          | :---        |
-| [Papermerge](https://github.com/ciur/papermerge)| Meta-repository. Keeps track of project existance, status, issues.|
-| [Papermerge Core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend
+| [ciur/apermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track of project existance, status, issues.|
+| [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend
   server. The heart of the project.|
-| [Papermerge.JS](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
-| [Documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
+| [papermerge/papermerge.js](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
+| [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
+| [papermerge/helm-chart](https://github.com/papermerge/documentation)| Helm Chart for deploying Papermerge in Kubernetes cluter.|
 
 
 
