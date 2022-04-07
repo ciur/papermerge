@@ -30,16 +30,16 @@ browser.
 
 ## Repositories
 
-This is repository is meta-reposiotry - which means the source code of the
-application is not here. **This repository is used to track the existence, status and its issues.**
-As the application grew it was necessary to split it into multiple repositories
-and in same time move all new repositories under [Papermerge Github Organization](https://github.com/papermerge).
+This is repository is meta-repository - which means the source code of the
+application is not here. **This repository is used to track the existence,
+status and its issues.** As the application grew it was necessary to split it
+into multiple repositories and in same time move new repositories under
+[Papermerge Github Organization](https://github.com/papermerge).
 
 | Repository      | Description |
 | :----:          | :---        |
-| [ciur/papermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track of project existance, status, issues.|
-| [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend
-  server. The heart of the project.|
+| [ciur/papermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track of project existence, status, and project issues.|
+| [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend server. The heart of the project.|
 | [papermerge/papermerge.js](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
 | [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
 | [papermerge/helm-chart](https://github.com/papermerge/documentation)| Helm Chart for deploying Papermerge in Kubernetes cluter.|
