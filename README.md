@@ -31,8 +31,7 @@ browser.
 ## Repositories
 
 This is repository is meta-reposiotry - which means the source code of the
-application is not here. **This repository is used only track the
-status of the project, its existance and issues.**
+application is not here. **This repository is used to track the existence, status and its issues.**
 As the application grew it was necessary to split it into multiple repositories
 and in same time move all new repositories under [Papermerge Github Organization](https://github.com/papermerge).
 
