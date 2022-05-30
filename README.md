@@ -108,15 +108,6 @@ For donations, you can use three channels paypal, patreon and github itself:
 * [Sponsor via Github](https://github.com/sponsors/ciur)
 * [Become a Patreon](https://www.patreon.com/papermerge)
 
-## Live Demo
-
-In live demo some of the features are disabled. For example you cannot manage
-users, API tokens. Folders/documents with a red lock are read-only for guest user.
-
-* [Live demo](https://demo-app.papermerge.io)
-* Username: ``guest``
-* Password: ``password77a``
-
 
 ## Contributing
 
@@ -138,14 +129,3 @@ file.
 ![Screenshot 02](./img/screenshot-2.png)
 ![Screenshot 03](./img/screenshot-3.png)
 
-### Try it!
-
-You can try it with just 3 simple commands (you need git and docker-compose):
-
-    git clone git@github.com:ciur/papermerge.git
-    cd docker/
-    docker-compose up
-
-Docker compose command will pull all necessary docker images and start
-papermerge on http://localhost:8000. Access it with
-default username/password: admin/admin.
