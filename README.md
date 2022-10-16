@@ -23,7 +23,7 @@ This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
-Currently there are two main versions 2.0 and 2.1 (see below for more details).
+Currently there are two main versions 2.0 and 2.1.
 Version 2.1 is almost a complete rewrite of 2.0 and thus is incompatible with it.
 Screenshot of Papermerge 2.1:
 
@@ -31,8 +31,7 @@ Screenshot of Papermerge 2.1:
 
 Screenshot of Papermerge 2.0:
 
-![Papermerge 2.0](./img/screenshot-1.png)
-
+![Papermerge 2.0](./img/papermerge-2-0.png)
 
 
 ## Repositories
@@ -129,9 +128,3 @@ change** you wish to make via GitHub issue, pull request or [email](mailto:eugen
 For more information, see the
 [contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
 file.
-
-## More Screenshots
-
-![Screenshot 02](./img/screenshot-2.png)
-![Screenshot 03](./img/screenshot-3.png)
-
