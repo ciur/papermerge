@@ -21,7 +21,7 @@ services:
     image: postgres:12.3
     container_name: postgres_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data7:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=dbpass
@@ -46,6 +46,6 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432      
 volumes:
-  postgres_data:
+  postgres_data7:
   media_root:
   redisdata:

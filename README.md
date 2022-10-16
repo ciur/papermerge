@@ -1,10 +1,6 @@
-[![Docker Image](https://github.com/ciur/papermerge/actions/workflows/docker.yml/badge.svg)](https://github.com/ciur/papermerge/actions/workflows/docker.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/eugenci/papermerge)](https://hub.docker.com/r/eugenci/papermerge)
-[![Contributors](https://img.shields.io/badge/-Contributors-important)](https://github.com/ciur/papermerge/blob/master/CONTRIBUTORS.md)
-
 ![Papermerge](./artwork/logo.png)
 
-# Papermerge - Document Management System
+# Papermerge - Document Management System for Digital Archives
 
 Papermerge is an open source document management system (DMS) primarily
 designed for archiving and retrieving your digital documents. Instead of
@@ -27,7 +23,17 @@ This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
-![Screenshot 01](./img/screenshot-1.png)
+Currently there are two main versions 2.0 and 2.1 (see below for more details).
+Version 2.1 is almost a complete rewrite of 2.0 and thus is incompatible with it.
+Screenshot of Papermerge 2.1:
+
+![Papermerge 2.1](./img/document-management-system-papermerge-2-1.png)
+
+Screenshot of Papermerge 2.0:
+
+![Papermerge 2.0](./img/screenshot-1.png)
+
+
 
 ## Repositories
 
