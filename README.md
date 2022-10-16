@@ -3,19 +3,18 @@
 # Papermerge - Document Management System for Digital Archives
 
 Papermerge is an open source document management system (DMS) primarily
-designed for archiving and retrieving your digital documents. Instead of
-having piles of paper documents all over your desk, office or drawers - you
-can quickly scan them and configure your scanner to directly upload to
-Papermerge DMS.
+designed for archiving and retrieving your digital documents.
+
+Instead of having piles of paper documents all over your desk, office or
+drawers - you can quickly scan them and configure your scanner to directly
+upload to Papermerge DMS.
 
 Papermerge DMS on its turn will
 [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition) the
 document and index it. You will be able to quickly find any (scanned!)
 document using full text search capabilities.
 
-
-Its backend is build with [Django](https://www.djangoproject.com/) and its frontend
-with [EmberJS](https://emberjs.com/).
+Papermerge's main use case is **long term storage of digital archives**.
 
 Papermerge DMS is actively developed.
 
@@ -134,7 +133,7 @@ file.
 
 In general rewriting application from scratch is dubious adventure. However,
 because Papermerge 2.0 had too many design flaws - maintenance of which, in
-short and long term is a serious pain - I've decided, for good or ill, to
+short and long term is a serious pain - we've decided, for good or ill, to
 rewrite it.
 
 As result Papermerge 2.1 was born. Although they look
