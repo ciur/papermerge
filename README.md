@@ -162,7 +162,7 @@ Here is a table of features comparisons of both versions:
 |OCR|:heavy_check_mark:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
 |Download document with OCRed text layer|:x:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
 |Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backends|
-|Document Versioning|:x:|:heavy_check_mark:||
+|Document Versioning|:x:|:heavy_check_mark:|Actually 2.0 has some very limited and hacky support for document versions|
 |User defined metadata per folder/document/page|:heavy_check_mark:|:x:|Will be ported in future versions|
 |Automates|:heavy_check_mark:|:x:|Will be ported in future versions|
 |Tags - assign colored tags to documents or folders|:heavy_check_mark:|:heavy_check_mark:||
