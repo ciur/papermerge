@@ -17,7 +17,7 @@ document using full text search capabilities.
 Its backend is build with [Django](https://www.djangoproject.com/) and its frontend
 with [EmberJS](https://emberjs.com/).
 
-Papermerge is actively developed.
+Papermerge DMS is actively developed.
 
 This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
@@ -109,12 +109,10 @@ See last section for details on feature set in Papermerge 2.0 and Papermerge 2.1
 
 ## Donations, Fundraising, Your Support
 
-For donations, you can use three channels paypal, patreon and github itself:
+For donations, you can use PayPal and GitHub Sponsorship:
 
 * [Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
 * [Sponsor via Github](https://github.com/sponsors/ciur)
-* [Become a Patreon](https://www.patreon.com/papermerge)
-
 
 ## Contributing
 
