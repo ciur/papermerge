@@ -105,6 +105,8 @@ import it in Papermerge, but again - this is not what Papermerge was intended fo
 * Page Management - delete, reorder, rotate and extract pages
 * Basic automation
 
+See last section for details on feature set in Papermerge 2.0 and Papermerge 2.1
+
 ## Donations, Fundraising, Your Support
 
 For donations, you can use three channels paypal, patreon and github itself:
@@ -156,5 +158,14 @@ Here is a table of features comparisons of both versions:
 |tiff format| :heavy_check_mark: |:x:| Depending on request, may be ported in future versions|
 |Desktop like UI|:heavy_check_mark:|:heavy_check_mark:| in 2.1 UI is reactive|
 |OCR|:heavy_check_mark:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
+|Download document with OCRed text layer|:x:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
 |Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backend|
 |Document Versioning|:x:|:heavy_check_mark:||
+|User defined metadata per folder/document/page|:heavy_check_mark:|:x:|Definitely will be ported to 2.1|
+|Automates|:heavy_check_mark:|:x:|Definitely will be ported to 2.1|
+|Tags - assign colored tags to documents or folders|:heavy_check_mark:|:heavy_check_mark:||
+|Documents and Folders|:heavy_check_mark:|:heavy_check_mark:||
+|Multi-User (Groups, Roles)|:heavy_check_mark:|:heavy_check_mark:||
+|User permissions management|:heavy_check_mark:|:heavy_check_mark:||
+|Document permissions management|:heavy_check_mark:|:x:|Will be ported to 2.1|
+|REST API|:heavy_check_mark:|:heavy_check_mark:||
