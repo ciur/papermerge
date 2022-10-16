@@ -132,21 +132,21 @@ For more information, see the
 file.
 
 
-## 2.1 Vs 2.0
+## Papermerge 2.1 Vs Papermerge 2.0
 
 In general rewriting application from scratch is dubious adventure. However,
 because Papermerge 2.0 had too many design flaws - maintenance of which, in
 short and long term is a serious pain - I've decided, for good or ill, to
 rewrite it.
 
-As result Papermerge 2.1 was born. Although they look somehow
+As result Papermerge 2.1 was born. Although they look
 similar, **Papermerge 2.0 and Papermerge 2.1 are entirely different and
 incompatible applications**.
 
-Because rewriting of Papermerge took me by far more time than I imagined, many
+Because rewriting of Papermerge took by far more time than planned, many
 of the 2.0 features still did not made it to Papermerge 2.1. Keep in mind,
 that in long term, almost all features of Papermerge 2.0 will be "ported
-back" to subsequent versions (e.g. Automates).
+back" to subsequent versions (e.g. Automates, Metadata).
 
 Here is a table of features comparisons of both versions:
 
@@ -161,7 +161,7 @@ Here is a table of features comparisons of both versions:
 |Realtime OCR feedback|:x:|:heavy_check_mark:||
 |OCR|:heavy_check_mark:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
 |Download document with OCRed text layer|:x:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
-|Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backend|
+|Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backends|
 |Document Versioning|:x:|:heavy_check_mark:||
 |User defined metadata per folder/document/page|:heavy_check_mark:|:x:|Will be ported in future versions|
 |Automates|:heavy_check_mark:|:x:|Will be ported in future versions|
@@ -174,4 +174,4 @@ Here is a table of features comparisons of both versions:
 |Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:||
 |Page Rotation|:x:|:heavy_check_mark:||
 |Documents Merging|:x:|:heavy_check_mark:||
-|Cloud Native|:x:|:heavy_check_mark:||
+|Cloud Native/K8s Support|:x:|:heavy_check_mark:||
