@@ -93,7 +93,7 @@ import it in Papermerge, but again - this is not what Papermerge was intended fo
 * Documents of pdf, jpg, png, tiff formats are supported
 * Desktop like user interface
 * **OCR** - used to extract text for documents indexing
-* Full text search (document content is extracted using OCR and indexed with elasticsearch)
+* Full text search
 * Document Versioning (all operations on the documents are non destructive)
 * User defined metadata per folder/document/page
 * Tags - assign colored tags to documents or folders
@@ -151,6 +151,10 @@ Here is a table of features comparisons of both versions:
 | Feature      | Papermerge 2.0 | Available in Papermerge 2.1 | Remarks |
 |-----------------|-------------|----------------|----------------------|
 |PDF format| :heavy_check_mark: |:heavy_check_mark:| |
-|png format| :heavy_check_mark: |:x:| Will be ported/added in future versions|
-|jpeg format| :heavy_check_mark: |:x:| Will be ported/added in future versions|
-|tiff format| :heavy_check_mark: |:x:| Depending on request, may be ported/added in future versions|
+|png format| :heavy_check_mark: |:x:| Will be ported in future versions|
+|jpeg format| :heavy_check_mark: |:x:| Will be ported in future versions|
+|tiff format| :heavy_check_mark: |:x:| Depending on request, may be ported in future versions|
+|Desktop like UI|:heavy_check_mark:|:heavy_check_mark:| in 2.1 UI is reactive|
+|OCR|:heavy_check_mark:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
+|Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backend|
+|Document Versioning|:x:|:heavy_check_mark:||
