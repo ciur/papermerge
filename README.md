@@ -24,7 +24,7 @@ This is web-based software. This means there is no executable file (aka no
 browser.
 
 Currently there are two main versions 2.0 and 2.1.
-Version 2.1 is almost a complete rewrite of 2.0 and thus is incompatible with it.
+Version 2.1 is almost a complete rewrite of 2.0 and thus is incompatible with it (for details see last section).
 Screenshot of Papermerge 2.1:
 
 ![Papermerge 2.1](./img/document-management-system-papermerge-2-1.png)
@@ -128,3 +128,29 @@ change** you wish to make via GitHub issue, pull request or [email](mailto:eugen
 For more information, see the
 [contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
 file.
+
+
+## 2.1 Vs 2.0
+
+In general rewriting application from scratch is dubious adventure. However,
+because Papermerge 2.0 had too many design flaws - maintenance of which, in
+short and long term is a serious pain - I've decided, for good or ill, to
+rewrite it.
+
+As result Papermerge 2.1 was born. Although they look somehow
+similar, **Papermerge 2.0 and Papermerge 2.1 are entirely different and
+incompatible applications**.
+
+Because rewriting of Papermerge took me by far more time than I imagined, many
+of the 2.0 features still did not made it to Papermerge 2.1. Keep in mind,
+that in long term, almost all features of Papermerge 2.0 will be "ported
+back" to subsequent versions (e.g. Automates).
+
+Here is a table of features comparisons of both versions:
+
+| Feature      | Papermerge 2.0 | Available in Papermerge 2.1 | Remarks |
+|-----------------|-------------|----------------|----------------------|
+|PDF format| :heavy_check_mark: |:heavy_check_mark:| |
+|png format| :heavy_check_mark: |:x:| Will be ported/added in future versions|
+|jpeg format| :heavy_check_mark: |:x:| Will be ported/added in future versions|
+|tiff format| :heavy_check_mark: |:x:| Depending on request, may be ported/added in future versions|
