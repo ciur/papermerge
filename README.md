@@ -173,5 +173,5 @@ Here is a table of features comparisons of both versions:
 |REST API|:heavy_check_mark:|:heavy_check_mark:||
 |Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:||
 |Page Rotation|:x:|:heavy_check_mark:||
-|Documents Merging|:x|:heavy_check_mark:||
-|Cloud Native|:x|:heavy_check_mark||
+|Documents Merging|:x:|:heavy_check_mark:||
+|Cloud Native|:x:|:heavy_check_mark:||
