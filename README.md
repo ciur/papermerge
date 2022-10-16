@@ -150,22 +150,28 @@ back" to subsequent versions (e.g. Automates).
 
 Here is a table of features comparisons of both versions:
 
-| Feature      | Papermerge 2.0 | Available in Papermerge 2.1 | Remarks |
+| Feature      | Papermerge 2.0 | Papermerge 2.1 | Remarks |
 |-----------------|-------------|----------------|----------------------|
 |PDF format| :heavy_check_mark: |:heavy_check_mark:| |
 |png format| :heavy_check_mark: |:x:| Will be ported in future versions|
 |jpeg format| :heavy_check_mark: |:x:| Will be ported in future versions|
 |tiff format| :heavy_check_mark: |:x:| Depending on request, may be ported in future versions|
 |Desktop like UI|:heavy_check_mark:|:heavy_check_mark:| in 2.1 UI is reactive|
+|Dual Panel|:x:|:heavy_check_mark:||
+|Realtime OCR feedback|:x:|:heavy_check_mark:||
 |OCR|:heavy_check_mark:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
 |Download document with OCRed text layer|:x:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
 |Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backend|
 |Document Versioning|:x:|:heavy_check_mark:||
-|User defined metadata per folder/document/page|:heavy_check_mark:|:x:|Definitely will be ported to 2.1|
-|Automates|:heavy_check_mark:|:x:|Definitely will be ported to 2.1|
+|User defined metadata per folder/document/page|:heavy_check_mark:|:x:|Will be ported in future versions|
+|Automates|:heavy_check_mark:|:x:|Will be ported in future versions|
 |Tags - assign colored tags to documents or folders|:heavy_check_mark:|:heavy_check_mark:||
 |Documents and Folders|:heavy_check_mark:|:heavy_check_mark:||
 |Multi-User (Groups, Roles)|:heavy_check_mark:|:heavy_check_mark:||
 |User permissions management|:heavy_check_mark:|:heavy_check_mark:||
-|Document permissions management|:heavy_check_mark:|:x:|Will be ported to 2.1|
+|Document permissions management|:heavy_check_mark:|:x:|Will be ported in future versions|
 |REST API|:heavy_check_mark:|:heavy_check_mark:||
+|Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:||
+|Page Rotation|:x:|:heavy_check_mark:||
+|Documents Merging|:x|:heavy_check_mark:||
+|Cloud Native|:x|:heavy_check_mark||
