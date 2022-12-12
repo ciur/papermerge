@@ -44,6 +44,7 @@ into multiple repositories and in same time move new repositories under
 | [ciur/papermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track the project existence, status, and its issues.|
 | [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend server. The heart of the project.|
 | [papermerge/papermerge.js](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
+| [papermerge/openapi-schema](https://github.com/papermerge/openapi-schema)| OpenAPI schema.|
 | [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
 | [papermerge/helm-chart](https://github.com/papermerge/helm-chart)| Helm Chart for deploying Papermerge in Kubernetes cluster.|
 
