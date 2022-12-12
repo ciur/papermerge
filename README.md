@@ -47,7 +47,7 @@ into multiple repositories and in same time move new repositories under
 | [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
 | [papermerge/openapi-schema](https://github.com/papermerge/openapi-schema)| OpenAPI schema.|
 | [papermerge/rest-api-clients](https://github.com/papermerge/rest-api-clients)| Clients generated from OpenAPI schema.|
-| [papermerge/papermerge-cli](https://github.com/papermerge/papermerge-cli)| Command line utility to interact with your Papermerge DMS (e.g. import recursively local folders).|
+| [papermerge/papermerge-cli](https://github.com/papermerge/papermerge-cli)| Command line utility to interact with your Papermerge DMS instance (e.g. import recursively local folders).|
 | [papermerge/helm-chart](https://github.com/papermerge/helm-chart)| Helm Chart for deploying Papermerge in Kubernetes cluster.|
 
 ## Other Resources
