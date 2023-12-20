@@ -88,7 +88,7 @@ For more information, see the
 file.
 
 
-## Version 2.0/2.1/3.0
+## Versions 2.0 / 2.1 / 3.0
 
 In general rewriting application from scratch is dubious adventure. However,
 because Papermerge 2.0 had too many design flaws - maintenance of which, in
