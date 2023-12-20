@@ -88,7 +88,7 @@ For more information, see the
 file.
 
 
-## Papermerge 2.1 Vs Papermerge 2.0
+## Version 2.0/2.1/3.0
 
 In general rewriting application from scratch is dubious adventure. However,
 because Papermerge 2.0 had too many design flaws - maintenance of which, in
@@ -96,7 +96,7 @@ short and long term is a serious pain - we've decided, for good or ill, to
 rewrite it.
 
 As result Papermerge 2.1 was born. Although they look
-similar, **Papermerge 2.0 and Papermerge 2.1 are entirely different and
+similar, **Papermerge version 2.0, version 2.1 and version 3.0 are entirely different and
 incompatible applications**.
 
 Because rewriting of Papermerge took by far more time than planned, many
@@ -106,7 +106,7 @@ back" to subsequent versions (e.g. Automates, Metadata).
 
 Here is a table of features comparisons of both versions:
 
-| Feature      | Papermerge 2.0 | Papermerge 2.1 | Remarks |
+| Feature      | 2.0 | 2.1 | Remarks |
 |-----------------|-------------|----------------|----------------------|
 |PDF format| :heavy_check_mark: |:heavy_check_mark:| |
 |png format| :heavy_check_mark: |:x:| Will be ported in future versions|
