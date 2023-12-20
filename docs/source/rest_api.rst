@@ -1,3 +1,9 @@
+.. caution::
+
+   Papermerge documentation **moved** to https://docs.papermerge.io
+   **This documentation site is obsolete!**
+
+
 .. _rest_api:
 
 REST API
