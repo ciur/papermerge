@@ -1,3 +1,9 @@
+.. caution::
+
+   Papermerge documentation **moved** to https://docs.papermerge.io
+   **This documentation site is obsolete!**
+
+
 .. figure:: img/logo.png
 
 Papermerge DMS
@@ -28,6 +34,11 @@ What It Does
     * based on :doc:`tags <tags>`
 
  * Helps you fix scanned documents issues
+.. caution::
+
+   Papermerge documentation **moved** to https://docs.papermerge.io
+   **This documentation site is obsolete!**
+
 
 
 What It Doesn't Do

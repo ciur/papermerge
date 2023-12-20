@@ -1,4 +1,11 @@
+.. caution::
+
+   Papermerge documentation **moved** to https://docs.papermerge.io
+   **This documentation site is obsolete!**
+
+
 .. figure:: img/logo.png
+
 
 Right Tool for You?
 ==========================
