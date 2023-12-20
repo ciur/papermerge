@@ -38,69 +38,32 @@ into multiple repositories and in same time move new repositories under
 | :---------------|-------------|
 | [ciur/papermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track the project existence, status, and its issues.|
 | [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend server. The heart of the project.|
-| [papermerge/papermerge.js](https://github.com/papermerge/papermerge.js)| Source code for Frontend - desktop like modern user interface.|
 | [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
-| [papermerge/openapi-schema](https://github.com/papermerge/openapi-schema)| OpenAPI schema.|
-| [papermerge/rest-api-clients](https://github.com/papermerge/rest-api-clients)| Clients generated from OpenAPI schema.|
-| [papermerge/papermerge-cli](https://github.com/papermerge/papermerge-cli)| Command line utility to interact with your Papermerge DMS instance (e.g. import recursively local folders).|
-| [papermerge/helm-chart](https://github.com/papermerge/helm-chart)| Helm Chart for deploying Papermerge in Kubernetes cluster.|
+| [papermerge/ansible](https://github.com/papermerge/ansible)| Ansible playbook for Papermerge deployment on remote server/VM|
 
 ## Other Resources
 
-| Repository      | Description |
+| Resource        | Description |
 |-----------------|-------------|
-|[docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
-|[REST API reference/swagger](https://docs.papermerge.io/swagger-ui/)| Online REST API reference with swagger UI |
-|[REST API reference/redoc](https://docs.papermerge.io/redoc/)| Online REST API reference with redoc UI |
+|[https://docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
 |[https://papermerge.com](https://papermerge.com) | Homepage |
 |[YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg) | YouTube channel |
-|[Twitter](https://twitter.com/papermerge) | Twitter |
+|[X/Former Twitter](https://twitter.com/papermerge) | X/Former Twitter |
 |[Reddit](https://www.reddit.com/r/Papermerge/) | Reddit |
-
-
-## Right Tool For You?
-
-To be efficient you always need to choose right tool for the problem. Because
-*Document Management* term is too wide - I think that a definition of what is a
-*Document* in context of Papermerge software is needed.
-
-For Papermerge a document is anything which is a good candidate for
-archiving - some piece of information which is not editable but you need to
-store it for future reference. For example receipts are good examples -
-you don't need to read receipts everyday, but eventually you will need them
-for your tax declaration. In this sense - scanned documents, which are
-usually in PDF or TIFF format, are perfect match.
-
-Within Papermerge context terms **document**, **scanned document**, **pdf document**,
-and **digital archive** are used interchangeable and mean the same thing.
-
-Papermerge shines when it comes to storing documents for long term, in other words
-Papermerge's main use case is **long term storage of digital archives**.
-
-Out of scope are Office documents (ODT, DOCX....), text files (notes) which
-usually are editable.
-
-Papermerge is simply not designed to store books. Yes, you can scan a book and
-import it in Papermerge, but again - this is not what Papermerge was intended for.
 
 ## Features Highlight
 
-* Documents of pdf, jpg, png, tiff formats are supported
+* Documents of PDF, JPG, PNG, TIFF formats are supported
 * Desktop like user interface
 * **OCR** - used to extract text for documents indexing
 * Full text search
 * Document Versioning (all operations on the documents are non destructive)
-* User defined metadata per folder/document/page
 * Tags - assign colored tags to documents or folders
 * Documents and Folders - users can organize documents in folders
-* Multi-User (Groups, Roles)
-* User permissions management
-* Document permissions management
+* Multi-User
 * REST API
-* Page Management - delete, reorder, rotate and extract pages
-* Basic automation
 
-See last section for details on feature set in Papermerge 2.0 and Papermerge 2.1
+See last section for details on feature set in Papermerge 2.0, 2.1, 3.0
 
 ## Donations, Fundraising, Your Support
 
