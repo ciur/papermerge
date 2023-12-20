@@ -115,8 +115,8 @@ Here is a table of features comparisons of all three major versions:
 |Multi-User|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
 |User permissions management|:heavy_check_mark:|:heavy_check_mark:|:x:|
 |Document permissions management|:heavy_check_mark:|:x:|:x:|
-|REST API|:heavy_check_mark:|:heavy_check_mark:||
-|Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:||
-|Page Rotation|:x:|:heavy_check_mark:||
-|Documents Merging|:x:|:heavy_check_mark:||
-|Cloud Native/K8s Support|:x:|:heavy_check_mark:||
+|REST API|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|Page Rotation|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|Documents Merging|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|Cloud Native/K8s Support|:x:|:heavy_check_mark:|:heavy_check_mark:|
