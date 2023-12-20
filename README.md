@@ -90,42 +90,31 @@ file.
 
 ## Versions 2.0 / 2.1 / 3.0
 
-In general rewriting application from scratch is dubious adventure. However,
-because Papermerge 2.0 had too many design flaws - maintenance of which, in
-short and long term is a serious pain - we've decided, for good or ill, to
-rewrite it.
+Papermerge version 2.0, version 2.1 and version 3.0 are entirely different and
+incompatible applications.
 
-As result Papermerge 2.1 was born. Although they look
-similar, **Papermerge version 2.0, version 2.1 and version 3.0 are entirely different and
-incompatible applications**.
+Here is a table of features comparisons of all three major versions:
 
-Because rewriting of Papermerge took by far more time than planned, many
-of the 2.0 features still did not made it to Papermerge 2.1. Keep in mind,
-that in long term, almost all features of Papermerge 2.0 will be "ported
-back" to subsequent versions (e.g. Automates, Metadata).
-
-Here is a table of features comparisons of both versions:
-
-| Feature      | 2.0 | 2.1 | Remarks |
+| Feature      | 2.0 | 2.1 | 3.0 |
 |-----------------|-------------|----------------|----------------------|
-|PDF format| :heavy_check_mark: |:heavy_check_mark:| |
-|png format| :heavy_check_mark: |:x:| Will be ported in future versions|
-|jpeg format| :heavy_check_mark: |:x:| Will be ported in future versions|
-|tiff format| :heavy_check_mark: |:x:| Depending on request, may be ported in future versions|
-|Desktop like UI|:heavy_check_mark:|:heavy_check_mark:| in 2.1 UI is reactive|
-|Dual Panel|:x:|:heavy_check_mark:||
-|Realtime OCR feedback|:x:|:heavy_check_mark:||
-|OCR|:heavy_check_mark:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
-|Download document with OCRed text layer|:x:|:heavy_check_mark:| in 2.1 uses [OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/)|
-|Full Text Search|:heavy_check_mark:|:heavy_check_mark:|in 2.1 you can choose between multiple search backends|
-|Document Versioning|:x:|:heavy_check_mark:|Actually 2.0 has some very limited and hacky support for document versions|
-|User defined metadata per folder/document/page|:heavy_check_mark:|:x:|Will be ported in future versions|
-|Automates|:heavy_check_mark:|:x:|Will be ported in future versions|
-|Tags - assign colored tags to documents or folders|:heavy_check_mark:|:heavy_check_mark:||
-|Documents and Folders|:heavy_check_mark:|:heavy_check_mark:||
-|Multi-User (Groups, Roles)|:heavy_check_mark:|:heavy_check_mark:||
-|User permissions management|:heavy_check_mark:|:heavy_check_mark:||
-|Document permissions management|:heavy_check_mark:|:x:|Will be ported in future versions|
+|PDF format| :heavy_check_mark: |:heavy_check_mark:|:heavy_check_mark: |
+|png format| :heavy_check_mark: |:x:| :heavy_check_mark:|
+|jpeg format| :heavy_check_mark: |:x:| :heavy_check_mark:|
+|tiff format| :heavy_check_mark: |:x:| :heavy_check_mark:|
+|Desktop like UI|:heavy_check_mark:|:heavy_check_mark:| :heavy_check_mark:|
+|Dual Panel|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|Realtime OCR feedback|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|OCR|:heavy_check_mark:|:heavy_check_mark:| :heavy_check_mark:|
+|Download document with OCRed text layer|:x:|:heavy_check_mark:| :heavy_check_mark:|
+|Full Text Search|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|Document Versioning|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|User defined metadata per folder/document/page|:heavy_check_mark:|:x:|:x:|
+|Automates|:heavy_check_mark:|:x:|:x:|
+|Tags - assign colored tags to documents or folders|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|Documents and Folders|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|Multi-User|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
+|User permissions management|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|Document permissions management|:heavy_check_mark:|:x:|:x:|
 |REST API|:heavy_check_mark:|:heavy_check_mark:||
 |Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:||
 |Page Rotation|:x:|:heavy_check_mark:||
