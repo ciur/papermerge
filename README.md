@@ -1,16 +1,19 @@
-![Papermerge](./artwork/logo.png)
+<h1 align="center">Papermerge DMS</h1>
 
-# Papermerge - Document Management System for Digital Archives
+<p align="center">
+<img src="./artwork/logo.png" />
+</p>
 
-Papermerge is an open source document management system (DMS) primarily
-designed for archiving and retrieving your digital documents.
+Papermerge DMS or simply Papermerge is a open source document management
+system designed to work with scanned documents (also called digital
+archives). It extracts text from your scans using OCR, indexes them, and
+prepares them for full text search. Papermerge provides look and feel of
+modern desktop file browsers. It has features like dual panel document
+browser, drag and drop, tags, hierarchical folders and full text search so
+that you can efficiently store and organize your documents.
 
-Instead of having piles of paper documents all over your desk, office or
-drawers - you can quickly scan them and configure your scanner to directly
-upload to Papermerge DMS. Papermerge DMS on its turn will
-[OCR](https://en.wikipedia.org/wiki/Optical_character_recognition) the
-document and index it. You will be able to quickly find any (scanned!)
-document using full text search capabilities.
+It supports PDF, TIFF, JPEG and PNG document file formats. Papermerge is
+perfect tool for long term storage of your documents.
 
 Papermerge's main use case is **long term storage of digital archives**.
 
@@ -20,22 +23,16 @@ This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
-Currently there are two main versions 2.0 and 2.1.
-Version 2.1 is almost a complete rewrite of 2.0 and thus is incompatible with it (for details see last section).
-Screenshot of Papermerge 2.1:
-
-![Papermerge 2.1](./img/document-management-system-papermerge-2-1.png)
-
-Screenshot of Papermerge 2.0:
-
-![Papermerge 2.0](./img/papermerge-2-0.png)
+![Papermerge](./img/papermerge3.png)
 
 
 ## Repositories
 
-This repository is meta-repository - which means that source code of the
+**This repository is meta-repository** - which means that source code of the
 application is not here. **This repository is used to track project's existence,
-status and its issues.** As the application grew it was necessary to split it
+status and its issues.**
+
+As the application grew it was necessary to split it
 into multiple repositories and in same time move new repositories under
 [Papermerge Github Organization](https://github.com/papermerge).
 
