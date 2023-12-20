@@ -17,8 +17,6 @@ perfect tool for long term storage of your documents.
 
 Papermerge's main use case is **long term storage of digital archives**.
 
-Papermerge DMS is actively developed.
-
 This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
