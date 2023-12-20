@@ -28,7 +28,7 @@ browser.
 
 ## Repositories
 
-**This repository is meta-repository** - which means that source code of the
+**This is meta-repository** - which means that source code of the
 application is not here. **This repository is used to track project's existence,
 status and its issues.**
 
