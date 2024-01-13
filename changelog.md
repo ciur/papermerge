@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2024-01-13
+
+### Fixed
+
+- Django ORM leaves DB connections open [Issue#575](https://github.com/ciur/papermerge/issues/575)
+- Add extra language codes [Issue#571](https://github.com/ciur/papermerge/issues/571)
+- Create user/home/folder in one DB transaction [Issue#572](https://github.com/ciur/papermerge/issues/572)
+
 ## [2.0.1] - 9 April 2021
 
 ### Changed
