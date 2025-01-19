@@ -47,8 +47,9 @@ into multiple repositories and in same time move new repositories under
 |-----------------|-------------|
 |[https://docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
 |[https://papermerge.com](https://papermerge.com) | Homepage |
+|[https://demo.papermerge.com](https://demo.papermerge.com) | Online Demo |
 |[https://papermerge.blog](https://papermerge.blog) | Blog |
-|[YouTube Channel](https://www.youtube.com/channel/UC8KjEsDexEERBw_-VyDbWDg) | YouTube channel |
+|[YouTube Channel](https://www.youtube.com/@papermerge) | YouTube channel |
 |[X/Former Twitter](https://twitter.com/papermerge) | X/Former Twitter |
 |[Reddit](https://www.reddit.com/r/Papermerge/) | Reddit |
 
