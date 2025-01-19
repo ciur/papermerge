@@ -1,7 +1,7 @@
 <h1 align="center">Papermerge DMS</h1>
 
 <p align="center">
-<img src="./artwork/logo.png" />
+<img src="./artwork/logo3-3.png" />
 </p>
 
 Papermerge DMS or simply Papermerge is a open source document management
@@ -21,7 +21,7 @@ This is web-based software. This means there is no executable file (aka no
 .exe files), and it must be run on a web server and accessed through a web
 browser.
 
-![Papermerge](./img/papermerge3.png)
+![Papermerge](./artwork/papermerge3-3.png)
 
 
 ## Repositories
@@ -64,8 +64,6 @@ into multiple repositories and in same time move new repositories under
 * Multi-User
 * REST API
 
-See last section for details on feature set in Papermerge 2.0, 2.1, 3.0
-
 ## Donations, Fundraising, Your Support
 
 For donations, you can use PayPal and GitHub Sponsorship:
@@ -87,37 +85,3 @@ change** you wish to make via GitHub issue, pull request or [email](mailto:eugen
 For more information, see the
 [contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
 file.
-
-
-## Versions 2.0 / 2.1 / 3.0
-
-Papermerge version 2.0, version 2.1 and version 3.0 are entirely different and
-incompatible applications.
-
-Here is a table of features comparisons of all three major versions:
-
-| Feature      | 2.0 | 2.1 | 3.0 |
-|-----------------|-------------|----------------|----------------------|
-|PDF format| :heavy_check_mark: |:heavy_check_mark:|:heavy_check_mark: |
-|png format| :heavy_check_mark: |:x:| :heavy_check_mark:|
-|jpeg format| :heavy_check_mark: |:x:| :heavy_check_mark:|
-|tiff format| :heavy_check_mark: |:x:| :heavy_check_mark:|
-|Desktop like UI|:heavy_check_mark:|:heavy_check_mark:| :heavy_check_mark:|
-|Dual Panel|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|Realtime OCR feedback|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|OCR|:heavy_check_mark:|:heavy_check_mark:| :heavy_check_mark:|
-|Download document with OCRed text layer|:x:|:heavy_check_mark:| :heavy_check_mark:|
-|Full Text Search|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Document Versioning|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|User defined metadata per folder/document/page|:heavy_check_mark:|:x:|:x:|
-|Automates|:heavy_check_mark:|:x:|:x:|
-|Tags - assign colored tags to documents or folders|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Documents and Folders|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Multi-User|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|User permissions management|:heavy_check_mark:|:heavy_check_mark:|:x:|
-|Document permissions management|:heavy_check_mark:|:x:|:x:|
-|REST API|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Page Delete/Reorder/Move|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Page Rotation|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|Documents Merging|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|Cloud Native/K8s Support|:x:|:heavy_check_mark:|:heavy_check_mark:|
