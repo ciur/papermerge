@@ -76,6 +76,10 @@ For donations, you can use PayPal and GitHub Sponsorship:
 * [Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
 * [Sponsor via Github](https://github.com/sponsors/ciur)
 
+## Roadmap / Year 2025
+
+For project's roadmap, which describes features to be developed in year 2025, check: https://docs.papermerge.io/3.3/roadmap/
+
 ## Contributing
 
 We welcome contributions! In general, if change is very small, like fixing a
