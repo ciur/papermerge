@@ -45,9 +45,9 @@ into multiple repositories and in same time move new repositories under
 
 | Resource        | Description |
 |-----------------|-------------|
-|[https://docs.papermerge.io](https://docs.papermerge.io/)| Online Documentation |
+|[https://docs.papermerge.io](https://docs.papermerge.io/)| Documentation |
 |[https://papermerge.com](https://papermerge.com) | Homepage |
-|[https://demo.papermerge.com](https://demo.papermerge.com) | Online Demo |
+|[https://demo.papermerge.com](https://demo.papermerge.com) | Online Demo (username: demo, password: demo) |
 |[https://papermerge.blog](https://papermerge.blog) | Blog |
 |[YouTube Channel](https://www.youtube.com/@papermerge) | YouTube channel |
 |[X/Former Twitter](https://twitter.com/papermerge) | X/Former Twitter |
@@ -55,15 +55,19 @@ into multiple repositories and in same time move new repositories under
 
 ## Features Highlight
 
-* Documents of PDF, JPG, PNG, TIFF formats are supported
-* Desktop like user interface
-* **OCR** - used to extract text for documents indexing
-* Full text search
-* Document Versioning (all operations on the documents are non destructive)
+* Web UI with desktop like experience
+* OpenAPI compliant REST API
+* Works with PDF, JPEG, PNG and TIFF documents
+* OCR (Optical Character Recognition) of the documents
+* OCRed text overlay (you can download document with OCRed text overlay)
+* Full Text Search of the scanned documents
+* Document Versioning
 * Tags - assign colored tags to documents or folders
 * Documents and Folders - users can organize documents in folders
+* Document Types (i.e. Categories)
+* Custom Fields (metadata) per document type
 * Multi-User
-* REST API
+* Page Management - delete, reorder, cut, move, extract pages
 
 ## Donations, Fundraising, Your Support
 
