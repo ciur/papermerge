@@ -78,7 +78,7 @@ For donations, you can use PayPal and GitHub Sponsorship:
 
 ## Roadmap / Year 2025
 
-For project's roadmap, which describes features to be developed in year 2025, check: https://docs.papermerge.io/3.3/roadmap/
+For project's roadmap, which describes features to be developed in year 2025, check: https://docs.papermerge.io/latest/roadmap/
 
 ## Contributing
 
