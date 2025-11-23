@@ -39,7 +39,6 @@ into multiple repositories and in same time move new repositories under
 | [ciur/papermerge](https://github.com/ciur/papermerge)| Meta-repository which keeps track the project existence, status, and its issues.|
 | [papermerge/papermerge-core](https://github.com/papermerge/papermerge-core)| Source code for REST API Backend server. The heart of the project.|
 | [papermerge/documentation](https://github.com/papermerge/documentation)| Source code for the documentation.|
-| [papermerge/ansible](https://github.com/papermerge/ansible)| Ansible playbook for deployment on remote server/VM|
 
 ## Other Resources
 
