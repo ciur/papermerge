@@ -69,28 +69,3 @@ into multiple repositories and in same time move new repositories under
 * Multi-User
 * Page Management - delete, reorder, cut, move, extract pages
 
-## Donations, Fundraising, Your Support
-
-For donations, you can use PayPal and GitHub Sponsorship:
-
-* [Donate via Paypal](https://www.paypal.com/paypalme/eugenciur)
-* [Sponsor via Github](https://github.com/sponsors/ciur)
-
-## Roadmap / Year 2025
-
-For project's roadmap, which describes features to be developed in year 2025, check: https://docs.papermerge.io/latest/roadmap/
-
-## Contributing
-
-We welcome contributions! In general, if change is very small, like fixing a
-documentation typo, remove unused variable or minor adjustments of docker
-related files - you can create a pull request right away. If your change is
-small and reasonable it will be (very likely) almost immediately accepted.
-
-For bigger changes, like a new feature or even change/add/remove of
-whole paragraph in documentation - please **first discuss the
-change** you wish to make via GitHub issue, pull request or [email](mailto:eugen@papermerge.com).
-
-For more information, see the
-[contributing](https://github.com/ciur/papermerge/blob/master/CONTRIBUTING.md)
-file.
